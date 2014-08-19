@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    
+    
+    <string name="app_name">Portfolio</string>
+    <string name="release_to_refresh">松开刷新</string>
+    <string name="pull_to_refresh">下拉刷新</string>
+    <string name="refreshing">正在刷新···</string>
+    <string name="updating">最近更新：</string>
+    <string name="none">无</string>
+    <string name="loading">正在加载···</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="status_detail_label">正文页</string>
+    <string name="tv_forget_password"><u>忘记密码</u></string>
+    <string name="account">邮箱/手机号</string>
+    <string name="password">密码</string>
+    <string name="phone">手机号码</string>
+    <string name="nickname">您的昵称</string>
+    <string name="nickname_hint">中英文、数字或-、_</string>
+    <string name="gender_secret">性别: 保密</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
+    <string name="tv_password">您的密码</string>
+    <string name="tv_check_password">确认密码</string>
+    <string name="hint_password">请输入密码</string>
+    <string name="hint_check_password">请输入确认密码</string>
+    <string name="cancel">取消</string>
+    <string name="add_disscusion">发表讨论</string>
+    <string name="telephone_desc">手机号码:</string>
+    <string name="nickname_password_null">昵称或者密码不能为空</string>
+    <string name="password_unsame">两次密码不一致</string>
+    <string name="http_error_net">网络异常</string>
+    <string name="retweet_comments_count">转(%1$s) 评(%2$s)</string>
+    <string name="source">来自%1$s</string>
+    <string name="time_min_before">%1$s分钟前</string>
+    <string name="time_sec_before">%1$s秒前</string>
+    <string name="total_status">共%1$s条讨论</string>
+    <string name="related_comments">相关讨论(%1$s)</string>
+    <string name="text_isnull">内容不能为空(%1$s)</string>
+    <string name="stock_search_text">$请输入股票代码代码/中文名/英文名$</string>
+    <string name="at_search_text">\@输入昵称或选择最近\@过的人</string>
+    <string name="draft_box">草稿箱</string>
+    <string name="for_repost">转发到我的首页</string>
+    <string name="upload_image">上传图片</string>
+    <string name="take_picture">拍照</string>
+    <string name="local_image">选择本地图片</string>
+    <string name="fomat_not_supported">格式不支持</string>
+    <string name="type_retweet_comment">转发</string>
+    <string name="type_write_comment">评论</string>
+    <string name="type_write_status">发表讨论</string>
+    <string name="fast_register"><u>一键快速注册</u></string>
+    <string name="have_a_look"><u>随便看看</u></string>
+    <string name="qq_login">" QQ登陆 "</string>
+    <string name="weibo_login">" 新浪微博登陆 "</string>
+    <string name="face_img_names">20smile_smile,21lol,14guzhang,19qiaopi,08jiayou,23earn,11niubi,24angry,25weep,09lose,26sleepy,18shiwang,10han,13why,16guile,12hand,22buxie,15xunka,chimian,shabi,gerou,maishen,tuxie,kelian,haixiu,koubi,jiong,43kunhuo,44sikao,45aoman,17shutup,27weiguan,03zan,04bian,05woshou,40cheers,36heart,37heartbreak,38flower,39shit,41full,42empty,34reverse,35bottom,33nengliquan,29put,30call,31add,32reduce,01buy,02sell,06maogugu,07deal,28moat</string>
+    <string name="face_texts">[笑],[大笑],[鼓鼓掌],[俏皮],[加油],[赚大了],[牛],[怒了],[哭泣],[亏大了],[困顿],[好失望],[滴汗],[为什么],[跪了],[摊手],[不屑],[好逊],[关灯吃面],[呵呵傻逼],[割肉],[卖身],[吐血],[可怜],[害羞],[抠鼻],[​囧],[好困惑],[想一下],[傲],[不说了],[围观],[很赞],[不赞],[赞成],[干杯],[心心],[心碎了],[献花花],[一坨屎],[满仓],[空仓],[复盘],[抄底],[能力圈],[看空],[看多],[加仓],[减仓],[买入],[卖出],[毛估估],[成交],[护城河]</string>
+    <string name="notify_write_status">正在发表讨论...</string>
+    <string name="notify_comment_status">正在发表评论...</string>
+    <string name="notify_write_status_success">发表讨论成功</string>
+    <string name="notify_comment_status_success">发表评论成功</string>
+    <string name="notify_write_status_fail">发表讨论失败</string>
+    <string name="regist">完善资料</string>
+    <string name="search">搜索</string>
+    <string name="contact">好友动态</string>
+    <string name="subscribe_my_category">我的频道</string>
+    <string name="subscribe_more_category">更多频道</string>
+    <string name="subscribe_manager_category_info">单击增删频道，长按拖拽排序</string>
+
+    
+    <string name="login_title">多块好省登录</string>
+    <string name="noaccout">还没有账号?</string>
+    <string name="find_passwrod">找回密码</string>
+    
+    
+</resources>

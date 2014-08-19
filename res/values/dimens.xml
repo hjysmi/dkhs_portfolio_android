@@ -1,0 +1,18 @@
+<resources>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="slidingmenu_offset">100dp</dimen>
+    <dimen name="shadow_width">15dp</dimen>
+    <dimen name="radius_size">3dip</dimen>
+    <dimen name="profile_image_width_small">33.329987dip</dimen>
+    <dimen name="upload_img_size">120.0dip</dimen>
+    <dimen name="checkbox_text_padding_left">32.0dip</dimen>
+    <dimen name="emoticon_input_height">45.0dip</dimen>
+    <dimen name="emoticon_input_padiing">10.0dip</dimen>
+    <dimen name="emoticon_width">22.0dip</dimen>
+    <dimen name="sliding_menu_divider_height">1dp</dimen>
+    <dimen name="icon_alert_width">5.5dip</dimen>
+
+</resources>

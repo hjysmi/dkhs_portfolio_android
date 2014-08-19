@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc" >
+
+    <LinearLayout
+        android:id="@+id/ll_et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="23.0dip"
+        android:layout_marginRight="23.0dip"
+        android:layout_marginTop="40dip"
+        android:background="@drawable/roundcorner_bg_single"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dip"
+            android:text="手机号"
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/phoneNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dip"
+            android:background="@null"
+            android:maxLength="11"
+            android:numeric="integer"
+            android:paddingLeft="20dip" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/ll_et_vericode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_et_phone"
+        android:layout_marginLeft="23.0dip"
+        android:layout_marginRight="23.0dip"
+        android:layout_marginTop="15dip"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/code_reveive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/btn_blue_selector"
+            android:paddingBottom="5.0dip"
+            android:paddingTop="5.0dip"
+            android:text="获取验证码"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/vericode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@+id/code_reveive"
+            android:background="@drawable/edittext_bg"
+            android:hint="输入验证码"
+            android:maxLength="4"
+            android:numeric="integer" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_et_vericode"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="15.0dip"
+        android:layout_marginTop="40.0dip"
+        android:text="若未收到验证码 或 验证码已过期"
+        android:textColor="#ff888888"
+        android:textSize="14.0sp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/next_step"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_et_vericode"
+        android:layout_marginLeft="23.0dip"
+        android:layout_marginRight="23.0dip"
+        android:layout_marginTop="20.0dip"
+        android:background="@drawable/btn_blue_selector"
+        android:enabled="true"
+        android:paddingBottom="5.0dip"
+        android:paddingTop="5.0dip"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+</RelativeLayout>
