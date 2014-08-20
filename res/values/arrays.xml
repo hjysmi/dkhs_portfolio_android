@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="img_eidt_list">
+        <item>重新拍照</item>
+        <item>重选图片</item>
+        <item>删除图片</item>
+        <item>取消</item>
+    </string-array>
+    <string-array name="menu_items">
+        <item>行情</item>
+        <item>自选股</item>
+        <item>我的组合</item>
+        <item>新闻资讯</item>
+    </string-array>
+    <string-array name="menu_img_items">
+        <item>menu_icon_profit</item>
+        <item>menu_icon_stock</item>
+        <item>menu_icon_collection</item>
+        <item>menu_icon_cal</item>
+    </string-array>
+
+</resources>
