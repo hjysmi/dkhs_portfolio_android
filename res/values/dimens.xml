@@ -14,5 +14,8 @@
     <dimen name="emoticon_width">22.0dip</dimen>
     <dimen name="sliding_menu_divider_height">1dp</dimen>
     <dimen name="icon_alert_width">5.5dip</dimen>
+    <dimen name="titlebar_height">48dip</dimen>
+    <dimen name="billboard_height">150dip</dimen>
+    <dimen name="hide_menu_width">300dip</dimen>
 
 </resources>

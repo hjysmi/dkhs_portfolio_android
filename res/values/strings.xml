@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    
-    
     <string name="app_name">Portfolio</string>
     <string name="release_to_refresh">松开刷新</string>
     <string name="pull_to_refresh">下拉刷新</string>
@@ -67,11 +65,12 @@
     <string name="subscribe_my_category">我的频道</string>
     <string name="subscribe_more_category">更多频道</string>
     <string name="subscribe_manager_category_info">单击增删频道，长按拖拽排序</string>
-
-    
     <string name="login_title">多块好省登录</string>
     <string name="noaccout">还没有账号?</string>
     <string name="find_passwrod">找回密码</string>
-    
-    
+    <string name="portfolio_text">投资组合</string>
+    <string name="combin">组合：%1$d</string>
+    <string name="stock">自选股：%1$d</string>
+    <string name="setting">设置</string>
+
 </resources>

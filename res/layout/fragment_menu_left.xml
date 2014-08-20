@@ -2,11 +2,77 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/red" >
+    android:background="#ff333333" >
 
-    <TextView
+    <RelativeLayout
+        android:id="@+id/menu_userinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp" >
+
+        <ImageView
+            android:id="@+id/iv_userheader"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_userheader"
+            android:text="laohu"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_combin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/iv_userheader"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_userheader"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tv_stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_combin"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/tv_combin"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@id/login_divider"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/sliding_menu_divider_height"
+        android:layout_below="@+id/menu_userinfo"
+        android:layout_marginTop="10dp"
+        android:background="@color/sliding_menu_divider_color" />
+
+    <ListView
+        android:id="@+id/menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/login_divider"
+        android:layout_marginTop="15dp" >
+    </ListView>
+
+    <Button
+        android:id="@+id/btn_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MenuLeft" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="15dp"
+        android:background="@drawable/icon_setting" />
 
 </RelativeLayout>

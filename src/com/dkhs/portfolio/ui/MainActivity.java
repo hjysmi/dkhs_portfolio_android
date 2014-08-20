@@ -51,4 +51,16 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+		if (mDrawerLayout.isDrawerOpen(mLeftMenu)) {
+			mDrawerLayout.closeDrawer(mLeftMenu);
+		}
+		if (mDrawerLayout.isDrawerOpen(mRightMenu)) {
+			mDrawerLayout.closeDrawer(mRightMenu);
+		}
+	}
+
 }

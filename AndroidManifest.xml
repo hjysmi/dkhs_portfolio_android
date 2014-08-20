@@ -34,6 +34,7 @@
       <!--   <activity android:name="com.dkhs.portfolio.ui.MainActivity" /> -->
         <activity android:name="com.dkhs.portfolio.ui.LoginActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
     </application>
 
 </manifest>
