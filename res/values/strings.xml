@@ -72,5 +72,7 @@
     <string name="combin">组合：%1$d</string>
     <string name="stock">自选股：%1$d</string>
     <string name="setting">设置</string>
+    <string name="confirm">确定</string>
+    <string name="portfolio_position">持仓组合</string>
 
 </resources>

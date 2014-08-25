@@ -10,57 +10,67 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.MainFragment;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 
-public class MainActivity extends FragmentActivity implements
-		ITitleButtonListener {
+public class MainActivity extends FragmentActivity implements ITitleButtonListener {
 
-	private DrawerLayout mDrawerLayout;
-	private View mRightMenu;
-	private View mLeftMenu;
+    private DrawerLayout mDrawerLayout;
+    private View mRightMenu;
+    private View mLeftMenu;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mRightMenu = findViewById(R.id.menu_layout_right);
-		mLeftMenu = findViewById(R.id.menu_layout_left);
-		replaceFragment();
-	}
+    private MainFragment mainFragment;
 
-	private void replaceFragment() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		MainFragment mainFragment = new MainFragment();
-		mainFragment.setTitleClickListener(this);
-		ft.replace(R.id.fragment_layout, mainFragment);
-		ft.commit();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mRightMenu = findViewById(R.id.menu_layout_right);
+        mLeftMenu = findViewById(R.id.menu_layout_left);
 
-	@Override
-	public void rightButtonClick() {
-		if (null != mDrawerLayout && null != mRightMenu) {
-			mDrawerLayout.openDrawer(mRightMenu);
-		}
+        // 如果保存的状态不为空则得到之前保存的Fragment，否则实例化MainFragment
+        if (savedInstanceState != null) {
+            mainFragment = (MainFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+        }
+        if (mainFragment == null) {
+            mainFragment = new MainFragment();
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, mainFragment).commit();
+    }
 
-	}
+    /**
+     * 保存Fragment的状态
+     */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getSupportFragmentManager().putFragment(outState, "mContent", mainFragment);
+    }
 
-	@Override
-	public void leftButtonClick() {
-		if (null != mDrawerLayout && null != mLeftMenu) {
-			mDrawerLayout.openDrawer(mLeftMenu);
-		}
+    @Override
+    public void rightButtonClick() {
+        if (null != mDrawerLayout && null != mRightMenu) {
+            mDrawerLayout.openDrawer(mRightMenu);
+        }
 
-	}
+    }
 
-	@Override
-	protected void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		if (mDrawerLayout.isDrawerOpen(mLeftMenu)) {
-			mDrawerLayout.closeDrawer(mLeftMenu);
-		}
-		if (mDrawerLayout.isDrawerOpen(mRightMenu)) {
-			mDrawerLayout.closeDrawer(mRightMenu);
-		}
-	}
+    @Override
+    public void leftButtonClick() {
+        if (null != mDrawerLayout && null != mLeftMenu) {
+            mDrawerLayout.openDrawer(mLeftMenu);
+        }
+
+    }
+
+    @Override
+    protected void onStop() {
+        // TODO Auto-generated method stub
+        super.onStop();
+        if (mDrawerLayout.isDrawerOpen(mLeftMenu)) {
+            mDrawerLayout.closeDrawer(mLeftMenu);
+        }
+        if (mDrawerLayout.isDrawerOpen(mRightMenu)) {
+            mDrawerLayout.closeDrawer(mRightMenu);
+        }
+    }
 
 }

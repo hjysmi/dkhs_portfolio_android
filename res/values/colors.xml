@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="transparent">#00000000</color>
+    <color name="theme_color">#262932</color>
     <color name="green">#36ad3c</color>
     <color name="pink">#FF4444</color>
     <color name="orange">#FF8800</color>
@@ -42,5 +44,9 @@
     <color name="subscribe_bg">#fff5f5f5</color>
     <color name="subscribe_tip_text">#ff2e2e2e</color>
     <color name="subscribe_seperate_line">#ffcdcdcd</color>
+    <color name="default_screen_bg">#20324a</color>
+    <color name="rounded_container_bg">#80000000</color>
+    <color name="rounded_container_border">#3b3f44</color>
+    <color name="light_gray_header_color">#646663</color>
 
 </resources>
