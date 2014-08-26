@@ -9,17 +9,28 @@
 package com.dkhs.portfolio.ui;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.view.View;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationStock;
+import com.dkhs.portfolio.bean.SurpusStock;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
+import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
+import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName PositionAdjustActivity
@@ -28,29 +39,74 @@ import com.dkhs.portfolio.ui.widget.PieSlice;
  * @date 2014-8-25 上午9:55:53
  * @version 1.0
  */
-public class PositionAdjustActivity extends ModelAcitivity {
+public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify {
 
-    PieGraph pgView;
+    private PieGraph pgView;
+    private List<CombinationStock> stockList;
+    private OptionalStockAdapter stockAdapter;
+    private int surValue;
+    private TextView tvSurpusValue;
+    private SeekBar surSeekbar;
+    private ArrayList<PieSlice> pieList;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_positionadjust);
         setTitle(R.string.portfolio_position);
+        initData();
         initPieView();
         initStockPercentView();
     }
 
     /**
      * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
+     * @Description TODO: 初始化数据
+     * @return void
+     */
+    private void initData() {
+        stockList = new ArrayList<CombinationStock>();
+        CombinationStock stock1 = new CombinationStock(1, 30, ColorTemplate.getRaddomColor(), "沪深大盘", "600123");
+        CombinationStock stock2 = new CombinationStock(2, 40, ColorTemplate.getRaddomColor(), "苏宁云商", "600123");
+        CombinationStock stock3 = new CombinationStock(3, 30, ColorTemplate.getRaddomColor(), "阿里巴巴", "600123");
+        surValue = 0;
+        CombinationStock stock4 = new SurpusStock(surValue);
+        stockList.add(stock1);
+        stockList.add(stock2);
+        stockList.add(stock3);
+        stockList.add(stock4);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: 初始化自选股占比
      * @return void
      */
     private void initStockPercentView() {
         ListViewEx lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);
-        lvStock.setAdapter(new OptionalStockAdapter(this));
-        // UiUtils.setListViewHeightBasedOnChildren(lvStock);
-        // StockPercentView stock3 = new StockPercentView(this, llStock);
+        stockAdapter = new OptionalStockAdapter(this, stockList);
+        stockAdapter.setDutyNotifyListener(this);
+        lvStock.addFooterView(footerView());
+        lvStock.setAdapter(stockAdapter);
+
+    }
+
+    private View footerView() {
+        View foot = View.inflate(this, R.layout.layout_optional_percent, null);
+        foot.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        surSeekbar = (SeekBar) foot.findViewById(R.id.seekBar);
+        surSeekbar.setEnabled(false);
+        TextView tvName = (TextView) foot.findViewById(R.id.tv_stock_name);
+        tvName.setText("剩余资金占比");
+        tvSurpusValue = (TextView) foot.findViewById(R.id.tv_stock_percent);
+        tvSurpusValue.setText(StringFromatUtils.getPercentValue(surValue));
+        ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) surSeekbar.getProgressDrawable())
+                .findDrawableByLayerId(android.R.id.progress);
+
+        GradientDrawable gd = (GradientDrawable) sd.getDrawable();
+        gd.setColor(Color.RED);
+        // surSeekbar.setThumb(new ColorDrawable(Color.TRANSPARENT));
+        return foot;
     }
 
     /**
@@ -60,26 +116,52 @@ public class PositionAdjustActivity extends ModelAcitivity {
      */
     private void initPieView() {
         pgView = (PieGraph) findViewById(R.id.piegrah);
-        ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
-        PieSlice slice1 = new PieSlice();
-        slice1.setColor(Color.parseColor("#99CC00"));
-        // slice1.setTitle(choices.get(0).getName());
-        slice1.setValue(30);
-        pieList.add(slice1);
-        PieSlice slice2 = new PieSlice();
-        slice2.setColor(Color.parseColor("#FFBB33"));
-        // slice2.setTitle(choices.get(1).getName());
-        // tvLab2.setText(choices.get(1).getName());
-        slice2.setValue(40);
-        pieList.add(slice2);
-        PieSlice slice = new PieSlice();
-        slice.setColor(Color.parseColor("#AA66CC"));
-        slice.setValue(30);
+        pieList = new ArrayList<PieSlice>();
+        int valueSize = stockList.size();
+        for (int i = 0; i < valueSize; i++) {
+            PieSlice slice1 = new PieSlice();
+            slice1.setColor(stockList.get(i).getDutyColor());
+            slice1.setValue(stockList.get(i).getDutyValue());
+            pieList.add(slice1);
 
-        pieList.add(slice);
-        // pgView.addSlice(slice);
+        }
         pgView.setSlices(pieList);
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void notifyRefresh(int position, int value) {
+        pieList.get(position).setValue(value);
+        pieList.get(pieList.size() - 1).setValue(surpulsValue());
+        pgView.invalidate();
+    }
+
+    private int surpulsValue() {
+        int total = 100;
+        for (int i = 0; i < pieList.size() - 1; i++) {
+            total -= pieList.get(i).getValue();
+        }
+        surValue = total;
+        surSeekbar.setProgress(surValue);
+        tvSurpusValue.setText(StringFromatUtils.getPercentValue(surValue));
+        return total;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param value
+     * @return
+     */
+    @Override
+    public void updateSurpus(int value) {
+
+        // System.out.println("surValue:" + surValue);
+
+    }
 }

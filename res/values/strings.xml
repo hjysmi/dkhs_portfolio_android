@@ -74,5 +74,6 @@
     <string name="setting">设置</string>
     <string name="confirm">确定</string>
     <string name="portfolio_position">持仓组合</string>
+    <string name="duty_percent">%1$d&#037;</string>
 
 </resources>

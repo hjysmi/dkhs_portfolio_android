@@ -8,7 +8,14 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
+import java.util.List;
+
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +25,8 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.bean.CombinationStock;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName OptionalStockAdapter
@@ -29,70 +37,123 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  */
 public class OptionalStockAdapter extends BaseAdapter {
     private Context mContext;
-    private int maxValue = 50;
+    private int maxValue = 0;
+    private List<CombinationStock> stockList;
 
-    public OptionalStockAdapter(Context mContext) {
+    public OptionalStockAdapter(Context mContext, List<CombinationStock> stocks) {
         this.mContext = mContext;
+        this.stockList = stocks;
+        setSurpusValue();
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return this.stockList.size() - 1;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        if (null == stockList)
+            return null;
+        else {
+            return stockList.get(position);
+        }
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder viewHolder = null;
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
-            viewHolder.colorView = convertView.findViewById(R.id.view_color);
-            viewHolder.tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
-            viewHolder.seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        // ViewHolder viewHolder = null;
+        // if (convertView == null) {
+        // viewHolder = new ViewHolder();
+        // convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
+        // viewHolder.colorView = convertView.findViewById(R.id.view_color);
+        // viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
+        // viewHolder.tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
+        // viewHolder.seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
+        // convertView.setTag(viewHolder);
+        // } else {
+        // viewHolder = (ViewHolder) convertView.getTag();
+        // }
+        convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
+        View colorView = convertView.findViewById(R.id.view_color);
+        TextView tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
+        final TextView tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
+        final SeekBar seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
 
-        // viewHolder.colorView.setBackgroundResource(R.color.orange);
-        viewHolder.colorView.setBackgroundColor(ColorTemplate.getRaddomColor());
+        CombinationStock item = stockList.get(position);
+        tvStockName.setText(item.getName());
+        colorView.setBackgroundColor(item.getDutyColor());
 
-        final ViewHolder viewHolderFinal = viewHolder;
-        viewHolder.seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+        ColorDrawable colorDrawable = new ColorDrawable(item.getDutyColor());
+        seekbar.setProgress(item.getDutyValue());
+
+        ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) seekbar.getProgressDrawable())
+                .findDrawableByLayerId(android.R.id.progress);
+
+        GradientDrawable gd = (GradientDrawable) sd.getDrawable();
+        gd.setColor(item.getDutyColor());
+        tvPercent.setText(StringFromatUtils.getPercentValue(item.getDutyValue()));
+
+        seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                // System.out.println("onStopTrackingTouch");
+                stockList.get(position).setDutyValue(seekBar.getProgress());
+                if (null != mDutyNotify) {
 
-                System.out.println("onStopTrackingTouch");
+                    mDutyNotify.notifyRefresh(position, seekBar.getProgress());
+
+                }
+                setSurpusValue();
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                System.out.println("onStartTrackingTouch");
+
             }
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                System.out.println("onProgressChanged");
-                if (progress >= maxValue) {
-                    viewHolderFinal.seekbar.setProgress(maxValue);
-                    viewHolderFinal.tvPercent.setText(Integer.toString(maxValue) + "%");
+                int p = progress;
+                int maxScoll = maxValue + stockList.get(position).getDutyValue();
+                if (progress >= maxScoll) {
+                    p = maxScoll;
+                    seekbar.setProgress(maxScoll);
+                    tvPercent.setText(StringFromatUtils.getPercentValue(maxScoll));
                     return;
+                } else {
+                    p = progress;
+                    tvPercent.setText(StringFromatUtils.getPercentValue(progress));
                 }
-                viewHolderFinal.tvPercent.setText(Integer.toString(progress) + "%");
+                // notifySurpusValue(stockList.get(position).getDutyValue() - p);
+                // setSurpusValue(progress);
+                // mDutyNotify.updateSurpus(stockList.get(position).getDutyValue() - p);
+
+                // return;
             }
         });
 
         return convertView;
+    }
+
+    public void setSurpusValue() {
+        int surpusValu = 100;
+        for (int i = 0; i < stockList.size() - 1; i++) {
+            surpusValu -= stockList.get(i).getDutyValue();
+        }
+        maxValue = surpusValu;
+
+    }
+
+    private void notifySurpusValue(int value) {
+        CombinationStock sur = stockList.get(stockList.size() - 1);
+        stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);
+        notifyDataSetChanged();
     }
 
     public final static class ViewHolder {
@@ -102,6 +163,18 @@ public class OptionalStockAdapter extends BaseAdapter {
         TextView tvStockNum;
         TextView tvPercent;
         SeekBar seekbar;
+    }
+
+    private IDutyNotify mDutyNotify;
+
+    public void setDutyNotifyListener(IDutyNotify dutyNotify) {
+        this.mDutyNotify = dutyNotify;
+    }
+
+    public interface IDutyNotify {
+        void notifyRefresh(int position, int value);
+
+        void updateSurpus(int value);
     }
 
 }

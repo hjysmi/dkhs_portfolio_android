@@ -8,7 +8,7 @@
         android:layout_width="8dp"
         android:layout_height="48dp"
         android:layout_alignParentLeft="true"
-        android:background="@color/orange" />
+        android:background="@color/red" />
 
     <TextView
         android:id="@+id/tv_stock_name"
@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="2dp"
-        android:text="沪深大盘"
         android:textSize="14sp" />
 
     <TextView
@@ -26,7 +25,6 @@
         android:layout_alignBottom="@+id/tv_stock_name"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/tv_stock_name"
-        android:text="600123"
         android:textSize="12sp" />
 
     <RelativeLayout
@@ -42,7 +40,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="30dp"
-            android:text="0%"
             android:textSize="14sp" />
 
         <SeekBar

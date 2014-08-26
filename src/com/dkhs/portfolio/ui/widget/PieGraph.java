@@ -26,7 +26,6 @@ public class PieGraph extends View {
     private Path path = new Path();
 
     private int indexSelected = -1;
-    // private int thickness = 25;
     private int circleWidth;
     private OnSliceClickedListener listener;
     private int maxValue = 100;
@@ -34,11 +33,17 @@ public class PieGraph extends View {
 
     public PieGraph(Context context) {
         super(context);
+        init(context);
     }
 
     public PieGraph(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context);
+    }
+
+    private void init(Context context) {
         circleWidth = (int) context.getResources().getDimensionPixelSize(R.dimen.arc_width);
+
     }
 
     float midX, midY, radius, innerRadius;
@@ -81,9 +86,10 @@ public class PieGraph extends View {
         for (PieSlice slice : slices) {
             totalValue += slice.getValue();
         }
-        if (totalValue < maxValue) {
-            addEmptyPieSlice(maxValue - totalValue);
-        }
+        // if (totalValue < maxValue) {
+        // int surpusValue = maxValue - totalValue;
+        // addEmptyPieSlice(surpusValue > 0 ? surpusValue : 0);
+        // }
 
         int count = 0;
         Path p = new Path();
@@ -92,6 +98,7 @@ public class PieGraph extends View {
             paint.setColor(slice.getColor());
             RectF rectF;
             currentSweep = (slice.getValue() / maxValue) * (360);
+            currentSweep = currentSweep == 360 ? 359.99f : currentSweep;
             rectF = new RectF(paddingLeft, midY - radius, paddingLeft + 2 * radius, midY + radius);
             p.arcTo(rectF, currentAngle + arcPadding, currentSweep - arcPadding);
             RectF innerRectF = new RectF(paddingLeft + circleWidth, midY - innerRadius, paddingLeft + circleWidth
@@ -148,42 +155,42 @@ public class PieGraph extends View {
         // ((textPaint.descent() + textPaint.ascent()) / 2) is the distance from the baseline to the center.
         canvas.drawText("净值占比", xPos, yPos, textPaint);
 
-        System.out.println("Draw Text xPos:" + xPos + " yPos:" + yPos);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        Point point = new Point();
-        point.x = (int) event.getX();
-        point.y = (int) event.getY();
-
-        int count = 0;
-        for (PieSlice slice : slices) {
-            Region r = new Region();
-            r.setPath(slice.getPath(), slice.getRegion());
-            if (r.contains(point.x, point.y) && event.getAction() == MotionEvent.ACTION_DOWN) {
-                indexSelected = count;
-            } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                if (r.contains(point.x, point.y) && listener != null) {
-                    if (indexSelected > -1) {
-                        listener.onClick(indexSelected);
-                    }
-                    indexSelected = -1;
-                }
-
-            }
-            count++;
-        }
-
-        if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
-            postInvalidate();
-        }
-
-        return true;
-    }
+    // @Override
+    // public boolean onTouchEvent(MotionEvent event) {
+    //
+    // Point point = new Point();
+    // point.x = (int) event.getX();
+    // point.y = (int) event.getY();
+    //
+    // int count = 0;
+    // for (PieSlice slice : slices) {
+    // Region r = new Region();
+    // r.setPath(slice.getPath(), slice.getRegion());
+    // if (r.contains(point.x, point.y) && event.getAction() == MotionEvent.ACTION_DOWN) {
+    // indexSelected = count;
+    // } else if (event.getAction() == MotionEvent.ACTION_UP) {
+    // if (r.contains(point.x, point.y) && listener != null) {
+    // if (indexSelected > -1) {
+    // listener.onClick(indexSelected);
+    // }
+    // indexSelected = -1;
+    // }
+    //
+    // }
+    // count++;
+    // }
+    //
+    // if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
+    // postInvalidate();
+    // }
+    //
+    // return true;
+    // }
 
     private void addEmptyPieSlice(float value) {
+        System.out.println("Add addEmptyPieSlice");
         PieSlice slice = new PieSlice();
         slice.setColor(Color.RED);
         slice.setValue(value);
@@ -196,6 +203,12 @@ public class PieGraph extends View {
 
     public void setSlices(ArrayList<PieSlice> slices) {
         this.slices = slices;
+        postInvalidate();
+    }
+
+    public void updateSlices(int position, int value) {
+        // this.slices.remove(slices.size() - 1);
+        this.slices.get(position).setValue(value);
         postInvalidate();
     }
 

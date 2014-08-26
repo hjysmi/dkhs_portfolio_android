@@ -24,7 +24,9 @@
         </clip>
     </item>
     <item android:id="@android:id/progress">
-        <clip>
+        <scale
+            android:scaleGravity="left"
+            android:scaleWidth="100%" >
             <shape android:shape="rectangle" >
                 <corners android:radius="5dp" />
 
@@ -33,7 +35,7 @@
                     android:endColor="#00996a"
                     android:startColor="#00d190" />
             </shape>
-        </clip>
+        </scale>
     </item>
 
 </layer-list>
