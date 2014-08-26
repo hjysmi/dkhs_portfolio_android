@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_gray" >
+
+    <RelativeLayout
+        android:id="@+id/rl_combina_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_radiu_top_theme" >
+
+        <TextView
+            android:id="@+id/tv_combin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="我的组合"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_combin_title"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_mycombin_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="3dp" >
+
+        <TextView
+            android:id="@+id/tv_mycob_current"
+            style="@style/hw_wrap"
+            android:text="当前："
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_mycob_add"
+            style="@style/hw_wrap"
+            android:layout_below="@+id/tv_mycob_current"
+            android:layout_marginTop="3dp"
+            android:text="累计："
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_mycob_curren_value"
+            style="@style/hw_wrap"
+            android:layout_alignBaseline="@+id/tv_mycob_current"
+            android:layout_toRightOf="@+id/tv_mycob_current"
+            android:text="-1.52%"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_mycob_add_value"
+            style="@style/hw_wrap"
+            android:layout_alignBaseline="@+id/tv_mycob_add"
+            android:layout_below="@id/tv_mycob_curren_value"
+            android:layout_toRightOf="@+id/tv_mycob_add"
+            android:text="-11.52%"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <com.dkhs.portfolio.ui.widget.MAChart
+        android:id="@+id/machart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/rl_mycombin_bottom"
+        android:layout_below="@+id/rl_combina_title"
+        android:layout_marginTop="2dp" />
+
+</RelativeLayout>

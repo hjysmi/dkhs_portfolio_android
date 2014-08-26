@@ -3,6 +3,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="theme_color">#262932</color>
+    <color name="theme_gray">#F5F5F5</color>
     <color name="green">#36ad3c</color>
     <color name="pink">#FF4444</color>
     <color name="orange">#FF8800</color>
