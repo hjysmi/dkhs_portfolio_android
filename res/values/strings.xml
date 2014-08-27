@@ -79,5 +79,7 @@
     <string name="current">当前</string>
     <string name="add_up">累计</string>
     <string name="create_combination">创建组合</string>
+    <string name="add_combination">添加组合</string>
+    <string name="del_combination">删除组合</string>
 
 </resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9000"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_add_combina"
+        style="@style/hw_wrap"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"
+        android:text="@string/add_combination"
+        android:textColor="@color/white" />
+
+    <View style="@style/divider_line" />
+
+    <TextView
+        android:id="@+id/tv_delete_combina"
+        style="@style/hw_wrap"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp"
+        android:text="@string/del_combination"
+        android:textColor="@color/white" />
+
+</LinearLayout>

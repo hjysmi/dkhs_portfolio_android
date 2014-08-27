@@ -8,16 +8,38 @@
         android:id="@+id/rl_combina_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_radiu_top_theme" >
+        android:background="@drawable/button_radiu_top_theme"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <Button
+            android:id="@+id/btn_edit_contitle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/green" />
+
+        <CheckBox
+            android:id="@+id/cb_select_conbin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_combin_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
             android:gravity="center"
-            android:text="我的组合"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:text="我的组合我的组合"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -26,8 +48,15 @@
             android:layout_width="match_parent"
             android:layout_height="28dp"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btn_edit_contitle"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:maxLength="6"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textSize="15sp"
             android:visibility="gone" />
     </RelativeLayout>
 

@@ -22,7 +22,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CombinationStock;
+import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.SurpusStock;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
@@ -42,7 +42,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify {
 
     private PieGraph pgView;
-    private List<CombinationStock> stockList;
+    private List<ConStockBean> stockList;
     private OptionalStockAdapter stockAdapter;
     private int surValue;
     private TextView tvSurpusValue;
@@ -65,12 +65,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @return void
      */
     private void initData() {
-        stockList = new ArrayList<CombinationStock>();
-        CombinationStock stock1 = new CombinationStock(1, 30, ColorTemplate.getRaddomColor(), "沪深大盘", "600123");
-        CombinationStock stock2 = new CombinationStock(2, 40, ColorTemplate.getRaddomColor(), "苏宁云商", "600123");
-        CombinationStock stock3 = new CombinationStock(3, 30, ColorTemplate.getRaddomColor(), "阿里巴巴", "600123");
+        stockList = new ArrayList<ConStockBean>();
+        ConStockBean stock1 = new ConStockBean(1, 30, ColorTemplate.getRaddomColor(), "沪深大盘", "600123");
+        ConStockBean stock2 = new ConStockBean(2, 40, ColorTemplate.getRaddomColor(), "苏宁云商", "600123");
+        ConStockBean stock3 = new ConStockBean(3, 30, ColorTemplate.getRaddomColor(), "阿里巴巴", "600123");
         surValue = 0;
-        CombinationStock stock4 = new SurpusStock(surValue);
+        ConStockBean stock4 = new SurpusStock(surValue);
         stockList.add(stock1);
         stockList.add(stock2);
         stockList.add(stock3);

@@ -23,7 +23,9 @@ import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -32,6 +34,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.ConbinationBean;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -47,14 +50,13 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     private Context mContext;
     private int mItemHeight = 0;
     private GridView.LayoutParams mItemViewLayoutParams;
-    private int mDataLenght = 5;
+    private List<ConbinationBean> mDataList;
+    private boolean isDelStatus;
+    private ArrayList<Integer> mSelectList = new ArrayList<Integer>();
 
-    private ArrayList<Integer> positions = new ArrayList<Integer>();
-
-    // private Map<Integer, Boolean> checkMap = new HashMap<Integer, Boolean>();
-
-    public CombinationAdapter(Context context) {
+    public CombinationAdapter(Context context, List<ConbinationBean> datas) {
         this.mContext = context;
+        this.mDataList = datas;
         mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
     }
@@ -64,27 +66,28 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
         ViewHolder viewHolder = null;
         View row = convertView;
-        if (position == mDataLenght) {
+        if (position == mDataList.size()) {
             row = View.inflate(mContext, R.layout.item_add_myconbination, null);
             row.setTag("add_more");
             row.setLayoutParams(mItemViewLayoutParams);
             row.setOnClickListener(this);
             return row;
         }
-        //
         if (row == null || row.getTag().equals("add_more")) {
             viewHolder = new ViewHolder();
             row = LayoutInflater.from(mContext).inflate(R.layout.item_my_combination, null);
             viewHolder.tvTitle = (TextView) row.findViewById(R.id.tv_combin_title);
             viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
             viewHolder.machart = (MAChart) row.findViewById(R.id.machart);
+            viewHolder.btnEidt = (Button) row.findViewById(R.id.btn_edit_contitle);
+            viewHolder.checkBox = (CheckBox) row.findViewById(R.id.cb_select_conbin);
             row.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) row.getTag();
         }
-
+        ConbinationBean item = mDataList.get(position);
         final ViewHolder viewhold = viewHolder;
-        viewHolder.tvTitle.setText("我的组合" + (position + 1));
+        viewHolder.tvTitle.setText(item.getName());
         viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
@@ -102,24 +105,72 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
             }
         });
+
         initMaChart(viewHolder.machart);
-        viewHolder.tvTitle.setOnLongClickListener(new OnLongClickListener() {
+        viewHolder.btnEidt.setOnClickListener(new OnClickListener() {
 
             @Override
-            public boolean onLongClick(View v) {
-                viewhold.tvTitle.setVisibility(View.GONE);
-                viewhold.etTitle.setVisibility(View.VISIBLE);
-                viewhold.etTitle.requestFocus();
-                return false;
+            public void onClick(View v) {
+                if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
+                    // if (viewhold.etTitle.getText().length() > 0) {
+                    // viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
+                    // }
+                    // viewhold.tvTitle.setVisibility(View.VISIBLE);
+                    viewhold.etTitle.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
+                            Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                    }
+                } else {
+
+                    viewhold.tvTitle.setVisibility(View.GONE);
+                    String title = viewhold.tvTitle.getText().toString();
+                    viewhold.etTitle.setText(title);
+                    viewhold.etTitle.setVisibility(View.VISIBLE);
+                    viewhold.etTitle.requestFocus();
+                    viewhold.etTitle.setSelection(title.length());
+                }
+
             }
         });
 
-        // viewHolder.checkBox.setTag(position);
-        // viewHolder.checkBox.setChecked(checkMap.contains(position));
-        // viewHolder.checkBox.setOnCheckedChangeListener(this);
+        // 长按标题进入编辑状态
+
+        // viewHolder.tvTitle.setOnLongClickListener(new OnLongClickListener() {
+        //
+        // @Override
+        // public boolean onLongClick(View v) {
+        // viewhold.tvTitle.setVisibility(View.GONE);
+        // viewhold.etTitle.setVisibility(View.VISIBLE);
+        // viewhold.etTitle.requestFocus();
+        // viewhold.etTitle.setText(viewhold.tvTitle.getText());
+        // return false;
+        // }
+        // });
+
+        if (isDelStatus) {
+            viewHolder.checkBox.setVisibility(View.VISIBLE);
+            viewHolder.btnEidt.setVisibility(View.GONE);
+            viewHolder.checkBox.setTag(position);
+            viewHolder.checkBox.setChecked(mSelectList.contains(position));
+            viewHolder.checkBox.setOnCheckedChangeListener(this);
+        } else {
+            viewHolder.checkBox.setVisibility(View.GONE);
+            viewHolder.btnEidt.setVisibility(View.VISIBLE);
+
+        }
 
         row.setLayoutParams(mItemViewLayoutParams);
         return row;
+    }
+
+    public final static class ViewHolder {
+        TextView tvTitle;
+        EditText etTitle;
+        MAChart machart;
+        CheckBox checkBox;
+        Button btnEidt;
     }
 
     public void setItemHeight(int height) {
@@ -173,17 +224,9 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         machart.setFill(true);
     }
 
-    public final static class ViewHolder {
-
-        TextView tvTitle;
-        EditText etTitle;
-        MAChart machart;
-        CheckBox checkBox;
-    }
-
     @Override
     public int getCount() {
-        return mDataLenght + 1;
+        return this.mDataList.size() + 1;
     }
 
     @Override
@@ -197,29 +240,33 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param v
-     * @return
-     */
     @Override
     public void onClick(View v) {
 
-        mDataLenght++;
-        notifyDataSetChanged();
+        addItem();
 
+    }
+
+    public void addItem() {
+        notifyDataSetChanged();
+    }
+
+    public ArrayList<Integer> getDelPosition() {
+        return mSelectList;
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            positions.add((Integer) buttonView.getTag());
+            mSelectList.add((Integer) buttonView.getTag());
+        } else {
+            mSelectList.remove((Integer) buttonView.getTag());
         }
+    }
 
-        else {
-            positions.remove((Integer) buttonView.getTag());
-        }
+    public void setDelStatus(boolean isDelStatus) {
+        this.isDelStatus = isDelStatus;
+        notifyDataSetChanged();
     }
 
 }

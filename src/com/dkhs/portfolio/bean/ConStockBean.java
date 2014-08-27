@@ -15,7 +15,7 @@ package com.dkhs.portfolio.bean;
  * @date 2014-8-26 上午9:37:22
  * @version 1.0
  */
-public class CombinationStock {
+public class ConStockBean {
     int id;
     int dutyValue;
     int dutyColor;
@@ -32,7 +32,7 @@ public class CombinationStock {
      * @param name 股票名称
      * @param num 股票号码
      */
-    public CombinationStock(int id, int dutyValue, int dutyColor, String name, String num) {
+    public ConStockBean(int id, int dutyValue, int dutyColor, String name, String num) {
         super();
         this.id = id;
         this.dutyValue = dutyValue;
@@ -41,7 +41,7 @@ public class CombinationStock {
         this.num = num;
     }
 
-    public CombinationStock() {
+    public ConStockBean() {
     }
 
     public int getId() {

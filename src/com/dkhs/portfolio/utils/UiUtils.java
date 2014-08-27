@@ -6,7 +6,7 @@
  * @date 2014-8-25 下午3:43:24
  * @version V1.0
  */
-package com.dkhs.portfolio.ui;
+package com.dkhs.portfolio.utils;
 
 import android.view.View;
 import android.view.ViewGroup;

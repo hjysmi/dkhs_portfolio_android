@@ -1,10 +1,8 @@
 package com.dkhs.portfolio.ui;
 
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +13,10 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 
 public class ModelAcitivity extends BaseActivity {
+
+    public final int RIGHTBUTTON_ID = R.id.btn_right;
+    public final int BACKBUTTON_ID = R.id.btn_back;
+    public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
 
     /** 显示子页面的容器 */
     private RelativeLayout layoutContent;
@@ -73,7 +75,7 @@ public class ModelAcitivity extends BaseActivity {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
 
-        btnBack = (Button) findViewById(R.id.btn_back);
+        btnBack = (Button) findViewById(BACKBUTTON_ID);
 
         // llBack = (LinearLayout) findViewById(R.id.llHeadBack);
 
@@ -89,7 +91,7 @@ public class ModelAcitivity extends BaseActivity {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             switch (v.getId()) {
-                case R.id.btn_back:
+                case BACKBUTTON_ID:
 
                     onBackPressed();
                     break;
@@ -154,11 +156,19 @@ public class ModelAcitivity extends BaseActivity {
      * 标题名称
      */
     protected void setBackTitle(String title) {
-        ((TextView) findViewById(R.id.btn_back)).setText(title);
+        ((TextView) findViewById(BACKBUTTON_ID)).setText(title);
     }
 
     public void setBackTitle(int stringId) {
-        ((TextView) findViewById(R.id.btn_back)).setText(stringId);
+        ((TextView) findViewById(BACKBUTTON_ID)).setText(stringId);
+    }
+
+    public Button getRightButton() {
+        return (Button) findViewById(RIGHTBUTTON_ID);
+    }
+
+    public Button getSecondRightButton() {
+        return (Button) findViewById(SECONDRIGHTBUTTON_ID);
     }
 
     /**

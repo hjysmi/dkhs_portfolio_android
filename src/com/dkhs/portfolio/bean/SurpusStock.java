@@ -17,7 +17,7 @@ import android.graphics.Color;
  * @date 2014-8-26 上午11:52:46
  * @version 1.0
  */
-public class SurpusStock extends CombinationStock {
+public class SurpusStock extends ConStockBean {
 
     /**
      * @Title
