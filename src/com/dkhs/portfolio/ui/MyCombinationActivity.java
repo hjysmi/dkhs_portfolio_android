@@ -8,17 +8,21 @@
  */
 package com.dkhs.portfolio.ui;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
-
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 
 /**
  * @ClassName MyCombinationActivity
@@ -27,7 +31,7 @@ import android.widget.GridView;
  * @date 2014-8-26 下午3:10:51
  * @version 1.0
  */
-public class MyCombinationActivity extends ModelAcitivity implements OnItemClickListener {
+public class MyCombinationActivity extends ModelAcitivity implements OnItemClickListener, OnTouchListener {
     private GridView gvCombination;
     private CombinationAdapter mCombinationAdapter;
 
@@ -38,6 +42,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         setContentView(R.layout.activity_mycombination);
         setTitle(R.string.my_combination);
         initGridView();
+        this.getWindow().getDecorView().setOnTouchListener(this);
+
     }
 
     /**
@@ -76,10 +82,31 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             }
         });
 
+        gvCombination.setOnTouchListener(this);
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param v
+     * @param event
+     * @return
+     * @return
+     */
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        gvCombination.clearFocus();
+        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+        // System.out.println("Touch xxx");
+        return super.onTouchEvent(event);
     }
 }

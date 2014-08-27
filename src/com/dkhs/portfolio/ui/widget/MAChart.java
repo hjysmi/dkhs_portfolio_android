@@ -131,7 +131,7 @@ public class MAChart extends GridChart {
                 Path fillPath = new Path();
 
                 // }
-                if (lineData != null) {
+                if (lineData != null && lineData.size() > 0) {
                     for (int j = 0; j < lineData.size(); j++) {
                         // j=1,value=272
                         float value = lineData.get(j).floatValue();
@@ -175,9 +175,15 @@ public class MAChart extends GridChart {
                     // System.out.println("isFill:" + isFill + " fillLineIndex=" + fillLineIndex + " currentIndex:" +
                     // i);
                     if (isFill && fillLineIndex == i) {
-                        fillPath.lineTo(ptFirst.x, endY);
-                        fillPath.lineTo(startPointX, endY);
-                        canvas.drawPath(fillPath, fillPaint);
+                        try {
+
+                            fillPath.lineTo(ptFirst.x, endY);
+                            fillPath.lineTo(startPointX, endY);
+                            canvas.drawPath(fillPath, fillPaint);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

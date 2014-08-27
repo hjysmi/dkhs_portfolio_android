@@ -9,16 +9,24 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -35,10 +43,15 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-8-26 下午3:44:16
  * @version 1.0
  */
-public class CombinationAdapter extends DKHSBaseAdapter {
+public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeListener, OnClickListener {
     private Context mContext;
     private int mItemHeight = 0;
     private GridView.LayoutParams mItemViewLayoutParams;
+    private int mDataLenght = 5;
+
+    private ArrayList<Integer> positions = new ArrayList<Integer>();
+
+    // private Map<Integer, Boolean> checkMap = new HashMap<Integer, Boolean>();
 
     public CombinationAdapter(Context context) {
         this.mContext = context;
@@ -50,20 +63,45 @@ public class CombinationAdapter extends DKHSBaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder = null;
-        if (convertView == null) {
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(mContext).inflate(R.layout.item_my_combination, null);
-            viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tv_combin_title);
-            viewHolder.etTitle = (EditText) convertView.findViewById(R.id.et_combin_title);
-            viewHolder.machart = (MAChart) convertView.findViewById(R.id.machart);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+        View row = convertView;
+        if (position == mDataLenght) {
+            row = View.inflate(mContext, R.layout.item_add_myconbination, null);
+            row.setTag("add_more");
+            row.setLayoutParams(mItemViewLayoutParams);
+            row.setOnClickListener(this);
+            return row;
         }
-        // if (mItemHeight != 0) {
-        // convertView.getLayoutParams().height = mItemHeight;
-        // }
+        //
+        if (row == null || row.getTag().equals("add_more")) {
+            viewHolder = new ViewHolder();
+            row = LayoutInflater.from(mContext).inflate(R.layout.item_my_combination, null);
+            viewHolder.tvTitle = (TextView) row.findViewById(R.id.tv_combin_title);
+            viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
+            viewHolder.machart = (MAChart) row.findViewById(R.id.machart);
+            row.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) row.getTag();
+        }
+
         final ViewHolder viewhold = viewHolder;
+        viewHolder.tvTitle.setText("我的组合" + (position + 1));
+        viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (!hasFocus) {
+                    if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
+                        if (viewhold.etTitle.getText().length() > 0) {
+                            viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
+                        }
+                        viewhold.tvTitle.setVisibility(View.VISIBLE);
+                        viewhold.etTitle.setVisibility(View.GONE);
+                    }
+                }
+
+            }
+        });
         initMaChart(viewHolder.machart);
         viewHolder.tvTitle.setOnLongClickListener(new OnLongClickListener() {
 
@@ -71,12 +109,17 @@ public class CombinationAdapter extends DKHSBaseAdapter {
             public boolean onLongClick(View v) {
                 viewhold.tvTitle.setVisibility(View.GONE);
                 viewhold.etTitle.setVisibility(View.VISIBLE);
+                viewhold.etTitle.requestFocus();
                 return false;
             }
         });
 
-        convertView.setLayoutParams(mItemViewLayoutParams);
-        return convertView;
+        // viewHolder.checkBox.setTag(position);
+        // viewHolder.checkBox.setChecked(checkMap.contains(position));
+        // viewHolder.checkBox.setOnCheckedChangeListener(this);
+
+        row.setLayoutParams(mItemViewLayoutParams);
+        return row;
     }
 
     public void setItemHeight(int height) {
@@ -113,12 +156,7 @@ public class CombinationAdapter extends DKHSBaseAdapter {
         machart.setLineData(lines);
         machart.setDisplayBorder(false);
         machart.setDrawXBorke(true);
-        // machart.setBorderColor(Color.TRANSPARENT);
-        // machart.setDisplayAxisYTitle(false);
-        // machart.setBackgroudColor(Color.WHITE);
-        // machart.setAxisMarginTop(10);
-        // machart.setAxisMarginLeft(20);
-        // machart.setAxisMarginRight(10);
+
         List<String> ytitle = new ArrayList<String>();
         ytitle.add("1.1031");
         ytitle.add("1.0522");
@@ -126,20 +164,12 @@ public class CombinationAdapter extends DKHSBaseAdapter {
         ytitle.add("1.0001");
         ytitle.add("1.0522");
         ytitle.add("1.1031");
-        // machart.setAxisYTitles(ytitle);
-        // machart.setAxisYColor(Color.LTGRAY);
-        // machart.setAxisXTitles(xtitle);
-        // machart.setLongtitudeFontSize(10);
-        // machart.setLongtitudeFontColor(Color.GRAY);
-        // machart.setDisplayAxisYTitleColor(true);
         machart.setLatitudeColor(Color.LTGRAY);
-        // machart.setLatitudeFontColor(Color.GRAY);
         machart.setMaxValue(120);
         machart.setMinValue(0);
         machart.setMaxPointNum(72);
         machart.setDisplayAxisYTitle(false);
         machart.setDisplayLatitude(true);
-        // machart.setDisplayLongitude(true);
         machart.setFill(true);
     }
 
@@ -148,6 +178,48 @@ public class CombinationAdapter extends DKHSBaseAdapter {
         TextView tvTitle;
         EditText etTitle;
         MAChart machart;
+        CheckBox checkBox;
+    }
+
+    @Override
+    public int getCount() {
+        return mDataLenght + 1;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param v
+     * @return
+     */
+    @Override
+    public void onClick(View v) {
+
+        mDataLenght++;
+        notifyDataSetChanged();
+
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            positions.add((Integer) buttonView.getTag());
+        }
+
+        else {
+            positions.remove((Integer) buttonView.getTag());
+        }
     }
 
 }

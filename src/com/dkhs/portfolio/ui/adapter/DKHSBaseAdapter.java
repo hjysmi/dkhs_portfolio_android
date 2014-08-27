@@ -41,8 +41,7 @@ public abstract class DKHSBaseAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // return data == null ? 0 : data.length;
-        return 5;
+        return data == null ? 0 : data.length;
     }
 
     @Override
