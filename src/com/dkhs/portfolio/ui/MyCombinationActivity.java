@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -123,7 +124,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         ConbinationBean conBean2 = new ConbinationBean("我的组合2", 1.153f, 15.22f);
         ConbinationBean conBean3 = new ConbinationBean("我的组合3", -1.152f, -11.22f);
         ConbinationBean conBean4 = new ConbinationBean("我的组合4", 1.152f, 13.22f);
-        ConbinationBean conBean5 = new ConbinationBean("我的组合5", 1.154f, 10.22f);
+        ConbinationBean conBean5 = new ConbinationBean("我的组合5", -1.154f, -10.22f);
         mDataList.add(conBean1);
         mDataList.add(conBean2);
         mDataList.add(conBean3);
@@ -135,6 +136,11 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         System.out.println("onItemClick click:" + position);
+
+        Intent intent = new Intent(this, PositionAdjustActivity.class);
+        intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
+        startActivity(intent);
+
     }
 
     @Override

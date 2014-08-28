@@ -9,18 +9,17 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
@@ -35,6 +34,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConbinationBean;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -77,6 +77,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             viewHolder = new ViewHolder();
             row = LayoutInflater.from(mContext).inflate(R.layout.item_my_combination, null);
             viewHolder.tvTitle = (TextView) row.findViewById(R.id.tv_combin_title);
+            viewHolder.tvCurrent = (TextView) row.findViewById(R.id.tv_mycob_curren_value);
+            viewHolder.tvAddup = (TextView) row.findViewById(R.id.tv_mycob_add_value);
             viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
             viewHolder.machart = (MAChart) row.findViewById(R.id.machart);
             viewHolder.btnEidt = (Button) row.findViewById(R.id.btn_edit_contitle);
@@ -88,6 +90,21 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         ConbinationBean item = mDataList.get(position);
         final ViewHolder viewhold = viewHolder;
         viewHolder.tvTitle.setText(item.getName());
+        float currenValue = item.getCurrentValue();
+        if (currenValue > 0) {
+            ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
+            viewHolder.tvAddup.setTextColor(redCsl);
+            viewHolder.tvCurrent.setTextColor(redCsl);
+            viewHolder.tvAddup.setText("+" + item.getAddUpValue() + "%");
+            viewHolder.tvCurrent.setText("+" + currenValue + "%");
+
+        } else {
+            ColorStateList greenCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
+            viewHolder.tvCurrent.setTextColor(greenCsl);
+            viewHolder.tvAddup.setTextColor(greenCsl);
+            viewHolder.tvAddup.setText(item.getAddUpValue() + "%");
+            viewHolder.tvCurrent.setText(currenValue + "%");
+        }
         viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
 
             @Override
@@ -167,6 +184,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     public final static class ViewHolder {
         TextView tvTitle;
+        TextView tvCurrent;
+        TextView tvAddup;
         EditText etTitle;
         MAChart machart;
         CheckBox checkBox;
@@ -248,7 +267,9 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     }
 
     public void addItem() {
-        notifyDataSetChanged();
+        Intent intent = new Intent(mContext, PositionAdjustActivity.class);
+        intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_CREATE_CONBINA);
+        mContext.startActivity(intent);
     }
 
     public ArrayList<Integer> getDelPosition() {

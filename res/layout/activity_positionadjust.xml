@@ -11,57 +11,19 @@
 
         <!-- 持仓组合 创建信息 -->
 
-        <RelativeLayout
+        <ViewStub
             android:id="@+id/portfolio_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/border_gray" >
+            android:layout="@layout/layout_adjust_conbin_info" />
 
-            <TextView
-                android:id="@+id/tv_portfolio_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:text="我的组合"
-                android:textSize="18sp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:padding="5dp" >
-
-                <TextView
-                    android:id="@+id/tv_time_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="成立时间  2014-8-10:10"
-                    android:textColor="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/tv_netvalue_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_time_text"
-                    android:layout_marginTop="3dp"
-                    android:text="当日净值  "
-                    android:textColor="@android:color/darker_gray" />
-
-                <TextView
-                    android:id="@+id/tv_today_netvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_time_text"
-                    android:layout_toRightOf="@+id/tv_netvalue_text"
-                    android:text="1.1512"
-                    android:textColor="@color/red"
-                    android:textSize="18sp" />
-            </RelativeLayout>
-        </RelativeLayout>
+        <ViewStub
+            android:id="@+id/create_portfolio_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout="@layout/layout_create_conbina_info" />
 
         <!-- 持仓组合 创建信息 end -->
 
@@ -71,7 +33,7 @@
             android:background="@color/theme_color"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="我的配置"
+            android:text="@string/my_config"
             android:textColor="@color/white" />
 
         <!-- 净值占比饼图 -->
@@ -100,7 +62,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_dashed_stroke"
             android:padding="8dp"
-            android:text="+添加自选股" />
+            android:text="@string/add_postional" />
 
         <Button
             android:id="@+id/btn_confirm"
@@ -111,7 +73,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_blue"
             android:padding="8dp"
-            android:text="确定调整"
+            android:text="@string/confirm_adjust"
             android:textColor="@color/white" />
     </LinearLayout>
 

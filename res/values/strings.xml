@@ -76,10 +76,18 @@
     <string name="portfolio_position">持仓组合</string>
     <string name="duty_percent">%1$d&#037;</string>
     <string name="my_combination">我的组合</string>
-    <string name="current">当前</string>
-    <string name="add_up">累计</string>
+    <string name="current">当前：</string>
+    <string name="add_up">累计：</string>
     <string name="create_combination">创建组合</string>
     <string name="add_combination">添加组合</string>
     <string name="del_combination">删除组合</string>
+    <string name="combination_name">组合名称</string>
+    <string name="combination_desc">组合名称</string>
+    <string name="conb_desc_hint">简要描述 20字以内</string>
+    <string name="my_config">我的配置</string>
+    <string name="add_postional">+添加自选股</string>
+    <string name="confirm_adjust">确定调整</string>
+    <string name="today_netvalue">当日净值  </string>
+    <string name="create_time">成立时间 </string>
 
 </resources>

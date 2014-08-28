@@ -18,6 +18,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -41,6 +42,10 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify {
 
+    public static final String KEY_VIEW_TYPE = "key_view_type";
+    public static final String VALUE_CREATE_CONBINA = "value_create_conbina";
+    public static final String VALUE_ADJUST_CONBINA = "value_adjust_conbina";
+
     private PieGraph pgView;
     private List<ConStockBean> stockList;
     private OptionalStockAdapter stockAdapter;
@@ -48,15 +53,37 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private TextView tvSurpusValue;
     private SeekBar surSeekbar;
     private ArrayList<PieSlice> pieList;
+    private String mViewType;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        System.out.println("==============PositionAdjustActivity onCreate ");
         setContentView(R.layout.activity_positionadjust);
         setTitle(R.string.portfolio_position);
+
+        if (null != getIntent()) {
+            mViewType = getIntent().getStringExtra(KEY_VIEW_TYPE);
+
+        }
+        initConbinationInfoView();
         initData();
         initPieView();
         initStockPercentView();
+    }
+
+    private void initConbinationInfoView() {
+        if (mViewType.equalsIgnoreCase(VALUE_CREATE_CONBINA)) {
+            ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
+            if (viewstub != null) {
+                viewstub.inflate();
+            }
+        } else {
+            ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
+            if (viewstub != null) {
+                viewstub.inflate();
+            }
+        }
     }
 
     /**
