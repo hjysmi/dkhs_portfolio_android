@@ -27,14 +27,33 @@
 
         <!-- 持仓组合 创建信息 end -->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_color"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/my_config"
-            android:textColor="@color/white" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@color/theme_color"
+                android:paddingBottom="3dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="3dp"
+                android:text="@string/my_config"
+                android:textColor="@color/white" />
+
+            <TextView
+                
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="初始净值：1.0000"
+                android:textSize="12sp" />
+        </RelativeLayout>
 
         <!-- 净值占比饼图 -->
 

@@ -150,6 +150,8 @@ public class OptionalStockAdapter extends BaseAdapter {
 
     }
 
+    
+    
     private void notifySurpusValue(int value) {
         ConStockBean sur = stockList.get(stockList.size() - 1);
         stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);

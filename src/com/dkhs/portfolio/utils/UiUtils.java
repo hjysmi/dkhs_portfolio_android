@@ -8,6 +8,12 @@
  */
 package com.dkhs.portfolio.utils;
 
+import java.util.Calendar;
+import java.util.TimeZone;
+
+import com.dkhs.portfolio.BuildConfig;
+
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -39,4 +45,29 @@ public class UiUtils {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
+
+    // public static boolean isSameDayDisplay(long time1, long time2, Context context) {
+    // TimeZone displayTimeZone = PrefUtils.getDisplayTimeZone(context);
+    // Calendar cal1 = Calendar.getInstance(displayTimeZone);
+    // Calendar cal2 = Calendar.getInstance(displayTimeZone);
+    // cal1.setTimeInMillis(time1);
+    // cal2.setTimeInMillis(time2);
+    // return cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR)
+    // && cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+    // }
+
+    private static final long sAppLoadTime = System.currentTimeMillis();
+
+    public static long getCurrentTime(final Context context) {
+        if (BuildConfig.DEBUG) {
+            return context.getSharedPreferences("mock_data", Context.MODE_PRIVATE).getLong("mock_current_time",
+                    System.currentTimeMillis())
+                    + System.currentTimeMillis() - sAppLoadTime;
+            // return ParserUtils.parseTime("2012-06-27T09:44:45.000-07:00")
+            // + System.currentTimeMillis() - sAppLoadTime;
+        } else {
+            return System.currentTimeMillis();
+        }
+    }
+
 }

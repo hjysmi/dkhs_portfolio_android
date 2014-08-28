@@ -2,13 +2,15 @@ package com.dkhs.portfolio.utils;
 
 import java.util.Random;
 
+import com.dkhs.portfolio.R;
+
 import android.graphics.Color;
 import android.graphics.Path;
 
 public class ColorTemplate {
 
-    // public static final int[] DEFAULTCOLORS = { R.color.line_1, R.color.line_2, R.color.line_3, R.color.line_4,
-    // R.color.line_5, R.color.line_6, R.color.line_7 };
+    public static final int[] DEFAULTCOLORS = { R.color.def_1, R.color.def_2, R.color.def_3, R.color.def_4,
+            R.color.def_5 };
 
     public static int getRaddomColor() {
         Random rnd = new Random();

@@ -40,7 +40,7 @@ public class ModelAcitivity extends BaseActivity {
         // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
         // view.setLayoutResource(titleLayout);
         // view.inflate();
-        initView();
+        stepTitleView();
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ModelAcitivity extends BaseActivity {
      * @return void
      * @throws
      */
-    private void initView() {
+    private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
 

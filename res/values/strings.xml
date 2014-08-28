@@ -85,8 +85,8 @@
     <string name="combination_desc">组合名称</string>
     <string name="conb_desc_hint">简要描述 20字以内</string>
     <string name="my_config">我的配置</string>
-    <string name="add_postional">+添加自选股</string>
-    <string name="confirm_adjust">确定调整</string>
+    <string name="add_postional">添加</string>
+    <string name="confirm_adjust">确定</string>
     <string name="today_netvalue">当日净值  </string>
     <string name="create_time">成立时间 </string>
 

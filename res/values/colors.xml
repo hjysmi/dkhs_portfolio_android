@@ -12,9 +12,12 @@
     <color name="red">#ff0000</color>
     <color name="white">#ffffffff</color>
     <color name="gray">#4d4c4d</color>
-
-    <drawable name="gray">#4d4c4d</drawable>
-
+    <color name="def_1">#9933cc</color>
+    <color name="def_2">#2f74ff</color>
+    <color name="def_3">#a6ca00</color>
+    <color name="def_4">#1be1b0</color>
+    <color name="def_5">#ffd072</color>
+    <color name="def_red">#e73535</color>
     <color name="blue_normal">#ffdddddd</color>
     <color name="blue_pressed">#ff0055aa</color>
     <color name="color_username">#af000000</color>
@@ -53,5 +56,7 @@
     <color name="rounded_container_bg">#80000000</color>
     <color name="rounded_container_border">#3b3f44</color>
     <color name="light_gray_header_color">#646663</color>
+
+    <drawable name="gray">#4d4c4d</drawable>
 
 </resources>
