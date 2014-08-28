@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
@@ -91,8 +92,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initStockPercentView();
         btnConfirm = getRightButton();
         btnConfirm.setText("确定");
-        btnConfirm.setTextColor(Color.WHITE);
-        btnConfirm.setVisibility(View.VISIBLE);
         btnConfirm.setOnClickListener(this);
 
         findViewById(R.id.btn_add_postional).setOnClickListener(this);
@@ -247,8 +246,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
-
-                Toast.makeText(PositionAdjustActivity.this, "添加自选股  ", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, AddConbinationStockActivity.class);
+                startActivity(intent);
+                // Toast.makeText(PositionAdjustActivity.this, "添加自选股  ", Toast.LENGTH_SHORT).show();
             }
                 break;
 

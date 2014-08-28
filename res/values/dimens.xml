@@ -21,6 +21,7 @@
     <dimen name="circle_center_text">15sp</dimen>
     <dimen name="combin_horSpacing">15dp</dimen>
     <dimen name="title_text_font">10sp</dimen>
+    <dimen name="select_fund_height">80dp</dimen>
 
     <integer name="select_touch_text">20</integer>
 

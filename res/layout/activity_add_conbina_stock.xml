@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_gray" >
+
+    <RelativeLayout
+        android:id="@+id/rl_search_stock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="3dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="3dp" >
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/search_purple" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_search"
+            android:background="@null"
+            android:focusable="false"
+            android:hint="@string/search_fund_hint"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/rl_add_stocklist"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/select_fund_height"
+        android:layout_below="@+id/rl_search_stock"
+        android:background="@color/white"
+        android:clickable="true"
+        android:gravity="center"
+        android:horizontalSpacing="3dp"
+        android:listSelector="#00000000"
+        android:numColumns="2"
+        android:padding="10dp"
+        android:verticalSpacing="5dp" />
+
+    <RelativeLayout
+        android:id="@+id/indicator_title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_add_stocklist"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" >
+
+        <Button
+            android:id="@+id/btn_order"
+            style="@style/hw_wrap"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="日排行" />
+
+        <com.dkhs.portfolio.ui.widget.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/btn_order" />
+    </RelativeLayout>
+
+    <com.dkhs.portfolio.ui.widget.ScrollViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/indicator_title" />
+
+</RelativeLayout>

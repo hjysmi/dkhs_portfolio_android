@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -164,7 +165,10 @@ public class ModelAcitivity extends BaseActivity {
     }
 
     public Button getRightButton() {
-        return (Button) findViewById(RIGHTBUTTON_ID);
+        Button btnRight = (Button) findViewById(RIGHTBUTTON_ID);
+        btnRight.setVisibility(View.VISIBLE);
+        btnRight.setTextColor(Color.WHITE);
+        return btnRight;
     }
 
     public Button getSecondRightButton() {

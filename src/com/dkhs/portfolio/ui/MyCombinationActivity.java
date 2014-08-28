@@ -67,7 +67,6 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void initTitleView() {
         btnMore = getRightButton();
-        btnMore.setVisibility(View.VISIBLE);
         btnMore.setBackgroundResource(R.drawable.button_title_more_down);
         btnMore.setOnClickListener(this);
 

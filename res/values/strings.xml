@@ -73,6 +73,7 @@
     <string name="stock">自选股：%1$d</string>
     <string name="setting">设置</string>
     <string name="confirm">确定</string>
+    <string name="more">更多</string>
     <string name="portfolio_position">持仓组合</string>
     <string name="duty_percent">%1$d&#037;</string>
     <string name="my_combination">我的组合</string>
@@ -89,5 +90,9 @@
     <string name="confirm_adjust">确定</string>
     <string name="today_netvalue">当日净值  </string>
     <string name="create_time">成立时间 </string>
+    <string name="select_fund">选择参照基金 </string>
+    <string name="select_stock">选择参照个股 </string>
+    <string name="search_fund_hint">股票代码或简拼 </string>
+    <string name="add_postional_format">添加(%1$d)</string>
 
 </resources>
