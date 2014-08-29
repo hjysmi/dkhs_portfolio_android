@@ -156,9 +156,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     public void onClick(View v) {
         int id = v.getId();
         if (id == RIGHTBUTTON_ID) {
-            System.out.println("Right button click");
 
-            showPopWindow();
+            clickRightButton();
         } else if (id == SECONDRIGHTBUTTON_ID) {
 
             clickSecondButton();
@@ -167,6 +166,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             mPopMoreWindow.dismiss();
 
         } else if (id == R.id.tv_delete_combina) {
+            btnMore.setText("取消");
+            btnMore.setTag("del");
+            btnMore.setBackgroundDrawable(null);
+
             btnRefresh.setTag("del");
             btnRefresh.setBackgroundResource(R.drawable.ic_delete);
             mCombinationAdapter.setDelStatus(true);
@@ -176,18 +179,42 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     }
 
+    private void clickRightButton() {
+        if (btnMore.getTag() != null && btnMore.getTag().equals("del")) {
+            setButtonMore();
+            mCombinationAdapter.getDelPosition().clear();
+            mCombinationAdapter.setDelStatus(false);
+            mCombinationAdapter.notifyDataSetChanged();
+            setButtonRefresh();
+        } else {
+            showPopWindow();
+        }
+    }
+
+    private void setButtonMore() {
+        btnMore.setTag("more");
+        btnMore.setText("");
+        btnMore.setBackgroundResource(R.drawable.button_title_more_down);
+    }
+
+    private void setButtonRefresh() {
+        btnRefresh.setTag("refresh");
+        btnRefresh.setBackgroundResource(R.drawable.ic_refresh);
+    }
+
     private void clickSecondButton() {
         if (btnRefresh.getTag().equals("refresh")) {
-            System.out.println("Second refresh button click");
+            refreshData();
         } else {
-            System.out.println("Second delete button click");
-
-            btnRefresh.setTag("refresh");
-            btnRefresh.setBackgroundResource(R.drawable.ic_refresh);
-
+            setButtonRefresh();
+            setButtonMore();
             removeSelectDatas();
         }
 
+    }
+
+    private void refreshData() {
+        System.out.println("Second refresh button click");
     }
 
     private void removeSelectDatas() {

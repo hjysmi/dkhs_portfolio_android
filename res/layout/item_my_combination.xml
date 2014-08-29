@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/button_radiu_top_theme"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
@@ -44,8 +42,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:gravity="center"
             android:maxLength="6"
             android:singleLine="true"
@@ -61,8 +57,6 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/btn_edit_contitle"
             android:background="@color/white"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:gravity="center_vertical"
             android:maxLength="6"
             android:paddingLeft="5dp"
@@ -76,8 +70,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
         android:gravity="center"
         android:padding="3dp" >
 
