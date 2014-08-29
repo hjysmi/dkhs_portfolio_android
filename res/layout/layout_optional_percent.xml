@@ -59,9 +59,4 @@
             android:thumb="@drawable/ic_position" />
     </RelativeLayout>
 
-    <View
-        style="@style/divider_line"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/view_color" />
-
 </RelativeLayout>

@@ -18,6 +18,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
@@ -59,7 +60,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private TextView tvSurpusValue;
     private SeekBar surSeekbar;
     private ArrayList<PieSlice> pieList;
-    private String mViewType;
+    private String mViewType = VALUE_CREATE_CONBINA;
     private TextView tvCreateTime;
     private TextView tvTodayNetvalue;
     private EditText etConbinationName;
@@ -74,7 +75,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         setTitle(R.string.portfolio_position);
 
         if (null != getIntent()) {
-            mViewType = getIntent().getStringExtra(KEY_VIEW_TYPE);
+            String typeValue = getIntent().getStringExtra(KEY_VIEW_TYPE);
+            if (!TextUtils.isEmpty(typeValue)) {
+                mViewType = typeValue;
+            }
         }
         initData();
         initView();

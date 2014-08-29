@@ -22,9 +22,10 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.dkhs.portfolio.ui.MyCombinationActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+
+        <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
+
+        <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +36,7 @@
         <activity android:name="com.dkhs.portfolio.ui.LoginActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.CreateCombinationActivity" />
-        <!-- <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" /> -->
+       <!--  <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" /> -->
         <activity android:name="com.dkhs.portfolio.ui.PositionAdjustActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.AddConbinationStockActivity"

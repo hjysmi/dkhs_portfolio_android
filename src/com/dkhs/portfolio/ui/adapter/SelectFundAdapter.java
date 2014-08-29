@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.ui.AddConbinationStockActivity;
 
 /**
  * @ClassName SelectFundAdapter
@@ -28,16 +32,21 @@ import com.dkhs.portfolio.R;
 public class SelectFundAdapter extends BaseAdapter {
 
     private Context mContext;
-    private int dataLenght = 5;
+    // private int dataLenght = 5;
 
-    public SelectFundAdapter(Context context) {
+    private List<ConStockBean> mDataSet;
+    private AddConbinationStockActivity mActivity;
+
+    public SelectFundAdapter(Context context, List<ConStockBean> mSelectIdList) {
         this.mContext = context;
+        mActivity = (AddConbinationStockActivity) context;
+        this.mDataSet = mSelectIdList;
     }
 
     @Override
     public int getCount() {
 
-        return dataLenght;
+        return this.mDataSet.size();
     }
 
     @Override
@@ -51,7 +60,7 @@ public class SelectFundAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHodler viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHodler();
@@ -65,12 +74,17 @@ public class SelectFundAdapter extends BaseAdapter {
             viewHolder = (ViewHodler) convertView.getTag();
         }
 
+        final ConStockBean item = mDataSet.get(position);
+        viewHolder.tvName.setText(item.getName());
+
         viewHolder.ivDelIcon.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                dataLenght--;
-                notifyDataSetChanged();
+                // dataLenght--;
+                mDataSet.remove(item);
+                mActivity.notifySelectDataChange(true);
+                // notifyDataSetChanged();
             }
         });
 

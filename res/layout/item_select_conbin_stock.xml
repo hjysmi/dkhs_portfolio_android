@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="5dp"
+    android:weightSum="4" >
+
+    <RelativeLayout
+        style="@style/hw_wrap"
+        android:layout_weight="1" >
+
+        <TextView
+            android:id="@+id/tv_stock_name"
+            style="@style/hw_wrap"
+            android:text="浦发银行" />
+
+        <TextView
+            android:id="@+id/tv_stock_num"
+            style="@style/hw_wrap"
+            android:layout_below="@+id/tv_stock_name"
+            android:text="SH900902"
+            android:textSize="10sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_current_value"
+        style="@style/hw_wrap"
+        android:layout_weight="1"
+        android:text="9.40"
+        android:textColor="@color/red"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_increase_value"
+        style="@style/hw_wrap"
+        android:layout_weight="1"
+        android:text="+0.43%"
+        android:textColor="@color/red"
+        android:textSize="16sp" />
+
+    <RelativeLayout
+        style="@style/hw_wrap"
+        android:layout_weight="1" >
+
+        <CheckBox
+            android:id="@+id/cb_select_stock"
+            style="@style/hw_wrap"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+</LinearLayout>

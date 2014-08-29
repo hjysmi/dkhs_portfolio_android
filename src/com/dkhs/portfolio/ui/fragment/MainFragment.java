@@ -23,6 +23,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 
@@ -129,7 +130,7 @@ public class MainFragment extends Fragment implements OnClickListener {
             }
                 break;
             case R.id.btn_mycombina: {
-                Intent intent = new Intent(getActivity(), PositionAdjustActivity.class);
+                Intent intent = new Intent(getActivity(), MyCombinationActivity.class);
                 startActivity(intent);
             }
                 break;

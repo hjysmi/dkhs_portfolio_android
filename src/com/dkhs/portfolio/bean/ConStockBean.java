@@ -19,7 +19,8 @@ public class ConStockBean {
     int id;
     int dutyValue;
     int dutyColor;
-
+    float currentValue;
+    float increaseValue;
     String name;
     String num;
 
@@ -84,4 +85,28 @@ public class ConStockBean {
         this.dutyColor = dutyColor;
     }
 
+    public float getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(float currentValue) {
+        this.currentValue = currentValue;
+    }
+
+    public float getIncreaseValue() {
+        return increaseValue;
+    }
+
+    public void setIncreaseValue(float increaseValue) {
+        this.increaseValue = increaseValue;
+    }
+
+    public boolean equals(Object obj) {
+        ConStockBean param = (ConStockBean) obj;
+        if (this.id == param.id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
