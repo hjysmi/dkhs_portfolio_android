@@ -9,29 +9,27 @@
 package com.dkhs.portfolio.ui;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectConbinStock;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
 /**
@@ -47,8 +45,12 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
     private SelectFundAdapter mSelectStockAdapter;
     private Button btnAdd;
     ArrayList<FragmentSelectConbinStock> fragmentList = new ArrayList<FragmentSelectConbinStock>();// ViewPager中显示的数据
+    private EditText etSearchKey;
 
     private boolean isSelectByStock;
+
+    private View mStockPageView;
+    private View mSearchListView;
 
     // public static List<Integer> mSelectList = new ArrayList<Integer>();
     public static List<ConStockBean> mSelectIdList = new ArrayList<ConStockBean>();
@@ -93,6 +95,20 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
         btnAdd.setOnClickListener(this);
 
         findViewById(R.id.btn_order).setVisibility(View.GONE);
+
+        etSearchKey = (EditText) findViewById(R.id.et_search_key);
+        etSearchKey.addTextChangedListener(mTextWatcher);
+
+        mStockPageView = findViewById(R.id.rl_stock_rowview);
+        replaceSearchView();
+        mSearchListView = findViewById(R.id.rl_stock_searchview);
+
+        // etSearchKey.sette
+    }
+
+    private void replaceSearchView() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.rl_stock_searchview, FragmentSelectConbinStock.getInstance()).commit();
     }
 
     private void initTabPage() {
@@ -111,32 +127,8 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
         fragmentList.add(mPagerFragment3);
         fragmentList.add(mPagerFragment4);
 
-        ScrollViewPager pager = (ScrollViewPager) findViewById(R.id.pager);
-        // pager.setCanScroll(false);
+        ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, titleArray));
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int arg0) {
-                System.out.println("onPageSelected :" + arg0);
-                ((FragmentSelectConbinStock) fragmentList.get(arg0)).refreshSelect();
-
-            }
-
-            @Override
-            public void onPageScrolled(int arg0, float arg1, int arg2) {
-                System.out.println("onPageSelected :" + arg0);
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int arg0) {
-                // TODO Auto-generated method stub
-                System.out.println("onPageScrollStateChanged :" + arg0);
-
-            }
-        });
-        // pager.setOffscreenPageLimit(3);
 
         TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
         indicator.setViewPager(pager);
@@ -167,16 +159,46 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
         // Title中显示的内容
         @Override
         public CharSequence getPageTitle(int position) {
-            // TODO Auto-generated method stub
             return (titleList.length > position) ? titleList[position] : "";
         }
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return fragmentList == null ? 0 : fragmentList.size();
         }
 
+    }
+
+    TextWatcher mTextWatcher = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // TODO Auto-generated method stub
+            // mTextView.setText(s);//将输入的内容实时显示
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (TextUtils.isEmpty(s)) {
+                showPageView();
+            } else {
+                showSearchListView();
+            }
+        }
+    };
+
+    private void showPageView() {
+        mStockPageView.setVisibility(View.VISIBLE);
+        mSearchListView.setVisibility(View.GONE);
+    }
+
+    private void showSearchListView() {
+        mSearchListView.setVisibility(View.VISIBLE);
+        mStockPageView.setVisibility(View.GONE);
     }
 
     /**

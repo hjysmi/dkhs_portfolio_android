@@ -21,14 +21,13 @@
             android:layout_centerVertical="true"
             android:src="@drawable/search_purple" />
 
-        <EditText
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:id="@+id/et_search_key"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/iv_search"
-            android:background="@null"
-            android:focusable="false"
             android:hint="@string/search_fund_hint"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -47,33 +46,54 @@
         android:padding="10dp"
         android:verticalSpacing="5dp" />
 
+    <View
+        android:id="@+id/divider_line"
+        style="@style/divider_line"
+        android:layout_below="@+id/rl_add_stocklist" />
+
     <RelativeLayout
-        android:id="@+id/indicator_title"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_add_stocklist"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
+        android:id="@+id/rl_stock_searchview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divider_line"
+        android:background="@color/orange"
+        android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btn_order"
-            style="@style/hw_wrap"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="日排行" />
+    <RelativeLayout
+        android:id="@+id/rl_stock_rowview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/divider_line" >
 
-        <com.dkhs.portfolio.ui.widget.TabPageIndicator
-            android:id="@+id/indicator"
+        <RelativeLayout
+            android:id="@+id/indicator_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btn_order" />
-    </RelativeLayout>
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
 
-    <com.dkhs.portfolio.ui.widget.ScrollViewPager
-        android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/indicator_title" />
+            <Button
+                android:id="@+id/btn_order"
+                style="@style/hw_wrap"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="日排行" />
+
+            <com.dkhs.portfolio.ui.widget.TabPageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/btn_order" />
+        </RelativeLayout>
+
+        <!-- <com.dkhs.portfolio.ui.widget.ScrollViewPager -->
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/indicator_title" />
+    </RelativeLayout>
 
 </RelativeLayout>

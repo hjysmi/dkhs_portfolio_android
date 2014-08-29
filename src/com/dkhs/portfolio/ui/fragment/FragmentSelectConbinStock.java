@@ -28,7 +28,7 @@ import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListe
 
 /**
  * @ClassName FragmentSelectStock
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 个股选择
  * @author zjz
  * @date 2014-8-29 上午9:36:16
  * @version 1.0

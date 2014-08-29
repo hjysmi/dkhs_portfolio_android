@@ -154,7 +154,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         for (int i = 0; i < imageResId.length; i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setImageResource(imageResId[i]);
-            imageView.setScaleType(ScaleType.CENTER_CROP);
+            imageView.setScaleType(ScaleType.FIT_XY);
             imageViews.add(imageView);
 
             // 根据图片动态设置小圆点
