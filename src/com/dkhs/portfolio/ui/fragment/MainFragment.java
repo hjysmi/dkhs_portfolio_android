@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
@@ -22,183 +23,191 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 
 public class MainFragment extends Fragment implements OnClickListener {
 
-	private ITitleButtonListener mTitleClickListener;
+    private ITitleButtonListener mTitleClickListener;
 
-	private ViewPager viewPager;
-	private LinearLayout dotLayout;
-	private List<ImageView> imageViews;
-	private int[] imageResId;
-	private int currentItem = 0;
+    private ViewPager viewPager;
+    private LinearLayout dotLayout;
+    private List<ImageView> imageViews;
+    private int[] imageResId;
+    private int currentItem = 0;
 
-	private static final int MSG_CHANGE_PAGER = 172;
-	private Timer mScollTimer;
+    private static final int MSG_CHANGE_PAGER = 172;
+    private Timer mScollTimer;
 
-	Handler mHandler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			if (currentItem >= viewPager.getChildCount()) {
-				currentItem = 0;
-			} else {
-				currentItem++;
-			}
-			viewPager.setCurrentItem(currentItem, true);
-		};
-	};
+    Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            if (currentItem >= viewPager.getChildCount()) {
+                currentItem = 0;
+            } else {
+                currentItem++;
+            }
+            viewPager.setCurrentItem(currentItem, true);
+        };
+    };
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-	}
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_main, null);
-		Button btnLeft = (Button) view.findViewById(R.id.btn_back);
-		btnLeft.setOnClickListener(this);
-		btnLeft.setText(R.string.portfolio_text);
-		Button btnRight = (Button) view.findViewById(R.id.btn_right);
-		btnRight.setVisibility(View.VISIBLE);
-		btnRight.setOnClickListener(this);
-		// 初始化界面控件实例
-		dotLayout = (LinearLayout) view
-				.findViewById(R.id.login_register_linearlayout_dot);
-		initDotAndPicture();
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_main, null);
+        initView(view);
+        return view;
+    }
 
-		viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
-		viewPager.setAdapter(new MyAdapter());
-		viewPager.setOnPageChangeListener(new MyPageChangeListener());
+    private void initView(View view) {
+        Button btnLeft = (Button) view.findViewById(R.id.btn_back);
+        btnLeft.setOnClickListener(this);
+        btnLeft.setText(R.string.portfolio_text);
+        Button btnRight = (Button) view.findViewById(R.id.btn_right);
+        btnRight.setVisibility(View.VISIBLE);
+        btnRight.setOnClickListener(this);
 
-		viewPager.setCurrentItem(1);
-		viewPager.setCurrentItem(0);
-		return view;
-	}
+        view.findViewById(R.id.btn_mycombina).setOnClickListener(this);
 
-	@Override
-	public void onResume() {
+        // 初始化界面控件实例
+        dotLayout = (LinearLayout) view.findViewById(R.id.login_register_linearlayout_dot);
+        initDotAndPicture();
 
-		super.onResume();
-		if (mScollTimer == null) { // 保证只有一个 定时任务
-			mScollTimer = new Timer(true);
-			mScollTimer.schedule(new ScrollPageTask(), 5000, 5000);
-		}
-	}
+        viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
+        viewPager.setAdapter(new MyAdapter());
+        viewPager.setOnPageChangeListener(new MyPageChangeListener());
 
-	@Override
-	public void onStop() {
-		super.onStop();
+        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
+    }
 
-		if (mScollTimer != null) {
-			mScollTimer.cancel();
-			mScollTimer = null;
-		}
-	}
+    @Override
+    public void onResume() {
 
-	public class ScrollPageTask extends TimerTask {
+        super.onResume();
+        if (mScollTimer == null) { // 保证只有一个 定时任务
+            mScollTimer = new Timer(true);
+            mScollTimer.schedule(new ScrollPageTask(), 5000, 5000);
+        }
+    }
 
-		@Override
-		public void run() {
-			mHandler.sendEmptyMessage(MSG_CHANGE_PAGER);
-		}
-	}
+    @Override
+    public void onStop() {
+        super.onStop();
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_back: {
-			if (null != mTitleClickListener) {
-				mTitleClickListener.leftButtonClick();
-			}
-		}
-			break;
-		case R.id.btn_right: {
-			if (null != mTitleClickListener) {
-				mTitleClickListener.rightButtonClick();
-			}
-		}
-			break;
-		default:
-			break;
-		}
-	}
+        if (mScollTimer != null) {
+            mScollTimer.cancel();
+            mScollTimer = null;
+        }
+    }
 
-	public void setTitleClickListener(ITitleButtonListener listener) {
-		this.mTitleClickListener = listener;
-	}
+    public class ScrollPageTask extends TimerTask {
 
-	/**
-	 * 初始化要切换的图片和点
-	 */
-	private void initDotAndPicture() {
-		imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two,
-				R.drawable.pic_three };
+        @Override
+        public void run() {
+            mHandler.sendEmptyMessage(MSG_CHANGE_PAGER);
+        }
+    }
 
-		imageViews = new ArrayList<ImageView>();
-		// 初始化图片资源
-		for (int i = 0; i < imageResId.length; i++) {
-			ImageView imageView = new ImageView(getActivity());
-			imageView.setImageResource(imageResId[i]);
-			imageView.setScaleType(ScaleType.CENTER_CROP);
-			imageViews.add(imageView);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_back: {
+                if (null != mTitleClickListener) {
+                    mTitleClickListener.leftButtonClick();
+                }
+            }
+                break;
+            case R.id.btn_right: {
+                if (null != mTitleClickListener) {
+                    mTitleClickListener.rightButtonClick();
+                }
+            }
+                break;
+            case R.id.btn_mycombina: {
+                Intent intent = new Intent(getActivity(), PositionAdjustActivity.class);
+                startActivity(intent);
+            }
+                break;
+            default:
+                break;
+        }
+    }
 
-			// 根据图片动态设置小圆点
-			View.inflate(getActivity(), R.layout.dot, dotLayout);
-		}
-	}
+    public void setTitleClickListener(ITitleButtonListener listener) {
+        this.mTitleClickListener = listener;
+    }
 
-	/**
-	 * 当ViewPager中页面的状态发生改变时调用
-	 * 
-	 * 
-	 */
-	private class MyPageChangeListener implements OnPageChangeListener {
-		private int oldPosition = 0;
+    /**
+     * 初始化要切换的图片和点
+     */
+    private void initDotAndPicture() {
+        imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two, R.drawable.pic_three };
 
-		/**
-		 * 当页面被选中的时候调用这个方法 position: 页面tag标识
-		 */
-		public void onPageSelected(int position) {
-			dotLayout.getChildAt(oldPosition).setBackgroundResource(
-					R.drawable.dot_normal);
-			dotLayout.getChildAt(position).setBackgroundResource(
-					R.drawable.dot_focused);
-			oldPosition = position;
-		}
+        imageViews = new ArrayList<ImageView>();
+        // 初始化图片资源
+        for (int i = 0; i < imageResId.length; i++) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setImageResource(imageResId[i]);
+            imageView.setScaleType(ScaleType.CENTER_CROP);
+            imageViews.add(imageView);
 
-		public void onPageScrollStateChanged(int arg0) {
-		}
+            // 根据图片动态设置小圆点
+            View.inflate(getActivity(), R.layout.dot, dotLayout);
+        }
+    }
 
-		public void onPageScrolled(int arg0, float arg1, int arg2) {
-		}
-	}
+    /**
+     * 当ViewPager中页面的状态发生改变时调用
+     * 
+     * 
+     */
+    private class MyPageChangeListener implements OnPageChangeListener {
+        private int oldPosition = 0;
 
-	private class MyAdapter extends PagerAdapter {
+        /**
+         * 当页面被选中的时候调用这个方法 position: 页面tag标识
+         */
+        public void onPageSelected(int position) {
+            dotLayout.getChildAt(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+            dotLayout.getChildAt(position).setBackgroundResource(R.drawable.dot_focused);
+            oldPosition = position;
+        }
 
-		@Override
-		public int getCount() {
-			return imageResId.length;
-		}
+        public void onPageScrollStateChanged(int arg0) {
+        }
 
-		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
-			((ViewPager) container).addView(imageViews.get(position));
-			return imageViews.get(position);
-		}
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+    }
 
-		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
-			((ViewPager) arg0).removeView((View) arg2);
-		}
+    private class MyAdapter extends PagerAdapter {
 
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
-		}
+        @Override
+        public int getCount() {
+            return imageResId.length;
+        }
 
-	}
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            ((ViewPager) container).addView(imageViews.get(position));
+            return imageViews.get(position);
+        }
+
+        @Override
+        public void destroyItem(View arg0, int arg1, Object arg2) {
+            ((ViewPager) arg0).removeView((View) arg2);
+        }
+
+        @Override
+        public boolean isViewFromObject(View arg0, Object arg1) {
+            return arg0 == arg1;
+        }
+
+    }
 
 }

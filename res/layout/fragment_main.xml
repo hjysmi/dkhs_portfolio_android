@@ -11,9 +11,23 @@
         layout="@layout/layout_model_head" />
 
     <include
+        android:id="@+id/layout_billboard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/billboard_height"
         android:layout_below="@+id/layout_title"
         layout="@layout/layout_roll_billboard" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/layout_billboard"
+        android:padding="10dp" >
+
+        <Button
+            android:id="@+id/btn_mycombina"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="我的组合" />
+    </RelativeLayout>
 
 </RelativeLayout>
