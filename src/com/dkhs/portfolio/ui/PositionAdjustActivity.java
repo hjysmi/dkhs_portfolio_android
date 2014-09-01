@@ -250,7 +250,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
-                Intent intent = new Intent(this, AddConbinationStockActivity.class);
+                Intent intent = new Intent(this, AddCombinationStockActivity.class);
                 startActivity(intent);
                 // Toast.makeText(PositionAdjustActivity.this, "添加自选股  ", Toast.LENGTH_SHORT).show();
             }

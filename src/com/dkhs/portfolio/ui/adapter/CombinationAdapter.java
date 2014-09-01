@@ -33,7 +33,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.ConbinationBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
@@ -50,11 +50,11 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     private Context mContext;
     private int mItemHeight = 0;
     private GridView.LayoutParams mItemViewLayoutParams;
-    private List<ConbinationBean> mDataList;
+    private List<CombinationBean> mDataList;
     private boolean isDelStatus;
     private ArrayList<Integer> mSelectList = new ArrayList<Integer>();
 
-    public CombinationAdapter(Context context, List<ConbinationBean> datas) {
+    public CombinationAdapter(Context context, List<CombinationBean> datas) {
         this.mContext = context;
         this.mDataList = datas;
         mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -87,7 +87,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         } else {
             viewHolder = (ViewHolder) row.getTag();
         }
-        ConbinationBean item = mDataList.get(position);
+        CombinationBean item = mDataList.get(position);
         final ViewHolder viewhold = viewHolder;
         viewHolder.tvTitle.setText(item.getName());
         float currenValue = item.getCurrentValue();

@@ -31,7 +31,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.ConbinationBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 
 /**
@@ -48,7 +48,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     private Button btnMore;
     private Button btnRefresh;
     private PopupWindow mPopMoreWindow;
-    private List<ConbinationBean> mDataList = new ArrayList<ConbinationBean>();
+    private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -119,11 +119,11 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     }
 
     private void initData() {
-        ConbinationBean conBean1 = new ConbinationBean("我的组合1", 1.152f, 11.22f);
-        ConbinationBean conBean2 = new ConbinationBean("我的组合2", 1.153f, 15.22f);
-        ConbinationBean conBean3 = new ConbinationBean("我的组合3", -1.152f, -11.22f);
-        ConbinationBean conBean4 = new ConbinationBean("我的组合4", 1.152f, 13.22f);
-        ConbinationBean conBean5 = new ConbinationBean("我的组合5", -1.154f, -10.22f);
+        CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
+        CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
+        CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
+        CombinationBean conBean4 = new CombinationBean("我的组合4", 1.152f, 13.22f);
+        CombinationBean conBean5 = new CombinationBean("我的组合5", -1.154f, -10.22f);
         mDataList.add(conBean1);
         mDataList.add(conBean2);
         mDataList.add(conBean3);
@@ -219,7 +219,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void removeSelectDatas() {
         List<Integer> selectList = mCombinationAdapter.getDelPosition();
-        List<ConbinationBean> delList = new ArrayList<ConbinationBean>();
+        List<CombinationBean> delList = new ArrayList<CombinationBean>();
         for (Integer index : selectList) {
             int i = index;
             delList.add(mDataList.get(i));

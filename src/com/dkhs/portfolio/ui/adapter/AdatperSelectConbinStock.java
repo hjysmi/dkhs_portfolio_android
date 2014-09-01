@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.AddConbinationStockActivity;
+import com.dkhs.portfolio.ui.AddCombinationStockActivity;
 
 /**
  * @ClassName AdatperSelectConbinStock
@@ -83,7 +83,7 @@ public class AdatperSelectConbinStock extends BaseAdapter implements OnCheckedCh
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        viewHolder.mCheckbox.setChecked(AddConbinationStockActivity.mSelectIdList.contains(item));
+        viewHolder.mCheckbox.setChecked(AddCombinationStockActivity.mSelectIdList.contains(item));
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.getName());
@@ -121,15 +121,15 @@ public class AdatperSelectConbinStock extends BaseAdapter implements OnCheckedCh
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         ConStockBean csBean = (ConStockBean) buttonView.getTag();
 
-        if (isChecked && !AddConbinationStockActivity.mSelectIdList.contains(csBean)) {
+        if (isChecked && !AddCombinationStockActivity.mSelectIdList.contains(csBean)) {
             System.out.println("add mSelectIdList id:" + csBean);
-            AddConbinationStockActivity.mSelectIdList.add(csBean);
+            AddCombinationStockActivity.mSelectIdList.add(csBean);
         } else {
-            boolean isRmove = AddConbinationStockActivity.mSelectIdList.remove(csBean);
+            boolean isRmove = AddCombinationStockActivity.mSelectIdList.remove(csBean);
 
             if (isRmove) {
 
-                System.out.println("remove mSelectIdList lenght:" + AddConbinationStockActivity.mSelectIdList.size());
+                System.out.println("remove mSelectIdList lenght:" + AddCombinationStockActivity.mSelectIdList.size());
             }
         }
         if (null != mSelectLisenter) {

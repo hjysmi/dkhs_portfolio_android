@@ -22,7 +22,7 @@ import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.AddConbinationStockActivity;
+import com.dkhs.portfolio.ui.AddCombinationStockActivity;
 import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock;
 import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListener;
 
@@ -33,19 +33,19 @@ import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListe
  * @date 2014-8-29 上午9:36:16
  * @version 1.0
  */
-public class FragmentSelectConbinStock extends Fragment implements ISelectChangeListener {
-    private static final String TAG = FragmentSelectConbinStock.class.getSimpleName();
+public class FragmentSelectCombinStock extends Fragment implements ISelectChangeListener {
+    private static final String TAG = FragmentSelectCombinStock.class.getSimpleName();
     private ListView mListView;
     private AdatperSelectConbinStock mAdapterConbinStock;
-    private AddConbinationStockActivity mActivity;
+    private AddCombinationStockActivity mActivity;
 
     private String mOrderType;
     private List<ConStockBean> mDataList = new ArrayList<ConStockBean>();
 
     // private
 
-    public static FragmentSelectConbinStock getInstance() {
-        FragmentSelectConbinStock fragment = new FragmentSelectConbinStock();
+    public static FragmentSelectCombinStock getInstance() {
+        FragmentSelectCombinStock fragment = new FragmentSelectCombinStock();
         Bundle args = new Bundle();
         // args.putString("order_type", value);
 
@@ -126,7 +126,7 @@ public class FragmentSelectConbinStock extends Fragment implements ISelectChange
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        AddConbinationStockActivity mActivity = (AddConbinationStockActivity) getActivity();
+        AddCombinationStockActivity mActivity = (AddCombinationStockActivity) getActivity();
         mActivity.notifySelectDataChange(false);
     }
 }

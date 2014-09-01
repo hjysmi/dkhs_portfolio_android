@@ -15,7 +15,7 @@ package com.dkhs.portfolio.bean;
  * @date 2014-8-27 下午3:06:15
  * @version 1.0
  */
-public class ConbinationBean {
+public class CombinationBean {
     String name;
     float currentValue;
     float addUpValue;
@@ -27,7 +27,7 @@ public class ConbinationBean {
      * @param currentValue
      * @param addUpValue
      */
-    public ConbinationBean(String name, float currentValue, float addUpValue) {
+    public CombinationBean(String name, float currentValue, float addUpValue) {
         super();
         this.name = name;
         this.currentValue = currentValue;

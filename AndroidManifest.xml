@@ -39,7 +39,7 @@
        <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PositionAdjustActivity" />
         <activity
-            android:name="com.dkhs.portfolio.ui.AddConbinationStockActivity"
+            android:name="com.dkhs.portfolio.ui.AddCombinationStockActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
             android:windowSoftInputMode="stateHidden" />
     </application>

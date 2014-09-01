@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.AddConbinationStockActivity;
+import com.dkhs.portfolio.ui.AddCombinationStockActivity;
 
 /**
  * @ClassName SelectFundAdapter
@@ -35,11 +35,11 @@ public class SelectFundAdapter extends BaseAdapter {
     // private int dataLenght = 5;
 
     private List<ConStockBean> mDataSet;
-    private AddConbinationStockActivity mActivity;
+    private AddCombinationStockActivity mActivity;
 
     public SelectFundAdapter(Context context, List<ConStockBean> mSelectIdList) {
         this.mContext = context;
-        mActivity = (AddConbinationStockActivity) context;
+        mActivity = (AddCombinationStockActivity) context;
         this.mDataSet = mSelectIdList;
     }
 

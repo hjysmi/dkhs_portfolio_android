@@ -29,7 +29,7 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectConbinStock;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectCombinStock;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
 /**
@@ -39,12 +39,12 @@ import com.dkhs.portfolio.ui.widget.TabPageIndicator;
  * @date 2014-8-28 下午12:11:20
  * @version 1.0
  */
-public class AddConbinationStockActivity extends ModelAcitivity implements OnClickListener {
+public class AddCombinationStockActivity extends ModelAcitivity implements OnClickListener {
     public static final String KEY_SELECT_STOCK = "key_select_stock";
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
     private Button btnAdd;
-    ArrayList<FragmentSelectConbinStock> fragmentList = new ArrayList<FragmentSelectConbinStock>();// ViewPager中显示的数据
+    ArrayList<FragmentSelectCombinStock> fragmentList = new ArrayList<FragmentSelectCombinStock>();// ViewPager中显示的数据
     private EditText etSearchKey;
 
     private boolean isSelectByStock;
@@ -108,17 +108,17 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
 
     private void replaceSearchView() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rl_stock_searchview, FragmentSelectConbinStock.getInstance()).commit();
+                .replace(R.id.rl_stock_searchview, FragmentSelectCombinStock.getInstance()).commit();
     }
 
     private void initTabPage() {
 
         String[] titleArray = getResources().getStringArray(R.array.select_stock);
 
-        FragmentSelectConbinStock mPagerFragment = FragmentSelectConbinStock.getInstance();
-        FragmentSelectConbinStock mPagerFragment2 = FragmentSelectConbinStock.getInstance();
-        FragmentSelectConbinStock mPagerFragment3 = FragmentSelectConbinStock.getInstance();
-        FragmentSelectConbinStock mPagerFragment4 = FragmentSelectConbinStock.getInstance();
+        FragmentSelectCombinStock mPagerFragment = FragmentSelectCombinStock.getInstance();
+        FragmentSelectCombinStock mPagerFragment2 = FragmentSelectCombinStock.getInstance();
+        FragmentSelectCombinStock mPagerFragment3 = FragmentSelectCombinStock.getInstance();
+        FragmentSelectCombinStock mPagerFragment4 = FragmentSelectCombinStock.getInstance();
         // mPagerFragment.setCheckListener(this);
         // mPagerFragment2.setCheckListener(this);
         // mPagerFragment3.setCheckListener(this);
@@ -138,10 +138,10 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
     // 适配器
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
-        private List<FragmentSelectConbinStock> fragmentList;
+        private List<FragmentSelectCombinStock> fragmentList;
         private String[] titleList;
 
-        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectConbinStock> fragmentList2,
+        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectCombinStock> fragmentList2,
                 String[] titleList) {
             super(fm);
             this.fragmentList = fragmentList2;
@@ -224,7 +224,7 @@ public class AddConbinationStockActivity extends ModelAcitivity implements OnCli
     public void notifySelectDataChange(boolean isUpdataFragment) {
         btnAdd.setText(getString(R.string.add_postional_format, mSelectIdList.size()));
         // if (isUpdataFragment) {
-        for (FragmentSelectConbinStock fragment : fragmentList) {
+        for (FragmentSelectCombinStock fragment : fragmentList) {
             fragment.refreshSelect();
         }
         // }
