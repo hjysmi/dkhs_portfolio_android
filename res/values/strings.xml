@@ -94,5 +94,6 @@
     <string name="select_stock">选择参照个股 </string>
     <string name="search_fund_hint">股票代码或简拼 </string>
     <string name="add_postional_format">添加(%1$d)</string>
+    <string name="loading_list_items">加载中...</string>
 
 </resources>
