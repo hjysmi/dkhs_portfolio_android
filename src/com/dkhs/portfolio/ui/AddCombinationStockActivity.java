@@ -44,8 +44,9 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
     private Button btnAdd;
-    ArrayList<FragmentSelectCombinStock> fragmentList = new ArrayList<FragmentSelectCombinStock>();// ViewPager中显示的数据
+    private ArrayList<FragmentSelectCombinStock> fragmentList = new ArrayList<FragmentSelectCombinStock>();// ViewPager中显示的数据
     private EditText etSearchKey;
+    private FragmentSelectCombinStock mSearchFragment;
 
     private boolean isSelectByStock;
 
@@ -107,8 +108,10 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     }
 
     private void replaceSearchView() {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rl_stock_searchview, FragmentSelectCombinStock.getInstance()).commit();
+        if (null == mSearchFragment) {
+            mSearchFragment = FragmentSelectCombinStock.getInstance();
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.rl_stock_searchview, mSearchFragment).commit();
     }
 
     private void initTabPage() {
@@ -186,7 +189,7 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
             if (TextUtils.isEmpty(s)) {
                 showPageView();
             } else {
-                showSearchListView();
+                showSearchListView(s.toString());
             }
         }
     };
@@ -196,19 +199,18 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
         mSearchListView.setVisibility(View.GONE);
     }
 
-    private void showSearchListView() {
-        mSearchListView.setVisibility(View.VISIBLE);
-        mStockPageView.setVisibility(View.GONE);
+    private void showSearchListView(String editText) {
+        if (mSearchListView.getVisibility() != View.VISIBLE) {
+            mSearchListView.setVisibility(View.VISIBLE);
+        }
+        if (mStockPageView.getVisibility() != View.GONE) {
+            mStockPageView.setVisibility(View.GONE);
+        }
+        mSearchFragment.searchByKey(editText);
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         mSelectIdList.clear();
     }

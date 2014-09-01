@@ -31,11 +31,11 @@ import com.dkhs.portfolio.ui.AddCombinationStockActivity;
  * @date 2014-8-29 上午10:25:51
  * @version 1.0
  */
-public class AdatperSelectConbinStock extends BaseAdapter implements OnCheckedChangeListener {
+public class AdatperSelectCombinStock extends BaseAdapter implements OnCheckedChangeListener {
     private Context mContext;
     private List<ConStockBean> mDataList;
 
-    public AdatperSelectConbinStock(Context context, List<ConStockBean> datas) {
+    public AdatperSelectCombinStock(Context context, List<ConStockBean> datas) {
         this.mContext = context;
         this.mDataList = datas;
     }

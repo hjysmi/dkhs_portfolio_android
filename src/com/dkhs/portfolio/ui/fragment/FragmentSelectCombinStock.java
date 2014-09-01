@@ -23,8 +23,8 @@ import android.widget.ListView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.ui.AddCombinationStockActivity;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListener;
+import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock;
+import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock.ISelectChangeListener;
 
 /**
  * @ClassName FragmentSelectStock
@@ -36,7 +36,7 @@ import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListe
 public class FragmentSelectCombinStock extends Fragment implements ISelectChangeListener {
     private static final String TAG = FragmentSelectCombinStock.class.getSimpleName();
     private ListView mListView;
-    private AdatperSelectConbinStock mAdapterConbinStock;
+    private AdatperSelectCombinStock mAdapterConbinStock;
     private AddCombinationStockActivity mActivity;
 
     private String mOrderType;
@@ -53,11 +53,27 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
         return fragment;
     }
 
+    public void searchByKey(String key) {
+        testSearchKey(key);
+    }
+
+    private void testSearchKey(String key) {
+        mDataList.clear();
+        for (int i = 0; i < 20; i++) {
+            ConStockBean csBean = new ConStockBean();
+            csBean.setName(key + i);
+            csBean.setId(i);
+            csBean.setCurrentValue(20.00f + i);
+            mDataList.add(csBean);
+        }
+        mAdapterConbinStock.notifyDataSetChanged();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Log.i(TAG, "===============onCreate================");
-        mAdapterConbinStock = new AdatperSelectConbinStock(getActivity(), mDataList);
+        mAdapterConbinStock = new AdatperSelectCombinStock(getActivity(), mDataList);
         mAdapterConbinStock.setCheckChangeListener(this);
         Bundle bundle = getArguments();
         if (null != bundle) {
