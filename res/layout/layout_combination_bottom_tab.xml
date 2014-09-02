@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="4" >
+
+    <CheckBox
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/tab_backgroud"
+        android:button="@null"
+        android:checked="true"
+        android:drawableTop="@drawable/icon_person"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/netvalue_trend"
+        android:textColor="@color/white" />
+
+    <CheckBox
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/tab_backgroud"
+        android:button="@null"
+        android:drawableTop="@drawable/icon_person"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/performance_comparison"
+        android:textColor="@color/white" />
+
+    <CheckBox
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/tab_backgroud"
+        android:button="@null"
+        android:drawableTop="@drawable/icon_person"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/position_detail"
+        android:textColor="@color/white" />
+
+    <CheckBox
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/tab_backgroud"
+        android:button="@null"
+        android:drawableTop="@drawable/icon_person"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text="@string/related_news"
+        android:textColor="@color/white" />
+
+</LinearLayout>

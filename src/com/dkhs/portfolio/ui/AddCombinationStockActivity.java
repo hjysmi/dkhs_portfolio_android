@@ -8,9 +8,14 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -31,6 +36,7 @@ import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectCombinStock;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -54,7 +60,7 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     private View mSearchListView;
 
     // public static List<Integer> mSelectList = new ArrayList<Integer>();
-    public static List<ConStockBean> mSelectIdList = new ArrayList<ConStockBean>();
+    public static List<ConStockBean> mSelectList = new ArrayList<ConStockBean>();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -87,12 +93,12 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     private void initView() {
         initTabPage();
         mSelctStockView = (GridView) findViewById(R.id.rl_add_stocklist);
-        mSelectStockAdapter = new SelectFundAdapter(this, mSelectIdList);
+        mSelectStockAdapter = new SelectFundAdapter(this, mSelectList);
         mSelctStockView.setAdapter(mSelectStockAdapter);
         mSelctStockView.setNumColumns(3);
         btnAdd = getRightButton();
 
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectIdList.size()));
+        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         btnAdd.setOnClickListener(this);
 
         findViewById(R.id.btn_order).setVisibility(View.GONE);
@@ -212,25 +218,66 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mSelectIdList.clear();
+        mSelectList.clear();
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (RIGHTBUTTON_ID == id) {
-            Toast.makeText(this, "添加选择参照基金", Toast.LENGTH_SHORT).show();
+            // Toast.makeTet(this, "弹出对话框", Toast.LENGTH_SHORT).show();
+            showTypeDialog();
         }
     }
 
     public void notifySelectDataChange(boolean isUpdataFragment) {
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectIdList.size()));
+        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         // if (isUpdataFragment) {
         for (FragmentSelectCombinStock fragment : fragmentList) {
             fragment.refreshSelect();
         }
         // }
         mSelectStockAdapter.notifyDataSetChanged();
+    }
+
+    private void showTypeDialog() {
+        new AlertDialog.Builder(AddCombinationStockActivity.this).setTitle("组合创建模式")
+                .setItems(R.array.create_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        /* User clicked so do some stuff */
+                        // String[] items = getResources().getStringArray(R.array.create_type);
+                        // String type = items[which];
+                        setCombinationBack(which);
+                    }
+                }).show();
+    }
+
+    private void setCombinationBack(int which) {
+        if (null != mSelectList && mSelectList.size() > 0) {
+            int length = mSelectList.size();
+            int dutyValue = (100 / length);
+            for (int i = 0; i < length; i++) {
+                ConStockBean c = mSelectList.get(i);
+                if (0 == which) {// 快速
+                    c.setDutyValue(dutyValue);
+                }
+                if (i < ColorTemplate.DEFAULTCOLORS.length) {
+                    c.setDutyColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[i]));
+
+                } else {
+
+                    c.setDutyColor(ColorTemplate.getRaddomColor());
+                }
+
+            }
+        }
+
+        Intent intent = new Intent();
+        intent.putExtra("list_select", (Serializable) mSelectList);
+        setResult(RESULT_OK, intent);
+
+        finish();
     }
 
 }

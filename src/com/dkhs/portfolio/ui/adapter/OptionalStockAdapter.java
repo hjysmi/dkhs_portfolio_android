@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -46,9 +47,14 @@ public class OptionalStockAdapter extends BaseAdapter {
         setSurpusValue();
     }
 
+    public void setList(List stocklist) {
+        this.stockList = stocklist;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return this.stockList.size() - 1;
+        return this.stockList.size();
     }
 
     @Override
@@ -88,8 +94,6 @@ public class OptionalStockAdapter extends BaseAdapter {
         ConStockBean item = stockList.get(position);
         tvStockName.setText(item.getName());
         colorView.setBackgroundColor(item.getDutyColor());
-
-        ColorDrawable colorDrawable = new ColorDrawable(item.getDutyColor());
         seekbar.setProgress(item.getDutyValue());
 
         ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) seekbar.getProgressDrawable())
@@ -143,15 +147,13 @@ public class OptionalStockAdapter extends BaseAdapter {
 
     public void setSurpusValue() {
         int surpusValu = 100;
-        for (int i = 0; i < stockList.size() - 1; i++) {
+        for (int i = 0; i < stockList.size(); i++) {
             surpusValu -= stockList.get(i).getDutyValue();
         }
         maxValue = surpusValu;
 
     }
 
-    
-    
     private void notifySurpusValue(int value) {
         ConStockBean sur = stockList.get(stockList.size() - 1);
         stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);

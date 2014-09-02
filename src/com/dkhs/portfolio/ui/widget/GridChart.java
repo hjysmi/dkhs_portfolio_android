@@ -3,10 +3,7 @@ package com.dkhs.portfolio.ui.widget;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import com.dkhs.portfolio.R;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,15 +12,15 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
 import android.graphics.PathEffect;
-import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
+
+import com.dkhs.portfolio.R;
 
 /**
  * 坐�?轴使用的View
@@ -135,16 +132,16 @@ public class GridChart extends View {
     private int latitudeColor = DEFAULT_LAITUDE_COLOR;
 
     /** 轴线左边距 */
-    private float axisMarginLeft = DEFAULT_AXIS_MARGIN_LEFT;
+    protected float axisMarginLeft = DEFAULT_AXIS_MARGIN_LEFT;
 
     /** 轴线底边距 */
-    private float axisMarginBottom = DEFAULT_AXIS_MARGIN_BOTTOM;
+    protected float axisMarginBottom = DEFAULT_AXIS_MARGIN_BOTTOM;
 
     /** 轴线上边距 */
-    private float axisMarginTop = DEFAULT_AXIS_MARGIN_TOP;
+    protected float axisMarginTop = DEFAULT_AXIS_MARGIN_TOP;
 
     /** 轴线右边距 */
-    private float axisMarginRight = DEFAULT_AXIS_MARGIN_RIGHT;
+    protected float axisMarginRight = DEFAULT_AXIS_MARGIN_RIGHT;
 
     /** x轴是否显示 */
     private boolean displayAxisXTitle = DEFAULT_DISPLAY_AXIS_X_TITLE;
@@ -203,19 +200,19 @@ public class GridChart extends View {
     /** 在控件被点击时显示y横线线 */
     private boolean displayCrossYOnTouch = DEFAULT_DISPLAY_CROSS_Y_ON_TOUCH;
 
-    /** 选中位置X坐标 */
-    private float clickPostX = 0f;
-
-    /** 选中位置Y坐标 */
-    private float clickPostY = 0f;
+    // /** 选中位置X坐标 */
+    // private float clickPostX = 0f;
+    //
+    // /** 选中位置Y坐标 */
+    // private float clickPostY = 0f;
 
     /** 通知对象列表 */
     // private List<ITouchEventResponse> notifyList;
 
-    /** 当前被选中的坐标点 */
-    private PointF touchPoint;
-
-    private boolean isTouch;
+    // /** 当前被选中的坐标点 */
+    // private PointF touchPoint;
+    //
+    // private boolean isTouch;
 
     private boolean isDrawXBorke;
 
@@ -246,11 +243,17 @@ public class GridChart extends View {
         longtitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
     }
 
+    public int xTitleTextHeight = 0;
+
     // //////////////方�?//////////////
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         // canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+
+        drawXtitleText(canvas);
+        drawYtitleText(canvas);
+
         // 设置背景色
         // super.setBackgroundColor(backgroudColor);
         // 绘制XY轴
@@ -265,7 +268,7 @@ public class GridChart extends View {
         }
 
         // 绘制经线纬线
-        if (displayLongitude || displayAxisXTitle) {
+        if (displayLongitude) {
             drawAxisGridX(canvas);
         }
         if (displayLatitude || displayAxisYTitle) {
@@ -275,9 +278,9 @@ public class GridChart extends View {
         // System.out.println("isTouch Up:" + isTouch);
         // 绘制触摸界面
         // if (displayCrossXOnTouch || displayCrossYOnTouch) {
-        if (isTouch) {
-            drawWithFingerClick(canvas);
-        }
+        // if (isTouch) {
+        // drawWithFingerClick(canvas);
+        // }
 
         if (mDrawBitmap == null || mDrawCanvas == null) {
 
@@ -287,6 +290,66 @@ public class GridChart extends View {
         }
         mDrawCanvas.drawColor(backgroudColor);
         // }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param canvas
+     * @return void
+     */
+
+    private void drawYtitleText(Canvas canvas) {
+        if (null != axisYTitles) {
+            int counts = axisYTitles.size();
+            float length = super.getWidth() - axisMarginLeft;
+            // 线条Paint
+            Paint mPaintLine = new Paint();
+            mPaintLine.setColor(latitudeColor);
+            if (dashLatitude) {
+                mPaintLine.setPathEffect(dashEffect);
+            }
+            // �?��Paint
+            Paint mPaintFont = new Paint();
+            mPaintFont.setColor(latitudeFontColor);
+            mPaintFont.setTextSize(latitudeFontSize);
+
+            mPaintFont.setAntiAlias(true);
+
+            // 绘制线条坐Y轴
+            if (counts > 1) {
+                float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
+                        / (counts);
+                float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight;
+
+                float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
+
+                for (int i = 0; i < counts; i++) {
+                    // 绘制线条
+                    // if (displayLatitude) {
+                    // canvas.drawLine(axisMarginLeft, offset - i * postOffset, axisMarginLeft + length, offset - i
+                    // * postOffset, mPaintLine);
+                    // }
+                    // 绘制刻度
+                    if (displayAxisYTitle) {
+
+                        if (displayAxisYTitleColor) {
+                            mPaintFont.setColor(getYTitlePaintFont(i, counts));
+                        }
+
+                        // if (i < counts && i > 0) {
+                        canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset + latitudeFontSize
+                                / 2f, mPaintFont);
+                        // } else if (0 == i) {
+                        // canvas.drawText(axisYTitles.get(i), axisMarginLeft, super.getHeight() - this.axisMarginBottom
+                        // - 5f,
+                        // mPaintFont);
+                        // }
+                    }
+                }
+            }
+        }
+
     }
 
     /**
@@ -334,82 +397,41 @@ public class GridChart extends View {
 
     }
 
-    /**
-     * 触摸事件
-     */
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    private void drawXtitleText(Canvas canvas) {
+        if (null != axisXTitles) {
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                isTouch = true;
-                break;
-            case MotionEvent.ACTION_UP:
-                isTouch = false;
-                break;
+            int counts = axisXTitles.size();
+            Paint mXTitlePaint = new Paint();
+            mXTitlePaint.setTextSize(latitudeFontSize);
+            mXTitlePaint.setAntiAlias(true);
+            mXTitlePaint.setColor(longitudeColor);
+            // if (dashLongitude) {
+            FontMetrics fm = mXTitlePaint.getFontMetrics();
+            xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
 
-            default:
-                break;
+            float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight) / (counts - 1);
+            float offset = axisMarginLeft;
+            float offsetX = super.getHeight() - axisMarginBottom;
+
+            for (int i = 0; i < counts; i++) {
+                // // 绘制线条
+                // if (displayLongitude) {
+                // canvas.drawLine(offset + i * postOffset, 0f, offset + i * postOffset, offsetX, mXTitlePaint);
+                // }
+                // 绘制标题刻度
+                if (displayAxisXTitle) {
+                    // if (i < counts && i > 0) {
+
+                    canvas.drawText(axisXTitles.get(i), offset + i * postOffset - (axisXTitles.get(i).length())
+                            * longtitudeFontSize / 2f, offsetX, mXTitlePaint);
+
+                    // } else if (0 == i) {
+                    // canvas.drawText(axisXTitles.get(i), this.axisMarginLeft + 2f, super.getHeight()
+                    // - axisMarginBottom + longtitudeFontSize, mXTitlePaint);
+                    // }
+                }
+            }
         }
-
-        // if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
-        // && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {
-        //
-        // /*
-        // * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
-        // */
-        // if (event.getPointerCount() == 1) {
-        // // 获取点击坐标
-        // clickPostX = event.getX();
-        // clickPostY = event.getY();
-        //
-        // PointF point = new PointF(clickPostX, clickPostY);
-        // touchPoint = point;
-        // // super.invalidate();
-        // super.invalidate();
-        //
-        // // 通知�?��其他�?联Chart
-        // // notifyEventAll(this);
-        //
-        // } else if (event.getPointerCount() == 2) {
-        // }
-        // }
-
-        return super.onTouchEvent(event);
-        // return true;
-    }
-
-    /**
-     * 绘制半透明文本?
-     * 
-     * @param ptStart
-     * @param ptEnd
-     * @param content
-     * @param fontSize
-     * @param canvas
-     */
-
-    private void drawAlphaTextBox(PointF ptStart, PointF ptEnd, String content, int fontSize, Canvas canvas) {
-
-        Paint mPaintBox = new Paint();
-        mPaintBox.setColor(Color.BLACK);
-        mPaintBox.setAlpha(80);
-
-        Paint mPaintBoxLine = new Paint();
-        mPaintBoxLine.setColor(Color.CYAN);
-        mPaintBoxLine.setAntiAlias(true);
-
-        // 绘制矩形填�?
-        canvas.drawRoundRect(new RectF(ptStart.x, ptStart.y, ptEnd.x, ptEnd.y), 20.0f, 20.0f, mPaintBox);
-
-        // 绘制矩形�?
-        canvas.drawLine(ptStart.x, ptStart.y, ptStart.x, ptEnd.y, mPaintBoxLine);
-        canvas.drawLine(ptStart.x, ptEnd.y, ptEnd.x, ptEnd.y, mPaintBoxLine);
-        canvas.drawLine(ptEnd.x, ptEnd.y, ptEnd.x, ptStart.y, mPaintBoxLine);
-        canvas.drawLine(ptEnd.x, ptStart.y, ptStart.x, ptStart.y, mPaintBoxLine);
-
-        // 绘制�?��
-        canvas.drawText(content, ptStart.x, ptEnd.y, mPaintBoxLine);
     }
 
     /**
@@ -438,80 +460,6 @@ public class GridChart extends View {
         float valueLength = length - (((Float) value).floatValue() - axisMarginTop);
 
         return String.valueOf(valueLength / length);
-    }
-
-    /**
-     * 单点击事件
-     */
-    protected void drawWithFingerClick(Canvas canvas) {
-
-        Paint mPaint = new Paint();
-        mPaint.setColor(Color.CYAN);
-
-        // 水平线长度
-        float lineHLength = getWidth() - 2f;
-        // 垂直线高度
-        float lineVLength = getHeight() - 2f;
-
-        // 绘制横纵线
-        if (isDisplayAxisXTitle()) {
-            lineVLength = lineVLength - axisMarginBottom;
-
-            if (clickPostX > 0 && clickPostY > 0) {
-                // 绘制X轴�?���?
-                if (displayCrossXOnTouch) {
-                    // TODO �?���?��小控制�?�?��
-                    PointF BoxVS = new PointF(clickPostX - longtitudeFontSize * 5f / 2f, lineVLength + 2f);
-                    PointF BoxVE = new PointF(clickPostX + longtitudeFontSize * 5f / 2f, lineVLength + axisMarginBottom
-                            - 1f);
-
-                    // 绘制�?���?
-                    drawAlphaTextBox(BoxVS, BoxVE, getAxisXGraduate(clickPostX), longtitudeFontSize, canvas);
-                }
-            }
-        }
-
-        if (isDisplayAxisYTitle()) {
-            lineHLength = lineHLength - getAxisMarginLeft();
-
-            if (clickPostX > 0 && clickPostY > 0) {
-                // 绘制Y轴�?���?
-                if (displayCrossYOnTouch) {
-                    PointF BoxHS = new PointF(1f, clickPostY - latitudeFontSize / 2f);
-                    PointF BoxHE = new PointF(axisMarginLeft, clickPostY + latitudeFontSize / 2f);
-
-                    // 绘制�?���?
-                    drawAlphaTextBox(BoxHS, BoxHE, getAxisYGraduate(clickPostY), latitudeFontSize, canvas);
-                }
-            }
-        }
-
-        if (clickPostX > 0 && clickPostY > 0) {
-            if (!isTouch) {
-                mPaint.setColor(Color.TRANSPARENT);
-            }
-            // 显示纵线
-            if (displayCrossXOnTouch) {
-
-                canvas.drawLine(clickPostX, 1f, clickPostX, lineVLength, mPaint);
-            }
-
-            // 显示横线
-            if (displayCrossYOnTouch) {
-
-                canvas.drawLine(axisMarginLeft, clickPostY, axisMarginLeft + lineHLength, clickPostY, mPaint);
-            }
-            // Paint clearPaint = new Paint();
-            // clearPaint.setColor(Color.TRANSPARENT);
-            // clearPaint
-            // .setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-            // canvas.drawLine(clickPostX, 1f, clickPostX, lineVLength,
-            // clearPaint);
-            // canvas.drawLine(axisMarginLeft, clickPostY, axisMarginLeft
-            // + lineHLength, clickPostY, clearPaint);
-        }
-
-        invalidate();
     }
 
     private int getYTitlePaintFont(int index, int counts) {
@@ -581,60 +529,41 @@ public class GridChart extends View {
         canvas.drawLine(postX, 0f, postX, length, mPaint);
     }
 
+    private int xLineCounts = 5;
+
     /**
-     * 绘制经线
+     * 绘制竖线
      * 
      * @param canvas
      */
     protected void drawAxisGridX(Canvas canvas) {
 
-        if (null != axisXTitles) {
+        // if (null != axisXTitles) {
 
-            int counts = axisXTitles.size();
-            float length = super.getHeight() - axisMarginBottom;
-            Paint mXTitlePaint = new Paint();
-            mXTitlePaint.setColor(longitudeColor);
-            if (dashLongitude) {
-                mXTitlePaint.setPathEffect(dashEffect);
-            }
+        int counts = xLineCounts;
+        float length = super.getHeight() - axisMarginBottom;
+        Paint mXTitlePaint = new Paint();
+        mXTitlePaint.setColor(longitudeColor);
 
-            // �?��Paint
-            Paint mPaintFont = new Paint();
-
-            // mPaintFont.setColor(longtitudeFontColor);
-            // mPaintFont.setTextSize(longtitudeFontSize);
-            mPaintFont.setTextSize(latitudeFontSize);
-            System.out.println("longtitudeFontSize:TextSize:" + latitudeFontSize);
-            mPaintFont.setAntiAlias(true);
-            if (counts > 1) {
-                float postOffset = (super.getWidth() - axisMarginLeft - 2 * axisMarginRight) / (counts - 1);
-                float offset = axisMarginLeft + axisMarginRight;
-                float offsetX = super.getHeight() - axisMarginBottom - axisMarginTop;
-                for (int i = 0; i <= counts; i++) {
-                    // 绘制线条
-                    if (displayLongitude) {
-                        canvas.drawLine(offset + i * postOffset, 0f, offset + i * postOffset, offsetX, mXTitlePaint);
-                    }
-                    // 绘制标题刻度
-                    if (displayAxisXTitle) {
-                        if (i < counts && i > 0) {
-
-                            canvas.drawText(axisXTitles.get(i), offset + i * postOffset - (axisXTitles.get(i).length())
-                                    * longtitudeFontSize / 2f, super.getHeight() - axisMarginBottom
-                                    + longtitudeFontSize, mPaintFont);
-
-                        } else if (0 == i) {
-                            canvas.drawText(axisXTitles.get(i), this.axisMarginLeft + 2f, super.getHeight()
-                                    - axisMarginBottom + longtitudeFontSize, mPaintFont);
-                        }
-                    }
+        mXTitlePaint.setPathEffect(dashEffect);
+        if (counts > 1) {
+            float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight) / (counts - 1);
+            float offset = axisMarginLeft;
+            float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight;
+            for (int i = 0; i <= counts; i++) {
+                // 绘制线条
+                if (displayLongitude) {
+                    canvas.drawLine(offset + i * postOffset, axisMarginTop + xTitleTextHeight / 2, offset + i
+                            * postOffset, offsetX, mXTitlePaint);
                 }
+
             }
         }
+        // }
     }
 
     /**
-     * 绘制纬线
+     * 绘制横线
      * 
      * @param canvas
      */
@@ -642,6 +571,7 @@ public class GridChart extends View {
         if (null != axisYTitles) {
             int counts = axisYTitles.size();
             float length = super.getWidth() - axisMarginLeft;
+            float height = super.getHeight() - axisMarginTop - xTitleTextHeight / 2;
             // 线条Paint
             Paint mPaintLine = new Paint();
             mPaintLine.setColor(latitudeColor);
@@ -657,29 +587,32 @@ public class GridChart extends View {
 
             // 绘制线条坐�?轴
             if (counts > 1) {
-                float postOffset = (super.getHeight() - axisMarginBottom - 2 * axisMarginTop) / (counts - 1);
-                float offset = super.getHeight() - axisMarginBottom - axisMarginTop;
+                float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
+                        / (counts);
+
+                // float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
+
                 for (int i = 0; i <= counts; i++) {
                     // 绘制线条
                     if (displayLatitude) {
-                        canvas.drawLine(axisMarginLeft, offset - i * postOffset, axisMarginLeft + length, offset - i
-                                * postOffset, mPaintLine);
+                        canvas.drawLine(axisMarginLeft, height - i * postOffset, length+axisMarginRight, height - i * postOffset,
+                                mPaintLine);
                     }
                     // 绘制刻度
-                    if (displayAxisYTitle) {
-
-                        if (displayAxisYTitleColor) {
-                            mPaintFont.setColor(getYTitlePaintFont(i, counts));
-                        }
-
-                        if (i < counts && i > 0) {
-                            canvas.drawText(axisYTitles.get(i), 0f, offset - i * postOffset + latitudeFontSize / 2f,
-                                    mPaintFont);
-                        } else if (0 == i) {
-                            canvas.drawText(axisYTitles.get(i), 0f, super.getHeight() - this.axisMarginBottom - 5f,
-                                    mPaintFont);
-                        }
-                    }
+                    // if (displayAxisYTitle) {
+                    //
+                    // if (displayAxisYTitleColor) {
+                    // mPaintFont.setColor(getYTitlePaintFont(i, counts));
+                    // }
+                    //
+                    // if (i < counts && i > 0) {
+                    // canvas.drawText(axisYTitles.get(i), 0f, offset - i * postOffset + latitudeFontSize / 2f,
+                    // mPaintFont);
+                    // } else if (0 == i) {
+                    // canvas.drawText(axisYTitles.get(i), 0f, super.getHeight() - this.axisMarginBottom - 5f,
+                    // mPaintFont);
+                    // }
+                    // }
                 }
             }
         }
@@ -698,18 +631,18 @@ public class GridChart extends View {
     }
 
     // 获得来自其他图表�??知
-    public void notifyEvent(GridChart chart) {
-        PointF point = chart.getTouchPoint();
-        // 如果没有�?中点
-        if (null != point) {
-            // 获取点击坐�?
-            clickPostX = point.x;
-            clickPostY = point.y;
-        }
-        // 设置当前控件�?��摸点
-        touchPoint = new PointF(clickPostX, clickPostY);
-        super.invalidate();
-    }
+    // public void notifyEvent(GridChart chart) {
+    // PointF point = chart.getTouchPoint();
+    // // 如果没有�?中点
+    // if (null != point) {
+    // // 获取点击坐�?
+    // clickPostX = point.x;
+    // clickPostY = point.y;
+    // }
+    // // 设置当前控件�?��摸点
+    // touchPoint = new PointF(clickPostX, clickPostY);
+    // super.invalidate();
+    // }
 
     // public void addNotify(ITouchEventResponse notify) {
     // if (null == notifyList) {
@@ -1043,21 +976,21 @@ public class GridChart extends View {
         this.displayCrossYOnTouch = displayCrossYOnTouch;
     }
 
-    public PointF getTouchPoint() {
-        return touchPoint;
-    }
-
-    public void setTouchPoint(PointF touchPoint) {
-        this.touchPoint = touchPoint;
-    }
-
-    public boolean isTouch() {
-        return isTouch;
-    }
-
-    public void setTouch(boolean isTouch) {
-        this.isTouch = isTouch;
-    }
+    // public PointF getTouchPoint() {
+    // return touchPoint;
+    // }
+    //
+    // public void setTouchPoint(PointF touchPoint) {
+    // this.touchPoint = touchPoint;
+    // }
+    //
+    // public boolean isTouch() {
+    // return isTouch;
+    // }
+    //
+    // public void setTouch(boolean isTouch) {
+    // this.isTouch = isTouch;
+    // }
 
     public boolean isDrawXBorke() {
         return isDrawXBorke;

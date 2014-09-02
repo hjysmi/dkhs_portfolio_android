@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.widget.LineChart;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -80,7 +81,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             viewHolder.tvCurrent = (TextView) row.findViewById(R.id.tv_mycob_curren_value);
             viewHolder.tvAddup = (TextView) row.findViewById(R.id.tv_mycob_add_value);
             viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
-            viewHolder.machart = (MAChart) row.findViewById(R.id.machart);
+            viewHolder.machart = (LineChart) row.findViewById(R.id.machart);
             viewHolder.btnEidt = (Button) row.findViewById(R.id.btn_edit_contitle);
             viewHolder.checkBox = (CheckBox) row.findViewById(R.id.cb_select_conbin);
             row.setTag(viewHolder);
@@ -187,7 +188,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         TextView tvCurrent;
         TextView tvAddup;
         EditText etTitle;
-        MAChart machart;
+        LineChart machart;
         CheckBox checkBox;
         Button btnEidt;
     }
@@ -212,7 +213,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     }
 
-    private void initMaChart(MAChart machart) {
+    private void initMaChart(LineChart machart) {
 
         // machart.setAxisXColor(Color.LTGRAY);
         // machart.setAxisYColor(Color.LTGRAY);
@@ -220,12 +221,13 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
         LineEntity MA5 = new LineEntity();
         // MA5.setTitle("MA5");
-        MA5.setLineColor(ColorTemplate.getRaddomColor());
+        // MA5.setLineColor(ColorTemplate.getRaddomColor())
+        MA5.setLineColor(mContext.getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
         MA5.setLineData(initMA(new Random().nextInt(72)));
         lines.add(MA5);
         machart.setLineData(lines);
         machart.setDisplayBorder(false);
-        machart.setDrawXBorke(true);
+        // machart.setDrawXBorke(true);
 
         List<String> ytitle = new ArrayList<String>();
         ytitle.add("1.1031");
@@ -239,7 +241,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         machart.setMinValue(0);
         machart.setMaxPointNum(72);
         machart.setDisplayAxisYTitle(false);
-        machart.setDisplayLatitude(true);
+        machart.setDisplayLatitude(false);
+        machart.setDisplayLongitude(false);
         machart.setFill(true);
     }
 

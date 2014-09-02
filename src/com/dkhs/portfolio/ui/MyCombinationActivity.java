@@ -136,8 +136,9 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         System.out.println("onItemClick click:" + position);
 
-        Intent intent = new Intent(this, PositionAdjustActivity.class);
-        intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
+        Intent intent = new Intent(this, CombinationDetailActivity.class);
+        // Intent intent = new Intent(this, PositionAdjustActivity.class);
+        // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
         startActivity(intent);
 
     }
