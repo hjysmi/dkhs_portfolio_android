@@ -67,13 +67,13 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void initTitleView() {
         btnMore = getRightButton();
-        btnMore.setBackgroundResource(R.drawable.button_title_more_down);
+        btnMore.setBackgroundResource(R.drawable.nav_more_selector);
         btnMore.setOnClickListener(this);
 
         btnRefresh = getSecondRightButton();
         btnRefresh.setOnClickListener(this);
         btnRefresh.setVisibility(View.VISIBLE);
-        btnRefresh.setBackgroundResource(R.drawable.ic_refresh);
+        btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
         btnRefresh.setTag("refresh");
 
     }
@@ -172,7 +172,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             btnMore.setBackgroundDrawable(null);
 
             btnRefresh.setTag("del");
-            btnRefresh.setBackgroundResource(R.drawable.ic_delete);
+            btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
             mCombinationAdapter.setDelStatus(true);
             mPopMoreWindow.dismiss();
 
@@ -195,12 +195,12 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     private void setButtonMore() {
         btnMore.setTag("more");
         btnMore.setText("");
-        btnMore.setBackgroundResource(R.drawable.button_title_more_down);
+        btnMore.setBackgroundResource(R.drawable.nav_more_selector);
     }
 
     private void setButtonRefresh() {
         btnRefresh.setTag("refresh");
-        btnRefresh.setBackgroundResource(R.drawable.ic_refresh);
+        btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
     }
 
     private void clickSecondButton() {
