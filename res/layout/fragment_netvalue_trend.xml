@@ -1,7 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp" >
+
+        <TextView
+            android:id="@+id/tv_combination_name"
+            style="@style/hw_wrap"
+            android:text="我的组合"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_combination_time"
+            style="@style/hw_wrap"
+            android:layout_alignBaseline="@+id/tv_combination_name"
+            android:layout_alignParentRight="true"
+            android:text="成立时间:2014-08-15 12:30:51"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tv_combination_desc"
+            style="@style/hw_wrap"
+            android:layout_below="@+id/tv_combination_name"
+            android:layout_marginTop="5dp"
+            android:text="简介：发的佛教佛山大幅降低哦发"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/theme_gray" >
+
+        <View
+            android:id="@+id/divider_line"
+            style="@style/divider_line"
+            android:layout_width="0.5px"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/divider_line"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tv_history"
+                style="@style/hw_wrap"
+                android:layout_centerHorizontal="true"
+                android:text="累计净值增长(元)"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_history_netvalue"
+                style="@style/hw_wrap"
+                android:layout_below="@+id/tv_history"
+                android:layout_centerHorizontal="true"
+                android:text="10.1512"
+                android:textColor="@color/red"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/divider_line"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/tv_income"
+                style="@style/hw_wrap"
+                android:layout_centerHorizontal="true"
+                android:text="累计收益"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_income_netvalue"
+                style="@style/hw_wrap"
+                android:layout_below="@+id/tv_income"
+                android:layout_centerHorizontal="true"
+                android:text="10.15%"
+                android:textColor="@color/red"
+                android:textSize="20sp" />
+        </RelativeLayout>
+    </RelativeLayout>
 
     <com.dkhs.portfolio.ui.widget.MAChart
         android:id="@+id/machart"
@@ -10,4 +108,4 @@
         android:layout_margin="10dp"
         android:layout_marginTop="2dp" />
 
-</RelativeLayout>
+</LinearLayout>

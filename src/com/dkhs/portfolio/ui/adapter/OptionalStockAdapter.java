@@ -49,6 +49,7 @@ public class OptionalStockAdapter extends BaseAdapter {
 
     public void setList(List stocklist) {
         this.stockList = stocklist;
+        setSurpusValue();
         notifyDataSetChanged();
     }
 
