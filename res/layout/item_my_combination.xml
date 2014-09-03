@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/theme_gray"
+    android:focusable="false"
+    android:focusableInTouchMode="false" >
+
+    <RelativeLayout
+        android:id="@+id/rl_combina_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_radiu_top_theme"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <Button
+            android:id="@+id/btn_edit_contitle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@color/green"
+            android:focusable="false"
+            android:focusableInTouchMode="false" />
+
+        <CheckBox
+            android:id="@+id/cb_select_conbin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_combin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:maxLength="6"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_combin_title"
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btn_edit_contitle"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:maxLength="6"
+            android:paddingLeft="5dp"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_mycombin_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:padding="3dp" >
+
+        <TextView
+            android:id="@+id/tv_mycob_current"
+            style="@style/hw_wrap"
+            android:text="@string/current"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_mycob_add"
+            style="@style/hw_wrap"
+            android:layout_below="@+id/tv_mycob_current"
+            android:layout_marginTop="3dp"
+            android:text="@string/add_up"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_mycob_curren_value"
+            style="@style/hw_wrap"
+            android:layout_alignBaseline="@+id/tv_mycob_current"
+            android:layout_toRightOf="@+id/tv_mycob_current"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_mycob_add_value"
+            style="@style/hw_wrap"
+            android:layout_alignBaseline="@+id/tv_mycob_add"
+            android:layout_below="@id/tv_mycob_curren_value"
+            android:layout_toRightOf="@+id/tv_mycob_add"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <com.dkhs.portfolio.ui.widget.MAChart
+        android:id="@+id/machart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/rl_mycombin_bottom"
+        android:layout_below="@+id/rl_combina_title"
+        android:layout_marginTop="2dp"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+
+</RelativeLayout>

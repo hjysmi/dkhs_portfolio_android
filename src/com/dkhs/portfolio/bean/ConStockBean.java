@@ -15,11 +15,12 @@ package com.dkhs.portfolio.bean;
  * @date 2014-8-26 上午9:37:22
  * @version 1.0
  */
-public class CombinationStock {
+public class ConStockBean {
     int id;
     int dutyValue;
     int dutyColor;
-
+    float currentValue;
+    float increaseValue;
     String name;
     String num;
 
@@ -32,7 +33,7 @@ public class CombinationStock {
      * @param name 股票名称
      * @param num 股票号码
      */
-    public CombinationStock(int id, int dutyValue, int dutyColor, String name, String num) {
+    public ConStockBean(int id, int dutyValue, int dutyColor, String name, String num) {
         super();
         this.id = id;
         this.dutyValue = dutyValue;
@@ -41,7 +42,7 @@ public class CombinationStock {
         this.num = num;
     }
 
-    public CombinationStock() {
+    public ConStockBean() {
     }
 
     public int getId() {
@@ -84,4 +85,28 @@ public class CombinationStock {
         this.dutyColor = dutyColor;
     }
 
+    public float getCurrentValue() {
+        return currentValue;
+    }
+
+    public void setCurrentValue(float currentValue) {
+        this.currentValue = currentValue;
+    }
+
+    public float getIncreaseValue() {
+        return increaseValue;
+    }
+
+    public void setIncreaseValue(float increaseValue) {
+        this.increaseValue = increaseValue;
+    }
+
+    public boolean equals(Object obj) {
+        ConStockBean param = (ConStockBean) obj;
+        if (this.id == param.id) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

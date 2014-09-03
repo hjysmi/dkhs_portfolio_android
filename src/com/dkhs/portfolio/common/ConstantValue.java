@@ -47,4 +47,8 @@ public interface ConstantValue {
 
 	public static final String CLIENT_ID="5e5aa376d092d983b119";
 	public static final String CLIENT_SECERET="b6dd92078fcd20005f800cd6927fa84b5cde98a5";
+	
+	
+	
+	
 }

@@ -11,18 +11,25 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewStub;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CombinationStock;
+import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.SurpusStock;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
@@ -39,24 +46,81 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @date 2014-8-25 上午9:55:53
  * @version 1.0
  */
-public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify {
+public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify, OnClickListener {
+
+    public static final String KEY_VIEW_TYPE = "key_view_type";
+    public static final String KEY_CONBINATION_ID = "key_conbination_id";
+    public static final String VALUE_CREATE_CONBINA = "value_create_conbina";
+    public static final String VALUE_ADJUST_CONBINA = "value_adjust_conbina";
 
     private PieGraph pgView;
-    private List<CombinationStock> stockList;
+    private List<ConStockBean> stockList = new ArrayList<ConStockBean>();;
     private OptionalStockAdapter stockAdapter;
     private int surValue;
     private TextView tvSurpusValue;
     private SeekBar surSeekbar;
     private ArrayList<PieSlice> pieList;
+    private String mViewType = VALUE_CREATE_CONBINA;
+    private TextView tvCreateTime;
+    private TextView tvTodayNetvalue;
+    private EditText etConbinationName;
+    private EditText etConbinationDesc;
+
+    private Button btnConfirm;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_positionadjust);
         setTitle(R.string.portfolio_position);
+
+        if (null != getIntent()) {
+            String typeValue = getIntent().getStringExtra(KEY_VIEW_TYPE);
+            if (!TextUtils.isEmpty(typeValue)) {
+                mViewType = typeValue;
+            }
+        }
         initData();
+        initView();
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void initView() {
+        initConbinationInfoView();
+
         initPieView();
         initStockPercentView();
+        btnConfirm = getRightButton();
+        btnConfirm.setText("确定");
+        btnConfirm.setOnClickListener(this);
+
+        findViewById(R.id.btn_add_postional).setOnClickListener(this);
+        findViewById(R.id.btn_confirm).setOnClickListener(this);
+
+    }
+
+    private void initConbinationInfoView() {
+        if (mViewType.equalsIgnoreCase(VALUE_CREATE_CONBINA)) {
+            ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
+            if (viewstub != null) {
+                viewstub.inflate();
+                tvCreateTime = (TextView) findViewById(R.id.tv_create_time);
+                tvTodayNetvalue = (TextView) findViewById(R.id.tv_today_netvalue);
+            }
+
+        } else {
+            ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
+            if (viewstub != null) {
+                viewstub.inflate();
+                etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
+                etConbinationDesc = (EditText) findViewById(R.id.et_myconbina_desc);
+
+            }
+        }
     }
 
     /**
@@ -65,16 +129,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @return void
      */
     private void initData() {
-        stockList = new ArrayList<CombinationStock>();
-        CombinationStock stock1 = new CombinationStock(1, 30, ColorTemplate.getRaddomColor(), "沪深大盘", "600123");
-        CombinationStock stock2 = new CombinationStock(2, 40, ColorTemplate.getRaddomColor(), "苏宁云商", "600123");
-        CombinationStock stock3 = new CombinationStock(3, 30, ColorTemplate.getRaddomColor(), "阿里巴巴", "600123");
-        surValue = 0;
-        CombinationStock stock4 = new SurpusStock(surValue);
-        stockList.add(stock1);
-        stockList.add(stock2);
-        stockList.add(stock3);
-        stockList.add(stock4);
+        if (mViewType.equalsIgnoreCase(VALUE_CREATE_CONBINA)) {
+            surValue = 100;
+            ConStockBean stock4 = new SurpusStock(surValue);
+            stockList.add(stock4);
+        } else {
+            ConStockBean stock1 = new ConStockBean(1, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]),
+                    "沪深大盘", "600123");
+            ConStockBean stock2 = new ConStockBean(2, 40, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]),
+                    "苏宁云商", "600123");
+            ConStockBean stock3 = new ConStockBean(3, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]),
+                    "阿里巴巴", "600123");
+            surValue = 0;
+            ConStockBean stock4 = new SurpusStock(surValue);
+            stockList.add(stock1);
+            stockList.add(stock2);
+            stockList.add(stock3);
+            stockList.add(stock4);
+        }
     }
 
     /**
@@ -96,6 +168,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         foot.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
         surSeekbar = (SeekBar) foot.findViewById(R.id.seekBar);
         surSeekbar.setEnabled(false);
+        surSeekbar.setProgress(surValue);
         TextView tvName = (TextView) foot.findViewById(R.id.tv_stock_name);
         tvName.setText("剩余资金占比");
         tvSurpusValue = (TextView) foot.findViewById(R.id.tv_stock_percent);
@@ -105,7 +178,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(Color.RED);
-        // surSeekbar.setThumb(new ColorDrawable(Color.TRANSPARENT));
         return foot;
     }
 
@@ -163,5 +235,29 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         // System.out.println("surValue:" + surValue);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btn_confirm:
+            case R.id.btn_right: {
+                for (ConStockBean stock : stockList) {
+                    System.out.println("After adjust stock name:" + stock.getName() + " value:" + stock.getDutyValue());
+                }
+                Toast.makeText(PositionAdjustActivity.this, "确定调整  ", Toast.LENGTH_SHORT).show();
+            }
+                break;
+            case R.id.btn_add_postional: {
+                Intent intent = new Intent(this, AddCombinationStockActivity.class);
+                startActivity(intent);
+                // Toast.makeText(PositionAdjustActivity.this, "添加自选股  ", Toast.LENGTH_SHORT).show();
+            }
+                break;
+
+            default:
+                break;
+        }
     }
 }

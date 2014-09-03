@@ -25,7 +25,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CombinationStock;
+import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -38,9 +38,9 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 public class OptionalStockAdapter extends BaseAdapter {
     private Context mContext;
     private int maxValue = 0;
-    private List<CombinationStock> stockList;
+    private List<ConStockBean> stockList;
 
-    public OptionalStockAdapter(Context mContext, List<CombinationStock> stocks) {
+    public OptionalStockAdapter(Context mContext, List<ConStockBean> stocks) {
         this.mContext = mContext;
         this.stockList = stocks;
         setSurpusValue();
@@ -85,7 +85,7 @@ public class OptionalStockAdapter extends BaseAdapter {
         final TextView tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
         final SeekBar seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
 
-        CombinationStock item = stockList.get(position);
+        ConStockBean item = stockList.get(position);
         tvStockName.setText(item.getName());
         colorView.setBackgroundColor(item.getDutyColor());
 
@@ -150,8 +150,10 @@ public class OptionalStockAdapter extends BaseAdapter {
 
     }
 
+    
+    
     private void notifySurpusValue(int value) {
-        CombinationStock sur = stockList.get(stockList.size() - 1);
+        ConStockBean sur = stockList.get(stockList.size() - 1);
         stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);
         notifyDataSetChanged();
     }

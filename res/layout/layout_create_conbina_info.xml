@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        style="@style/hwrap_wfill"
+        android:layout_height="40dp"
+        android:background="@drawable/border_gray" >
+
+        <TextView
+            android:id="@+id/tv_conbination_name"
+            style="@style/hw_wrap"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="6dp"
+            android:text="@string/combination_name" />
+
+        <View
+            android:id="@+id/divider_line"
+            style="@style/divider_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/tv_conbination_name" />
+
+        <EditText
+            android:id="@+id/et_myconbina_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/divider_line"
+            android:background="@null"
+            android:hint="@string/my_combination"
+            android:singleLine="true"
+            android:maxLength="10"
+            android:textColor="@color/gray"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        style="@style/hwrap_wfill"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/border_gray" >
+
+        <TextView
+            android:id="@+id/tv_conbination_desc"
+            style="@style/hw_wrap"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:padding="6dp"
+            android:text="@string/combination_desc" />
+
+        <View
+            android:id="@+id/divider_line1"
+            style="@style/divider_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/tv_conbination_desc" />
+
+        <EditText
+            android:id="@+id/et_myconbina_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/divider_line1"
+            android:background="@null"
+            android:hint="@string/conb_desc_hint"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            android:maxLength="20"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>
