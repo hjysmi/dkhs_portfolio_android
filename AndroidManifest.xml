@@ -39,7 +39,9 @@
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PositionAdjustActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.CombinationDetailActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
+            android:theme="@style/Theme.PageIndicatorDefaults" />
         <activity
             android:name="com.dkhs.portfolio.ui.AddCombinationStockActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
