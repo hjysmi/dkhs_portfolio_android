@@ -405,6 +405,7 @@ public class GridChart extends View {
             mXTitlePaint.setTextSize(latitudeFontSize);
             mXTitlePaint.setAntiAlias(true);
             mXTitlePaint.setColor(longitudeColor);
+            // mXTitlePaint.setTextAlign(Paint.Align.CENTER);
             // if (dashLongitude) {
             FontMetrics fm = mXTitlePaint.getFontMetrics();
             xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
@@ -595,8 +596,8 @@ public class GridChart extends View {
                 for (int i = 0; i <= counts; i++) {
                     // 绘制线条
                     if (displayLatitude) {
-                        canvas.drawLine(axisMarginLeft, height - i * postOffset, length+axisMarginRight, height - i * postOffset,
-                                mPaintLine);
+                        canvas.drawLine(axisMarginLeft, height - i * postOffset, length + axisMarginRight, height - i
+                                * postOffset, mPaintLine);
                     }
                     // 绘制刻度
                     // if (displayAxisYTitle) {

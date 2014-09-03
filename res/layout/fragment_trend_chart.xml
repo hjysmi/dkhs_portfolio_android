@@ -11,9 +11,81 @@
         android:layout_margin="10dp"
         android:layout_marginTop="2dp" />
 
-    <TextView
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TTTTTTTTTTTTTTTTT" />
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tv_netvalue_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="当前净值:"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_now_netvalue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_netvalue_text"
+                android:layout_toRightOf="@+id/tv_netvalue_text"
+                android:text="21.52"
+                android:textColor="@color/red"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tv_updown_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="今日涨跌:"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_updown_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_updown_text"
+                android:layout_toRightOf="@+id/tv_updown_text"
+                android:text="+1.5212"
+                android:textColor="@color/red"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" >
+
+            <TextView
+                android:id="@+id/tv_increase_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="涨幅:"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_increase_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_increase_text"
+                android:layout_toRightOf="@+id/tv_increase_text"
+                android:text="1.52%"
+                android:textColor="@color/red"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

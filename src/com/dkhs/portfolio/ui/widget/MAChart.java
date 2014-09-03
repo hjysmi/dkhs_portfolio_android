@@ -357,10 +357,10 @@ public class MAChart extends GridChart {
             if (pointIndex >= maxPointSize) {
                 pointIndex = maxPointSize - 1;
             }
-            float avg = lineEntity.getLineData().get(pointIndex);
+            float data = lineEntity.getLineData().get(pointIndex);
             // drawDataView(canvas);
 
-            drawDataView(canvas, pointIndex);
+            drawDataView(canvas, pointIndex,data);
         }
 
     }
@@ -375,13 +375,14 @@ public class MAChart extends GridChart {
     }
 
     // clearRect(x,y,width,height) ‒ clears the given area and makes it fully opaque
-    private void drawDataView(Canvas canvas, int pointIndex) {
+    private void drawDataView(Canvas canvas, int pointIndex,float date) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
         int viewLength = 160;
         int viewHeight = 160;
         int margin = 20;
+        float marginTop = margin+axisMarginTop;
         // = margin;
         // 当触摸点在左边
         if (getTouchPoint().x > midPointx) {
@@ -398,7 +399,8 @@ public class MAChart extends GridChart {
         selectPaint.setStyle(Paint.Style.FILL);// 充满
         selectPaint.setColor(Color.WHITE);
 
-        RectF oval3 = new RectF(startX, margin, startX + viewLength, margin + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop
+                + viewHeight);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -414,7 +416,7 @@ public class MAChart extends GridChart {
         FontMetrics fm = selectPaint.getFontMetrics();
         int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
 
-        float preYpoint = textTextHeight + textMargin + margin;
+        float preYpoint = textTextHeight + textMargin + marginTop;
         selectPaint.reset();
         selectPaint.setColor(Color.BLACK);
         selectPaint.setAntiAlias(true);
@@ -430,7 +432,7 @@ public class MAChart extends GridChart {
             preYpoint += textMargin + textTextHeight;
             String text = "";
             if (i == 0) {
-                text = "我的涨幅:2.32%";
+                text = "我的涨幅:"+date;
             } else if (i == 1) {
                 text = "沪深300:1.43%";
             } else {

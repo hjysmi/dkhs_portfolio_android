@@ -172,7 +172,9 @@ public class ModelAcitivity extends BaseActivity {
     }
 
     public Button getSecondRightButton() {
-        return (Button) findViewById(SECONDRIGHTBUTTON_ID);
+        Button btn = (Button) findViewById(SECONDRIGHTBUTTON_ID);
+        btn.setVisibility(View.VISIBLE);
+        return btn;
     }
 
     /**
