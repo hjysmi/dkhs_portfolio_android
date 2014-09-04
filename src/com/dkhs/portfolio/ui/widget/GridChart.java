@@ -98,7 +98,7 @@ public class GridChart extends View {
     private int DEFAULT_LATITUDE_FONT_COLOR = Color.RED;;
 
     /** 默认经线刻度字体字体 **/
-    private int DEFAULT_LATITUDE_FONT_SIZE = 12;
+    private int DEFAULT_LATITUDE_FONT_SIZE = 15;
 
     /** 默认Y轴刻度最大显示长度 */
     private int DEFAULT_AXIS_Y_MAX_TITLE_LENGTH = 5;
@@ -409,27 +409,28 @@ public class GridChart extends View {
             // if (dashLongitude) {
             FontMetrics fm = mXTitlePaint.getFontMetrics();
             xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+            // 1. 粗略计算文字宽度
 
             float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight) / (counts - 1);
             float offset = axisMarginLeft;
             float offsetX = super.getHeight() - axisMarginBottom;
 
             for (int i = 0; i < counts; i++) {
-                // // 绘制线条
-                // if (displayLongitude) {
-                // canvas.drawLine(offset + i * postOffset, 0f, offset + i * postOffset, offsetX, mXTitlePaint);
-                // }
-                // 绘制标题刻度
+
                 if (displayAxisXTitle) {
-                    // if (i < counts && i > 0) {
+                    float offetText = 0;
+                    if (i == 0) {
+                        float xTitleWidth = mXTitlePaint.measureText(axisXTitles.get(i));
+                        offetText = xTitleWidth / 2;
+                    }
+                    if (i == counts - 1) {
+                        float xTitleWidth = mXTitlePaint.measureText(axisXTitles.get(i));
+                        offetText -= xTitleWidth/3;
+                    }
 
                     canvas.drawText(axisXTitles.get(i), offset + i * postOffset - (axisXTitles.get(i).length())
-                            * longtitudeFontSize / 2f, offsetX, mXTitlePaint);
+                            * longtitudeFontSize / 2f + offetText, offsetX, mXTitlePaint);
 
-                    // } else if (0 == i) {
-                    // canvas.drawText(axisXTitles.get(i), this.axisMarginLeft + 2f, super.getHeight()
-                    // - axisMarginBottom + longtitudeFontSize, mXTitlePaint);
-                    // }
                 }
             }
         }

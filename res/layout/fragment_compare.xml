@@ -1,12 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:paddingBottom="6dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="6dp" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/ll_timelayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/performance_comparison" />
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/from" />
+
+        <Button
+            android:id="@+id/tv_compare_ftime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_gray_border"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:text="2014-08-08" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_marginRight="5dp"
+            android:text="@string/to" />
+
+        <Button
+            android:id="@+id/tv_compare_ttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_gray_border"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp"
+            android:text="2014-08-10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rl_select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_timelayout"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="10" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/referto" />
+
+        <Button
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="7"
+            android:id="@+id/btn_select_fund"
+            android:background="@drawable/button_gray_border"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="深证成指  上证综指  沪深300 期指1409 英国富时100指数" />
+
+        <Button
+            android:layout_width="1dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="2"
+            android:background="@drawable/button_gray_border"
+            android:padding="5dp"
+            android:text="@string/confirm" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_addup_history"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/addup_height"
+        android:layout_alignParentBottom="true"
+        android:background="#e73535"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/tv_addup_date"
+            style="@style/hw_wrap"
+            android:layout_centerHorizontal="true"
+            android:text="2014-08-08 ---- 2014-08-10"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            style="@style/hw_wrap"
+            android:layout_below="@+id/tv_addup_date"
+            android:layout_centerHorizontal="true" >
+
+            <TextView
+                android:id="@+id/tv_addup_text"
+                style="@style/hw_wrap"
+                android:text="累计涨跌:"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_addup_value"
+                style="@style/hw_wrap"
+                android:layout_alignBaseline="@+id/tv_addup_text"
+                android:layout_toRightOf="@+id/tv_addup_text"
+                android:text="10.521%"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <GridView
+        android:id="@+id/gv_comparison"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_addup_history"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:horizontalSpacing="@dimen/compare_horspacing"
+        android:listSelector="#00000000"
+        android:numColumns="5"
+        android:scrollbars="none"
+        android:verticalSpacing="8dp" />
+
+    <com.dkhs.portfolio.ui.widget.MAChart
+        android:id="@+id/machart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/gv_comparison"
+        android:layout_below="@+id/rl_select"
+        android:layout_marginTop="2dp" />
 
 </RelativeLayout>

@@ -110,7 +110,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                 final int columnWidth = (gvCombination.getWidth() - (getResources()
                         .getDimensionPixelSize(R.dimen.combin_horSpacing))) / 2;
 
-                mCombinationAdapter.setItemHeight((int) (columnWidth * 1.2));
+                mCombinationAdapter.setItemHeight((int) (columnWidth ));
             }
         });
 

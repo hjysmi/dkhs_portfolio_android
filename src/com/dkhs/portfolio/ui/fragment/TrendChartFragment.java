@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * @ClassName TrendChartFragment
@@ -34,11 +35,70 @@ import android.view.ViewGroup;
  * @version 1.0
  */
 public class TrendChartFragment extends Fragment {
+    private static final String ARGUMENT_TREND_TYPE = "trend_type";
+
+    // private static final String SAVED_LIST_POSITION = "list_position";
+
+    public static final String TREND_TYPE_TODAY = "trend_today";
+    public static final String TREND_TYPE_SEVENDAY = "trend_seven_day";
+    public static final String TREND_TYPE_MONTH = "trend_month";
+    public static final String TREND_TYPE_HISTORY = "trend_history";
+
+    private String trendType;
+    private TextView tvTimeLeft;
+    private TextView tvTimeRight;
+
+    // public static final String TREND_TYPE_TODAY="trend_today";
+    public static TrendChartFragment newInstance(String trendType) {
+        TrendChartFragment fragment = new TrendChartFragment();
+
+        Bundle arguments = new Bundle();
+        arguments.putString(ARGUMENT_TREND_TYPE, trendType);
+        fragment.setArguments(arguments);
+
+        return fragment;
+    }
+
+    public TrendChartFragment() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogUtils.d("=================onCreate================");
+
+        // handle fragment arguments
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            handleArguments(arguments);
+        }
+
+        // restore saved state
+        if (savedInstanceState != null) {
+            handleSavedInstanceState(savedInstanceState);
+        }
+
+        // handle intent extras
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+    }
+
+    private void handleArguments(Bundle arguments) {
+        trendType = arguments.getString(ARGUMENT_TREND_TYPE);
+    }
+
+    private void handleSavedInstanceState(Bundle savedInstanceState) {
+    }
+
+    private void handleExtras(Bundle extras) {
+        // TODO
     }
 
     /**
@@ -58,8 +118,34 @@ public class TrendChartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         MAChart maChartView = (MAChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
-        LogUtils.d("=================onCreateView================");
+        initView(view);
+        setupViewData();
         return view;
+    }
+
+    private void initView(View view) {
+        tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
+        tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
+
+    }
+
+    private void setupViewData() {
+        String strRight = "";
+        String strLeft = "";
+        if (trendType.equals(TREND_TYPE_TODAY)) {
+            strLeft = "2014-09-04";
+            strRight = "14:28";
+        } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY) || trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
+            strLeft = getString(R.string.time_start, "2014-07-06");
+            strRight = getString(R.string.time_end, "2014-07-13");
+        } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
+            strLeft = getString(R.string.time_start, "2014-05-05");
+            strRight = getString(R.string.to_now);
+        }
+
+        tvTimeLeft.setText(strLeft);
+        tvTimeRight.setText(strRight);
+
     }
 
     private void initMaChart(MAChart machart) {

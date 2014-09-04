@@ -7,54 +7,27 @@
 
     <Button
         android:id="@+id/btn_trend"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/tab_backgroud"
+        style="@style/combination_detail_bottom"
         android:drawableTop="@drawable/icon_person"
         android:enabled="false"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="@string/netvalue_trend"
-        android:textColor="@color/white" />
+        android:text="@string/netvalue_trend" />
 
     <Button
         android:id="@+id/btn_comparison"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/tab_backgroud"
-        android:button="@null"
+        style="@style/combination_detail_bottom"
         android:drawableTop="@drawable/icon_person"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="@string/performance_comparison"
-        android:textColor="@color/white" />
+        android:text="@string/performance_comparison" />
 
     <Button
         android:id="@+id/btn_detail"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/tab_backgroud"
-        android:button="@null"
+        style="@style/combination_detail_bottom"
         android:drawableTop="@drawable/icon_person"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="@string/position_detail"
-        android:textColor="@color/white" />
+        android:text="@string/position_detail" />
 
     <Button
         android:id="@+id/btn_news"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/tab_backgroud"
-        android:button="@null"
+        style="@style/combination_detail_bottom"
         android:drawableTop="@drawable/icon_person"
-        android:gravity="center_horizontal"
-        android:padding="5dp"
-        android:text="@string/related_news"
-        android:textColor="@color/white" />
+        android:text="@string/related_news" />
 
 </LinearLayout>

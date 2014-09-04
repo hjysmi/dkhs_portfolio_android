@@ -73,7 +73,7 @@ public class MAChart extends GridChart {
     private void init() {
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(3);
+        mLinePaint.setStrokeWidth(1);
     }
 
     /** 当前被选中的坐标点 */
@@ -121,6 +121,8 @@ public class MAChart extends GridChart {
             } else if (event.getPointerCount() == 2) {
             }
         }
+        
+        System.out.println("onTouchX:"+event.getX());
 
         // return super.onTouchEvent(event);
         return true;
@@ -131,7 +133,9 @@ public class MAChart extends GridChart {
         super.onDraw(canvas);
         // mCanvas = canvas;
 
-        startPointX = super.getAxisMarginLeft() + super.getAxisMarginRight();
+        startPointX = super.getAxisMarginLeft()+2;
+        System.out.println("startPointX:"+startPointX);
+        System.out.println("startPointX widht:"+(super.getLeft() + getAxisMarginLeft()));
         endY = super.getHeight();
         // 绘制平线
         drawLines(canvas);
@@ -235,7 +239,7 @@ public class MAChart extends GridChart {
     // }
 
     protected void drawLines(Canvas canvas) {
-        lineLength = (super.getWidth() - super.getAxisMarginLeft() - super.getAxisMarginRight() - this.getMaxPointNum());
+        lineLength = (super.getWidth() - super.getAxisMarginLeft() - super.getAxisMarginRight());
         // 点线距离
         pointLineLength = (lineLength / this.getMaxPointNum()) - 1;
         // 起始位置
@@ -360,7 +364,7 @@ public class MAChart extends GridChart {
             float data = lineEntity.getLineData().get(pointIndex);
             // drawDataView(canvas);
 
-            drawDataView(canvas, pointIndex,data);
+            drawDataView(canvas, pointIndex, data);
         }
 
     }
@@ -375,14 +379,14 @@ public class MAChart extends GridChart {
     }
 
     // clearRect(x,y,width,height) ‒ clears the given area and makes it fully opaque
-    private void drawDataView(Canvas canvas, int pointIndex,float date) {
+    private void drawDataView(Canvas canvas, int pointIndex, float date) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
         int viewLength = 160;
-        int viewHeight = 160;
+        int viewHeight = 170;
         int margin = 20;
-        float marginTop = margin+axisMarginTop;
+        float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边
         if (getTouchPoint().x > midPointx) {
@@ -399,8 +403,7 @@ public class MAChart extends GridChart {
         selectPaint.setStyle(Paint.Style.FILL);// 充满
         selectPaint.setColor(Color.WHITE);
 
-        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop
-                + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -427,18 +430,20 @@ public class MAChart extends GridChart {
         // float preTextBottom = fontMetrics.bottom;
         int lineLength = lineData.size();
         for (int i = 0; i < lineLength; i++) {
+            if (pointIndex < lineData.get(i).getLineData().size()) {
 
-            selectPaint.setColor(lineData.get(i).getLineColor());
-            preYpoint += textMargin + textTextHeight;
-            String text = "";
-            if (i == 0) {
-                text = "我的涨幅:"+date;
-            } else if (i == 1) {
-                text = "沪深300:1.43%";
-            } else {
-                text = "创业板:1.40%";
+                selectPaint.setColor(lineData.get(i).getLineColor());
+                preYpoint += textMargin + textTextHeight;
+                // String text = "";
+                // if (i == 0) {
+                String text = lineData.get(i).getTitle() + ":" + lineData.get(i).getLineData().get(pointIndex);
+                // } else if (i == 1) {
+                // text = "沪深300:1.43%";
+                // } else {
+                // text = "创业板:1.40%";
+                // }
+                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
-            canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
         }
 
         /***************/

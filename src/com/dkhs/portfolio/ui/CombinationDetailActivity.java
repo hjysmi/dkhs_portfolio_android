@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
@@ -42,6 +43,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private static final float DOWN_SCALE = 1.0f;
     private Button btnMore;
     private View btnPreBottom;
+    private Fragment mPreFragment;
+    private TextView tvTitleView;
 
     // private FragmentNetValueTrend mFragmentTrend;
     // private FragmentCompare mFragmentCompare;
@@ -93,6 +96,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             v.setEnabled(false);
             btnPreBottom = v;
             showFragmentByButtonId(v.getId());
+
         }
     };
 
@@ -101,8 +105,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int id = v.getId();
 
     }
-
-    Fragment mPreFragment = null;
 
     protected void showFragmentByButtonId(int id) {
         Fragment mFragment = null;
@@ -121,6 +123,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     }
                 }
 
+                setTitle(R.string.netvalue_trend);
                 // if (null == mFragmentTrend) {
                 // mFragmentTrend = new FragmentNetValueTrend();
                 // }
@@ -142,10 +145,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                         ft.attach(mFragment);
                     }
                 }
-                // if (null == mFragmentCompare) {
-                // mFragmentCompare = new FragmentCompare();
-                // }
-                // mFragment = mFragmentCompare;
+
+                setTitle(R.string.performance_comparison);
             }
 
                 break;
@@ -164,10 +165,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     }
                 }
 
-                // if (null == mFragmentDetail) {
-                // mFragmentDetail = new FragmentPositionDetail();
-                // }
-                // mFragment = mFragmentDetail;
+                setTitle(R.string.position_detail);
+
             }
 
                 break;
@@ -184,6 +183,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                         ft.attach(mFragment);
                     }
                 }
+
+                setTitle(R.string.related_news);
+
             }
 
                 break;
@@ -225,7 +227,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void saveBitmapToGallery() {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = System.currentTimeMillis() + "";
         Bitmap combination = screenShot();
         // save in gallery
         MediaStore.Images.Media.insertImage(getContentResolver(), combination, "test_" + timeStamp + ".jpg",

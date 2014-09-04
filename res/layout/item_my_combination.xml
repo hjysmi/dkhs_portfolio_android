@@ -2,27 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/theme_gray"
+    android:background="@drawable/button_gray_border"
     android:focusable="false"
     android:focusableInTouchMode="false" >
 
     <RelativeLayout
         android:id="@+id/rl_combina_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_radiu_top_theme"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:layout_height="wrap_content" >
 
-        <Button
-            android:id="@+id/btn_edit_contitle"
+        <TextView
+            android:id="@+id/tv_combination_index"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/myportfolio_title_edit"
-            android:focusable="false"
-            android:focusableInTouchMode="false" />
+            android:layout_alignParentTop="true"
+            android:background="@color/red"
+            android:text="1"
+            android:textColor="@color/white" />
 
         <CheckBox
             android:id="@+id/cb_select_conbin"
@@ -33,87 +29,85 @@
             android:button="@drawable/cb_title_edit"
             android:focusable="false"
             android:focusableInTouchMode="false"
+            android:layout_marginRight="8dp"
             android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_combin_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:gravity="center"
-            android:maxLength="6"
-            android:singleLine="true"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_combin_title"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/btn_edit_contitle"
-            android:background="@color/white"
-            android:gravity="center_vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@+id/tv_combination_index"
+            android:layout_toLeftOf="@+id/cb_select_conbin"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             android:maxLength="6"
-            android:paddingLeft="5dp"
             android:singleLine="true"
-            android:textSize="15sp"
-            android:visibility="gone" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tv_combination_desc"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="6dp"
+        android:maxLines="2"
+        android:text="描述：会大幅减少覅送风机ifjd地方结束两地分居收到了j"
+        android:textColor="@android:color/darker_gray" />
+
+    <LinearLayout
         android:id="@+id/rl_mycombin_bottom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/tv_combination_desc"
+        android:layout_below="@+id/rl_combina_title"
+        android:background="@color/white"
         android:gravity="center"
+        android:orientation="horizontal"
         android:padding="3dp" >
 
-        <TextView
-            android:id="@+id/tv_mycob_current"
-            style="@style/hw_wrap"
-            android:text="@string/current"
-            android:textSize="12sp" />
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" >
 
-        <TextView
-            android:id="@+id/tv_mycob_add"
-            style="@style/hw_wrap"
-            android:layout_below="@+id/tv_mycob_current"
-            android:layout_marginTop="3dp"
-            android:text="@string/add_up"
-            android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_mycob_current"
+                style="@style/hw_wrap"
+                android:text="@string/current"
+                android:textSize="12sp" />
 
-        <TextView
-            android:id="@+id/tv_mycob_curren_value"
-            style="@style/hw_wrap"
-            android:layout_alignBaseline="@+id/tv_mycob_current"
-            android:layout_toRightOf="@+id/tv_mycob_current"
-            android:textColor="@color/green"
-            android:textSize="14sp" />
+            <TextView
+                android:id="@+id/tv_mycob_curren_value"
+                style="@style/hw_wrap"
+                android:layout_below="@+id/tv_mycob_current"
+                android:textColor="@color/green"
+                android:textSize="14sp" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tv_mycob_add_value"
-            style="@style/hw_wrap"
-            android:layout_alignBaseline="@+id/tv_mycob_add"
-            android:layout_below="@id/tv_mycob_curren_value"
-            android:layout_toRightOf="@+id/tv_mycob_add"
-            android:textColor="@color/green"
-            android:textSize="14sp" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" >
 
-    <com.dkhs.portfolio.ui.widget.LineChart
-        android:id="@+id/machart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/rl_mycombin_bottom"
-        android:layout_below="@+id/rl_combina_title"
-        android:layout_marginTop="2dp"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+            <TextView
+                android:id="@+id/tv_mycob_add"
+                style="@style/hw_wrap"
+                android:layout_marginTop="3dp"
+                android:text="@string/add_up"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_mycob_add_value"
+                style="@style/hw_wrap"
+                android:layout_below="@+id/tv_mycob_add"
+                android:textColor="@color/green"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

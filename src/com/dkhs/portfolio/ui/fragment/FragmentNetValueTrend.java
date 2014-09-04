@@ -39,10 +39,6 @@ import com.lidroid.xutils.util.LogUtils;
  * @version 1.0
  */
 public class FragmentNetValueTrend extends Fragment {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,18 +53,11 @@ public class FragmentNetValueTrend extends Fragment {
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        // FragmentSelectCombinStock mPagerFragment = FragmentSelectCombinStock.getInstance();
-        // FragmentSelectCombinStock mPagerFragment2 = FragmentSelectCombinStock.getInstance();
-        // FragmentSelectCombinStock mPagerFragment3 = FragmentSelectCombinStock.getInstance();
-        // FragmentSelectCombinStock mPagerFragment4 = FragmentSelectCombinStock.getInstance();
-        // mPagerFragment.setCheckListener(this);
-        // mPagerFragment2.setCheckListener(this);
-        // mPagerFragment3.setCheckListener(this);
-        fragmentList.add(new TrendChartFragment());
-        fragmentList.add(new TrendChartFragment());
-        fragmentList.add(new TrendChartFragment());
-        fragmentList.add(new TrendChartFragment());
-        fragmentList.add(new TrendChartFragment());
+        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_TODAY));
+        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
+        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
+        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
+        fragmentList.add(new FragmentReportForm());
 
         ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setCanScroll(false);

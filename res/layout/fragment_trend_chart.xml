@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:padding="5dp" >
 
-    <com.dkhs.portfolio.ui.widget.MAChart
-        android:id="@+id/machart"
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="2dp" />
+    <RelativeLayout
+        android:id="@+id/rl_trend_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp" >
+
+        <TextView
+            android:id="@+id/tv_time_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tv_time_right"
+            android:textColor="@android:color/darker_gray" />
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/rl_trend_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/rl_trend_bottom"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
@@ -88,4 +108,11 @@
         </RelativeLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <com.dkhs.portfolio.ui.widget.MAChart
+        android:id="@+id/machart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/rl_trend_info"
+        android:layout_marginTop="2dp" />
+
+</RelativeLayout>

@@ -43,15 +43,19 @@
                 android:text="@string/my_config"
                 android:textColor="@color/white" />
 
-            <TextView
+            <Button
+                android:id="@+id/btn_add_postional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:text="初始净值：1.0000"
-                android:textSize="12sp" />
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_gray_border"
+                android:paddingBottom="3dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="3dp"
+                android:text="@string/add_postional" />
         </RelativeLayout>
 
         <!-- 净值占比饼图 -->
@@ -60,6 +64,15 @@
             android:layout_width="match_parent"
             android:layout_height="140dp"
             layout="@layout/layout_pieview" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="初始净值：1.0000"
+            android:textSize="12sp" />
         <!-- 净值占比饼图 End -->
 
         <View style="@style/divider_line" />
@@ -72,17 +85,6 @@
             android:orientation="vertical" />
 
         <View style="@style/divider_line" />
-
-        <Button
-            android:id="@+id/btn_add_postional"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_dashed_stroke"
-            android:padding="8dp"
-            android:text="@string/add_postional" />
 
         <Button
             android:id="@+id/btn_confirm"
