@@ -29,9 +29,12 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.AddCombinationStockActivity;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock.ISelectChangeListener;
+import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
+import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
+import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
+import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
+import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -41,36 +44,121 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2014-8-29 上午9:36:16
  * @version 1.0
  */
-public class FragmentSelectCombinStock extends Fragment implements ISelectChangeListener, OnClickListener {
-    private static final String TAG = FragmentSelectCombinStock.class.getSimpleName();
-    private ListView mListView;
-    private AdatperSelectCombinStock mAdapterConbinStock;
-    private AddCombinationStockActivity mActivity;
+public class FragmentSelectStockFund extends Fragment implements ISelectChangeListener, OnClickListener {
+    private static final String TAG = FragmentSelectStockFund.class.getSimpleName();
 
-    private String mOrderType;
+    private static final String ARGUMENT_LOAD_FUND = "isloadfund";
+    private static final String ARGUMENT_LOAD_TYPE = "load_type";
+
+    private ListView mListView;
+    private BaseAdatperSelectStockFund mAdapterConbinStock;
+    // private BaseSelectActivity mActivity;
+
     private List<ConStockBean> mDataList = new ArrayList<ConStockBean>();
 
     private boolean isLoadingMore;
     private View mFootView;
+    private boolean isFund;
+    private boolean isSearch;
 
-    public static FragmentSelectCombinStock getInstance() {
-        FragmentSelectCombinStock fragment = new FragmentSelectCombinStock();
+    private int mViewType;
+
+    /**
+     * view视图类型
+     */
+    public enum ViewType {
+
+        // 搜索类型
+        SEARCH(-1),
+        // 股票，自选股
+        STOCK_OPTIONAL(1),
+        // 股票，涨幅
+        STOCK_INCREASE(2),
+        // 股票，跌幅
+        STOCK_DRAWDOWN(3),
+        // 股票，跌幅
+        STOCK_HANDOVER(4),
+
+        // 基金，主要指数
+        FUND_MAININDEX(5),
+        // 基金，指数
+        FUND_INDEX(6),
+        // 基金，基金股票
+        FUND_STOCK(7);
+
+        private int typeId;
+
+        ViewType(int type) {
+            this.typeId = type;
+        }
+
+        public int getTypeId() {
+            return typeId;
+        }
+    }
+
+    public enum OrderType {
+        // 排序模式，日排行
+        DAY(1),
+        // 排序模式，月排行
+        MONTH(2),
+        // 排序模式，季度排行
+        QUARTER(3);
+
+        private int typeId;
+
+        OrderType(int type) {
+            this.typeId = type;
+        }
+
+        public int getTypeId() {
+            return typeId;
+        }
+    }
+
+    public static FragmentSelectStockFund getStockFragment(ViewType type) {
+        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
-        // args.putString("order_type", value);
-
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
     }
 
+    public static FragmentSelectStockFund getFundFragment(ViewType type) {
+        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, true);
+        args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    // public static FragmentSelectStockFund getInstance(boolean isFund, boolean isSearch) {
+    // FragmentSelectStockFund fragment = new FragmentSelectStockFund();
+    // Bundle args = new Bundle();
+    // args.putBoolean(ARGUMENT_LOAD_FUND, isFund);
+    // args.putBoolean("issearch", isSearch);
+    // fragment.setArguments(args);
+    // return fragment;
+    // }
+
     public void searchByKey(String key) {
         testSearchKey(key);
+
     }
 
     private void testSearchKey(String key) {
         mDataList.clear();
         for (int i = 0; i < 20; i++) {
             ConStockBean csBean = new ConStockBean();
-            csBean.setName(key + i);
+            if (isFund) {
+
+                csBean.setName("基金" + key + i);
+            } else {
+                csBean.setName("股票" + key + i);
+
+            }
             csBean.setId(i);
             csBean.setCurrentValue(20.00f + i);
             mDataList.add(csBean);
@@ -81,18 +169,44 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Log.i(TAG, "===============onCreate================");
-        mAdapterConbinStock = new AdatperSelectCombinStock(getActivity(), mDataList);
-        mAdapterConbinStock.setCheckChangeListener(this);
         Bundle bundle = getArguments();
         if (null != bundle) {
-            mOrderType = bundle.getString("order_type", "");
+            isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
+            mViewType = bundle.getInt(ARGUMENT_LOAD_TYPE);
         }
-        initData();
+        if (isFund) {
+            mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
+        } else {
+            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
+            // mAdapterConbinStock = new BaseAdatperSelectStockFund(getActivity(), mDataList);
+        }
+        mAdapterConbinStock.setCheckChangeListener(this);
+        if (mViewType != ViewType.SEARCH.getTypeId()) {
+            initData();
+        }
 
     }
 
     private void initData() {
+        if (isFund) {
+            loadDataByFund();
+        } else {
+            loadDataByStock();
+        }
+
+    }
+
+    private void loadDataByFund() {
+        for (int i = 0; i < 20; i++) {
+            ConStockBean csBean = new ConStockBean();
+            csBean.setName("基金名称" + i);
+            csBean.setId(i + 100);
+            csBean.setCurrentValue(9.15f + i);
+            mDataList.add(csBean);
+        }
+    }
+
+    private void loadDataByStock() {
         for (int i = 0; i < 20; i++) {
             ConStockBean csBean = new ConStockBean();
             csBean.setName("个股名" + i);
@@ -100,7 +214,6 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
             csBean.setCurrentValue(9.15f + i);
             mDataList.add(csBean);
         }
-
     }
 
     public void setCheckListener(ISelectChangeListener listener) {
@@ -193,7 +306,7 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        AddCombinationStockActivity mActivity = (AddCombinationStockActivity) getActivity();
+        BaseSelectActivity mActivity = (BaseSelectActivity) getActivity();
         mActivity.notifySelectDataChange(false);
     }
 

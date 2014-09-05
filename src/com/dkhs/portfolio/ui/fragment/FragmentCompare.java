@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,9 +29,13 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.AddCombinationStockActivity;
+import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.SelectFundActivity;
+import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
@@ -44,12 +49,16 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @version 1.0
  */
 public class FragmentCompare extends Fragment implements OnClickListener {
+
+    private final int REQUESTCODE_SELECT_FUND = 900;
+
     private GridView mGridView;
     private CompareIndexAdapter mAdapter;
 
     private Button btnStartTime;
     private Button btnEndTime;
     private Button btnSelectFund;
+    private TextView tvTimeDuration;
 
     private int mYear;
     private int mMonth;
@@ -81,6 +90,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         btnStartTime = (Button) view.findViewById(R.id.tv_compare_ftime);
         btnEndTime = (Button) view.findViewById(R.id.tv_compare_ttime);
         btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
+        tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
 
         btnStartTime.setOnClickListener(this);
         btnEndTime.setOnClickListener(this);
@@ -227,8 +237,9 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
                 break;
             case R.id.btn_select_fund: {
-                Intent intent = new Intent(getActivity(), AddCombinationStockActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(getActivity(), SelectFundActivity.class);
+                // Intent intent = new Intent(getActivity(), SelectStockActivity.class);
+                startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
                 break;
             default:
@@ -242,10 +253,10 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar), mDateSetListener, mYear, mMonth, mDay);
         if (isPickStartDate) {
 
-            dpg.setTitle("开始日期");
+            dpg.setTitle(R.string.dialog_start_time_title);
         } else {
 
-            dpg.setTitle("结束日期");
+            dpg.setTitle(R.string.dialog_end_time_title);
         }
         dpg.show();
     }
@@ -259,17 +270,61 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         }
     };
 
+    private String strStartTime = "";
+    private String strEndTime = "";
+
     private void updateDisplay() {
         String strMonth = String.format("%02d", (mMonth + 1));
         String strDay = String.format("%02d", mDay);
+        StringBuilder sbTime = new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
+                .append(strDay);
         if (isPickStartDate) {
 
-            btnStartTime.setText(new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
-                    .append(strDay));
-        } else {
-            btnEndTime.setText(new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
-                    .append(strDay));
+            btnStartTime.setText(sbTime);
+            strStartTime = sbTime.toString();
 
+        } else {
+            btnEndTime.setText(sbTime);
+            strEndTime = sbTime.toString();
+        }
+        updateDurationText();
+    }
+
+    private void updateDurationText() {
+        String durTime = strStartTime + " ---- " + strEndTime;
+        tvTimeDuration.setText(durTime);
+
+    }
+
+    private void updateSelectData(List<ConStockBean> listStock) {
+        StringBuilder sb = new StringBuilder();
+        for (ConStockBean csBean : listStock) {
+            sb.append(csBean.getName());
+            sb.append(" ");
+        }
+        btnSelectFund.setText(sb);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            Bundle b = data.getExtras(); // data为B中回传的Intent
+            switch (requestCode) {
+                case REQUESTCODE_SELECT_FUND:
+                    ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
+                            .getSerializableExtra("list_select");
+                    if (null != listStock) {
+                        System.out.println("listStock size:" + listStock.size());
+                        updateSelectData(listStock);
+                    } else {
+
+                        System.out.println("listStock is null");
+                    }
+                    break;
+            }
         }
     }
+
 }

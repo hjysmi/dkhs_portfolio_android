@@ -283,7 +283,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
-                Intent intent = new Intent(this, AddCombinationStockActivity.class);
+                Intent intent = new Intent(this, SelectStockActivity.class);
                 startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
 
             }

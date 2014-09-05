@@ -37,7 +37,7 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectCombinStock;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.ColorTemplate;
 
@@ -48,130 +48,122 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-8-28 下午12:11:20
  * @version 1.0
  */
-public class AddCombinationStockActivity extends ModelAcitivity implements OnClickListener {
+public abstract class BaseSelectActivity extends ModelAcitivity implements OnClickListener {
     public static final String KEY_SELECT_STOCK = "key_select_stock";
+    // protected static final boolean is_load_fund = ;
+    // protected static final boolean is_load_stock =true;
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
     private Button btnAdd;
-    private ArrayList<FragmentSelectCombinStock> fragmentList = new ArrayList<FragmentSelectCombinStock>();// ViewPager中显示的数据
+    private ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
     private EditText etSearchKey;
-    private FragmentSelectCombinStock mSearchFragment;
-
-    private boolean isSelectByStock;
+    private FragmentSelectStockFund mSearchFragment;
 
     private View mStockPageView;
     private View mSearchListView;
 
-    // public static List<Integer> mSelectList = new ArrayList<Integer>();
+    private Button btnOrder;
+
     public static List<ConStockBean> mSelectList = new ArrayList<ConStockBean>();
 
     @Override
     protected void onCreate(Bundle arg0) {
+        setTheme(R.style.Theme_PageIndicatorDefaults);
         super.onCreate(arg0);
         setContentView(R.layout.activity_add_conbina_stock);
 
-        // if (null != getIntent()) {
-        // isSelectByStock = getIntent().getBooleanExtra(KEY_SELECT_STOCK, false);
-        // }
-        // if (isSelectByStock) {
-        // } else {
-        // setTitle(R.string.select_fund);
-        // }
-
-        setTitle(R.string.select_stock);
-        // initData();
         initView();
+        setupViewData();
 
+    }
+
+    private void setupViewData() {
+        mSelectStockAdapter = new SelectFundAdapter(this, mSelectList, isLoadBySelectFund());
+        mSelctStockView.setAdapter(mSelectStockAdapter);
+        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        btnAdd.setOnClickListener(this);
+        etSearchKey.addTextChangedListener(mTextWatcher);
+
+        if (isLoadBySelectFund()) {
+            setTitle(R.string.select_fund);
+            mSelctStockView.setNumColumns(2);
+            btnOrder.setVisibility(View.VISIBLE);
+        } else {
+            btnOrder.setVisibility(View.GONE);
+            setTitle(R.string.select_stock);
+            mSelctStockView.setNumColumns(3);
+
+        }
+
+        initTabPage();
     }
 
     private void initData() {
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
-     */
     private void initView() {
-        initTabPage();
+
         mSelctStockView = (GridView) findViewById(R.id.rl_add_stocklist);
-        mSelectStockAdapter = new SelectFundAdapter(this, mSelectList);
-        mSelctStockView.setAdapter(mSelectStockAdapter);
-        mSelctStockView.setNumColumns(3);
         btnAdd = getRightButton();
 
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
-        btnAdd.setOnClickListener(this);
-
-        findViewById(R.id.btn_order).setVisibility(View.GONE);
-
         etSearchKey = (EditText) findViewById(R.id.et_search_key);
-        etSearchKey.addTextChangedListener(mTextWatcher);
 
         mStockPageView = findViewById(R.id.rl_stock_rowview);
         replaceSearchView();
         mSearchListView = findViewById(R.id.rl_stock_searchview);
 
-        // etSearchKey.sette
+        btnOrder = (Button) findViewById(R.id.btn_order);
+    }
+
+    public Button getOrderButton() {
+        return btnOrder;
     }
 
     private void replaceSearchView() {
-        if (null == mSearchFragment) {
-            mSearchFragment = FragmentSelectCombinStock.getInstance();
+        mSearchFragment = setSearchFragment();
+        if (null != mSearchFragment) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.rl_stock_searchview, mSearchFragment).commit();
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.rl_stock_searchview, mSearchFragment).commit();
     }
 
     private void initTabPage() {
 
-        String[] titleArray = getResources().getStringArray(R.array.select_stock);
-
-        FragmentSelectCombinStock mPagerFragment = FragmentSelectCombinStock.getInstance();
-        FragmentSelectCombinStock mPagerFragment2 = FragmentSelectCombinStock.getInstance();
-        FragmentSelectCombinStock mPagerFragment3 = FragmentSelectCombinStock.getInstance();
-        FragmentSelectCombinStock mPagerFragment4 = FragmentSelectCombinStock.getInstance();
-        // mPagerFragment.setCheckListener(this);
-        // mPagerFragment2.setCheckListener(this);
-        // mPagerFragment3.setCheckListener(this);
-        fragmentList.add(mPagerFragment);
-        fragmentList.add(mPagerFragment2);
-        fragmentList.add(mPagerFragment3);
-        fragmentList.add(mPagerFragment4);
+        ArrayList<String> tileList = new ArrayList<String>();
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, titleArray));
-
         TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+
+        setTabViewPage(tileList, fragmentList);
+
+        pager.setAdapter(new SelectPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, tileList));
         indicator.setViewPager(pager);
 
     }
 
-    // 适配器
-    private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
+    private class SelectPagerFragmentAdapter extends FragmentPagerAdapter {
 
-        private List<FragmentSelectCombinStock> fragmentList;
-        private String[] titleList;
+        private List<FragmentSelectStockFund> fragmentList;
+        private ArrayList<String> titleList;
 
-        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectCombinStock> fragmentList2,
-                String[] titleList) {
+        public SelectPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectStockFund> fragmentList2,
+                ArrayList<String> tileList) {
             super(fm);
             this.fragmentList = fragmentList2;
-            this.titleList = titleList;
+            this.titleList = tileList;
         }
 
         // ViewPage中显示的内容
         @Override
         public Fragment getItem(int arg0) {
 
-            System.out.println(" MyPagerFragmentAdapter getItem:" + arg0);
             return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
         }
 
         // Title中显示的内容
         @Override
         public CharSequence getPageTitle(int position) {
-            return (titleList.length > position) ? titleList[position] : "";
+            return (titleList.size() > position) ? titleList.get(position) : "";
         }
 
         @Override
@@ -227,16 +219,20 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     @Override
     public void onClick(View v) {
         int id = v.getId();
+
         if (RIGHTBUTTON_ID == id) {
-            // Toast.makeTet(this, "弹出对话框", Toast.LENGTH_SHORT).show();
-            showTypeDialog();
+            if (isLoadBySelectFund()) {
+                setSelectBack();
+            } else {
+                showTypeDialog();
+            }
         }
     }
 
     public void notifySelectDataChange(boolean isUpdataFragment) {
         btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         // if (isUpdataFragment) {
-        for (FragmentSelectCombinStock fragment : fragmentList) {
+        for (FragmentSelectStockFund fragment : fragmentList) {
             fragment.refreshSelect();
         }
         // }
@@ -244,7 +240,7 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
     }
 
     private void showTypeDialog() {
-        new AlertDialog.Builder(AddCombinationStockActivity.this).setTitle("组合创建模式")
+        new AlertDialog.Builder(BaseSelectActivity.this).setTitle("组合创建模式")
                 .setItems(R.array.create_type, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -252,6 +248,7 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
                         // String[] items = getResources().getStringArray(R.array.create_type);
                         // String type = items[which];
                         setCombinationBack(which);
+                        setSelectBack();
                     }
                 }).show();
     }
@@ -276,6 +273,9 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
             }
         }
 
+    }
+
+    private void setSelectBack() {
         Intent intent = new Intent();
         intent.putExtra("list_select", (Serializable) mSelectList);
         setResult(RESULT_OK, intent);
@@ -283,6 +283,10 @@ public class AddCombinationStockActivity extends ModelAcitivity implements OnCli
         finish();
     }
 
-    
-   
+    protected abstract boolean isLoadBySelectFund();
+
+    protected abstract FragmentSelectStockFund setSearchFragment();
+
+    protected abstract void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList);
+
 }

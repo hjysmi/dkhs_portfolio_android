@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.AddCombinationStockActivity;
+import com.dkhs.portfolio.ui.BaseSelectActivity;
 
 /**
  * @ClassName AdatperSelectConbinStock
@@ -31,13 +31,15 @@ import com.dkhs.portfolio.ui.AddCombinationStockActivity;
  * @date 2014-8-29 上午10:25:51
  * @version 1.0
  */
-public class AdatperSelectCombinStock extends BaseAdapter implements OnCheckedChangeListener {
+public class CopyOfAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
     private Context mContext;
     private List<ConStockBean> mDataList;
+    private boolean isLoadFund;
 
-    public AdatperSelectCombinStock(Context context, List<ConStockBean> datas) {
+    public CopyOfAdatperSelectStockFund(Context context, List<ConStockBean> datas, boolean isFund) {
         this.mContext = context;
         this.mDataList = datas;
+        this.isLoadFund = isFund;
     }
 
     @Override
@@ -75,15 +77,10 @@ public class AdatperSelectCombinStock extends BaseAdapter implements OnCheckedCh
         }
 
         ConStockBean item = mDataList.get(position);
-        // if(AddConbinationStockActivity.mSelectIdList.contains(item.getId()))
-        // System.out.println("getView id:" + item.getId());
-        // for (ConStockBean i : AddConbinationStockActivity.mSelectIdList) {
-        // System.out.println("mSelectIdList id:" + i.getId());
-        // }
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        viewHolder.mCheckbox.setChecked(AddCombinationStockActivity.mSelectList.contains(item));
+        viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.getName());
@@ -121,15 +118,15 @@ public class AdatperSelectCombinStock extends BaseAdapter implements OnCheckedCh
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         ConStockBean csBean = (ConStockBean) buttonView.getTag();
 
-        if (isChecked && !AddCombinationStockActivity.mSelectList.contains(csBean)) {
+        if (isChecked && !BaseSelectActivity.mSelectList.contains(csBean)) {
             System.out.println("add mSelectIdList id:" + csBean);
-            AddCombinationStockActivity.mSelectList.add(csBean);
+            BaseSelectActivity.mSelectList.add(csBean);
         } else {
-            boolean isRmove = AddCombinationStockActivity.mSelectList.remove(csBean);
+            boolean isRmove = BaseSelectActivity.mSelectList.remove(csBean);
 
             if (isRmove) {
 
-                System.out.println("remove mSelectIdList lenght:" + AddCombinationStockActivity.mSelectList.size());
+                System.out.println("remove mSelectIdList lenght:" + BaseSelectActivity.mSelectList.size());
             }
         }
         if (null != mSelectLisenter) {
