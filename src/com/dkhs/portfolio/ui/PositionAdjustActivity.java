@@ -52,11 +52,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     public static final String KEY_CONBINATION_ID = "key_conbination_id";
     public static final String VALUE_CREATE_CONBINA = "value_create_conbina";
     public static final String VALUE_ADJUST_CONBINA = "value_adjust_conbina";
+    private final int REQUESTCODE_SELECT_STOCK = 901;
 
     private PieGraph pgView;
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();;
     private OptionalStockAdapter stockAdapter;
-    private int surValue;
+    public static int surValue;
     private TextView tvSurpusValue;
     private SeekBar surSeekbar;
     private ArrayList<PieSlice> pieList;
@@ -93,6 +94,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initConbinationInfoView();
 
         initPieView();
+        initFooterView();
         initStockPercentView();
         btnConfirm = getRightButton();
         btnConfirm.setText("确定");
@@ -131,22 +133,32 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private void initData() {
         if (mViewType.equalsIgnoreCase(VALUE_CREATE_CONBINA)) {
             surValue = 100;
-            ConStockBean stock4 = new SurpusStock(surValue);
-            stockList.add(stock4);
+            // ConStockBean stock4 = new SurpusStock(surValue);
+            // stockList.add(stock4);
         } else {
-            ConStockBean stock1 = new ConStockBean(1, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]),
-                    "沪深大盘", "600123");
-            ConStockBean stock2 = new ConStockBean(2, 40, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]),
-                    "苏宁云商", "600123");
-            ConStockBean stock3 = new ConStockBean(3, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]),
-                    "阿里巴巴", "600123");
-            surValue = 0;
-            ConStockBean stock4 = new SurpusStock(surValue);
-            stockList.add(stock1);
-            stockList.add(stock2);
-            stockList.add(stock3);
-            stockList.add(stock4);
+            setStockList();
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void setStockList() {
+        ConStockBean stock1 = new ConStockBean(1, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]), "沪深大盘",
+                "600123");
+        ConStockBean stock2 = new ConStockBean(2, 40, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]), "苏宁云商",
+                "600123");
+        ConStockBean stock3 = new ConStockBean(3, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]), "阿里巴巴",
+                "600123");
+        // surValue = 0;
+        // ConStockBean stock4 = new SurpusStock(surValue);
+        stockList.add(stock1);
+        stockList.add(stock2);
+        stockList.add(stock3);
+        // stockList.add(stock4);
+
     }
 
     /**
@@ -154,31 +166,36 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @Description TODO: 初始化自选股占比
      * @return void
      */
+    ListViewEx lvStock;
+
     private void initStockPercentView() {
-        ListViewEx lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);
+        lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);
         stockAdapter = new OptionalStockAdapter(this, stockList);
         stockAdapter.setDutyNotifyListener(this);
-        lvStock.addFooterView(footerView());
+        lvStock.addFooterView(mFooterView);
         lvStock.setAdapter(stockAdapter);
+        setFootData();
 
     }
 
-    private View footerView() {
-        View foot = View.inflate(this, R.layout.layout_optional_percent, null);
-        foot.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
-        surSeekbar = (SeekBar) foot.findViewById(R.id.seekBar);
+    private View mFooterView;
+
+    private void initFooterView() {
+        mFooterView = View.inflate(this, R.layout.layout_optional_percent, null);
+        mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
+        surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         surSeekbar.setEnabled(false);
         surSeekbar.setProgress(surValue);
-        TextView tvName = (TextView) foot.findViewById(R.id.tv_stock_name);
+        TextView tvName = (TextView) mFooterView.findViewById(R.id.tv_stock_name);
         tvName.setText("剩余资金占比");
-        tvSurpusValue = (TextView) foot.findViewById(R.id.tv_stock_percent);
+        tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
         tvSurpusValue.setText(StringFromatUtils.getPercentValue(surValue));
         ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) surSeekbar.getProgressDrawable())
                 .findDrawableByLayerId(android.R.id.progress);
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(Color.RED);
-        return foot;
+        // return foot;
     }
 
     /**
@@ -188,17 +205,28 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      */
     private void initPieView() {
         pgView = (PieGraph) findViewById(R.id.piegrah);
-        pieList = new ArrayList<PieSlice>();
+        // pieList = new ArrayList<PieSlice>();
+        setPieList();
+    }
+
+    private void setPieList() {
         int valueSize = stockList.size();
+        pieList = new ArrayList<PieSlice>();
         for (int i = 0; i < valueSize; i++) {
             PieSlice slice1 = new PieSlice();
+
             slice1.setColor(stockList.get(i).getDutyColor());
             slice1.setValue(stockList.get(i).getDutyValue());
             pieList.add(slice1);
 
         }
-        pgView.setSlices(pieList);
+        surpulsValue();
+        PieSlice emptySlice = new PieSlice();
+        emptySlice.setColor(Color.RED);
+        emptySlice.setValue(surValue);
+        pieList.add(emptySlice);
 
+        pgView.setSlices(pieList);
     }
 
     /**
@@ -211,17 +239,22 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         pieList.get(position).setValue(value);
         pieList.get(pieList.size() - 1).setValue(surpulsValue());
         pgView.invalidate();
+        setFootData();
     }
 
     private int surpulsValue() {
         int total = 100;
-        for (int i = 0; i < pieList.size() - 1; i++) {
-            total -= pieList.get(i).getValue();
+        for (int i = 0; i < stockList.size(); i++) {
+            total -= stockList.get(i).getDutyValue();
         }
         surValue = total;
+
+        return total;
+    }
+
+    private void setFootData() {
         surSeekbar.setProgress(surValue);
         tvSurpusValue.setText(StringFromatUtils.getPercentValue(surValue));
-        return total;
     }
 
     /**
@@ -251,13 +284,45 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 break;
             case R.id.btn_add_postional: {
                 Intent intent = new Intent(this, AddCombinationStockActivity.class);
-                startActivity(intent);
-                // Toast.makeText(PositionAdjustActivity.this, "添加自选股  ", Toast.LENGTH_SHORT).show();
+                startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
+
             }
                 break;
 
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            Bundle b = data.getExtras(); // data为B中回传的Intent
+            switch (requestCode) {
+                case REQUESTCODE_SELECT_STOCK:
+                    ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
+                            .getSerializableExtra("list_select");
+                    if (null != listStock) {
+                        System.out.println("listStock size:" + listStock.size());
+                        stockList = listStock;
+                        setPieList();
+                        // lvStock.removeFooterView(mFooterView);
+                        stockAdapter.setList(stockList);
+                        surpulsValue();
+                        setFootData();
+                        // stockAdapter.
+                        // stockAdapter.notifyDataSetChanged();
+                        lvStock.invalidate();
+                        // lvstock
+                        // lvStock.setAdapter(stockAdapter);
+
+                    } else {
+
+                        System.out.println("listStock is null");
+                    }
+                    break;
+            }
         }
     }
 }

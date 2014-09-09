@@ -17,6 +17,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 public class MAChart extends GridChart {
     /** 显示数据线 */
@@ -48,6 +49,11 @@ public class MAChart extends GridChart {
     private float endY;
 
     private boolean isTouchAble;
+    /** 选中位置X坐标 */
+    private float clickPostX = 0f;
+
+    /** 选中位置Y坐标 */
+    private float clickPostY = 0f;
 
     public MAChart(Context context) {
         super(context);
@@ -67,7 +73,59 @@ public class MAChart extends GridChart {
     private void init() {
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(3);
+        mLinePaint.setStrokeWidth(1);
+    }
+
+    /** 当前被选中的坐标点 */
+    private PointF touchPoint;
+
+    private boolean isTouch;
+
+    /**
+     * 触摸事件
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isTouch = true;
+                break;
+            case MotionEvent.ACTION_UP:
+                isTouch = false;
+                break;
+
+            default:
+                break;
+        }
+
+        if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
+                && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {
+
+            /*
+             * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
+             */
+            if (event.getPointerCount() == 1) {
+                // 获取点击坐标
+                clickPostX = event.getX();
+                clickPostY = event.getY();
+
+                PointF point = new PointF(clickPostX, clickPostY);
+                touchPoint = point;
+                // super.invalidate();
+                super.invalidate();
+
+                // 通知�?��其他�?联Chart
+                // notifyEventAll(this);
+
+            } else if (event.getPointerCount() == 2) {
+            }
+        }
+        
+        System.out.println("onTouchX:"+event.getX());
+
+        // return super.onTouchEvent(event);
+        return true;
     }
 
     @Override
@@ -75,15 +133,94 @@ public class MAChart extends GridChart {
         super.onDraw(canvas);
         // mCanvas = canvas;
 
-        startPointX = super.getAxisMarginLeft() + super.getAxisMarginRight();
+        startPointX = super.getAxisMarginLeft()+2;
+        System.out.println("startPointX:"+startPointX);
+        System.out.println("startPointX widht:"+(super.getLeft() + getAxisMarginLeft()));
         endY = super.getHeight();
-        // 绘制平�?��
+        // 绘制平线
         drawLines(canvas);
-        if (super.isTouch() && isTouchAble) {
+        if (isTouch) {
             getTouchPointData(canvas);
 
         }
+        if (isTouch) {
+            drawWithFingerClick(canvas);
+        }
 
+    }
+
+    /**
+     * 单点击事件
+     */
+    protected void drawWithFingerClick(Canvas canvas) {
+
+        Paint mPaint = new Paint();
+        mPaint.setColor(Color.CYAN);
+
+        // 水平线长度
+        float lineHLength = getWidth() - 2f;
+        // 垂直线高度
+        float lineVLength = getHeight() - xTitleTextHeight - axisMarginBottom;
+
+        // 绘制横纵线
+        if (isDisplayAxisXTitle()) {
+            lineVLength = lineVLength - axisMarginBottom;
+
+            if (clickPostX > 0 && clickPostY > 0) {
+                // 绘制X轴�?���?
+                // if (displayCrossXOnTouch) {
+                // // TODO �?���?��小控制�?�?��
+                // PointF BoxVS = new PointF(clickPostX - longtitudeFontSize * 5f / 2f, lineVLength + 2f);
+                // PointF BoxVE = new PointF(clickPostX + longtitudeFontSize * 5f / 2f, lineVLength + axisMarginBottom
+                // - 1f);
+                //
+                // // 绘制�?���?
+                // drawAlphaTextBox(BoxVS, BoxVE, getAxisXGraduate(clickPostX), longtitudeFontSize, canvas);
+                // }
+            }
+        }
+
+        if (isDisplayAxisYTitle()) {
+            lineHLength = lineHLength - getAxisMarginLeft();
+
+            if (clickPostX > 0 && clickPostY > 0) {
+                // // 绘制Y轴�?���?
+                // if (displayCrossYOnTouch) {
+                // PointF BoxHS = new PointF(1f, clickPostY - latitudeFontSize / 2f);
+                // PointF BoxHE = new PointF(axisMarginLeft, clickPostY + latitudeFontSize / 2f);
+                //
+                // // 绘制�?���?
+                // drawAlphaTextBox(BoxHS, BoxHE, getAxisYGraduate(clickPostY), latitudeFontSize, canvas);
+                // }
+            }
+        }
+
+        if (clickPostX > 0 && clickPostY > 0) {
+            if (!isTouch) {
+                mPaint.setColor(Color.TRANSPARENT);
+            }
+            // 显示纵线
+            // if (displayCrossXOnTouch) {
+            //
+            canvas.drawLine(clickPostX, axisMarginTop + xTitleTextHeight / 2, clickPostX, lineVLength, mPaint);
+            // }
+
+            // 显示横线
+            // if (displayCrossYOnTouch) {
+
+            // canvas.drawLine(axisMarginLeft, clickPostY, axisMarginLeft + lineHLength, clickPostY, mPaint);
+            // }
+            // Paint clearPaint = new Paint();
+            // clearPaint.setColor(Color.TRANSPARENT);
+            // clearPaint
+            // .setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+            // canvas.drawLine(clickPostX, 1f, clickPostX, lineVLength,
+            // clearPaint);
+            // canvas.drawLine(axisMarginLeft, clickPostY, axisMarginLeft
+            // + lineHLength, clickPostY, clearPaint);
+        }
+
+        invalidate();
     }
 
     // boolean drawAimation;
@@ -102,11 +239,12 @@ public class MAChart extends GridChart {
     // }
 
     protected void drawLines(Canvas canvas) {
-        lineLength = (super.getWidth() - super.getAxisMarginLeft() - super.getAxisMarginRight() - this.getMaxPointNum());
+        lineLength = (super.getWidth() - super.getAxisMarginLeft() - super.getAxisMarginRight());
         // 点线距离
         pointLineLength = (lineLength / this.getMaxPointNum()) - 1;
         // 起始位置
         float startX;
+        float lineHeight = super.getHeight() - super.getAxisMarginBottom() - xTitleTextHeight;
 
         Paint fillPaint = new Paint();
         // fillPaint.setColor(ColorTemplate.getRaddomColor());
@@ -141,11 +279,10 @@ public class MAChart extends GridChart {
                         // valueY为Y坐标的值
 
                         float valueY = (float) ((1f - (value - this.getMinValue())
-                                / (this.getMaxValue() - this.getMinValue())) * (super.getHeight() - super
-                                .getAxisMarginBottom()));
+                                / (this.getMaxValue() - this.getMinValue())) * (lineHeight));
 
                         // if (dashLongitude) {
-                        if (j < 30) {
+                        if (j < dashLineLenght) {
                             mLinePaint.setPathEffect(dashEffect);
                         } else {
                             mLinePaint.setPathEffect(null);
@@ -159,35 +296,41 @@ public class MAChart extends GridChart {
                         // 重置起始点
                         ptFirst = new PointF(startX, valueY);
 
-                        if (fillLineIndex == i && j == 0) {
-
-                            fillPaint.setColor(line.getLineColor());
-                            fillPaint.setAlpha(85);
-                            fillPaint.setAntiAlias(true);
-                            fillPath.moveTo(startX, valueY);
-                        } else {
-                            fillPath.lineTo(startX, valueY);
-                        }
+                        // if (fillLineIndex == i && j == 0) {
+                        //
+                        // fillPaint.setColor(line.getLineColor());
+                        // fillPaint.setAlpha(85);
+                        // fillPaint.setAntiAlias(true);
+                        // fillPath.moveTo(startX, valueY);
+                        // } else {
+                        // fillPath.lineTo(startX, valueY);
+                        // }
                         // X位移
                         startX = startX + 1 + pointLineLength;
                     }
 
                     // System.out.println("isFill:" + isFill + " fillLineIndex=" + fillLineIndex + " currentIndex:" +
                     // i);
-                    if (isFill && fillLineIndex == i) {
-                        try {
-
-                            fillPath.lineTo(ptFirst.x, endY);
-                            fillPath.lineTo(startPointX, endY);
-                            canvas.drawPath(fillPath, fillPaint);
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
+                    // if (isFill && fillLineIndex == i) {
+                    // try {
+                    //
+                    // fillPath.lineTo(ptFirst.x, endY);
+                    // fillPath.lineTo(startPointX, endY);
+                    // canvas.drawPath(fillPath, fillPaint);
+                    //
+                    // } catch (Exception e) {
+                    // e.printStackTrace();
+                    // }
+                    // }
                 }
             }
         }
+    }
+
+    private int dashLineLenght;
+
+    public void setDashLineLenght(int lenght) {
+        this.dashLineLenght = lenght;
     }
 
     private boolean isFill;
@@ -211,17 +354,17 @@ public class MAChart extends GridChart {
     // mDrawCanvas.drawPath(filled, paint);
 
     private void getTouchPointData(Canvas canvas) {
-        if (super.getTouchPoint() != null) {
-            int pointIndex = (int) ((super.getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1));
-            LineEntity lineEntity = lineData.get(1);
+        if (getTouchPoint() != null) {
+            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1));
+            LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
             if (pointIndex >= maxPointSize) {
                 pointIndex = maxPointSize - 1;
             }
-            float avg = lineEntity.getLineData().get(pointIndex);
+            float data = lineEntity.getLineData().get(pointIndex);
             // drawDataView(canvas);
 
-            drawDataView(canvas, pointIndex);
+            drawDataView(canvas, pointIndex, data);
         }
 
     }
@@ -231,21 +374,22 @@ public class MAChart extends GridChart {
         // 绘制平�?��
         // mCanvas.
         // drawLines(mCanvas, false);
-        super.setTouch(false);
+        setTouch(false);
         invalidate();
     }
 
     // clearRect(x,y,width,height) ‒ clears the given area and makes it fully opaque
-    private void drawDataView(Canvas canvas, int pointIndex) {
+    private void drawDataView(Canvas canvas, int pointIndex, float date) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
         int viewLength = 160;
-        int viewHeight = 160;
+        int viewHeight = 170;
         int margin = 20;
-        float startY = margin;
+        float marginTop = margin + axisMarginTop;
+        // = margin;
         // 当触摸点在左边
-        if (super.getTouchPoint().x > midPointx) {
+        if (getTouchPoint().x > midPointx) {
             startX = getAxisMarginLeft() + margin;
 
         } else {
@@ -259,7 +403,7 @@ public class MAChart extends GridChart {
         selectPaint.setStyle(Paint.Style.FILL);// 充满
         selectPaint.setColor(Color.WHITE);
 
-        RectF oval3 = new RectF(startX, startY, startX + viewLength, startY + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -270,30 +414,36 @@ public class MAChart extends GridChart {
         /*********** End *************/
 
         /******* draw text ********/
-        int textMargin = 20;
-        float preYpoint = startY + (1.5f * textMargin);
+        int textMargin = 10;
+
+        FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+
+        float preYpoint = textTextHeight + textMargin + marginTop;
         selectPaint.reset();
         selectPaint.setColor(Color.BLACK);
         selectPaint.setAntiAlias(true);
         selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
         canvas.drawText("日期：" + pointIndex, startX + textMargin, preYpoint, selectPaint);
 
-        FontMetrics fontMetrics = selectPaint.getFontMetrics();
-        float preTextBottom = fontMetrics.bottom;
+        // FontMetrics fontMetrics = selectPaint.getFontMetrics();
+        // float preTextBottom = fontMetrics.bottom;
         int lineLength = lineData.size();
         for (int i = 0; i < lineLength; i++) {
+            if (pointIndex < lineData.get(i).getLineData().size()) {
 
-            selectPaint.setColor(lineData.get(i).getLineColor());
-            preYpoint += textMargin * 1.5f + preTextBottom;
-            String text = "";
-            if (i == 0) {
-                text = "我的涨幅:2.32%";
-            } else if (i == 1) {
-                text = "沪深300:1.43%";
-            } else {
-                text = "创业板:1.40%";
+                selectPaint.setColor(lineData.get(i).getLineColor());
+                preYpoint += textMargin + textTextHeight;
+                // String text = "";
+                // if (i == 0) {
+                String text = lineData.get(i).getTitle() + ":" + lineData.get(i).getLineData().get(pointIndex);
+                // } else if (i == 1) {
+                // text = "沪深300:1.43%";
+                // } else {
+                // text = "创业板:1.40%";
+                // }
+                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
-            canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
         }
 
         /***************/
@@ -346,5 +496,21 @@ public class MAChart extends GridChart {
 
     public void setFillLineIndex(int fillLineIndex) {
         this.fillLineIndex = fillLineIndex;
+    }
+
+    public PointF getTouchPoint() {
+        return touchPoint;
+    }
+
+    public void setTouchPoint(PointF touchPoint) {
+        this.touchPoint = touchPoint;
+    }
+
+    public boolean isTouch() {
+        return isTouch;
+    }
+
+    public void setTouch(boolean isTouch) {
+        this.isTouch = isTouch;
     }
 }

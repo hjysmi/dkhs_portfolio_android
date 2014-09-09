@@ -31,11 +31,11 @@ import com.dkhs.portfolio.ui.AddCombinationStockActivity;
  * @date 2014-8-29 上午10:25:51
  * @version 1.0
  */
-public class AdatperSelectConbinStock extends BaseAdapter implements OnCheckedChangeListener {
+public class AdatperSelectCombinStock extends BaseAdapter implements OnCheckedChangeListener {
     private Context mContext;
     private List<ConStockBean> mDataList;
 
-    public AdatperSelectConbinStock(Context context, List<ConStockBean> datas) {
+    public AdatperSelectCombinStock(Context context, List<ConStockBean> datas) {
         this.mContext = context;
         this.mDataList = datas;
     }
@@ -83,7 +83,7 @@ public class AdatperSelectConbinStock extends BaseAdapter implements OnCheckedCh
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        viewHolder.mCheckbox.setChecked(AddCombinationStockActivity.mSelectIdList.contains(item));
+        viewHolder.mCheckbox.setChecked(AddCombinationStockActivity.mSelectList.contains(item));
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.getName());
@@ -121,15 +121,15 @@ public class AdatperSelectConbinStock extends BaseAdapter implements OnCheckedCh
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         ConStockBean csBean = (ConStockBean) buttonView.getTag();
 
-        if (isChecked && !AddCombinationStockActivity.mSelectIdList.contains(csBean)) {
+        if (isChecked && !AddCombinationStockActivity.mSelectList.contains(csBean)) {
             System.out.println("add mSelectIdList id:" + csBean);
-            AddCombinationStockActivity.mSelectIdList.add(csBean);
+            AddCombinationStockActivity.mSelectList.add(csBean);
         } else {
-            boolean isRmove = AddCombinationStockActivity.mSelectIdList.remove(csBean);
+            boolean isRmove = AddCombinationStockActivity.mSelectList.remove(csBean);
 
             if (isRmove) {
 
-                System.out.println("remove mSelectIdList lenght:" + AddCombinationStockActivity.mSelectIdList.size());
+                System.out.println("remove mSelectIdList lenght:" + AddCombinationStockActivity.mSelectList.size());
             }
         }
         if (null != mSelectLisenter) {

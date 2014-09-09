@@ -25,9 +25,20 @@
         <item>换手 </item>
     </string-array>
     <string-array name="order_type">
-        <item>日排行  </item>
+        <item>日排行</item>
         <item>月排行</item>
         <item>季排行  </item>
+    </string-array>
+    <string-array name="create_type">
+        <item>快速</item>
+        <item>自定义</item>
+    </string-array>
+    <string-array name="trend_title">
+        <item>今天</item>
+        <item>7天</item>
+        <item>1个月</item>
+        <item>至今</item>
+        <item>报表</item>
     </string-array>
     <string-array name="menu_img_items">
         <item>menu_icon_profit</item>

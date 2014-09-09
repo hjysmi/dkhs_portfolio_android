@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.io.Serializable;
+
 /**
  * @ClassName CombinationStock
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -15,7 +17,7 @@ package com.dkhs.portfolio.bean;
  * @date 2014-8-26 上午9:37:22
  * @version 1.0
  */
-public class ConStockBean {
+public class ConStockBean implements Serializable {
     int id;
     int dutyValue;
     int dutyColor;

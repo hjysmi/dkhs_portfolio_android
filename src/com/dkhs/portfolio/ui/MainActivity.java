@@ -33,6 +33,7 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         if (mainFragment == null) {
             mainFragment = new MainFragment();
         }
+        mainFragment.setTitleClickListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, mainFragment).commit();
     }
 
@@ -49,6 +50,7 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
     public void rightButtonClick() {
         if (null != mDrawerLayout && null != mRightMenu) {
             mDrawerLayout.openDrawer(mRightMenu);
+            System.out.println("mDrawerLayout.openDrawer(mRightMenu);");
         }
 
     }

@@ -19,6 +19,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
@@ -67,12 +69,15 @@ public class MainFragment extends Fragment implements OnClickListener {
     private void initView(View view) {
         Button btnLeft = (Button) view.findViewById(R.id.btn_back);
         btnLeft.setOnClickListener(this);
-        btnLeft.setText(R.string.portfolio_text);
+        btnLeft.setBackgroundResource(R.drawable.nav_left_main_selector);
+        btnLeft.setCompoundDrawables(null, null, null, null);
         Button btnRight = (Button) view.findViewById(R.id.btn_right);
         btnRight.setVisibility(View.VISIBLE);
+        btnRight.setBackgroundResource(R.drawable.nav_right_main_selector);
         btnRight.setOnClickListener(this);
 
         view.findViewById(R.id.btn_mycombina).setOnClickListener(this);
+        ((TextView) view.findViewById(R.id.tv_title)).setText(R.string.portfolio_text);
 
         // 初始化界面控件实例
         dotLayout = (LinearLayout) view.findViewById(R.id.login_register_linearlayout_dot);
@@ -150,6 +155,10 @@ public class MainFragment extends Fragment implements OnClickListener {
         imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two, R.drawable.pic_three };
 
         imageViews = new ArrayList<ImageView>();
+        int viewWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
+
+        int dotWidth = viewWidth / imageResId.length;
+        System.out.println("dotwidth:" + dotWidth);
         // 初始化图片资源
         for (int i = 0; i < imageResId.length; i++) {
             ImageView imageView = new ImageView(getActivity());
@@ -158,7 +167,11 @@ public class MainFragment extends Fragment implements OnClickListener {
             imageViews.add(imageView);
 
             // 根据图片动态设置小圆点
-            View.inflate(getActivity(), R.layout.dot, dotLayout);
+            View dotView = View.inflate(getActivity(), R.layout.dot, null);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dotWidth, 8);
+            // params.weight = 1.0f;
+            // dotView.setLayoutParams(params);
+            dotLayout.addView(dotView, params);
         }
     }
 

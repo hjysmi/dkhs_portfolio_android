@@ -8,7 +8,7 @@
     <include
         android:id="@+id/includeHead"
         android:layout_width="match_parent"
-        android:layout_height="48dip"
+        android:layout_height="@dimen/title_height"
         layout="@layout/layout_model_head" />
 
     <RelativeLayout
@@ -16,6 +16,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/includeHead" />
-    
 
 </RelativeLayout>

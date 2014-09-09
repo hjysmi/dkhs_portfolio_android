@@ -11,6 +11,7 @@ public class ColorTemplate {
 
     public static final int[] DEFAULTCOLORS = { R.color.def_1, R.color.def_2, R.color.def_3, R.color.def_4,
             R.color.def_5 };
+    public static final int MY_COMBINATION_LINE = R.color.blue_line;
 
     public static int getRaddomColor() {
         Random rnd = new Random();

@@ -11,20 +11,28 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.LayoutParams;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.ui.AddCombinationStockActivity;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListener;
+import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock;
+import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock.ISelectChangeListener;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @ClassName FragmentSelectStock
@@ -33,16 +41,17 @@ import com.dkhs.portfolio.ui.adapter.AdatperSelectConbinStock.ISelectChangeListe
  * @date 2014-8-29 上午9:36:16
  * @version 1.0
  */
-public class FragmentSelectCombinStock extends Fragment implements ISelectChangeListener {
+public class FragmentSelectCombinStock extends Fragment implements ISelectChangeListener, OnClickListener {
     private static final String TAG = FragmentSelectCombinStock.class.getSimpleName();
     private ListView mListView;
-    private AdatperSelectConbinStock mAdapterConbinStock;
+    private AdatperSelectCombinStock mAdapterConbinStock;
     private AddCombinationStockActivity mActivity;
 
     private String mOrderType;
     private List<ConStockBean> mDataList = new ArrayList<ConStockBean>();
 
-    // private
+    private boolean isLoadingMore;
+    private View mFootView;
 
     public static FragmentSelectCombinStock getInstance() {
         FragmentSelectCombinStock fragment = new FragmentSelectCombinStock();
@@ -53,11 +62,27 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
         return fragment;
     }
 
+    public void searchByKey(String key) {
+        testSearchKey(key);
+    }
+
+    private void testSearchKey(String key) {
+        mDataList.clear();
+        for (int i = 0; i < 20; i++) {
+            ConStockBean csBean = new ConStockBean();
+            csBean.setName(key + i);
+            csBean.setId(i);
+            csBean.setCurrentValue(20.00f + i);
+            mDataList.add(csBean);
+        }
+        mAdapterConbinStock.notifyDataSetChanged();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Log.i(TAG, "===============onCreate================");
-        mAdapterConbinStock = new AdatperSelectConbinStock(getActivity(), mDataList);
+        mAdapterConbinStock = new AdatperSelectCombinStock(getActivity(), mDataList);
         mAdapterConbinStock.setCheckChangeListener(this);
         Bundle bundle = getArguments();
         if (null != bundle) {
@@ -85,7 +110,6 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Log.i(TAG, "===============onCreateView " + this + "================");
         View view = View.inflate(getActivity(), R.layout.fragment_selectstock, null);
         initView(view);
         return view;
@@ -94,39 +118,87 @@ public class FragmentSelectCombinStock extends Fragment implements ISelectChange
     public void refreshSelect() {
 
         if (null != mAdapterConbinStock) {
-            // Log.i(TAG, "===============refreshSelect " + this + "================");
             mAdapterConbinStock.notifyDataSetChanged();
         }
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     public void onStart() {
-        // TODO Auto-generated method stub
         super.onStart();
-        Log.i(TAG, "===============onStart================");
-
+        LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
     private void initView(View view) {
+        mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(R.id.lv_select_stock);
+        mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);
+
+        mListView.removeFooterView(mFootView);
+        mListView.setOnScrollListener(new OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                int lastInScreen = firstVisibleItem + visibleItemCount;
+                if ((lastInScreen == totalItemCount) && !(isLoadingMore)) {
+                    System.out.println("Loading more");
+                    mListView.addFooterView(mFootView);
+                    Thread thread = new Thread(null, loadMoreListItems);
+                    thread.start();
+                }
+
+            }
+        });
+
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param buttonView
-     * @param isChecked
-     * @return
-     */
+    // Runnable to load the items
+    private List<ConStockBean> loadList;
+    private Runnable loadMoreListItems = new Runnable() {
+        @Override
+        public void run() {
+            isLoadingMore = true;
+            loadList = new ArrayList<ConStockBean>();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+            for (int i = 0; i < 20; i++) {
+                ConStockBean csBean = new ConStockBean();
+                csBean.setName("加载项" + i);
+                csBean.setId(i + 120);
+                csBean.setCurrentValue(30.15f + i);
+                loadList.add(csBean);
+            }
+            getActivity().runOnUiThread(returnRes);
+        }
+    };
+
+    private Runnable returnRes = new Runnable() {
+        @Override
+        public void run() {
+            if (loadList != null && loadList.size() > 0) {
+                mDataList.addAll(loadList);
+            }
+            mAdapterConbinStock.notifyDataSetChanged();
+            isLoadingMore = false;
+            mListView.removeFooterView(mFootView);
+        }
+    };
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         AddCombinationStockActivity mActivity = (AddCombinationStockActivity) getActivity();
         mActivity.notifySelectDataChange(false);
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

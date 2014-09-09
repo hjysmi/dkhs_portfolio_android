@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.widget.LineChart;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -79,9 +80,11 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             viewHolder.tvTitle = (TextView) row.findViewById(R.id.tv_combin_title);
             viewHolder.tvCurrent = (TextView) row.findViewById(R.id.tv_mycob_curren_value);
             viewHolder.tvAddup = (TextView) row.findViewById(R.id.tv_mycob_add_value);
-            viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
-            viewHolder.machart = (MAChart) row.findViewById(R.id.machart);
-            viewHolder.btnEidt = (Button) row.findViewById(R.id.btn_edit_contitle);
+            viewHolder.tvIndex = (TextView) row.findViewById(R.id.tv_combination_index);
+            viewHolder.tvDesc = (TextView) row.findViewById(R.id.tv_combination_desc);
+            // viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
+            // viewHolder.machart = (LineChart) row.findViewById(R.id.machart);
+            // viewHolder.btnEidt = (Button) row.findViewById(R.id.btn_edit_contitle);
             viewHolder.checkBox = (CheckBox) row.findViewById(R.id.cb_select_conbin);
             row.setTag(viewHolder);
         } else {
@@ -90,6 +93,9 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         CombinationBean item = mDataList.get(position);
         final ViewHolder viewhold = viewHolder;
         viewHolder.tvTitle.setText(item.getName());
+        viewHolder.tvIndex.setText((position+1)+"");
+        
+        
         float currenValue = item.getCurrentValue();
         if (currenValue > 0) {
             ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
@@ -105,52 +111,54 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             viewHolder.tvAddup.setText(item.getAddUpValue() + "%");
             viewHolder.tvCurrent.setText(currenValue + "%");
         }
-        viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
+        
+        
+        // viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
+        //
+        // @Override
+        // public void onFocusChange(View v, boolean hasFocus) {
+        //
+        // if (!hasFocus) {
+        // if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
+        // if (viewhold.etTitle.getText().length() > 0) {
+        // viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
+        // }
+        // viewhold.tvTitle.setVisibility(View.VISIBLE);
+        // viewhold.etTitle.setVisibility(View.GONE);
+        // }
+        // }
+        //
+        // }
+        // });
 
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if (!hasFocus) {
-                    if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
-                        if (viewhold.etTitle.getText().length() > 0) {
-                            viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
-                        }
-                        viewhold.tvTitle.setVisibility(View.VISIBLE);
-                        viewhold.etTitle.setVisibility(View.GONE);
-                    }
-                }
-
-            }
-        });
-
-        initMaChart(viewHolder.machart);
-        viewHolder.btnEidt.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
-                    // if (viewhold.etTitle.getText().length() > 0) {
-                    // viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
-                    // }
-                    // viewhold.tvTitle.setVisibility(View.VISIBLE);
-                    viewhold.etTitle.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
-                            Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    }
-                } else {
-
-                    viewhold.tvTitle.setVisibility(View.GONE);
-                    String title = viewhold.tvTitle.getText().toString();
-                    viewhold.etTitle.setText(title);
-                    viewhold.etTitle.setVisibility(View.VISIBLE);
-                    viewhold.etTitle.requestFocus();
-                    viewhold.etTitle.setSelection(title.length());
-                }
-
-            }
-        });
+        // initMaChart(viewHolder.machart);
+        // viewHolder.btnEidt.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
+        // // if (viewhold.etTitle.getText().length() > 0) {
+        // // viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
+        // // }
+        // // viewhold.tvTitle.setVisibility(View.VISIBLE);
+        // viewhold.etTitle.clearFocus();
+        // InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
+        // Context.INPUT_METHOD_SERVICE);
+        // if (imm != null) {
+        // imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        // }
+        // } else {
+        //
+        // viewhold.tvTitle.setVisibility(View.GONE);
+        // String title = viewhold.tvTitle.getText().toString();
+        // viewhold.etTitle.setText(title);
+        // viewhold.etTitle.setVisibility(View.VISIBLE);
+        // viewhold.etTitle.requestFocus();
+        // viewhold.etTitle.setSelection(title.length());
+        // }
+        //
+        // }
+        // });
 
         // 长按标题进入编辑状态
 
@@ -168,13 +176,13 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
         if (isDelStatus) {
             viewHolder.checkBox.setVisibility(View.VISIBLE);
-            viewHolder.btnEidt.setVisibility(View.GONE);
+            // viewHolder.btnEidt.setVisibility(View.GONE);
             viewHolder.checkBox.setTag(position);
             viewHolder.checkBox.setChecked(mSelectList.contains(position));
             viewHolder.checkBox.setOnCheckedChangeListener(this);
         } else {
             viewHolder.checkBox.setVisibility(View.GONE);
-            viewHolder.btnEidt.setVisibility(View.VISIBLE);
+            // viewHolder.btnEidt.setVisibility(View.VISIBLE);
 
         }
 
@@ -186,10 +194,12 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         TextView tvTitle;
         TextView tvCurrent;
         TextView tvAddup;
-        EditText etTitle;
-        MAChart machart;
+        TextView tvIndex;
+        TextView tvDesc;
+        // EditText etTitle;
+        // LineChart machart;
         CheckBox checkBox;
-        Button btnEidt;
+        // Button btnEidt;
     }
 
     public void setItemHeight(int height) {
@@ -212,7 +222,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     }
 
-    private void initMaChart(MAChart machart) {
+    private void initMaChart(LineChart machart) {
 
         // machart.setAxisXColor(Color.LTGRAY);
         // machart.setAxisYColor(Color.LTGRAY);
@@ -220,12 +230,13 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
         LineEntity MA5 = new LineEntity();
         // MA5.setTitle("MA5");
-        MA5.setLineColor(ColorTemplate.getRaddomColor());
+        // MA5.setLineColor(ColorTemplate.getRaddomColor())
+        MA5.setLineColor(mContext.getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
         MA5.setLineData(initMA(new Random().nextInt(72)));
         lines.add(MA5);
         machart.setLineData(lines);
         machart.setDisplayBorder(false);
-        machart.setDrawXBorke(true);
+        // machart.setDrawXBorke(true);
 
         List<String> ytitle = new ArrayList<String>();
         ytitle.add("1.1031");
@@ -239,7 +250,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         machart.setMinValue(0);
         machart.setMaxPointNum(72);
         machart.setDisplayAxisYTitle(false);
-        machart.setDisplayLatitude(true);
+        machart.setDisplayLatitude(false);
+        machart.setDisplayLongitude(false);
         machart.setFill(true);
     }
 
