@@ -41,7 +41,6 @@
         <activity android:name="com.dkhs.portfolio.ui.PositionAdjustActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectStockActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectFundActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.CopyOfAddCombinationStockActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" />

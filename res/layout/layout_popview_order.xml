@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_day_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_pop_text_selector"
+        android:padding="3dp"
+        android:text="日排行"
+        android:textColor="@color/popmore_textselector" />
+
+    <View style="@style/divider_line" />
+
+    <TextView
+        android:id="@+id/tv_month_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_pop_text_selector"
+        android:padding="3dp"
+        android:text="月排行"
+        android:textColor="@color/popmore_textselector" />
+
+    <View style="@style/divider_line" />
+
+    <TextView
+        android:id="@+id/tv_quarter_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_pop_text_selector"
+        android:padding="3dp"
+        android:text="季排行"
+        android:textColor="@color/popmore_textselector" />
+
+</LinearLayout>

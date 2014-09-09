@@ -60,6 +60,8 @@
     <color name="tabselect">#3A3743</color>
 
     <drawable name="gray">#4d4c4d</drawable>
+    <drawable name="theme_color">#262932</drawable>
+    <drawable name="theme_gray">#ffdddddd</drawable>
     <drawable name="tab_normal">#262932</drawable>
     <drawable name="tab_select">#3A3743</drawable>
 
