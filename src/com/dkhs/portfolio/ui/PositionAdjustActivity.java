@@ -55,7 +55,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private final int REQUESTCODE_SELECT_STOCK = 901;
 
     private PieGraph pgView;
-    private List<ConStockBean> stockList = new ArrayList<ConStockBean>();;
+    private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
+    private ListViewEx lvStock;
     private OptionalStockAdapter stockAdapter;
     public static int surValue;
     private TextView tvSurpusValue;
@@ -166,7 +167,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @Description TODO: 初始化自选股占比
      * @return void
      */
-    ListViewEx lvStock;
 
     private void initStockPercentView() {
         lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);

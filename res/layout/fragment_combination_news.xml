@@ -3,10 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <com.dkhs.portfolio.ui.widget.TabPageIndicator
+        android:id="@+id/indicator"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/related_news" />
+        android:background="#F5F5F5" />
+
+    <com.dkhs.portfolio.ui.widget.ScrollViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/indicator" />
 
 </RelativeLayout>

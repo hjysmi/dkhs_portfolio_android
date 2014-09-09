@@ -10,24 +10,71 @@
         android:layout_height="@dimen/titlebar_height"
         layout="@layout/layout_model_head" />
 
-    <include
-        android:id="@+id/layout_billboard"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/billboard_height"
-        android:layout_below="@+id/layout_title"
-        layout="@layout/layout_roll_billboard" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_title" >
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/layout_billboard"
-        android:padding="10dp" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
 
-        <Button
-            android:id="@+id/btn_mycombina"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="我的组合" />
-    </RelativeLayout>
+            <include
+                android:id="@+id/layout_billboard"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/billboard_height"
+                layout="@layout/layout_roll_billboard" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/layout_billboard"
+                android:padding="10dp" >
+
+                <Button
+                    android:id="@+id/btn_optional_stoack"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:text="自选股" />
+
+                <Button
+                    android:id="@+id/btn_mycombina"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_below="@+id/btn_optional_stoack"
+                    android:text="我的组合" />
+
+                <Button
+                    android:id="@+id/btn_stock_ranking"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_toRightOf="@+id/btn_optional_stoack"
+                    android:text="个股排行" />
+
+                <Button
+                    android:id="@+id/btn_plate_ranking"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_alignLeft="@+id/btn_stock_ranking"
+                    android:layout_below="@+id/btn_stock_ranking"
+                    android:text="板块排行" />
+
+                <Button
+                    android:id="@+id/btn_fund_ranking"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    android:layout_alignLeft="@+id/btn_stock_ranking"
+                    android:layout_below="@+id/btn_plate_ranking"
+                    android:text="基金排行" />
+
+                <Button
+                    android:id="@+id/btn_portfolio_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/btn_mycombina"
+                    android:text="组合排行" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

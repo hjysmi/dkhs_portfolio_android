@@ -13,29 +13,52 @@
         android:paddingRight="15dp"
         android:paddingTop="5dp" >
 
-        <TextView
-            android:id="@+id/tv_combination_name"
+        <Button
+            android:id="@+id/btn_edit_combinname"
             style="@style/hw_wrap"
-            android:text="我的组合"
-            android:textSize="15sp" />
+            android:layout_alignParentRight="true"
+            android:background="@drawable/action_alias" />
 
         <TextView
             android:id="@+id/tv_combination_time"
             style="@style/hw_wrap"
-            android:layout_alignBaseline="@+id/tv_combination_name"
-            android:layout_alignParentRight="true"
-            android:text="成立时间:2014-08-15 12:30:51"
+            android:layout_alignBaseline="@+id/btn_edit_combinname"
+            android:layout_toLeftOf="@+id/btn_edit_combinname"
+            android:text="成立时间:2014-08-15 12:30"
             android:textColor="@android:color/darker_gray"
             android:textSize="11sp" />
 
         <TextView
             android:id="@+id/tv_combination_desc"
             style="@style/hw_wrap"
-            android:layout_below="@+id/tv_combination_name"
+            android:layout_below="@+id/btn_edit_combinname"
             android:layout_marginTop="5dp"
             android:text="简介：发的佛教佛山大幅降低哦发"
             android:textColor="@android:color/darker_gray"
-            android:textSize="11sp" />
+            android:textSize="12sp" />
+
+        <EditText
+            android:id="@+id/et_combination_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_edit_combinname"
+            android:layout_marginRight="3dp"
+            android:layout_toLeftOf="@+id/tv_combination_time"
+            android:hint="我的组合"
+            android:maxLength="8"
+            android:singleLine="true"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_combination_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/btn_edit_combinname"
+            android:layout_toLeftOf="@+id/tv_combination_time"
+            android:singleLine="true"
+            android:text="我的组合"
+            android:textSize="15sp" />
     </RelativeLayout>
 
     <View style="@style/divider_line" />
