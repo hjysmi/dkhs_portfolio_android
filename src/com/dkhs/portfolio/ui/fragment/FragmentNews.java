@@ -43,7 +43,7 @@ public class FragmentNews extends Fragment {
         String[] titleArray = getResources().getStringArray(R.array.detail_news_titles);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(new TestFragment());
+        fragmentList.add(new FragmentDiscussFlow());
         fragmentList.add(new TestFragment());
         fragmentList.add(new TestFragment());
 

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="12dp" >
+
+    <ImageView
+        android:id="@+id/iv_user_header"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/ic_temp_header" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_toRightOf="@+id/iv_user_header" >
+
+        <RelativeLayout
+            android:id="@+id/view_discuss_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_discuss_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="鼓浪屿"
+                android:textColor="@color/blue_line"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/tv_discuss_name"
+                android:layout_alignParentRight="true"
+                android:text="10分钟前"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/view_discuss_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_discuss_title"
+            android:layout_marginTop="6dp"
+            android:text="阿里巴巴在美上市的日期临近，公司将启动大规模的路演，从纽约出发，覆盖欧洲、中东和香港。阿里公开交易后估值可达1560亿美元，马云本人的财富估计超过120亿美元。" />
+
+        <RelativeLayout
+            android:id="@+id/view_discuss_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view_discuss_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="来自  新浪微博"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_discuss_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/ic_agree"
+                android:gravity="center_vertical"
+                android:text=" (110)"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_discuss_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@+id/tv_discuss_agree"
+                android:drawableLeft="@drawable/ic_discuss"
+                android:gravity="center_vertical"
+                android:text=" (10)"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
