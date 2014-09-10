@@ -26,6 +26,10 @@ public class MyCombinationEngineImpl {
     public void login(User user, final IHttpListener listener) {
         HttpUtils utils = new HttpUtils();
         RequestParams params = new RequestParams();
+        
+        params.addHeader("Authorization", "Bearer "
+                + "GlobalParams.ACCESS_TOCKEN");
+        
         params.addBodyParameter("client_id", ConstantValue.CLIENT_ID);
         params.addBodyParameter("client_secret", ConstantValue.CLIENT_SECERET);
         params.addBodyParameter("grant_type", "password");

@@ -15,8 +15,8 @@
         android:id="@+id/tv_fund_name"
         style="@style/hw_wrap"
         android:layout_weight="2"
-        android:textSize="16sp"
-        android:text="沪深大盘" />
+        android:text="沪深大盘"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_increase_value"
@@ -33,7 +33,8 @@
         <CheckBox
             android:id="@+id/cb_select_stock"
             style="@style/hw_wrap"
-            android:layout_centerInParent="true" />
+            android:layout_centerInParent="true"
+            android:button="@drawable/cb_add_item_selector" />
     </RelativeLayout>
 
 </LinearLayout>

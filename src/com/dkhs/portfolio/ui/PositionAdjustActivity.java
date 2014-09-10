@@ -186,6 +186,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         surSeekbar.setEnabled(false);
         surSeekbar.setProgress(surValue);
+        surSeekbar.setThumb(getResources().getDrawable(R.drawable.lucency));
         TextView tvName = (TextView) mFooterView.findViewById(R.id.tv_stock_name);
         tvName.setText("剩余资金占比");
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);

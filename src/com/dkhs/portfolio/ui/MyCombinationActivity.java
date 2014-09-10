@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.security.spec.MGF1ParameterSpec;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,6 +176,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
             mCombinationAdapter.setDelStatus(true);
             mPopMoreWindow.dismiss();
+            
+            gvCombination.setOnItemClickListener(null);
+            
+            
 
         }
 
@@ -187,6 +192,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             mCombinationAdapter.setDelStatus(false);
             mCombinationAdapter.notifyDataSetChanged();
             setButtonRefresh();
+            gvCombination.setOnItemClickListener(this);
         } else {
             showPopWindow();
         }
