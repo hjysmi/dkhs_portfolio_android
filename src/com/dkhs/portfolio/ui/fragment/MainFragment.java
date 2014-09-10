@@ -75,12 +75,10 @@ public class MainFragment extends Fragment implements OnClickListener {
     }
 
     private void initView(View view) {
-        Button btnLeft = (Button) view.findViewById(R.id.btn_back);
-        btnLeft.setOnClickListener(this);
-        Button btnRight = (Button) view.findViewById(R.id.btn_right);
-        btnRight.setOnClickListener(this);
+        view.findViewById(R.id.btn_back).setOnClickListener(this);
 
-        view.findViewById(R.id.btn_mycombina).setOnClickListener(this);
+        view.findViewById(R.id.btn_right).setOnClickListener(this);
+
         ((TextView) view.findViewById(R.id.tv_title)).setText(R.string.portfolio_text);
 
         // 初始化界面控件实例
@@ -100,6 +98,13 @@ public class MainFragment extends Fragment implements OnClickListener {
         viewPlateRanking = view.findViewById(R.id.btn_plate_ranking);
         viewFundRanking = view.findViewById(R.id.btn_fund_ranking);
         viewPortfolioRanking = view.findViewById(R.id.btn_portfolio_ranking);
+
+        viewOptionalStock.setOnClickListener(this);
+        viewMyCombination.setOnClickListener(this);
+        viewStockRanking.setOnClickListener(this);
+        viewPlateRanking.setOnClickListener(this);
+        viewFundRanking.setOnClickListener(this);
+        viewPortfolioRanking.setOnClickListener(this);
 
         setViewLayoutParams();
 

@@ -10,7 +10,7 @@
         android:layout_height="@dimen/titlebar_height"
         android:background="@color/theme_color" >
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,15 +27,14 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/nav_right_main_selector"
-            android:padding="5dp" />
+            android:background="@drawable/nav_right_main_selector" />
     </RelativeLayout>
 
     <ScrollView
@@ -63,13 +62,19 @@
                     android:id="@+id/btn_optional_stoack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/def_1" >
+                    android:background="@drawable/main_optional_stock_selector" >
 
-                    <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_optional_stock" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="自选股" />
+                        android:background="@drawable/ic_optional_stock" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -78,13 +83,19 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/btn_optional_stoack"
                     android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@color/def_2" >
+                    android:background="@drawable/main_mycombination_selector" >
 
-                    <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_my_combination" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="我的组合" />
+                        android:background="@drawable/ic_my_combination" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -93,13 +104,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/main_page_padding"
                     android:layout_toRightOf="@+id/btn_optional_stoack"
-                    android:background="@color/def_3" >
+                    android:background="@drawable/main_stock_ranking_selector" >
 
-                    <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_stock_ranking" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="个股排行" />
+                        android:background="@drawable/ic_main_stock" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -109,13 +126,19 @@
                     android:layout_alignLeft="@+id/btn_stock_ranking"
                     android:layout_below="@+id/btn_stock_ranking"
                     android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@color/def_4" >
+                    android:background="@drawable/main_plate_ranking_selector" >
 
-                    <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_plate_ranking" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="板块排行" />
+                        android:background="@drawable/ic_main_plate" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -125,23 +148,42 @@
                     android:layout_alignLeft="@+id/btn_stock_ranking"
                     android:layout_below="@+id/btn_plate_ranking"
                     android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@color/def_5" >
+                    android:background="@drawable/main_fund_ranking_selector" >
 
-                    <TextView
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_fund_ranking" />
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:text="基金排行" />
+                        android:background="@drawable/ic_main_funds" />
                 </RelativeLayout>
 
-                <Button
+                <RelativeLayout
                     android:id="@+id/btn_portfolio_ranking"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_below="@+id/btn_mycombina"
-                    android:background="@color/def_red"
                     android:layout_marginTop="@dimen/main_page_padding"
-                    android:text="组合排行" />
+                    android:background="@drawable/main_portfolio_ranking_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/tv_main_portfolio" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_main_portfolio" />
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

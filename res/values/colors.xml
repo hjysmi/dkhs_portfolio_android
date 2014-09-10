@@ -64,5 +64,17 @@
     <drawable name="theme_gray">#ffdddddd</drawable>
     <drawable name="tab_normal">#262932</drawable>
     <drawable name="tab_select">#3A3743</drawable>
+    <drawable name="main_optional_stock_select">#00749F</drawable>
+    <drawable name="main_optional_stock_normal">#00ACEC</drawable>
+    <drawable name="main_mycombination_select">#738C00</drawable>
+    <drawable name="main_mycombination_normal">#A6CA00</drawable>
+    <drawable name="main_stock_ranking_normal">#1BE1B0</drawable>
+    <drawable name="main_stock_ranking_select">#009E77</drawable>
+    <drawable name="main_plate_ranking_normal">#FFD072</drawable>
+    <drawable name="main_plate_ranking_select">#D39E35</drawable>
+    <drawable name="main_fund_ranking_normal">#FC5252</drawable>
+    <drawable name="main_fund_ranking_select">#C20808</drawable>
+    <drawable name="main_portfolio_ranking_normal">#4E89FF</drawable>
+    <drawable name="main_portfolio_ranking_select">#2957B3</drawable>
 
 </resources>
