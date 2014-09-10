@@ -4,11 +4,39 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light" >
 
-    <include
+    <RelativeLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        layout="@layout/layout_model_head" />
+        android:background="@color/theme_color" >
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/nav_left_main_selector" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/nav_right_main_selector"
+            android:padding="5dp" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,49 +57,90 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_below="@+id/layout_billboard"
-                android:padding="10dp" >
+                android:padding="@dimen/main_page_padding" >
 
-                <Button
+                <RelativeLayout
                     android:id="@+id/btn_optional_stoack"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:text="自选股" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/def_1" >
 
-                <Button
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="自选股" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/btn_mycombina"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/btn_optional_stoack"
-                    android:text="我的组合" />
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@color/def_2" >
 
-                <Button
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="我的组合" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/btn_stock_ranking"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_page_padding"
                     android:layout_toRightOf="@+id/btn_optional_stoack"
-                    android:text="个股排行" />
+                    android:background="@color/def_3" >
 
-                <Button
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="个股排行" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/btn_plate_ranking"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/btn_stock_ranking"
                     android:layout_below="@+id/btn_stock_ranking"
-                    android:text="板块排行" />
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@color/def_4" >
 
-                <Button
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="板块排行" />
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/btn_fund_ranking"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/btn_stock_ranking"
                     android:layout_below="@+id/btn_plate_ranking"
-                    android:text="基金排行" />
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@color/def_5" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="基金排行" />
+                </RelativeLayout>
 
                 <Button
                     android:id="@+id/btn_portfolio_ranking"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:layout_below="@+id/btn_mycombina"
+                    android:background="@color/def_red"
+                    android:layout_marginTop="@dimen/main_page_padding"
                     android:text="组合排行" />
             </RelativeLayout>
         </RelativeLayout>

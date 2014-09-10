@@ -56,7 +56,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-            return null;
+        return null;
     }
 
     @Override
@@ -70,10 +70,8 @@ public class AdjustHistoryAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_position_adjust_history, null);
-            viewHolder.colorView = convertView.findViewById(R.id.view_color);
-            // viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
-            // viewHolder.tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
-            // viewHolder.seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
+            viewHolder.tvAdjustTime = (TextView) convertView.findViewById(R.id.tv_adjust_time);
+            viewHolder.tvAdjustContent = (TextView) convertView.findViewById(R.id.tv_adjust_history);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -84,17 +82,11 @@ public class AdjustHistoryAdapter extends BaseAdapter {
         return convertView;
     }
 
- 
-
     public final static class ViewHolder {
 
-        View colorView;
-        TextView tvStockName;
-        TextView tvStockNum;
-        TextView tvPercent;
-        SeekBar seekbar;
-    }
+        TextView tvAdjustTime;
+        TextView tvAdjustContent;
 
-   
+    }
 
 }

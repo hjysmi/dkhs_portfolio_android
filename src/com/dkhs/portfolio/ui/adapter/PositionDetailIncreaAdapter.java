@@ -44,12 +44,12 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
     public PositionDetailIncreaAdapter(Context mContext, List<ConStockBean> stocks) {
         this.mContext = mContext;
         this.stockList = stocks;
-//        setSurpusValue();
+        // setSurpusValue();
     }
 
     public void setList(List stocklist) {
         this.stockList = stocklist;
-//        setSurpusValue();
+        // setSurpusValue();
         notifyDataSetChanged();
     }
 
@@ -79,9 +79,10 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_positiondetail_increase, null);
             viewHolder.colorView = convertView.findViewById(R.id.view_color);
-            // viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
-            // viewHolder.tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
-            // viewHolder.seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
+            viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
+            viewHolder.tvStockCode = (TextView) convertView.findViewById(R.id.tv_stock_code);
+            viewHolder.tvCenterValue = (TextView) convertView.findViewById(R.id.tv_center_value);
+            viewHolder.tvRightValue = (TextView) convertView.findViewById(R.id.tv_right_value);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -111,9 +112,9 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
 
         View colorView;
         TextView tvStockName;
-        TextView tvStockNum;
-        TextView tvPercent;
-        SeekBar seekbar;
+        TextView tvStockCode;
+        TextView tvCenterValue;
+        TextView tvRightValue;
     }
     //
     // private IDutyNotify mDutyNotify;
