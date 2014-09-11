@@ -35,7 +35,7 @@ import android.widget.TextView;
  * @version 1.0
  */
 public class TrendChartFragment extends Fragment {
-    private static final String ARGUMENT_TREND_TYPE = "trend_type";
+    public static final String ARGUMENT_TREND_TYPE = "trend_type";
 
     // private static final String SAVED_LIST_POSITION = "list_position";
 

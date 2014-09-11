@@ -43,7 +43,6 @@
         <item>7天</item>
         <item>1个月</item>
         <item>至今</item>
-        <item>报表</item>
     </string-array>
     <string-array name="menu_img_items">
         <item>menu_icon_profit</item>

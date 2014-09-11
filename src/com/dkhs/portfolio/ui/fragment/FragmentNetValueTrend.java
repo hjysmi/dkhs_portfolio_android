@@ -63,12 +63,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_TODAY));
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
-        fragmentList.add(new FragmentReportForm());
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
         ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setCanScroll(false);
