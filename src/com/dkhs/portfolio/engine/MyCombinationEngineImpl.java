@@ -9,6 +9,8 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.User;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.UserEngine;
+import com.dkhs.portfolio.net.DKHSClilent;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -19,17 +21,25 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 
 public class MyCombinationEngineImpl {
 
+    public void getCombinationList(final IHttpListener listener) {
+        // HttpUtils utils = new HttpUtils();
+        RequestParams params = new RequestParams();
+
+        DKHSClilent.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, listener);
+
+    }
+
     public void login(User user, final IHttpListener listener) {
         HttpUtils utils = new HttpUtils();
         RequestParams params = new RequestParams();
-        
-        params.addHeader("Authorization", "Bearer "
-                + "GlobalParams.ACCESS_TOCKEN");
-        
+
+        params.addHeader("Authorization", "Bearer " + "GlobalParams.ACCESS_TOCKEN");
+
         params.addBodyParameter("client_id", ConstantValue.CLIENT_ID);
         params.addBodyParameter("client_secret", ConstantValue.CLIENT_SECERET);
         params.addBodyParameter("grant_type", "password");

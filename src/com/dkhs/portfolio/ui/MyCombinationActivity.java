@@ -8,9 +8,10 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.security.spec.MGF1ParameterSpec;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,8 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 
 /**
@@ -111,7 +114,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                 final int columnWidth = (gvCombination.getWidth() - (getResources()
                         .getDimensionPixelSize(R.dimen.combin_horSpacing))) / 2;
 
-                mCombinationAdapter.setItemHeight((int) (columnWidth ));
+                mCombinationAdapter.setItemHeight((int) (columnWidth));
             }
         });
 
@@ -120,16 +123,29 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     }
 
     private void initData() {
-        CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
-        CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
-        CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
-        CombinationBean conBean4 = new CombinationBean("我的组合4", 1.152f, 13.22f);
-        CombinationBean conBean5 = new CombinationBean("我的组合5", -1.154f, -10.22f);
-        mDataList.add(conBean1);
-        mDataList.add(conBean2);
-        mDataList.add(conBean3);
-        mDataList.add(conBean4);
-        mDataList.add(conBean5);
+        // CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
+        // CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
+        // CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
+        // CombinationBean conBean4 = new CombinationBean("我的组合4", 1.152f, 13.22f);
+        // CombinationBean conBean5 = new CombinationBean("我的组合5", -1.154f, -10.22f);
+        // mDataList.add(conBean1);
+        // mDataList.add(conBean2);
+        // mDataList.add(conBean3);
+        // mDataList.add(conBean4);
+        // mDataList.add(conBean5);
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<CombinationBean>() {
+
+            @Override
+            protected CombinationBean parseDateTask(JSONObject jsonData) {
+                return null;
+            }
+
+            @Override
+            protected void afterParseData(CombinationBean object) {
+
+            }
+
+        });
         mCombinationAdapter.notifyDataSetChanged();
     }
 
@@ -176,10 +192,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
             mCombinationAdapter.setDelStatus(true);
             mPopMoreWindow.dismiss();
-            
+
             gvCombination.setOnItemClickListener(null);
-            
-            
 
         }
 
