@@ -8,10 +8,9 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,12 +30,19 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @ClassName MyCombinationActivity
@@ -133,16 +139,23 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         // mDataList.add(conBean3);
         // mDataList.add(conBean4);
         // mDataList.add(conBean5);
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<CombinationBean>() {
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
 
             @Override
-            protected CombinationBean parseDateTask(JSONObject jsonData) {
-                return null;
+            protected List<CombinationBean> parseDateTask(String jsonData) {
+                Type listType = new TypeToken<List<CombinationBean>>() {
+                }.getType();
+                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+
+                return combinationList;
             }
 
             @Override
-            protected void afterParseData(CombinationBean object) {
-
+            protected void afterParseData(List<CombinationBean> dataList) {
+                LogUtils.d("List<CombinationBean> size:" + dataList.size());
+                mDataList.clear();
+                mDataList.addAll(dataList);
+                mCombinationAdapter.notifyDataSetChanged();
             }
 
         });
@@ -151,12 +164,27 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        System.out.println("onItemClick click:" + position);
 
         Intent intent = new Intent(this, CombinationDetailActivity.class);
         // Intent intent = new Intent(this, PositionAdjustActivity.class);
         // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
         startActivity(intent);
+
+        new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
+                new ParseHttpListener<String>() {
+
+                    @Override
+                    protected String parseDateTask(String jsonData) {
+                        // TODO Auto-generated method stub
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(String object) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
 
     }
 
@@ -227,26 +255,49 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         if (btnRefresh.getTag().equals("refresh")) {
             refreshData();
         } else {
-            setButtonRefresh();
-            setButtonMore();
+            // setButtonRefresh();
+            // setButtonMore();
             removeSelectDatas();
         }
 
     }
 
     private void refreshData() {
-        System.out.println("Second refresh button click");
+        // System.out.println("Second refresh button click");
+        initData();
     }
 
     private void removeSelectDatas() {
         List<Integer> selectList = mCombinationAdapter.getDelPosition();
-        List<CombinationBean> delList = new ArrayList<CombinationBean>();
+        final List<CombinationBean> delList = new ArrayList<CombinationBean>();
         for (Integer index : selectList) {
             int i = index;
             delList.add(mDataList.get(i));
         }
-        mDataList.removeAll(delList);
-        selectList.clear();
+        if (delList.size() > 0) {
+            new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+
+                @Override
+                public void onSuccess(String result) {
+                    mCombinationAdapter.getDelPosition().clear();
+                    mDataList.removeAll(delList);
+                    upateDelViewStatus();
+                }
+
+                @Override
+                public void onFailure(int errCode, String errMsg) {
+                    super.onFailure(errCode, errMsg);
+                    Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+    }
+
+    private void upateDelViewStatus() {
+        setButtonRefresh();
+        setButtonMore();
+
         mCombinationAdapter.setDelStatus(false);
         mCombinationAdapter.notifyDataSetChanged();
     }

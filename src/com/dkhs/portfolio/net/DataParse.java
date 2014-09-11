@@ -16,8 +16,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * @ClassName: DataParse
@@ -87,8 +89,9 @@ public class DataParse<T> {
 
         Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-        // Type type = new TypeToken<List<T>>() {
+        // Type listType = new TypeToken<List<T>>() {
         // }.getType();
+
         dataList = gson.fromJson(userObject, listType);
 
         return dataList;

@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @ClassName ConbinationBean
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -16,9 +18,12 @@ package com.dkhs.portfolio.bean;
  * @version 1.0
  */
 public class CombinationBean {
-    String name;
-    float currentValue;
-    float addUpValue;
+    private long id;
+    private String name;
+    private String description;
+    private float percent;
+    @SerializedName("net_value")
+    private float addUpValue;
 
     /**
      * @Title
@@ -30,7 +35,7 @@ public class CombinationBean {
     public CombinationBean(String name, float currentValue, float addUpValue) {
         super();
         this.name = name;
-        this.currentValue = currentValue;
+        this.percent = currentValue;
         this.addUpValue = addUpValue;
     }
 
@@ -43,11 +48,11 @@ public class CombinationBean {
     }
 
     public float getCurrentValue() {
-        return currentValue;
+        return percent;
     }
 
     public void setCurrentValue(float currentValue) {
-        this.currentValue = currentValue;
+        this.percent = currentValue;
     }
 
     public float getAddUpValue() {
@@ -56,6 +61,30 @@ public class CombinationBean {
 
     public void setAddUpValue(float addUpValue) {
         this.addUpValue = addUpValue;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public float getPercent() {
+        return percent;
+    }
+
+    public void setPercent(float percent) {
+        this.percent = percent;
     }
 
 }

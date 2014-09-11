@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2013. wyouflf (wyouflf@gmail.com)
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.UnknownHostException;
-
 
 public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> implements RequestCallBackHandler {
 
@@ -151,7 +150,8 @@ public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> impl
 
     @Override
     protected Void doInBackground(Object... params) {
-        if (this.state == State.CANCELLED || params == null || params.length == 0) return null;
+        if (this.state == State.CANCELLED || params == null || params.length == 0)
+            return null;
 
         if (params.length > 3) {
             fileSavePath = String.valueOf(params[1]);
@@ -161,7 +161,8 @@ public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> impl
         }
 
         try {
-            if (this.state == State.CANCELLED) return null;
+            if (this.state == State.CANCELLED)
+                return null;
             // init request & requestUrl
             request = (HttpRequestBase) params[0];
             requestUrl = request.getURI().toString();
@@ -193,27 +194,29 @@ public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> impl
     @Override
     @SuppressWarnings("unchecked")
     protected void onProgressUpdate(Object... values) {
-        if (this.state == State.CANCELLED || values == null || values.length == 0 || callback == null) return;
+        if (this.state == State.CANCELLED || values == null || values.length == 0 || callback == null)
+            return;
         switch ((Integer) values[0]) {
             case UPDATE_START:
                 this.state = State.STARTED;
                 callback.onStart();
                 break;
             case UPDATE_LOADING:
-                if (values.length != 3) return;
+                if (values.length != 3)
+                    return;
                 this.state = State.LOADING;
-                callback.onLoading(
-                        Long.valueOf(String.valueOf(values[1])),
-                        Long.valueOf(String.valueOf(values[2])),
+                callback.onLoading(Long.valueOf(String.valueOf(values[1])), Long.valueOf(String.valueOf(values[2])),
                         isUploading);
                 break;
             case UPDATE_FAILURE:
-                if (values.length != 3) return;
+                if (values.length != 3)
+                    return;
                 this.state = State.FAILURE;
                 callback.onFailure((HttpException) values[1], (String) values[2]);
                 break;
             case UPDATE_SUCCESS:
-                if (values.length != 2) return;
+                if (values.length != 2)
+                    return;
                 this.state = State.SUCCESS;
                 callback.onSuccess((ResponseInfo<T>) values[1]);
                 break;
@@ -227,10 +230,12 @@ public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> impl
         if (response == null) {
             throw new HttpException("response is null");
         }
-        if (isCancelled()) return null;
+        if (isCancelled())
+            return null;
 
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
+        // System.out.println("statusCode:" + statusCode);
         if (statusCode < 300) {
             Object result = null;
             HttpEntity entity = response.getEntity();

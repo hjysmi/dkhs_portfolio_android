@@ -26,11 +26,58 @@ import com.lidroid.xutils.util.LogUtils;
 
 public class MyCombinationEngineImpl {
 
-    public void getCombinationList(final IHttpListener listener) {
-        // HttpUtils utils = new HttpUtils();
+    /**
+     * 查询我的组合列表
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void getCombinationList(IHttpListener listener) {
         RequestParams params = new RequestParams();
 
         DKHSClilent.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, listener);
+
+    }
+
+    /**
+     * 创建我的组合
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void createCombination(IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("name", ConstantValue.CLIENT_ID);
+        params.addBodyParameter("description", ConstantValue.CLIENT_ID);
+        // [{"symbol": 101000001,"percent":0.45},{"symbol": 101000002,"percent":0.35}]
+        params.addBodyParameter("symbols", ConstantValue.CLIENT_ID);
+
+        DKHSClilent.request(HttpMethod.POST, DKHSUrl.Portfolio.portfolio, params, listener);
+
+    }
+
+    /**
+     * 删除我的组合
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void deleteCombination(long id, IHttpListener listener) {
+
+        // {"id": 14, "name": "我的组合4", "description": "", "created_at": "2014-09-11T06:00:38Z", "net_value": 0.0}
+
+        DKHSClilent.request(HttpMethod.DELETE, DKHSUrl.Portfolio.portfolio + id + "/", null, listener);
+
+    }
+
+    /**
+     * 删除我的组合
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void queryCombinationDetail(long id, IHttpListener listener) {
+        System.out.println("queryCombination id:" + id);
+        String[] params = { String.valueOf(id) };
+
+        // DKHSClilent.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio + id + "/", params, listener);
+        DKHSClilent.requestByGet(DKHSUrl.Portfolio.portfolio, params, listener);
 
     }
 
@@ -68,12 +115,9 @@ public class MyCombinationEngineImpl {
                         // + System.currentTimeMillis());
                         // sendMsg(handler, ConstantValue.HTTP_OK, entity);
                         System.out.println("请求成功");
-                        try {
-                            listener.onHttpSuccess(new JSONObject(responseInfo.result));
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
+
+                        listener.onHttpSuccess(responseInfo.result);
+
                     }
 
                     @Override
@@ -89,9 +133,10 @@ public class MyCombinationEngineImpl {
         ParseHttpListener<CombinationBean> parseListener = new ParseHttpListener<CombinationBean>() {
 
             @Override
-            protected CombinationBean parseDateTask(JSONObject jsonData) {
+            protected CombinationBean parseDateTask(String jsonData) {
 
-                return DataParse.parseObjectJson(CombinationBean.class, jsonData);
+                // return DataParse.parseObjectJson(CombinationBean.class, jsonData);
+                return null;
             }
 
             @Override

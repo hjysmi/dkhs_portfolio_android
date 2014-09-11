@@ -12,7 +12,7 @@ public interface IHttpListener {
     * @param @param jsonObject    设定文件 
     * @return void    返回类型 
      */
-    public void onHttpSuccess(JSONObject jsonObject);
+    public void onHttpSuccess(String jsonObject);
     /**
      * 
     *

@@ -93,9 +93,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         CombinationBean item = mDataList.get(position);
         final ViewHolder viewhold = viewHolder;
         viewHolder.tvTitle.setText(item.getName());
-        viewHolder.tvIndex.setText((position+1)+"");
-        
-        
+        viewHolder.tvIndex.setText((position + 1) + "");
+
         float currenValue = item.getCurrentValue();
         if (currenValue > 0) {
             ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
@@ -111,8 +110,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             viewHolder.tvAddup.setText(item.getAddUpValue() + "%");
             viewHolder.tvCurrent.setText(currenValue + "%");
         }
-        
-        
+
         // viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
         //
         // @Override
@@ -185,6 +183,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             // viewHolder.btnEidt.setVisibility(View.VISIBLE);
 
         }
+        viewHolder.tvDesc.setText(item.getDescription());
 
         row.setLayoutParams(mItemViewLayoutParams);
         return row;

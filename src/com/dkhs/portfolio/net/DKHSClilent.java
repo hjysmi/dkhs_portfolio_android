@@ -36,32 +36,48 @@ public class DKHSClilent {
     }
 
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+        if (null == params) {
+            params = new RequestParams();
+        }
         params.addHeader("Authorization", "Bearer " + "0852e9e636399c617126c17a1e6dd5b27abe7511");
-        mHttpUtils.send(method, getAbsoluteUrl(url), params, new RequestCallBack<String>() {
+        // params.addHeader("Authorization", "Bearer " + "0852e9e636399c617126c17a1e6dd5b27abe8811");
+        String requestUrl = getAbsoluteUrl(url);
+        LogUtils.d("requestUrl:" + requestUrl);
+        mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 LogUtils.customTagPrefix = "DKHSClilent";
 
-                LogUtils.d("请求成功:" + responseInfo.result);
-                try {
-                    listener.onHttpSuccess(new JSONObject(responseInfo.result));
-                } catch (JSONException e) {
+                String result = StringDecodeUtil.fromUnicode(responseInfo.result);
+                LogUtils.d("请求成功:" + result);
 
-                    e.printStackTrace();
-                }
+                listener.onHttpSuccess(result);
 
             }
 
             @Override
             public void onFailure(HttpException error, String msg) {
+                System.out.println("error code:" + error.getExceptionCode());
                 LogUtils.customTagPrefix = "DKHSClilent"; // 方便调试时过滤 adb logcat 输出
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
-                LogUtils.d(msg);
-                listener.onHttpFailure(ConstantValue.HTTP_ERROR_NET, msg);
+                LogUtils.e("请求失败:" + msg);
+                listener.onHttpFailure(error.getExceptionCode(), msg);
 
             }
         });
+    }
+
+    public static void requestByGet(String url, String[] params, final IHttpListener listener) {
+
+        StringBuilder sbParams = new StringBuilder(url);
+
+        for (String value : params) {
+            sbParams.append(value);
+            sbParams.append("/");
+        }
+
+        request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {

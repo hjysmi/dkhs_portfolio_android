@@ -16,7 +16,7 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2014-5-6 上午10:20:51
  * @version 1.0
  */
-public abstract class ParseHttpListener<T> implements IHttpListener {
+public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     public ParseHttpListener() {
         HandlerThread thread = new HandlerThread("HttpListenerThread");
@@ -27,31 +27,25 @@ public abstract class ParseHttpListener<T> implements IHttpListener {
     }
 
     @Override
-    public final void onHttpSuccess(JSONObject jsonObject) {
-        // int code = jsonObject.optInt(HttpCode.ERROR_CODE, HttpCode.UNKOWN);
-        // if (code == HttpCode.OK) {
-        // parseDate(jsonObject);
+    public void onSuccess(String jsonObject) {
+
         beginParseDate(jsonObject);
-        // } else {
-        // String errMsg = jsonObject.optString(HttpCode.ERROR_MSG);
-        // MSLog.d("Error code :", code, ",message : ", errMsg);
-        // onFailure(code, errMsg);
-        // }
+
     }
 
-    @Override
-    public final void onHttpFailure(int errCode, String errMsg) {
-        // MSLog.d("Error code :", errCode, ",message : ", errMsg);
-        LogUtils.d("Error code :" + errCode + ",message : " + errMsg);
-        onFailure(errCode, errMsg);
-    }
-
-    @Override
-    public final void onHttpFailure(int errCode, Throwable err) {
-        LogUtils.d("Error code :" + errCode + ",message : " + err.toString());
-        // MSLog.d("Error code :", errCode, ",message : ", err);
-        onFailure(errCode, err.getMessage());
-    }
+    // @Override
+    // public final void onHttpFailure(int errCode, String errMsg) {
+    // // MSLog.d("Error code :", errCode, ",message : ", errMsg);
+    // LogUtils.d("Error code :" + errCode + ",message : " + errMsg);
+    // onFailure(errCode, errMsg);
+    // }
+    //
+    // @Override
+    // public final void onHttpFailure(int errCode, Throwable err) {
+    // LogUtils.d("Error code :" + errCode + ",message : " + err.toString());
+    // // MSLog.d("Error code :", errCode, ",message : ", err);
+    // onFailure(errCode, err.getMessage());
+    // }
 
     // /**
     // *
@@ -70,13 +64,14 @@ public abstract class ParseHttpListener<T> implements IHttpListener {
      * 
      * @Title: onFailure
      * @Description: 网络错误处理，
-     * @param @param errCode 错误编码，具体查看 {@link com.org.insert.zaihu.network.HttpCode}
+     * @param @param errCode 错误编码，具体查看 {@link Network.HttpCode}
      * @param @param errMsg 错误信息
      * @return void 返回类型
      */
     public void onFailure(int errCode, String errMsg) {
         // GTGUtils.showTip(HttpCode.getCodeResId(errCode));
-
+        // LogUtils.e("Error code :" + errCode + ",message : " + err.toString());
+        super.onFailure(errCode, errMsg);
     }
 
     public static final int MSG_PARSEDATE = 10;
@@ -97,7 +92,7 @@ public abstract class ParseHttpListener<T> implements IHttpListener {
             System.out.println("++++++++++++++++++++Handler message what:" + msg.what);
             switch (msg.what) {
                 case MSG_PARSEDATE:
-                    JSONObject jsonObject = (JSONObject) msg.obj;
+                    String jsonObject = (String) msg.obj;
                     notifyDateParse(parseDateTask(jsonObject));
                     stopSelf();
                     break;
@@ -113,7 +108,7 @@ public abstract class ParseHttpListener<T> implements IHttpListener {
         }
     }
 
-    public void beginParseDate(JSONObject jsonObject) {
+    public void beginParseDate(String jsonObject) {
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
     }
 
@@ -141,7 +136,7 @@ public abstract class ParseHttpListener<T> implements IHttpListener {
      * @param jsonData :服务器返回errorCode已验证成功的Json对象
      * @return Object :解析后的数据对象
      */
-    protected abstract T parseDateTask(JSONObject jsonData);
+    protected abstract T parseDateTask(String jsonData);
 
     // ui操作
     /**
