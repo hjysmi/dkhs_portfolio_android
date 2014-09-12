@@ -71,8 +71,19 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
         initTitleView();
 
-        initData();
+        // loadCombinationData();
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadCombinationData();
     }
 
     private void initTitleView() {
@@ -128,7 +139,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     }
 
-    private void initData() {
+    private void loadCombinationData() {
         // CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
         // CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
         // CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
@@ -264,7 +275,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void refreshData() {
         // System.out.println("Second refresh button click");
-        initData();
+        loadCombinationData();
     }
 
     private void removeSelectDatas() {

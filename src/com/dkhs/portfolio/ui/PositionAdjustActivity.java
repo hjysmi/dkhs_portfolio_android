@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,10 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.bean.SurpusStock;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
@@ -110,17 +114,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (mViewType.equalsIgnoreCase(VALUE_CREATE_CONBINA)) {
             ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
             if (viewstub != null) {
-                viewstub.inflate();
-                tvCreateTime = (TextView) findViewById(R.id.tv_create_time);
-                tvTodayNetvalue = (TextView) findViewById(R.id.tv_today_netvalue);
+                // viewstub.inflate();
+                View inflatedView = viewstub.inflate();
+                tvCreateTime = (TextView) inflatedView.findViewById(R.id.tv_create_time);
+                tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
             }
 
         } else {
             ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
             if (viewstub != null) {
-                viewstub.inflate();
-                etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
-                etConbinationDesc = (EditText) findViewById(R.id.et_myconbina_desc);
+                // viewstub.inflate();
+                View inflatedView = viewstub.inflate();
+                etConbinationName = (EditText) inflatedView.findViewById(R.id.et_myconbina_name);
+
+                etConbinationDesc = (EditText) inflatedView.findViewById(R.id.et_myconbina_desc);
 
             }
         }
@@ -277,14 +284,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         switch (id) {
             case R.id.btn_confirm:
             case R.id.btn_right: {
-                for (ConStockBean stock : stockList) {
-                    System.out.println("After adjust stock name:" + stock.getName() + " value:" + stock.getDutyValue());
-                }
-                Toast.makeText(PositionAdjustActivity.this, "确定调整  ", Toast.LENGTH_SHORT).show();
+                createCombinationByServer();
+                // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
             }
                 break;
             case R.id.btn_add_postional: {
                 Intent intent = new Intent(this, SelectStockActivity.class);
+                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) stockList);
                 startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
 
             }
@@ -295,6 +301,33 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
+    private void createCombinationByServer() {
+        List<SubmitSymbol> symbols = new ArrayList<SubmitSymbol>();
+        for (ConStockBean stock : stockList) {
+            // System.out.println("After adjust stock name:" + stock.getName() + " value:" + stock.getDutyValue());
+            SubmitSymbol symbol = new SubmitSymbol();
+            symbol.setSymbol(stock.getId());
+            symbol.setPercent(stock.getDutyValue() / 100);
+            symbols.add(symbol);
+        }
+        String combinationName = "";
+        if (null != etConbinationName) {
+            combinationName = etConbinationName.getText().toString();
+        }
+        String combinationDesc = "";
+        if (null != etConbinationDesc) {
+            combinationDesc = etConbinationDesc.getText().toString();
+        }
+        new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbols,
+                new BasicHttpListener() {
+
+                    @Override
+                    public void onSuccess(String result) {
+                        finish();
+                    }
+                });
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -303,10 +336,16 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
                     ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
-                            .getSerializableExtra("list_select");
+                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+                    int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
+                            BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
                         System.out.println("listStock size:" + listStock.size());
+                        // stockList.addAll(listStock);
                         stockList = listStock;
+
+                        setCombinationBack(createType);
+
                         setPieList();
                         // lvStock.removeFooterView(mFooterView);
                         stockAdapter.setList(stockList);
@@ -325,5 +364,27 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     break;
             }
         }
+    }
+
+    private void setCombinationBack(int which) {
+        if (null != stockList && stockList.size() > 0) {
+            int length = stockList.size();
+            int dutyValue = (100 / length);
+            for (int i = 0; i < length; i++) {
+                ConStockBean c = stockList.get(i);
+                if (0 == which) {// 快速
+                    c.setDutyValue(dutyValue);
+                }
+                if (i < ColorTemplate.DEFAULTCOLORS.length) {
+                    c.setDutyColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[i]));
+
+                } else {
+
+                    c.setDutyColor(ColorTemplate.getRaddomColor());
+                }
+
+            }
+        }
+
     }
 }

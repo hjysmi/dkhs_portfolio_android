@@ -70,11 +70,27 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     protected void onCreate(Bundle arg0) {
         setTheme(R.style.Theme_PageIndicatorDefaults);
         super.onCreate(arg0);
+
         setContentView(R.layout.activity_add_conbina_stock);
+
+        // handle intent extras
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
 
         initView();
         setupViewData();
 
+    }
+
+    private void handleExtras(Bundle extras) {
+
+        ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) extras
+                .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+        if (null != listStock) {
+            mSelectList = listStock;
+        }
     }
 
     private void setupViewData() {
@@ -222,7 +238,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         if (RIGHTBUTTON_ID == id) {
             if (isLoadBySelectFund()) {
-                setSelectBack();
+                setSelectBack(-1);
             } else {
                 showTypeDialog();
             }
@@ -247,37 +263,21 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
                         /* User clicked so do some stuff */
                         // String[] items = getResources().getStringArray(R.array.create_type);
                         // String type = items[which];
-                        setCombinationBack(which);
-                        setSelectBack();
+                        // setCombinationBack(which);
+                        setSelectBack(which);
                     }
                 }).show();
     }
 
-    private void setCombinationBack(int which) {
-        if (null != mSelectList && mSelectList.size() > 0) {
-            int length = mSelectList.size();
-            int dutyValue = (100 / length);
-            for (int i = 0; i < length; i++) {
-                ConStockBean c = mSelectList.get(i);
-                if (0 == which) {// 快速
-                    c.setDutyValue(dutyValue);
-                }
-                if (i < ColorTemplate.DEFAULTCOLORS.length) {
-                    c.setDutyColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[i]));
+    public static final String ARGUMENT_SELECT_LIST = "list_select";
+    public static final String ARGUMENT_CRATE_TYPE = "type";
+    public static final int CRATE_TYPE_FAST = 0;
+    public static final int CRATE_TYPE_CUSTOM = 1;
 
-                } else {
-
-                    c.setDutyColor(ColorTemplate.getRaddomColor());
-                }
-
-            }
-        }
-
-    }
-
-    private void setSelectBack() {
+    private void setSelectBack(int type) {
         Intent intent = new Intent();
-        intent.putExtra("list_select", (Serializable) mSelectList);
+        intent.putExtra(ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
+        intent.putExtra(ARGUMENT_CRATE_TYPE, type);
         setResult(RESULT_OK, intent);
 
         finish();

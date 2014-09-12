@@ -1,11 +1,15 @@
 package com.dkhs.portfolio.engine;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Handler;
+import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.bean.User;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.UserEngine;
@@ -43,14 +47,18 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void createCombination(String name, String desciption, IHttpListener listener) {
+    public void createCombination(String name, String desciption, List<SubmitSymbol> symbols, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("name", name);
-        params.addBodyParameter("description", desciption);
+        if (!TextUtils.isEmpty(name)) {
+            params.addBodyParameter("name", name);
+        }
+        if (!TextUtils.isEmpty(desciption)) {
+            params.addBodyParameter("description", desciption);
+        }
         // [{"symbol": 101000001,"percent":0.45},{"symbol": 101000002,"percent":0.35}]
-        // Gson gson = new Gson();
-        // String symbols = gson.toJson(src);
-        params.addBodyParameter("symbols", ConstantValue.CLIENT_ID);
+        Gson gson = new Gson();
+        String symbolsValue = gson.toJson(symbols);
+        params.addBodyParameter("symbols", symbolsValue);
 
         DKHSClilent.request(HttpMethod.POST, DKHSUrl.Portfolio.portfolio, params, listener);
 
