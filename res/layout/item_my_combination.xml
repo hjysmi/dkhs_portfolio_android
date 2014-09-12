@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/button_gray_border"
+    android:background="@drawable/button_gray_selector"
     android:focusable="false"
     android:focusableInTouchMode="false" >
 
@@ -16,8 +16,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/red"
-            android:text="1"
+            android:background="@drawable/bg_corner"
+            android:text="66"
+            android:gravity="center_horizontal"
             android:textColor="@color/white" />
 
         <CheckBox
@@ -26,10 +27,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
             android:button="@drawable/cb_title_edit"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:layout_marginRight="8dp"
             android:visibility="gone" />
 
         <TextView
@@ -38,10 +39,10 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@+id/tv_combination_index"
-            android:layout_toLeftOf="@+id/cb_select_conbin"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/cb_select_conbin"
+            android:layout_toRightOf="@+id/tv_combination_index"
             android:maxLength="6"
             android:singleLine="true"
             android:textSize="16sp" />
@@ -65,6 +66,7 @@
         android:layout_below="@+id/rl_combina_title"
         android:background="@color/white"
         android:gravity="center"
+        android:layout_marginLeft="1dp"
         android:orientation="horizontal"
         android:padding="3dp" >
 

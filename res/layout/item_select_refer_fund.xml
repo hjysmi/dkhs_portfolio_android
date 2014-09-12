@@ -15,7 +15,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:scaleType="center"
-        android:src="@drawable/ic_del" />
+        android:src="@drawable/btn_del_item_selector" />
 
     <TextView
         android:id="@+id/tv_item_select_fund"

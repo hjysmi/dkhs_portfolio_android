@@ -51,6 +51,7 @@
         <CheckBox
             android:id="@+id/cb_select_stock"
             style="@style/hw_wrap"
+            android:button="@drawable/cb_add_item_selector"
             android:layout_centerInParent="true" />
     </RelativeLayout>
 

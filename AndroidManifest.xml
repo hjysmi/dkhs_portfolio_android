@@ -39,11 +39,13 @@
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PositionAdjustActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.SelectStockActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.SelectFundActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" />
         <activity
-            android:name="com.dkhs.portfolio.ui.AddCombinationStockActivity"
+            android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
             android:windowSoftInputMode="stateHidden" />
     </application>

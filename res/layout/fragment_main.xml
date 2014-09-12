@@ -4,30 +4,188 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light" >
 
-    <include
+    <RelativeLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        layout="@layout/layout_model_head" />
+        android:background="@color/theme_color" >
 
-    <include
-        android:id="@+id/layout_billboard"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/billboard_height"
-        android:layout_below="@+id/layout_title"
-        layout="@layout/layout_roll_billboard" />
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/layout_billboard"
-        android:padding="10dp" >
-
-        <Button
-            android:id="@+id/btn_mycombina"
-            android:layout_width="fill_parent"
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我的组合" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/nav_left_main_selector" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/nav_right_main_selector" />
     </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/layout_title" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <include
+                android:id="@+id/layout_billboard"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/billboard_height"
+                layout="@layout/layout_roll_billboard" />
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/layout_billboard"
+                android:padding="@dimen/main_page_padding" >
+
+                <RelativeLayout
+                    android:id="@+id/btn_optional_stoack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/main_optional_stock_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_optional_stock" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_optional_stock" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_mycombina"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/btn_optional_stoack"
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@drawable/main_mycombination_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_my_combination" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_my_combination" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_stock_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_page_padding"
+                    android:layout_toRightOf="@+id/btn_optional_stoack"
+                    android:background="@drawable/main_stock_ranking_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_stock_ranking" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_main_stock" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_plate_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/btn_stock_ranking"
+                    android:layout_below="@+id/btn_stock_ranking"
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@drawable/main_plate_ranking_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_plate_ranking" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_main_plate" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_fund_ranking"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/btn_stock_ranking"
+                    android:layout_below="@+id/btn_plate_ranking"
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@drawable/main_fund_ranking_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:background="@drawable/tv_fund_ranking" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_main_funds" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/btn_portfolio_ranking"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_below="@+id/btn_mycombina"
+                    android:layout_marginTop="@dimen/main_page_padding"
+                    android:background="@drawable/main_portfolio_ranking_selector" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/main_page_padding"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/tv_main_portfolio" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/ic_main_portfolio" />
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

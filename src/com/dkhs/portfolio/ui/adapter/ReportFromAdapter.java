@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.AddCombinationStockActivity;
+import com.dkhs.portfolio.ui.BaseSelectActivity;
 
 /**
  * @ClassName SelectFundAdapter

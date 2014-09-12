@@ -9,7 +9,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.adapter.AdatperSelectCombinStock;
+import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.ReportFromAdapter;
 
 import android.os.Bundle;

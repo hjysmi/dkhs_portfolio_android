@@ -20,7 +20,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.LineEntity;
@@ -38,12 +42,19 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2014-9-1 下午1:52:54
  * @version 1.0
  */
-public class FragmentNetValueTrend extends Fragment {
+public class FragmentNetValueTrend extends Fragment implements OnClickListener {
+
+    private EditText etCombinName;
+    private TextView tvCombinName;
+    private Button btnEditName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
-
+        etCombinName = (EditText) view.findViewById(R.id.et_combination_name);
+        tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
+        btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
+        btnEditName.setOnClickListener(this);
         initTabPage(view);
         return view;
     }
@@ -52,12 +63,10 @@ public class FragmentNetValueTrend extends Fragment {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_TODAY));
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
-        fragmentList.add(TrendChartFragment.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
-        fragmentList.add(new FragmentReportForm());
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
         ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setCanScroll(false);
@@ -93,6 +102,32 @@ public class FragmentNetValueTrend extends Fragment {
         @Override
         public int getCount() {
             return fragmentList == null ? 0 : fragmentList.size();
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btn_edit_combinname: {
+                if (tvCombinName.getVisibility() == View.VISIBLE) {
+                    btnEditName.setBackgroundResource(R.drawable.action_alias_ok);
+                    etCombinName.setHint(tvCombinName.getText());
+                    tvCombinName.setVisibility(View.GONE);
+                    etCombinName.setVisibility(View.VISIBLE);
+                } else {
+                    btnEditName.setBackgroundResource(R.drawable.action_alias);
+                    tvCombinName.setText(etCombinName.getText());
+                    tvCombinName.setVisibility(View.VISIBLE);
+                    etCombinName.setVisibility(View.GONE);
+                }
+            }
+
+                break;
+
+            default:
+                break;
         }
 
     }

@@ -70,7 +70,7 @@
     <string name="find_passwrod">找回密码</string>
     <string name="portfolio_text">投资组合</string>
     <string name="combin">组合：%1$d</string>
-    <string name="stock">自选股：%1$d</string>
+    <string name="optional_stock">自选股：%1$d</string>
     <string name="setting">设置</string>
     <string name="confirm">确定</string>
     <string name="more">更多</string>
@@ -102,8 +102,19 @@
     <string name="from">由</string>
     <string name="to">至</string>
     <string name="to_now">至今</string>
+    <string name="stock">股票</string>
+    <string name="positions">持仓</string>
     <string name="referto">参照</string>
+    <string name="rise_range">涨幅</string>
+    <string name="proportion">占比</string>
     <string name="time_start">%1$s起</string>
     <string name="time_end">%1$s止</string>
+    <string name="dialog_start_time_title">结束日期</string>
+    <string name="dialog_end_time_title">开始日期</string>
+    <string name="max_fund_select_tip">最大只能选择5个基金</string>
+    <string name="adjust_position">调整配置</string>
+    <string name="adjust_history">调仓记录</string>
+    <string name="netvalue_comtribute">净值贡献</string>
+    <string name="accumulative_comtribute">累计贡献</string>
 
 </resources>

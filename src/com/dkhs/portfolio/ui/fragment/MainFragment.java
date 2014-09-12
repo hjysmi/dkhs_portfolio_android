@@ -39,6 +39,13 @@ public class MainFragment extends Fragment implements OnClickListener {
     private int[] imageResId;
     private int currentItem = 0;
 
+    private View viewOptionalStock;
+    private View viewMyCombination;
+    private View viewStockRanking;
+    private View viewPlateRanking;
+    private View viewFundRanking;
+    private View viewPortfolioRanking;
+
     private static final int MSG_CHANGE_PAGER = 172;
     private Timer mScollTimer;
 
@@ -63,20 +70,15 @@ public class MainFragment extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, null);
         initView(view);
+
         return view;
     }
 
     private void initView(View view) {
-        Button btnLeft = (Button) view.findViewById(R.id.btn_back);
-        btnLeft.setOnClickListener(this);
-        btnLeft.setBackgroundResource(R.drawable.nav_left_main_selector);
-        btnLeft.setCompoundDrawables(null, null, null, null);
-        Button btnRight = (Button) view.findViewById(R.id.btn_right);
-        btnRight.setVisibility(View.VISIBLE);
-        btnRight.setBackgroundResource(R.drawable.nav_right_main_selector);
-        btnRight.setOnClickListener(this);
+        view.findViewById(R.id.btn_back).setOnClickListener(this);
 
-        view.findViewById(R.id.btn_mycombina).setOnClickListener(this);
+        view.findViewById(R.id.btn_right).setOnClickListener(this);
+
         ((TextView) view.findViewById(R.id.tv_title)).setText(R.string.portfolio_text);
 
         // 初始化界面控件实例
@@ -89,6 +91,42 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         viewPager.setCurrentItem(1);
         viewPager.setCurrentItem(0);
+
+        viewOptionalStock = view.findViewById(R.id.btn_optional_stoack);
+        viewMyCombination = view.findViewById(R.id.btn_mycombina);
+        viewStockRanking = view.findViewById(R.id.btn_stock_ranking);
+        viewPlateRanking = view.findViewById(R.id.btn_plate_ranking);
+        viewFundRanking = view.findViewById(R.id.btn_fund_ranking);
+        viewPortfolioRanking = view.findViewById(R.id.btn_portfolio_ranking);
+
+        viewOptionalStock.setOnClickListener(this);
+        viewMyCombination.setOnClickListener(this);
+        viewStockRanking.setOnClickListener(this);
+        viewPlateRanking.setOnClickListener(this);
+        viewFundRanking.setOnClickListener(this);
+        viewPortfolioRanking.setOnClickListener(this);
+
+        setViewLayoutParams();
+
+    }
+
+    private void setViewLayoutParams() {
+        int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        int viewPading = getResources().getDimensionPixelSize(R.dimen.main_page_padding);
+        int viewWidth = (screenWidth - 3 * viewPading) / 2;
+        int smallViewHeight = (viewWidth * 2 - viewPading) / 3;
+        viewOptionalStock.getLayoutParams().width = viewWidth;
+        viewOptionalStock.getLayoutParams().height = viewWidth;
+        viewMyCombination.getLayoutParams().width = viewWidth;
+        viewMyCombination.getLayoutParams().height = viewWidth;
+
+        viewStockRanking.getLayoutParams().width = viewWidth;
+        viewStockRanking.getLayoutParams().height = smallViewHeight;
+        viewPlateRanking.getLayoutParams().width = viewWidth;
+        viewPlateRanking.getLayoutParams().height = smallViewHeight;
+        viewFundRanking.getLayoutParams().width = viewWidth;
+        viewFundRanking.getLayoutParams().height = smallViewHeight;
+        viewPortfolioRanking.getLayoutParams().height = (int) (smallViewHeight * 0.7);
     }
 
     @Override

@@ -55,7 +55,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private final int REQUESTCODE_SELECT_STOCK = 901;
 
     private PieGraph pgView;
-    private List<ConStockBean> stockList = new ArrayList<ConStockBean>();;
+    private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
+    private ListViewEx lvStock;
     private OptionalStockAdapter stockAdapter;
     public static int surValue;
     private TextView tvSurpusValue;
@@ -166,7 +167,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @Description TODO: 初始化自选股占比
      * @return void
      */
-    ListViewEx lvStock;
 
     private void initStockPercentView() {
         lvStock = (ListViewEx) findViewById(R.id.lv_optional_layout);
@@ -186,6 +186,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
         surSeekbar.setEnabled(false);
         surSeekbar.setProgress(surValue);
+        surSeekbar.setThumb(getResources().getDrawable(R.drawable.lucency));
         TextView tvName = (TextView) mFooterView.findViewById(R.id.tv_stock_name);
         tvName.setText("剩余资金占比");
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
@@ -283,7 +284,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
-                Intent intent = new Intent(this, AddCombinationStockActivity.class);
+                Intent intent = new Intent(this, SelectStockActivity.class);
                 startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
 
             }
