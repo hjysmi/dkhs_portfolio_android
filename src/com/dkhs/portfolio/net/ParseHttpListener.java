@@ -13,7 +13,7 @@ import com.lidroid.xutils.util.LogUtils;
  * @ClassName: ParseHttpListener
  * @Description: 用于实现子线程解析服务器返回数据，返回数据到主程序
  * @author zhoujunzhou
- * @date 2014-5-6 上午10:20:51
+ * @date 2014-09-12 上午10:20:51
  * @version 1.0
  */
 public abstract class ParseHttpListener<T> extends BasicHttpListener {

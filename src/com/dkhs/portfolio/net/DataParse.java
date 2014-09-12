@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
  * @ClassName: DataParse
  * @Description: 接口数据解析类
  * @author zhoujunzhou
- * @date 2014-4-3 上午10:21:42
+ * @date 2014-09-12 上午10:21:42
  * @version 1.0
  */
 public class DataParse<T> {

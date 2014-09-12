@@ -43,11 +43,13 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void createCombination(IHttpListener listener) {
+    public void createCombination(String name, String desciption, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("name", ConstantValue.CLIENT_ID);
-        params.addBodyParameter("description", ConstantValue.CLIENT_ID);
+        params.addBodyParameter("name", name);
+        params.addBodyParameter("description", desciption);
         // [{"symbol": 101000001,"percent":0.45},{"symbol": 101000002,"percent":0.35}]
+        // Gson gson = new Gson();
+        // String symbols = gson.toJson(src);
         params.addBodyParameter("symbols", ConstantValue.CLIENT_ID);
 
         DKHSClilent.request(HttpMethod.POST, DKHSUrl.Portfolio.portfolio, params, listener);
