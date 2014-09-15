@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @ClassName CombinationStock
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -17,14 +19,14 @@ import java.io.Serializable;
  * @date 2014-8-26 上午9:37:22
  * @version 1.0
  */
-public class ConStockBean implements Serializable {
-    int id;
-    int dutyValue;
-    int dutyColor;
-    float currentValue;
-    float increaseValue;
-    String name;
-    String num;
+public class ConStockBean extends StockBean implements Serializable {
+    private static final long serialVersionUID = 129554888L;
+    @SerializedName("percent")
+    protected float percent;
+    protected int dutyValue;
+    protected int dutyColor;
+    protected float currentValue;
+    protected float increaseValue;
 
     /**
      * @Title
@@ -35,24 +37,17 @@ public class ConStockBean implements Serializable {
      * @param name 股票名称
      * @param num 股票号码
      */
-    public ConStockBean(int id, int dutyValue, int dutyColor, String name, String num) {
+    public ConStockBean(int id, float percent, int dutyColor, String name, String stockcode) {
         super();
-        this.id = id;
-        this.dutyValue = dutyValue;
+        super.stockCode = stockcode;
+        super.stockId = id;
+        setPercent(percent);
         this.dutyColor = dutyColor;
-        this.name = name;
-        this.num = num;
+        this.stockName = name;
+
     }
 
     public ConStockBean() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getDutyValue() {
@@ -64,19 +59,11 @@ public class ConStockBean implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return stockName;
     }
 
     public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getNum() {
-        return num;
-    }
-
-    public void setNum(String num) {
-        this.num = num;
+        this.stockName = name;
     }
 
     public int getDutyColor() {
@@ -105,10 +92,19 @@ public class ConStockBean implements Serializable {
 
     public boolean equals(Object obj) {
         ConStockBean param = (ConStockBean) obj;
-        if (this.id == param.id) {
+        if (this.stockId == param.stockId) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public float getPercent() {
+        return percent;
+    }
+
+    public void setPercent(float percent) {
+        dutyValue = (int) (percent * 100);
+        this.percent = percent;
     }
 }

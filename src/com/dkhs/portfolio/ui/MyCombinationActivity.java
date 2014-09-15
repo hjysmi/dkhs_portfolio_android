@@ -176,26 +176,25 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent intent = new Intent(this, CombinationDetailActivity.class);
-        // Intent intent = new Intent(this, PositionAdjustActivity.class);
+        // Intent intent = new Intent(this, CombinationDetailActivity.class);
         // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
-        startActivity(intent);
+        startActivity(CombinationDetailActivity.newIntent(this, mDataList.get(position)));
 
-        new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
-                new ParseHttpListener<String>() {
-
-                    @Override
-                    protected String parseDateTask(String jsonData) {
-                        // TODO Auto-generated method stub
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(String object) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
+        // new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
+        // new ParseHttpListener<String>() {
+        //
+        // @Override
+        // protected String parseDateTask(String jsonData) {
+        // // TODO Auto-generated method stub
+        // return null;
+        // }
+        //
+        // @Override
+        // protected void afterParseData(String object) {
+        // // TODO Auto-generated method stub
+        //
+        // }
+        // });
 
     }
 
@@ -281,12 +280,17 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     private void removeSelectDatas() {
         List<Integer> selectList = mCombinationAdapter.getDelPosition();
         final List<CombinationBean> delList = new ArrayList<CombinationBean>();
+        StringBuilder sbIds = new StringBuilder();
         for (Integer index : selectList) {
             int i = index;
-            delList.add(mDataList.get(i));
+            CombinationBean delStock = mDataList.get(i);
+            delList.add(delStock);
+            sbIds.append(delStock.getId());
+            sbIds.append(",");
         }
         if (delList.size() > 0) {
-            new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+            // new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+            new MyCombinationEngineImpl().deleteCombination(sbIds.toString(), new BasicHttpListener() {
 
                 @Override
                 public void onSuccess(String result) {

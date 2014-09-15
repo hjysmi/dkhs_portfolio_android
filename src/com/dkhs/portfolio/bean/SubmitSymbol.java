@@ -16,7 +16,7 @@ package com.dkhs.portfolio.bean;
  * @version 1.0
  */
 public class SubmitSymbol {
-    // 股票名称
+    // symbol: 股票ID(int)
     private long symbol;
     private float percent;
 

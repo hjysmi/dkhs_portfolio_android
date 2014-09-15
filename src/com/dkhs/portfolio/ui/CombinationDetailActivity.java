@@ -8,9 +8,8 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -26,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
@@ -46,10 +46,22 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private Fragment mPreFragment;
     private TextView tvTitleView;
 
+    private CombinationBean mCombinationBean;
+
     // private FragmentNetValueTrend mFragmentTrend;
     // private FragmentCompare mFragmentCompare;
     // private FragmentPositionDetail mFragmentDetail;
     // private FragmentNews mFragmentNews;
+
+    public static final String EXTRA_COMBINATION = "extra_combination";
+
+    public static Intent newIntent(Context context, CombinationBean combinationBean) {
+        Intent intent = new Intent(context, CombinationDetailActivity.class);
+
+        intent.putExtra(EXTRA_COMBINATION, combinationBean);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -58,7 +70,19 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         setTitle(R.string.netvalue_trend);
         showFragmentByButtonId(R.id.btn_trend);
 
+        // handle intent extras
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+
         initView();
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
+        System.out.println("CombinationBean name:" + mCombinationBean.getName());
+
     }
 
     private void initView() {
@@ -155,7 +179,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 mFragment = getSupportFragmentManager().findFragmentByTag(R.id.btn_detail + "");
 
                 if (mFragment == null) {
-                    mFragment = new FragmentPositionDetail();
+                    mFragment = FragmentPositionDetail.newInstance(mCombinationBean.getId());
                     // replaceContentView(mFragment, R.id.btn_detail + "");
                     ft.add(R.id.combination_contentview, mFragment, R.id.btn_detail + "");
 

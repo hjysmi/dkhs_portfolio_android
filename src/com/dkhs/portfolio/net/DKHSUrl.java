@@ -17,11 +17,17 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    static final String BASE_URL = "http://192.168.107.100:8000";
+    static final String BASE_URL = "http://192.168.107.251:8000";
 
     public interface Portfolio {
         // 查询我的组合
         String portfolio = "/api/v1/portfolio/";
+        // 删除组合
+        String delete = "/api/v1/portfolio/delete_portfolios/";
+        // 更新组合信息
+        String update = "/api/v1/portfolio/update_portfolio/";
+        // 持仓调整
+        String adjust = "/api/v1/portfolio/adjust/";
 
     }
 }

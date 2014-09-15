@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -17,13 +19,17 @@ import com.google.gson.annotations.SerializedName;
  * @date 2014-8-27 下午3:06:15
  * @version 1.0
  */
-public class CombinationBean {
-    private long id;
+public class CombinationBean implements Serializable {
+
+    private static final long serialVersionUID = 12959959598L;
+    private int id;
     private String name;
     private String description;
     private float percent;
     @SerializedName("net_value")
     private float addUpValue;
+    @SerializedName("created_at")
+    private String createTime;
 
     /**
      * @Title
@@ -63,11 +69,11 @@ public class CombinationBean {
         this.addUpValue = addUpValue;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -85,6 +91,14 @@ public class CombinationBean {
 
     public void setPercent(float percent) {
         this.percent = percent;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
 }

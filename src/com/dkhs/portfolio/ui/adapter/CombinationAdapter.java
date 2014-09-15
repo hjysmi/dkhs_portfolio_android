@@ -278,9 +278,9 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     }
 
     public void addItem() {
-        Intent intent = new Intent(mContext, PositionAdjustActivity.class);
-        intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_CREATE_CONBINA);
-        mContext.startActivity(intent);
+        // Intent intent = new Intent(mContext, PositionAdjustActivity.class);
+        // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_CREATE_CONBINA);
+        mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null, 0));
     }
 
     public ArrayList<Integer> getDelPosition() {

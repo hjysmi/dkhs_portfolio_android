@@ -34,9 +34,9 @@ public class SurpusStock extends ConStockBean {
     }
 
     public SurpusStock(int dutyValue) {
-        this.name = "剩余资金占比";
+        super.stockName = "剩余资金占比";
         this.dutyColor = Color.RED;
-        this.num = "";
+
         this.dutyValue = dutyValue;
     }
 

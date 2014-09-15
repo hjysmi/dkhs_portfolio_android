@@ -11,16 +11,25 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
+import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.lidroid.xutils.cache.MD5FileNameGenerator;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -42,7 +51,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private PieGraph pgView;
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
-    private int surValue;
+    private float surValue;
 
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
     // 涨幅相关
@@ -51,25 +60,79 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     // 净值贡献相关
     private ListViewEx lvContribute;
-    private PositionDetailIncreaAdapter mContributeAdapter;
+    private PositionContributedapter mContributeAdapter;
 
     // 持仓调整相关
     private ListViewEx lvAdjustHistory;
     private AdjustHistoryAdapter mAdjustAdapter;
 
+    private int mCombinationId;
+
+    private PositionDetail mPositionDetail;
+
+    private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
+
+    public static FragmentPositionDetail newInstance(int combinationId) {
+        FragmentPositionDetail fragment = new FragmentPositionDetail();
+
+        // arguments
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARGUMENT_COMBINTAION_ID, combinationId);
+        fragment.setArguments(arguments);
+
+        return fragment;
+    }
+
+    public FragmentPositionDetail() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setStockList();
+        // setStockList();
+
+        // handle intent extras
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationId = extras.getInt(ARGUMENT_COMBINTAION_ID);
+
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new ParseHttpListener<PositionDetail>() {
+
+            @Override
+            protected PositionDetail parseDateTask(String jsonData) {
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(jsonData);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+            }
+
+            @Override
+            protected void afterParseData(PositionDetail object) {
+                setStockList();
+                setPieList();
+            }
+        });
+        // setStockList();
+        // setPieList();
     }
 
     private void setStockList() {
+        // stockList = mPositionDetail.getPositionList();
         ConStockBean stock1 = new ConStockBean(1, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]), "沪深大盘",
                 "600123");
         ConStockBean stock2 = new ConStockBean(2, 40, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]), "苏宁云商",
-                "600123");
+                "622123");
         ConStockBean stock3 = new ConStockBean(3, 30, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]), "阿里巴巴",
-                "600123");
+                "666666");
 
         stockList.add(stock1);
         stockList.add(stock2);
@@ -97,7 +160,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void initContributeView(View view) {
         lvContribute = (ListViewEx) view.findViewById(R.id.lv_contribute_layout);
-        mContributeAdapter = new PositionDetailIncreaAdapter(getActivity(), stockList);
+        mContributeAdapter = new PositionContributedapter(getActivity(), stockList);
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_contribute_title, null);
         lvContribute.addHeaderView(headerView);
         lvContribute.setAdapter(mContributeAdapter);
@@ -111,7 +174,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void initPieView(View view) {
         pgView = (PieGraph) view.findViewById(R.id.piegrah);
-        setPieList();
+        pgView.setSlices(pieList);
+
     }
 
     private void initIncreaseList(View view) {
@@ -136,15 +200,14 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         }
         surpulsValue();
         PieSlice emptySlice = new PieSlice();
-        emptySlice.setColor(Color.RED);
+        emptySlice.setColor(ColorTemplate.DEF_RED);
         emptySlice.setValue(surValue);
         pieList.add(emptySlice);
 
-        pgView.setSlices(pieList);
     }
 
-    private int surpulsValue() {
-        int total = 100;
+    private float surpulsValue() {
+        float total = 1;
         for (int i = 0; i < stockList.size(); i++) {
             total -= stockList.get(i).getDutyValue();
         }
@@ -158,9 +221,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         int id = v.getId();
         switch (id) {
             case R.id.btn_adjust_position: {
-                Intent intent = new Intent(getActivity(), PositionAdjustActivity.class);
-                intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
-                getActivity().startActivity(intent);
+
+                // todo :持仓调整
+                getActivity().startActivity(
+                        PositionAdjustActivity.newIntent(getActivity(), mPositionDetail, mCombinationId));
+
             }
 
                 break;

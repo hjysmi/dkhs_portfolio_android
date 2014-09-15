@@ -36,12 +36,12 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @date 2014-8-25 下午3:35:49
  * @version 1.0
  */
-public class PositionDetailIncreaAdapter extends BaseAdapter {
+public class PositionContributedapter extends BaseAdapter {
     private Context mContext;
     private int maxValue = 0;
     private List<ConStockBean> stockList;
 
-    public PositionDetailIncreaAdapter(Context mContext, List<ConStockBean> stocks) {
+    public PositionContributedapter(Context mContext, List<ConStockBean> stocks) {
         this.mContext = mContext;
         this.stockList = stocks;
         // setSurpusValue();
@@ -55,7 +55,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return this.stockList.size() + 1;
+        return this.stockList.size();
     }
 
     @Override
@@ -87,30 +87,18 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-        ConStockBean item = null;
-        if (position == stockList.size()) {// 剩余占比图
-
-            viewHolder.colorView.setBackgroundColor(ColorTemplate.DEF_RED);
-            viewHolder.tvCenterValue.setText(getSurpusValue() + "");
-            viewHolder.tvRightValue.setVisibility(View.GONE);
-        } else {
-            item = stockList.get(position);
-            viewHolder.tvCenterValue.setText(item.getDutyValue()  + "");
-            viewHolder.tvRightValue.setVisibility(View.VISIBLE);
-        }
-
+        ConStockBean item = stockList.get(position);
+        viewHolder.colorView.setBackgroundColor(item.getDutyColor());
+        viewHolder.tvCenterValue.setText(item.getDutyValue()+ "");
         return convertView;
     }
 
-    public float getSurpusValue() {
-
-        int surpusValu = 100;
+    public void setSurpusValue() {
+        int surpusValu = 1;
         for (int i = 0; i < stockList.size(); i++) {
             surpusValu -= stockList.get(i).getDutyValue();
         }
-        return surpusValu;
-        // maxValue = surpusValu;
+        maxValue = surpusValu;
 
     }
 

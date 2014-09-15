@@ -12,7 +12,6 @@ public abstract class BasicHttpListener implements IHttpListener {
 
     @Override
     public void onHttpSuccess(String result) {
-
         if (result.startsWith("{")) {
             try {
                 JSONObject jsonObject = new JSONObject(result);

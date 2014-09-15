@@ -159,7 +159,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 csBean.setName("股票" + key + i);
 
             }
-            csBean.setId(i);
+            csBean.setStockId(i);
+            csBean.setStockCode("" + (600000 + i));
             csBean.setCurrentValue(20.00f + i);
             mDataList.add(csBean);
         }
@@ -200,7 +201,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         for (int i = 0; i < 20; i++) {
             ConStockBean csBean = new ConStockBean();
             csBean.setName("基金名称" + i);
-            csBean.setId(i + 100);
+            csBean.setStockId(i + 100);
+
             csBean.setCurrentValue(9.15f + i);
             mDataList.add(csBean);
         }
@@ -210,7 +212,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         for (int i = 0; i < 20; i++) {
             ConStockBean csBean = new ConStockBean();
             csBean.setName("个股名" + i);
-            csBean.setId(i + 100);
+            csBean.setStockId(i + 100);
             csBean.setCurrentValue(9.15f + i);
             mDataList.add(csBean);
         }
@@ -284,7 +286,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             for (int i = 0; i < 20; i++) {
                 ConStockBean csBean = new ConStockBean();
                 csBean.setName("加载项" + i);
-                csBean.setId(i + 120);
+                csBean.setStockId(i + 120);
                 csBean.setCurrentValue(30.15f + i);
                 loadList.add(csBean);
             }

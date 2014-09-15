@@ -60,7 +60,7 @@ public class MyCombinationEngineImpl {
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClilent.request(HttpMethod.POST, DKHSUrl.Portfolio.portfolio, params, listener);
+        DKHSClilent.requestByPost(DKHSUrl.Portfolio.portfolio, params, listener);
 
     }
 
@@ -69,16 +69,52 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void deleteCombination(long id, IHttpListener listener) {
+    public void deleteCombination(String Ids, IHttpListener listener) {
 
-        // {"id": 14, "name": "我的组合4", "description": "", "created_at": "2014-09-11T06:00:38Z", "net_value": 0.0}
+        RequestParams params = new RequestParams();
+        // params.addBodyParameter("portfolios ", "1,2,3");
+        params.addBodyParameter("portfolios ", Ids);
 
-        DKHSClilent.request(HttpMethod.DELETE, DKHSUrl.Portfolio.portfolio + id + "/", null, listener);
+        DKHSClilent.requestByPost(DKHSUrl.Portfolio.delete, params, listener);
+        // DKHSClilent.request(HttpMethod.DELETE, DKHSUrl.Portfolio.portfolio + id + "/", null, listener);
 
     }
 
     /**
-     * 删除我的组合
+     * 修改组合名称、描述
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void updateCombination(String id, String name, String desc, IHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("name", name);
+        params.addBodyParameter("description", desc);
+
+        DKHSClilent.requestByPost(DKHSUrl.Portfolio.update + id + "/", params, listener);
+
+    }
+
+    /**
+     * 修改持仓组合
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void adjustCombination(String id, List<SubmitSymbol> symbols, IHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("portfolio", id);
+        // 调整比例, 格式如：[{"symbol": 101000002,"percent":0.45},{"symbol": 101000004,"percent":0.35}]
+        Gson gson = new Gson();
+        String symbolsValue = gson.toJson(symbols);
+        params.addBodyParameter("symbols", symbolsValue);
+
+        DKHSClilent.requestByPost(DKHSUrl.Portfolio.adjust, params, listener);
+
+    }
+
+    /**
+     * 查询持仓明细
      * 
      * @param listener :服务器响应监听
      */
@@ -86,7 +122,6 @@ public class MyCombinationEngineImpl {
         System.out.println("queryCombination id:" + id);
         String[] params = { String.valueOf(id) };
 
-        // DKHSClilent.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio + id + "/", params, listener);
         DKHSClilent.requestByGet(DKHSUrl.Portfolio.portfolio, params, listener);
 
     }
