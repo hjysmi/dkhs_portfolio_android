@@ -49,7 +49,8 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 public class FragmentPositionDetail extends Fragment implements OnClickListener {
 
     private PieGraph pgView;
-    private Button btnDate;
+    private View btnDate;
+    private TextView tvCurrentDay;
     private TextView tvCombinationName;
     private TextView tvNetValue;
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
@@ -151,7 +152,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     }
 
     protected void setCombinationInfo() {
-        btnDate.setText(mPositionDetail.getCurrentDate());
+        tvCurrentDay.setText(mPositionDetail.getCurrentDate());
         tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
         tvNetValue.setText(mPositionDetail.getPortfolio().getCurrentValue() + "");
 
@@ -207,7 +208,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void initView(View view) {
         view.findViewById(R.id.btn_adjust_position).setOnClickListener(this);
-        btnDate = (Button) view.findViewById(R.id.btn_detail_date);
+        btnDate = view.findViewById(R.id.btn_detail_date);
+        tvCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);
         tvCombinationName = (TextView) view.findViewById(R.id.tv_conbination_name);
         tvNetValue = (TextView) view.findViewById(R.id.tv_today_netvalue);
 
@@ -265,7 +267,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             case R.id.btn_adjust_position: {
 
                 // todo :持仓调整
-                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), stockList, mCombinationId));
+                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), mPositionDetail));
 
             }
 

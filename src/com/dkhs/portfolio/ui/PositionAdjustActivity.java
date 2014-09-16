@@ -79,20 +79,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationDesc;
     private Button btnConfirm;
 
-    // private PositionDetail mPositionDetailBean;
+    private PositionDetail mPositionDetailBean;
     private int mCombinationId;
     private boolean isAdjustCombination;
 
-    public static Intent newIntent(Context context, List<ConStockBean> stockList, int combinationId) {
+    public static Intent newIntent(Context context, PositionDetail positionBean) {
         Intent intent = new Intent(context, PositionAdjustActivity.class);
 
         // extras
-        if (null == stockList) {
+        if (null == positionBean) {
             intent.putExtra(EXTRA_ISADJUSTCOMBINATION, false);
         } else {
             intent.putExtra(EXTRA_ISADJUSTCOMBINATION, true);
-            intent.putExtra(EXTRA_POSITIONDETAIL, (Serializable) stockList);
-            intent.putExtra(EXTRA_COMBINATION_ID, combinationId);
+            intent.putExtra(EXTRA_POSITIONDETAIL, positionBean);
+            // intent.putExtra(EXTRA_COMBINATION_ID, combinationId);
         }
 
         return intent;
@@ -126,8 +126,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         // mViewType = typeValue;
         // }
         isAdjustCombination = extras.getBoolean(EXTRA_ISADJUSTCOMBINATION);
-        stockList = (List<ConStockBean>) extras.getSerializable(EXTRA_POSITIONDETAIL);
-        mCombinationId = extras.getInt(EXTRA_COMBINATION_ID);
+        mPositionDetailBean = (PositionDetail) extras.getSerializable(EXTRA_POSITIONDETAIL);
+        if (null != mPositionDetailBean) {
+
+            if (null != mPositionDetailBean.getPositionList()) {
+                stockList = mPositionDetailBean.getPositionList();
+            }
+            mCombinationId = mPositionDetailBean.getPortfolio().getId();
+        }
 
     }
 
@@ -152,24 +158,29 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private void initConbinationInfoView() {
-        if (!isAdjustCombination) {
-            ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
+        if (isAdjustCombination) {
+            ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
             if (viewstub != null) {
                 // viewstub.inflate();
                 View inflatedView = viewstub.inflate();
                 tvCreateTime = (TextView) inflatedView.findViewById(R.id.tv_create_time);
                 tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
+                // tvCreateTime.setText(text)
+                tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
+                tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+                TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
+                tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
             }
 
         } else {
-            ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
+            ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
+
             if (viewstub != null) {
-                // viewstub.inflate();
                 View inflatedView = viewstub.inflate();
                 etConbinationName = (EditText) inflatedView.findViewById(R.id.et_myconbina_name);
 
                 etConbinationDesc = (EditText) inflatedView.findViewById(R.id.et_myconbina_desc);
-
+                //
             }
         }
     }
@@ -261,6 +272,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private void setPieList() {
+
         int valueSize = stockList.size();
         pieList = new ArrayList<PieSlice>();
         for (int i = 0; i < valueSize; i++) {

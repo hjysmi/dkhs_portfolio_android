@@ -267,6 +267,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         } else {
             // setButtonRefresh();
             // setButtonMore();
+            gvCombination.setOnItemClickListener(this);
             removeSelectDatas();
         }
 
@@ -313,7 +314,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     private void upateDelViewStatus() {
         setButtonRefresh();
         setButtonMore();
-
+        
         mCombinationAdapter.setDelStatus(false);
         mCombinationAdapter.notifyDataSetChanged();
     }
