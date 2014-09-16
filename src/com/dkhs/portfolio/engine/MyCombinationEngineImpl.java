@@ -73,7 +73,7 @@ public class MyCombinationEngineImpl {
 
         RequestParams params = new RequestParams();
         // params.addBodyParameter("portfolios ", "1,2,3");
-        params.addBodyParameter("portfolios ", Ids);
+        params.addBodyParameter("portfolios", Ids);
 
         DKHSClilent.requestByPost(DKHSUrl.Portfolio.delete, params, listener);
         // DKHSClilent.request(HttpMethod.DELETE, DKHSUrl.Portfolio.portfolio + id + "/", null, listener);
@@ -100,10 +100,10 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void adjustCombination(String id, List<SubmitSymbol> symbols, IHttpListener listener) {
+    public void adjustCombination(int id, List<SubmitSymbol> symbols, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
-        params.addBodyParameter("portfolio", id);
+        params.addBodyParameter("portfolio", id+"");
         // 调整比例, 格式如：[{"symbol": 101000002,"percent":0.45},{"symbol": 101000004,"percent":0.35}]
         Gson gson = new Gson();
         String symbolsValue = gson.toJson(symbols);

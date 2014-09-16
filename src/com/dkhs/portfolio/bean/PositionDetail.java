@@ -40,6 +40,30 @@ public class PositionDetail implements Serializable {
         private float toPercent;
         @SerializedName("created_at")
         private String modifyTime;
+
+        public float getFromPercent() {
+            return fromPercent;
+        }
+
+        public void setFromPercent(float fromPercent) {
+            this.fromPercent = fromPercent;
+        }
+
+        public float getToPercent() {
+            return toPercent;
+        }
+
+        public void setToPercent(float toPercent) {
+            this.toPercent = toPercent;
+        }
+
+        public String getModifyTime() {
+            return modifyTime;
+        }
+
+        public void setModifyTime(String modifyTime) {
+            this.modifyTime = modifyTime;
+        }
     }
 
     public CombinationBean getPortfolio() {

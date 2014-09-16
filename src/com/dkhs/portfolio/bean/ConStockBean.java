@@ -23,7 +23,7 @@ public class ConStockBean extends StockBean implements Serializable {
     private static final long serialVersionUID = 129554888L;
     @SerializedName("percent")
     protected float percent;
-    protected int dutyValue;
+    protected int dutyValue = -1;
     protected int dutyColor;
     protected float currentValue;
     protected float increaseValue;
@@ -51,6 +51,9 @@ public class ConStockBean extends StockBean implements Serializable {
     }
 
     public int getDutyValue() {
+        if (dutyValue == -1) {
+            dutyValue = (int) (percent * 100);
+        }
         return dutyValue;
     }
 
@@ -104,7 +107,8 @@ public class ConStockBean extends StockBean implements Serializable {
     }
 
     public void setPercent(float percent) {
-        dutyValue = (int) (percent * 100);
+        this.dutyValue = (int) (percent * 100);
         this.percent = percent;
+
     }
 }

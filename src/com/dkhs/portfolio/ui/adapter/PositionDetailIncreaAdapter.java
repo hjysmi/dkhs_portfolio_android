@@ -92,18 +92,24 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
         if (position == stockList.size()) {// 剩余占比图
 
             viewHolder.colorView.setBackgroundColor(ColorTemplate.DEF_RED);
-            viewHolder.tvCenterValue.setText(getSurpusValue() + "");
-            viewHolder.tvRightValue.setVisibility(View.GONE);
+            viewHolder.tvCenterValue.setText(getSurpusValue() + "%");
+            viewHolder.tvRightValue.setVisibility(View.INVISIBLE);
+            viewHolder.tvStockCode.setVisibility(View.GONE);
+            viewHolder.tvStockName.setText("剩余资金");
         } else {
             item = stockList.get(position);
-            viewHolder.tvCenterValue.setText(item.getDutyValue()  + "");
+
+            viewHolder.tvCenterValue.setText(item.getDutyValue() + "%");
+            viewHolder.colorView.setBackgroundColor(item.getDutyColor());
             viewHolder.tvRightValue.setVisibility(View.VISIBLE);
+            viewHolder.tvStockCode.setText(item.getStockCode());
+            viewHolder.tvStockName.setText(item.getStockName());
         }
 
         return convertView;
     }
 
-    public float getSurpusValue() {
+    public int getSurpusValue() {
 
         int surpusValu = 100;
         for (int i = 0; i < stockList.size(); i++) {

@@ -278,14 +278,15 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     }
 
     private void removeSelectDatas() {
-        List<Integer> selectList = mCombinationAdapter.getDelPosition();
+        List<CombinationBean> selectList = mCombinationAdapter.getDelPosition();
         final List<CombinationBean> delList = new ArrayList<CombinationBean>();
         StringBuilder sbIds = new StringBuilder();
-        for (Integer index : selectList) {
-            int i = index;
-            CombinationBean delStock = mDataList.get(i);
+        for (CombinationBean delStock : selectList) {
+            // int i = index;
+            // CombinationBean delStock = mDataList.get(i);
             delList.add(delStock);
             sbIds.append(delStock.getId());
+            System.out.println("Del combinationId:" + delStock.getId());
             sbIds.append(",");
         }
         if (delList.size() > 0) {

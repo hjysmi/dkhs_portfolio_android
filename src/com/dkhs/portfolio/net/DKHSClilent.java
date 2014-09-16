@@ -40,7 +40,7 @@ public class DKHSClilent {
         if (null == params) {
             params = new RequestParams();
         }
-        params.addHeader("Authorization", "Bearer " + "431650b7d77c565132831e8337ab62ca9f51ced3");
+        params.addHeader("Authorization", "Bearer " + "af6825011ea958732dfdcc8b6ba10bef5f25249a");
         // params.addHeader("Authorization", "Bearer " + "0852e9e636399c617126c17a1e6dd5b27abe8811");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);

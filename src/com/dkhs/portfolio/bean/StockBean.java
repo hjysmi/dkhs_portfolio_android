@@ -24,7 +24,7 @@ public class StockBean implements Serializable {
     @SerializedName("symbol_code")
     protected String stockCode;
     @SerializedName("symbol")
-    protected int stockId;
+    protected long stockId;
     @SerializedName("symbol_name")
     protected String stockName;
 
@@ -36,11 +36,11 @@ public class StockBean implements Serializable {
         this.stockCode = stockCode;
     }
 
-    public int getStockId() {
+    public long getStockId() {
         return stockId;
     }
 
-    public void setStockId(int stockId) {
+    public void setStockId(long stockId) {
         this.stockId = stockId;
     }
 

@@ -79,19 +79,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationDesc;
     private Button btnConfirm;
 
-    private PositionDetail mPositionDetailBean;
+    // private PositionDetail mPositionDetailBean;
     private int mCombinationId;
     private boolean isAdjustCombination;
 
-    public static Intent newIntent(Context context, PositionDetail positionBean, int combinationId) {
+    public static Intent newIntent(Context context, List<ConStockBean> stockList, int combinationId) {
         Intent intent = new Intent(context, PositionAdjustActivity.class);
 
         // extras
-        if (null == positionBean) {
+        if (null == stockList) {
             intent.putExtra(EXTRA_ISADJUSTCOMBINATION, false);
         } else {
             intent.putExtra(EXTRA_ISADJUSTCOMBINATION, true);
-            intent.putExtra(EXTRA_POSITIONDETAIL, positionBean);
+            intent.putExtra(EXTRA_POSITIONDETAIL, (Serializable) stockList);
             intent.putExtra(EXTRA_COMBINATION_ID, combinationId);
         }
 
@@ -126,7 +126,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         // mViewType = typeValue;
         // }
         isAdjustCombination = extras.getBoolean(EXTRA_ISADJUSTCOMBINATION);
-        mPositionDetailBean = (PositionDetail) extras.getSerializable(EXTRA_POSITIONDETAIL);
+        stockList = (List<ConStockBean>) extras.getSerializable(EXTRA_POSITIONDETAIL);
         mCombinationId = extras.getInt(EXTRA_COMBINATION_ID);
 
     }
@@ -196,18 +196,18 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      */
     private void setStockList() {
 
-        System.out.println("PositionDetailBean.getCurrentDate():" + mPositionDetailBean.getCurrentDate());
-
-        ConStockBean stock1 = new ConStockBean(1, 0.3f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]),
-                "沪深大盘", "600123");
-        ConStockBean stock2 = new ConStockBean(2, 0.4f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]),
-                "苏宁云商", "622123");
-        ConStockBean stock3 = new ConStockBean(3, 0.3f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]),
-                "阿里巴巴", "666666");
-        // ConStockBean stock4 = new SurpusStock(surValue);
-        stockList.add(stock1);
-        stockList.add(stock2);
-        stockList.add(stock3);
+        // System.out.println("PositionDetailBean.getCurrentDate():" + mPositionDetailBean.getCurrentDate());
+        //
+        // ConStockBean stock1 = new ConStockBean(1, 0.3f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]),
+        // "沪深大盘", "600123");
+        // ConStockBean stock2 = new ConStockBean(2, 0.4f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]),
+        // "苏宁云商", "622123");
+        // ConStockBean stock3 = new ConStockBean(3, 0.3f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]),
+        // "阿里巴巴", "666666");
+        // // ConStockBean stock4 = new SurpusStock(surValue);
+        // stockList.add(stock1);
+        // stockList.add(stock2);
+        // stockList.add(stock3);
         // stockList.add(stock4);
 
     }
@@ -297,7 +297,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         int total = 100;
         for (int i = 0; i < stockList.size(); i++) {
             total -= stockList.get(i).getDutyValue();
-            System.out.println("100-"+stockList.get(i).getDutyValue());
         }
         surValue = total;
 
@@ -331,7 +330,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 if (!isAdjustCombination) {
                     createCombinationByServer();
                 } else {
-
+                    adjustPositionDetailToServer();
                 }
                 // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
             }
@@ -349,15 +348,29 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    private void createCombinationByServer() {
+    private void adjustPositionDetailToServer() {
+        new MyCombinationEngineImpl().adjustCombination(mCombinationId, generateSymbols(), new BasicHttpListener() {
+            @Override
+            public void onSuccess(String result) {
+                Toast.makeText(PositionAdjustActivity.this, "调整持仓成功!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private List<SubmitSymbol> generateSymbols() {
         List<SubmitSymbol> symbols = new ArrayList<SubmitSymbol>();
         for (ConStockBean stock : stockList) {
-            // System.out.println("After adjust stock name:" + stock.getName() + " value:" + stock.getDutyValue());
             SubmitSymbol symbol = new SubmitSymbol();
             symbol.setSymbol(stock.getStockId());
-            symbol.setPercent(stock.getDutyValue() / 100);
+            symbol.setPercent(stock.getDutyValue() / 100.0f);
+            // System.out.println("symbols stock id:" + symbol.getSymbol() + " value:" + symbol.getPercent());
             symbols.add(symbol);
         }
+        return symbols;
+    }
+
+    private void createCombinationByServer() {
+
         String combinationName = "";
         if (null != etConbinationName) {
             combinationName = etConbinationName.getText().toString();
@@ -366,7 +379,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != etConbinationDesc) {
             combinationDesc = etConbinationDesc.getText().toString();
         }
-        new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbols,
+        new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, generateSymbols(),
                 new BasicHttpListener() {
 
                     @Override
@@ -398,7 +411,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
-                        System.out.println("listStock size:" + listStock.size());
+                        // System.out.println("listStock size:" + listStock.size());
                         // stockList.addAll(listStock);
                         stockList = listStock;
 
@@ -417,7 +430,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                     } else {
 
-                        System.out.println("listStock is null");
+                        // System.out.println("listStock is null");
                     }
                     break;
             }
