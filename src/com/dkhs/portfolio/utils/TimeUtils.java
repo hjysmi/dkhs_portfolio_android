@@ -77,6 +77,8 @@ public class TimeUtils {
 
     private static final SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT = new SimpleDateFormat(
             "EEE, dd MMM yyyy HH:mm:ss Z", Locale.CHINA);
+    private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA);
 
     public static Date parseTimestamp(String timestamp) {
         for (SimpleDateFormat format : ACCEPTED_TIMESTAMP_FORMATS) {
@@ -87,6 +89,7 @@ public class TimeUtils {
                 continue;
             }
         }
+        
 
         // All attempts to parse have failed
         return null;

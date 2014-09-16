@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.net;
 
+import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,21 +29,19 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2014-9-11 上午11:19:14
  * @version 1.0
  */
-public class DKHSClilent {
+public class DKHSClient {
     private static HttpUtils mHttpUtils = new HttpUtils();
-
-    public static void post(String url, RequestParams params, final IHttpListener listener) {
-
-    }
 
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
         if (null == params) {
             params = new RequestParams();
         }
-        params.addHeader("Authorization", "Bearer " + "0852e9e636399c617126c17a1e6dd5b27abe7511");
-        // params.addHeader("Authorization", "Bearer " + "0852e9e636399c617126c17a1e6dd5b27abe8811");
+        params.addHeader("Authorization", "Bearer " + "af6825011ea958732dfdcc8b6ba10bef5f25249a");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);
+        LogUtils.d("RequestParams:" + params);
+        // 不设置缓存
+        mHttpUtils.configDefaultHttpCacheExpiry(0);
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
             @Override
@@ -62,10 +61,16 @@ public class DKHSClilent {
                 LogUtils.customTagPrefix = "DKHSClilent"; // 方便调试时过滤 adb logcat 输出
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);
+
                 listener.onHttpFailure(error.getExceptionCode(), msg);
 
             }
         });
+    }
+
+    public static void requestByPost(String url, RequestParams params, final IHttpListener listener) {
+
+        request(HttpMethod.POST, getAbsoluteUrl(url), params, listener);
     }
 
     public static void requestByGet(String url, String[] params, final IHttpListener listener) {

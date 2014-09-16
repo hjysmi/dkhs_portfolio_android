@@ -174,8 +174,8 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_page_padding"
                         android:layout_centerVertical="true"
+                        android:layout_margin="@dimen/main_page_padding"
                         android:background="@drawable/tv_main_portfolio" />
 
                     <ImageView

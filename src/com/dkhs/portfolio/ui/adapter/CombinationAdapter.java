@@ -53,7 +53,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     private GridView.LayoutParams mItemViewLayoutParams;
     private List<CombinationBean> mDataList;
     private boolean isDelStatus;
-    private ArrayList<Integer> mSelectList = new ArrayList<Integer>();
+    private ArrayList<CombinationBean> mSelectList = new ArrayList<CombinationBean>();
 
     public CombinationAdapter(Context context, List<CombinationBean> datas) {
         this.mContext = context;
@@ -175,7 +175,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         if (isDelStatus) {
             viewHolder.checkBox.setVisibility(View.VISIBLE);
             // viewHolder.btnEidt.setVisibility(View.GONE);
-            viewHolder.checkBox.setTag(position);
+            viewHolder.checkBox.setTag(item);
             viewHolder.checkBox.setChecked(mSelectList.contains(position));
             viewHolder.checkBox.setOnCheckedChangeListener(this);
         } else {
@@ -278,21 +278,21 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     }
 
     public void addItem() {
-        Intent intent = new Intent(mContext, PositionAdjustActivity.class);
-        intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_CREATE_CONBINA);
-        mContext.startActivity(intent);
+        // Intent intent = new Intent(mContext, PositionAdjustActivity.class);
+        // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_CREATE_CONBINA);
+        mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
     }
 
-    public ArrayList<Integer> getDelPosition() {
+    public ArrayList<CombinationBean> getDelPosition() {
         return mSelectList;
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
-            mSelectList.add((Integer) buttonView.getTag());
+            mSelectList.add((CombinationBean) buttonView.getTag());
         } else {
-            mSelectList.remove((Integer) buttonView.getTag());
+            mSelectList.remove((CombinationBean) buttonView.getTag());
         }
     }
 

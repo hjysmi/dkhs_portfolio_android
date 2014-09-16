@@ -24,6 +24,7 @@
     <color name="color_username">#af000000</color>
     <color name="color_small_text">#a9000000</color>
     <color name="color_title_text">#000000</color>
+    <color name="indicator_selected">#00ACAC</color>
     <color name="color_content_text">#ff000000</color>
     <color name="color_leftview">#33000000</color>
     <color name="color_press">#ffe8e8e8</color>

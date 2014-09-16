@@ -27,6 +27,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LineChart;
 import com.dkhs.portfolio.ui.widget.MAChart;
@@ -47,6 +49,41 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private EditText etCombinName;
     private TextView tvCombinName;
     private Button btnEditName;
+
+    private CombinationBean mCombinationBean;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            handleArguments(arguments);
+        }
+
+        // handle intent extras
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        System.out.println("FragmentNetValueTrend CombinationBean name:" + mCombinationBean.getName());
+
+    }
+
+    private void handleArguments(Bundle arguments) {
+        // TODO Auto-generated method stub
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

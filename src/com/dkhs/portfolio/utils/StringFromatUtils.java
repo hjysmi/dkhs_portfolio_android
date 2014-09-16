@@ -19,4 +19,5 @@ public class StringFromatUtils {
     public static String getPercentValue(int value) {
         return value + "%";
     }
+
 }

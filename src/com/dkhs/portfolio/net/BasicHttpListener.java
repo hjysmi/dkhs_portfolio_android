@@ -3,13 +3,15 @@ package com.dkhs.portfolio.net;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.widget.Toast;
+
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.lidroid.xutils.util.LogUtils;
 
 public abstract class BasicHttpListener implements IHttpListener {
 
     @Override
     public void onHttpSuccess(String result) {
-
         if (result.startsWith("{")) {
             try {
                 JSONObject jsonObject = new JSONObject(result);
@@ -63,7 +65,7 @@ public abstract class BasicHttpListener implements IHttpListener {
         // if(showDialogIfIsTokenCode(errCode)){
         // GTGUtils.showTip(HttpCode.getCodeResId(errCode));
         // }
-
+        Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
 
     }

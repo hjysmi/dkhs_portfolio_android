@@ -71,8 +71,19 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
         initTitleView();
 
-        initData();
+        // loadCombinationData();
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadCombinationData();
     }
 
     private void initTitleView() {
@@ -128,7 +139,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     }
 
-    private void initData() {
+    private void loadCombinationData() {
         // CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
         // CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
         // CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
@@ -165,26 +176,25 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        Intent intent = new Intent(this, CombinationDetailActivity.class);
-        // Intent intent = new Intent(this, PositionAdjustActivity.class);
+        // Intent intent = new Intent(this, CombinationDetailActivity.class);
         // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
-        startActivity(intent);
+        startActivity(CombinationDetailActivity.newIntent(this, mDataList.get(position)));
 
-        new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
-                new ParseHttpListener<String>() {
-
-                    @Override
-                    protected String parseDateTask(String jsonData) {
-                        // TODO Auto-generated method stub
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(String object) {
-                        // TODO Auto-generated method stub
-
-                    }
-                });
+        // new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
+        // new ParseHttpListener<String>() {
+        //
+        // @Override
+        // protected String parseDateTask(String jsonData) {
+        // // TODO Auto-generated method stub
+        // return null;
+        // }
+        //
+        // @Override
+        // protected void afterParseData(String object) {
+        // // TODO Auto-generated method stub
+        //
+        // }
+        // });
 
     }
 
@@ -257,6 +267,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         } else {
             // setButtonRefresh();
             // setButtonMore();
+            gvCombination.setOnItemClickListener(this);
             removeSelectDatas();
         }
 
@@ -264,18 +275,24 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void refreshData() {
         // System.out.println("Second refresh button click");
-        initData();
+        loadCombinationData();
     }
 
     private void removeSelectDatas() {
-        List<Integer> selectList = mCombinationAdapter.getDelPosition();
+        List<CombinationBean> selectList = mCombinationAdapter.getDelPosition();
         final List<CombinationBean> delList = new ArrayList<CombinationBean>();
-        for (Integer index : selectList) {
-            int i = index;
-            delList.add(mDataList.get(i));
+        StringBuilder sbIds = new StringBuilder();
+        for (CombinationBean delStock : selectList) {
+            // int i = index;
+            // CombinationBean delStock = mDataList.get(i);
+            delList.add(delStock);
+            sbIds.append(delStock.getId());
+            System.out.println("Del combinationId:" + delStock.getId());
+            sbIds.append(",");
         }
         if (delList.size() > 0) {
-            new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+            // new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+            new MyCombinationEngineImpl().deleteCombination(sbIds.toString(), new BasicHttpListener() {
 
                 @Override
                 public void onSuccess(String result) {
@@ -297,7 +314,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     private void upateDelViewStatus() {
         setButtonRefresh();
         setButtonMore();
-
+        
         mCombinationAdapter.setDelStatus(false);
         mCombinationAdapter.notifyDataSetChanged();
     }

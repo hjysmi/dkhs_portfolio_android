@@ -95,20 +95,20 @@ public class OptionalStockAdapter extends BaseAdapter {
         ConStockBean item = stockList.get(position);
         tvStockName.setText(item.getName());
         colorView.setBackgroundColor(item.getDutyColor());
-        seekbar.setProgress(item.getDutyValue());
+        seekbar.setProgress((int) (item.getDutyValue()));
 
         ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) seekbar.getProgressDrawable())
                 .findDrawableByLayerId(android.R.id.progress);
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(item.getDutyColor());
-        tvPercent.setText(StringFromatUtils.getPercentValue(item.getDutyValue()));
+        tvPercent.setText(StringFromatUtils.getPercentValue((int) (item.getDutyValue())));
 
         seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                // System.out.println("onStopTrackingTouch");
                 stockList.get(position).setDutyValue(seekBar.getProgress());
+
                 if (null != mDutyNotify) {
 
                     mDutyNotify.notifyRefresh(position, seekBar.getProgress());
@@ -125,7 +125,7 @@ public class OptionalStockAdapter extends BaseAdapter {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int p = progress;
-                int maxScoll = maxValue + stockList.get(position).getDutyValue();
+                int maxScoll = (int) (maxValue + stockList.get(position).getDutyValue());
                 if (progress >= maxScoll) {
                     p = maxScoll;
                     seekbar.setProgress(maxScoll);

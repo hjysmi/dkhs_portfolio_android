@@ -9,7 +9,6 @@
         android:layout_height="8dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_gravity="center|bottom"
         android:orientation="horizontal" >
     </LinearLayout>
 
