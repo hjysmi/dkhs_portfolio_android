@@ -29,22 +29,19 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2014-9-11 上午11:19:14
  * @version 1.0
  */
-public class DKHSClilent {
+public class DKHSClient {
     private static HttpUtils mHttpUtils = new HttpUtils();
-
-    public static void post(String url, RequestParams params, final IHttpListener listener) {
-
-    }
 
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
         if (null == params) {
             params = new RequestParams();
         }
         params.addHeader("Authorization", "Bearer " + "af6825011ea958732dfdcc8b6ba10bef5f25249a");
-        // params.addHeader("Authorization", "Bearer " + "0852e9e636399c617126c17a1e6dd5b27abe8811");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);
         LogUtils.d("RequestParams:" + params);
+        // 不设置缓存
+        mHttpUtils.configDefaultHttpCacheExpiry(0);
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
             @Override
@@ -72,7 +69,7 @@ public class DKHSClilent {
     }
 
     public static void requestByPost(String url, RequestParams params, final IHttpListener listener) {
-        
+
         request(HttpMethod.POST, getAbsoluteUrl(url), params, listener);
     }
 
