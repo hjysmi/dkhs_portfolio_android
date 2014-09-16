@@ -38,7 +38,7 @@
 
     <style name="TextAppearance.TabPageIndicator" parent="Widget">
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/indicaotr_textselector</item>
+        <item name="android:textColor">@color/indicator_textselector</item>
     </style>
 
     <style name="Widget.IconPageIndicator" parent="Widget">
