@@ -25,6 +25,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
@@ -177,6 +178,10 @@ public class MainFragment extends Fragment implements OnClickListener {
                 startActivity(intent);
             }
                 break;
+            case R.id.btn_optional_stoack: {
+               new SearchStockEngineImpl().searchStock(89+"");
+            }
+            break;
             default:
                 break;
         }

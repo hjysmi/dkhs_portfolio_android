@@ -21,13 +21,13 @@ public class DKHSUrl {
 
     public interface Portfolio {
         // 查询我的组合
-        String portfolio = "/api/v1/portfolio/";
+        String portfolio = "/api/v1/portfolio/mine/";
         // 删除组合
         String delete = "/api/v1/portfolio/delete_portfolios/";
         // 更新组合信息
         String update = "/api/v1/portfolio/update_portfolio/";
         // 持仓调整
-        String adjust = "/api/v1/portfolio/adjust/";
+        String adjust = "/api/v1/portfolio/adjust_positions/";
 
     }
 }

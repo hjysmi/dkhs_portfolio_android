@@ -11,30 +11,30 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AbsListView.LayoutParams;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.CompoundButton;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SearchStockBean;
+import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
-import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
-import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
-import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
+import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
+import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -144,27 +144,29 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     // }
 
     public void searchByKey(String key) {
-        testSearchKey(key);
-
+        mDataList.clear();
+        // testSearchKey(key);
+        new SearchStockEngineImpl().searchStock(key);
+        mAdapterConbinStock.notifyDataSetChanged();
     }
 
     private void testSearchKey(String key) {
-        mDataList.clear();
-        for (int i = 0; i < 20; i++) {
-            ConStockBean csBean = new ConStockBean();
-            if (isFund) {
 
-                csBean.setName("基金" + key + i);
-            } else {
-                csBean.setName("股票" + key + i);
+        // for (int i = 0; i < 20; i++) {
+        // ConStockBean csBean = new ConStockBean();
+        // if (isFund) {
+        //
+        // csBean.setName("基金" + key + i);
+        // } else {
+        // csBean.setName("股票" + key + i);
+        //
+        // }
+        // csBean.setStockId(i+101000001);
+        // csBean.setStockCode("" + (600000 + i));
+        // csBean.setCurrentValue(20.00f + i);
+        // mDataList.add(csBean);
+        // }
 
-            }
-            csBean.setStockId(i+101000001);
-            csBean.setStockCode("" + (600000 + i));
-            csBean.setCurrentValue(20.00f + i);
-            mDataList.add(csBean);
-        }
-        mAdapterConbinStock.notifyDataSetChanged();
     }
 
     @Override
@@ -212,7 +214,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         for (int i = 0; i < 20; i++) {
             ConStockBean csBean = new ConStockBean();
             csBean.setName("个股名" + i);
-            csBean.setStockId(i+101000001);
+            csBean.setStockId(i + 101000001);
             csBean.setCurrentValue(9.15f + i);
             mDataList.add(csBean);
         }
