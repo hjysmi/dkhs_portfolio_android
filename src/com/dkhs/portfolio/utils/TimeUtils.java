@@ -77,8 +77,22 @@ public class TimeUtils {
 
     private static final SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT = new SimpleDateFormat(
             "EEE, dd MMM yyyy HH:mm:ss Z", Locale.CHINA);
-    private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat(
-            "yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA);
+    private static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",
+            Locale.CHINA);
+
+    public static Date parseISOTime(String iso8601str) {
+        try {
+            return DEFAULT_DATE_FORMAT.parse(iso8601str);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String getSimpleFormatTime(String iso8601str) {
+        return ACCEPTED_TIMESTAMP_FORMATS[2].format(parseISOTime(iso8601str));
+    }
 
     public static Date parseTimestamp(String timestamp) {
         for (SimpleDateFormat format : ACCEPTED_TIMESTAMP_FORMATS) {
@@ -89,7 +103,6 @@ public class TimeUtils {
                 continue;
             }
         }
-        
 
         // All attempts to parse have failed
         return null;

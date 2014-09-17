@@ -45,6 +45,7 @@ import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
 
 /**
@@ -167,7 +168,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
                 // tvCreateTime.setText(text)
                 tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
-                tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+//                tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+                tvCreateTime.setText(TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
                 TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
                 tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
             }

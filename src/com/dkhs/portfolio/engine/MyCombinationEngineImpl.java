@@ -119,10 +119,15 @@ public class MyCombinationEngineImpl {
      * @param listener :服务器响应监听
      */
     public void queryCombinationDetail(long id, IHttpListener listener) {
+
+        // queryCombinationDetailByDay(id, listener);
         String[] params = { String.valueOf(id) };
-
         DKHSClient.requestByGet(DKHSUrl.Portfolio.portfolio, params, listener);
+    }
 
+    public void queryCombinationDetailByDay(int id, String date, IHttpListener listener) {
+
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio + id + "/?" + date, null, listener);
     }
 
 }

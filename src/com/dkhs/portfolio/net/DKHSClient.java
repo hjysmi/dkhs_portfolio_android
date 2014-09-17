@@ -36,11 +36,12 @@ public class DKHSClient {
         if (null == params) {
             params = new RequestParams();
         }
-        params.addHeader("Authorization", "Bearer " + "af6825011ea958732dfdcc8b6ba10bef5f25249a");
+       
+        params.addHeader("Authorization", "Bearer " + "9d3447021f3e8b32f48dff1332f3565175516aef");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);
         LogUtils.d("RequestParams:" + params);
-        // 不设置缓存
+        // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
         mHttpUtils.configDefaultHttpCacheExpiry(0);
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
