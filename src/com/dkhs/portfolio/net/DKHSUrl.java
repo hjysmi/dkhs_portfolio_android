@@ -39,5 +39,8 @@ public class DKHSUrl {
         // 股票列表查询
         // /api/v1/quotes/symbols/{exchange}/{sort}/
         String stocklist = "/api/v1/quotes/symbols/";
+
+        // GET /api/v1/quotes/symbols_profile/
+        String profile = "/api/v1/quotes/symbols_profile/";
     }
 }

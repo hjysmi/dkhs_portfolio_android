@@ -55,6 +55,12 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
+    
+    
+    
+    public void setLoadType(){
+        
+    }
 
     /**
      * 

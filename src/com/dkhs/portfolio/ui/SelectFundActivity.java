@@ -130,7 +130,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
 
     @Override
     protected FragmentSelectStockFund setSearchFragment() {
-        return FragmentSelectStockFund.getFundFragment(ViewType.SEARCH);
+        return FragmentSelectStockFund.getFundFragment(ViewType.SEARCH_FUND);
     }
 
     private void showPopWindow() {

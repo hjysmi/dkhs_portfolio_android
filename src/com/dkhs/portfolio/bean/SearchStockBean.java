@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.bean;
 
+import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
 
@@ -23,11 +24,17 @@ import com.lidroid.xutils.db.annotation.Table;
 // 建议加上注解， 混淆后表名不受影响
 public class SearchStockBean extends DBEntityBase {
     @Column(column = "stock_name")
+    @SerializedName("abbr_name")
     private String stockName;
     @Column(column = "stock_code")
+    @SerializedName("symbol")
     private String stockCode;
-    @Column(column = "stock_id")
-    private long stockId;
+    // @Column(column = "stock_id")
+    // private long stockId;
+
+    @SerializedName("chi_spell")
+    @Column(column = "chi_spell")
+    private String chiSpell;
 
     public String getStockName() {
         return stockName;
@@ -45,11 +52,11 @@ public class SearchStockBean extends DBEntityBase {
         this.stockCode = stockCode;
     }
 
-    public long getStockId() {
-        return stockId;
+    public String getChiSpell() {
+        return chiSpell;
     }
 
-    public void setStockId(long stockId) {
-        this.stockId = stockId;
+    public void setChiSpell(String chiSpell) {
+        this.chiSpell = chiSpell;
     }
 }

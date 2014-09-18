@@ -35,7 +35,7 @@ public class PortfolioApplication extends Application {
         super.onCreate();
         mInstance = this;
         if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
-            LoadStockToDBService.requestDownload(this, "www.baidu.com");
+            LoadStockToDBService.requestDownload(this);
         }
     }
 

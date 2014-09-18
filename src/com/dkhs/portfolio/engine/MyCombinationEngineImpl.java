@@ -103,13 +103,13 @@ public class MyCombinationEngineImpl {
     public void adjustCombination(int id, List<SubmitSymbol> symbols, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
-        params.addBodyParameter("portfolio", id + "");
+        // params.addBodyParameter("portfolio", id + "");
         // 调整比例, 格式如：[{"symbol": 101000002,"percent":0.45},{"symbol": 101000004,"percent":0.35}]
         Gson gson = new Gson();
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust, params, listener);
+        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust + id + "/", params, listener);
 
     }
 
@@ -122,12 +122,12 @@ public class MyCombinationEngineImpl {
 
         // queryCombinationDetailByDay(id, listener);
         String[] params = { String.valueOf(id) };
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.portfolio, params, listener);
+        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, params, listener);
     }
 
     public void queryCombinationDetailByDay(int id, String date, IHttpListener listener) {
 
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio + id + "/?" + date, null, listener);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.create + id + "/?" + date, null, listener);
     }
 
 }

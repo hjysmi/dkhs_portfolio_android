@@ -36,9 +36,9 @@ public class LoadStockToDBService extends IntentService {
     private static final String SERVICE_NAME = "LoadStockToDBService";
     private static final String EXTRA_LOAD_URL = "extra_load_url";
 
-    public static void requestDownload(Context context, String url) {
+    public static void requestDownload(Context context) {
         Intent intent = new Intent(context, LoadStockToDBService.class);
-        intent.putExtra(EXTRA_LOAD_URL, url);
+        // intent.putExtra(EXTRA_LOAD_URL, url);
 
         context.startService(intent);
     }
@@ -47,21 +47,18 @@ public class LoadStockToDBService extends IntentService {
         super(SERVICE_NAME);
     }
 
-    private void download(String url) {
-        if (TextUtils.isEmpty(url)) {
-            LogUtils.d("Load server url is null");
-            return;
-        }
-        LogUtils.d("Load server url is " + url);
-       if( new SearchStockEngineImpl().saveStockList()){
-           PortfolioPreferenceManager.setLoadSearchStock();
-       }
+    private void downLoadStockPofile() {
+        // if( new SearchStockEngineImpl().saveStockList()){
+        // PortfolioPreferenceManager.setLoadSearchStock();
+        // }
+        SearchStockEngineImpl.loadStockList();
 
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        download(intent.getExtras().getString(EXTRA_LOAD_URL, ""));
+        // download(intent.getExtras().getString(EXTRA_LOAD_URL, ""));
+        downLoadStockPofile();
     }
 
 }

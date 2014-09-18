@@ -30,8 +30,19 @@ public class SelectStockBean implements Serializable {
         SelectStockBean bean = new SelectStockBean();
         bean.name = stockBean.getName();
         bean.currentValue = stockBean.getCurrentValue();
-        bean.percentage = stockBean.getPercent();
+        // bean.percentage = stockBean.getPercent();
         bean.id = stockBean.getStockId();
+        bean.code = stockBean.getStockCode();
+        return bean;
+    }
+
+    public static SelectStockBean copy(SearchStockBean stockBean) {
+
+        SelectStockBean bean = new SelectStockBean();
+        bean.name = stockBean.getStockName();
+        // bean.currentValue = stockBean.getCurrentValue();
+        // bean.percentage = stockBean.getPercent();
+        bean.id = stockBean.getId();
         bean.code = stockBean.getStockCode();
         return bean;
     }
@@ -41,7 +52,7 @@ public class SelectStockBean implements Serializable {
         ConStockBean bean = new ConStockBean();
         bean.setName(name);
         bean.setCurrentValue(currentValue);
-        bean.setPercent(percentage);
+        // bean.setPercent(percentage);
         bean.setStockId(id);
         bean.setStockCode(code);
         return bean;
