@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName StockPriceBean
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 用于解析从服务器返回的股票行情相关的bean
  * @author zjz
  * @date 2014-9-18 下午1:56:29
  * @version 1.0

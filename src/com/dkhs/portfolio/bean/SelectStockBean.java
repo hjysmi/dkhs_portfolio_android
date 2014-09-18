@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 /**
  * @ClassName SelectStockBean
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 添加自选股，用于UI显示的Bean
  * @author zjz
  * @date 2014-9-18 下午2:42:46
  * @version 1.0
