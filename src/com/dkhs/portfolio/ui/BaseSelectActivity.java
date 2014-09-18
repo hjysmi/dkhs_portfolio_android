@@ -9,16 +9,12 @@
 package com.dkhs.portfolio.ui;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,14 +28,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
-import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -64,7 +59,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private Button btnOrder;
 
-    public static List<ConStockBean> mSelectList = new ArrayList<ConStockBean>();
+    public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -89,7 +84,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) extras
                 .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
         if (null != listStock) {
-            mSelectList = listStock;
+            for (ConStockBean stockBean : listStock) {
+
+                mSelectList.add(SelectStockBean.copy(stockBean));
+            }
         }
     }
 

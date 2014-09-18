@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 
 /**
@@ -30,7 +31,7 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
  */
 public class SelectCompareFundAdatper extends BaseAdatperSelectStockFund {
 
-    public SelectCompareFundAdatper(Context context, List<ConStockBean> datas) {
+    public SelectCompareFundAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
     }
 
@@ -49,14 +50,14 @@ public class SelectCompareFundAdatper extends BaseAdatperSelectStockFund {
             viewHolder = (ViewHodler) convertView.getTag();
         }
 
-        ConStockBean item = mDataList.get(position);
+        SelectStockBean item = mDataList.get(position);
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
         viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
-        viewHolder.tvStockName.setText(item.getName());
+        viewHolder.tvStockName.setText(item.name);
 
         ColorStateList textCsl;
         if (position % 3 == 0) {

@@ -60,7 +60,7 @@ public class MyCombinationEngineImpl {
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.portfolio, params, listener);
+        DKHSClient.requestByPost(DKHSUrl.Portfolio.create, params, listener);
 
     }
 

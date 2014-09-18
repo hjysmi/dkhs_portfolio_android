@@ -20,4 +20,8 @@ public class StringFromatUtils {
         return value + "%";
     }
 
+    public static String getPercenvalue(float value) {
+        return String.format("%.2f",value) + "%";
+    }
+
 }

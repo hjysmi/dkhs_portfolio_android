@@ -11,18 +11,16 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 
 /**
@@ -34,9 +32,9 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
  */
 public class BaseAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
     protected Context mContext;
-    protected List<ConStockBean> mDataList;
+    protected List<SelectStockBean> mDataList;
 
-    public BaseAdatperSelectStockFund(Context context, List<ConStockBean> datas) {
+    public BaseAdatperSelectStockFund(Context context, List<SelectStockBean> datas) {
         this.mContext = context;
         this.mDataList = datas;
 
@@ -74,7 +72,7 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        ConStockBean csBean = (ConStockBean) buttonView.getTag();
+        SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
 
         if (this instanceof SelectCompareFundAdatper && isChecked) {
             if (BaseSelectActivity.mSelectList.size() == 5) {

@@ -109,6 +109,9 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     }
 
     public void beginParseDate(String jsonObject) {
+        HandlerThread thread = new HandlerThread("HttpListenerThread");
+        thread.start();
+        mServiceLooper = thread.getLooper();
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
     }
 
@@ -122,6 +125,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private void stopSelf() {
         mServiceLooper.quit();
+        
     }
 
     // 耗时操作，解析数据

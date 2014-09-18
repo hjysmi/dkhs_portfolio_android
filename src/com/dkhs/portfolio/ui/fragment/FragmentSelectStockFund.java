@@ -20,21 +20,22 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.bean.SearchStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
+import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -54,7 +55,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private BaseAdatperSelectStockFund mAdapterConbinStock;
     // private BaseSelectActivity mActivity;
 
-    private List<ConStockBean> mDataList = new ArrayList<ConStockBean>();
+    private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
 
     private boolean isLoadingMore;
     private View mFootView;
@@ -62,6 +63,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private boolean isSearch;
 
     private int mViewType;
+
+    LoadSelectDataEngine mLoadDataEngine;
 
     /**
      * view视图类型
@@ -134,15 +137,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         return fragment;
     }
 
-    // public static FragmentSelectStockFund getInstance(boolean isFund, boolean isSearch) {
-    // FragmentSelectStockFund fragment = new FragmentSelectStockFund();
-    // Bundle args = new Bundle();
-    // args.putBoolean(ARGUMENT_LOAD_FUND, isFund);
-    // args.putBoolean("issearch", isSearch);
-    // fragment.setArguments(args);
-    // return fragment;
-    // }
-
     public void searchByKey(String key) {
         mDataList.clear();
         // testSearchKey(key);
@@ -173,6 +167,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
+
         if (null != bundle) {
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
             mViewType = bundle.getInt(ARGUMENT_LOAD_TYPE);
@@ -201,22 +196,43 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private void loadDataByFund() {
         for (int i = 0; i < 20; i++) {
-            ConStockBean csBean = new ConStockBean();
-            csBean.setName("基金名称" + i);
-            csBean.setStockId(i + 100);
-
-            csBean.setCurrentValue(9.15f + i);
+            SelectStockBean csBean = new SelectStockBean();
+            csBean.name = "基金名称" + i;
+            csBean.id = i + 100;
+            csBean.currentValue = 9.15f + i;
             mDataList.add(csBean);
         }
     }
 
+    ILoadDataBackListener SelectStockBackListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+            if (null != dataList) {
+                System.out.println("Update view:" + dataList.size());
+                mDataList.addAll(dataList);
+                mAdapterConbinStock.notifyDataSetChanged();
+                loadFinishUpdateView();
+            }
+
+        }
+
+    };
+
     private void loadDataByStock() {
-        for (int i = 0; i < 20; i++) {
-            ConStockBean csBean = new ConStockBean();
-            csBean.setName("个股名" + i);
-            csBean.setStockId(i + 101000001);
-            csBean.setCurrentValue(9.15f + i);
-            mDataList.add(csBean);
+
+        if (mViewType == ViewType.STOCK_OPTIONAL.typeId) {
+            mLoadDataEngine = new OptionalStockEngineImpl(SelectStockBackListener);
+            mLoadDataEngine.loadData();
+        } else {
+
+            for (int i = 0; i < 20; i++) {
+                SelectStockBean csBean = new SelectStockBean();
+                csBean.name = "个股名" + i;
+                csBean.id = i + 100;
+                csBean.currentValue = 9.15f + i;
+                mDataList.add(csBean);
+            }
         }
     }
 
@@ -227,9 +243,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = View.inflate(getActivity(), R.layout.fragment_selectstock, null);
-        initView(view);
-        return view;
+
+        // View view = View.inflate(getActivity(), R.layout.fragment_selectstock, true);
+        // initView(view);
+
+        LinearLayout wrapper = new LinearLayout(getActivity()); // for example
+        inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
+        initView(wrapper);
+        return wrapper;
     }
 
     public void refreshSelect() {
@@ -247,7 +268,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private void initView(View view) {
         mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) view.findViewById(R.id.lv_select_stock);
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);
 
@@ -255,58 +277,78 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         mListView.setOnScrollListener(new OnScrollListener() {
 
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+
+                switch (scrollState) {
+                    case OnScrollListener.SCROLL_STATE_IDLE:
+                        // 判断是否滚动到底部
+                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1) {
+                            System.out.println("Loading more");
+                            mListView.addFooterView(mFootView);
+                            // Thread thread = new Thread(null, loadMoreListItems);
+                            // thread.start();
+                            loadMore();
+                        }
+
+                }
 
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                int lastInScreen = firstVisibleItem + visibleItemCount;
-                if ((lastInScreen == totalItemCount) && !(isLoadingMore)) {
-                    System.out.println("Loading more");
-                    mListView.addFooterView(mFootView);
-                    Thread thread = new Thread(null, loadMoreListItems);
-                    thread.start();
-                }
 
             }
         });
 
     }
 
-    // Runnable to load the items
-    private List<ConStockBean> loadList;
-    private Runnable loadMoreListItems = new Runnable() {
-        @Override
-        public void run() {
-            isLoadingMore = true;
-            loadList = new ArrayList<ConStockBean>();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
-            for (int i = 0; i < 20; i++) {
-                ConStockBean csBean = new ConStockBean();
-                csBean.setName("加载项" + i);
-                csBean.setStockId(i + 120);
-                csBean.setCurrentValue(30.15f + i);
-                loadList.add(csBean);
-            }
-            getActivity().runOnUiThread(returnRes);
-        }
-    };
+    private void loadMore() {
 
-    private Runnable returnRes = new Runnable() {
-        @Override
-        public void run() {
-            if (loadList != null && loadList.size() > 0) {
-                mDataList.addAll(loadList);
-            }
-            mAdapterConbinStock.notifyDataSetChanged();
-            isLoadingMore = false;
+        if (null != mLoadDataEngine) {
+            isLoadingMore = true;
+            mLoadDataEngine.loadData();
+        }
+    }
+
+    // Runnable to load the items
+    // private List<SelectStockBean> loadList;
+    // private Runnable loadMoreListItems = new Runnable() {
+    // @Override
+    // public void run() {
+    //
+    // loadList = new ArrayList<SelectStockBean>();
+    // try {
+    // Thread.sleep(1000);
+    // } catch (InterruptedException e) {
+    // }
+    // for (int i = 0; i < 20; i++) {
+    // SelectStockBean csBean = new SelectStockBean();
+    // csBean.name = "加载项" + i;
+    // csBean.id = i + 100;
+    // csBean.currentValue = 9.15f + i;
+    // loadList.add(csBean);
+    // }
+    // getActivity().runOnUiThread(returnRes);
+    // }
+    // };
+    //
+    // private Runnable returnRes = new Runnable() {
+    // @Override
+    // public void run() {
+    // if (loadList != null && loadList.size() > 0) {
+    // mDataList.addAll(loadList);
+    // }
+    // loadFinishUpdateView();
+    // }
+    // };
+
+    private void loadFinishUpdateView() {
+        mAdapterConbinStock.notifyDataSetChanged();
+        isLoadingMore = false;
+        if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
-    };
+    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

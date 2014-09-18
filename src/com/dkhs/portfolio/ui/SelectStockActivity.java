@@ -62,9 +62,17 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
         int titleLenght = tArray.length;
         for (int i = 0; i < titleLenght; i++) {
             titleList.add(tArray[i]);
-            FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_OPTIONAL);
-            fragmenList.add(mPagerFragment);
+
         }
+        FragmentSelectStockFund mOptionalFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_OPTIONAL);
+        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_INCREASE);
+        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_DRAWDOWN);
+        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_HANDOVER);
+
+        fragmenList.add(mOptionalFragment);
+        fragmenList.add(mIncreaseFragment);
+        fragmenList.add(mDownFragment);
+        fragmenList.add(mHandoverFragment);
 
     }
 

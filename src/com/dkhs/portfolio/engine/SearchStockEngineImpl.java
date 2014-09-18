@@ -30,7 +30,12 @@ public class SearchStockEngineImpl {
         for (int i = 0; i < 200; i++) {
             SearchStockBean bean = new SearchStockBean();
             bean.setStockId(101000001 + i);
-            bean.setStockCode((666000 + i) + "");
+          if(i<10){
+              
+              bean.setStockCode((777000 + i) + "");
+          }else{
+              bean.setStockCode((666000 + i) + "");
+          }
             bean.setStockName("数据股" + i);
             dataList.add(bean);
         }
@@ -51,7 +56,7 @@ public class SearchStockEngineImpl {
         // dbUtils.findById(SearchStockBean.class, key);
         try {
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector.from(SearchStockBean.class).where(
-                    "stock_name", "LIKE", "%" + key + "%"));
+                    "stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%"));
             if (null != searchStockList) {
                 System.out.println(" searchStockList size:" + searchStockList.size());
             } else {

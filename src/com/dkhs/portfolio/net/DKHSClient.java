@@ -36,8 +36,8 @@ public class DKHSClient {
         if (null == params) {
             params = new RequestParams();
         }
-       
-        params.addHeader("Authorization", "Bearer " + "9d3447021f3e8b32f48dff1332f3565175516aef");
+
+        params.addHeader("Authorization", "Bearer " + "af3d987d27bb7a661372274af9c6c0563e7df507");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);
         LogUtils.d("RequestParams:" + params);
@@ -78,11 +78,14 @@ public class DKHSClient {
 
         StringBuilder sbParams = new StringBuilder(url);
 
-        for (String value : params) {
-            sbParams.append(value);
-            sbParams.append("/");
-        }
+        if (null != params) {
 
+            for (String value : params) {
+                sbParams.append(value);
+                sbParams.append("/");
+            }
+
+        }
         request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);
     }
 

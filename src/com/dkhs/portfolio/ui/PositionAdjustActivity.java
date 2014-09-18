@@ -34,6 +34,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.bean.SurpusStock;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
@@ -168,7 +169,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
                 // tvCreateTime.setText(text)
                 tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
-//                tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+                // tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
                 tvCreateTime.setText(TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
                 TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
                 tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
@@ -420,14 +421,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-                    ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
+                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
                             .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
-                        // System.out.println("listStock size:" + listStock.size());
-                        // stockList.addAll(listStock);
-                        stockList = listStock;
+
+                        if (stockList == null) {
+                            stockList = new ArrayList<ConStockBean>();
+                        }
+                        stockList.clear();
+                        for (SelectStockBean selectBean : listStock) {
+                            stockList.add(selectBean.parseStock());
+                        }
 
                         setCombinationBack(createType);
 

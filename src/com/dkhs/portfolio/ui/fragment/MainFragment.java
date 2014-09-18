@@ -179,7 +179,6 @@ public class MainFragment extends Fragment implements OnClickListener {
             }
                 break;
             case R.id.btn_optional_stoack: {
-               new SearchStockEngineImpl().searchStock(89+"");
             }
             break;
             default:
