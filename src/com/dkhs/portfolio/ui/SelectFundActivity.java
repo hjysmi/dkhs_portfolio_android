@@ -148,7 +148,6 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         tvMonth.setOnClickListener(popMoreClickLisenter);
         tvQuarter.setOnClickListener(popMoreClickLisenter);
 
-        System.out.println("btnOrder width:" + btnOrder.getWidth());
         mPopMoreWindow.setWidth(btnOrder.getWidth());
 
         mPopMoreWindow.showAsDropDown(btnOrder);

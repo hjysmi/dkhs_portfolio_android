@@ -76,7 +76,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-        System.out.println("FragmentNetValueTrend CombinationBean name:" + mCombinationBean.getName());
 
     }
 

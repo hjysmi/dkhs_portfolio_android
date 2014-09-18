@@ -235,7 +235,6 @@ public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> impl
 
         StatusLine status = response.getStatusLine();
         int statusCode = status.getStatusCode();
-        // System.out.println("statusCode:" + statusCode);
         if (statusCode < 300) {
             Object result = null;
             HttpEntity entity = response.getEntity();

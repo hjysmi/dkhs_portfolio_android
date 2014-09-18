@@ -89,7 +89,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
         @Override
         public void handleMessage(Message msg) {
-            System.out.println("++++++++++++++++++++Handler message what:" + msg.what);
             switch (msg.what) {
                 case MSG_PARSEDATE:
                     String jsonObject = (String) msg.obj;
@@ -116,7 +115,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     }
 
     private void notifyDateParse(Object object) {
-        System.out.println("============notifyDateParse===========");
         Message msg = mMainHandler.obtainMessage();
         msg.what = MSG_UPDATEUI;
         msg.obj = object;

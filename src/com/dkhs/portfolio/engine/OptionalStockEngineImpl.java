@@ -103,7 +103,6 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
             }
 
-            System.out.println("Results size:" + results.size());
         } catch (JSONException e) {
             e.printStackTrace();
         }

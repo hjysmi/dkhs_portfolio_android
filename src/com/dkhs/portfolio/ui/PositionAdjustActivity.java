@@ -466,7 +466,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 if (0 == which) {// 快速
                     c.setPercent(dutyValue);
                 }
-                System.out.println("Stockbean:percent:" + c.getDutyValue());
                 c.setDutyColor(ColorTemplate.getDefaultColor(i));
 
             }

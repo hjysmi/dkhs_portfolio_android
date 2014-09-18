@@ -83,14 +83,13 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
         }
 
         if (isChecked && !BaseSelectActivity.mSelectList.contains(csBean)) {
-            System.out.println("add mSelectIdList id:" + csBean);
             BaseSelectActivity.mSelectList.add(csBean);
         } else {
             boolean isRmove = BaseSelectActivity.mSelectList.remove(csBean);
 
             if (isRmove) {
 
-                System.out.println("remove mSelectIdList lenght:" + BaseSelectActivity.mSelectList.size());
+                // System.out.println("remove mSelectIdList lenght:" + BaseSelectActivity.mSelectList.size());
             }
         }
         if (null != mSelectLisenter) {

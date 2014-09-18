@@ -50,7 +50,6 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
     public void rightButtonClick() {
         if (null != mDrawerLayout && null != mRightMenu) {
             mDrawerLayout.openDrawer(mRightMenu);
-            System.out.println("mDrawerLayout.openDrawer(mRightMenu);");
         }
 
     }

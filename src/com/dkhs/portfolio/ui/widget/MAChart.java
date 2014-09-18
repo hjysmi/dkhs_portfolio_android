@@ -121,8 +121,6 @@ public class MAChart extends GridChart {
             } else if (event.getPointerCount() == 2) {
             }
         }
-        
-        System.out.println("onTouchX:"+event.getX());
 
         // return super.onTouchEvent(event);
         return true;
@@ -133,9 +131,7 @@ public class MAChart extends GridChart {
         super.onDraw(canvas);
         // mCanvas = canvas;
 
-        startPointX = super.getAxisMarginLeft()+2;
-        System.out.println("startPointX:"+startPointX);
-        System.out.println("startPointX widht:"+(super.getLeft() + getAxisMarginLeft()));
+        startPointX = super.getAxisMarginLeft() + 2;
         endY = super.getHeight();
         // 绘制平线
         drawLines(canvas);

@@ -49,9 +49,7 @@ public class SearchStockEngineImpl {
                 Type listType = new TypeToken<List<SearchStockBean>>() {
                 }.getType();
                 dataList = DataParse.parseJsonList(jsonData, listType);
-                System.out.println("dataList size:" + dataList.size());
 
-                System.out.println(" dataList.get(1).getId():" + dataList.get(1).getId());
                 DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
                 // dbUtils.configAllowTransaction(true);
                 try {
@@ -110,7 +108,7 @@ public class SearchStockEngineImpl {
                     .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
                     .or("chi_spell", "LIKE", "%" + key + "%"));
             if (null != searchStockList) {
-                for(SearchStockBean searchBean :searchStockList){
+                for (SearchStockBean searchBean : searchStockList) {
                     selectStockList.add(SelectStockBean.copy(searchBean));
                 }
                 LogUtils.d(" searchStockList size:" + selectStockList.size());

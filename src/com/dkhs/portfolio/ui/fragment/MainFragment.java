@@ -200,7 +200,6 @@ public class MainFragment extends Fragment implements OnClickListener {
         int viewWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
 
         int dotWidth = viewWidth / imageResId.length;
-        System.out.println("dotwidth:" + dotWidth);
         // 初始化图片资源
         for (int i = 0; i < imageResId.length; i++) {
             ImageView imageView = new ImageView(getActivity());

@@ -90,7 +90,6 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
 
             }
 
-            System.out.println("Results size:" + selectList.size());
         } catch (JSONException e) {
             e.printStackTrace();
         }

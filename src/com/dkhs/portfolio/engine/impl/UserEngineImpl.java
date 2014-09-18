@@ -45,7 +45,6 @@ public class UserEngineImpl extends UserEngine {
                         // entity.setExpires_in(expires_in
                         // + System.currentTimeMillis());
                         // sendMsg(handler, ConstantValue.HTTP_OK, entity);
-                        System.out.println("请求成功");
                     }
 
                     @Override

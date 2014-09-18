@@ -58,7 +58,7 @@ public class DKHSClient {
 
             @Override
             public void onFailure(HttpException error, String msg) {
-                System.out.println("error code:" + error.getExceptionCode());
+//                System.out.println("error code:" + error.getExceptionCode());
                 LogUtils.customTagPrefix = "DKHSClilent"; // 方便调试时过滤 adb logcat 输出
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);

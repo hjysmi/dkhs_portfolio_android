@@ -214,7 +214,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
             if (null != dataList) {
-                System.out.println("Update view:" + dataList.size());
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
                 loadFinishUpdateView();
@@ -298,7 +297,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                             {
                                 // 判断是否滚动到底部
                                 if (absListView.getLastVisiblePosition() == absListView.getCount() - 1) {
-                                    System.out.println("Loading more");
                                     mListView.addFooterView(mFootView);
                                     // Thread thread = new Thread(null, loadMoreListItems);
                                     // thread.start();
