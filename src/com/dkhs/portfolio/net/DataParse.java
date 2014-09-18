@@ -167,31 +167,19 @@ public class DataParse<T> {
         if (jsonObj == null)
             return null;
 
-        Gson gson = new Gson();
-        return gson.fromJson(jsonObj.toString(), clazz);
+        return parseObjectJson(clazz, jsonObj.toString());
     }
 
     /**
-     * 将JSONObject实例化为{@code K}的对象
+     * 将字符串实例化为{@code K}的对象
      * 
      * @param clazz
      * @return
      */
     public static <K> K parseObjectJson(Class<K> clazz, String jsonData) {
-        JSONObject jsonObj;
-        try {
-            jsonObj = new JSONObject(jsonData);
+        Gson gson = new Gson();
+        return gson.fromJson(jsonData, clazz);
 
-            if (jsonObj == null)
-                return null;
-
-            Gson gson = new Gson();
-            return gson.fromJson(jsonObj.toString(), clazz);
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
     }
 
 }
