@@ -30,9 +30,9 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @date 2014-9-5 下午2:24:13
  * @version 1.0
  */
-public class SelectStockAdatper extends BaseAdatperSelectStockFund {
+public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
-    public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
+    public SearchStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
     }
 
@@ -41,13 +41,12 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         ViewHodler viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHodler();
-            convertView = View.inflate(mContext, R.layout.item_select_conbin_stock, null);
+            convertView = View.inflate(mContext, R.layout.item_search_conbin_stock, null);
 
             viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
             viewHolder.tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
             viewHolder.mCheckbox = (CheckBox) convertView.findViewById(R.id.cb_select_stock);
-            viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
-            viewHolder.tvIncreaseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
@@ -61,20 +60,8 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.name);
-        viewHolder.tvStockNum.setText(item.code);
+        viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
 
-        ColorStateList textCsl;
-        if (item.percentage >= 0) {
-            textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
-
-        } else {
-            textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
-
-        }
-        viewHolder.tvCurrentValue.setTextColor(textCsl);
-        viewHolder.tvCurrentValue.setText("" + item.currentValue);
-        viewHolder.tvIncreaseValue.setTextColor(textCsl);
-        viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
         return convertView;
     }
 
@@ -82,7 +69,6 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         TextView tvStockName;
         CheckBox mCheckbox;
         TextView tvStockNum;
-        TextView tvCurrentValue;
-        TextView tvIncreaseValue;
+
     }
 }

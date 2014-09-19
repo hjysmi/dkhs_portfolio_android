@@ -56,9 +56,12 @@ public class MyCombinationEngineImpl {
             params.addBodyParameter("description", desciption);
         }
         // [{"symbol": 101000001,"percent":0.45},{"symbol": 101000002,"percent":0.35}]
-        Gson gson = new Gson();
-        String symbolsValue = gson.toJson(symbols);
-        params.addBodyParameter("symbols", symbolsValue);
+        if (null != symbols && symbols.size() > 0) {
+
+            Gson gson = new Gson();
+            String symbolsValue = gson.toJson(symbols);
+            params.addBodyParameter("symbols", symbolsValue);
+        }
 
         DKHSClient.requestByPost(DKHSUrl.Portfolio.create, params, listener);
 

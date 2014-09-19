@@ -29,6 +29,10 @@ import com.dkhs.portfolio.net.ParseHttpListener;
  */
 public abstract class LoadSelectDataEngine extends ParseHttpListener<List<SelectStockBean>> {
 
+    private int totalcount;
+    private int totalpage;
+    private int currentpage;
+
     public LoadSelectDataEngine(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;
     }
@@ -65,5 +69,29 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
             iLoadListener.loadFinish(object);
         }
 
+    }
+
+    public int getTotalcount() {
+        return totalcount;
+    }
+
+    public void setTotalcount(int totalcount) {
+        this.totalcount = totalcount;
+    }
+
+    public int getTotalpage() {
+        return totalpage;
+    }
+
+    public void setTotalpage(int totalpage) {
+        this.totalpage = totalpage;
+    }
+
+    public int getCurrentpage() {
+        return currentpage;
+    }
+
+    public void setCurrentpage(int currentpage) {
+        this.currentpage = currentpage;
     }
 }

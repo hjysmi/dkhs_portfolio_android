@@ -22,6 +22,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
@@ -72,10 +73,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
      */
     public enum ViewType {
 
-        // 搜索类型
-        SEARCH_STOCK(-1),
-        // 搜索类型
-        SEARCH_FUND(-2),
+        // // 搜索类型
+        // SEARCH_STOCK(-1),
+        // // 搜索类型
+        // SEARCH_FUND(-2),
         // 股票，自选股
         STOCK_OPTIONAL(1),
         // 股票，涨幅
@@ -140,15 +141,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         return fragment;
     }
 
-    public void searchByKey(String key) {
-        mDataList.clear();
-        // testSearchKey(key);
-        if (mViewType == ViewType.SEARCH_STOCK.typeId) {
-
-            new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
-        }
-        mAdapterConbinStock.notifyDataSetChanged();
-    }
+    // public void searchByKey(String key) {
+    // mDataList.clear();
+    // // testSearchKey(key);
+    // if (mViewType == ViewType.SEARCH_STOCK.typeId) {
+    //
+    // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
+    // }
+    // mAdapterConbinStock.notifyDataSetChanged();
+    // }
 
     private void testSearchKey(String key) {
 
@@ -184,9 +185,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
         }
         mAdapterConbinStock.setCheckChangeListener(this);
-        if (mViewType != ViewType.SEARCH_STOCK.getTypeId() || mViewType != ViewType.SEARCH_FUND.getTypeId()) {
-            initData();
-        }
+        // if (mViewType != ViewType.SEARCH_STOCK.getTypeId() || mViewType != ViewType.SEARCH_FUND.getTypeId()) {
+        initData();
+        // }
 
     }
 
@@ -293,17 +294,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
                 switch (scrollState) {
                     case OnScrollListener.SCROLL_STATE_IDLE:
-                        if (mViewType != ViewType.SEARCH_STOCK.typeId || mViewType != ViewType.SEARCH_FUND.getTypeId()) {
-                            {
-                                // 判断是否滚动到底部
-                                if (absListView.getLastVisiblePosition() == absListView.getCount() - 1) {
-                                    mListView.addFooterView(mFootView);
-                                    // Thread thread = new Thread(null, loadMoreListItems);
-                                    // thread.start();
-                                    loadMore();
-                                }
-                            }
+
+                    {
+                        // 判断是否滚动到底部
+                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+                            loadMore();
+
                         }
+                    }
 
                 }
 
@@ -318,8 +316,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     private void loadMore() {
-
         if (null != mLoadDataEngine) {
+            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            mListView.addFooterView(mFootView);
+            // Thread thread = new Thread(null, loadMoreListItems);
+            // thread.start();
+
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
         }

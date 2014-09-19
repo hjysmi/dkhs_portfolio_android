@@ -82,6 +82,7 @@
     <string name="create_combination">创建组合</string>
     <string name="add_combination">添加组合</string>
     <string name="del_combination">删除组合</string>
+    <string name="quotes_format">(%1$s)</string>
     <string name="combination_name">组合名称</string>
     <string name="combination_desc">组合名称</string>
     <string name="conb_desc_hint">简要描述 20字以内</string>

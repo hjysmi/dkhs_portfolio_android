@@ -8,9 +8,15 @@
  */
 package com.dkhs.portfolio.net;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.ConstantValue;
 import com.lidroid.xutils.HttpUtils;
@@ -58,7 +64,7 @@ public class DKHSClient {
 
             @Override
             public void onFailure(HttpException error, String msg) {
-//                System.out.println("error code:" + error.getExceptionCode());
+                // System.out.println("error code:" + error.getExceptionCode());
                 LogUtils.customTagPrefix = "DKHSClilent"; // 方便调试时过滤 adb logcat 输出
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);
@@ -74,18 +80,45 @@ public class DKHSClient {
         request(HttpMethod.POST, getAbsoluteUrl(url), params, listener);
     }
 
-    public static void requestByGet(String url, String[] params, final IHttpListener listener) {
+    public static void requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener) {
 
-        StringBuilder sbParams = new StringBuilder(url);
+        // StringBuilder sbParams = new StringBuilder(url);
+        //
+        // if (null != params) {
+        //
+        // for (String value : params) {
+        // sbParams.append(value);
+        // sbParams.append("/");
+        // }
+        //
+        // }
+        requestByGet(urlPrefix, urlPath, null, listener);
+    }
 
-        if (null != params) {
+    public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
+            final IHttpListener listener) {
 
-            for (String value : params) {
-                sbParams.append(value);
-                sbParams.append("/");
+        StringBuilder sbParams = new StringBuilder(urlPrefix);
+
+        if (null != urlPath) {
+
+            for (String value : urlPath) {
+                if (!TextUtils.isEmpty(value)) {
+                    sbParams.append(value);
+                    sbParams.append("/");
+
+                }
+
             }
-
         }
+        if (params != null) {
+            sbParams.append("?");
+            for (NameValuePair p : params) {
+                sbParams.append('&').append(p.getName()).append('=').append(p.getValue());
+            }
+//            sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
+        }
+
         request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);
     }
 

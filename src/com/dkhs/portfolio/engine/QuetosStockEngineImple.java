@@ -9,8 +9,11 @@
 package com.dkhs.portfolio.engine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +41,6 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
 
     private String orderType;
 
-    private int totalcount;
-
-    private int totalpage;
-
-    private int currentpage;
-
     public QuetosStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
@@ -51,7 +48,13 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
 
     @Override
     public void loadMore() {
-//        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist, new String[] { EXCHANGE, orderType }, this);
+        // int pageIndex = getCurrentpage() + 1;
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist, new String[] { EXCHANGE, orderType },new String[]
+        // this);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
+        params.add(valuePair);
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist, new String[] { EXCHANGE, orderType }, params, this);
     }
 
     @Override
@@ -66,9 +69,9 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
         try {
             JSONObject dataObject = new JSONObject(jsonData);
-            totalcount = dataObject.optInt("total_count");
-            totalpage = dataObject.optInt("total_page");
-            currentpage = dataObject.optInt("current_page");
+            setTotalcount(dataObject.optInt("total_count"));
+            setTotalpage(dataObject.optInt("total_page"));
+            setCurrentpage(dataObject.optInt("current_page"));
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();

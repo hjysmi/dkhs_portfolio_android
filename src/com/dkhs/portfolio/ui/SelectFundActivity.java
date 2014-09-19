@@ -8,43 +8,22 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
+import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
-import com.dkhs.portfolio.ui.widget.TabPageIndicator;
-import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -129,8 +108,8 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     };
 
     @Override
-    protected FragmentSelectStockFund setSearchFragment() {
-        return FragmentSelectStockFund.getFundFragment(ViewType.SEARCH_FUND);
+    protected FragmentSearchStockFund getSearchFragment() {
+        return FragmentSearchStockFund.getFundFragment();
     }
 
     private void showPopWindow() {

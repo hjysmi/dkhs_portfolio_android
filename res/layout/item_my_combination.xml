@@ -17,8 +17,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:background="@drawable/bg_corner"
-            android:text="66"
             android:gravity="center_horizontal"
+            android:text="66"
             android:textColor="@color/white" />
 
         <CheckBox
@@ -55,7 +55,6 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="6dp"
         android:maxLines="2"
-        android:text="描述：会大幅减少覅送风机ifjd地方结束两地分居收到了j"
         android:textColor="@android:color/darker_gray" />
 
     <LinearLayout
@@ -64,9 +63,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/tv_combination_desc"
         android:layout_below="@+id/rl_combina_title"
+        android:layout_marginLeft="1dp"
         android:background="@color/white"
         android:gravity="center"
-        android:layout_marginLeft="1dp"
         android:orientation="horizontal"
         android:padding="3dp" >
 
@@ -79,15 +78,17 @@
             <TextView
                 android:id="@+id/tv_mycob_current"
                 style="@style/hw_wrap"
+                android:layout_centerHorizontal="true"
                 android:text="@string/current"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_mycob_curren_value"
                 style="@style/hw_wrap"
                 android:layout_below="@+id/tv_mycob_current"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/green"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -99,16 +100,18 @@
             <TextView
                 android:id="@+id/tv_mycob_add"
                 style="@style/hw_wrap"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="3dp"
                 android:text="@string/add_up"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tv_mycob_add_value"
                 style="@style/hw_wrap"
                 android:layout_below="@+id/tv_mycob_add"
+                android:layout_centerHorizontal="true"
                 android:textColor="@color/green"
-                android:textSize="14sp" />
+                android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>
 

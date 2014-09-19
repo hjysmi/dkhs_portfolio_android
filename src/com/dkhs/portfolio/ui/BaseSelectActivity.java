@@ -33,6 +33,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
+import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
@@ -52,7 +53,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private Button btnAdd;
     private ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
     private EditText etSearchKey;
-    private FragmentSelectStockFund mSearchFragment;
+    private FragmentSearchStockFund mSearchFragment;
 
     private View mStockPageView;
     private View mSearchListView;
@@ -135,7 +136,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     }
 
     private void replaceSearchView() {
-        mSearchFragment = setSearchFragment();
+        mSearchFragment = getSearchFragment();
         if (null != mSearchFragment) {
             getSupportFragmentManager().beginTransaction().replace(R.id.rl_stock_searchview, mSearchFragment).commit();
         }
@@ -283,7 +284,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     protected abstract boolean isLoadBySelectFund();
 
-    protected abstract FragmentSelectStockFund setSearchFragment();
+    protected abstract FragmentSearchStockFund getSearchFragment();
 
     protected abstract void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList);
 
