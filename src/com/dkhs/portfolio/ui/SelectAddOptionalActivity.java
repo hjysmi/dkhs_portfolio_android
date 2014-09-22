@@ -28,7 +28,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
  * @date 2014-8-28 下午12:11:20
  * @version 1.0
  */
-public class SelectStockActivity extends BaseSelectActivity implements OnClickListener {
+public class SelectAddOptionalActivity extends BaseSelectActivity implements OnClickListener {
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -39,18 +39,16 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
     @Override
     protected void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList) {
 
-        String[] tArray = getResources().getStringArray(R.array.select_stock);
+        String[] tArray = getResources().getStringArray(R.array.select_optional_stock);
         int titleLenght = tArray.length;
         for (int i = 0; i < titleLenght; i++) {
             titleList.add(tArray[i]);
 
         }
-        FragmentSelectStockFund mOptionalFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_OPTIONAL);
         FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_INCREASE);
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_DRAWDOWN);
         FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_HANDOVER);
 
-        fragmenList.add(mOptionalFragment);
         fragmenList.add(mIncreaseFragment);
         fragmenList.add(mDownFragment);
         fragmenList.add(mHandoverFragment);
@@ -64,8 +62,7 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
 
     @Override
     protected ListViewType getLoadByType() {
-        // TODO Auto-generated method stub
-        return ListViewType.STOCK;
+        return ListViewType.ADD_OPTIONAL;
     }
 
 }

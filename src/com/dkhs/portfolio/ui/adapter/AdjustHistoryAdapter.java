@@ -83,7 +83,9 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                     StringBuilder sb = new StringBuilder();
                     sb.append(position.getStockName());
                     sb.append("  从");
-                    sb.append(position.getFromPercent() * 100 + "%");
+                    int percent = (int) (position.getFromPercent() * 100);
+                    sb.append(percent);
+                    sb.append("%");
                     sb.append("调至");
                     sb.append(position.getToPercent() * 100 + "%");
                     bean.content = sb.toString();
@@ -93,7 +95,9 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                     StringBuilder sb = new StringBuilder(getLastBean().content + "\n");
                     sb.append(position.getStockName());
                     sb.append("  从");
-                    sb.append(position.getFromPercent() * 100 + "%");
+                    int percent = (int) (position.getFromPercent() * 100);
+                    sb.append(percent);
+                    sb.append("%");
                     sb.append("调至");
                     sb.append(position.getToPercent() * 100 + "%");
                     getLastBean().content = sb.toString();

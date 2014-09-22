@@ -11,6 +11,8 @@ package com.dkhs.portfolio.engine;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,11 +57,9 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    
-    
-    
-    public void setLoadType(){
-        
+
+    public void setLoadType() {
+
     }
 
     /**
@@ -87,7 +87,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                 int length = resultsJsonArray.length();
 
                 for (int i = 0; i < length; i++) {
-                    JSONObject stockObject = resultsJsonArray.optJSONObject(i).optJSONObject("symbol");
+                    JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
                     SelectStockBean selectBean = new SelectStockBean();
                     selectBean.id = stockBean.getId();
@@ -118,7 +118,10 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      */
     @Override
     public void loadMore() {
-        // TODO Auto-generated method stub
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
+        params.add(valuePair);
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
 
     }
 

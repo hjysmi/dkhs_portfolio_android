@@ -117,7 +117,7 @@
             <TextView
                 android:id="@+id/tv_addup_text"
                 style="@style/hw_wrap"
-                android:text="累计涨跌:"
+                android:text="累计涨幅:"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 

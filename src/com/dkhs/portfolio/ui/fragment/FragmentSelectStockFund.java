@@ -36,6 +36,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
+import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.lidroid.xutils.util.LogUtils;
@@ -85,6 +86,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         STOCK_DRAWDOWN(3),
         // 股票，跌幅
         STOCK_HANDOVER(4),
+        // 股票，自选股
+        STOCK_OPTIONAL_PRICE(8),
 
         // 基金，主要指数
         FUND_MAININDEX(5),
@@ -181,6 +184,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
         if (isFund) {
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
+        } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+            mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
         }
@@ -226,7 +231,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private void loadDataByStock() {
 
-        if (mViewType == ViewType.STOCK_OPTIONAL.typeId) {
+        if (mViewType == ViewType.STOCK_OPTIONAL.typeId || mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener);
         } else if (mViewType == ViewType.STOCK_HANDOVER.typeId) {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,

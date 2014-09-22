@@ -70,8 +70,12 @@
     <string name="find_passwrod">找回密码</string>
     <string name="portfolio_text">投资组合</string>
     <string name="combin">组合：%1$d</string>
-    <string name="optional_stock">自选股：%1$d</string>
-    <string name="setting">设置</string>
+    <string name="optional_stock_format">自选股：%1$d</string>
+    <string name="optional_stock">自选股</string>
+    <string name="add_optional_stock">添加自选股</string>
+    <string name="stock_name">股票名称</string>
+    <string name="current_value">当前价</string>
+    <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
     <string name="more">更多</string>
     <string name="portfolio_position">持仓组合</string>
@@ -118,5 +122,6 @@
     <string name="adjust_history">调仓记录</string>
     <string name="netvalue_comtribute">净值贡献</string>
     <string name="accumulative_comtribute">累计贡献</string>
+    <string name="surplus_capital_ratio">剩余资金占比</string>
 
 </resources>

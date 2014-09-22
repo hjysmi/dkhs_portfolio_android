@@ -88,15 +88,14 @@
 
         <Button
             android:id="@+id/btn_confirm"
+            style="@style/button_blue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_blue_selector"
             android:padding="8dp"
-            android:text="@string/confirm_adjust"
-            android:textColor="@color/white" />
+            android:text="@string/confirm_adjust" />
     </LinearLayout>
 
 </ScrollView>

@@ -19,6 +19,8 @@
     <color name="def_5">#ffd072</color>
     <color name="def_red">#e73535</color>
     <color name="blue_line">#00acec</color>
+    <color name="optional_red">#f20000</color>
+    <color name="optional_green">#338833</color>
     <color name="blue_normal">#ffdddddd</color>
     <color name="blue_pressed">#ff0055aa</color>
     <color name="color_username">#af000000</color>

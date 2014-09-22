@@ -38,13 +38,11 @@ public class SelectFundAdapter extends BaseAdapter {
     private List<SelectStockBean> mDataSet;
     private BaseSelectActivity mActivity;
 
-    private boolean isSelectFund;
-
-    public SelectFundAdapter(Context context, List<SelectStockBean> mSelectIdList, boolean isSelectFund) {
+    public SelectFundAdapter(Context context, List<SelectStockBean> mSelectIdList) {
         this.mContext = context;
         mActivity = (BaseSelectActivity) context;
         this.mDataSet = mSelectIdList;
-        this.isSelectFund = isSelectFund;
+
     }
 
     @Override

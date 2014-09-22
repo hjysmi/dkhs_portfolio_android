@@ -38,10 +38,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     private PopupWindow mPopMoreWindow;
     private String[] orderTitle;
 
-    @Override
-    protected boolean isLoadBySelectFund() {
-        return true;
-    }
+ 
 
     @Override
     protected void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList) {
@@ -131,6 +128,18 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
 
         mPopMoreWindow.showAsDropDown(btnOrder);
 
+    }
+
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    protected ListViewType getLoadByType() {
+       
+        return ListViewType.FUND;
     }
 
 }

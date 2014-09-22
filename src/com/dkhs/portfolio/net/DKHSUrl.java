@@ -35,7 +35,8 @@ public class DKHSUrl {
 
     public interface StockSymbol {
         // 自选股列表
-        String optional = "/api/v1/symbolfollow/";
+        // String optional = "/api/v1/symbolfollow/";
+        String optional = "/api/v1/symbolfollow/mysymbols/";
         // 股票列表查询
         // /api/v1/quotes/symbols/{exchange}/{sort}/
         String stocklist = "/api/v1/quotes/symbols/";

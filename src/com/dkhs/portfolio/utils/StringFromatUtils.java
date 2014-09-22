@@ -21,7 +21,6 @@ public class StringFromatUtils {
     }
 
     public static String getPercentValue(float value) {
-        System.out.println(value + " Fromat=" + String.format("%.2f", value) + "%");
         return String.format("%.2f", value) + "%";
     }
 

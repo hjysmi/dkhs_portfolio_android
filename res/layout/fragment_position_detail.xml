@@ -139,14 +139,16 @@
             android:paddingRight="8dp"
             android:paddingTop="3dp"
             android:text="@string/netvalue_comtribute"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
 
         <com.dkhs.portfolio.ui.widget.ListViewEx
             android:id="@+id/lv_contribute_layout"
             style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            android:visibility="gone" />
 
         <View style="@style/divider_line" />
         <!-- 调仓记录 -->
