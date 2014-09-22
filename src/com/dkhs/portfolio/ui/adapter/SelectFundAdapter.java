@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 
 /**
@@ -34,16 +35,14 @@ public class SelectFundAdapter extends BaseAdapter {
     private Context mContext;
     // private int dataLenght = 5;
 
-    private List<ConStockBean> mDataSet;
+    private List<SelectStockBean> mDataSet;
     private BaseSelectActivity mActivity;
 
-    private boolean isSelectFund;
-
-    public SelectFundAdapter(Context context, List<ConStockBean> mSelectIdList, boolean isSelectFund) {
+    public SelectFundAdapter(Context context, List<SelectStockBean> mSelectIdList) {
         this.mContext = context;
         mActivity = (BaseSelectActivity) context;
         this.mDataSet = mSelectIdList;
-        this.isSelectFund = isSelectFund;
+
     }
 
     @Override
@@ -77,8 +76,8 @@ public class SelectFundAdapter extends BaseAdapter {
             viewHolder = (ViewHodler) convertView.getTag();
         }
 
-        final ConStockBean item = mDataSet.get(position);
-        viewHolder.tvName.setText(item.getName());
+        final SelectStockBean item = mDataSet.get(position);
+        viewHolder.tvName.setText(item.name);
 
         viewHolder.ivDelIcon.setOnClickListener(new OnClickListener() {
 

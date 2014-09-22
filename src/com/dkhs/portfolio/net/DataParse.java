@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -166,8 +167,19 @@ public class DataParse<T> {
         if (jsonObj == null)
             return null;
 
+        return parseObjectJson(clazz, jsonObj.toString());
+    }
+
+    /**
+     * 将字符串实例化为{@code K}的对象
+     * 
+     * @param clazz
+     * @return
+     */
+    public static <K> K parseObjectJson(Class<K> clazz, String jsonData) {
         Gson gson = new Gson();
-        return gson.fromJson(jsonObj.toString(), clazz);
+        return gson.fromJson(jsonData, clazz);
+
     }
 
 }

@@ -24,18 +24,16 @@
             style="@style/hw_wrap"
             android:layout_alignBaseline="@+id/btn_edit_combinname"
             android:layout_toLeftOf="@+id/btn_edit_combinname"
-            android:text="成立时间:2014-08-15 12:30"
             android:textColor="@android:color/darker_gray"
-            android:textSize="11sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_combination_desc"
             style="@style/hw_wrap"
             android:layout_below="@+id/btn_edit_combinname"
             android:layout_marginTop="5dp"
-            android:text="简介：发的佛教佛山大幅降低哦发"
             android:textColor="@android:color/darker_gray"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
 
         <EditText
             android:id="@+id/et_combination_name"
@@ -44,7 +42,6 @@
             android:layout_alignBaseline="@+id/btn_edit_combinname"
             android:layout_marginRight="3dp"
             android:layout_toLeftOf="@+id/tv_combination_time"
-            android:hint="我的组合"
             android:maxLength="8"
             android:singleLine="true"
             android:textSize="15sp"
@@ -111,7 +108,7 @@
                 android:id="@+id/tv_income"
                 style="@style/hw_wrap"
                 android:layout_centerHorizontal="true"
-                android:text="累计收益"
+                android:text="累记涨幅:"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="12sp" />
 

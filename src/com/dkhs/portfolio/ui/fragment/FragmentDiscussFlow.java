@@ -66,7 +66,6 @@ public class FragmentDiscussFlow extends Fragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 int lastInScreen = firstVisibleItem + visibleItemCount;
                 if ((lastInScreen == totalItemCount) && !(isLoadingMore)) {
-                    System.out.println("Loading more");
                     mListView.addFooterView(mFootView);
                     // Thread thread = new Thread(null, loadMoreListItems);
                     // thread.start();

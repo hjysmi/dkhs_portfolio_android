@@ -70,7 +70,7 @@
                 android:id="@+id/tv_updown_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今日涨跌:"
+                android:text="今日增长:"
                 android:textSize="12sp" />
 
             <TextView
@@ -93,7 +93,7 @@
                 android:id="@+id/tv_increase_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="涨幅:"
+                android:text="今日涨幅:"
                 android:textSize="12sp" />
 
             <TextView

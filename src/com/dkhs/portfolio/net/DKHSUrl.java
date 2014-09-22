@@ -21,13 +21,27 @@ public class DKHSUrl {
 
     public interface Portfolio {
         // 查询我的组合
-        String portfolio = "/api/v1/portfolio/";
+        String portfolio = "/api/v1/portfolio/mine/";
+        // 创建我的组合
+        String create = "/api/v1/portfolio/";
         // 删除组合
         String delete = "/api/v1/portfolio/delete_portfolios/";
         // 更新组合信息
         String update = "/api/v1/portfolio/update_portfolio/";
         // 持仓调整
-        String adjust = "/api/v1/portfolio/adjust/";
+        String adjust = "/api/v1/portfolio/adjust_positions/";
 
+    }
+
+    public interface StockSymbol {
+        // 自选股列表
+        // String optional = "/api/v1/symbolfollow/";
+        String optional = "/api/v1/symbolfollow/mysymbols/";
+        // 股票列表查询
+        // /api/v1/quotes/symbols/{exchange}/{sort}/
+        String stocklist = "/api/v1/quotes/symbols/";
+
+        // GET /api/v1/quotes/symbols_profile/
+        String profile = "/api/v1/quotes/symbols_profile/";
     }
 }

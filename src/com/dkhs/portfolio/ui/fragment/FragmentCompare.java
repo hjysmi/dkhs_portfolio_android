@@ -316,11 +316,9 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                     ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
                             .getSerializableExtra("list_select");
                     if (null != listStock) {
-                        System.out.println("listStock size:" + listStock.size());
                         updateSelectData(listStock);
                     } else {
 
-                        System.out.println("listStock is null");
                     }
                     break;
             }

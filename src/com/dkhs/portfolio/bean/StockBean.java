@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName StockBean
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 我的组合里面，和股票相关的bean,
  * @author zjz
  * @date 2014-9-15 上午10:59:20
  * @version 1.0

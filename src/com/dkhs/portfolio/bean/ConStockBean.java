@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName CombinationStock
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 我的组合，包含持股占比的bean
  * @author zjz
  * @date 2014-8-26 上午9:37:22
  * @version 1.0

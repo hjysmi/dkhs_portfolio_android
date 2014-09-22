@@ -35,6 +35,7 @@ import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -48,6 +49,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private EditText etCombinName;
     private TextView tvCombinName;
+    private TextView tvCombinDesc;
+    private TextView tvCombinCreateTime;
     private Button btnEditName;
 
     private CombinationBean mCombinationBean;
@@ -76,7 +79,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-        System.out.println("FragmentNetValueTrend CombinationBean name:" + mCombinationBean.getName());
 
     }
 
@@ -89,11 +91,23 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
         etCombinName = (EditText) view.findViewById(R.id.et_combination_name);
+
+        tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
+        tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
         tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         btnEditName.setOnClickListener(this);
         initTabPage(view);
+        setupViewData();
         return view;
+    }
+
+    private void setupViewData() {
+        if (null != mCombinationBean) {
+            tvCombinName.setText(mCombinationBean.getName());
+            tvCombinDesc.setText(mCombinationBean.getDescription());
+            tvCombinCreateTime.setText(TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime()));
+        }
     }
 
     private void initTabPage(View view) {

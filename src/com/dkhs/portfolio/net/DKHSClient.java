@@ -8,9 +8,15 @@
  */
 package com.dkhs.portfolio.net;
 
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.http.NameValuePair;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.text.TextUtils;
 
 import com.dkhs.portfolio.common.ConstantValue;
 import com.lidroid.xutils.HttpUtils;
@@ -36,11 +42,12 @@ public class DKHSClient {
         if (null == params) {
             params = new RequestParams();
         }
-        params.addHeader("Authorization", "Bearer " + "af6825011ea958732dfdcc8b6ba10bef5f25249a");
+
+        params.addHeader("Authorization", "Bearer " + "c7066b256492ef54a9da9e9b9cca2b746629fcae");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);
         LogUtils.d("RequestParams:" + params);
-        // 不设置缓存
+        // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
         mHttpUtils.configDefaultHttpCacheExpiry(0);
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
@@ -57,7 +64,7 @@ public class DKHSClient {
 
             @Override
             public void onFailure(HttpException error, String msg) {
-                System.out.println("error code:" + error.getExceptionCode());
+                // System.out.println("error code:" + error.getExceptionCode());
                 LogUtils.customTagPrefix = "DKHSClilent"; // 方便调试时过滤 adb logcat 输出
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);
@@ -73,13 +80,43 @@ public class DKHSClient {
         request(HttpMethod.POST, getAbsoluteUrl(url), params, listener);
     }
 
-    public static void requestByGet(String url, String[] params, final IHttpListener listener) {
+    public static void requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener) {
 
-        StringBuilder sbParams = new StringBuilder(url);
+        // StringBuilder sbParams = new StringBuilder(url);
+        //
+        // if (null != params) {
+        //
+        // for (String value : params) {
+        // sbParams.append(value);
+        // sbParams.append("/");
+        // }
+        //
+        // }
+        requestByGet(urlPrefix, urlPath, null, listener);
+    }
 
-        for (String value : params) {
-            sbParams.append(value);
-            sbParams.append("/");
+    public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
+            final IHttpListener listener) {
+
+        StringBuilder sbParams = new StringBuilder(urlPrefix);
+
+        if (null != urlPath) {
+
+            for (String value : urlPath) {
+                if (!TextUtils.isEmpty(value)) {
+                    sbParams.append(value);
+                    sbParams.append("/");
+
+                }
+
+            }
+        }
+        if (params != null) {
+            sbParams.append("?");
+            for (NameValuePair p : params) {
+                sbParams.append('&').append(p.getName()).append('=').append(p.getValue());
+            }
+//            sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
         }
 
         request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);

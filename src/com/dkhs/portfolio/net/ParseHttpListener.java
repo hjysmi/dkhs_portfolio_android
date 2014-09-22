@@ -89,7 +89,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
         @Override
         public void handleMessage(Message msg) {
-            System.out.println("++++++++++++++++++++Handler message what:" + msg.what);
             switch (msg.what) {
                 case MSG_PARSEDATE:
                     String jsonObject = (String) msg.obj;
@@ -109,11 +108,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     }
 
     public void beginParseDate(String jsonObject) {
+        HandlerThread thread = new HandlerThread("HttpListenerThread");
+        thread.start();
+        mServiceLooper = thread.getLooper();
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
     }
 
     private void notifyDateParse(Object object) {
-        System.out.println("============notifyDateParse===========");
         Message msg = mMainHandler.obtainMessage();
         msg.what = MSG_UPDATEUI;
         msg.obj = object;
@@ -122,6 +123,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private void stopSelf() {
         mServiceLooper.quit();
+        
     }
 
     // 耗时操作，解析数据

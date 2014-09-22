@@ -41,6 +41,8 @@
         <activity android:name="com.dkhs.portfolio.ui.PositionAdjustActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectStockActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectFundActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.OptionalStockListActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.SelectAddOptionalActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" />
@@ -48,6 +50,8 @@
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
             android:windowSoftInputMode="stateHidden" />
+
+        <service android:name="com.dkhs.portfolio.service.LoadStockToDBService" />
     </application>
 
 </manifest>

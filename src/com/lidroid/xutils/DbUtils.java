@@ -573,7 +573,7 @@ public class DbUtils {
 
     public static class DaoConfig {
         private Context context;
-        private String dbName = "xUtils.db"; // default db name
+        private String dbName = "dkhs_portfolio.db"; // default db name
         private int dbVersion = 1;
         private DbUpgradeListener dbUpgradeListener;
 

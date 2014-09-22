@@ -81,7 +81,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
-        System.out.println("CombinationBean name:" + mCombinationBean.getName());
 
     }
 

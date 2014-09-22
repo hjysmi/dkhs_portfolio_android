@@ -9,18 +9,22 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -105,6 +109,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             handleExtras(extras);
         }
 
+        final Calendar c = Calendar.getInstance();
+        mYear = c.get(Calendar.YEAR);
+        mMonth = c.get(Calendar.MONTH);
+        mDay = c.get(Calendar.DAY_OF_MONTH);
+
     }
 
     /**
@@ -120,36 +129,38 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void handleArguments(Bundle extras) {
         mCombinationId = extras.getInt(ARGUMENT_COMBINTAION_ID);
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new ParseHttpListener<PositionDetail>() {
-
-            @Override
-            protected PositionDetail parseDateTask(String jsonData) {
-                JSONObject jsonObject = null;
-                try {
-                    jsonObject = new JSONObject(jsonData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
-            }
-
-            @Override
-            protected void afterParseData(PositionDetail object) {
-                if (null != object) {
-
-                    mPositionDetail = object;
-
-                    setCombinationInfo();
-                    setStockList();
-                    setPieList();
-                    setAdjustHistoryList();
-                }
-
-            }
-        });
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
         // setStockList();
         // setPieList();
     }
+
+    class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
+
+        @Override
+        protected PositionDetail parseDateTask(String jsonData) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+        }
+
+        @Override
+        protected void afterParseData(PositionDetail object) {
+            if (null != object) {
+
+                mPositionDetail = object;
+
+                setCombinationInfo();
+                setStockList();
+                setPieList();
+                setAdjustHistoryList();
+            }
+
+        }
+    };
 
     protected void setCombinationInfo() {
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
@@ -209,6 +220,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     private void initView(View view) {
         view.findViewById(R.id.btn_adjust_position).setOnClickListener(this);
         btnDate = view.findViewById(R.id.btn_detail_date);
+        btnDate.setOnClickListener(this);
         tvCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);
         tvCombinationName = (TextView) view.findViewById(R.id.tv_conbination_name);
         tvNetValue = (TextView) view.findViewById(R.id.tv_today_netvalue);
@@ -277,11 +289,47 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             }
 
                 break;
+            case R.id.btn_detail_date: {// 选择查询日期
+                showPickerDate();
+
+            }
+
+                break;
 
             default:
                 break;
         }
 
     }
+
+    private int mYear;
+    private int mMonth;
+    private int mDay;
+
+    private void showPickerDate() {
+        DatePickerDialog dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar), mDateSetListener, mYear, mMonth, mDay);
+
+        dpg.setTitle(R.string.dialog_select_time_title);
+
+        dpg.show();
+    }
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            mYear = year;
+            mMonth = monthOfYear;
+            mDay = dayOfMonth;
+
+            String strMonth = String.format("%02d", (mMonth + 1));
+            String strDay = String.format("%02d", mDay);
+            StringBuilder sbTime = new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
+                    .append(strDay);
+
+            tvCurrentDay.setText(sbTime);
+            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, sbTime.toString(),
+                    new QueryCombinationDetailListener());
+        }
+    };
 
 }

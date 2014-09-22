@@ -39,6 +39,7 @@ import com.dkhs.portfolio.ui.widget.LineChart;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName CombinationAdapter
@@ -98,17 +99,25 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         float currenValue = item.getCurrentValue();
         if (currenValue > 0) {
             ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
-            viewHolder.tvAddup.setTextColor(redCsl);
             viewHolder.tvCurrent.setTextColor(redCsl);
-            viewHolder.tvAddup.setText("+" + item.getAddUpValue() + "%");
             viewHolder.tvCurrent.setText("+" + currenValue + "%");
 
         } else {
             ColorStateList greenCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
             viewHolder.tvCurrent.setTextColor(greenCsl);
-            viewHolder.tvAddup.setTextColor(greenCsl);
-            viewHolder.tvAddup.setText(item.getAddUpValue() + "%");
             viewHolder.tvCurrent.setText(currenValue + "%");
+        }
+        float addValue = item.getAddUpValue();
+        if (addValue > 0) {
+            ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
+            viewHolder.tvAddup.setTextColor(redCsl);
+            viewHolder.tvAddup.setText("+" + StringFromatUtils.getPercentValue(addValue));
+
+        } else {
+            ColorStateList greenCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
+            viewHolder.tvAddup.setTextColor(greenCsl);
+
+            viewHolder.tvAddup.setText(StringFromatUtils.getPercentValue(addValue));
         }
 
         // viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {

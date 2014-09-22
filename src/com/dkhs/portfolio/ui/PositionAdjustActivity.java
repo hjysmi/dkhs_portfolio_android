@@ -14,15 +14,14 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,11 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
-import com.dkhs.portfolio.bean.SurpusStock;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
@@ -45,7 +43,7 @@ import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName PositionAdjustActivity
@@ -167,7 +165,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
                 // tvCreateTime.setText(text)
                 tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
-                tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+                // tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+                tvCreateTime.setText(TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
                 TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
                 tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
             }
@@ -245,11 +244,17 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         mFooterView = View.inflate(this, R.layout.layout_optional_percent, null);
         mFooterView.findViewById(R.id.tv_stock_num).setVisibility(View.GONE);
         surSeekbar = (SeekBar) mFooterView.findViewById(R.id.seekBar);
-        surSeekbar.setEnabled(false);
+        // surSeekbar.setEnabled(false);
+        surSeekbar.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         surSeekbar.setProgress((int) (surValue));
         surSeekbar.setThumb(getResources().getDrawable(R.drawable.lucency));
         TextView tvName = (TextView) mFooterView.findViewById(R.id.tv_stock_name);
-        tvName.setText("剩余资金占比");
+        tvName.setText(R.string.surplus_capital_ratio);
         tvSurpusValue = (TextView) mFooterView.findViewById(R.id.tv_stock_percent);
         tvSurpusValue.setText(StringFromatUtils.getPercentValue((int) (surValue)) + "");
         ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) surSeekbar.getProgressDrawable())
@@ -257,6 +262,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(ColorTemplate.DEF_RED);
+        mFooterView.findViewById(R.id.view_color).setBackgroundColor(ColorTemplate.DEF_RED);
         // return foot;
     }
 
@@ -418,14 +424,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-                    ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
+                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
                             .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
-                        // System.out.println("listStock size:" + listStock.size());
-                        // stockList.addAll(listStock);
-                        stockList = listStock;
+
+                        if (stockList == null) {
+                            stockList = new ArrayList<ConStockBean>();
+                        }
+                        stockList.clear();
+                        for (SelectStockBean selectBean : listStock) {
+                            stockList.add(selectBean.parseStock());
+                        }
 
                         setCombinationBack(createType);
 

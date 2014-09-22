@@ -88,7 +88,6 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        ConStockBean item = null;
         if (position == stockList.size()) {// 剩余占比图
 
             viewHolder.colorView.setBackgroundColor(ColorTemplate.DEF_RED);
@@ -97,7 +96,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
             viewHolder.tvStockCode.setVisibility(View.GONE);
             viewHolder.tvStockName.setText("剩余资金");
         } else {
-            item = stockList.get(position);
+            ConStockBean item = stockList.get(position);
 
             viewHolder.tvCenterValue.setText(item.getDutyValue() + "%");
             viewHolder.colorView.setBackgroundColor(item.getDutyColor());

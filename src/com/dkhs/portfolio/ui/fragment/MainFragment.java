@@ -25,7 +25,9 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 
@@ -159,6 +161,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.btn_back: {
                 if (null != mTitleClickListener) {
@@ -173,13 +176,21 @@ public class MainFragment extends Fragment implements OnClickListener {
             }
                 break;
             case R.id.btn_mycombina: {
-                Intent intent = new Intent(getActivity(), MyCombinationActivity.class);
-                startActivity(intent);
+                intent = new Intent(getActivity(), MyCombinationActivity.class);
+            }
+                break;
+            case R.id.btn_optional_stoack: {
+                intent = new Intent(getActivity(), OptionalStockListActivity.class);
+
             }
                 break;
             default:
                 break;
         }
+        if (null != intent) {
+            startActivity(intent);
+        }
+
     }
 
     public void setTitleClickListener(ITitleButtonListener listener) {
@@ -196,7 +207,6 @@ public class MainFragment extends Fragment implements OnClickListener {
         int viewWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
 
         int dotWidth = viewWidth / imageResId.length;
-        System.out.println("dotwidth:" + dotWidth);
         // 初始化图片资源
         for (int i = 0; i < imageResId.length; i++) {
             ImageView imageView = new ImageView(getActivity());

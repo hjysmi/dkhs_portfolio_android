@@ -9,16 +9,12 @@
 package com.dkhs.portfolio.ui;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -36,10 +32,11 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
+import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
-import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -57,14 +54,14 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private Button btnAdd;
     private ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
     private EditText etSearchKey;
-    private FragmentSelectStockFund mSearchFragment;
+    private FragmentSearchStockFund mSearchFragment;
 
     private View mStockPageView;
     private View mSearchListView;
 
     private Button btnOrder;
 
-    public static List<ConStockBean> mSelectList = new ArrayList<ConStockBean>();
+    public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -89,24 +86,32 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) extras
                 .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
         if (null != listStock) {
-            mSelectList = listStock;
+            for (ConStockBean stockBean : listStock) {
+
+                mSelectList.add(SelectStockBean.copy(stockBean));
+            }
         }
     }
 
     private void setupViewData() {
-        mSelectStockAdapter = new SelectFundAdapter(this, mSelectList, isLoadBySelectFund());
+        mSelectStockAdapter = new SelectFundAdapter(this, mSelectList);
         mSelctStockView.setAdapter(mSelectStockAdapter);
         btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         btnAdd.setOnClickListener(this);
         etSearchKey.addTextChangedListener(mTextWatcher);
 
-        if (isLoadBySelectFund()) {
+        if (getLoadByType() == ListViewType.FUND) {
             setTitle(R.string.select_fund);
             mSelctStockView.setNumColumns(2);
             btnOrder.setVisibility(View.VISIBLE);
-        } else {
+        } else if (getLoadByType() == ListViewType.STOCK) {
             btnOrder.setVisibility(View.GONE);
             setTitle(R.string.select_stock);
+            mSelctStockView.setNumColumns(3);
+
+        } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
+            btnOrder.setVisibility(View.GONE);
+            setTitle(R.string.add_optional_stock);
             mSelctStockView.setNumColumns(3);
 
         }
@@ -137,7 +142,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     }
 
     private void replaceSearchView() {
-        mSearchFragment = setSearchFragment();
+        mSearchFragment = getSearchFragment();
         if (null != mSearchFragment) {
             getSupportFragmentManager().beginTransaction().replace(R.id.rl_stock_searchview, mSearchFragment).commit();
         }
@@ -237,10 +242,13 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         int id = v.getId();
 
         if (RIGHTBUTTON_ID == id) {
-            if (isLoadBySelectFund()) {
-                setSelectBack(-1);
-            } else {
+            if (getLoadByType() == ListViewType.STOCK) {
                 showTypeDialog();
+            } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
+                Toast.makeText(this, "添加到自选股", Toast.LENGTH_SHORT).show();
+            } else {
+                setSelectBack(-1);
+
             }
         }
     }
@@ -283,9 +291,28 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         finish();
     }
 
-    protected abstract boolean isLoadBySelectFund();
+    public enum ListViewType {
+        // 基金模式
+        FUND(1),
+        // 股票模式
+        STOCK(2),
+        // 添加自选股模式
+        ADD_OPTIONAL(3);
 
-    protected abstract FragmentSelectStockFund setSearchFragment();
+        private int typeId;
+
+        ListViewType(int type) {
+            this.typeId = type;
+        }
+
+        public int getTypeId() {
+            return typeId;
+        }
+    }
+
+    protected abstract ListViewType getLoadByType();
+
+    protected abstract FragmentSearchStockFund getSearchFragment();
 
     protected abstract void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList);
 

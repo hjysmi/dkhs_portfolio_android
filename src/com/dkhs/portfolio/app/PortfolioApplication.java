@@ -8,7 +8,12 @@
  */
 package com.dkhs.portfolio.app;
 
+import com.dkhs.portfolio.service.LoadStockToDBService;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+
 import android.app.Application;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 /**
  * @ClassName PortfolioApplication
@@ -29,6 +34,9 @@ public class PortfolioApplication extends Application {
         // TODO Auto-generated method stub
         super.onCreate();
         mInstance = this;
+        if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
+            LoadStockToDBService.requestDownload(this);
+        }
     }
 
 }

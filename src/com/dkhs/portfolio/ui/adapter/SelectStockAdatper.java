@@ -19,7 +19,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName SelectFundAdatper
@@ -30,7 +32,7 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
  */
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
-    public SelectStockAdatper(Context context, List<ConStockBean> datas) {
+    public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
     }
 
@@ -51,17 +53,18 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder = (ViewHodler) convertView.getTag();
         }
 
-        ConStockBean item = mDataList.get(position);
+        SelectStockBean item = mDataList.get(position);
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
         viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
-        viewHolder.tvStockName.setText(item.getName());
+        viewHolder.tvStockName.setText(item.name);
+        viewHolder.tvStockNum.setText(item.code);
 
         ColorStateList textCsl;
-        if (position % 3 == 0) {
+        if (item.percentage >= 0) {
             textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
 
         } else {
@@ -69,8 +72,9 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         }
         viewHolder.tvCurrentValue.setTextColor(textCsl);
-        viewHolder.tvCurrentValue.setText("" + item.getCurrentValue());
-
+        viewHolder.tvCurrentValue.setText("" + item.currentValue);
+        viewHolder.tvIncreaseValue.setTextColor(textCsl);
+        viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
         return convertView;
     }
 

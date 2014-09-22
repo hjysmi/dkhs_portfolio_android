@@ -190,7 +190,6 @@ public class PieGraph extends View {
     // }
 
     private void addEmptyPieSlice(float value) {
-        System.out.println("Add addEmptyPieSlice");
         PieSlice slice = new PieSlice();
         slice.setColor(Color.RED);
         slice.setValue(value);

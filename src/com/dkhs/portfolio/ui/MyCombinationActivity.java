@@ -287,7 +287,6 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             // CombinationBean delStock = mDataList.get(i);
             delList.add(delStock);
             sbIds.append(delStock.getId());
-            System.out.println("Del combinationId:" + delStock.getId());
             sbIds.append(",");
         }
         if (delList.size() > 0) {
