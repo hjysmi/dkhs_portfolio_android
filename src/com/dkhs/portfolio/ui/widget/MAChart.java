@@ -194,7 +194,7 @@ public class MAChart extends TrendGridChart {
             }
         }
 
-        if (clickPostX > 0 && clickPostY > 0) {
+        if (clickPostX > 0 && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
             if (!isTouch) {
                 mPaint.setColor(Color.TRANSPARENT);
             }

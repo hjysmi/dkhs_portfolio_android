@@ -273,7 +273,7 @@ public class TrendGridChart extends View {
         mGridLineHeight = getHeight() - xTitleTextHeight / 2 - axisMarginTop - axisMarginBottom;
         mStartLineYpoint = axisMarginTop + xTitleTextHeight / 2;
         mStartLineXpoint = axisMarginLeft;
-        mGridLineLenght = getWidth()-mStartLineXpoint;
+        mGridLineLenght = getWidth()-mStartLineXpoint - axisMarginRight;
         
         // 设置背景色
         // super.setBackgroundColor(backgroudColor);
@@ -560,7 +560,7 @@ public class TrendGridChart extends View {
 
         mXTitlePaint.setPathEffect(dashEffect);
         if (counts > 1) {
-            float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight) / (counts - 1);
+            float postOffset = mGridLineLenght / (counts - 1);
             float offset = axisMarginLeft;
             for (int i = 0; i <= counts; i++) {
                 // 绘制线条
@@ -592,24 +592,20 @@ public class TrendGridChart extends View {
         if (dashLatitude) {
             mPaintLine.setPathEffect(dashEffect);
         }
-        // �?��Paint
-        Paint mPaintFont = new Paint();
-        mPaintFont.setColor(latitudeFontColor);
-        mPaintFont.setTextSize(latitudeFontSize);
-
-        mPaintFont.setAntiAlias(true);
 
         // 绘制线条坐�?轴
         if (counts > 1) {
             float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
                     / (counts - 1);
+//            float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
+//                    / (counts - 1);
 
             // float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
 
             for (int i = 0; i <= counts; i++) {
                 // 绘制线条
                 if (displayLatitude) {
-                    canvas.drawLine(mStartLineXpoint, height - i * postOffset, length + axisMarginRight, height - i
+                    canvas.drawLine(mStartLineXpoint, height - i * postOffset, length+mStartLineXpoint , height - i
                             * postOffset, mPaintLine);
                 }
                 // 绘制刻度
