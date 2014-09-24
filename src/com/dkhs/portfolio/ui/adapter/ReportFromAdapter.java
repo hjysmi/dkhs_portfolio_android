@@ -20,7 +20,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName SelectFundAdapter
@@ -32,16 +35,18 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
 public class ReportFromAdapter extends BaseAdapter {
 
     private Context mContext;
+    private List<NetValueReportBean> mDataList;
 
-    public ReportFromAdapter(Context context) {
+    public ReportFromAdapter(Context context, List<NetValueReportBean> dataList) {
         this.mContext = context;
-
+        this.mDataList = dataList;
     }
 
+  
     @Override
     public int getCount() {
 
-        return 10;
+        return mDataList.size();
     }
 
     @Override
@@ -66,6 +71,17 @@ public class ReportFromAdapter extends BaseAdapter {
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
+        }
+
+        NetValueReportBean bean = mDataList.get(position);
+        viewHolder.tvDate.setText(bean.getDate());
+        viewHolder.tvNetValue.setText(StringFromatUtils.get4Point(bean.getNetValue()));
+        viewHolder.tvDayUP.setText(StringFromatUtils.getPercentValue(bean.getPercentage()));
+        if (bean.getNetValue() < 1) {
+            viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_GREEN);
+        } else {
+
+            viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_RED);
         }
 
         return convertView;

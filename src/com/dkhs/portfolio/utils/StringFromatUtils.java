@@ -23,5 +23,11 @@ public class StringFromatUtils {
     public static String getPercentValue(float value) {
         return String.format("%.2f", value) + "%";
     }
+    public static String get4PointPercent(float value) {
+        return String.format("%.4f", value) + "%";
+    }
+    public static String get4Point(float value) {
+        return String.format("%.4f", value);
+    }
 
 }

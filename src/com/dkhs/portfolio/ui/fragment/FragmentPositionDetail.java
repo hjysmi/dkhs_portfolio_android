@@ -97,7 +97,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setStockList();
-
+        setRetainInstance(true);
         Bundle arguments = getArguments();
         if (arguments != null) {
             handleArguments(arguments);
@@ -129,7 +129,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void handleArguments(Bundle extras) {
         mCombinationId = extras.getInt(ARGUMENT_COMBINTAION_ID);
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+        
         // setStockList();
         // setPieList();
     }
@@ -270,6 +270,18 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         surValue = total;
 
         return total;
+    }
+    
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -120,7 +121,7 @@ public class LineChart extends GridChart {
             if (line.isDisplay()) {
                 mLinePaint.setColor(line.getLineColor());
 
-                List<Float> lineData = line.getLineData();
+                List<TodayNetBean> lineData = line.getLineData();
                 // 输�?�?��线
                 // startx = 27
                 // startX = super.getAxisMarginLeft() + pointLineLength / 2f;
@@ -134,7 +135,7 @@ public class LineChart extends GridChart {
                 if (lineData != null && lineData.size() > 0) {
                     for (int j = 0; j < lineData.size(); j++) {
                         // j=1,value=272
-                        float value = lineData.get(j).floatValue();
+                        float value = lineData.get(j).getNetvalue();
                         // 获取终点Y坐�?
                         // j=1,vlaueY=29.866665
                         // minvalue = 220,maxvalue=280

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -15,11 +13,17 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.os.Handler;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-public class MAChart extends GridChart {
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
+import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
+
+public class MAChart extends TrendGridChart {
     /** 显示数据线 */
     private List<LineEntity> lineData;
 
@@ -27,10 +31,10 @@ public class MAChart extends GridChart {
     private int maxPointNum;
 
     /** 最低价格 */
-    private int minValue;
+    private float minValue;
 
     /** 最高价格 */
-    private int maxValue;
+    private float maxValue;
 
     /** 经线是否使用虚线 */
     private boolean dashLongitude = Boolean.FALSE;
@@ -235,12 +239,14 @@ public class MAChart extends GridChart {
     // }
 
     protected void drawLines(Canvas canvas) {
-        lineLength = (super.getWidth() - super.getAxisMarginLeft() - super.getAxisMarginRight());
+        lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
         // 点线距离
-        pointLineLength = (lineLength / this.getMaxPointNum()) - 1;
+        pointLineLength = (lineLength / (this.getMaxPointNum() - 1)) - 1;
+
         // 起始位置
         float startX;
-        float lineHeight = super.getHeight() - super.getAxisMarginBottom() - xTitleTextHeight;
+
+        float lineHeight = super.getHeight() - axisMarginTop - super.getAxisMarginBottom() - xTitleTextHeight;
 
         Paint fillPaint = new Paint();
         // fillPaint.setColor(ColorTemplate.getRaddomColor());
@@ -249,12 +255,13 @@ public class MAChart extends GridChart {
             return;
         }
         // 逐条输入MA线
+
         for (int i = 0; i < lineData.size(); i++) {
             LineEntity line = (LineEntity) lineData.get(i);
             if (line.isDisplay()) {
                 mLinePaint.setColor(line.getLineColor());
 
-                List<Float> lineData = line.getLineData();
+                List<TodayNetBean> lineData = line.getLineData();
                 // 输�?�?��线
                 // startx = 27
                 // startX = super.getAxisMarginLeft() + pointLineLength / 2f;
@@ -268,7 +275,7 @@ public class MAChart extends GridChart {
                 if (lineData != null && lineData.size() > 0) {
                     for (int j = 0; j < lineData.size(); j++) {
                         // j=1,value=272
-                        float value = lineData.get(j).floatValue();
+                        float value = lineData.get(j).getNetvalue();
                         // 获取终点Y坐�?
                         // j=1,vlaueY=29.866665
                         // minvalue = 220,maxvalue=280
@@ -276,7 +283,7 @@ public class MAChart extends GridChart {
 
                         float valueY = (float) ((1f - (value - this.getMinValue())
                                 / (this.getMaxValue() - this.getMinValue())) * (lineHeight));
-
+                        valueY += axisMarginTop / 2 + xTitleTextHeight / 2;
                         // if (dashLongitude) {
                         if (j < dashLineLenght) {
                             mLinePaint.setPathEffect(dashEffect);
@@ -350,17 +357,17 @@ public class MAChart extends GridChart {
     // mDrawCanvas.drawPath(filled, paint);
 
     private void getTouchPointData(Canvas canvas) {
-        if (getTouchPoint() != null) {
-            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1));
+        if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
+            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1))+1;
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
-            if (pointIndex >= maxPointSize) {
-                pointIndex = maxPointSize - 1;
+            if (pointIndex < maxPointSize) {
+                // pointIndex = maxPointSize - 1;
+                TodayNetBean data = lineEntity.getLineData().get(pointIndex);
+                drawDataView(canvas, pointIndex, data);
             }
-            float data = lineEntity.getLineData().get(pointIndex);
             // drawDataView(canvas);
 
-            drawDataView(canvas, pointIndex, data);
         }
 
     }
@@ -375,7 +382,7 @@ public class MAChart extends GridChart {
     }
 
     // clearRect(x,y,width,height) ‒ clears the given area and makes it fully opaque
-    private void drawDataView(Canvas canvas, int pointIndex, float date) {
+    private void drawDataView(Canvas canvas, int pointIndex, TodayNetBean date) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
@@ -420,7 +427,8 @@ public class MAChart extends GridChart {
         selectPaint.setColor(Color.BLACK);
         selectPaint.setAntiAlias(true);
         selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
-        canvas.drawText("日期：" + pointIndex, startX + textMargin, preYpoint, selectPaint);
+        canvas.drawText("日期：" + date.getTimestamp(), startX + textMargin, preYpoint,
+                selectPaint);
 
         // FontMetrics fontMetrics = selectPaint.getFontMetrics();
         // float preTextBottom = fontMetrics.bottom;
@@ -430,9 +438,17 @@ public class MAChart extends GridChart {
 
                 selectPaint.setColor(lineData.get(i).getLineColor());
                 preYpoint += textMargin + textTextHeight;
-                // String text = "";
+                String text = "";
                 // if (i == 0) {
-                String text = lineData.get(i).getTitle() + ":" + lineData.get(i).getLineData().get(pointIndex);
+                if (TextUtils.isEmpty(lineData.get(i).getTitle())) {
+//                    text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+                    text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+
+                } else {
+
+//                    text = lineData.get(i).getTitle()
+//                            + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+                }
                 // } else if (i == 1) {
                 // text = "沪深300:1.43%";
                 // } else {
@@ -452,6 +468,8 @@ public class MAChart extends GridChart {
 
     public void setLineData(List<LineEntity> lineData) {
         this.lineData = lineData;
+
+        invalidate();
     }
 
     public int getMaxPointNum() {
@@ -462,19 +480,19 @@ public class MAChart extends GridChart {
         this.maxPointNum = maxPointNum;
     }
 
-    public int getMinValue() {
+    public float getMinValue() {
         return minValue;
     }
 
-    public void setMinValue(int minValue) {
+    public void setMinValue(float minValue) {
         this.minValue = minValue;
     }
 
-    public int getMaxValue() {
+    public float getMaxValue() {
         return maxValue;
     }
 
-    public void setMaxValue(int maxValue) {
+    public void setMaxValue(float maxValue) {
         this.maxValue = maxValue;
     }
 

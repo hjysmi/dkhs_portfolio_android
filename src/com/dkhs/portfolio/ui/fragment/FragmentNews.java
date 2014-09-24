@@ -31,10 +31,26 @@ import android.view.ViewGroup;
  * @version 1.0
  */
 public class FragmentNews extends Fragment {
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+        System.out.println("================FragmentNews onCreate()======================");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_combination_news, null);
         initTabPage(view);
+        System.out.println("================FragmentNews onCreateView()======================");
         return view;
     }
 

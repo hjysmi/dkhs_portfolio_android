@@ -84,7 +84,6 @@ public class TimeUtils {
         try {
             return DEFAULT_DATE_FORMAT.parse(iso8601str);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return null;

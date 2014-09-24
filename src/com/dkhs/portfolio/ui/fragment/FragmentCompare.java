@@ -33,9 +33,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
-import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.engine.NetValueEngine;
+import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.dkhs.portfolio.ui.SelectFundActivity;
-import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
@@ -69,6 +69,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         mAdapter = new CompareIndexAdapter(getActivity());
         final Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
@@ -209,11 +210,15 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
     }
 
-    private List<Float> initMA(int length) {
-        List<Float> MA5Values = new ArrayList<Float>();
+    private List<TodayNetBean> initMA(int length) {
+        List<TodayNetBean> MA5Values = new ArrayList<TodayNetBean>();
+        NetValueEngine outer = new NetValueEngine(0); 
         for (int i = 0; i < length; i++) {
             // MA5Values.add((float) new Random().nextInt(99));
-            MA5Values.add(new Random().nextFloat() * 100);
+            TodayNetBean bean =outer.new TodayNetBean();
+            bean.setTimestamp("2014-09-23T09:28:17.030352");
+            bean.setNetvalue(new Random().nextFloat() * 100);
+            MA5Values.add(bean);
         }
         return MA5Values;
 

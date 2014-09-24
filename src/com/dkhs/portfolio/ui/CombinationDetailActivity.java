@@ -94,15 +94,15 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         findViewById(R.id.btn_comparison).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_detail).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_news).setOnClickListener(bottomClickListner);
-        Button btnShare = getSecondRightButton();
-        btnShare.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                saveBitmapToGallery();
-                Toast.makeText(CombinationDetailActivity.this, "保存截图到相册", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Button btnShare = getSecondRightButton();
+        // btnShare.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // saveBitmapToGallery();
+        // Toast.makeText(CombinationDetailActivity.this, "保存截图到相册", Toast.LENGTH_SHORT).show();
+        // }
+        // });
     }
 
     private void replaceContentView(Fragment fragment, String tag) {

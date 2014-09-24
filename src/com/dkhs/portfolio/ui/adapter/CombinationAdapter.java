@@ -240,7 +240,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         MA5.setLineColor(mContext.getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
-        MA5.setLineData(initMA(new Random().nextInt(72)));
+        // MA5.setLineData(initMA(new Random().nextInt(72)));
         lines.add(MA5);
         machart.setLineData(lines);
         machart.setDisplayBorder(false);

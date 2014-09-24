@@ -113,7 +113,7 @@ public class FragmentSwitchChart extends Fragment {
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
 
         if (mFragmentReport == null) {
-            mFragmentReport = new FragmentReportForm();
+            mFragmentReport = FragmentReportForm.newInstance(trendType);
         }
         // replaceContentView(mFragment, R.id.btn_trend + "");
         ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);

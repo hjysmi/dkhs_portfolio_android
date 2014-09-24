@@ -35,6 +35,7 @@ import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -51,6 +52,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private TextView tvCombinName;
     private TextView tvCombinDesc;
     private TextView tvCombinCreateTime;
+    private TextView tvIncreaseValue;
+    private TextView tvIncreaseRatio;
     private Button btnEditName;
 
     private CombinationBean mCombinationBean;
@@ -65,6 +68,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         Bundle arguments = getArguments();
         if (arguments != null) {
             handleArguments(arguments);
@@ -75,6 +79,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         if (extras != null) {
             handleExtras(extras);
         }
+        
     }
 
     private void handleExtras(Bundle extras) {
@@ -95,6 +100,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
         tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
         tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
+        tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
+        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
         btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         btnEditName.setOnClickListener(this);
         initTabPage(view);
@@ -107,6 +114,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             tvCombinName.setText(mCombinationBean.getName());
             tvCombinDesc.setText(mCombinationBean.getDescription());
             tvCombinCreateTime.setText(TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime()));
+            tvIncreaseRatio.setText(StringFromatUtils.getPercentValue((mCombinationBean.getAddUpValue()-1)*100));
+            tvIncreaseValue.setText(StringFromatUtils.get4Point(mCombinationBean.getAddUpValue()-1));
         }
     }
 
