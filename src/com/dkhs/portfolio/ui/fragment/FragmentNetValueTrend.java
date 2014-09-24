@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LineChart;
@@ -114,8 +115,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             tvCombinName.setText(mCombinationBean.getName());
             tvCombinDesc.setText(mCombinationBean.getDescription());
             tvCombinCreateTime.setText(TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime()));
-            tvIncreaseRatio.setText(StringFromatUtils.getPercentValue((mCombinationBean.getAddUpValue()-1)*100));
-            tvIncreaseValue.setText(StringFromatUtils.get4Point(mCombinationBean.getAddUpValue()-1));
+            tvIncreaseRatio.setText(StringFromatUtils.getPercentValue(mCombinationBean.getAddUpValue()));
+            tvIncreaseValue.setText(StringFromatUtils.get4Point(mCombinationBean.getAddUpValue()/100f));
         }
     }
 
@@ -181,6 +182,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
                     tvCombinName.setText(etCombinName.getText());
                     tvCombinName.setVisibility(View.VISIBLE);
                     etCombinName.setVisibility(View.GONE);
+                    new MyCombinationEngineImpl().updateCombination(mCombinationBean.getId()+"", etCombinName.getText().toString(), null);
                 }
             }
 

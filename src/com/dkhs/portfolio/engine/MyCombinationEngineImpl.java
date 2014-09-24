@@ -88,11 +88,11 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void updateCombination(String id, String name, String desc, IHttpListener listener) {
+    public void updateCombination(String id, String name, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("name", name);
-        params.addBodyParameter("description", desc);
+        // params.addBodyParameter("description", desc);
 
         DKHSClient.requestByPost(DKHSUrl.Portfolio.update + id + "/", params, listener);
 

@@ -77,7 +77,7 @@ public class MAChart extends TrendGridChart {
     private void init() {
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(1);
+        mLinePaint.setStrokeWidth(2);
     }
 
     /** 当前被选中的坐标点 */
@@ -135,7 +135,7 @@ public class MAChart extends TrendGridChart {
         super.onDraw(canvas);
         // mCanvas = canvas;
 
-        startPointX = super.getAxisMarginLeft() + 2;
+        startPointX = mStartLineXpoint + 2;
         endY = super.getHeight();
         // 绘制平线
         drawLines(canvas);
@@ -160,11 +160,10 @@ public class MAChart extends TrendGridChart {
         // 水平线长度
         float lineHLength = getWidth() - 2f;
         // 垂直线高度
-        float lineVLength = getHeight() - xTitleTextHeight - axisMarginBottom;
+        float lineVLength = mGridLineHeight - axisMarginBottom;
 
         // 绘制横纵线
         if (isDisplayAxisXTitle()) {
-            lineVLength = lineVLength - axisMarginBottom;
 
             if (clickPostX > 0 && clickPostY > 0) {
                 // 绘制X轴�?���?
@@ -202,7 +201,9 @@ public class MAChart extends TrendGridChart {
             // 显示纵线
             // if (displayCrossXOnTouch) {
             //
-            canvas.drawLine(clickPostX, axisMarginTop + xTitleTextHeight / 2, clickPostX, lineVLength, mPaint);
+            // canvas.drawLine(clickPostX, axisMarginTop + xTitleTextHeight / 2, clickPostX, lineVLength, mPaint);
+            canvas.drawLine(clickPostX, mStartLineYpoint, clickPostX, lineVLength, mPaint);
+
             // }
 
             // 显示横线
@@ -239,14 +240,15 @@ public class MAChart extends TrendGridChart {
     // }
 
     protected void drawLines(Canvas canvas) {
-        lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
+        // lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
         // 点线距离
-        pointLineLength = (lineLength / (this.getMaxPointNum() - 1)) - 1;
+        pointLineLength = ((mGridLineLenght - 2) / (this.getMaxPointNum() - 1)) - 1;
 
         // 起始位置
         float startX;
 
-        float lineHeight = super.getHeight() - axisMarginTop - super.getAxisMarginBottom() - xTitleTextHeight;
+        // float lineHeight = super.getHeight() - axisMarginTop - super.getAxisMarginBottom() - xTitleTextHeight;
+        float lineHeight = mGridLineHeight - axisMarginBottom - 2 - mStartLineYpoint;
 
         Paint fillPaint = new Paint();
         // fillPaint.setColor(ColorTemplate.getRaddomColor());
@@ -255,13 +257,16 @@ public class MAChart extends TrendGridChart {
             return;
         }
         // 逐条输入MA线
+        System.out.println("getMaxPointNum size:" + getMaxPointNum());
 
         for (int i = 0; i < lineData.size(); i++) {
             LineEntity line = (LineEntity) lineData.get(i);
+
             if (line.isDisplay()) {
                 mLinePaint.setColor(line.getLineColor());
 
-                List<TodayNetBean> lineData = line.getLineData();
+                List<LinePointEntity> lineData = line.getLineData();
+                System.out.println("lineData size:" + lineData.size());
                 // 输�?�?��线
                 // startx = 27
                 // startX = super.getAxisMarginLeft() + pointLineLength / 2f;
@@ -273,9 +278,13 @@ public class MAChart extends TrendGridChart {
 
                 // }
                 if (lineData != null && lineData.size() > 0) {
+
                     for (int j = 0; j < lineData.size(); j++) {
                         // j=1,value=272
-                        float value = lineData.get(j).getNetvalue();
+                        if (j >= getMaxPointNum()) {
+                            break;
+                        }
+                        float value = lineData.get(j).getValue();
                         // 获取终点Y坐�?
                         // j=1,vlaueY=29.866665
                         // minvalue = 220,maxvalue=280
@@ -283,7 +292,8 @@ public class MAChart extends TrendGridChart {
 
                         float valueY = (float) ((1f - (value - this.getMinValue())
                                 / (this.getMaxValue() - this.getMinValue())) * (lineHeight));
-                        valueY += axisMarginTop / 2 + xTitleTextHeight / 2;
+                        valueY += mStartLineYpoint;
+                        // valueY += mStartLineYpoint;
                         // if (dashLongitude) {
                         if (j < dashLineLenght) {
                             mLinePaint.setPathEffect(dashEffect);
@@ -358,12 +368,12 @@ public class MAChart extends TrendGridChart {
 
     private void getTouchPointData(Canvas canvas) {
         if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
-            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1))+1;
+            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1)) + 1;
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
             if (pointIndex < maxPointSize) {
                 // pointIndex = maxPointSize - 1;
-                TodayNetBean data = lineEntity.getLineData().get(pointIndex);
+                LinePointEntity data = lineEntity.getLineData().get(pointIndex);
                 drawDataView(canvas, pointIndex, data);
             }
             // drawDataView(canvas);
@@ -381,13 +391,19 @@ public class MAChart extends TrendGridChart {
         invalidate();
     }
 
+    private List<String> pointTitleList;
+
+    public void setPointTitleList(List<String> pTitleList) {
+        this.pointTitleList = pTitleList;
+    }
+
     // clearRect(x,y,width,height) ‒ clears the given area and makes it fully opaque
-    private void drawDataView(Canvas canvas, int pointIndex, TodayNetBean date) {
+    private void drawDataView(Canvas canvas, int pointIndex, LinePointEntity date) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
-        int viewLength = 160;
-        int viewHeight = 170;
+        int viewLength = 180;
+        int viewHeight = 120;
         int margin = 20;
         float marginTop = margin + axisMarginTop;
         // = margin;
@@ -427,8 +443,13 @@ public class MAChart extends TrendGridChart {
         selectPaint.setColor(Color.BLACK);
         selectPaint.setAntiAlias(true);
         selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
-        canvas.drawText("日期：" + date.getTimestamp(), startX + textMargin, preYpoint,
-                selectPaint);
+        String firtLineText;
+        if (null != pointTitleList && pointTitleList.size() > 0) {
+            firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
+        } else {
+            firtLineText = "日期：" + date.getDesc();
+        }
+        canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
         // FontMetrics fontMetrics = selectPaint.getFontMetrics();
         // float preTextBottom = fontMetrics.bottom;
@@ -441,13 +462,18 @@ public class MAChart extends TrendGridChart {
                 String text = "";
                 // if (i == 0) {
                 if (TextUtils.isEmpty(lineData.get(i).getTitle())) {
-//                    text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
-                    text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+                    // text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
 
+                    if (null != pointTitleList && pointTitleList.size() > 1) {
+                        text = pointTitleList.get(1) + ":"
+                                + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
+                    } else {
+                        text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
+                    }
                 } else {
 
-//                    text = lineData.get(i).getTitle()
-//                            + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+                    // text = lineData.get(i).getTitle()
+                    // + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
                 }
                 // } else if (i == 1) {
                 // text = "沪深300:1.43%";

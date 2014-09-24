@@ -222,7 +222,16 @@ public class TrendGridChart extends View {
     /** the canvas that is used for drawing on the bitmap */
     protected Canvas mDrawCanvas;
 
-    // ////////////�??方�?//////////////
+    private final int xLineCounts = 5;
+
+    private Paint mXTitlePaint;
+    public int xTitleTextHeight = 0;
+
+    public float mGridLineHeight = 0;
+    public float mGridLineLenght;
+    public float mStartLineYpoint = 0;
+    public float mStartLineXpoint;
+
     public TrendGridChart(Context context) {
         super(context);
         init();
@@ -241,11 +250,19 @@ public class TrendGridChart extends View {
     private void init() {
         latitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
         longtitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
+
+        mXTitlePaint = new Paint();
+
+        mXTitlePaint.setTextSize(latitudeFontSize);
+        mXTitlePaint.setAntiAlias(true);
+        mXTitlePaint.setColor(longitudeColor);
+        // mXTitlePaint.setTextAlign(Paint.Align.CENTER);
+        // if (dashLongitude) {
+        FontMetrics fm = mXTitlePaint.getFontMetrics();
+        xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+
     }
 
-    public int xTitleTextHeight = 0;
-
-    // //////////////方�?//////////////
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -253,7 +270,11 @@ public class TrendGridChart extends View {
 
         drawXtitleText(canvas);
         drawYtitleText(canvas);
-
+        mGridLineHeight = getHeight() - xTitleTextHeight / 2 - axisMarginTop - axisMarginBottom;
+        mStartLineYpoint = axisMarginTop + xTitleTextHeight / 2;
+        mStartLineXpoint = axisMarginLeft;
+        mGridLineLenght = getWidth()-mStartLineXpoint;
+        
         // 设置背景色
         // super.setBackgroundColor(backgroudColor);
         // 绘制XY轴
@@ -298,7 +319,6 @@ public class TrendGridChart extends View {
      * @param canvas
      * @return void
      */
-
     private void drawYtitleText(Canvas canvas) {
         if (null != axisYTitles) {
             int counts = axisYTitles.size();
@@ -401,15 +421,7 @@ public class TrendGridChart extends View {
         if (null != axisXTitles) {
 
             int counts = axisXTitles.size();
-            Paint mXTitlePaint = new Paint();
 
-            mXTitlePaint.setTextSize(latitudeFontSize);
-            mXTitlePaint.setAntiAlias(true);
-            mXTitlePaint.setColor(longitudeColor);
-            // mXTitlePaint.setTextAlign(Paint.Align.CENTER);
-            // if (dashLongitude) {
-            FontMetrics fm = mXTitlePaint.getFontMetrics();
-            xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
             // 1. 粗略计算文字宽度
 
             float offset = axisMarginLeft;
@@ -533,8 +545,6 @@ public class TrendGridChart extends View {
         canvas.drawLine(postX, 0f, postX, length, mPaint);
     }
 
-    private int xLineCounts = 5;
-
     /**
      * 绘制竖线
      * 
@@ -545,7 +555,6 @@ public class TrendGridChart extends View {
         // if (null != axisXTitles) {
 
         int counts = xLineCounts;
-        float length = super.getHeight() - axisMarginBottom;
         Paint mXTitlePaint = new Paint();
         mXTitlePaint.setColor(longitudeColor);
 
@@ -553,12 +562,11 @@ public class TrendGridChart extends View {
         if (counts > 1) {
             float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight) / (counts - 1);
             float offset = axisMarginLeft;
-            float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight;
             for (int i = 0; i <= counts; i++) {
                 // 绘制线条
                 if (displayLongitude) {
-                    canvas.drawLine(offset + i * postOffset, axisMarginTop + xTitleTextHeight / 2, offset + i
-                            * postOffset, offsetX, mXTitlePaint);
+                    canvas.drawLine(offset + i * postOffset, mStartLineYpoint, offset + i * postOffset,
+                            mGridLineHeight, mXTitlePaint);
                 }
 
             }
@@ -566,6 +574,8 @@ public class TrendGridChart extends View {
         // }
     }
 
+
+    
     /**
      * 绘制横线
      * 
@@ -574,8 +584,8 @@ public class TrendGridChart extends View {
     protected void drawAxisGridY(Canvas canvas) {
         // if (null != axisYTitles) {
         int counts = xLineCounts;
-        float length = super.getWidth() - axisMarginLeft;
-        float height = super.getHeight() - axisMarginTop - xTitleTextHeight / 2;
+        float length = mGridLineLenght;
+        float height = mGridLineHeight;
         // 线条Paint
         Paint mPaintLine = new Paint();
         mPaintLine.setColor(latitudeColor);
@@ -599,7 +609,7 @@ public class TrendGridChart extends View {
             for (int i = 0; i <= counts; i++) {
                 // 绘制线条
                 if (displayLatitude) {
-                    canvas.drawLine(axisMarginLeft, height - i * postOffset, length + axisMarginRight, height - i
+                    canvas.drawLine(mStartLineXpoint, height - i * postOffset, length + axisMarginRight, height - i
                             * postOffset, mPaintLine);
                 }
                 // 绘制刻度

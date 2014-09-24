@@ -57,8 +57,9 @@ public class DKHSClient {
 
                 String result = StringDecodeUtil.fromUnicode(responseInfo.result);
                 LogUtils.d("请求成功:" + result);
-
-                listener.onHttpSuccess(result);
+                if (null != listener) {
+                    listener.onHttpSuccess(result);
+                }
 
             }
 
@@ -116,7 +117,7 @@ public class DKHSClient {
             for (NameValuePair p : params) {
                 sbParams.append('&').append(p.getName()).append('=').append(p.getValue());
             }
-//            sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
+            // sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
         }
 
         request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);

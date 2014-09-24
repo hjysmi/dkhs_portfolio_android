@@ -89,6 +89,11 @@ public class TimeUtils {
         return null;
     }
 
+    public static String getTimeString(String iso8601Time) {
+        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(parseISOTime(iso8601Time));
+
+    }
+
     public static String getSimpleFormatTime(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[2].format(parseISOTime(iso8601str));
     }
