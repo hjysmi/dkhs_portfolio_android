@@ -92,7 +92,6 @@
                 style="@style/hw_wrap"
                 android:layout_below="@+id/tv_history"
                 android:layout_centerHorizontal="true"
-                android:text="10.1512"
                 android:textColor="@color/red"
                 android:textSize="20sp" />
         </RelativeLayout>
@@ -117,7 +116,6 @@
                 style="@style/hw_wrap"
                 android:layout_below="@+id/tv_income"
                 android:layout_centerHorizontal="true"
-                android:text="10.15%"
                 android:textColor="@color/red"
                 android:textSize="20sp" />
         </RelativeLayout>

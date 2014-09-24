@@ -44,4 +44,15 @@ public class DKHSUrl {
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/quotes/symbols_profile/";
     }
+
+    public interface NetValue {
+        // /api/v1/portfolio/query_daily_netvalue/
+        String queryDaily = "/api/v1/portfolio/query_daily_netvalue/";
+
+        // http://192.168.107.251:8000/api/v1/portfolio/query_netvalue/?portfolio_id=525
+        String queryToday = "/api/v1/portfolio/query_netvalue/";
+
+        // http://192.168.107.251:8000/api/v1/portfolio/query_combination_netvalue/?portfolio_id=508&page_size=7
+        String report = "/api/v1/portfolio/query_combination_netvalue/";
+    }
 }

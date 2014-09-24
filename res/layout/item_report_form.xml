@@ -10,23 +10,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="2014-07-25" />
+        android:layout_centerVertical="true" />
 
     <TextView
         android:id="@+id/tv_report_netvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="1.0811" />
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/tv_report_dayup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:text="1.08%"
-        android:textColor="@color/red" />
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

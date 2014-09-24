@@ -111,6 +111,9 @@
     <string name="positions">持仓</string>
     <string name="referto">参照</string>
     <string name="rise_range">涨幅</string>
+    <string name="start_netvalue">起始：</string>
+    <string name="end_netvalue">结束：</string>
+    <string name="netvalue_up">净值增长：</string>
     <string name="proportion">占比</string>
     <string name="time_start">%1$s起</string>
     <string name="time_end">%1$s止</string>

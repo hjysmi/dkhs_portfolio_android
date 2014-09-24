@@ -13,8 +13,10 @@ public class ColorTemplate {
     public static final int[] DEFAULTCOLORS = { R.color.def_1, R.color.def_2, R.color.def_3, R.color.def_4,
             R.color.def_5 };
     public static final int MY_COMBINATION_LINE = R.color.blue_line;
-    public static final int DEF_RED =0xFFE73535;
-    public static final int DEF_GREEN = Color.GREEN;
+    // public static final int DEF_RED =0xFFE73535;
+    // public static final int DEF_GREEN = Color.GREEN;
+    public static final int DEF_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.red);
+    public static final int DEF_GREEN = PortfolioApplication.getInstance().getResources().getColor(R.color.green);
 
     public static int getRaddomColor() {
         Random rnd = new Random();
