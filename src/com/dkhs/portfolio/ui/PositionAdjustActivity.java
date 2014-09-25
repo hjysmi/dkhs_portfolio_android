@@ -100,7 +100,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_positionadjust);
-        setTitle(R.string.portfolio_position);
+    
 
         // handle intent extras
         Bundle extras = getIntent().getExtras();
@@ -157,6 +157,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void initConbinationInfoView() {
         if (isAdjustCombination) {
+            setTitle(R.string.adjust_combination);
             ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
             if (viewstub != null) {
                 // viewstub.inflate();
@@ -172,6 +173,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
 
         } else {
+            setTitle(R.string.create_combination);
             ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
 
             if (viewstub != null) {
