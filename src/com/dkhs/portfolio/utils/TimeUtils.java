@@ -37,7 +37,7 @@ public class TimeUtils {
     private static final int DAY = 24 * HOUR;
 
     public static String getTimeAgo(long time, Context ctx) {
-        // TODO: use DateUtils methods instead
+
         if (time < 1000000000000L) {
             // if timestamp given in seconds, convert to millis
             time *= 1000;
@@ -108,7 +108,6 @@ public class TimeUtils {
             }
         }
 
-        // All attempts to parse have failed
         return null;
     }
 
