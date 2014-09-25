@@ -46,6 +46,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
     class AdjustListBean {
         String time;
         String content;
+
     }
 
     // public AdjustHistoryAdapter(Context mContext) {

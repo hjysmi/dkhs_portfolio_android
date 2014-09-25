@@ -346,6 +346,7 @@ public class TrendChartFragment extends Fragment {
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
     private float getMaxOffetValue(TodayNetValue todayNetvalue) {
+        lineDataList.clear();
         float baseNum = todayNetvalue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         for (TodayNetBean bean : todayNetvalue.getChartlist()) {
@@ -379,6 +380,7 @@ public class TrendChartFragment extends Fragment {
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
+        lineDataList.clear();
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
