@@ -90,12 +90,12 @@ public class TimeUtils {
     }
 
     public static String getTimeString(String iso8601Time) {
-        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(parseISOTime(iso8601Time));
+        return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
 
     }
 
     public static String getSimpleFormatTime(String iso8601str) {
-        return ACCEPTED_TIMESTAMP_FORMATS[2].format(parseISOTime(iso8601str));
+        return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
     }
 
     public static Date parseTimestamp(String timestamp) {
@@ -126,6 +126,37 @@ public class TimeUtils {
         }
         Date d = parseTimestamp(timestamp);
         return d == null ? defaultValue : d.getTime();
+    }
+
+    /** Transform ISO 8601 string to Calendar. */
+    public static Calendar toCalendar(final String iso8601string) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        String s = iso8601string.replace("Z", "+00:00");
+        try {
+            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
+
+            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
+            calendar.setTime(date);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return calendar;
+    }
+
+    public static Date toDate(final String iso8601string) {
+
+        String s = iso8601string.replace("Z", "+00:00");
+        Date date = null;
+        try {
+            s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
+            date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return date;
     }
 
     // public static String formatShortDate(Context context, Date date) {

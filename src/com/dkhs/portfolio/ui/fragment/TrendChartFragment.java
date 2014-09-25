@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -25,7 +26,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
-import com.dkhs.portfolio.bean.HistoryNetValue.HitstroyNetBean;
+import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
@@ -302,17 +303,17 @@ public class TrendChartFragment extends Fragment {
 
                 List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() > 0) {
-                    setYTitle(getMaxOffetValue(todayNetvalue));
+                    setYTitle(todayNetvalue.getBegin(), getMaxOffetValue(todayNetvalue));
                     setTodayPointTitle();
                     setLineData(lineDataList);
-                    
-                    
-                    String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
-                    int zIndex = lasttime.indexOf("T");
 
-                    String dateStr = lasttime.substring(0, zIndex);
-                    tvTimeLeft.setText(dateStr);
-                    String timeStr = lasttime.substring(zIndex + 1, lasttime.length() - 1);
+                    String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
+                    // int zIndex = lasttime.indexOf("T");
+                    Calendar calender = TimeUtils.toCalendar(lasttime);
+                    // String dateStr = lasttime.substring(0, zIndex);
+                    tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
+                            + calender.get(Calendar.DAY_OF_MONTH));
+                    String timeStr = calender.get(Calendar.HOUR) + ":" + (calender.get(Calendar.MINUTE) );
                     tvTimeRight.setText(timeStr);
                 }
 
@@ -327,8 +328,6 @@ public class TrendChartFragment extends Fragment {
         }
     };
 
-    
-    
     // private List<LinePointEntity> convertTodayBeanToLineEntity(List<TodayNetBean> dayNetValueList) {
     // List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
     // int dataLenght = dayNetValueList.size();
@@ -347,7 +346,8 @@ public class TrendChartFragment extends Fragment {
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
     private float getMaxOffetValue(TodayNetValue todayNetvalue) {
-        float maxNum = 1, minNum = 1;
+        float baseNum = todayNetvalue.getBegin();
+        float maxNum = baseNum, minNum = baseNum;
         for (TodayNetBean bean : todayNetvalue.getChartlist()) {
             if (bean.getNetvalue() > maxNum) {
                 maxNum = bean.getNetvalue();
@@ -365,8 +365,8 @@ public class TrendChartFragment extends Fragment {
         }
 
         float offetValue;
-        maxNum = maxNum - 1;
-        minNum = 1 - minNum;
+        maxNum = maxNum - baseNum;
+        minNum = baseNum - minNum;
 
         offetValue = maxNum > minNum ? maxNum : minNum;
 
@@ -378,13 +378,15 @@ public class TrendChartFragment extends Fragment {
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
-    private float getMaxOffetValue(List<HitstroyNetBean> dayNetValueList) {
-        float maxNum = 1, minNum = 1;
-        int dataLenght = dayNetValueList.size();
+    private float getMaxOffetValue(HistoryNetValue historyNetValue) {
+        float baseNum = historyNetValue.getBegin();
+        float maxNum = baseNum, minNum = baseNum;
+        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+        int dataLenght = historyNetList.size();
         for (int i = dataLenght - 1; i >= 0; i--) {
 
             LinePointEntity pointEntity = new LinePointEntity();
-            HitstroyNetBean todayBean = dayNetValueList.get(i);
+            HistoryNetBean todayBean = historyNetList.get(i);
             pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(todayBean.getNetvalue());
             lineDataList.add(pointEntity);
@@ -397,8 +399,8 @@ public class TrendChartFragment extends Fragment {
             }
         }
         float offetValue;
-        maxNum = maxNum - 1;
-        minNum = 1 - minNum;
+        maxNum = maxNum - baseNum;
+        minNum = baseNum - minNum;
 
         offetValue = maxNum > minNum ? maxNum : minNum;
 
@@ -424,8 +426,8 @@ public class TrendChartFragment extends Fragment {
     /**
      * 设置纵坐标标题，并设置曲线的最大值和最小值
      */
-    private void setYTitle(float offetYvalue) {
-        int baseNum = 1;
+    private void setYTitle(float baseNum, float offetYvalue) {
+        // int baseNum = 1;
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
@@ -437,22 +439,23 @@ public class TrendChartFragment extends Fragment {
         mMaChart.setAxisYTitles(ytitle);
         mMaChart.setMaxValue(baseNum + offetYvalue);
         mMaChart.setMinValue(baseNum - offetYvalue);
-       
+
     }
 
-    private void setTodayPointTitle(){
+    private void setTodayPointTitle() {
         List<String> titles = new ArrayList<String>();
         titles.add("时间");
         titles.add("当前净值");
         mMaChart.setPointTitleList(titles);
     }
-    private void setHistoryPointTitle(){
+
+    private void setHistoryPointTitle() {
         List<String> titles = new ArrayList<String>();
         titles.add("日期");
         titles.add("当前净值");
         mMaChart.setPointTitleList(titles);
     }
-    
+
     Handler dataHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (trendType.equals(TREND_TYPE_TODAY)) {
@@ -477,10 +480,10 @@ public class TrendChartFragment extends Fragment {
         protected void afterParseData(HistoryNetValue object) {
             if (object != null) {
 
-                List<HitstroyNetBean> dayNetValueList = object.getChartlist();
+                List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() > 1) {
                     int sizeLength = dayNetValueList.size();
-                    setYTitle(getMaxOffetValue(dayNetValueList));
+                    setYTitle(object.getBegin(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setLineData(lineDataList);
                     String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
@@ -504,7 +507,7 @@ public class TrendChartFragment extends Fragment {
 
     };
 
-    private void setXTitle(List<HitstroyNetBean> dayNetValueList) {
+    private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
         xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
         xtitle.add(dayNetValueList.get(0).getDate());

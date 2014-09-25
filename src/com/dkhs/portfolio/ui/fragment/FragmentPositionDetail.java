@@ -151,8 +151,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             mPositionDetail = (PositionDetail) savedInstanceState.getSerializable("detail");
 
         } else {
-            new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+//            new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
 
+        }
+        if(null!=mPositionDetail){
+            System.out.println("mPositionDetail has date no need reload");
         }
 
     }
@@ -321,7 +324,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
     }
 
     @Override
