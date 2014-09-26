@@ -13,7 +13,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:text="加入自选" />
+        android:text="@string/delete_fllow" />
 
     <RelativeLayout
         android:id="@+id/layout_c_price"

@@ -8,10 +8,12 @@
  */
 package com.dkhs.portfolio.engine;
 
+import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName QuotesEngineImpl
@@ -27,5 +29,17 @@ public class QuotesEngineImpl {
         RequestParams params = new RequestParams();
         params.addBodyParameter("symbols", stockCode);
         DKHSClient.requestByPost(DKHSUrl.StockSymbol.quotes, params, listener);
+    }
+
+    public void symbolfollow(long id, IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("symbol", id + "");
+        params.addBodyParameter("buy_in", "0");
+        params.addBodyParameter("sell_out", "0");
+        DKHSClient.requestByPost(DKHSUrl.StockSymbol.symbolfollow, params, listener);
+    }
+
+    public void delfollow(long id, IHttpListener listener) {
+        DKHSClient.request(HttpMethod.DELETE, DKHSUrl.StockSymbol.symbolfollow  + id, null, listener);
     }
 }

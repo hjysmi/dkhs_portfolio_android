@@ -30,7 +30,9 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
@@ -47,7 +49,7 @@ import com.google.gson.JsonObject;
  * @date 2014-9-26 上午10:22:32
  * @version 1.0
  */
-public class StockQuotesActivity extends ModelAcitivity {
+public class StockQuotesActivity extends ModelAcitivity implements OnClickListener {
 
     private SelectStockBean mStockBean;
 
@@ -60,6 +62,9 @@ public class StockQuotesActivity extends ModelAcitivity {
     private TextView tvOpen;
     private TextView tvChange;
     private TextView tvPercentage;
+    private Button btnAddOptional;
+
+    private QuotesEngineImpl mQuotesEngine;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -73,7 +78,7 @@ public class StockQuotesActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_stockquotes);
-
+        mQuotesEngine = new QuotesEngineImpl();
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -100,6 +105,8 @@ public class StockQuotesActivity extends ModelAcitivity {
         tvOpen = (TextView) findViewById(R.id.tv_today_open_value);
         tvChange = (TextView) findViewById(R.id.tv_up_price);
         tvPercentage = (TextView) findViewById(R.id.tv_percentage);
+        btnAddOptional = (Button) findViewById(R.id.btn_add_optional);
+        btnAddOptional.setOnClickListener(this);
 
         Button addButton = getRightButton();
         addButton.setBackgroundResource(R.drawable.ic_search_title);
@@ -113,7 +120,7 @@ public class StockQuotesActivity extends ModelAcitivity {
     }
 
     private void setupViewData() {
-        new QuotesEngineImpl().quotes(mStockBean.code, listener);
+        mQuotesEngine.quotes(mStockBean.code, listener);
     }
 
     private StockQuotesBean mStockQuotesBean;
@@ -230,6 +237,48 @@ public class StockQuotesActivity extends ModelAcitivity {
                     break;
             }
         }
+    }
+
+    private boolean hasFollow = true;
+    IHttpListener baseListener = new BasicHttpListener() {
+
+        @Override
+        public void onSuccess(String result) {
+            hasFollow = !hasFollow;
+            if (hasFollow) {
+
+                btnAddOptional.setText(R.string.delete_fllow);
+            } else {
+
+                btnAddOptional.setText(R.string.add_fllow);
+            }
+        }
+    };
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param v
+     * @return
+     */
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.btn_add_optional:
+
+                if (hasFollow) {
+                    mQuotesEngine.delfollow(mStockBean.id, baseListener);
+                } else {
+                    mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
+                }
+
+                break;
+
+            default:
+                break;
+        }
+
     }
 
 }
