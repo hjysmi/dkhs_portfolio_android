@@ -45,9 +45,12 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
             titleList.add(tArray[i]);
 
         }
-        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_INCREASE);
-        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_DRAWDOWN);
-        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_HANDOVER);
+        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
+                .getItemClickBackFragment(ViewType.STOCK_INCREASE);
+        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
+                .getItemClickBackFragment(ViewType.STOCK_DRAWDOWN);
+        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
+                .getItemClickBackFragment(ViewType.STOCK_HANDOVER);
 
         fragmenList.add(mIncreaseFragment);
         fragmenList.add(mDownFragment);

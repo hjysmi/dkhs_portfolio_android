@@ -140,10 +140,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     mFragment = new FragmentNetValueTrend();
                     // replaceContentView(mFragment, R.id.btn_trend + "");
                     ft.add(R.id.combination_contentview, mFragment, "trend");
-                } else {
-                    if (mFragment.isDetached()) {
-                        ft.attach(mFragment);
-                    }
+                } else if (mFragment.isDetached()) {
+                    ft.attach(mFragment);
+
                 }
 
                 setTitle(R.string.netvalue_trend);
@@ -163,10 +162,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     // replaceContentView(mFragment, R.id.btn_comparison + "");
                     ft.add(R.id.combination_contentview, mFragment, R.id.btn_comparison + "");
 
-                } else {
-                    if (mFragment.isDetached()) {
-                        ft.attach(mFragment);
-                    }
+                } else if (mFragment.isDetached()) {
+                    ft.attach(mFragment);
+
                 }
 
                 setTitle(R.string.performance_comparison);
@@ -182,10 +180,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     // replaceContentView(mFragment, R.id.btn_detail + "");
                     ft.add(R.id.combination_contentview, mFragment, R.id.btn_detail + "");
 
-                } else {
-                    if (mFragment.isDetached()) {
-                        ft.attach(mFragment);
-                    }
+                } else if (mFragment.isDetached()) {
+                    ft.attach(mFragment);
                 }
 
                 setTitle(R.string.position_detail);
@@ -201,10 +197,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     mFragment = new FragmentNews();
                     ft.add(R.id.combination_contentview, mFragment, R.id.btn_news + "");
 
-                } else {
-                    if (mFragment.isDetached()) {
-                        ft.attach(mFragment);
-                    }
+                } else if (mFragment.isDetached()) {
+                    ft.attach(mFragment);
                 }
 
                 setTitle(R.string.related_news);

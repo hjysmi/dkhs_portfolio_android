@@ -8,9 +8,11 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +21,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -34,6 +38,7 @@ import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
@@ -52,6 +57,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private static final String TAG = FragmentSelectStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
+    private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
     private static final String ARGUMENT_LOAD_TYPE = "load_type";
 
     private ListView mListView;
@@ -63,7 +69,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private boolean isLoadingMore;
     private View mFootView;
     private boolean isFund;
-    private boolean isSearch;
+
+    private boolean isItemClickBack;
 
     private int mViewType;
 
@@ -144,6 +151,16 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         return fragment;
     }
 
+    public static FragmentSelectStockFund getItemClickBackFragment(ViewType type) {
+        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
+        args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     // public void searchByKey(String key) {
     // mDataList.clear();
     // // testSearchKey(key);
@@ -180,6 +197,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         if (null != bundle) {
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
+            isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mViewType = bundle.getInt(ARGUMENT_LOAD_TYPE);
         }
         if (isFund) {
@@ -254,6 +272,13 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         // }
     }
 
+    public void refresh() {
+        if (mLoadDataEngine != null) {
+            mDataList.clear();
+            mLoadDataEngine.loadData();
+        }
+    }
+
     public void setCheckListener(ISelectChangeListener listener) {
         if (null != mAdapterConbinStock)
             mAdapterConbinStock.setCheckChangeListener(listener);
@@ -318,7 +343,33 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             }
         });
 
+        if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+            mListView.setOnItemClickListener(priceStockItemClick);
+        } else if (isItemClickBack) {
+            mListView.setOnItemClickListener(itemBackClick);
+            System.out.println("     mListView.setOnItemClickListener(itemBackClick);");
+        }
+
     }
+
+    OnItemClickListener priceStockItemClick = new OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            SelectStockBean itemStock = mDataList.get(position);
+            // Toast.makeText(getActivity(), "选择股票：" + itemStock.name, Toast.LENGTH_SHORT).show();
+            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+        }
+    };
+    OnItemClickListener itemBackClick = new OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            SelectStockBean itemStock = mDataList.get(position);
+            setSelectBack(itemStock);
+            System.out.println("OnItemClickListener itemBackClick ");
+        }
+    };
 
     private void loadMore() {
         if (null != mLoadDataEngine) {
@@ -385,4 +436,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     public void onClick(View v) {
 
     }
+
+    public static final String ARGUMENT = "ARGUMENT";
+
+    private void setSelectBack(SelectStockBean type) {
+        Intent intent = new Intent();
+        intent.putExtra(ARGUMENT, type);
+        getActivity().setResult(-1, intent);
+
+        getActivity().finish();
+    }
+
 }
