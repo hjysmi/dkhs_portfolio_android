@@ -23,9 +23,9 @@ import com.google.gson.annotations.SerializedName;
 public class HistoryNetValue {
     private float begin;
     private float end;
-    private List<HitstroyNetBean> chartlist;
+    private List<HistoryNetBean> chartlist;
 
-    public class HitstroyNetBean {
+    public class HistoryNetBean {
         private int id;
         private String date;
         @SerializedName("net_value")
@@ -81,11 +81,11 @@ public class HistoryNetValue {
         this.end = end;
     }
 
-    public List<HitstroyNetBean> getChartlist() {
+    public List<HistoryNetBean> getChartlist() {
         return chartlist;
     }
 
-    public void setChartlist(List<HitstroyNetBean> chartlist) {
+    public void setChartlist(List<HistoryNetBean> chartlist) {
         this.chartlist = chartlist;
     }
 

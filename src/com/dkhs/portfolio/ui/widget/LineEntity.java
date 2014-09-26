@@ -6,66 +6,66 @@ import java.util.List;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 
 public class LineEntity {
-	
-	/** 线表示数据 */
-	private List<TodayNetBean> lineData;
-	
-	/** 线�?�?*/
-	private String title;
-	
-	/** 线表示颜色 */
-	private int lineColor;
-	
-	/** 是否显示线 */
-	private boolean display = true;
 
-	public List<TodayNetBean> getLineData() {
-		return lineData;
-	}
+    /** 线表示数据 */
+    private List<LinePointEntity> lineData;
 
-	public void setLineData(List<TodayNetBean> lineData) {
-		this.lineData = lineData;
-	}
+    /** 线�?�? */
+    private String title;
 
-	public String getTitle() {
-		return title;
-	}
+    /** 线表示颜色 */
+    private int lineColor;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    /** 是否显示线 */
+    private boolean display = true;
 
-	public int getLineColor() {
-		return lineColor;
-	}
+    public List<LinePointEntity> getLineData() {
+        return lineData;
+    }
 
-	public void setLineColor(int lineColor) {
-		this.lineColor = lineColor;
-	}
+    public void setLineData(List<LinePointEntity> lineData) {
+        this.lineData = lineData;
+    }
 
-	public boolean isDisplay() {
-		return display;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setDisplay(boolean display) {
-		this.display = display;
-	}
-	
-	public LineEntity() {
-		super();
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public LineEntity(List<TodayNetBean> lineData, String title, int lineColor) {
-		super();
-		this.lineData = lineData;
-		this.title = title;
-		this.lineColor = lineColor;
-	}
-	
-	public void put(TodayNetBean value){
-		if (null == lineData){
-			lineData = new ArrayList<TodayNetBean>();
-		}
-		lineData.add(value);
-	}
+    public int getLineColor() {
+        return lineColor;
+    }
+
+    public void setLineColor(int lineColor) {
+        this.lineColor = lineColor;
+    }
+
+    public boolean isDisplay() {
+        return display;
+    }
+
+    public void setDisplay(boolean display) {
+        this.display = display;
+    }
+
+    public LineEntity() {
+        super();
+    }
+
+    public LineEntity(List<LinePointEntity> lineData, String title, int lineColor) {
+        super();
+        this.lineData = lineData;
+        this.title = title;
+        this.lineColor = lineColor;
+    }
+
+    public void put(LinePointEntity value) {
+        if (null == lineData) {
+            lineData = new ArrayList<LinePointEntity>();
+        }
+        lineData.add(value);
+    }
 }

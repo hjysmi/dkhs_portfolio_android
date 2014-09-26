@@ -38,6 +38,7 @@ import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.widget.LineEntity;
+import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 
@@ -210,14 +211,14 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
     }
 
-    private List<TodayNetBean> initMA(int length) {
-        List<TodayNetBean> MA5Values = new ArrayList<TodayNetBean>();
-        NetValueEngine outer = new NetValueEngine(0); 
+    private List<LinePointEntity> initMA(int length) {
+        List<LinePointEntity> MA5Values = new ArrayList<LinePointEntity>();
+        NetValueEngine outer = new NetValueEngine(0);
         for (int i = 0; i < length; i++) {
             // MA5Values.add((float) new Random().nextInt(99));
-            TodayNetBean bean =outer.new TodayNetBean();
-            bean.setTimestamp("2014-09-23T09:28:17.030352");
-            bean.setNetvalue(new Random().nextFloat() * 100);
+            LinePointEntity bean = new LinePointEntity();
+            bean.setDesc("2014-09-23");
+            bean.setValue(new Random().nextFloat() * 100);
             MA5Values.add(bean);
         }
         return MA5Values;

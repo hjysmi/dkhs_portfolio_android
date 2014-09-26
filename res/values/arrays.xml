@@ -19,15 +19,15 @@
         <item>股票基金 </item>
     </string-array>
     <string-array name="select_stock">
-        <item>自选股</item>
-        <item>涨幅</item>
-        <item>跌幅 </item>
-        <item>换手 </item>
+        <item>@string/optional_stock</item>
+        <item>@string/rise_range</item>
+        <item>@string/drop_range</item>
+        <item>@string/turnover</item>
     </string-array>
     <string-array name="select_optional_stock">
-        <item>涨幅</item>
-        <item>跌幅 </item>
-        <item>换手 </item>
+        <item>@string/rise_range</item>
+        <item>@string/drop_range</item>
+        <item>@string/turnover</item>
     </string-array>
     <string-array name="order_type">
         <item>日排行</item>

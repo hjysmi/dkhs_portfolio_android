@@ -15,6 +15,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -113,7 +114,6 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
-
     }
 
     /**
@@ -129,9 +129,48 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
     private void handleArguments(Bundle extras) {
         mCombinationId = extras.getInt(ARGUMENT_COMBINTAION_ID);
-        
+
         // setStockList();
         // setPieList();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("detail", mPositionDetail);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+
+            mPositionDetail = (PositionDetail) savedInstanceState.getSerializable("detail");
+
+        } else {
+//            new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+
+        }
+        if(null!=mPositionDetail){
+            System.out.println("mPositionDetail has date no need reload");
+        }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param activity
+     * @return
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        // TODO Auto-generated method stub
+        super.onAttach(activity);
+
     }
 
     class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
@@ -153,14 +192,18 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
                 mPositionDetail = object;
 
-                setCombinationInfo();
-                setStockList();
-                setPieList();
-                setAdjustHistoryList();
+                updateView();
             }
 
         }
     };
+
+    private void updateView() {
+        setCombinationInfo();
+        setStockList();
+        setPieList();
+        setAdjustHistoryList();
+    }
 
     protected void setCombinationInfo() {
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
@@ -271,8 +314,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
 
         return total;
     }
-    
-    /**  
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return

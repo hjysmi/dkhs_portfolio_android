@@ -1,7 +1,10 @@
 package com.dkhs.portfolio.engine;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -88,11 +91,11 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void updateCombination(String id, String name, String desc, IHttpListener listener) {
+    public void updateCombination(String id, String name, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("name", name);
-        params.addBodyParameter("description", desc);
+        // params.addBodyParameter("description", desc);
 
         DKHSClient.requestByPost(DKHSUrl.Portfolio.update + id + "/", params, listener);
 
@@ -130,7 +133,11 @@ public class MyCombinationEngineImpl {
 
     public void queryCombinationDetailByDay(int id, String date, IHttpListener listener) {
 
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.create + id + "/?" + date, null, listener);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("date", date);
+        params.add(valuePair);
+        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[] { id + "", }, params, listener);
+
     }
 
 }

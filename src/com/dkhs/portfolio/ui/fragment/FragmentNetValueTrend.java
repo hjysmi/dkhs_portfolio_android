@@ -18,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,9 +26,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LineChart;
@@ -79,7 +82,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         if (extras != null) {
             handleExtras(extras);
         }
-        
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -114,8 +117,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             tvCombinName.setText(mCombinationBean.getName());
             tvCombinDesc.setText(mCombinationBean.getDescription());
             tvCombinCreateTime.setText(TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime()));
-            tvIncreaseRatio.setText(StringFromatUtils.getPercentValue((mCombinationBean.getAddUpValue()-1)*100));
-            tvIncreaseValue.setText(StringFromatUtils.get4Point(mCombinationBean.getAddUpValue()-1));
+            tvIncreaseRatio.setText(StringFromatUtils.getPercentValue(mCombinationBean.getAddUpValue()));
+            tvIncreaseValue.setText(StringFromatUtils.get4Point(mCombinationBean.getAddUpValue() / 100f));
         }
     }
 
@@ -171,16 +174,25 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         int id = v.getId();
         switch (id) {
             case R.id.btn_edit_combinname: {
+
                 if (tvCombinName.getVisibility() == View.VISIBLE) {
                     btnEditName.setBackgroundResource(R.drawable.action_alias_ok);
-                    etCombinName.setHint(tvCombinName.getText());
+//                    etCombinName.setHint(tvCombinName.getText());
+                    etCombinName.setText(tvCombinName.getText());
                     tvCombinName.setVisibility(View.GONE);
                     etCombinName.setVisibility(View.VISIBLE);
                 } else {
-                    btnEditName.setBackgroundResource(R.drawable.action_alias);
-                    tvCombinName.setText(etCombinName.getText());
+                    String nameText = etCombinName.getText().toString();
+                    if (TextUtils.isEmpty(nameText)) {
+                        // tvCombinName.setText(etCombinName.getText());
+                        // Toast.makeText(getActivity(), R.string.tips_combination_name_null, Toast.LENGTH_LONG).show();
+                    } else {
+                        tvCombinName.setText(etCombinName.getText());
+                        new MyCombinationEngineImpl().updateCombination(mCombinationBean.getId() + "", nameText, null);
+                    }
                     tvCombinName.setVisibility(View.VISIBLE);
                     etCombinName.setVisibility(View.GONE);
+                    btnEditName.setBackgroundResource(R.drawable.action_alias);
                 }
             }
 
