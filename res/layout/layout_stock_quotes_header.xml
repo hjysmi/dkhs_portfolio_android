@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp" >
+
+    <Button
+        android:id="@+id/btn_add_optional"
+        style="@style/button_blue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="加入自选" />
+
+    <RelativeLayout
+        android:id="@+id/layout_c_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/tv_current_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="10.63"
+            android:textColor="@color/red"
+            android:textSize="22sp" />
+
+        <TextView
+            android:id="@+id/tv_up_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_current_price"
+            android:text="+1.63"
+            android:textColor="@color/red"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_current_price"
+            android:layout_marginLeft="12sp"
+            android:layout_toRightOf="@+id/tv_up_price"
+            android:text="+2.33%"
+            android:textColor="@color/red" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/layout_c_price"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/tv_today_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="今开："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_today_open_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_today_open"
+            android:layout_toRightOf="@+id/tv_today_open"
+            android:text="19.68"
+            android:textColor="@color/red"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_highest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_today_open"
+            android:text="最高："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_highest_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_highest"
+            android:layout_toRightOf="@+id/tv_highest"
+            android:text="19.88"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_lowest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_highest"
+            android:text="最低："
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_lowest_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_lowest"
+            android:layout_toRightOf="@+id/tv_lowest"
+            android:text="16.66"
+            android:textColor="@color/green"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

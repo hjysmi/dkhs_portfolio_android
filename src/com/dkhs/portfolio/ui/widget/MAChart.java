@@ -80,6 +80,10 @@ public class MAChart extends TrendGridChart {
         mLinePaint.setStrokeWidth(2);
     }
 
+    public void setSmallLine() {
+        mLinePaint.setStrokeWidth(1);
+    }
+
     /** 当前被选中的坐标点 */
     private PointF touchPoint;
 
@@ -136,7 +140,7 @@ public class MAChart extends TrendGridChart {
         // mCanvas = canvas;
 
         startPointX = mStartLineXpoint + 2;
-        endY = super.getHeight();
+        endY = mGridLineHeight - axisMarginBottom;
         // 绘制平线
         drawLines(canvas);
         if (isTouch) {
@@ -309,32 +313,32 @@ public class MAChart extends TrendGridChart {
                         // 重置起始点
                         ptFirst = new PointF(startX, valueY);
 
-                        // if (fillLineIndex == i && j == 0) {
-                        //
-                        // fillPaint.setColor(line.getLineColor());
-                        // fillPaint.setAlpha(85);
-                        // fillPaint.setAntiAlias(true);
-                        // fillPath.moveTo(startX, valueY);
-                        // } else {
-                        // fillPath.lineTo(startX, valueY);
-                        // }
+                        if (fillLineIndex == i && j == 0) {
+
+                            fillPaint.setColor(line.getLineColor());
+                            fillPaint.setAlpha(85);
+                            fillPaint.setAntiAlias(true);
+                            fillPath.moveTo(startX, valueY);
+                        } else {
+                            fillPath.lineTo(startX, valueY);
+                        }
                         // X位移
                         startX = startX + 1 + pointLineLength;
                     }
 
                     // System.out.println("isFill:" + isFill + " fillLineIndex=" + fillLineIndex + " currentIndex:" +
                     // i);
-                    // if (isFill && fillLineIndex == i) {
-                    // try {
-                    //
-                    // fillPath.lineTo(ptFirst.x, endY);
-                    // fillPath.lineTo(startPointX, endY);
-                    // canvas.drawPath(fillPath, fillPaint);
-                    //
-                    // } catch (Exception e) {
-                    // e.printStackTrace();
-                    // }
-                    // }
+                    if (isFill && fillLineIndex == i) {
+                        try {
+
+                            fillPath.lineTo(ptFirst.x, endY);
+                            fillPath.lineTo(startPointX, endY);
+                            canvas.drawPath(fillPath, fillPaint);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
@@ -347,7 +351,7 @@ public class MAChart extends TrendGridChart {
     }
 
     private boolean isFill;
-    private int fillLineIndex;
+    private int fillLineIndex = 0;
 
     // paint.setAlpha(85);
     //

@@ -162,6 +162,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
         machart.setLineData(lines);
         machart.setDisplayBorder(false);
+       
 
         List<String> linetitle = new ArrayList<String>();
 
@@ -180,6 +181,8 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         // xtitle.add("14:00");
         xtitle.add("08-10");
 
+        machart.setSmallLine();
+        machart.setDashLineLenght(20);
         machart.setLatitudeColor(Color.LTGRAY);
 
         machart.setAxisXColor(Color.LTGRAY);
