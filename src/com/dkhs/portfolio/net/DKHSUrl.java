@@ -41,6 +41,9 @@ public class DKHSUrl {
         // /api/v1/quotes/symbols/{exchange}/{sort}/
         String stocklist = "/api/v1/quotes/symbols/";
 
+        // 查股票实时行情信息，包含5档信息
+        String quotes = "/api/v1/quotes/";
+
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/quotes/symbols_profile/";
     }

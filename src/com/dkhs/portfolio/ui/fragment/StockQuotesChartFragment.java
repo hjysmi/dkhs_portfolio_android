@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -33,6 +34,7 @@ import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.MAChart;
@@ -59,19 +61,14 @@ public class StockQuotesChartFragment extends Fragment {
 
     private String trendType;
     private boolean isTodayNetValue;
-    private TextView tvTimeLeft;
-    private TextView tvTimeRight;
-    private TextView tvNetValue;
-    private TextView tvUpValue;
-    private TextView tvIncreaseValue;
-    private TextView tvStartText;
-    private TextView tvEndText;
-    private TextView tvIncreaseText;
 
     private MAChart mMaChart;
 
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
+
+    private FiveRangeAdapter mAdapter;
+    private ListView mListviewBuy, mListviewSell;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartFragment newInstance(String trendType) {
@@ -142,23 +139,25 @@ public class StockQuotesChartFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
         mMaChart = (MAChart) view.findViewById(R.id.machart);
         initMaChart(mMaChart);
-        // initView(view);
-        if (!isTodayNetValue) {
-            view.findViewById(R.id.list_five_range).setVisibility(View.GONE);
-        }
+        initView(view);
         return view;
     }
 
     private void initView(View view) {
+        mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
+        mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
 
-        tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
-        tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
-        tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
-        tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
-        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
-        tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
-        tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
-        tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
+        mAdapter = new FiveRangeAdapter(getActivity());
+        mListviewBuy.setAdapter(mAdapter);
+        mListviewSell.setAdapter(mAdapter);
+        // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
+        // tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
+        // tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
+        // tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
+        // tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
+        // tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
+        // tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
+        // tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
     }
 
     private void initMaChart(MAChart machart) {

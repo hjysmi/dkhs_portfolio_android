@@ -5,106 +5,27 @@
     android:orientation="vertical"
     android:padding="5dp" >
 
-    <LinearLayout
-        android:id="@+id/list_five_range"
+    <ListView
+        android:id="@+id/list_five_range_sall"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:orientation="vertical" >
+        android:orientation="vertical" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+    <View
+        android:id="@+id/view_divider"
+        style="@style/divider_line"
+        android:layout_width="88dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/list_five_range_sall" />
 
-            <TextView
-                android:id="@+id/tv_buytext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="卖1"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_detail_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/tv_buytext"
-                android:text="89.66"
-                android:textColor="@color/red"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="12498"
-                android:textColor="@color/orange"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tv_buytext1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="卖1"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_detail_value1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/tv_buytext1"
-                android:text="9.66"
-                android:textColor="@color/red"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="12498"
-                android:textColor="@color/orange"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tv_buytext2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="卖1"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_detail_value2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/tv_buytext2"
-                android:text="9.66"
-                android:textColor="@color/red"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="124"
-                android:textColor="@color/orange"
-                android:textSize="12sp" />
-        </RelativeLayout>
-    </LinearLayout>
+    <ListView
+        android:id="@+id/list_five_range_buy"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view_divider"
+        android:orientation="vertical" />
 
     <com.dkhs.portfolio.ui.widget.MAChart
         android:id="@+id/machart"
@@ -113,6 +34,6 @@
         android:layout_above="@+id/rl_trend_info"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="2dp"
-        android:layout_toLeftOf="@+id/list_five_range" />
+        android:layout_toLeftOf="@+id/list_five_range_sall" />
 
 </RelativeLayout>

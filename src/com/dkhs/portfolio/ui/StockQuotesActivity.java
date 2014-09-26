@@ -11,6 +11,10 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,27 +24,42 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.google.gson.JsonObject;
 
 /**
  * @ClassName StockQuotesActivity
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 个股行情
  * @author zjz
  * @date 2014-9-26 上午10:22:32
  * @version 1.0
  */
 public class StockQuotesActivity extends ModelAcitivity {
+
     private SelectStockBean mStockBean;
 
     public static final String EXTRA_STOCK = "extra_stock";
     private final int REQUESTCODE_SELECT_STOCK = 901;
+
+    private TextView tvCurrent;
+    private TextView tvHigh;
+    private TextView tvLow;
+    private TextView tvOpen;
+    private TextView tvChange;
+    private TextView tvPercentage;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -74,6 +93,14 @@ public class StockQuotesActivity extends ModelAcitivity {
             setTitle(mStockBean.name);
 
         }
+
+        tvCurrent = (TextView) findViewById(R.id.tv_current_price);
+        tvHigh = (TextView) findViewById(R.id.tv_highest_value);
+        tvLow = (TextView) findViewById(R.id.tv_lowest_value);
+        tvOpen = (TextView) findViewById(R.id.tv_today_open_value);
+        tvChange = (TextView) findViewById(R.id.tv_up_price);
+        tvPercentage = (TextView) findViewById(R.id.tv_percentage);
+
         Button addButton = getRightButton();
         addButton.setBackgroundResource(R.drawable.ic_search_title);
         addButton.setOnClickListener(mSearchClick);
@@ -86,19 +113,48 @@ public class StockQuotesActivity extends ModelAcitivity {
     }
 
     private void setupViewData() {
+        new QuotesEngineImpl().quotes(mStockBean.code, listener);
     }
+
+    private StockQuotesBean mStockQuotesBean;
+
+    ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
+
+        @Override
+        protected StockQuotesBean parseDateTask(String jsonData) {
+            StockQuotesBean stockQuotesBean = null;
+            try {
+                JSONArray jsonArray = new JSONArray(jsonData);
+                JSONObject jsonOb = jsonArray.getJSONObject(0);
+
+                stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+            return stockQuotesBean;
+        }
+
+        @Override
+        protected void afterParseData(StockQuotesBean object) {
+            if (null != object) {
+                mStockQuotesBean = object;
+                updateStockView();
+            }
+
+        }
+    };
 
     private void initTabPage() {
 
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         fragmentList.add(StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY));
-        fragmentList.add(StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_SEVENDAY));
-        fragmentList.add(StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_MONTH));
-        fragmentList.add(StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_HISTORY));
-        // fragmentList.add(new TestFragment());
-        // fragmentList.add(new TestFragment());
-        // fragmentList.add(new TestFragment());
+
+        fragmentList.add(new TestFragment());
+        fragmentList.add(new TestFragment());
+        fragmentList.add(new TestFragment());
         // fragmentList.add(new TestFragment());
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
@@ -107,6 +163,17 @@ public class StockQuotesActivity extends ModelAcitivity {
         TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         indicator.setViewPager(pager);
 
+    }
+
+    protected void updateStockView() {
+        if (null != mStockQuotesBean) {
+            tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+            tvChange.setText(StringFromatUtils.get2Point(mStockQuotesBean.getChange()));
+            tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
+            tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
+            tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+            tvPercentage.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getPercentage()));
+        }
     }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
