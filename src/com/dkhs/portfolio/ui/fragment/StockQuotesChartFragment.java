@@ -517,6 +517,9 @@ public class StockQuotesChartFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        if(null!=mStockBean){
+            setStockQuotesBean(mStockBean);
+        }
         if (trendType.equals(TREND_TYPE_TODAY)) {
             dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
         }

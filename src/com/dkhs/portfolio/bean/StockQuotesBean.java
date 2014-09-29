@@ -28,6 +28,8 @@ public class StockQuotesBean {
     private float percentage;
     private float current;
     private float change;
+    @SerializedName("last_close")
+    private float lastClose;
     private long id;
     @SerializedName("buy_price_level")
     private BuyPrice buyPrice;
@@ -155,6 +157,14 @@ public class StockQuotesBean {
 
     public void setSellPrice(SellPrice sellPrice) {
         this.sellPrice = sellPrice;
+    }
+
+    public float getLastClose() {
+        return lastClose;
+    }
+
+    public void setLastClose(float lastClose) {
+        this.lastClose = lastClose;
     }
 
 }

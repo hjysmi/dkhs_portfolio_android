@@ -28,7 +28,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="10.63"
             android:textColor="@color/red"
             android:textSize="22sp" />
 
@@ -37,7 +36,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_current_price"
-            android:text="+1.63"
             android:textColor="@color/red"
             android:textSize="14sp" />
 
@@ -48,7 +46,6 @@
             android:layout_below="@+id/tv_current_price"
             android:layout_marginLeft="12sp"
             android:layout_toRightOf="@+id/tv_up_price"
-            android:text="+2.33%"
             android:textColor="@color/red" />
     </RelativeLayout>
 
@@ -73,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_today_open"
             android:layout_toRightOf="@+id/tv_today_open"
-            android:text="19.68"
             android:textColor="@color/red"
             android:textSize="14sp" />
 
@@ -91,7 +87,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_highest"
             android:layout_toRightOf="@+id/tv_highest"
-            android:text="19.88"
             android:textColor="@color/green"
             android:textSize="14sp" />
 
@@ -109,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_lowest"
             android:layout_toRightOf="@+id/tv_lowest"
-            android:text="16.66"
             android:textColor="@color/green"
             android:textSize="14sp" />
     </RelativeLayout>

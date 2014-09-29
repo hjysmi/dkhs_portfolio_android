@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -122,11 +123,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
 
         initTabPage();
-        setupViewData();
+        // setupViewData();
     }
 
     private void setupViewData() {
-        mQuotesEngine.quotes(mStockBean.code, listener);
+        if (null != mQuotesEngine) {
+            mQuotesEngine.quotes(mStockBean.code, listener);
+        }
     }
 
     ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
@@ -181,25 +184,32 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
-            ColorStateList textColor = null;
-            if (mStockQuotesBean.getPercentage() > 0) {
 
-                textColor = (ColorStateList) getResources().getColorStateList(R.color.red);
+            tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+            tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+            tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
 
-            } else {
-                textColor = (ColorStateList) getResources().getColorStateList(R.color.green);
-
-            }
-            tvCurrent.setTextColor(textColor);
-            tvChange.setTextColor(textColor);
-            tvPercentage.setTextColor(textColor);
             tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
             tvChange.setText(StringFromatUtils.get2Point(mStockQuotesBean.getChange()));
+
+            tvHigh.setTextColor(getTextColor(mStockQuotesBean.getHigh() - mStockQuotesBean.getLastClose()));
+            tvLow.setTextColor(getTextColor(mStockQuotesBean.getLow() - mStockQuotesBean.getLastClose()));
+            tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
+
             tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
             tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
             tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
             tvPercentage.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getPercentage()));
         }
+    }
+
+    private ColorStateList getTextColor(float value) {
+        if (value < 0) {
+
+            return (ColorStateList) getResources().getColorStateList(R.color.green);
+
+        }
+        return (ColorStateList) getResources().getColorStateList(R.color.red);
     }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
@@ -271,6 +281,31 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                 btnAddOptional.setText(R.string.add_fllow);
             }
+        }
+    };
+
+    Handler dataHandler = new Handler();
+
+    public void onStart() {
+        super.onStart();
+
+        dataHandler.postDelayed(runnable, 6);// 打开定时器，60ms后执行runnable操作
+
+    };
+
+    public void onStop() {
+        super.onStop();
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            // dataHandler.sendEmptyMessage(1722);
+            
+            setupViewData();
+            dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
 
