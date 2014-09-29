@@ -39,7 +39,7 @@ import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
-import com.dkhs.portfolio.ui.widget.MAChart;
+import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
@@ -82,7 +82,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_compare, null);
         initView(view);
-        MAChart maChartView = (MAChart) view.findViewById(R.id.machart);
+        TrendChart maChartView = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
         return view;
     }
@@ -127,7 +127,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
     }
 
-    private void initMaChart(MAChart machart) {
+    private void initMaChart(TrendChart machart) {
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);

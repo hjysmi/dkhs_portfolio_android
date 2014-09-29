@@ -55,9 +55,9 @@ public class StockQuotesBean {
     }
 
     public class SellPrice {
-        @SerializedName("sell_price")
-        private List<String> sellVol;
         @SerializedName("sell_vol")
+        private List<String> sellVol;
+        @SerializedName("sell_price")
         private List<String> sellPrice;
 
         public List<String> getSellVol() {

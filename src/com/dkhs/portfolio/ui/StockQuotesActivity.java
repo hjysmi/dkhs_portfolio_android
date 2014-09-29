@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -65,6 +66,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private Button btnAddOptional;
 
     private QuotesEngineImpl mQuotesEngine;
+    private StockQuotesBean mStockQuotesBean;
+    private long mStockId;
+
+    private StockQuotesChartFragment mStockQuotesChartFragment;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -96,6 +101,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void initView() {
         if (null != mStockBean) {
             setTitle(mStockBean.name);
+            mStockId = mStockBean.id;
 
         }
 
@@ -123,8 +129,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mQuotesEngine.quotes(mStockBean.code, listener);
     }
 
-    private StockQuotesBean mStockQuotesBean;
-
     ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
 
         @Override
@@ -148,6 +152,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
+                mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
             }
 
         }
@@ -157,7 +162,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        fragmentList.add(StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY));
+
+        mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
+        fragmentList.add(mStockQuotesChartFragment);
 
         fragmentList.add(new TestFragment());
         fragmentList.add(new TestFragment());
@@ -174,6 +181,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
+            ColorStateList textColor = null;
+            if (mStockQuotesBean.getPercentage() > 0) {
+
+                textColor = (ColorStateList) getResources().getColorStateList(R.color.red);
+
+            } else {
+                textColor = (ColorStateList) getResources().getColorStateList(R.color.green);
+
+            }
+            tvCurrent.setTextColor(textColor);
+            tvChange.setTextColor(textColor);
+            tvPercentage.setTextColor(textColor);
             tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
             tvChange.setText(StringFromatUtils.get2Point(mStockQuotesBean.getChange()));
             tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));

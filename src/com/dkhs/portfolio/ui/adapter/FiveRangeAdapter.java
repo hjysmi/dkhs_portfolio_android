@@ -46,6 +46,7 @@ public class FiveRangeAdapter extends BaseAdapter {
     private boolean isBuy;
     private BuyPrice mBuyPrice;
     private SellPrice mSellPrice;
+    private List<FiveRangeItem> dataList;
 
     // public FiveRangeAdapter(Context mContext, StockQuotesBean stockBean, boolean isBuy) {
     // this.mContext = mContext;
@@ -61,21 +62,23 @@ public class FiveRangeAdapter extends BaseAdapter {
     // }
     //
     // }
-    public FiveRangeAdapter(Context mContext) {
+    public FiveRangeAdapter(Context mContext, boolean isBuy) {
         this.mContext = mContext;
+        this.isBuy = isBuy;
 
     }
 
-    // public void setList(List stocklist) {
-    //
-    // notifyDataSetChanged();
-    // }
+    public void setList(List<FiveRangeItem> dList) {
+        this.dataList = dList;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount() {
-        if (isBuy) {
+        if (null != dataList) {
+            return dataList.size();
         }
-        return 5;
+        return 0;
     }
 
     @Override
@@ -94,20 +97,44 @@ public class FiveRangeAdapter extends BaseAdapter {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.item_five_range, null);
-
+            viewHolder.tvTag = (TextView) convertView.findViewById(R.id.tv_buytext);
+            viewHolder.tvVol = (TextView) convertView.findViewById(R.id.tv_range_vol);
+            viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tv_detail_value);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        // ConStockBean item = stockList.get(position);
-
+        FiveRangeItem item = dataList.get(position);
+        viewHolder.tvPrice.setText(item.price);
+        viewHolder.tvVol.setText(item.vol);
+        viewHolder.tvTag.setText(item.tag);
         return convertView;
     }
 
     public final static class ViewHolder {
 
-        TextView tvUserName;
+        TextView tvTag;
+        TextView tvVol;
+        TextView tvPrice;
 
+    }
+
+    public class FiveRangeItem {
+        public String tag;
+        public String vol;
+        public String price;
+
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @return
+         * @return
+         */
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            return "tag:" + tag + " price:" + price + " vol:" + vol;
+        }
     }
 
 }

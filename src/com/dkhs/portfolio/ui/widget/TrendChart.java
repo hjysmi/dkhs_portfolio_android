@@ -23,7 +23,7 @@ import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
-public class MAChart extends TrendGridChart {
+public class TrendChart extends TrendGridChart {
     /** 显示数据线 */
     private List<LineEntity> lineData;
 
@@ -59,17 +59,17 @@ public class MAChart extends TrendGridChart {
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
 
-    public MAChart(Context context) {
+    public TrendChart(Context context) {
         super(context);
         init();
     }
 
-    public MAChart(Context context, AttributeSet attrs, int defStyle) {
+    public TrendChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public MAChart(Context context, AttributeSet attrs) {
+    public TrendChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -261,7 +261,6 @@ public class MAChart extends TrendGridChart {
             return;
         }
         // 逐条输入MA线
-        System.out.println("getMaxPointNum size:" + getMaxPointNum());
 
         for (int i = 0; i < lineData.size(); i++) {
             LineEntity line = (LineEntity) lineData.get(i);
@@ -270,7 +269,6 @@ public class MAChart extends TrendGridChart {
                 mLinePaint.setColor(line.getLineColor());
 
                 List<LinePointEntity> lineData = line.getLineData();
-                System.out.println("lineData size:" + lineData.size());
                 // 输�?�?��线
                 // startx = 27
                 // startX = super.getAxisMarginLeft() + pointLineLength / 2f;
@@ -282,7 +280,6 @@ public class MAChart extends TrendGridChart {
 
                 // }
                 if (lineData != null && lineData.size() > 0) {
-
                     for (int j = 0; j < lineData.size(); j++) {
                         // j=1,value=272
                         if (j >= getMaxPointNum()) {
@@ -484,7 +481,8 @@ public class MAChart extends TrendGridChart {
                 // } else {
                 // text = "创业板:1.40%";
                 // }
-                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+                if (i == 0)
+                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
         }
 

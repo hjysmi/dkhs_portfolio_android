@@ -25,7 +25,6 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 public class QuotesEngineImpl {
 
     public void quotes(String stockCode, IHttpListener listener) {
-        System.out.println("Stockcode:" + stockCode);
         RequestParams params = new RequestParams();
         params.addBodyParameter("symbols", stockCode);
         DKHSClient.requestByPost(DKHSUrl.StockSymbol.quotes, params, listener);
@@ -40,6 +39,11 @@ public class QuotesEngineImpl {
     }
 
     public void delfollow(long id, IHttpListener listener) {
-        DKHSClient.request(HttpMethod.DELETE, DKHSUrl.StockSymbol.symbolfollow  + id, null, listener);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.unfollow + id + "/unfollow", null, listener);
+    }
+
+    public void queryTimeShare(String stockCode, IHttpListener listener) {
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.sfthumbnail + stockCode, null, listener);
+
     }
 }

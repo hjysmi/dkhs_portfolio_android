@@ -44,9 +44,14 @@ public class DKHSUrl {
         // 查股票实时行情信息，包含5档信息
         String quotes = "/api/v1/quotes/";
         String symbolfollow = "/api/v1/symbolfollow/";
+        String unfollow = "/api/v1/symbols/";
 
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/quotes/symbols_profile/";
+
+        // GET /api/v1/quotes/fs_thumbnail/SZ000002/
+        // 返回当日缩略图分时数据
+        String sfthumbnail = "/api/v1/quotes/fs_thumbnail/";
     }
 
     public interface NetValue {

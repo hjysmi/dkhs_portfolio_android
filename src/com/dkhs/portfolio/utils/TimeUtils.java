@@ -8,20 +8,16 @@
  */
 package com.dkhs.portfolio.utils;
 
-import android.content.Context;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
-
-import android.content.Context;
-import android.graphics.Bitmap.Config;
-import android.text.TextUtils;
-
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
-import com.dkhs.portfolio.R;
+import android.content.Context;
+import android.text.TextUtils;
 
 /**
  * @ClassName TimeUtils
@@ -92,6 +88,20 @@ public class TimeUtils {
     public static String getTimeString(String iso8601Time) {
         return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
 
+    }
+
+    public static String getTimeByMSecond(float second) {
+        String time = new SimpleDateFormat("HH:mm").format(float2Date(second));
+        return time;
+
+    }
+
+    public static java.util.Date float2Date(float second) {
+        java.util.Date date_origine = new Date((long) (second * 1000));
+        java.util.Calendar date = java.util.Calendar.getInstance();
+        date.setTime(date_origine);
+        date.add(java.util.Calendar.HOUR, -8);
+        return date.getTime();
     }
 
     public static String getSimpleFormatTime(String iso8601str) {

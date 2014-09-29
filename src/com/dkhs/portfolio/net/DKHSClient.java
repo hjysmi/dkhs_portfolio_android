@@ -70,7 +70,9 @@ public class DKHSClient {
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);
 
-                listener.onHttpFailure(error.getExceptionCode(), msg);
+                if (null != listener) {
+                    listener.onHttpFailure(error.getExceptionCode(), msg);
+                }
 
             }
         });

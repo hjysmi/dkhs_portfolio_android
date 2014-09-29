@@ -35,7 +35,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
-import com.dkhs.portfolio.ui.widget.MAChart;
+import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -68,7 +68,7 @@ public class TrendChartFragment extends Fragment {
     private TextView tvEndText;
     private TextView tvIncreaseText;
 
-    private MAChart mMaChart;
+    private TrendChart mMaChart;
 
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
@@ -138,7 +138,7 @@ public class TrendChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
-        mMaChart = (MAChart) view.findViewById(R.id.machart);
+        mMaChart = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(mMaChart);
         initView(view);
         setupViewData();
@@ -181,7 +181,7 @@ public class TrendChartFragment extends Fragment {
 
     }
 
-    private void initMaChart(MAChart machart) {
+    private void initMaChart(TrendChart machart) {
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
