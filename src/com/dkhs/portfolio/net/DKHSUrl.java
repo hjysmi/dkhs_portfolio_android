@@ -17,7 +17,7 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    static final String BASE_URL = "http://192.168.107.251:8000";
+    static final String BASE_URL = "http://192.168.107.251:8002";
 
     public interface Portfolio {
         // 查询我的组合
@@ -56,10 +56,12 @@ public class DKHSUrl {
 
     public interface NetValue {
         // /api/v1/portfolio/query_daily_netvalue/
-        String queryDaily = "/api/v1/portfolio/query_daily_netvalue/";
+        //GET /api/v1/portfolio/{pk}/netvalue_daily_chart/
+        String queryDaily = "/api/v1/portfolio/";
 
         // http://192.168.107.251:8000/api/v1/portfolio/query_netvalue/?portfolio_id=525
-        String queryToday = "/api/v1/portfolio/query_netvalue/";
+//        String queryToday = "/api/v1/portfolio/query_netvalue/";
+        String queryToday = "/api/v1/portfolio/";
 
         // http://192.168.107.251:8000/api/v1/portfolio/query_combination_netvalue/?portfolio_id=508&page_size=7
         String report = "/api/v1/portfolio/query_combination_netvalue/";

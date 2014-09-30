@@ -64,12 +64,13 @@ public class NetValueEngine {
     // http://192.168.107.251:8000/api/v1/portfolio/query_daily_netvalue/?portfolio_id=525&types=0
     public void requeryNetValue(int combinationId, String type, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("portfolio_id", combinationId + "");
+        // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", combinationId + "");
         // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", 508 + "");
         NameValuePair valuePair2 = new BasicNameValuePair("types", type);
-        params.add(valuePair);
+        // params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.queryDaily, null, params, listener);
+        DKHSClient.requestByGet(DKHSUrl.NetValue.queryDaily + combinationId + "/netvalue_daily_chart/", null, params,
+                listener);
     }
 
     public void requeryToday(IHttpListener todayListener) {
@@ -78,7 +79,8 @@ public class NetValueEngine {
         // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", "508");
         NameValuePair valuePair = new BasicNameValuePair("portfolio_id", mConbinationId + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.queryToday, null, params, todayListener);
+        DKHSClient.requestByGet(DKHSUrl.NetValue.queryToday + mConbinationId + "/netvalue_realtime_chart", null, null,
+                todayListener);
     }
 
     public class TodayNetValue {
