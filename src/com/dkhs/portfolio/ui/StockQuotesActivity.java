@@ -72,6 +72,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
     private long mStockId;
+    private String mStockCode;
 
     private StockQuotesChartFragment mStockQuotesChartFragment;
 
@@ -106,7 +107,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (null != mStockBean) {
             setTitle(mStockBean.name);
             mStockId = mStockBean.id;
-
+            mStockCode = mStockBean.code;
         }
 
         tvCurrent = (TextView) findViewById(R.id.tv_current_price);
@@ -180,9 +181,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
         fragmentList.add(mStockQuotesChartFragment);
 
-        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,mStockId));
-        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,mStockId));
-        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,mStockId));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,mStockCode));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,mStockCode));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,mStockCode));
         // fragmentList.add(new TestFragment());
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);

@@ -54,7 +54,8 @@ public class QuotesEngineImpl {
      * @param listener
      */
     public void queryKLine(String type,String stockid,IHttpListener listener) {
-    	 String url = DKHSUrl.StockSymbol.kline+"?pk="+stockid+"&period="+type;
+    	 String url = DKHSUrl.BASE_URL + DKHSUrl.StockSymbol.kline_pre +stockid+
+    			 DKHSUrl.StockSymbol.kline_after+"?period="+type;
     	 DKHSClient.requestByGet(url, null, listener);
     }
 }

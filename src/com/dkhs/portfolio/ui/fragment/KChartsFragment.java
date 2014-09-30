@@ -27,16 +27,16 @@ public class KChartsFragment extends Fragment {
 	public static final int TYPE_CHART_MONTH = 3;
 	private KChartsView mMyChartsView;
 	private Integer type = TYPE_CHART_DAY; //类型，日K线，周k先，月k线
-	private Long mStockid; //股票id
+	private String mStockCode; //股票code
 	 private QuotesEngineImpl mQuotesDataEngine;
 	
-	public static final boolean testInterface = true; //测试，使用本地数据
+	public static final boolean testInterface = false; //测试，使用本地数据
 	
 
-	public static KChartsFragment getKChartFragment(Integer type, Long stockid) {
+	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
 		KChartsFragment fg = new KChartsFragment();
 		fg.setType(type);
-		fg.setStockid(stockid);
+		fg.setStockCode(stockcode);
 		return fg;
 	}
 	
@@ -99,9 +99,11 @@ public class KChartsFragment extends Fragment {
 			return getTestDatas();
 		}
 		
+		//测试
+//		mStockCode = "SZ002252";
 		//获取K线类型，日，周，月
 		String mtype = getKLineType();
-		mQuotesDataEngine.queryKLine(mtype, String.valueOf(mStockid), mKlineHttpListener);
+		mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
 		return null;
 	}
 	
@@ -153,16 +155,22 @@ public class KChartsFragment extends Fragment {
 						jo = ja.getJSONObject(i);
 						if(jo != null) {
 							ohlc = new OHLCEntity();
-							ohlc.setOpen(jo.getDouble("open"));
-							ohlc.setHigh(jo.getDouble("high"));
-							ohlc.setLow(jo.getDouble("low"));
-							ohlc.setClose(jo.getDouble("close"));
-							ohlc.setDate(jo.getString("day_stamp"));
+							if(jo.has("open"))
+								ohlc.setOpen(jo.getDouble("open"));
+							if(jo.has("high"))
+								ohlc.setHigh(jo.getDouble("high"));
+							if(jo.has("low"))
+								ohlc.setLow(jo.getDouble("low"));
+							if(jo.has("close"))
+								ohlc.setClose(jo.getDouble("close"));
+							if(jo.has("tradedate"))
+								ohlc.setDate(jo.getString("tradedate"));
 							entitys.add(ohlc);
 						}
 					}
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 			return entitys;
@@ -306,13 +314,15 @@ public class KChartsFragment extends Fragment {
 		this.type = type;
 	}
 
-	public Long getStockid() {
-		return mStockid;
+	public String getStockCode() {
+		return mStockCode;
 	}
 
-	public void setStockid(Long mStockid) {
-		this.mStockid = mStockid;
+	public void setStockCode(String mStockCode) {
+		this.mStockCode = mStockCode;
 	}
+
+	
 	
 	
 }
