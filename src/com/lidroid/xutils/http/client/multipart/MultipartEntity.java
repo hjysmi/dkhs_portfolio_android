@@ -15,19 +15,20 @@
 
 package com.lidroid.xutils.http.client.multipart;
 
-import com.lidroid.xutils.http.callback.RequestCallBackHandler;
-import com.lidroid.xutils.http.client.entity.UploadEntity;
-import com.lidroid.xutils.http.client.multipart.content.ContentBody;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Random;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.protocol.HTTP;
+
+import com.lidroid.xutils.http.callback.RequestCallBackHandler;
+import com.lidroid.xutils.http.client.entity.UploadEntity;
+import com.lidroid.xutils.http.client.multipart.content.ContentBody;
 
 /**
  * Multipart/form coded HTTP entity consisting of multiple body parts.

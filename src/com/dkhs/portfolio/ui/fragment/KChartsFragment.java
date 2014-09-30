@@ -3,16 +3,16 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.kline.KChartsView;
-import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.kline.KChartsView;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 
 public class KChartsFragment extends Fragment {

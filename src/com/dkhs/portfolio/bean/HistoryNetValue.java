@@ -10,7 +10,6 @@ package com.dkhs.portfolio.bean;
 
 import java.util.List;
 
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.google.gson.annotations.SerializedName;
 
 /**

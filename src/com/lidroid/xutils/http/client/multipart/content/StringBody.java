@@ -15,11 +15,19 @@
 
 package com.lidroid.xutils.http.client.multipart.content;
 
-import com.lidroid.xutils.http.client.multipart.MIME;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 import org.apache.http.protocol.HTTP;
 
-import java.io.*;
-import java.nio.charset.Charset;
+import com.lidroid.xutils.http.client.multipart.MIME;
 
 /**
  * @since 4.0

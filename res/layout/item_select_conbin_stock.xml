@@ -10,15 +10,20 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:paddingTop="5dp"
-    android:weightSum="4" >
+    android:weightSum="10" >
 
     <RelativeLayout
-        style="@style/hw_wrap"
-        android:layout_weight="1" >
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3" >
 
         <TextView
             android:id="@+id/tv_stock_name"
-            style="@style/hw_wrap" />
+            style="@style/hw_wrap"
+            android:ellipsize="end"
+            android:maxEms="4"
+            android:singleLine="true"
+            android:text="dddddd" />
 
         <TextView
             android:id="@+id/tv_stock_num"
@@ -29,21 +34,25 @@
 
     <TextView
         android:id="@+id/tv_current_value"
-        style="@style/hw_wrap"
-        android:layout_weight="1"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:textColor="@color/red"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_increase_value"
-        style="@style/hw_wrap"
-        android:layout_weight="1"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:paddingLeft="8dp"
         android:textColor="@color/red"
         android:textSize="16sp" />
 
     <RelativeLayout
-        style="@style/hw_wrap"
-        android:layout_weight="1"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:descendantFocusability="blocksDescendants" >
 
         <CheckBox

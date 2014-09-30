@@ -1,13 +1,12 @@
 package com.dkhs.portfolio.utils;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.net.Uri;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 /**

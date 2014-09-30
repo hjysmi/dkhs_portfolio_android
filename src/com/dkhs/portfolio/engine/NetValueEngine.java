@@ -16,9 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.net.ParseHttpListener;
 
 /**
  * @ClassName NetValueEngine

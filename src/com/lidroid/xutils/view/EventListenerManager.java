@@ -15,17 +15,18 @@
 
 package com.lidroid.xutils.view;
 
-import android.view.View;
-import com.lidroid.xutils.util.LogUtils;
-import com.lidroid.xutils.util.DoubleKeyValueMap;
-import com.lidroid.xutils.view.annotation.event.EventBase;
-
 import java.lang.annotation.Annotation;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
+
+import android.view.View;
+
+import com.lidroid.xutils.util.DoubleKeyValueMap;
+import com.lidroid.xutils.util.LogUtils;
+import com.lidroid.xutils.view.annotation.event.EventBase;
 
 public class EventListenerManager {
 

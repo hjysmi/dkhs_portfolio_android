@@ -17,6 +17,7 @@ package com.lidroid.xutils.bitmap;
 
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.task.TaskHandler;
 

@@ -15,14 +15,15 @@
 
 package com.lidroid.xutils.bitmap;
 
+import java.lang.reflect.Field;
+
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import com.lidroid.xutils.bitmap.core.BitmapSize;
 
-import java.lang.reflect.Field;
+import com.lidroid.xutils.bitmap.core.BitmapSize;
 
 public class BitmapCommonUtils {
 

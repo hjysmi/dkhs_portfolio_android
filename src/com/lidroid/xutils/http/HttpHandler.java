@@ -15,12 +15,11 @@
 
 package com.lidroid.xutils.http;
 
-import android.os.SystemClock;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.callback.*;
-import com.lidroid.xutils.task.PriorityAsyncTask;
-import com.lidroid.xutils.util.OtherUtils;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.UnknownHostException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolException;
@@ -31,10 +30,18 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.protocol.HttpContext;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.UnknownHostException;
+import android.os.SystemClock;
+
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.callback.DefaultHttpRedirectHandler;
+import com.lidroid.xutils.http.callback.FileDownloadHandler;
+import com.lidroid.xutils.http.callback.HttpRedirectHandler;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.callback.RequestCallBackHandler;
+import com.lidroid.xutils.http.callback.StringDownloadHandler;
+import com.lidroid.xutils.task.PriorityAsyncTask;
+import com.lidroid.xutils.util.OtherUtils;
 
 public class HttpHandler<T> extends PriorityAsyncTask<Object, Object, Void> implements RequestCallBackHandler {
 

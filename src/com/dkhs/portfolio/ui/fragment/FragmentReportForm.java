@@ -25,11 +25,9 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.NetValueReportEngine;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.ReportFromAdapter;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
 
 /**
  * @ClassName FragmentReportForm

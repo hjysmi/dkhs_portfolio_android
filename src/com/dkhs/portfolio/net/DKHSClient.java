@@ -8,23 +8,17 @@
  */
 package com.dkhs.portfolio.net;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.common.ConstantValue;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 

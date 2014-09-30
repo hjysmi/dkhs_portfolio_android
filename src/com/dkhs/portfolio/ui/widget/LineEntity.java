@@ -3,8 +3,6 @@ package com.dkhs.portfolio.ui.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
-
 public class LineEntity {
 
     /** 线表示数据 */

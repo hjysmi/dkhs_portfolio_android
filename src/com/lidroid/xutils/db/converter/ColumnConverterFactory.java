@@ -1,9 +1,9 @@
 package com.lidroid.xutils.db.converter;
 
-import com.lidroid.xutils.db.sqlite.ColumnDbType;
-
 import java.util.Date;
 import java.util.concurrent.ConcurrentHashMap;
+
+import com.lidroid.xutils.db.sqlite.ColumnDbType;
 
 /**
  * Author: wyouflf

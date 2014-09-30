@@ -15,10 +15,16 @@
 
 package com.lidroid.xutils.http.client.multipart.content;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.io.OutputStream;
+
 import com.lidroid.xutils.http.client.multipart.MIME;
 import com.lidroid.xutils.util.IOUtils;
-
-import java.io.*;
 
 /**
  * @since 4.0

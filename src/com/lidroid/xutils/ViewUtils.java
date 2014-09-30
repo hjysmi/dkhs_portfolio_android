@@ -15,11 +15,17 @@
 
 package com.lidroid.xutils;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceGroup;
 import android.view.View;
+
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.EventListenerManager;
 import com.lidroid.xutils.view.ResLoader;
@@ -30,11 +36,6 @@ import com.lidroid.xutils.view.annotation.PreferenceInject;
 import com.lidroid.xutils.view.annotation.ResInject;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.EventBase;
-
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class ViewUtils {
 
