@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -37,6 +38,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -65,6 +67,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvChange;
     private TextView tvPercentage;
     private Button btnAddOptional;
+    private ScrollView mScrollview; //滚动条，用于滚动到头部
 
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
@@ -124,7 +127,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         initTabPage();
         // setupViewData();
+        
+        //scrollview + listview 会滚动到底部，需要滚动到头部
+        scrollToTop();
     }
+    
+    private void scrollToTop() {
+    	mScrollview = (ScrollView) findViewById(R.id.sc_content);
+        mScrollview.smoothScrollTo(0, 0);		
+	}
 
     private void setupViewData() {
         if (null != mQuotesEngine) {
@@ -169,9 +180,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
         fragmentList.add(mStockQuotesChartFragment);
 
-        fragmentList.add(new TestFragment());
-        fragmentList.add(new TestFragment());
-        fragmentList.add(new TestFragment());
+        fragmentList.add(KChartsFragment.getKChartFragment());
+        fragmentList.add(KChartsFragment.getKChartFragment());
+        fragmentList.add(KChartsFragment.getKChartFragment());
         // fragmentList.add(new TestFragment());
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
