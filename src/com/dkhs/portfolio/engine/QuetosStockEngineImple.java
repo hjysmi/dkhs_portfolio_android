@@ -54,13 +54,13 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist, new String[] { EXCHANGE, orderType }, params, this);
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType,null, params, this);
     }
 
     @Override
     public void loadData() {
 
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist, new String[] { EXCHANGE, orderType }, this);
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType, null, this);
 
     }
 

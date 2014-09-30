@@ -97,7 +97,7 @@ public class MyCombinationEngineImpl {
         params.addBodyParameter("name", name);
          params.addBodyParameter("description", desc);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.update + id + "/", params, listener);
+        DKHSClient.request(HttpMethod.PUT, DKHSUrl.Portfolio.update + id , params, listener);
 
     }
 
@@ -115,7 +115,7 @@ public class MyCombinationEngineImpl {
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust + id + "/", params, listener);
+        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust + id + "/adjust_positions/", params, listener);
 
     }
 

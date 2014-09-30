@@ -26,16 +26,16 @@ public class QuotesEngineImpl {
 
     public void quotes(String stockCode, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("symbols", stockCode);
-        DKHSClient.requestByPost(DKHSUrl.StockSymbol.quotes, params, listener);
+        // params.addBodyParameter("symbols", stockCode);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.quotes + stockCode + "/quote/", null, listener);
     }
 
     public void symbolfollow(long id, IHttpListener listener) {
         RequestParams params = new RequestParams();
-        params.addBodyParameter("symbol", id + "");
-        params.addBodyParameter("buy_in", "0");
-        params.addBodyParameter("sell_out", "0");
-        DKHSClient.requestByPost(DKHSUrl.StockSymbol.symbolfollow, params, listener);
+        // params.addBodyParameter("symbol", id + "");
+        // params.addBodyParameter("buy_in", "0");
+        // params.addBodyParameter("sell_out", "0");
+        DKHSClient.requestByPost(DKHSUrl.StockSymbol.symbolfollow + id + "/follow/", params, listener);
     }
 
     public void delfollow(long id, IHttpListener listener) {
@@ -43,7 +43,9 @@ public class QuotesEngineImpl {
     }
 
     public void queryTimeShare(String stockCode, IHttpListener listener) {
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.sfthumbnail + stockCode, null, listener);
+        // RequestParams params = new RequestParams();
+        // params.addBodyParameter("period", "1");
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.sfthumbnail + stockCode + "/time_line/?period=1", null, listener);
 
     }
 }

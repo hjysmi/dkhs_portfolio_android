@@ -32,7 +32,7 @@ public class FSDataBean {
      * "0.0"涨跌幅
      * ],
      */
-    private List<List<Float>> mainstr;
+    private List<TimeStock> mainstr;
 
     public long getAmend() {
         return amend;
@@ -66,12 +66,66 @@ public class FSDataBean {
         this.pmend = pmend;
     }
 
-    public List<List<Float>> getMainstr() {
+    public List<TimeStock> getMainstr() {
         return mainstr;
     }
 
-    public void setMainstr(List<List<Float>> mainstr) {
+    public void setMainstr(List<TimeStock> mainstr) {
         this.mainstr = mainstr;
+    }
+
+    /**
+     * "volume": "0",
+     * "avgcurrent": "19.78",
+     * "avgline": 0,
+     * "current": "19.78",
+     * "time": "2014-09-29T09:29:00",
+     * "percentage": "0.0"
+     * */
+
+    public class TimeStock {
+        private float volume;
+        private float avgcurrent;
+        private float avgline;
+        private float current;
+        private float percentage;
+        private String time;
+        public float getVolume() {
+            return volume;
+        }
+        public void setVolume(float volume) {
+            this.volume = volume;
+        }
+        public float getAvgcurrent() {
+            return avgcurrent;
+        }
+        public void setAvgcurrent(float avgcurrent) {
+            this.avgcurrent = avgcurrent;
+        }
+        public float getAvgline() {
+            return avgline;
+        }
+        public void setAvgline(float avgline) {
+            this.avgline = avgline;
+        }
+        public float getCurrent() {
+            return current;
+        }
+        public void setCurrent(float current) {
+            this.current = current;
+        }
+        public float getPercentage() {
+            return percentage;
+        }
+        public void setPercentage(float percentage) {
+            this.percentage = percentage;
+        }
+        public String getTime() {
+            return time;
+        }
+        public void setTime(String time) {
+            this.time = time;
+        }
     }
 
 }

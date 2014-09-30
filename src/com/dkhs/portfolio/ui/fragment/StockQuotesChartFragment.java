@@ -9,7 +9,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -25,13 +24,12 @@ import android.widget.ListView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
+import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -331,11 +329,11 @@ public class StockQuotesChartFragment extends Fragment {
         @Override
         protected FSDataBean parseDateTask(String jsonData) {
             FSDataBean fsDataBean = null;
-			try {
-				fsDataBean = DataParse.parseObjectJson(FSDataBean.class, jsonData);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+            try {
+                fsDataBean = DataParse.parseObjectJson(FSDataBean.class, jsonData);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             return fsDataBean;
         }
@@ -345,11 +343,11 @@ public class StockQuotesChartFragment extends Fragment {
 
             if (fsDataBean != null) {
 
-                List<List<Float>> mainList = fsDataBean.getMainstr();
+                List<TimeStock> mainList = fsDataBean.getMainstr();
 
                 // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
                 if (mainList != null && mainList.size() > 0) {
-                    setYTitle(mainList.get(0).get(1), getMaxOffetValue(mainList));
+                    setYTitle(mainList.get(0).getCurrent(), getMaxOffetValue(mainList));
                     setTodayPointTitle();
                     setLineData(lineDataList);
                     //
@@ -367,14 +365,14 @@ public class StockQuotesChartFragment extends Fragment {
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
-    private float getMaxOffetValue(List<List<Float>> mainList) {
+    private float getMaxOffetValue(List<TimeStock> mainList) {
         lineDataList.clear();
         averagelineData.clear();
         int priceIndex = 1;
-        float baseNum = mainList.get(0).get(priceIndex);
+        float baseNum = mainList.get(0).getCurrent();
         float maxNum = baseNum, minNum = baseNum;
-        for (List<Float> bean : mainList) {
-            float iPrice = bean.get(priceIndex);
+        for (TimeStock bean : mainList) {
+            float iPrice = bean.getCurrent();
             if (iPrice > maxNum) {
                 maxNum = iPrice;
 
@@ -385,9 +383,9 @@ public class StockQuotesChartFragment extends Fragment {
             LinePointEntity pointEntity = new LinePointEntity();
             LinePointEntity point2Entity = new LinePointEntity();
 
-            pointEntity.setDesc(TimeUtils.getTimeByMSecond(bean.get(0)));
+            pointEntity.setDesc(bean.getTime());
             pointEntity.setValue(iPrice);
-            point2Entity.setValue(bean.get(3));
+            point2Entity.setValue(bean.getAvgline());
             lineDataList.add(pointEntity);
             averagelineData.add(point2Entity);
         }
@@ -522,7 +520,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
-        if(null!=mStockBean){
+        if (null != mStockBean) {
             setStockQuotesBean(mStockBean);
         }
         if (trendType.equals(TREND_TYPE_TODAY)) {

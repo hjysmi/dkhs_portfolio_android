@@ -273,8 +273,8 @@ public class TrendGridChart extends View {
         mGridLineHeight = getHeight() - xTitleTextHeight / 2 - axisMarginTop - axisMarginBottom;
         mStartLineYpoint = axisMarginTop + xTitleTextHeight / 2;
         mStartLineXpoint = axisMarginLeft;
-        mGridLineLenght = getWidth()-mStartLineXpoint - axisMarginRight;
-        
+        mGridLineLenght = getWidth() - mStartLineXpoint - axisMarginRight;
+
         // 设置背景色
         // super.setBackgroundColor(backgroudColor);
         // 绘制XY轴
@@ -418,7 +418,7 @@ public class TrendGridChart extends View {
     }
 
     private void drawXtitleText(Canvas canvas) {
-        if (null != axisXTitles) {
+        if (null != axisXTitles && axisXTitles.size() > 0) {
 
             int counts = axisXTitles.size();
 
@@ -440,7 +440,7 @@ public class TrendGridChart extends View {
                     if (i == 0) {
 
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset, offsetX, mXTitlePaint);
-                    } else {
+                    } else if (i < axisXTitles.size()) {
 
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset - offetText, offsetX, mXTitlePaint);
                     }
@@ -574,8 +574,6 @@ public class TrendGridChart extends View {
         // }
     }
 
-
-    
     /**
      * 绘制横线
      * 
@@ -597,15 +595,15 @@ public class TrendGridChart extends View {
         if (counts > 1) {
             float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
                     / (counts - 1);
-//            float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
-//                    / (counts - 1);
+            // float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
+            // / (counts - 1);
 
             // float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
 
             for (int i = 0; i <= counts; i++) {
                 // 绘制线条
                 if (displayLatitude) {
-                    canvas.drawLine(mStartLineXpoint, height - i * postOffset, length+mStartLineXpoint , height - i
+                    canvas.drawLine(mStartLineXpoint, height - i * postOffset, length + mStartLineXpoint, height - i
                             * postOffset, mPaintLine);
                 }
                 // 绘制刻度

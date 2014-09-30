@@ -62,13 +62,14 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
     public void requeryReport(int page, int pageSize) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", mConbinationId + "");
-        NameValuePair valuePair = new BasicNameValuePair("portfolio_id", 508 + "");
+        // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", 508 + "");
         NameValuePair valuePair2 = new BasicNameValuePair("page", page + "");
         NameValuePair valuePair3 = new BasicNameValuePair("page_size", pageSize + "");
-        params.add(valuePair);
+        // params.add(valuePair);
         params.add(valuePair2);
         params.add(valuePair3);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.report, null, params, this);
+        DKHSClient.requestByGet(DKHSUrl.NetValue.report + mConbinationId + "/netvalue_history/", null,
+                params, this);
 
     }
 
@@ -79,7 +80,7 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
 
     @Override
     public void loadData() {
-//        requerySevenDayReport();
+        // requerySevenDayReport();
     }
 
     /**
