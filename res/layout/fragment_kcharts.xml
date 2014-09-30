@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout 
+        android:id="@+id/layout_first"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <com.dkhs.portfolio.ui.widget.kline.KChartsView
+	        android:id="@+id/my_charts_view"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+			android:layout_marginBottom="8dp"
+	        android:layout_margin="10dp"/>
+        
+        
+        
+         <ImageButton 
+            android:id="@+id/btn_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/zoom_in"
+            android:background="@drawable/bg_gray_select"/>
+         
+         <ImageButton 
+            android:id="@+id/btn_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/zoom_out"
+            android:background="@drawable/bg_gray_select"
+            android:layout_toRightOf="@id/btn_large"
+            android:layout_marginLeft="10dip"/>
+    </RelativeLayout>
+    
+
+</RelativeLayout>

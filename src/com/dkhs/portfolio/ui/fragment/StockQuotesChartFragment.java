@@ -330,7 +330,12 @@ public class StockQuotesChartFragment extends Fragment {
 
         @Override
         protected FSDataBean parseDateTask(String jsonData) {
-            FSDataBean fsDataBean = DataParse.parseObjectJson(FSDataBean.class, jsonData);
+            FSDataBean fsDataBean = null;
+			try {
+				fsDataBean = DataParse.parseObjectJson(FSDataBean.class, jsonData);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
             return fsDataBean;
         }

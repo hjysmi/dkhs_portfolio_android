@@ -29,8 +29,13 @@
         <com.dkhs.portfolio.ui.widget.ScrollViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_weight="5" />
+            android:layout_height="200dp" />
+        
+          <!-- 底部资讯 -->
+        <fragment 
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            class="com.dkhs.portfolio.ui.fragment.NewsFragment"/>
     </LinearLayout>
 
 </ScrollView>
