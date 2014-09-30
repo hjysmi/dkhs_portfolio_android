@@ -52,6 +52,10 @@ public class DKHSUrl {
         // GET /api/v1/quotes/fs_thumbnail/SZ000002/
         // 返回当日缩略图分时数据
         String sfthumbnail = "/api/v1/quotes/fs_thumbnail/";
+        
+        
+        //k线图数据
+        String kline = "/api/v1/symbols/101003259/k_line/";
     }
 
     public interface NetValue {

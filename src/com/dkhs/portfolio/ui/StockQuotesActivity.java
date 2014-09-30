@@ -180,9 +180,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
         fragmentList.add(mStockQuotesChartFragment);
 
-        fragmentList.add(KChartsFragment.getKChartFragment());
-        fragmentList.add(KChartsFragment.getKChartFragment());
-        fragmentList.add(KChartsFragment.getKChartFragment());
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,mStockId));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,mStockId));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,mStockId));
         // fragmentList.add(new TestFragment());
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
