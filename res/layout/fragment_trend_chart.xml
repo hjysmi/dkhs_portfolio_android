@@ -108,7 +108,7 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <com.dkhs.portfolio.ui.widget.MAChart
+    <com.dkhs.portfolio.ui.widget.TrendChart
         android:id="@+id/machart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

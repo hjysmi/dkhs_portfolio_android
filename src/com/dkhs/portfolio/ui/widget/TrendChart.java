@@ -23,7 +23,7 @@ import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
-public class MAChart extends TrendGridChart {
+public class TrendChart extends TrendGridChart {
     /** 显示数据线 */
     private List<LineEntity> lineData;
 
@@ -59,17 +59,17 @@ public class MAChart extends TrendGridChart {
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
 
-    public MAChart(Context context) {
+    public TrendChart(Context context) {
         super(context);
         init();
     }
 
-    public MAChart(Context context, AttributeSet attrs, int defStyle) {
+    public TrendChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public MAChart(Context context, AttributeSet attrs) {
+    public TrendChart(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
@@ -78,6 +78,10 @@ public class MAChart extends TrendGridChart {
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
         mLinePaint.setStrokeWidth(2);
+    }
+
+    public void setSmallLine() {
+        mLinePaint.setStrokeWidth(1);
     }
 
     /** 当前被选中的坐标点 */
@@ -136,7 +140,7 @@ public class MAChart extends TrendGridChart {
         // mCanvas = canvas;
 
         startPointX = mStartLineXpoint + 2;
-        endY = super.getHeight();
+        endY = mGridLineHeight - axisMarginBottom;
         // 绘制平线
         drawLines(canvas);
         if (isTouch) {
@@ -257,7 +261,6 @@ public class MAChart extends TrendGridChart {
             return;
         }
         // 逐条输入MA线
-        System.out.println("getMaxPointNum size:" + getMaxPointNum());
 
         for (int i = 0; i < lineData.size(); i++) {
             LineEntity line = (LineEntity) lineData.get(i);
@@ -266,7 +269,6 @@ public class MAChart extends TrendGridChart {
                 mLinePaint.setColor(line.getLineColor());
 
                 List<LinePointEntity> lineData = line.getLineData();
-                System.out.println("lineData size:" + lineData.size());
                 // 输�?�?��线
                 // startx = 27
                 // startX = super.getAxisMarginLeft() + pointLineLength / 2f;
@@ -278,7 +280,6 @@ public class MAChart extends TrendGridChart {
 
                 // }
                 if (lineData != null && lineData.size() > 0) {
-
                     for (int j = 0; j < lineData.size(); j++) {
                         // j=1,value=272
                         if (j >= getMaxPointNum()) {
@@ -309,32 +310,32 @@ public class MAChart extends TrendGridChart {
                         // 重置起始点
                         ptFirst = new PointF(startX, valueY);
 
-                        // if (fillLineIndex == i && j == 0) {
-                        //
-                        // fillPaint.setColor(line.getLineColor());
-                        // fillPaint.setAlpha(85);
-                        // fillPaint.setAntiAlias(true);
-                        // fillPath.moveTo(startX, valueY);
-                        // } else {
-                        // fillPath.lineTo(startX, valueY);
-                        // }
+                        if (fillLineIndex == i && j == 0) {
+
+                            fillPaint.setColor(line.getLineColor());
+                            fillPaint.setAlpha(85);
+                            fillPaint.setAntiAlias(true);
+                            fillPath.moveTo(startX, valueY);
+                        } else {
+                            fillPath.lineTo(startX, valueY);
+                        }
                         // X位移
                         startX = startX + 1 + pointLineLength;
                     }
 
                     // System.out.println("isFill:" + isFill + " fillLineIndex=" + fillLineIndex + " currentIndex:" +
                     // i);
-                    // if (isFill && fillLineIndex == i) {
-                    // try {
-                    //
-                    // fillPath.lineTo(ptFirst.x, endY);
-                    // fillPath.lineTo(startPointX, endY);
-                    // canvas.drawPath(fillPath, fillPaint);
-                    //
-                    // } catch (Exception e) {
-                    // e.printStackTrace();
-                    // }
-                    // }
+                    if (isFill && fillLineIndex == i) {
+                        try {
+
+                            fillPath.lineTo(ptFirst.x, endY);
+                            fillPath.lineTo(startPointX, endY);
+                            canvas.drawPath(fillPath, fillPaint);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         }
@@ -347,7 +348,7 @@ public class MAChart extends TrendGridChart {
     }
 
     private boolean isFill;
-    private int fillLineIndex;
+    private int fillLineIndex = 0;
 
     // paint.setAlpha(85);
     //
@@ -480,7 +481,8 @@ public class MAChart extends TrendGridChart {
                 // } else {
                 // text = "创业板:1.40%";
                 // }
-                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+                if (i == 0)
+                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
         }
 

@@ -49,6 +49,12 @@
         <item>1个月</item>
         <item>至今</item>
     </string-array>
+    <string-array name="quotes_title">
+        <item>分时</item>
+        <item>日线</item>
+        <item>周线</item>
+        <item>月线</item>
+    </string-array>
     <string-array name="menu_img_items">
         <item>menu_icon_profit</item>
         <item>menu_icon_stock</item>

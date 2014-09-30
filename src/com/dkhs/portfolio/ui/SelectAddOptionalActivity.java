@@ -14,6 +14,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
@@ -33,7 +34,9 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-
+        findViewById(R.id.rl_search_stock).setVisibility(View.GONE);
+        findViewById(R.id.rl_add_stocklist).setVisibility(View.GONE);
+        getRightButton().setVisibility(View.GONE);
     }
 
     @Override
@@ -45,9 +48,12 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
             titleList.add(tArray[i]);
 
         }
-        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_INCREASE);
-        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_DRAWDOWN);
-        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_HANDOVER);
+        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
+                .getItemClickBackFragment(ViewType.STOCK_INCREASE);
+        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
+                .getItemClickBackFragment(ViewType.STOCK_DRAWDOWN);
+        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
+                .getItemClickBackFragment(ViewType.STOCK_HANDOVER);
 
         fragmenList.add(mIncreaseFragment);
         fragmenList.add(mDownFragment);

@@ -11,7 +11,6 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -21,18 +20,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.FSDataBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
+import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter.FiveRangeItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
@@ -47,7 +52,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-9-3 上午10:32:39
  * @version 1.0
  */
-public class TrendChartFragment extends Fragment {
+public class StockQuotesChartFragment extends Fragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
 
     // private static final String SAVED_LIST_POSITION = "list_position";
@@ -59,23 +64,21 @@ public class TrendChartFragment extends Fragment {
 
     private String trendType;
     private boolean isTodayNetValue;
-    private TextView tvTimeLeft;
-    private TextView tvTimeRight;
-    private TextView tvNetValue;
-    private TextView tvUpValue;
-    private TextView tvIncreaseValue;
-    private TextView tvStartText;
-    private TextView tvEndText;
-    private TextView tvIncreaseText;
 
     private TrendChart mMaChart;
 
-    private NetValueEngine mNetValueDataEngine;
+    private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
 
+    private FiveRangeAdapter mBuyAdapter, mSellAdapter;
+    private ListView mListviewBuy, mListviewSell;
+
+    private long mStockId;
+    private String mStockCode;
+
     // public static final String TREND_TYPE_TODAY="trend_today";
-    public static TrendChartFragment newInstance(String trendType) {
-        TrendChartFragment fragment = new TrendChartFragment();
+    public static StockQuotesChartFragment newInstance(String trendType) {
+        StockQuotesChartFragment fragment = new StockQuotesChartFragment();
 
         Bundle arguments = new Bundle();
         arguments.putString(ARGUMENT_TREND_TYPE, trendType);
@@ -125,60 +128,48 @@ public class TrendChartFragment extends Fragment {
 
     private void handleExtras(Bundle extras) {
         // TODO private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-        mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
+        // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        // if (null != mCombinationBean) {
+        SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+        if (null != mSelectBean) {
+            mStockId = mSelectBean.id;
+            mStockCode = mSelectBean.code;
+        }
+        mQuotesDataEngine = new QuotesEngineImpl();
+        // }
     }
 
     @Override
     public void onAttach(Activity activity) {
-        // TODO Auto-generated method stub
+        // o
         super.onAttach(activity);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trend_chart, null);
+        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(mMaChart);
         initView(view);
-        setupViewData();
         return view;
     }
 
     private void initView(View view) {
-        tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
-        tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
-        tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
-        tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
-        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
-        tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
-        tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
-        tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
-    }
+        mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
+        mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
 
-    private void setupViewData() {
-        // String strRight = "";
-        // String strLeft = "";
-        // if (isTodayNetValue) {
-        // strLeft = "2014-09-04";
-        // strRight = "14:28";
-        // } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY) || trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
-        // strLeft = getString(R.string.time_start, "2014-07-06");
-        // strRight = getString(R.string.time_end, "2014-07-13");
-        // } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
-        // strLeft = getString(R.string.time_start, "2014-05-05");
-        // strRight = getString(R.string.to_now);
-        // }
-        //
-        // tvTimeLeft.setText(strLeft);
-        // tvTimeRight.setText(strRight);
-
-        if (!isTodayNetValue) {
-            tvStartText.setText(R.string.start_netvalue);
-            tvEndText.setText(R.string.end_netvalue);
-            tvIncreaseText.setText(R.string.netvalue_up);
-        }
-
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
+        mListviewBuy.setAdapter(mBuyAdapter);
+        mListviewSell.setAdapter(mSellAdapter);
+        // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
+        // tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
+        // tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
+        // tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
+        // tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
+        // tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
+        // tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
+        // tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
     }
 
     private void initMaChart(TrendChart machart) {
@@ -219,6 +210,7 @@ public class TrendChartFragment extends Fragment {
         machart.setDisplayAxisYTitle(true);
         machart.setDisplayLatitude(true);
         machart.setDisplayLongitude(true);
+        machart.setFill(true);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -242,7 +234,13 @@ public class TrendChartFragment extends Fragment {
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         MA5.setLineColor(getActivity().getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
         MA5.setLineData(lineDataList);
+
+        LineEntity averageLine = new LineEntity();
+        averageLine.setLineColor(getResources().getColor(R.color.orange));
+        averageLine.setLineData(averagelineData);
+
         lines.add(MA5);
+        lines.add(averageLine);
         mMaChart.setLineData(lines);
     }
 
@@ -277,92 +275,116 @@ public class TrendChartFragment extends Fragment {
     // mMaChart.setAxisXTitles(xtitle);
     // }
 
-    private List<Float> initMA(int length) {
-        List<Float> MA5Values = new ArrayList<Float>();
+    private List<LinePointEntity> initMA(int length) {
+        List<LinePointEntity> MA5Values = new ArrayList<LinePointEntity>();
+        NetValueEngine outer = new NetValueEngine(0);
         for (int i = 0; i < length; i++) {
             // MA5Values.add((float) new Random().nextInt(99));
-            MA5Values.add(new Random().nextFloat() * 100);
+            LinePointEntity bean = new LinePointEntity();
+            bean.setDesc("2014-09-23");
+            bean.setValue(1);
+            MA5Values.add(bean);
         }
         return MA5Values;
 
     }
 
-    ParseHttpListener todayListener = new ParseHttpListener<TodayNetValue>() {
+    StockQuotesBean mStockBean;
+
+    public void setStockQuotesBean(StockQuotesBean bean) {
+        this.mStockBean = bean;
+        List<FiveRangeItem> buyList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
+        List<FiveRangeItem> sellList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
+        int i = 0;
+        for (String buyPrice : bean.getBuyPrice().getBuyPrice()) {
+            FiveRangeItem buyItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
+            buyItem.tag = "买" + (++i);
+
+            buyItem.price = buyPrice;
+            if (i < bean.getBuyPrice().getBuyVol().size()) {
+                buyItem.vol = bean.getBuyPrice().getBuyVol().get(i);
+            } else {
+                buyItem.vol = "0";
+            }
+            buyList.add(buyItem);
+        }
+        i = 0;
+        for (String sellPrice : bean.getSellPrice().getSellPrice()) {
+            FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
+            sellItem.tag = "卖" + (++i);
+            sellItem.price = sellPrice;
+            if (i < bean.getSellPrice().getSellVol().size()) {
+                sellItem.vol = bean.getSellPrice().getSellVol().get(i);
+            } else {
+                sellItem.vol = "0";
+            }
+            sellList.add(sellItem);
+        }
+
+        mBuyAdapter.setList(buyList);
+        mSellAdapter.setList(sellList);
+
+    }
+
+    ParseHttpListener todayListener = new ParseHttpListener<FSDataBean>() {
 
         @Override
-        protected TodayNetValue parseDateTask(String jsonData) {
-            TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
+        protected FSDataBean parseDateTask(String jsonData) {
+            FSDataBean fsDataBean = DataParse.parseObjectJson(FSDataBean.class, jsonData);
 
-            return todayNetvalue;
+            return fsDataBean;
         }
 
         @Override
-        protected void afterParseData(TodayNetValue todayNetvalue) {
+        protected void afterParseData(FSDataBean fsDataBean) {
 
-            if (todayNetvalue != null) {
+            if (fsDataBean != null) {
 
-                List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() > 0) {
-                    setYTitle(todayNetvalue.getBegin(), getMaxOffetValue(todayNetvalue));
+                List<List<Float>> mainList = fsDataBean.getMainstr();
+
+                // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
+                if (mainList != null && mainList.size() > 0) {
+                    setYTitle(mainList.get(0).get(1), getMaxOffetValue(mainList));
                     setTodayPointTitle();
                     setLineData(lineDataList);
-
-                    String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
-                    // int zIndex = lasttime.indexOf("T");
-                    Calendar calender = TimeUtils.toCalendar(lasttime);
-                    // String dateStr = lasttime.substring(0, zIndex);
-                    tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
-                            + calender.get(Calendar.DAY_OF_MONTH));
-                    String timeStr = calender.get(Calendar.HOUR) + ":" + (calender.get(Calendar.MINUTE) );
-                    tvTimeRight.setText(timeStr);
+                    //
+                    // String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
+                    // // int zIndex = lasttime.indexOf("T");
+                    // Calendar calender = TimeUtils.toCalendar(lasttime);
+                    // // String dateStr = lasttime.substring(0, zIndex);
                 }
-
-                tvNetValue.setText(StringFromatUtils.get4Point(todayNetvalue.getEnd()));
-                float addupValue = todayNetvalue.getEnd() - todayNetvalue.getBegin();
-                tvUpValue.setText(StringFromatUtils.get4Point(addupValue));
-                float increase = addupValue / todayNetvalue.getBegin() * 100;
-                tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
 
             }
 
         }
     };
 
-    // private List<LinePointEntity> convertTodayBeanToLineEntity(List<TodayNetBean> dayNetValueList) {
-    // List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
-    // int dataLenght = dayNetValueList.size();
-    // for (int i = dataLenght - 1; i >= 0; i--) {
-    // LinePointEntity pointEntity = new LinePointEntity();
-    // TodayNetBean todayBean = dayNetValueList.get(i);
-    // pointEntity.setDesc(TimeUtils.getTimeString(todayBean.getTimestamp()));
-    // pointEntity.setValue(todayBean.getNetvalue());
-    // lineDataList.add(pointEntity);
-    // }
-    //
-    // return lineDataList;
-    // }
-
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
-    private float getMaxOffetValue(TodayNetValue todayNetvalue) {
+    private float getMaxOffetValue(List<List<Float>> mainList) {
         lineDataList.clear();
-        float baseNum = todayNetvalue.getBegin();
+        averagelineData.clear();
+        int priceIndex = 1;
+        float baseNum = mainList.get(0).get(priceIndex);
         float maxNum = baseNum, minNum = baseNum;
-        for (TodayNetBean bean : todayNetvalue.getChartlist()) {
-            if (bean.getNetvalue() > maxNum) {
-                maxNum = bean.getNetvalue();
+        for (List<Float> bean : mainList) {
+            float iPrice = bean.get(priceIndex);
+            if (iPrice > maxNum) {
+                maxNum = iPrice;
 
-            } else if (bean.getNetvalue() < minNum) {
-                minNum = bean.getNetvalue();
+            } else if (iPrice < minNum) {
+                minNum = iPrice;
             }
 
             LinePointEntity pointEntity = new LinePointEntity();
-            // HitstroyNetBean todayBean = dayNetValueList.get(i);
-            pointEntity.setDesc(TimeUtils.getTimeString(bean.getTimestamp()));
-            pointEntity.setValue(bean.getNetvalue());
-            lineDataList.add(pointEntity);
+            LinePointEntity point2Entity = new LinePointEntity();
 
+            pointEntity.setDesc(TimeUtils.getTimeByMSecond(bean.get(0)));
+            pointEntity.setValue(iPrice);
+            point2Entity.setValue(bean.get(3));
+            lineDataList.add(pointEntity);
+            averagelineData.add(point2Entity);
         }
 
         float offetValue;
@@ -375,6 +397,7 @@ public class TrendChartFragment extends Fragment {
     }
 
     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+    List<LinePointEntity> averagelineData = new ArrayList<LinePointEntity>();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
@@ -407,21 +430,6 @@ public class TrendChartFragment extends Fragment {
         offetValue = maxNum > minNum ? maxNum : minNum;
 
         return offetValue;
-        // return lineDataList;
-        //
-        // for (HitstroyNetBean bean : historyNetValue.getChartlist()) {
-        // LinePointEntity dayBean = new LinePointEntity();
-        // if (bean.getNetvalue() > maxNum) {
-        // maxNum = bean.getNetvalue();
-        //
-        // } else if (bean.getNetvalue() < minNum) {
-        // minNum = bean.getNetvalue();
-        // }
-        //
-        // dayBean.setNetvalue(bean.getNetvalue());
-        // dayBean.setTimestamp(bean.getDate());
-        // lineDataList.add(dayBean);
-        // }
 
     }
 
@@ -488,21 +496,10 @@ public class TrendChartFragment extends Fragment {
                     setYTitle(object.getBegin(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setLineData(lineDataList);
-                    String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
-                    String strRight = getString(R.string.time_end, dayNetValueList.get(0).getDate());
-                    tvTimeLeft.setText(strLeft);
-
-                    tvTimeRight.setText(strRight);
 
                     setXTitle(dayNetValueList);
 
                 }
-
-                tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
-                float addupValue = object.getEnd() - object.getBegin();
-                tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
-                // fl
-                tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
 
             }
         }
@@ -520,18 +517,13 @@ public class TrendChartFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        if(null!=mStockBean){
+            setStockQuotesBean(mStockBean);
+        }
         if (trendType.equals(TREND_TYPE_TODAY)) {
             dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-        } else if (trendType.equals(TREND_TYPE_SEVENDAY)) {
-
-            mNetValueDataEngine.requerySevenDay(historyNetValueListener);
-        } else if (trendType.equals(TREND_TYPE_MONTH)) {
-
-            mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
-        } else if (trendType.equals(TREND_TYPE_HISTORY)) {
-
-            mNetValueDataEngine.requeryHistory(historyNetValueListener);
         }
+
     };
 
     public void onStop() {
@@ -544,8 +536,8 @@ public class TrendChartFragment extends Fragment {
         @Override
         public void run() {
             dataHandler.sendEmptyMessage(1722);
-            if (null != mNetValueDataEngine) {
-                mNetValueDataEngine.requeryToday(todayListener);
+            if (null != mQuotesDataEngine) {
+                mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }

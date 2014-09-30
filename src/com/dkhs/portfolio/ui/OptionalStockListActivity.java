@@ -46,10 +46,17 @@ public class OptionalStockListActivity extends ModelAcitivity {
 
         Button bottomButton = (Button) findViewById(R.id.btn_add_optional_stock);
         bottomButton.setOnClickListener(mAddButtonClickListener);
-        
+
         Button btnRefresh = getSecondRightButton();
         // btnRefresh.setOnClickListener(this);
         btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
+        btnRefresh.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                loadDataListFragment.refresh();
+            }
+        });
     }
 
     OnClickListener mAddButtonClickListener = new OnClickListener() {

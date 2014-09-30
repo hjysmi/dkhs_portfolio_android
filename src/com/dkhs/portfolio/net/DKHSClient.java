@@ -43,7 +43,7 @@ public class DKHSClient {
             params = new RequestParams();
         }
 
-        params.addHeader("Authorization", "Bearer " + "8e1a8c0c56c2ef067428d2eb92e7bbf45d12728c");
+        params.addHeader("Authorization", "Bearer " + "5ab43e70dce6acf8936b3229edfb36de9849d157");
         String requestUrl = getAbsoluteUrl(url);
         LogUtils.d("requestUrl:" + requestUrl);
         LogUtils.d("RequestParams:" + params);
@@ -70,7 +70,9 @@ public class DKHSClient {
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);
 
-                listener.onHttpFailure(error.getExceptionCode(), msg);
+                if (null != listener) {
+                    listener.onHttpFailure(error.getExceptionCode(), msg);
+                }
 
             }
         });

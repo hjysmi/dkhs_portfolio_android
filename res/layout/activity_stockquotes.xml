@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sc_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:id="@+id/layout_internal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="10" >
+
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/layout_stock_quotes_header"
+            android:background="@color/white" />
+
+        <com.dkhs.portfolio.ui.widget.TabPageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5" />
+
+        <View style="@style/divider_line" />
+
+        <com.dkhs.portfolio.ui.widget.ScrollViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_weight="5" />
+    </LinearLayout>
+
+</ScrollView>

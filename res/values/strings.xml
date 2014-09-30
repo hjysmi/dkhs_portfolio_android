@@ -113,6 +113,8 @@
     <string name="referto">参照</string>
     <string name="rise_range">涨幅</string>
     <string name="drop_range">跌幅</string>
+    <string name="delete_fllow">取消自选</string>
+    <string name="add_fllow">加入自选</string>
     <string name="turnover">换手</string>
     <string name="start_netvalue">起始：</string>
     <string name="end_netvalue">结束：</string>

@@ -12,10 +12,12 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,6 +28,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.PopupWindow;
@@ -38,9 +41,9 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
+import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -52,7 +55,7 @@ import com.lidroid.xutils.util.LogUtils;
  * @version 1.0
  */
 public class MyCombinationActivity extends ModelAcitivity implements OnItemClickListener, OnTouchListener,
-        OnClickListener {
+        IDelButtonListener, OnClickListener {
     private GridView gvCombination;
     private CombinationAdapter mCombinationAdapter;
     private Button btnMore;
@@ -88,7 +91,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void initTitleView() {
         btnMore = getRightButton();
-        btnMore.setBackgroundResource(R.drawable.nav_more_selector);
+        btnMore.setBackgroundResource(R.drawable.ic_title_add);
         btnMore.setOnClickListener(this);
 
         btnRefresh = getSecondRightButton();
@@ -109,6 +112,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
         mCombinationAdapter = new CombinationAdapter(this, mDataList);
         gvCombination.setAdapter(mCombinationAdapter);
+        mCombinationAdapter.setDeleteButtonClickListener(this);
         gvCombination.setOnItemClickListener(this);
         gvCombination.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -134,7 +138,14 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                 mCombinationAdapter.setItemHeight((int) (columnWidth));
             }
         });
+        gvCombination.setOnItemLongClickListener(new OnItemLongClickListener() {
 
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                mCombinationAdapter.setDelStatus(true);
+                return true;
+            }
+        });
         gvCombination.setOnTouchListener(this);
 
     }
@@ -238,23 +249,25 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     }
 
     private void clickRightButton() {
-        if (btnMore.getTag() != null && btnMore.getTag().equals("del")) {
-            setButtonMore();
-            mCombinationAdapter.getDelPosition().clear();
-            mCombinationAdapter.setDelStatus(false);
-            mCombinationAdapter.notifyDataSetChanged();
-            setButtonRefresh();
-            gvCombination.setOnItemClickListener(this);
-        } else {
-            showPopWindow();
-        }
+        mCombinationAdapter.addItem();
+        // if (btnMore.getTag() != null && btnMore.getTag().equals("del")) {
+        // setButtonMore();
+        // mCombinationAdapter.getDelPosition().clear();
+        // mCombinationAdapter.setDelStatus(false);
+        // mCombinationAdapter.notifyDataSetChanged();
+        // setButtonRefresh();
+        // gvCombination.setOnItemClickListener(this);
+        // } else {
+        // showPopWindow();
+        // }
+
     }
 
-    private void setButtonMore() {
-        btnMore.setTag("more");
-        btnMore.setText("");
-        btnMore.setBackgroundResource(R.drawable.nav_more_selector);
-    }
+    // private void setButtonMore() {
+    // btnMore.setTag("more");
+    // btnMore.setText("");
+    // btnMore.setBackgroundResource(R.drawable.nav_more_selector);
+    // }
 
     private void setButtonRefresh() {
         btnRefresh.setTag("refresh");
@@ -310,10 +323,51 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     }
 
+    private void showDelDialog(final CombinationBean mCombination) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        builder.setMessage("您将要删除选中的组合!");
+        builder.setTitle("提示");
+
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new BasicHttpListener() {
+
+                    @Override
+                    public void onSuccess(String result) {
+                        // mCombinationAdapter.getDelPosition().clear();
+                        mDataList.remove(mCombination);
+                        upateDelViewStatus();
+                    }
+
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+                        super.onFailure(errCode, errMsg);
+                        Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
     private void upateDelViewStatus() {
         setButtonRefresh();
-        setButtonMore();
-        
+        // setButtonMore();
+
         mCombinationAdapter.setDelStatus(false);
         mCombinationAdapter.notifyDataSetChanged();
     }
@@ -336,6 +390,14 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         int viewWidth = view.getMeasuredWidth();
 
         mPopMoreWindow.showAsDropDown(findViewById(R.id.includeHead), width - viewWidth, 0);
+
+    }
+
+    @Override
+    public void clickDeleteButton(int position) {
+        CombinationBean combiantinBean = mDataList.get(position);
+        // Toast.makeText(this, "Is del :" + combiantinBean.getName(), Toast.LENGTH_SHORT).show();
+        showDelDialog(combiantinBean);
 
     }
 

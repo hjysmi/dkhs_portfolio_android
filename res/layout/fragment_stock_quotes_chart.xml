@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="5dp" >
+
+    <ListView
+        android:id="@+id/list_five_range_buy"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical" />
+
+    <View
+        android:id="@+id/view_divider"
+        style="@style/divider_line"
+        android:layout_width="88dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/list_five_range_buy"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp" />
+
+    <ListView
+        android:id="@+id/list_five_range_sall"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/view_divider"
+        android:orientation="vertical" />
+
+    <com.dkhs.portfolio.ui.widget.TrendChart
+        android:id="@+id/machart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/rl_trend_info"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_toLeftOf="@+id/list_five_range_buy" />
+
+</RelativeLayout>

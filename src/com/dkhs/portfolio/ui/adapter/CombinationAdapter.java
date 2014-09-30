@@ -30,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -37,7 +38,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.LineChart;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.MAChart;
+import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
@@ -64,7 +65,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder = null;
         View row = convertView;
@@ -86,7 +87,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             // viewHolder.etTitle = (EditText) row.findViewById(R.id.et_combin_title);
             // viewHolder.machart = (LineChart) row.findViewById(R.id.machart);
             // viewHolder.btnEidt = (Button) row.findViewById(R.id.btn_edit_contitle);
-            viewHolder.checkBox = (CheckBox) row.findViewById(R.id.cb_select_conbin);
+            // viewHolder.checkBox = (CheckBox) row.findViewById(R.id.cb_select_conbin);
+            viewHolder.ivDel = (ImageButton) row.findViewById(R.id.ib_del_conbin);
             row.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) row.getTag();
@@ -180,15 +182,22 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         // return false;
         // }
         // });
+        viewHolder.ivDel.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                if (null != mDelListener)
+                    mDelListener.clickDeleteButton(position);
+            }
+        });
         if (isDelStatus) {
-            viewHolder.checkBox.setVisibility(View.VISIBLE);
+            viewHolder.ivDel.setVisibility(View.VISIBLE);
             // viewHolder.btnEidt.setVisibility(View.GONE);
-            viewHolder.checkBox.setTag(item);
-            viewHolder.checkBox.setChecked(mSelectList.contains(position));
-            viewHolder.checkBox.setOnCheckedChangeListener(this);
+            // viewHolder.checkBox.setTag(item);
+            // viewHolder.checkBox.setChecked(mSelectList.contains(position));
+            // viewHolder.checkBox.setOnCheckedChangeListener(this);
         } else {
-            viewHolder.checkBox.setVisibility(View.GONE);
+            viewHolder.ivDel.setVisibility(View.GONE);
             // viewHolder.btnEidt.setVisibility(View.VISIBLE);
 
         }
@@ -206,7 +215,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         TextView tvDesc;
         // EditText etTitle;
         // LineChart machart;
-        CheckBox checkBox;
+        // CheckBox checkBox;
+        ImageButton ivDel;
         // Button btnEidt;
     }
 
@@ -218,49 +228,6 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, mItemHeight);
         notifyDataSetChanged();
 
-    }
-
-    private List<Float> initMA(int length) {
-        List<Float> MA5Values = new ArrayList<Float>();
-        for (int i = 0; i < length; i++) {
-            // MA5Values.add((float) new Random().nextInt(99));
-            MA5Values.add(new Random().nextFloat() * 100);
-        }
-        return MA5Values;
-
-    }
-
-    private void initMaChart(LineChart machart) {
-
-        // machart.setAxisXColor(Color.LTGRAY);
-        // machart.setAxisYColor(Color.LTGRAY);
-        List<LineEntity> lines = new ArrayList<LineEntity>();
-
-        LineEntity MA5 = new LineEntity();
-        // MA5.setTitle("MA5");
-        // MA5.setLineColor(ColorTemplate.getRaddomColor())
-        MA5.setLineColor(mContext.getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
-        // MA5.setLineData(initMA(new Random().nextInt(72)));
-        lines.add(MA5);
-        machart.setLineData(lines);
-        machart.setDisplayBorder(false);
-        // machart.setDrawXBorke(true);
-
-        List<String> ytitle = new ArrayList<String>();
-        ytitle.add("1.1031");
-        ytitle.add("1.0522");
-        ytitle.add("1.0001");
-        ytitle.add("1.0001");
-        ytitle.add("1.0522");
-        ytitle.add("1.1031");
-        machart.setLatitudeColor(Color.LTGRAY);
-        machart.setMaxValue(120);
-        machart.setMinValue(0);
-        machart.setMaxPointNum(72);
-        machart.setDisplayAxisYTitle(false);
-        machart.setDisplayLatitude(false);
-        machart.setDisplayLongitude(false);
-        machart.setFill(true);
     }
 
     @Override
@@ -308,6 +275,16 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
     public void setDelStatus(boolean isDelStatus) {
         this.isDelStatus = isDelStatus;
         notifyDataSetChanged();
+    }
+
+    public interface IDelButtonListener {
+        void clickDeleteButton(int position);
+    }
+
+    private IDelButtonListener mDelListener;
+
+    public void setDeleteButtonClickListener(IDelButtonListener listener) {
+        this.mDelListener = listener;
     }
 
 }
