@@ -18,12 +18,12 @@
             android:layout_margin="10dp"
             android:layout="@layout/layout_adjust_conbin_info" />
 
-        <ViewStub
+        <include
             android:id="@+id/create_portfolio_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout="@layout/layout_create_conbina_info" />
+            layout="@layout/layout_create_conbina_info" />
 
         <!-- 持仓组合 创建信息 end -->
 

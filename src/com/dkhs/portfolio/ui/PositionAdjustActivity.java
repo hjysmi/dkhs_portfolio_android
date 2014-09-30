@@ -36,6 +36,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
@@ -100,7 +101,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_positionadjust);
-    
 
         // handle intent extras
         Bundle extras = getIntent().getExtras();
@@ -156,33 +156,33 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private void initConbinationInfoView() {
+        etConbinationName = (EditText) findViewById(R.id.et_myconbina_name);
+        etConbinationDesc = (EditText) findViewById(R.id.et_myconbina_desc);
         if (isAdjustCombination) {
             setTitle(R.string.adjust_combination);
-            ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
-            if (viewstub != null) {
-                // viewstub.inflate();
-                View inflatedView = viewstub.inflate();
-                tvCreateTime = (TextView) inflatedView.findViewById(R.id.tv_create_time);
-                tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
-                // tvCreateTime.setText(text)
-                tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
-                // tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
-                tvCreateTime.setText(TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
-                TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
-                tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
-            }
-
+            // ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
+            // if (viewstub != null) {
+            // viewstub.inflate();
+            // View inflatedView = viewstub.inflate();
+            // tvCreateTime = (TextView) inflatedView.findViewById(R.id.tv_create_time);
+            // tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
+            // // tvCreateTime.setText(text)
+            // tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
+            // // tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
+            // tvCreateTime.setText(TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
+            // TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
+            // tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
+            // }
+            etConbinationName.setText(mPositionDetailBean.getPortfolio().getName());
+            etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDescription());
         } else {
             setTitle(R.string.create_combination);
-            ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
+            // ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
 
-            if (viewstub != null) {
-                View inflatedView = viewstub.inflate();
-                etConbinationName = (EditText) inflatedView.findViewById(R.id.et_myconbina_name);
-
-                etConbinationDesc = (EditText) inflatedView.findViewById(R.id.et_myconbina_desc);
-                //
-            }
+            // if (viewstub != null) {
+            // View inflatedView = viewstub.inflate();
+            //
+            // }
         }
     }
 
@@ -369,13 +369,22 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     private void adjustPositionDetailToServer() {
-        new MyCombinationEngineImpl().adjustCombination(mCombinationId, generateSymbols(), new BasicHttpListener() {
-            @Override
-            public void onSuccess(String result) {
-                Toast.makeText(PositionAdjustActivity.this, "调整持仓成功!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        MyCombinationEngineImpl engine = new MyCombinationEngineImpl();
+        engine.adjustCombination(mCombinationId, generateSymbols(), adjustListener);
+        String nameText = etConbinationName.getText().toString();
+        String descText = etConbinationDesc.getText().toString();
+        if (!nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
+                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDescription()))
+            engine.updateCombination(mCombinationId, nameText, descText, adjustListener);
     }
+
+    IHttpListener adjustListener = new BasicHttpListener() {
+        @Override
+        public void onSuccess(String result) {
+            Toast.makeText(PositionAdjustActivity.this, "调整持仓成功!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    };
 
     private List<SubmitSymbol> generateSymbols() {
         List<SubmitSymbol> symbols = new ArrayList<SubmitSymbol>();
