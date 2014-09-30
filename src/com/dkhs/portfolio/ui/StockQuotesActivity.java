@@ -97,7 +97,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void handleExtras(Bundle extras) {
         mStockBean = (SelectStockBean) extras.getSerializable(EXTRA_STOCK);
-
     }
 
     private void initView() {
