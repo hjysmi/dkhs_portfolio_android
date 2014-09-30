@@ -86,16 +86,22 @@ public class DataParse<T> {
     // }
 
     public static <K> List<K> parseJsonList(String userObject, Type listType) {
-        List<K> dataList = null;
+        try {
 
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+            List<K> dataList = null;
 
-        // Type listType = new TypeToken<List<T>>() {
-        // }.getType();
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-        dataList = gson.fromJson(userObject, listType);
+            // Type listType = new TypeToken<List<T>>() {
+            // }.getType();
 
-        return dataList;
+            dataList = gson.fromJson(userObject, listType);
+
+            return dataList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 
     /**
@@ -123,24 +129,30 @@ public class DataParse<T> {
      * @return
      */
     public static <K> List<K> parseArrayJson(Class<K> clazz, JSONArray array) {
-        if (array == null)
-            return Collections.emptyList();
+        try {
 
-        int length = array.length();
-        if (length == 0)
-            return Collections.emptyList();
+            if (array == null)
+                return Collections.emptyList();
 
-        List<K> list = new ArrayList<K>(length);
+            int length = array.length();
+            if (length == 0)
+                return Collections.emptyList();
 
-        Gson gson = new Gson();
-        String t = null;
-        for (int i = 0; i < length; i++) {
-            t = array.optString(i);
-            if (t != null) {
-                list.add(gson.fromJson(t, clazz));
+            List<K> list = new ArrayList<K>(length);
+
+            Gson gson = new Gson();
+            String t = null;
+            for (int i = 0; i < length; i++) {
+                t = array.optString(i);
+                if (t != null) {
+                    list.add(gson.fromJson(t, clazz));
+                }
             }
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return list;
+        return Collections.emptyList();
     }
 
     /**
@@ -177,8 +189,14 @@ public class DataParse<T> {
      * @return
      */
     public static <K> K parseObjectJson(Class<K> clazz, String jsonData) {
-        Gson gson = new Gson();
-        return gson.fromJson(jsonData, clazz);
+        try {
+
+            Gson gson = new Gson();
+            return gson.fromJson(jsonData, clazz);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 
     }
 
