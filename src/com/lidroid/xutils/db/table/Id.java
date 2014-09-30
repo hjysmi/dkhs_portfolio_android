@@ -15,11 +15,11 @@
 
 package com.lidroid.xutils.db.table;
 
-import com.lidroid.xutils.db.annotation.NoAutoIncrement;
-import com.lidroid.xutils.util.LogUtils;
-
 import java.lang.reflect.Field;
 import java.util.HashSet;
+
+import com.lidroid.xutils.db.annotation.NoAutoIncrement;
+import com.lidroid.xutils.util.LogUtils;
 
 public class Id extends Column {
 

@@ -15,13 +15,14 @@
 
 package com.lidroid.xutils.bitmap.callback;
 
+import java.lang.reflect.Method;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.animation.Animation;
-import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 
-import java.lang.reflect.Method;
+import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 
 public class DefaultBitmapLoadCallBack<T extends View> extends BitmapLoadCallBack<T> {
 

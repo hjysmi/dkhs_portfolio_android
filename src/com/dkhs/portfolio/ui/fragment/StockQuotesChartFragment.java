@@ -9,7 +9,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import android.app.Activity;
@@ -30,8 +29,6 @@ import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;

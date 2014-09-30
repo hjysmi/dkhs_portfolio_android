@@ -24,8 +24,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -151,10 +151,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
             mPositionDetail = (PositionDetail) savedInstanceState.getSerializable("detail");
 
         } else {
-//            new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+            // new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new
+            // QueryCombinationDetailListener());
 
         }
-        if(null!=mPositionDetail){
+        if (null != mPositionDetail) {
             System.out.println("mPositionDetail has date no need reload");
         }
 
@@ -241,6 +242,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
         initIncreaseList(view);
         initContributeView(view);
         initAdjustHistoryView(view);
+        ScrollView mScrollview = (ScrollView) view.findViewById(R.id.sc_content);
+        mScrollview.smoothScrollTo(0, 0);
         return view;
     }
 

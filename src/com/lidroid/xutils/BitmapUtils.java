@@ -15,6 +15,9 @@
 
 package com.lidroid.xutils;
 
+import java.io.File;
+import java.lang.ref.WeakReference;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -22,6 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
+
 import com.lidroid.xutils.bitmap.BitmapCacheListener;
 import com.lidroid.xutils.bitmap.BitmapCommonUtils;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
@@ -36,9 +40,6 @@ import com.lidroid.xutils.cache.FileNameGenerator;
 import com.lidroid.xutils.task.PriorityAsyncTask;
 import com.lidroid.xutils.task.PriorityExecutor;
 import com.lidroid.xutils.task.TaskHandler;
-
-import java.io.File;
-import java.lang.ref.WeakReference;
 
 public class BitmapUtils implements TaskHandler {
 

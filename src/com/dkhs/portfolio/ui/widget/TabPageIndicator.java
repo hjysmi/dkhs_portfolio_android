@@ -18,9 +18,6 @@ package com.dkhs.portfolio.ui.widget;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
-import com.dkhs.portfolio.R;
-
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -31,6 +28,8 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
 
 /**
  * This widget implements the dynamic action bar tab behavior that can change

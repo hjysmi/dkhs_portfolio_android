@@ -15,12 +15,12 @@
 
 package com.lidroid.xutils.db.sqlite;
 
+import java.util.List;
+
 import com.lidroid.xutils.db.table.ColumnUtils;
 import com.lidroid.xutils.db.table.Foreign;
 import com.lidroid.xutils.db.table.Table;
 import com.lidroid.xutils.exception.DbException;
-
-import java.util.List;
 
 public class ForeignLazyLoader<T> {
     private final Foreign foreignColumn;

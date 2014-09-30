@@ -15,10 +15,10 @@
 
 package com.lidroid.xutils.db.sqlite;
 
-import com.lidroid.xutils.db.table.TableUtils;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.lidroid.xutils.db.table.TableUtils;
 
 /**
  * Author: wyouflf

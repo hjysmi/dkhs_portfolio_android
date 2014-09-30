@@ -11,27 +11,16 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.bean.StockQuotesBean.BuyPrice;
 import com.dkhs.portfolio.bean.StockQuotesBean.SellPrice;
-import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName OptionalStockAdapter

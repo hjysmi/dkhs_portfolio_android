@@ -11,10 +11,6 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.TabPageIndicator;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,6 +18,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
 /**
  * @ClassName FragmentNews

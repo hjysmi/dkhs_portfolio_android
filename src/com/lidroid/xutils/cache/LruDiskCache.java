@@ -15,11 +15,24 @@
 
 package com.lidroid.xutils.cache;
 
-import com.lidroid.xutils.util.IOUtils;
-import com.lidroid.xutils.util.LogUtils;
-import org.apache.http.protocol.HTTP;
-
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,6 +42,11 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.http.protocol.HTTP;
+
+import com.lidroid.xutils.util.IOUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * A cache that uses a bounded amount of space on a filesystem. Each cache

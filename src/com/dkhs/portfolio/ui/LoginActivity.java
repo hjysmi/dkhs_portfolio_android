@@ -15,9 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.User;
-import com.dkhs.portfolio.engine.UserEngine;
-import com.dkhs.portfolio.utils.NetUtil;
 import com.lidroid.xutils.util.LogUtils;
 
 public class LoginActivity extends ModelAcitivity implements OnClickListener {

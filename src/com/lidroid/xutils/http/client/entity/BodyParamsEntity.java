@@ -15,16 +15,21 @@
 
 package com.lidroid.xutils.http.client.entity;
 
-import com.lidroid.xutils.http.client.util.URLEncodedUtils;
-import com.lidroid.xutils.util.LogUtils;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.lidroid.xutils.http.client.util.URLEncodedUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * Author: wyouflf

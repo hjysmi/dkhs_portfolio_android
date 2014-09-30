@@ -1,9 +1,5 @@
 package com.dkhs.portfolio.engine;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.DbUtils.DaoConfig;
-
 import android.os.Handler;
 import android.os.Message;
 

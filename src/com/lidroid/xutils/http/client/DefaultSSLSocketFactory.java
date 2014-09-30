@@ -1,14 +1,20 @@
 package com.lidroid.xutils.http.client;
 
-import com.lidroid.xutils.util.LogUtils;
-import org.apache.http.conn.ssl.SSLSocketFactory;
+import java.io.IOException;
+import java.net.Socket;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
-import java.net.Socket;
-import java.security.*;
+
+import org.apache.http.conn.ssl.SSLSocketFactory;
+
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * trust all certs

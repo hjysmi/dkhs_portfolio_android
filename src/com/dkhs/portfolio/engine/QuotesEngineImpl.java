@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.engine;
 
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;

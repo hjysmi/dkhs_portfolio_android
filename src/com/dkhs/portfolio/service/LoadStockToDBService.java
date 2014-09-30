@@ -8,21 +8,11 @@
  */
 package com.dkhs.portfolio.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @ClassName LoadStockToDBService

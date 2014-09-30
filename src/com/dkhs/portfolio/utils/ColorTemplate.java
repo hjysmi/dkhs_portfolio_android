@@ -2,11 +2,10 @@ package com.dkhs.portfolio.utils;
 
 import java.util.Random;
 
+import android.graphics.Color;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-
-import android.graphics.Color;
-import android.graphics.Path;
 
 public class ColorTemplate {
 

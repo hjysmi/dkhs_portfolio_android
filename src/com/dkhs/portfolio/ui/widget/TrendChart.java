@@ -18,10 +18,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
 
 public class TrendChart extends TrendGridChart {
     /** 显示数据线 */

@@ -8,12 +8,10 @@
  */
 package com.dkhs.portfolio.app;
 
+import android.app.Application;
+
 import com.dkhs.portfolio.service.LoadStockToDBService;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-
-import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 /**
  * @ClassName PortfolioApplication

@@ -4,19 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
-
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PointF;
-import android.graphics.RectF;
-import android.os.Handler;
 import android.util.AttributeSet;
 
 public class LineChart extends GridChart {

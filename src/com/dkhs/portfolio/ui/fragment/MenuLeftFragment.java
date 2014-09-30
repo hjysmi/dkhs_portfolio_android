@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.SettingActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,7 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.SettingActivity;
 
 public class MenuLeftFragment extends Fragment implements OnClickListener {
 	private String[] items;

@@ -15,15 +15,16 @@
 
 package com.lidroid.xutils.http.client.entity;
 
-import com.lidroid.xutils.http.callback.RequestCallBackHandler;
-import com.lidroid.xutils.util.IOUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.entity.HttpEntityWrapper;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.OutputStream;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.HttpEntityWrapper;
+
+import com.lidroid.xutils.http.callback.RequestCallBackHandler;
+import com.lidroid.xutils.util.IOUtils;
 
 /**
  * Common base class for decompressing {@link org.apache.http.HttpEntity} implementations.

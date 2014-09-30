@@ -20,6 +20,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
+
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 
 public abstract class BitmapLoadCallBack<T extends View> {

@@ -40,11 +40,9 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
-import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.google.gson.JsonObject;
 
 /**
  * @ClassName StockQuotesActivity

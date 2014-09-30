@@ -8,16 +8,9 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockPriceBean;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 
 /**
