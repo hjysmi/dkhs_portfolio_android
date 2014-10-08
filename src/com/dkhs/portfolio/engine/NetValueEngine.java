@@ -68,7 +68,7 @@ public class NetValueEngine {
         NameValuePair valuePair2 = new BasicNameValuePair("types", type);
         // params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, combinationId), null, params,
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, combinationId+""), null, params,
                 listener);
     }
 
@@ -78,7 +78,7 @@ public class NetValueEngine {
         // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", "508");
         NameValuePair valuePair = new BasicNameValuePair("portfolio_id", mConbinationId + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday ,mConbinationId ), null, null,
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday ,mConbinationId+"" ), null, null,
                 todayListener);
     }
 

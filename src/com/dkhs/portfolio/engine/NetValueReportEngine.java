@@ -69,7 +69,7 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
         // params.add(valuePair);
         params.add(valuePair2);
         params.add(valuePair3);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId + ""), null, params, this);
 
     }
 

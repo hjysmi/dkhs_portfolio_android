@@ -36,11 +36,11 @@ public class QuotesEngineImpl {
         // params.addBodyParameter("symbol", id + "");
         // params.addBodyParameter("buy_in", "0");
         // params.addBodyParameter("sell_out", "0");
-        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.StockSymbol.symbolfollow, id), params, listener);
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.StockSymbol.symbolfollow, id+""), params, listener);
     }
 
     public void delfollow(long id, IHttpListener listener) {
-        DKHSClient.request(HttpMethod.POST, MessageFormat.format(DKHSUrl.StockSymbol.unfollow, id), null, listener);
+        DKHSClient.request(HttpMethod.POST, MessageFormat.format(DKHSUrl.StockSymbol.unfollow, id+""), null, listener);
     }
 
     public void queryTimeShare(String stockCode, IHttpListener listener) {
