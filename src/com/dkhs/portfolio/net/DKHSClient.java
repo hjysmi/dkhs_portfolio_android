@@ -44,6 +44,7 @@ public class DKHSClient {
         }
         LogUtils.d("requestUrl:" + url);
 
+
         LogUtils.d("RequestParams:" + params);
         // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
         mHttpUtils.configDefaultHttpCacheExpiry(0);
