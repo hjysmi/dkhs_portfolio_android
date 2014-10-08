@@ -10,6 +10,7 @@
     <string name="loading">正在加载···</string>
     <string name="login">登陆</string>
     <string name="register">注册</string>
+    <string name="start">开始体验</string>
     <string name="status_detail_label">正文页</string>
     <string name="tv_forget_password"><u>忘记密码</u></string>
     <string name="account">邮箱/手机号</string>
