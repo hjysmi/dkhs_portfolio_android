@@ -15,14 +15,15 @@
 
 package com.lidroid.xutils.db.sqlite;
 
-import android.text.TextUtils;
-import com.lidroid.xutils.db.converter.ColumnConverterFactory;
-import com.lidroid.xutils.db.table.ColumnUtils;
-
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import android.text.TextUtils;
+
+import com.lidroid.xutils.db.converter.ColumnConverterFactory;
+import com.lidroid.xutils.db.table.ColumnUtils;
 
 /**
  * Author: wyouflf

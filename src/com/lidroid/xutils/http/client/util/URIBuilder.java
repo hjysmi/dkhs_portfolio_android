@@ -15,18 +15,20 @@
 
 package com.lidroid.xutils.http.client.util;
 
-import android.text.TextUtils;
-import com.lidroid.xutils.util.LogUtils;
-import org.apache.http.NameValuePair;
-import org.apache.http.conn.util.InetAddressUtils;
-import org.apache.http.message.BasicNameValuePair;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.conn.util.InetAddressUtils;
+import org.apache.http.message.BasicNameValuePair;
+
+import android.text.TextUtils;
+
+import com.lidroid.xutils.util.LogUtils;
 
 public class URIBuilder {
 

@@ -8,17 +8,13 @@
  */
 package com.dkhs.portfolio.utils;
 
-import java.util.Calendar;
-import java.util.TimeZone;
-
-import com.dkhs.portfolio.BuildConfig;
-import com.dkhs.portfolio.app.PortfolioApplication;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import com.dkhs.portfolio.BuildConfig;
 
 /**
  * @ClassName UiUtils

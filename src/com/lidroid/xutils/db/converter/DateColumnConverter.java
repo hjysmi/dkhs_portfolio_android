@@ -1,10 +1,11 @@
 package com.lidroid.xutils.db.converter;
 
+import java.util.Date;
+
 import android.database.Cursor;
 import android.text.TextUtils;
-import com.lidroid.xutils.db.sqlite.ColumnDbType;
 
-import java.util.Date;
+import com.lidroid.xutils.db.sqlite.ColumnDbType;
 
 /**
  * Author: wyouflf

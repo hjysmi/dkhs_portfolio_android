@@ -8,18 +8,17 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
-import com.dkhs.portfolio.ui.adapter.DiscussFlowAdapter;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.adapter.DiscussFlowAdapter;
 
 /**
  * @ClassName Fragment_discuss_flow

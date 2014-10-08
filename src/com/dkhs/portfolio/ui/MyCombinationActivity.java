@@ -143,6 +143,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 mCombinationAdapter.setDelStatus(true);
+                setButtonCancel();
                 return true;
             }
         });
@@ -249,25 +250,29 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     }
 
     private void clickRightButton() {
-        mCombinationAdapter.addItem();
-        // if (btnMore.getTag() != null && btnMore.getTag().equals("del")) {
-        // setButtonMore();
-        // mCombinationAdapter.getDelPosition().clear();
-        // mCombinationAdapter.setDelStatus(false);
-        // mCombinationAdapter.notifyDataSetChanged();
-        // setButtonRefresh();
-        // gvCombination.setOnItemClickListener(this);
-        // } else {
-        // showPopWindow();
-        // }
+        if (btnMore.getTag() != null && btnMore.getTag().equals("cancel")) {
+            mCombinationAdapter.setDelStatus(false);
+            setButtonAdd();
+        } else {
+            mCombinationAdapter.addItem();
+        }
 
     }
 
-    // private void setButtonMore() {
-    // btnMore.setTag("more");
-    // btnMore.setText("");
-    // btnMore.setBackgroundResource(R.drawable.nav_more_selector);
-    // }
+    private void setButtonAdd() {
+        btnMore.setTag("add");
+        btnMore.setText("");
+        btnMore.setBackgroundResource(R.drawable.ic_title_add);
+        btnRefresh.setVisibility(View.VISIBLE);
+    }
+
+    private void setButtonCancel() {
+        btnMore.setText(R.string.cancel);
+        btnMore.setTag("cancel");
+        btnMore.setBackgroundDrawable(null);
+
+        btnRefresh.setVisibility(View.GONE);
+    }
 
     private void setButtonRefresh() {
         btnRefresh.setTag("refresh");
@@ -366,7 +371,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void upateDelViewStatus() {
         setButtonRefresh();
-        // setButtonMore();
+        setButtonAdd();
 
         mCombinationAdapter.setDelStatus(false);
         mCombinationAdapter.notifyDataSetChanged();

@@ -3,8 +3,6 @@ package com.dkhs.portfolio.ui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dkhs.portfolio.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +11,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
 
 public class FindPasswrodActivity extends ModelAcitivity implements
 		OnClickListener {

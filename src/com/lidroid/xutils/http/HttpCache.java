@@ -15,11 +15,12 @@
 
 package com.lidroid.xutils.http;
 
-import android.text.TextUtils;
-import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.cache.LruMemoryCache;
-
 import java.util.concurrent.ConcurrentHashMap;
+
+import android.text.TextUtils;
+
+import com.lidroid.xutils.cache.LruMemoryCache;
+import com.lidroid.xutils.http.client.HttpRequest;
 
 /**
  * Author: wyouflf

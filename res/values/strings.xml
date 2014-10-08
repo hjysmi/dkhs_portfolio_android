@@ -96,6 +96,8 @@
     <string name="confirm_adjust">确定</string>
     <string name="today_netvalue">当日净值  </string>
     <string name="create_time">成立时间 </string>
+    <string name="create_time_format">成立时间 :%1$s</string>
+    <string name="descrition_format">简介:%1$s</string>
     <string name="select_fund">选择参照基金 </string>
     <string name="select_stock">选择参照个股 </string>
     <string name="search_fund_hint">股票代码或简拼 </string>

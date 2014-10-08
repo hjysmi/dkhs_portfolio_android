@@ -15,12 +15,11 @@
 
 package com.lidroid.xutils.http.client;
 
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.callback.RequestCallBackHandler;
-import com.lidroid.xutils.http.client.entity.UploadEntity;
-import com.lidroid.xutils.http.client.util.URIBuilder;
-import com.lidroid.xutils.util.LogUtils;
-import com.lidroid.xutils.util.OtherUtils;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.Charset;
+import java.util.List;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
@@ -29,10 +28,12 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.CloneUtils;
 import org.apache.http.protocol.HTTP;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.util.List;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.callback.RequestCallBackHandler;
+import com.lidroid.xutils.http.client.entity.UploadEntity;
+import com.lidroid.xutils.http.client.util.URIBuilder;
+import com.lidroid.xutils.util.LogUtils;
+import com.lidroid.xutils.util.OtherUtils;
 
 /**
  * Author: wyouflf

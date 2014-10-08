@@ -15,13 +15,20 @@
 
 package com.lidroid.xutils.task;
 
+import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import com.lidroid.xutils.util.LogUtils;
 
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicBoolean;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * Author: wyouflf

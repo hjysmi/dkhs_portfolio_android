@@ -7,8 +7,6 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 
-import com.lidroid.xutils.util.LogUtils;
-
 /**
  * @ClassName: ParseHttpListener
  * @Description: 用于实现子线程解析服务器返回数据，返回数据到主程序

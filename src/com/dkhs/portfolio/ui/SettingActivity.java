@@ -1,8 +1,8 @@
 package com.dkhs.portfolio.ui;
 
-import com.dkhs.portfolio.R;
-
 import android.os.Bundle;
+
+import com.dkhs.portfolio.R;
 
 public class SettingActivity extends ModelAcitivity {
     @Override

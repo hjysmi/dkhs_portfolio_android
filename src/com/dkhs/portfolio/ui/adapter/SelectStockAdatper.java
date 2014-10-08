@@ -13,7 +13,6 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;

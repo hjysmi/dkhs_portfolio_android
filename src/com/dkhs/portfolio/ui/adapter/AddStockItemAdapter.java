@@ -12,14 +12,9 @@ import java.util.List;
 
 import android.content.Context;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 
-import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
-import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.ui.BaseSelectActivity;
 
 /**
  * @ClassName AddStockItemAdapter

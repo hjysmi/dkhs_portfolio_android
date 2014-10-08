@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -19,6 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.kline.KChartsView;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 
 public class KChartsFragment extends Fragment {

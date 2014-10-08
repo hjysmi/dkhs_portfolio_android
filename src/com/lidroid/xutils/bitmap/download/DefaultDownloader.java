@@ -15,14 +15,18 @@
 
 package com.lidroid.xutils.bitmap.download;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
+
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.util.IOUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.util.OtherUtils;
-
-import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 
 public class DefaultDownloader extends Downloader {
 

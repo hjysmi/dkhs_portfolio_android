@@ -13,49 +13,31 @@
         android:paddingRight="15dp"
         android:paddingTop="5dp" >
 
-        <Button
-            android:id="@+id/btn_edit_combinname"
-            style="@style/hw_wrap"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/action_alias" />
+        <TextView
+            android:id="@+id/tv_combination_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:singleLine="true"
+            android:text="我的组合"
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_combination_time"
             style="@style/hw_wrap"
-            android:layout_alignBaseline="@+id/btn_edit_combinname"
-            android:layout_toLeftOf="@+id/btn_edit_combinname"
+            android:layout_alignBaseline="@+id/tv_combination_name"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/tv_combination_name"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_combination_desc"
             style="@style/hw_wrap"
-            android:layout_below="@+id/btn_edit_combinname"
+            android:layout_below="@+id/tv_combination_name"
             android:layout_marginTop="5dp"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
-
-        <EditText
-            android:id="@+id/et_combination_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btn_edit_combinname"
-            android:layout_marginRight="3dp"
-            android:layout_toLeftOf="@+id/tv_combination_time"
-            android:maxLength="8"
-            android:singleLine="true"
-            android:textSize="15sp"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_combination_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/btn_edit_combinname"
-            android:layout_toLeftOf="@+id/tv_combination_time"
-            android:singleLine="true"
-            android:text="我的组合"
-            android:textSize="15sp" />
     </RelativeLayout>
 
     <View style="@style/divider_line" />

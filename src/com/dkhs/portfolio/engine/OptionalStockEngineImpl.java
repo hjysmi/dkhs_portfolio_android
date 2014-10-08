@@ -17,18 +17,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.google.gson.JsonArray;
-import com.google.gson.annotations.SerializedName;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName StockEngineImpl

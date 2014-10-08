@@ -5,31 +5,16 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import android.os.Handler;
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
-import com.dkhs.portfolio.bean.User;
-import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.engine.UserEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.net.ParseHttpListener;
 import com.google.gson.Gson;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.lidroid.xutils.util.LogUtils;
 
 public class MyCombinationEngineImpl {
 
@@ -91,13 +76,13 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void updateCombination(String id, String name, IHttpListener listener) {
+    public void updateCombination(int id, String name,String desc, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("name", name);
-        // params.addBodyParameter("description", desc);
+         params.addBodyParameter("description", desc);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.update + id + "/", params, listener);
+        DKHSClient.request(HttpMethod.PUT, DKHSUrl.Portfolio.update + id , params, listener);
 
     }
 
@@ -115,7 +100,7 @@ public class MyCombinationEngineImpl {
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust + id + "/", params, listener);
+        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust + id + "/adjust_positions/", params, listener);
 
     }
 

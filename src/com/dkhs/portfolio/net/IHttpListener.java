@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.net;
 
-import org.json.JSONObject;
 
 public interface IHttpListener {
 

@@ -8,23 +8,17 @@
  */
 package com.dkhs.portfolio.net;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.common.ConstantValue;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -49,6 +43,7 @@ public class DKHSClient {
         	
         }
         LogUtils.d("requestUrl:" + url);
+
         LogUtils.d("RequestParams:" + params);
         // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
         mHttpUtils.configDefaultHttpCacheExpiry(0);
@@ -120,7 +115,7 @@ public class DKHSClient {
         if (params != null) {
             sbParams.append("?");
             for (NameValuePair p : params) {
-                sbParams.append('&').append(p.getName()).append('=').append(p.getValue());
+                sbParams.append(p.getName()).append('=').append(p.getValue()).append('&');
             }
             // sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
         }
