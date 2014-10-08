@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,8 +69,7 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
         // params.add(valuePair);
         params.add(valuePair2);
         params.add(valuePair3);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.report + mConbinationId + "/netvalue_history/", null,
-                params, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params, this);
 
     }
 

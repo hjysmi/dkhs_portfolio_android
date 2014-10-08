@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,13 +54,16 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType,null, params, this);
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist + "?exchange=1,2&sort=" + orderType, null, params,
+        // this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType), null, this);
     }
 
     @Override
     public void loadData() {
 
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType, null, this);
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType, null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType), null, this);
 
     }
 

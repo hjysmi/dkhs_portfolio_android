@@ -9,8 +9,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:checked="false"
+        android:switchTextAppearance="@style/SwitchTextAppearance"
         android:textOff="曲线"
-        android:textOn="报表" />
+        android:textOn="报表"
+        android:thumb="@drawable/theme_color"
+        android:track="@drawable/report_switch_inner" />
 
     <RelativeLayout
         android:id="@+id/chart_content"

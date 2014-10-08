@@ -287,9 +287,15 @@ public class TrendChart extends TrendGridChart {
                         // j=1,vlaueY=29.866665
                         // minvalue = 220,maxvalue=280
                         // valueY为Y坐标的值
+                        float hightPrecent = 0;
+                        if (this.getMaxValue() == this.getMinValue()) {
+                            hightPrecent = 0.5f;
+                        } else {
 
-                        float valueY = (float) ((1f - (value - this.getMinValue())
-                                / (this.getMaxValue() - this.getMinValue())) * (lineHeight));
+                            hightPrecent = (1f - (value - this.getMinValue())
+                                    / (this.getMaxValue() - this.getMinValue()));
+                        }
+                        float valueY = (float) (hightPrecent * (lineHeight));
                         valueY += mStartLineYpoint;
                         // valueY += mStartLineYpoint;
                         // if (dashLongitude) {

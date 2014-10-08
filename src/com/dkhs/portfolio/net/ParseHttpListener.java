@@ -143,7 +143,6 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
      * 
      * 
      * @Title: afterParseData
-     * @Description:
      * 该方法在主线程中执行，用于UI更新之类的操作
      * 在{@link #parseDateTask(JSONObject jsonData)}之后执行
      * @param object :{@link #parseDateTask(JSONObject jsonData)}中解析之后返回的数据对象

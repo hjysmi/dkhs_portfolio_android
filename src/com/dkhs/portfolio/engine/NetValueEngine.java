@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class NetValueEngine {
         NameValuePair valuePair2 = new BasicNameValuePair("types", type);
         // params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.queryDaily + combinationId + "/netvalue_daily_chart/", null, params,
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, combinationId), null, params,
                 listener);
     }
 
@@ -77,7 +78,7 @@ public class NetValueEngine {
         // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", "508");
         NameValuePair valuePair = new BasicNameValuePair("portfolio_id", mConbinationId + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.queryToday + mConbinationId + "/netvalue_realtime_chart", null, null,
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday ,mConbinationId ), null, null,
                 todayListener);
     }
 
