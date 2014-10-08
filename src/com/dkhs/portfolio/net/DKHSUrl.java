@@ -56,8 +56,7 @@ public class DKHSUrl {
         String profile = "/api/v1/symbols/profile/";
 
         // k线图数据
-        String kline_pre = "/api/v1/symbols/";
-        String kline_after = "/k_line/";
+        String kline = "/api/v1/symbols/{0}/k_line/";
 
         // GET /api/v1/quotes/fs_thumbnail/SZ000002/
         // 返回当日缩略图分时数据
