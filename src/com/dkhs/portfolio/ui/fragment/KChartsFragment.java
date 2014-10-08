@@ -3,12 +3,25 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.ui.widget.kline.KChartsView;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
@@ -16,10 +29,31 @@ import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 
 public class KChartsFragment extends Fragment {
+	public static final int TYPE_CHART_DAY = 1;
+	public static final int TYPE_CHART_WEEK = 2;
+	public static final int TYPE_CHART_MONTH = 3;
 	private KChartsView mMyChartsView;
+	private Integer type = TYPE_CHART_DAY; //类型，日K线，周k先，月k线
+	private String mStockCode; //股票code
+	 private QuotesEngineImpl mQuotesDataEngine;
+	
+	public static final boolean testInterface = false; //测试，使用本地数据
+	
 
-	public static KChartsFragment getKChartFragment() {
-		return new KChartsFragment();
+	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
+		KChartsFragment fg = new KChartsFragment();
+		fg.setType(type);
+		fg.setStockCode(stockcode);
+		return fg;
+	}
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		if(mQuotesDataEngine == null) {
+			mQuotesDataEngine = new QuotesEngineImpl();
+		}
 	}
 	
 	@Override
@@ -45,6 +79,126 @@ public class KChartsFragment extends Fragment {
 			}
 		});
 
+		List<OHLCEntity> ohlc = getOHLCDatas();
+		refreshChartsView(ohlc);
+
+		return view;
+	}
+	
+	/**
+	 * 刷新k线图控件
+	 * @param ohlc
+	 */
+	private void refreshChartsView(List<OHLCEntity> ohlc) {
+		mMyChartsView.setOHLCData(ohlc);
+		mMyChartsView.setShowLowerChartTabs(false);
+		mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
+		mMyChartsView.postInvalidate();		
+	}
+
+	/**
+	 * 获取k线数据
+	 * @return
+	 */
+	private List<OHLCEntity> getOHLCDatas() {
+		//测试，使用写死数据
+		if(testInterface) {
+			return getTestDatas();
+		}
+		
+		//测试
+//		mStockCode = "SZ002252";
+		//获取K线类型，日，周，月
+		String mtype = getKLineType();
+		mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
+		return null;
+	}
+	
+	/**
+	 * 获取K线类型，日，周，月
+	 * @return
+	 */
+	private String getKLineType() {
+		switch (type) {
+		case TYPE_CHART_DAY:
+			return "d";
+		case TYPE_CHART_WEEK:
+			return "w";
+		case TYPE_CHART_MONTH:
+			return "m";
+		default:
+			break;
+		}
+		return "d";
+	}
+	
+	private IHttpListener mKlineHttpListener = new IHttpListener() {
+		
+		@Override
+		public void onHttpSuccess(String jsonObject) {
+			//解析json todo：此处应该放到线程中处理
+			List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonObject);
+			refreshChartsView(ohlc);
+		}
+		
+		/**
+		 * 从json中解析k线数据
+		 * @param jsonObject
+		 * @return
+		 */
+		private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
+			List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
+			if(jsonObject == null || jsonObject.trim().length() == 0) {
+				return entitys;
+			}
+			
+			try {
+				JSONArray ja = new JSONArray(jsonObject);
+				int len = ja.length();
+				if(len > 0) {
+					JSONObject jo = null;
+					OHLCEntity ohlc = null;
+					for(int i=0; i<len; i++) {
+						jo = ja.getJSONObject(i);
+						if(jo != null) {
+							ohlc = new OHLCEntity();
+							if(jo.has("open"))
+								ohlc.setOpen(jo.getDouble("open"));
+							if(jo.has("high"))
+								ohlc.setHigh(jo.getDouble("high"));
+							if(jo.has("low"))
+								ohlc.setLow(jo.getDouble("low"));
+							if(jo.has("close"))
+								ohlc.setClose(jo.getDouble("close"));
+							if(jo.has("tradedate"))
+								ohlc.setDate(jo.getString("tradedate"));
+							entitys.add(ohlc);
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return entitys;
+		}
+
+		@Override
+		public void onHttpFailure(int errCode, Throwable err) {
+			Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+		}
+		
+		@Override
+		public void onHttpFailure(int errCode, String errMsg) {
+			Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+		}
+	};
+
+	/**
+	 * 测试数据
+	 * @return
+	 */
+	private List<OHLCEntity> getTestDatas() {
 		List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
 		ohlc.add(new OHLCEntity(246, 248, 235, 235, "20110825"));
 		ohlc.add(new OHLCEntity(240, 242, 236, 242, "20110824"));
@@ -148,16 +302,9 @@ public class KChartsFragment extends Fragment {
 		ohlc.add(new OHLCEntity(273, 276, 272, 276, "20110406"));
 		ohlc.add(new OHLCEntity(275, 276, 271, 272, "20110404"));
 		ohlc.add(new OHLCEntity(275, 276, 273, 275, "20110401"));
-
-		mMyChartsView.setOHLCData(ohlc);
-		mMyChartsView.setShowLowerChartTabs(false);
-		mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
-		mMyChartsView.postInvalidate();
-
-		return view;
+		return ohlc;
 	}
-	
-	
+
 	public void large(View view) {
 		mMyChartsView.makeLager();
 	}
@@ -165,4 +312,24 @@ public class KChartsFragment extends Fragment {
 	public void small(View view) {
 		mMyChartsView.makeSmaller();
 	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public String getStockCode() {
+		return mStockCode;
+	}
+
+	public void setStockCode(String mStockCode) {
+		this.mStockCode = mStockCode;
+	}
+
+	
+	
+	
 }
