@@ -47,4 +47,16 @@ public class QuotesEngineImpl {
         DKHSClient.requestByGet(DKHSUrl.StockSymbol.sfthumbnail + stockCode + "/time_line/?period=1", null, listener);
 
     }
+    
+    /**
+     * 获取k线图数据
+     * @param type 类型 d，w，m
+     * @param stockid 股票id
+     * @param listener
+     */
+    public void queryKLine(String type,String stockid,IHttpListener listener) {
+    	 String url = DKHSUrl.BASE_URL + DKHSUrl.StockSymbol.kline_pre +stockid+
+    			 DKHSUrl.StockSymbol.kline_after+"?period="+type;
+    	 DKHSClient.requestByGet(url, null, listener);
+    }
 }

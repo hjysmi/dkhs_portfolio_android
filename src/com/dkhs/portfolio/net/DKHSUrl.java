@@ -17,7 +17,7 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    static final String BASE_URL = "http://192.168.107.251:8002";
+    public static final String BASE_URL = "http://192.168.107.251:8002";
 
     public interface Portfolio {
         // 查询我的组合
@@ -40,7 +40,9 @@ public class DKHSUrl {
         String optional = "/api/v1/symbols/following/";
         // 股票列表查询
         // /api/v1/quotes/symbols/{exchange}/{sort}/
+
 //        http://192.168.107.251:8002/api/v1/symbols/?exchange=1&sort=change
+
         String stocklist = "/api/v1/symbols/";
 
         // 查股票实时行情信息，包含5档信息
@@ -53,10 +55,15 @@ public class DKHSUrl {
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/symbols/profile/";
 
+        //k线图数据
+        String kline_pre = "/api/v1/symbols/";
+        String kline_after = "/k_line/";
+
         // GET /api/v1/quotes/fs_thumbnail/SZ000002/
         // 返回当日缩略图分时数据
         //http://192.168.107.251:8002/api/v1/symbols/SZ000002/time_line/?period=1
         String sfthumbnail = "/api/v1/symbols/";
+
     }
 
     public interface NetValue {
