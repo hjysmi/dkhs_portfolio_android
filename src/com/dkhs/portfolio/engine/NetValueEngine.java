@@ -28,7 +28,7 @@ import com.dkhs.portfolio.net.IHttpListener;
  */
 public class NetValueEngine {
 
-    private int mConbinationId;
+    private String mConbinationId;
 
     /**
      * @Title
@@ -36,7 +36,7 @@ public class NetValueEngine {
      * @param id
      */
     public NetValueEngine(int id) {
-        mConbinationId = id;
+        mConbinationId = String.valueOf(id);
     }
 
     /**
@@ -61,24 +61,18 @@ public class NetValueEngine {
     }
 
     // http://192.168.107.251:8000/api/v1/portfolio/query_daily_netvalue/?portfolio_id=525&types=0
-    public void requeryNetValue(int combinationId, String type, IHttpListener listener) {
+    public void requeryNetValue(String combinationId, String type, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", combinationId + "");
-        // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", 508 + "");
-        NameValuePair valuePair2 = new BasicNameValuePair("types", type);
-        // params.add(valuePair);
-        params.add(valuePair2);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, combinationId+""), null, params,
+        NameValuePair valuePair = new BasicNameValuePair("types", type);
+        params.add(valuePair);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, combinationId), null, params,
                 listener);
     }
 
     public void requeryToday(IHttpListener todayListener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
-        // test
-        // NameValuePair valuePair = new BasicNameValuePair("portfolio_id", "508");
-        NameValuePair valuePair = new BasicNameValuePair("portfolio_id", mConbinationId + "");
-        params.add(valuePair);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday ,mConbinationId+"" ), null, null,
+
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryToday, mConbinationId), null, null,
                 todayListener);
     }
 

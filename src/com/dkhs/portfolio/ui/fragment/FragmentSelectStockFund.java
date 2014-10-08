@@ -197,16 +197,16 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mViewType = bundle.getInt(ARGUMENT_LOAD_TYPE);
         }
-        if (isFund) {
+        if (isItemClickBack) {
+            mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
+        } else if (isFund) {
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
         }
-        if (isItemClickBack) {
-            mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
-        }
+
         mAdapterConbinStock.setCheckChangeListener(this);
         // if (mViewType != ViewType.SEARCH_STOCK.getTypeId() || mViewType != ViewType.SEARCH_FUND.getTypeId()) {
         initData();

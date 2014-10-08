@@ -61,7 +61,7 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
 
     @Override
     protected FragmentSearchStockFund getSearchFragment() {
-        return FragmentSearchStockFund.getStockFragment();
+        return FragmentSearchStockFund.getItemClickBackFragment();
     }
 
     @Override
