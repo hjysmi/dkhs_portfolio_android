@@ -10,10 +10,12 @@
         android:layout_alignParentBottom="true"
         layout="@layout/layout_combination_bottom_tab" />
 
-    <FrameLayout
-        android:id="@+id/combination_contentview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <com.dkhs.portfolio.ui.widget.ScrollViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_above="@+id/combination_bottom_view" />
+
+
 
 </RelativeLayout>
