@@ -2,6 +2,8 @@ package com.dkhs.portfolio.bean;
 
 public class UserEntity {
 
+	private long id;
+	
 	/**
 	 * 昵称
 	 */
@@ -41,6 +43,13 @@ public class UserEntity {
 	 */
 	private String avatar_xs;
 	private String access_token;
+	
+	public long getId() {
+		return id;
+	}
+	public void setId(long id) {
+		this.id = id;
+	}
 	public String getAccess_token() {
 		return access_token;
 	}

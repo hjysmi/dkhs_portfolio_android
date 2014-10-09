@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 
 public class NoAccountMainActivity extends ModelAcitivity implements OnClickListener {
 
@@ -13,9 +14,10 @@ public class NoAccountMainActivity extends ModelAcitivity implements OnClickList
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		hideHead();
 		findViewById(R.id.login).setOnClickListener(this);
 		findViewById(R.id.register).setOnClickListener(this);
-		
+		PortfolioApplication.getInstance().clearActivities();
 	}
 
 
@@ -28,9 +30,9 @@ public class NoAccountMainActivity extends ModelAcitivity implements OnClickList
 			
 			break;
 		case R.id.register:
-//			Intent intent = new Intent(this, RLFActivity.class);
-//			intent.putExtra("activity_type", RLFActivity.REGIST_TYPE);
-//			startActivity(intent);
+			Intent intent = new Intent(this, RLFActivity.class);
+			intent.putExtra("activity_type", RLFActivity.REGIST_TYPE);
+			startActivity(intent);
 			break;
 
 		default:

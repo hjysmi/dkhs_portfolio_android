@@ -58,20 +58,19 @@ public class SplashActivity extends ModelAcitivity {
 
 	};
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		hideHead();
 		init();
 	}
-
-
 
 	private void init() {
 		UserEntity user;
 		try {
-			user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+			user = DbUtils.create(PortfolioApplication.getInstance())
+					.findFirst(UserEntity.class);
 			if (user != null) {
 				if (!TextUtils.isEmpty(user.getAccess_token())) {
 					user = UserEntityDesUtil.decode(user, "ENCODE",
@@ -79,10 +78,12 @@ public class SplashActivity extends ModelAcitivity {
 					GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
 					GlobalParams.MOBILE = user.getMobile();
 					// 直接登陆
-
+					mHandler.sendEmptyMessageDelayed(GO_ACCOUNT_MAIN,
+							SPLASH_DELAY_MILLIS);
 				} else {
 					// 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
-					mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, SPLASH_DELAY_MILLIS);
+					mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN,
+							SPLASH_DELAY_MILLIS);
 				}
 			} else {
 				// 读取SharedPreferences中需要的数据
@@ -96,16 +97,17 @@ public class SplashActivity extends ModelAcitivity {
 				// 判断程序与第几次运行，如果是第一次运行则跳转到引导界面，否则跳转到主界面
 				if (!isFirstIn) {
 					// 使用Handler的postDelayed方法，2秒后执行跳转到MainActivity
-					mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN, SPLASH_DELAY_MILLIS);
+					mHandler.sendEmptyMessageDelayed(GO_NOACCOUNT_MAIN,
+							SPLASH_DELAY_MILLIS);
 				} else {
-					mHandler.sendEmptyMessageDelayed(GO_GUIDE, SPLASH_DELAY_MILLIS);
+					mHandler.sendEmptyMessageDelayed(GO_GUIDE,
+							SPLASH_DELAY_MILLIS);
 				}
 			}
 		} catch (DbException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
 	}
 
@@ -123,8 +125,7 @@ public class SplashActivity extends ModelAcitivity {
 	}
 
 	private void goAccountMain() {
-		Intent intent = new Intent(SplashActivity.this,
-				MainActivity.class);
+		Intent intent = new Intent(SplashActivity.this, MainActivity.class);
 		SplashActivity.this.startActivity(intent);
 		SplashActivity.this.finish();
 	}

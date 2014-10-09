@@ -35,7 +35,7 @@ public class GuideActivity extends ModelAcitivity implements OnPageChangeListene
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.guide);
-
+		hideHead();
 		// 初始化页面
 		initViews();
 

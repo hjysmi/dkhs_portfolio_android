@@ -73,4 +73,20 @@ public class DKHSUrl {
         ///api/v1/portfolio/{pk}/netvalue_history/
         String report = "/api/v1/portfolio/";
     }
+    
+    public interface User {
+        // 登录
+        String login = "/api/v1/accounts/login/";
+        // 注册
+        String register = "/api/v1/accounts/signup/";
+        // 获取验证码
+        String get_vericode = "/api/v1/accounts/new_mobile_captcha/";
+        // 是否设置过密码
+        String is_setpassword = "/api/v1/accounts/is_password_set/";
+        // 设置密码
+        String setpassword = "/api/v1/accounts/set_password/";
+        //修改密码
+        String changepassword = "/api/v1/accounts/change_password/";
+
+    }
 }

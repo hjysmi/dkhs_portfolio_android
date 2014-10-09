@@ -15,7 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.MainActivity;
+import com.dkhs.portfolio.ui.NoAccountMainActivity;
 
 /**
  * 
@@ -78,7 +78,7 @@ public class GuideViewPagerAdapter extends PagerAdapter {
 
 	private void goHome() {
 		// 跳转
-		Intent intent = new Intent(activity, MainActivity.class);
+		Intent intent = new Intent(activity, NoAccountMainActivity.class);
 		activity.startActivity(intent);
 		activity.finish();
 	}
