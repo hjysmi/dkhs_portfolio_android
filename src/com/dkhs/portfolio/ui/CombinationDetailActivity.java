@@ -40,7 +40,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 public class CombinationDetailActivity extends ModelAcitivity implements OnClickListener {
 
     private static final float DOWN_SCALE = 1.0f;
-    private Button btnMore;
+    // private Button btnMore;
     private View btnPreBottom;
     private Fragment mPreFragment;
     private TextView tvTitleView;
@@ -84,8 +84,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void initView() {
-        btnMore = getRightButton();
-        btnMore.setBackgroundResource(R.drawable.nav_more_selector);
+        // btnMore = getRightButton();
+        // btnMore.setBackgroundResource(R.drawable.nav_more_selector);
 
         btnPreBottom = findViewById(R.id.btn_trend);
         btnPreBottom.setEnabled(false);

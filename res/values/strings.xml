@@ -133,5 +133,9 @@
     <string name="netvalue_comtribute">净值贡献</string>
     <string name="accumulative_comtribute">累计贡献</string>
     <string name="surplus_capital_ratio">剩余资金占比</string>
+    <string name="data_deficient">数据不足</string>
+    <string name="current_netvalue">当前净值:</string>
+    <string name="today_increase">今日增长:</string>
+    <string name="today_in_rote">今日涨幅:</string>
 
 </resources>

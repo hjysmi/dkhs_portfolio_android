@@ -61,6 +61,7 @@ public class TrendChartFragment extends Fragment {
     private String trendType;
     private boolean isTodayNetValue;
     private TextView tvTimeLeft;
+    private TextView tvNoData;
     private TextView tvTimeRight;
     private TextView tvNetValue;
     private TextView tvUpValue;
@@ -155,6 +156,7 @@ public class TrendChartFragment extends Fragment {
         tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
         tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
         tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
+        tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
     }
 
     private void setupViewData() {
@@ -382,7 +384,7 @@ public class TrendChartFragment extends Fragment {
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         lineDataList.clear();
-        float baseNum = historyNetValue.getBegin();
+        float baseNum = historyNetValue.getEnd();
         float maxNum = baseNum, minNum = baseNum;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
@@ -484,9 +486,11 @@ public class TrendChartFragment extends Fragment {
             if (object != null) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() > 1) {
+                if (dayNetValueList != null && dayNetValueList.size() < 7){
+                    tvNoData.setVisibility(View.VISIBLE);
+                }else {
                     int sizeLength = dayNetValueList.size();
-                    setYTitle(object.getBegin(), getMaxOffetValue(object));
+                    setYTitle(object.getEnd(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setLineData(lineDataList);
                     String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());

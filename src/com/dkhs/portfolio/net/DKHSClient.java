@@ -37,7 +37,7 @@ public class DKHSClient {
             params = new RequestParams();
         }
 
-        params.addHeader("Authorization", "Bearer " + "8e1a8c0c56c2ef067428d2eb92e7bbf45d12728c");
+        params.addHeader("Authorization", "Bearer " + "cc49391bb1cf492d87eae9c802e7132e51bd417e");
         String requestUrl = getAbsoluteUrl(url);
 
         LogUtils.d("requestUrl:" + requestUrl);

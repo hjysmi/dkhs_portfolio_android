@@ -47,7 +47,7 @@
                 android:id="@+id/tv_netvalue_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="当前净值:"
+                android:text="@string/current_netvalue"
                 android:textSize="12sp" />
 
             <TextView
@@ -56,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tv_netvalue_text"
                 android:layout_toRightOf="@+id/tv_netvalue_text"
-                android:text="21.52"
                 android:textColor="@color/red"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -70,7 +69,7 @@
                 android:id="@+id/tv_updown_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今日增长:"
+                android:text="@string/today_increase"
                 android:textSize="12sp" />
 
             <TextView
@@ -79,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tv_updown_text"
                 android:layout_toRightOf="@+id/tv_updown_text"
-                android:text="+1.5212"
                 android:textColor="@color/red"
                 android:textSize="14sp" />
         </RelativeLayout>
@@ -93,7 +91,7 @@
                 android:id="@+id/tv_increase_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="今日涨幅:"
+                android:text="@string/today_in_rote"
                 android:textSize="12sp" />
 
             <TextView
@@ -102,18 +100,31 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tv_increase_text"
                 android:layout_toRightOf="@+id/tv_increase_text"
-                android:text="1.52%"
                 android:textColor="@color/red"
                 android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
 
-    <com.dkhs.portfolio.ui.widget.TrendChart
-        android:id="@+id/machart"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/rl_trend_info"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="2dp" >
+
+        <com.dkhs.portfolio.ui.widget.TrendChart
+            android:id="@+id/machart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <TextView
+            android:id="@+id/tv_nodate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/data_deficient"
+            android:textSize="32sp"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </RelativeLayout>
