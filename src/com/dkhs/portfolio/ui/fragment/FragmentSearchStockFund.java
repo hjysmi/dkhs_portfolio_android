@@ -11,15 +11,18 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -27,9 +30,13 @@ import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter;
+import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -43,6 +50,9 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
+    private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
+
+    private boolean isItemClickBack;
 
     private ListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
@@ -72,6 +82,15 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         return fragment;
     }
 
+    public static FragmentSearchStockFund getItemClickBackFragment() {
+        FragmentSearchStockFund fragment = new FragmentSearchStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public void searchByKey(String key) {
         mDataList.clear();
 
@@ -92,9 +111,13 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
         if (null != bundle) {
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
+            isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
+
         }
         if (isFund) {
             mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList);
+        } else if (isItemClickBack) {
+            mAdapterConbinStock = new AddSearchItemAdapter(getActivity(), mDataList);
         } else {
             mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList);
         }
@@ -114,6 +137,25 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         }
 
     };
+
+    OnItemClickListener itemBackClick = new OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            SelectStockBean itemStock = mDataList.get(position);
+            setSelectBack(itemStock);
+            System.out.println("OnItemClickListener itemBackClick ");
+        }
+    };
+    public static final String ARGUMENT = "ARGUMENT";
+
+    private void setSelectBack(SelectStockBean type) {
+        Intent intent = new Intent();
+        intent.putExtra(ARGUMENT, type);
+        getActivity().setResult(-1, intent);
+
+        getActivity().finish();
+    }
 
     public void setCheckListener(ISelectChangeListener listener) {
         if (null != mAdapterConbinStock)
@@ -151,7 +193,10 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         // mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);
-
+        if (isItemClickBack) {
+            mListView.setOnItemClickListener(itemBackClick);
+            // System.out.println("     mListView.setOnItemClickListener(itemBackClick);");
+        }
         // mListView.removeFooterView(mFootView);
 
     }
