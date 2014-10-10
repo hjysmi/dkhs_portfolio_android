@@ -2,6 +2,7 @@ package com.dkhs.portfolio.utils;
 
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 /**
  * class name：SIMCardInfo<BR>
@@ -45,6 +46,8 @@ public class SIMCardInfo {
 		// 返回唯一的用户ID;就是这张卡的编号神马的
 		IMSI = telephonyManager.getSubscriberId();
 		// IMSI号前面3位460是国家，紧接着后面2位00 02是中国移动，01是中国联通，03是中国电信。
+		if(TextUtils.isEmpty(IMSI))
+			return null;
 		System.out.println(IMSI);
 		if (IMSI.startsWith("46000") || IMSI.startsWith("46002")) {
 			ProvidersName = "中国移动";

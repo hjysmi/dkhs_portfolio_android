@@ -18,6 +18,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -313,7 +314,7 @@ public class TrendChartFragment extends Fragment {
                     // String dateStr = lasttime.substring(0, zIndex);
                     tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
                             + calender.get(Calendar.DAY_OF_MONTH));
-                    String timeStr = calender.get(Calendar.HOUR) + ":" + (calender.get(Calendar.MINUTE) );
+                    String timeStr = calender.get(Calendar.HOUR) + ":" + (calender.get(Calendar.MINUTE));
                     tvTimeRight.setText(timeStr);
                 }
 
@@ -511,7 +512,17 @@ public class TrendChartFragment extends Fragment {
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
-        xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
+        // xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
+        System.out.println("list size:" + (dayNetValueList.size() - 1));
+        // System.out.println("list size:"+(dayNetValueList.size() - 1));
+        String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
+        System.out.println("endDate:" + endDate);
+        if (TextUtils.isEmpty(endDate)) {
+            xtitle.add("");
+        } else {
+            xtitle.add(endDate);
+
+        }
         xtitle.add(dayNetValueList.get(0).getDate());
         mMaChart.setMaxPointNum(dayNetValueList.size());
         mMaChart.setAxisXTitles(xtitle);

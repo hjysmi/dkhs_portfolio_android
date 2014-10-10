@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,11 +32,11 @@ import com.google.gson.reflect.TypeToken;
  */
 public class NetValueReportEngine extends LoadMoreDataEngine {
 
-    private int mConbinationId;
+    private String mConbinationId;
 
     public NetValueReportEngine(int id, ILoadDataBackListener loadListener) {
         super(loadListener);
-        this.mConbinationId = id;
+        this.mConbinationId = String.valueOf(id);
     }
 
     /**
@@ -68,8 +69,7 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
         // params.add(valuePair);
         params.add(valuePair2);
         params.add(valuePair3);
-        DKHSClient.requestByGet(DKHSUrl.NetValue.report + mConbinationId + "/netvalue_history/", null,
-                params, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params, this);
 
     }
 

@@ -6,6 +6,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.MainFragment;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 
@@ -34,6 +35,9 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         }
         mainFragment.setTitleClickListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, mainFragment).commit();
+        //删除之前的activity,防止返回键退回到登录界面
+        PortfolioApplication.getInstance().clearActivities();
+        PortfolioApplication.getInstance().addActivity(this);
     }
 
     /**

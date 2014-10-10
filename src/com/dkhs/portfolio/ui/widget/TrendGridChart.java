@@ -437,9 +437,10 @@ public class TrendGridChart extends View {
 
                 if (displayAxisXTitle) {
 
-                    if (i == 0) {
-
+                    if (i == 0&&axisXTitles.size()>0) {
+                        
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset, offsetX, mXTitlePaint);
+
                     } else if (i < axisXTitles.size()) {
 
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset - offetText, offsetX, mXTitlePaint);
@@ -451,7 +452,7 @@ public class TrendGridChart extends View {
     }
 
     /**
-     * 获取X轴刻度�??,�?�??�最大1
+     * 
      * 
      * @param value
      * @return

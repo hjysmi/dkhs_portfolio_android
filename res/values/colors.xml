@@ -61,6 +61,7 @@
     <color name="rounded_container_border">#3b3f44</color>
     <color name="light_gray_header_color">#646663</color>
     <color name="tabselect">#3A3743</color>
+    <color name="blue">#1791d2</color>
 
     <drawable name="gray">#4d4c4d</drawable>
     <drawable name="theme_color">#262932</drawable>
