@@ -19,7 +19,7 @@
             android:layout_width="290dip"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
-            android:hint="@string/account"
+            android:hint="@string/hint_account"
             android:singleLine="true" />
 
         <EditText
@@ -45,38 +45,36 @@
         android:textColor="@drawable/text_color_selector"
         android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/login"
-        android:layout_width="290dip"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_forget"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dip"
-        android:background="@drawable/button_login"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/tv_noaccout"
+    <LinearLayout
+        android:id="@+id/ll_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dip"
-        android:text="@string/noaccout"
-        android:textSize="16sp" />
+        android:layout_alignLeft="@id/ll_edit"
+        android:layout_below="@id/tv_forget"
+        android:layout_centerInParent="true"
+        android:orientation="vertical" >
 
-    <Button
-        android:id="@+id/register"
-        android:layout_width="290dip"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_noaccout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dip"
-        android:background="@drawable/button_register"
-        android:text="@string/register"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        <Button
+            android:id="@+id/login"
+            android:layout_width="290dip"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/button_login"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+
+        <!-- <Button
+            android:id="@+id/register"
+            android:layout_width="290dip"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dip"
+            android:background="@drawable/button_register_main"
+            android:text="@string/register"
+            android:textColor="@color/white"
+            android:textSize="18sp" /> -->
+    </LinearLayout>
+
 
 </RelativeLayout>

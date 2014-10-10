@@ -31,7 +31,7 @@
 
         <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
 
-        <activity android:name="com.dkhs.portfolio.ui.MainActivity" >
+        <activity android:name="com.dkhs.portfolio.ui.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,6 +39,12 @@
             </intent-filter>
         </activity>
         <!-- <activity android:name="com.dkhs.portfolio.ui.MainActivity" /> -->
+        <activity android:name="com.dkhs.portfolio.ui.MainActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.NoAccountMainActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.RLFActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.SetPasswordActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.RegisterSuccessActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.GuideActivity" />
         <activity android:name="com.dkhs.portfolio.ui.LoginActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />

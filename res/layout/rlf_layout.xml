@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2" >
+
+    <RelativeLayout
+        android:id="@+id/rl_mobile"
+        android:layout_width="290dip"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/edit_text_bg" >
+
+        <TextView
+            android:layout_width="50dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:text="@string/mobile"
+            android:textColor="#000000"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_mobile"
+            android:layout_width="220dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@null"
+            android:hint="@string/hint_mobile"
+            android:inputType="number"
+            android:singleLine="true"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_verifycode"
+        android:layout_width="290dip"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_mobile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dip" >
+
+        <RelativeLayout
+            android:layout_width="160dip"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/edit_text_bg" >
+
+            <TextView
+                android:id="@+id/tv_verifycode"
+                android:layout_width="50dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:text="@string/verify_code"
+                android:textColor="#000000"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/et_verifycode"
+                android:layout_width="90dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dip"
+                android:background="@null"
+                android:hint="@string/hint_verify_code"
+                android:inputType="number"
+                android:singleLine="true"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/button_getcode"
+            android:layout_width="120dip"
+            android:layout_height="40dip"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/button_normal_blue"
+            android:gravity="center"
+            android:text="@string/get_code"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    
+    
+
+    <LinearLayout
+        android:id="@+id/ll_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:layout_below="@id/rl_verifycode"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/rlbutton"
+            android:layout_width="290dip"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/button_normal_blue"
+            android:clickable="false"
+            android:gravity="center"
+            android:text="@string/register"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</RelativeLayout>

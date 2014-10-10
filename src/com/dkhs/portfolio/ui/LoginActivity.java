@@ -3,10 +3,11 @@ package com.dkhs.portfolio.ui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.ConstantValue;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.NetUtil;
+import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 
 public class LoginActivity extends ModelAcitivity implements OnClickListener {
@@ -23,45 +36,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 	public static final int RESPONSE_REGIST = 1;
 	private TextView username;
 	private TextView password;
-	private Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			// PromptManager.closeProgressDialog();
-			// switch (msg.what) {
-			// case ConstantValue.HTTP_OK:
-			// AccessTokenEntity entity = (AccessTokenEntity) msg.obj;
-			// DbUtils db = DbUtils.create(LoginActivity.this);
-			// try {
-			// AccessTokenEntity findFirst =
-			// db.findFirst(AccessTokenEntity.class);
-			// if (findFirst != null) {
-			// db.delete(findFirst);
-			// }
-			// db.save(entity);
-			// GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
-			// } catch (DbException e) {
-			// e.printStackTrace();
-			// }
-			// LogUtils.i(entity.toString());
-			// checkSoftKeyboard();
-			// setResult(MainActivity.RESPONSE_LOGIN);
-			// finish();
-			// break;
-			// case ConstantValue.HTTP_ERROR:
-			// PromptManager.showToast(LoginActivity.this, (String) msg.obj);
-			// break;
-			// case ConstantValue.HTTP_ERROR_NET:
-			// PromptManager.showErrorDialog(LoginActivity.this, "网络异常");
-			// break;
-			// default:
-			// break;
-			// }
-		};
-	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		hideHead();
 		setBackTitle(R.string.login_title);
 		initViews();
 		setListener();
@@ -69,12 +49,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 	}
 
 	public void setListener() {
-		// findViewById(R.id.qq_login).setOnClickListener(this);
-		// findViewById(R.id.weibo_login).setOnClickListener(this);
 		findViewById(R.id.login).setOnClickListener(this);
-		findViewById(R.id.register).setOnClickListener(this);
 		findViewById(R.id.tv_forget).setOnClickListener(this);
-		// findViewById(R.id.fast_register).setOnClickListener(this);
 
 	}
 
@@ -90,31 +66,24 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 		case R.id.login:
 			login();
 			break;
-		case R.id.register:
-			regist();
-			break;
 		case R.id.tv_forget:
-			findPasswrod();
+			Intent intent = new Intent(LoginActivity.this, RLFActivity.class);
+			intent.putExtra("activity_type", RLFActivity.LOGIN_TYPE);
+			startActivity(intent);
 			break;
 		default:
 			break;
 		}
 	}
 
-	private void findPasswrod(){
-		Intent intent = new Intent(this, FindPasswrodActivity.class);
-		startActivity(intent);
-	}
-	
-	private void regist() {
-		// Intent intent = new Intent(this, GetVericodeActivity.class);
-		// startActivityForResult(intent, REQUEST_REGIST);
-	}
-
 	private void login() {
-		String userName = username.getText().toString();
+		userName = username.getText().toString();
 		String passWord = password.getText().toString();
-		check(userName, passWord);
+		if (NetUtil.checkNetWork(this)) {
+			checkAndLogin(userName, passWord);
+		} else {
+			PromptManager.showNoNetWork(this);
+		}
 
 	}
 
@@ -124,27 +93,88 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 	 * @param userName
 	 * @param passWord
 	 */
-	private void check(String userName, String passWord) {
+	private void checkAndLogin(String userName, String passWord) {
 		if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(passWord)) {
 			Toast.makeText(this, "用户或者密码不能为空", Toast.LENGTH_SHORT).show();
 			return;
 		}
-		// if (NetUtil.checkNetWork(this)) {
-		// PromptManager.showProgressDialog(this);
-		// UserEngine userEngine = BeanFactory.getImpl(UserEngine.class);
-		// userEngine.login(new User(userName, passWord), handler);
-		// } else {
-		// PromptManager.showNoNetWork(this);
-		// }
-		/*
-		 * if (checkEmail(userName) || isMobileNO(userName)) { // 账号校验正确，开始登陆 if
-		 * (NetUtil.checkNetWork(this)) {
-		 * PromptManager.showProgressDialog(this); UserEngine userEngine =
-		 * BeanFactory.getImpl(UserEngine.class); userEngine.login(new
-		 * User(userName, passWord), handler); } else {
-		 * PromptManager.showNoNetWork(this); } } else { Toast.makeText(this,
-		 * "请输入手机号或者邮箱", Toast.LENGTH_SHORT).show(); }
-		 */
+		PromptManager.showProgressDialog(this, R.string.logining);
+		UserEngineImpl engine = new UserEngineImpl();
+		if (checkEmail(userName)) {
+			engine.login(userName, passWord, ConstantValue.IS_EMAIL, listener);
+		} else if (isMobileNO(userName)) {
+			engine.login(userName, passWord, ConstantValue.IS_MOBILE, listener);
+		} else {
+			Toast.makeText(this, "请输入手机号或者邮箱", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
+
+		public void onHttpFailure(int errCode, String errMsg) {
+			PromptManager.closeProgressDialog();
+			super.onHttpFailure(errCode, errMsg);
+		};
+
+		public void onFailure(int errCode, String errMsg) {
+			PromptManager.closeProgressDialog();
+			super.onFailure(errCode, errMsg);
+		};
+
+		@Override
+		protected UserEntity parseDateTask(String jsonData) {
+			try {
+				JSONObject json = new JSONObject(jsonData);
+				UserEntity entity = DataParse.parseObjectJson(UserEntity.class,
+						json.getJSONObject("user"));
+				String token = (String) json.getJSONObject("token").get(
+						"access_token");
+				entity.setAccess_token(token);
+				GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
+				if(isMobileNO(userName)){
+					GlobalParams.MOBILE = userName;
+					entity.setMobile(userName);
+				}
+				saveUser(entity);
+				return entity;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return null;
+		}
+
+		@Override
+		protected void afterParseData(UserEntity entity) {
+			PromptManager.closeProgressDialog();
+			Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+			startActivity(intent);
+			finish();
+		}
+	};
+	private String userName;
+
+	private void saveUser(final UserEntity user) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				UserEntity entity = UserEntityDesUtil.decode(user, "DECODE",
+						ConstantValue.DES_PASSWORD);
+				DbUtils dbutil = DbUtils.create(PortfolioApplication
+						.getInstance());
+				UserEntity dbentity;
+				try {
+					dbentity = dbutil.findFirst(UserEntity.class);
+					if (dbentity != null) {
+						dbutil.delete(dbentity);
+					}
+					dbutil.save(entity);
+				} catch (DbException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	/**
