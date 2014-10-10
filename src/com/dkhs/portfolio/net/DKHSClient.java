@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.net;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -30,21 +31,24 @@ import com.lidroid.xutils.util.LogUtils;
  * @version 1.0
  */
 public class DKHSClient {
-    private static HttpUtils mHttpUtils = new HttpUtils();
-
+    // private static
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+        HttpUtils mHttpUtils = new HttpUtils();
+
         if (null == params) {
             params = new RequestParams();
         }
 
-        params.addHeader("Authorization", "Bearer " + "cc49391bb1cf492d87eae9c802e7132e51bd417e");
+        params.addHeader("Authorization", "Bearer " + "a96bbfeaf41fcf76793d97a0c07dfe60d0c0a4c2");
         String requestUrl = getAbsoluteUrl(url);
 
         LogUtils.d("requestUrl:" + requestUrl);
 
         LogUtils.d("RequestParams:" + params);
         // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
-        mHttpUtils.configDefaultHttpCacheExpiry(0);
+        // mHttpUtils.configDefaultHttpCacheExpiry(0);
+        // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
+        mHttpUtils.configCurrentHttpCacheExpiry(0);
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
             @Override
@@ -92,6 +96,21 @@ public class DKHSClient {
         //
         // }
         requestByGet(urlPrefix, urlPath, null, listener);
+    }
+
+    public static void requestByGet(final IHttpListener listener, String urlPrefix, Object... params) {
+
+        // StringBuilder sbParams = new StringBuilder(url);
+        //
+        // if (null != params) {
+        //
+        // for (String value : params) {
+        // sbParams.append(value);
+        // sbParams.append("/");
+        // }
+        //
+        // }
+        requestByGet(MessageFormat.format(urlPrefix, params), null, null, listener);
     }
 
     public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,

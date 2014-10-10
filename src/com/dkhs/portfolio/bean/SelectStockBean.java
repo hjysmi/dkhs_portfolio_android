@@ -47,6 +47,17 @@ public class SelectStockBean implements Serializable {
         return bean;
     }
 
+    public static SelectStockBean copy(SearchFundsBean stockBean) {
+
+        SelectStockBean bean = new SelectStockBean();
+        bean.name = stockBean.getStockName();
+        // bean.currentValue = stockBean.getCurrentValue();
+        // bean.percentage = stockBean.getPercent();
+        bean.id = stockBean.getId();
+        bean.code = stockBean.getStockCode();
+        return bean;
+    }
+
     public ConStockBean parseStock() {
 
         ConStockBean bean = new ConStockBean();

@@ -30,16 +30,23 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.NetValueEngine;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName FragmentCompare
@@ -48,7 +55,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-9-3 上午9:32:29
  * @version 1.0
  */
-public class FragmentCompare extends Fragment implements OnClickListener {
+public class FragmentCompare extends Fragment implements OnClickListener ,FragmentLifecycle{
 
     private final int REQUESTCODE_SELECT_FUND = 900;
 
@@ -57,14 +64,27 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
     private Button btnStartTime;
     private Button btnEndTime;
+    private Button btnCompare;
     private Button btnSelectFund;
     private TextView tvTimeDuration;
+    private TextView tvNoData;
 
     private int mYear;
     private int mMonth;
     private int mDay;
 
     private boolean isPickStartDate;
+
+    private CombinationBean mCombinationBean;
+
+    private String strStartTime = "";
+    private String strEndTime = "";
+    private String mDayFormat = "%d-%02d-%02d";
+
+    // 默认上证指数，沪深300的id
+    private String mCompareIds = "106000082,106000232";
+
+    private CompareEngine mCompareEngine;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +95,18 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
+        // handle intent extras
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+
+        mCompareEngine = new CompareEngine();
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        System.out.println("create day:" + mCombinationBean.getCreateTime());
     }
 
     @Override
@@ -83,6 +115,8 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         initView(view);
         TrendChart maChartView = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
+
+        requestCompare();
         return view;
     }
 
@@ -91,11 +125,14 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         btnStartTime = (Button) view.findViewById(R.id.tv_compare_ftime);
         btnEndTime = (Button) view.findViewById(R.id.tv_compare_ttime);
         btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
+        btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
+        tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
 
         btnStartTime.setOnClickListener(this);
         btnEndTime.setOnClickListener(this);
         btnSelectFund.setOnClickListener(this);
+        btnCompare.setOnClickListener(this);
 
         mGridView = (GridView) view.findViewById(R.id.gv_comparison);
         mGridView.setAdapter(mAdapter);
@@ -123,6 +160,12 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                 mAdapter.setItemHeight((int) (columnWidth));
             }
         });
+
+        if (null != mCombinationBean) {
+            strStartTime = TimeUtils.getSimpleDay(mCombinationBean.getCreateTime());
+            strEndTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
+            updateDayDisplay();
+        }
 
     }
 
@@ -159,10 +202,6 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         lines.add(MA4);
         lines.add(MA5);
 
-        machart.setLineData(lines);
-        machart.setDisplayBorder(false);
-       
-
         List<String> linetitle = new ArrayList<String>();
 
         List<String> ytitle = new ArrayList<String>();
@@ -180,6 +219,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         // xtitle.add("14:00");
         xtitle.add("08-10");
 
+        machart.setDisplayBorder(false);
         machart.setSmallLine();
         machart.setDashLineLenght(20);
         machart.setLatitudeColor(Color.LTGRAY);
@@ -211,6 +251,8 @@ public class FragmentCompare extends Fragment implements OnClickListener {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+        // machart.setLineData(lines);
+        tvNoData.setVisibility(View.VISIBLE);
     }
 
     private List<LinePointEntity> initMA(int length) {
@@ -242,6 +284,11 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                 showPickerDate();
 
             }
+                break;
+            case R.id.btn_compare_fund: {
+                Toast.makeText(getActivity(), "业绩比较查询", Toast.LENGTH_SHORT).show();
+                requestCompare();
+            }
 
                 break;
             case R.id.btn_select_fund: {
@@ -255,6 +302,26 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         }
 
     }
+
+    private void requestCompare() {
+        mCompareEngine.compare(compareListener, mCompareIds, strStartTime, strEndTime);
+
+    }
+
+    ParseHttpListener compareListener = new ParseHttpListener<String>() {
+
+        @Override
+        protected String parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(String object) {
+            // TODO Auto-generated method stub
+
+        }
+    };
 
     private void showPickerDate() {
         DatePickerDialog dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
@@ -274,42 +341,37 @@ public class FragmentCompare extends Fragment implements OnClickListener {
             mYear = year;
             mMonth = monthOfYear;
             mDay = dayOfMonth;
-            updateDisplay();
+            String sbTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
+            if (isPickStartDate) {
+
+                strStartTime = sbTime.toString();
+            } else {
+
+                strEndTime = sbTime.toString();
+            }
+            updateDayDisplay();
         }
     };
 
-    private String strStartTime = "";
-    private String strEndTime = "";
+    private void updateDayDisplay() {
 
-    private void updateDisplay() {
-        String strMonth = String.format("%02d", (mMonth + 1));
-        String strDay = String.format("%02d", mDay);
-        StringBuilder sbTime = new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
-                .append(strDay);
-        if (isPickStartDate) {
-
-            btnStartTime.setText(sbTime);
-            strStartTime = sbTime.toString();
-
-        } else {
-            btnEndTime.setText(sbTime);
-            strEndTime = sbTime.toString();
-        }
-        updateDurationText();
-    }
-
-    private void updateDurationText() {
-        String durTime = strStartTime + " ---- " + strEndTime;
+        btnStartTime.setText(strStartTime);
+        btnEndTime.setText(strEndTime);
+        String durTime = btnStartTime.getText() + " ---- " + btnEndTime.getText();
         tvTimeDuration.setText(durTime);
 
     }
 
-    private void updateSelectData(List<ConStockBean> listStock) {
+    private void updateSelectData(List<SelectStockBean> listStock) {
         StringBuilder sb = new StringBuilder();
-        for (ConStockBean csBean : listStock) {
-            sb.append(csBean.getName());
+        StringBuilder sbCompareIds = new StringBuilder();
+        for (SelectStockBean csBean : listStock) {
+            sb.append(csBean.name);
             sb.append(" ");
+            sbCompareIds.append(csBean.id);
+            sbCompareIds.append(",");
         }
+        mCompareIds = sbCompareIds.toString();
         btnSelectFund.setText(sb);
     }
 
@@ -321,7 +383,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_FUND:
-                    ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
+                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
                             .getSerializableExtra("list_select");
                     if (null != listStock) {
                         updateSelectData(listStock);
@@ -331,6 +393,28 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                     break;
             }
         }
+    }
+
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPauseFragment() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResumeFragment() {
+        // TODO Auto-generated method stub
+        
     }
 
 }

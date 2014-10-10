@@ -30,8 +30,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:text="2014-08-08" />
+            android:paddingTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,8 +49,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="5dp"
-            android:text="2014-08-10" />
+            android:paddingTop="5dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -79,9 +77,11 @@
             android:background="@drawable/button_gray_border"
             android:gravity="center_vertical"
             android:maxLines="2"
-            android:text="深证成指  上证综指  沪深300 期指1409 英国富时100指数" />
+            android:paddingLeft="5dp"
+            android:text="沪深300 上证指数" />
 
         <Button
+            android:id="@+id/btn_compare_fund"
             android:layout_width="1dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
@@ -146,12 +146,26 @@
         android:scrollbars="none"
         android:verticalSpacing="8dp" />
 
-    <com.dkhs.portfolio.ui.widget.TrendChart
-        android:id="@+id/machart"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/gv_comparison"
         android:layout_below="@+id/rl_select"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="2dp" >
+
+        <com.dkhs.portfolio.ui.widget.TrendChart
+            android:id="@+id/machart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <TextView
+            android:id="@+id/tv_nodate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/data_deficient"
+            android:textSize="32sp"
+            android:visibility="gone" />
+    </RelativeLayout>
 
 </RelativeLayout>

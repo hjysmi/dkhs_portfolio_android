@@ -69,7 +69,8 @@ public class TimeUtils {
             new SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.CHINA),
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA),
             new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CHINA),
-            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z", Locale.CHINA) };
+            new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss Z", Locale.CHINA),
+            new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA) };
 
     private static final SimpleDateFormat VALID_IFMODIFIEDSINCE_FORMAT = new SimpleDateFormat(
             "EEE, dd MMM yyyy HH:mm:ss Z", Locale.CHINA);
@@ -106,6 +107,9 @@ public class TimeUtils {
 
     public static String getSimpleFormatTime(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
+    }
+    public static String getSimpleDay(String iso8601str) {
+        return ACCEPTED_TIMESTAMP_FORMATS[7].format(toDate(iso8601str));
     }
 
     public static Date parseTimestamp(String timestamp) {

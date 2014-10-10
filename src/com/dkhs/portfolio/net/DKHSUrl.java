@@ -17,7 +17,7 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    public static final String BASE_URL = "http://192.168.107.251:8002";
+    public static final String BASE_URL = "http://192.168.107.251:8010";
 
     public interface Portfolio {
         // 查询我的组合
@@ -80,4 +80,13 @@ public class DKHSUrl {
         // /api/v1/portfolio/{pk}/netvalue_history/
         String report = "/api/v1/portfolio/{0}/netvalue_history/";
     }
+
+    public interface Fund {
+        // http://192.168.107.251:8002/api/v1/symbols/funds/?type=1&sort=percent_month
+        String fundsList = "/api/v1/symbols/funds/?type={0}&sort={1}";
+        // http://192.168.107.251:8002/api/v1/symbols/106000082%2C106000232/quote_history/?from_date=2014-09-01&to_date=2014-10-08
+        String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
+
+    }
+
 }

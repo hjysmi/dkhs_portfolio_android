@@ -486,9 +486,9 @@ public class TrendChartFragment extends Fragment {
             if (object != null) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() < 7){
+                if (dayNetValueList != null && dayNetValueList.size() < 7) {
                     tvNoData.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     int sizeLength = dayNetValueList.size();
                     setYTitle(object.getEnd(), getMaxOffetValue(object));
                     setHistoryPointTitle();
@@ -533,6 +533,20 @@ public class TrendChartFragment extends Fragment {
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        System.out.println("--------------------onPause");
+        System.out.println("dataHandler.removeCallbacks");
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
+
     public void onStart() {
         super.onStart();
         if (trendType.equals(TREND_TYPE_TODAY)) {
@@ -549,12 +563,6 @@ public class TrendChartFragment extends Fragment {
         }
     };
 
-    public void onStop() {
-        super.onStop();
-        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-
-    }
-
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -565,5 +573,45 @@ public class TrendChartFragment extends Fragment {
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        System.out.println("setUserVisibleHint:" + isVisibleToUser);
+        if (isVisibleToUser) {
+            // 相当于Fragment的onResume
+        } else {
+
+            // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+            // 相当于Fragment的onPause
+        }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param hidden
+     * @return
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        System.out.println("onHiddenChanged:" + hidden);
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onDetach() {
+        // TODO Auto-generated method stub
+        super.onDetach();
+
+        System.out.println("onDetach:");
+    }
 
 }

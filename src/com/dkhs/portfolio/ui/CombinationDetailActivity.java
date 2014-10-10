@@ -22,23 +22,20 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
+import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
-import com.dkhs.portfolio.ui.fragment.FragmentSwitchChart;
-import com.dkhs.portfolio.ui.fragment.TrendChartFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
 /**
  * @ClassName CombinationDetailActivity
@@ -56,6 +53,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private TextView tvTitleView;
 
     private CombinationBean mCombinationBean;
+
+    MyPagerFragmentAdapter mPagerAdapter;
 
     // private FragmentNetValueTrend mFragmentTrend;
     // private FragmentCompare mFragmentCompare;
@@ -85,7 +84,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         }
 
         initView();
-//        showFragmentByButtonId(R.id.btn_trend);
+        // showFragmentByButtonId(R.id.btn_trend);
     }
 
     private void handleExtras(Bundle extras) {
@@ -129,8 +128,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
         mViewPager = (ScrollViewPager) findViewById(R.id.pager);
         mViewPager.setCanScroll(false);
-        mViewPager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
-
+        mPagerAdapter = new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(pageChangeListener);
     }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
@@ -162,6 +162,30 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         }
 
     }
+
+    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        int currentPosition = 0;
+
+        @Override
+        public void onPageSelected(int newPosition) {
+
+            FragmentLifecycle fragmentToShow = (FragmentLifecycle) mPagerAdapter.getItem(newPosition);
+            fragmentToShow.onResumeFragment();
+
+            FragmentLifecycle fragmentToHide = (FragmentLifecycle) mPagerAdapter.getItem(currentPosition);
+            fragmentToHide.onPauseFragment();
+
+            currentPosition = newPosition;
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        public void onPageScrollStateChanged(int arg0) {
+        }
+    };
 
     // private void replaceContentView(Fragment fragment, String tag) {
     //
