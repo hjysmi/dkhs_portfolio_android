@@ -36,7 +36,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-9-1 下午1:52:54
  * @version 1.0
  */
-public class FragmentNetValueTrend extends Fragment implements OnClickListener {
+public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
 
     // private EditText etCombinName;
     private TextView tvCombinName;
@@ -101,7 +101,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private void setupViewData() {
         if (null != mCombinationBean) {
-            System.out.println("mCombinationBean name:" + mCombinationBean.getName());
+            // System.out.println("mCombinationBean name:" + mCombinationBean.getName());
             tvCombinName.setText(mCombinationBean.getName());
             tvCombinDesc.setText(getString(R.string.descrition_format, mCombinationBean.getDescription()));
             tvCombinCreateTime.setText(getString(R.string.create_time_format,
@@ -190,6 +190,28 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         // default:
         // break;
         // }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPauseFragment() {
+        System.out.println("Fragment net value trend onPauseFragment（）");
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResumeFragment() {
+        // TODO Auto-generated method stub
 
     }
 }

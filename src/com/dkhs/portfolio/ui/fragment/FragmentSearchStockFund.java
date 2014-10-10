@@ -63,6 +63,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     private boolean isFund;
 
     LoadSelectDataEngine mLoadDataEngine;
+    SearchStockEngineImpl mSearchEngine;
 
     public static FragmentSearchStockFund getStockFragment() {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
@@ -97,9 +98,10 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         if (isFund) {
 
             // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
+            mSearchEngine.searchFunds(key);
         } else {
 
-            new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
+            mSearchEngine.searchStock(key);
         }
         mAdapterConbinStock.notifyDataSetChanged();
     }
@@ -122,6 +124,8 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList);
         }
         mAdapterConbinStock.setCheckChangeListener(this);
+
+        mSearchEngine = new SearchStockEngineImpl(mSelectStockBackListener);
 
     }
 

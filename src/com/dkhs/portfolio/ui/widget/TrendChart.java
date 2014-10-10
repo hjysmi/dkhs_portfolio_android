@@ -55,6 +55,9 @@ public class TrendChart extends TrendGridChart {
 
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
+    
+    
+    private boolean isDrawDashLine;
 
     public TrendChart(Context context) {
         super(context);
@@ -299,7 +302,7 @@ public class TrendChart extends TrendGridChart {
                         valueY += mStartLineYpoint;
                         // valueY += mStartLineYpoint;
                         // if (dashLongitude) {
-                        if (j < dashLineLenght) {
+                        if (isDrawDashLine) {
                             mLinePaint.setPathEffect(dashEffect);
                         } else {
                             mLinePaint.setPathEffect(null);
@@ -557,5 +560,13 @@ public class TrendChart extends TrendGridChart {
 
     public void setTouch(boolean isTouch) {
         this.isTouch = isTouch;
+    }
+
+    public boolean isDrawDashLine() {
+        return isDrawDashLine;
+    }
+
+    public void setDrawDashLine(boolean isDrawDashLine) {
+        this.isDrawDashLine = isDrawDashLine;
     }
 }

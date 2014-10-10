@@ -52,7 +52,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private GridView mSelctStockView;
     private SelectFundAdapter mSelectStockAdapter;
     private Button btnAdd;
-    private ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
+    ArrayList<FragmentSelectStockFund> fragmentList = new ArrayList<FragmentSelectStockFund>();// ViewPager中显示的数据
     private EditText etSearchKey;
     private FragmentSearchStockFund mSearchFragment;
 

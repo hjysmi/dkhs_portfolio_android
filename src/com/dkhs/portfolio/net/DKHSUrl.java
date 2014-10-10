@@ -17,7 +17,7 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    public static final String BASE_URL = "http://192.168.107.251:8002";
+    public static final String BASE_URL = "http://192.168.107.251:8010";
 
     public interface Portfolio {
         // 查询我的组合
@@ -50,7 +50,7 @@ public class DKHSUrl {
         String quotes = "/api/v1/symbols/{0}/quote";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
         // http://192.168.107.251:8002/api/v1/symbols/101000100/unfollow/
-        String unfollow = "/api/v1/symbols/{0}/unfollow";
+        String unfollow = "/api/v1/symbols/{0}/unfollow/";
 
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/symbols/profile/";
@@ -80,7 +80,15 @@ public class DKHSUrl {
         // /api/v1/portfolio/{pk}/netvalue_history/
         String report = "/api/v1/portfolio/{0}/netvalue_history/";
     }
-    
+
+    public interface Fund {
+        // http://192.168.107.251:8002/api/v1/symbols/funds/?type=1&sort=percent_month
+        String fundsList = "/api/v1/symbols/funds/?type={0}&sort={1}";
+        // http://192.168.107.251:8002/api/v1/symbols/106000082%2C106000232/quote_history/?from_date=2014-09-01&to_date=2014-10-08
+        String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
+
+    }
+
     public interface User {
         // 登录
         String login = "/api/v1/accounts/login/";
@@ -92,8 +100,9 @@ public class DKHSUrl {
         String is_setpassword = "/api/v1/accounts/is_password_set/";
         // 设置密码
         String setpassword = "/api/v1/accounts/set_password/";
-        //修改密码
+        // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
 
     }
+
 }

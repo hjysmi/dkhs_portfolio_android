@@ -210,11 +210,11 @@ public class MainFragment extends Fragment implements OnClickListener {
             imageViews.add(imageView);
 
             // 根据图片动态设置小圆点
-            View dotView = View.inflate(getActivity(), R.layout.dot, null);
+            View sliderView = View.inflate(getActivity(), R.layout.tip_slider, null);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dotWidth, 8);
             // params.weight = 1.0f;
             // dotView.setLayoutParams(params);
-            dotLayout.addView(dotView, params);
+            dotLayout.addView(sliderView, params);
         }
     }
 

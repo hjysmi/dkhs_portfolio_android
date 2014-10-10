@@ -30,7 +30,7 @@ import com.dkhs.portfolio.ui.widget.TabPageIndicator;
  * @date 2014-9-3 上午9:33:40
  * @version 1.0
  */
-public class FragmentNews extends Fragment {
+public class FragmentNews extends Fragment implements FragmentLifecycle {
 
     /**
      * @Title
@@ -97,6 +97,28 @@ public class FragmentNews extends Fragment {
         public int getCount() {
             return fragmentList == null ? 0 : fragmentList.size();
         }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPauseFragment() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResumeFragment() {
+        // TODO Auto-generated method stub
 
     }
 }

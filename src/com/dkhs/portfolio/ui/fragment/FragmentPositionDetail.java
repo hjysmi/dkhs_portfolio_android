@@ -51,7 +51,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-9-3 上午9:33:13
  * @version 1.0
  */
-public class FragmentPositionDetail extends Fragment implements OnClickListener {
+public class FragmentPositionDetail extends Fragment implements OnClickListener,FragmentLifecycle {
 
     private PieGraph pgView;
     private View btnDate;
@@ -389,5 +389,27 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener 
                     new QueryCombinationDetailListener());
         }
     };
+
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPauseFragment() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResumeFragment() {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

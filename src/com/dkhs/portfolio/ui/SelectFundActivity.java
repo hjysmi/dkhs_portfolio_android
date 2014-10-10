@@ -21,9 +21,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.FundDataEngine;
+import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.lidroid.xutils.cache.MD5FileNameGenerator;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -38,7 +41,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
     private PopupWindow mPopMoreWindow;
     private String[] orderTitle;
 
- 
+    // public static OrderType mOrderType = OrderType.DAY;
 
     @Override
     protected void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList) {
@@ -77,30 +80,36 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
 
         @Override
         public void onClick(View v) {
+            OrderType mOrderType = OrderType.DAY;
             int id = v.getId();
             switch (id) {
                 case R.id.tv_day_order: {
                     btnOrder.setText(orderTitle[0]);
+                    mOrderType = OrderType.DAY;
                 }
 
                     break;
                 case R.id.tv_month_order: {
                     btnOrder.setText(orderTitle[1]);
+                    mOrderType = OrderType.MONTH;
 
                 }
 
                     break;
                 case R.id.tv_quarter_order: {
                     btnOrder.setText(orderTitle[2]);
-
+                    mOrderType = OrderType.QUARTER;
                 }
-
                     break;
 
                 default:
                     break;
             }
+
             mPopMoreWindow.dismiss();
+            for (FragmentSelectStockFund fragment : fragmentList) {
+                fragment.setOrderType(mOrderType);
+            }
         }
     };
 
@@ -130,7 +139,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
 
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -138,7 +147,7 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
      */
     @Override
     protected ListViewType getLoadByType() {
-       
+
         return ListViewType.FUND;
     }
 

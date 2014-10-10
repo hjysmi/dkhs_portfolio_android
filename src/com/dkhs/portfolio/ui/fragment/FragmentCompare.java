@@ -10,15 +10,19 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,16 +34,31 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.HistoryNetValue;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.engine.CompareEngine;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.NetValueEngine;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
+import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName FragmentCompare
@@ -48,17 +67,22 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-9-3 上午9:32:29
  * @version 1.0
  */
-public class FragmentCompare extends Fragment implements OnClickListener {
+public class FragmentCompare extends Fragment implements OnClickListener, FragmentLifecycle {
 
     private final int REQUESTCODE_SELECT_FUND = 900;
 
     private GridView mGridView;
     private CompareIndexAdapter mAdapter;
+    private List<CompareFundItem> mCompareItemList;
 
     private Button btnStartTime;
     private Button btnEndTime;
+    private Button btnCompare;
     private Button btnSelectFund;
     private TextView tvTimeDuration;
+    private TextView tvNoData;
+    private TextView tvIncreaseValue;
+    private View increaseView;
 
     private int mYear;
     private int mMonth;
@@ -66,23 +90,73 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
     private boolean isPickStartDate;
 
+    private CombinationBean mCombinationBean;
+
+    private String strStartTime = "";
+    private String strEndTime = "";
+    private String mDayFormat = "%d-%02d-%02d";
+
+    // 默认上证指数，沪深300的id
+    private String mCompareIds = "106000082,106000232";
+
+    private CompareEngine mCompareEngine;
+    private Calendar mCurrentCalendar;
+
+    private Calendar mCreateCalender;
+
+    // private Date mSelectStartDate;
+
+    private TrendChart maChartView;
+    private List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+    private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
+
+    private boolean isBeforeCreateDate;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mAdapter = new CompareIndexAdapter(getActivity());
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+        mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
+
+        mAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
+
+        mCurrentCalendar = Calendar.getInstance();
+        mYear = mCurrentCalendar.get(Calendar.YEAR);
+        mMonth = mCurrentCalendar.get(Calendar.MONTH);
+        mDay = mCurrentCalendar.get(Calendar.DAY_OF_MONTH);
+        // handle intent extras
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+
+        mCompareEngine = new CompareEngine();
+        setGridItemData();
+    }
+
+    private void setGridItemData() {
+        CompareFundItem defalutItem1 = mAdapter.new CompareFundItem();
+        defalutItem1.name = "沪深300";
+        CompareFundItem defalutItem2 = mAdapter.new CompareFundItem();
+        defalutItem2.name = "上证指数";
+        mCompareItemList.add(defalutItem1);
+        mCompareItemList.add(defalutItem2);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_compare, null);
         initView(view);
-        TrendChart maChartView = (TrendChart) view.findViewById(R.id.machart);
+        maChartView = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
+
+        requestCompare();
         return view;
     }
 
@@ -91,11 +165,16 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         btnStartTime = (Button) view.findViewById(R.id.tv_compare_ftime);
         btnEndTime = (Button) view.findViewById(R.id.tv_compare_ttime);
         btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
+        btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
+        tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
+        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_addup_value);
+        increaseView = view.findViewById(R.id.rl_addup_history);
 
         btnStartTime.setOnClickListener(this);
         btnEndTime.setOnClickListener(this);
         btnSelectFund.setOnClickListener(this);
+        btnCompare.setOnClickListener(this);
 
         mGridView = (GridView) view.findViewById(R.id.gv_comparison);
         mGridView.setAdapter(mAdapter);
@@ -124,65 +203,46 @@ public class FragmentCompare extends Fragment implements OnClickListener {
             }
         });
 
+        if (null != mCombinationBean) {
+            setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+            setEndTime(String.format(mDayFormat, mYear, (mMonth + 1), mDay));
+            updateDayDisplay();
+        }
+
+    }
+
+    private void setStartTime(String startDay) {
+        strStartTime = startDay;
+    }
+
+    private void setEndTime(String endDay) {
+        strEndTime = endDay;
+    }
+
+    private String getStartTime() {
+        return strStartTime;
+    }
+
+    private String getEndTime() {
+        return strEndTime;
     }
 
     private void initMaChart(TrendChart machart) {
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
-        List<LineEntity> lines = new ArrayList<LineEntity>();
 
-        LineEntity MA1 = new LineEntity();
-        MA1.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]));
-        MA1.setLineData(initMA(72));
-        MA1.setTitle("线条一");
-        LineEntity MA2 = new LineEntity();
-        MA2.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]));
-        MA2.setLineData(initMA(72));
-        MA2.setTitle("线条二");
-        LineEntity MA3 = new LineEntity();
-        MA3.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]));
-        MA3.setLineData(initMA(72));
-        MA3.setTitle("线条三");
-        LineEntity MA4 = new LineEntity();
-        MA4.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[3]));
-        MA4.setLineData(initMA(72));
-        MA4.setTitle("线条四");
-        LineEntity MA5 = new LineEntity();
-        MA5.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[4]));
-        MA5.setLineData(initMA(72));
-        MA5.setTitle("线条五");
-
-        lines.add(MA1);
-        lines.add(MA2);
-        lines.add(MA3);
-        lines.add(MA4);
-        lines.add(MA5);
-
-        machart.setLineData(lines);
         machart.setDisplayBorder(false);
-       
+        // machart.setDrawXBorke(true);
 
-        List<String> linetitle = new ArrayList<String>();
-
-        List<String> ytitle = new ArrayList<String>();
-        ytitle.add("1.1051");
-        ytitle.add("1.0532");
-        ytitle.add("1.0001");
-        ytitle.add("0.0000");
-        ytitle.add("1.0522");
-        ytitle.add("1.1031");
-
-        List<String> xtitle = new ArrayList<String>();
-        xtitle.add("08-08");
-        // xtitle.add("10:30");
-        // xtitle.add("11:30");
-        // xtitle.add("14:00");
-        xtitle.add("08-10");
-
-        machart.setSmallLine();
-        machart.setDashLineLenght(20);
         machart.setLatitudeColor(Color.LTGRAY);
+
+        // machart.setMaxValue(120);
+        // machart.setMinValue(0);
+        // machart.setMaxPointNum(72);
+        // machart.setDisplayAxisYTitle(false);
+        // machart.setDisplayLatitude(true);
+        // machart.setFill(true);
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
@@ -191,8 +251,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         machart.setAxisMarginTop(10);
         machart.setAxisMarginLeft(20);
         machart.setAxisMarginRight(10);
-        machart.setAxisYTitles(ytitle);
-        machart.setAxisXTitles(xtitle);
+
         machart.setLongtitudeFontSize(10);
         machart.setLongtitudeFontColor(Color.GRAY);
         machart.setDisplayAxisYTitleColor(true);
@@ -201,7 +260,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         machart.setLongitudeColor(Color.GRAY);
         machart.setMaxValue(120);
         machart.setMinValue(0);
-        machart.setMaxPointNum(72);
+
         machart.setDisplayAxisXTitle(true);
         machart.setDisplayAxisYTitle(true);
         machart.setDisplayLatitude(true);
@@ -211,6 +270,8 @@ public class FragmentCompare extends Fragment implements OnClickListener {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+        // machart.setLineData(lines);
+        tvNoData.setVisibility(View.VISIBLE);
     }
 
     private List<LinePointEntity> initMA(int length) {
@@ -242,6 +303,11 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                 showPickerDate();
 
             }
+                break;
+            case R.id.btn_compare_fund: {
+                Toast.makeText(getActivity(), "业绩比较查询", Toast.LENGTH_SHORT).show();
+                requestCompare();
+            }
 
                 break;
             case R.id.btn_select_fund: {
@@ -256,6 +322,167 @@ public class FragmentCompare extends Fragment implements OnClickListener {
 
     }
 
+    private void requestCompare() {
+        new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
+        mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
+
+    }
+
+    ParseHttpListener historyNetValueListener = new ParseHttpListener<HistoryNetValue>() {
+
+        @Override
+        protected HistoryNetValue parseDateTask(String jsonData) {
+            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            return histroyValue;
+        }
+
+        @Override
+        protected void afterParseData(HistoryNetValue object) {
+            if (object != null) {
+
+                List<HistoryNetBean> dayNetValueList = object.getChartlist();
+                if (dayNetValueList != null && dayNetValueList.size() < 7) {
+                    tvNoData.setVisibility(View.VISIBLE);
+                } else {
+                    tvNoData.setVisibility(View.GONE);
+                    int sizeLength = dayNetValueList.size();
+                    setYTitle(object.getEnd(), getMaxOffetValue(object));
+                    setHistoryPointTitle();
+                    setXTitle(dayNetValueList);
+
+                    LineEntity mCombinationLine = new LineEntity();
+                    mCombinationLine.setLineColor(getActivity().getResources().getColor(
+                            ColorTemplate.MY_COMBINATION_LINE));
+                    mCombinationLine.setLineData(lineDataList);
+                    setLineData(mCombinationLine);
+
+                }
+                // setLineData(lineDataList);
+                // String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
+                // String strRight = getString(R.string.time_end, dayNetValueList.get(0).getDate());
+                // tvTimeLeft.setText(strLeft);
+                //
+                // tvTimeRight.setText(strRight);
+                //
+                //
+                // }
+                //
+                // tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
+                // float addupValue = object.getEnd() - object.getBegin();
+                // tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
+                // // fl
+                // tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
+
+                float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
+                tvIncreaseValue.setText(StringFromatUtils.get4PointPercent(increaseValue * 100));
+                if (increaseValue > 0) {
+                    increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
+                } else {
+                    increaseView.setBackgroundColor(ColorTemplate.DEF_GREEN);
+                }
+            }
+        }
+
+    };
+
+    private void setLineData(LineEntity lineEntity) {
+        lineEntityList.add(lineEntity);
+        maChartView.setDrawDashLine(isBeforeCreateDate);
+        maChartView.setLineData(lineEntityList);
+    }
+
+    private void setHistoryPointTitle() {
+        List<String> titles = new ArrayList<String>();
+        titles.add("日期");
+        titles.add("当前净值");
+        maChartView.setPointTitleList(titles);
+    }
+
+    private void setXTitle(List<HistoryNetBean> dayNetValueList) {
+        List<String> xtitle = new ArrayList<String>();
+        System.out.println("list size:" + (dayNetValueList.size() - 1));
+        String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
+        System.out.println("endDate:" + endDate);
+        if (TextUtils.isEmpty(endDate)) {
+            xtitle.add("");
+        } else {
+            xtitle.add(endDate);
+
+        }
+        xtitle.add(dayNetValueList.get(0).getDate());
+        maChartView.setMaxPointNum(dayNetValueList.size());
+        maChartView.setAxisXTitles(xtitle);
+
+    }
+
+    /**
+     * 设置纵坐标标题，并设置曲线的最大值和最小值
+     */
+    private void setYTitle(float baseNum, float offetYvalue) {
+        // int baseNum = 1;
+        List<String> ytitle = new ArrayList<String>();
+        float halfOffetValue = offetYvalue / 2.0f;
+
+        ytitle.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
+        ytitle.add(StringFromatUtils.get4Point(baseNum - halfOffetValue));
+        ytitle.add(StringFromatUtils.get4Point(baseNum));
+        ytitle.add(StringFromatUtils.get4Point(baseNum + halfOffetValue));
+        ytitle.add(StringFromatUtils.get4Point(baseNum + offetYvalue));
+        maChartView.setAxisYTitles(ytitle);
+        maChartView.setMaxValue(baseNum + offetYvalue);
+        maChartView.setMinValue(baseNum - offetYvalue);
+
+    }
+
+    /**
+     * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
+     */
+    private float getMaxOffetValue(HistoryNetValue historyNetValue) {
+        // lineDataList.clear();
+        float baseNum = historyNetValue.getEnd();
+        float maxNum = baseNum, minNum = baseNum;
+        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+        int dataLenght = historyNetList.size();
+        for (int i = dataLenght - 1; i >= 0; i--) {
+
+            LinePointEntity pointEntity = new LinePointEntity();
+            HistoryNetBean todayBean = historyNetList.get(i);
+            pointEntity.setDesc(todayBean.getDate());
+            pointEntity.setValue(todayBean.getNetvalue());
+            lineDataList.add(pointEntity);
+
+            if (todayBean.getNetvalue() > maxNum) {
+                maxNum = todayBean.getNetvalue();
+
+            } else if (todayBean.getNetvalue() < minNum) {
+                minNum = todayBean.getNetvalue();
+            }
+        }
+        float offetValue;
+        maxNum = maxNum - baseNum;
+        minNum = baseNum - minNum;
+
+        offetValue = maxNum > minNum ? maxNum : minNum;
+
+        return offetValue;
+
+    }
+
+    ParseHttpListener compareListener = new ParseHttpListener<String>() {
+
+        @Override
+        protected String parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(String object) {
+            // TODO Auto-generated method stub
+
+        }
+    };
+
     private void showPickerDate() {
         DatePickerDialog dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar), mDateSetListener, mYear, mMonth, mDay);
@@ -269,47 +496,88 @@ public class FragmentCompare extends Fragment implements OnClickListener {
         dpg.show();
     }
 
+    private void showBeforeCreateDayDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+
+        builder.setTitle(R.string.dialog_before_createday_title)
+                .setItems(R.array.query_compare_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (which == 0) {
+                            queryFromCreateDay();
+                        } else {
+                            queryBeforeCreateMonth();
+                        }
+                        updateDayDisplay();
+                        // setSelectBack(which);
+                    }
+                }).setNegativeButton(R.string.cancel, null).show();
+
+    }
+
+    private void queryFromCreateDay() {
+        setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+    }
+
+    private void queryBeforeCreateMonth() {
+
+        setStartTime(String.format(mDayFormat, mCreateCalender.get(Calendar.YEAR),
+                (mCreateCalender.get(Calendar.MONTH)), mCreateCalender.get(Calendar.DAY_OF_MONTH)));
+        setEndTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+
+    }
+
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             mYear = year;
             mMonth = monthOfYear;
             mDay = dayOfMonth;
-            updateDisplay();
+
+            String sbTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
+            if (isPickStartDate) {
+                Calendar cStart = Calendar.getInstance();
+                cStart.set(mYear, mMonth, mDay); // NB: 2 means March, not February!
+
+                if (isBeforeCreateDate(cStart, mCreateCalender)) {
+                    showBeforeCreateDayDialog();
+                } else {
+                    setStartTime(sbTime.toString());
+                }
+
+            } else {
+                setEndTime(sbTime.toString());
+            }
+            updateDayDisplay();
         }
     };
 
-    private String strStartTime = "";
-    private String strEndTime = "";
+    private boolean isBeforeCreateDate(Calendar cStart, Calendar cCreate) {
+        isBeforeCreateDate = cStart.before(cCreate);
+        return isBeforeCreateDate;
 
-    private void updateDisplay() {
-        String strMonth = String.format("%02d", (mMonth + 1));
-        String strDay = String.format("%02d", mDay);
-        StringBuilder sbTime = new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
-                .append(strDay);
-        if (isPickStartDate) {
-
-            btnStartTime.setText(sbTime);
-            strStartTime = sbTime.toString();
-
-        } else {
-            btnEndTime.setText(sbTime);
-            strEndTime = sbTime.toString();
-        }
-        updateDurationText();
     }
 
-    private void updateDurationText() {
-        String durTime = strStartTime + " ---- " + strEndTime;
+    private void updateDayDisplay() {
+
+        btnStartTime.setText(getStartTime());
+        btnEndTime.setText(getEndTime());
+        String durTime = btnStartTime.getText() + " ---- " + btnEndTime.getText();
         tvTimeDuration.setText(durTime);
 
     }
 
-    private void updateSelectData(List<ConStockBean> listStock) {
+    private void updateSelectData(List<SelectStockBean> listStock) {
         StringBuilder sb = new StringBuilder();
-        for (ConStockBean csBean : listStock) {
-            sb.append(csBean.getName());
+        StringBuilder sbCompareIds = new StringBuilder();
+        for (SelectStockBean csBean : listStock) {
+            sb.append(csBean.name);
             sb.append(" ");
+            sbCompareIds.append(csBean.id);
+            sbCompareIds.append(",");
         }
+        mCompareIds = sbCompareIds.toString();
         btnSelectFund.setText(sb);
     }
 
@@ -321,7 +589,7 @@ public class FragmentCompare extends Fragment implements OnClickListener {
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_FUND:
-                    ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) data
+                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
                             .getSerializableExtra("list_select");
                     if (null != listStock) {
                         updateSelectData(listStock);
@@ -331,6 +599,28 @@ public class FragmentCompare extends Fragment implements OnClickListener {
                     break;
             }
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPauseFragment() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResumeFragment() {
+        // TODO Auto-generated method stub
+
     }
 
 }

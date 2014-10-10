@@ -11,6 +11,8 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -36,9 +38,10 @@ public class AddStockItemAdapter extends SelectStockAdatper {
 
     }
 
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        
         SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
         if (null != csBean) {
 

@@ -61,6 +61,7 @@ public class TrendChartFragment extends Fragment {
     private String trendType;
     private boolean isTodayNetValue;
     private TextView tvTimeLeft;
+    private TextView tvNoData;
     private TextView tvTimeRight;
     private TextView tvNetValue;
     private TextView tvUpValue;
@@ -155,6 +156,7 @@ public class TrendChartFragment extends Fragment {
         tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
         tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
         tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
+        tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
     }
 
     private void setupViewData() {
@@ -246,7 +248,7 @@ public class TrendChartFragment extends Fragment {
         lines.add(MA5);
         mMaChart.setLineData(lines);
     }
-
+    
     // private void set
 
     private void initTodayTrendTitle() {
@@ -382,7 +384,7 @@ public class TrendChartFragment extends Fragment {
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         lineDataList.clear();
-        float baseNum = historyNetValue.getBegin();
+        float baseNum = historyNetValue.getEnd();
         float maxNum = baseNum, minNum = baseNum;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
@@ -484,9 +486,11 @@ public class TrendChartFragment extends Fragment {
             if (object != null) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() > 1) {
+                if (dayNetValueList != null && dayNetValueList.size() < 7) {
+                    tvNoData.setVisibility(View.VISIBLE);
+                } else {
                     int sizeLength = dayNetValueList.size();
-                    setYTitle(object.getBegin(), getMaxOffetValue(object));
+                    setYTitle(object.getEnd(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setLineData(lineDataList);
                     String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
@@ -512,11 +516,7 @@ public class TrendChartFragment extends Fragment {
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
-        // xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
-        System.out.println("list size:" + (dayNetValueList.size() - 1));
-        // System.out.println("list size:"+(dayNetValueList.size() - 1));
         String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
-        System.out.println("endDate:" + endDate);
         if (TextUtils.isEmpty(endDate)) {
             xtitle.add("");
         } else {
@@ -527,6 +527,20 @@ public class TrendChartFragment extends Fragment {
         mMaChart.setMaxPointNum(dayNetValueList.size());
         mMaChart.setAxisXTitles(xtitle);
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        System.out.println("--------------------onPause");
+        System.out.println("dataHandler.removeCallbacks");
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
     public void onStart() {
@@ -545,12 +559,6 @@ public class TrendChartFragment extends Fragment {
         }
     };
 
-    public void onStop() {
-        super.onStop();
-        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-
-    }
-
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -561,5 +569,45 @@ public class TrendChartFragment extends Fragment {
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        System.out.println("setUserVisibleHint:" + isVisibleToUser);
+        if (isVisibleToUser) {
+            // 相当于Fragment的onResume
+        } else {
+
+            // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+            // 相当于Fragment的onPause
+        }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param hidden
+     * @return
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        // TODO Auto-generated method stub
+        super.onHiddenChanged(hidden);
+        System.out.println("onHiddenChanged:" + hidden);
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onDetach() {
+        // TODO Auto-generated method stub
+        super.onDetach();
+
+        System.out.println("onDetach:");
+    }
 
 }

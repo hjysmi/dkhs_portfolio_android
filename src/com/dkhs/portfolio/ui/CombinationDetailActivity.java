@@ -8,6 +8,9 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -17,18 +20,22 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
+import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 
 /**
  * @ClassName CombinationDetailActivity
@@ -40,12 +47,14 @@ import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 public class CombinationDetailActivity extends ModelAcitivity implements OnClickListener {
 
     private static final float DOWN_SCALE = 1.0f;
-    private Button btnMore;
+    // private Button btnMore;
     private View btnPreBottom;
     private Fragment mPreFragment;
     private TextView tvTitleView;
 
     private CombinationBean mCombinationBean;
+
+    MyPagerFragmentAdapter mPagerAdapter;
 
     // private FragmentNetValueTrend mFragmentTrend;
     // private FragmentCompare mFragmentCompare;
@@ -67,7 +76,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         super.onCreate(arg0);
         setContentView(R.layout.activity_combination_detail);
         setTitle(R.string.netvalue_trend);
-        showFragmentByButtonId(R.id.btn_trend);
 
         // handle intent extras
         Bundle extras = getIntent().getExtras();
@@ -76,6 +84,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         }
 
         initView();
+        // showFragmentByButtonId(R.id.btn_trend);
     }
 
     private void handleExtras(Bundle extras) {
@@ -84,8 +93,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void initView() {
-        btnMore = getRightButton();
-        btnMore.setBackgroundResource(R.drawable.nav_more_selector);
+        // btnMore = getRightButton();
+        // btnMore.setBackgroundResource(R.drawable.nav_more_selector);
 
         btnPreBottom = findViewById(R.id.btn_trend);
         btnPreBottom.setEnabled(false);
@@ -102,12 +111,86 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         // Toast.makeText(CombinationDetailActivity.this, "保存截图到相册", Toast.LENGTH_SHORT).show();
         // }
         // });
+
+        initTabPage();
+
     }
 
-    private void replaceContentView(Fragment fragment, String tag) {
+    ScrollViewPager mViewPager;
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.combination_contentview, fragment, tag);
+    private void initTabPage() {
+
+        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        fragmentList.add(new FragmentNetValueTrend());
+        fragmentList.add(new FragmentCompare());
+        fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
+        fragmentList.add(new FragmentNews());
+
+        mViewPager = (ScrollViewPager) findViewById(R.id.pager);
+        mViewPager.setCanScroll(false);
+        mPagerAdapter = new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(pageChangeListener);
     }
+
+    private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> fragmentList;
+
+        // private String[] titleList;
+
+        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2) {
+            super(fm);
+            this.fragmentList = fragmentList2;
+            // this.titleList = titleList;
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+
+            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "";
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList == null ? 0 : fragmentList.size();
+        }
+
+    }
+
+    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        int currentPosition = 0;
+
+        @Override
+        public void onPageSelected(int newPosition) {
+
+            FragmentLifecycle fragmentToShow = (FragmentLifecycle) mPagerAdapter.getItem(newPosition);
+            fragmentToShow.onResumeFragment();
+
+            FragmentLifecycle fragmentToHide = (FragmentLifecycle) mPagerAdapter.getItem(currentPosition);
+            fragmentToHide.onPauseFragment();
+
+            currentPosition = newPosition;
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        public void onPageScrollStateChanged(int arg0) {
+        }
+    };
+
+    // private void replaceContentView(Fragment fragment, String tag) {
+    //
+    // getSupportFragmentManager().beginTransaction().replace(R.id.combination_contentview, fragment, tag);
+    // }
 
     OnClickListener bottomClickListner = new OnClickListener() {
 
@@ -129,21 +212,11 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     protected void showFragmentByButtonId(int id) {
-        Fragment mFragment = null;
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        int mSelectedTabIndex = 0;
         switch (id) {
             case R.id.btn_trend: {
-                // String mTag = R.id.btn_trend "";
-                mFragment = getSupportFragmentManager().findFragmentByTag("trend");
-                if (mFragment == null) {
-                    mFragment = new FragmentNetValueTrend();
-                    // replaceContentView(mFragment, R.id.btn_trend + "");
-                    ft.add(R.id.combination_contentview, mFragment, "trend");
-                } else if (mFragment.isDetached()) {
-                    ft.attach(mFragment);
 
-                }
-
+                mSelectedTabIndex = 0;
                 setTitle(R.string.netvalue_trend);
                 // if (null == mFragmentTrend) {
                 // mFragmentTrend = new FragmentNetValueTrend();
@@ -154,17 +227,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 break;
             case R.id.btn_comparison: {
 
-                mFragment = getSupportFragmentManager().findFragmentByTag(R.id.btn_comparison + "");
-
-                if (mFragment == null) {
-                    mFragment = new FragmentCompare();
-                    // replaceContentView(mFragment, R.id.btn_comparison + "");
-                    ft.add(R.id.combination_contentview, mFragment, R.id.btn_comparison + "");
-
-                } else if (mFragment.isDetached()) {
-                    ft.attach(mFragment);
-
-                }
+                mSelectedTabIndex = 1;
 
                 setTitle(R.string.performance_comparison);
             }
@@ -172,16 +235,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 break;
             case R.id.btn_detail: {
 
-                mFragment = getSupportFragmentManager().findFragmentByTag(R.id.btn_detail + "");
-
-                if (mFragment == null) {
-                    mFragment = FragmentPositionDetail.newInstance(mCombinationBean.getId());
-                    // replaceContentView(mFragment, R.id.btn_detail + "");
-                    ft.add(R.id.combination_contentview, mFragment, R.id.btn_detail + "");
-
-                } else if (mFragment.isDetached()) {
-                    ft.attach(mFragment);
-                }
+                mSelectedTabIndex = 2;
 
                 setTitle(R.string.position_detail);
 
@@ -190,16 +244,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 break;
             case R.id.btn_news: {
 
-                mFragment = getSupportFragmentManager().findFragmentByTag(R.id.btn_news + "");
-
-                if (mFragment == null) {
-                    mFragment = new FragmentNews();
-                    ft.add(R.id.combination_contentview, mFragment, R.id.btn_news + "");
-
-                } else if (mFragment.isDetached()) {
-                    ft.attach(mFragment);
-                }
-
+                mSelectedTabIndex = 3;
                 setTitle(R.string.related_news);
 
             }
@@ -209,13 +254,14 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             default:
                 break;
         }
+        PagerAdapter adapter = mViewPager.getAdapter();
+        final int count = adapter.getCount();
 
-        if (mPreFragment != null) {
-            ft.detach(mPreFragment);
+        if (mSelectedTabIndex > count) {
+            mSelectedTabIndex = count - 1;
         }
-        mPreFragment = mFragment;
-        ft.commit();
-        getSupportFragmentManager().executePendingTransactions();
+
+        mViewPager.setCurrentItem(mSelectedTabIndex, true);
 
     }
 

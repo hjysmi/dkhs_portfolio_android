@@ -296,7 +296,6 @@ public class StockQuotesChartFragment extends Fragment {
         int i = 0;
         for (String buyPrice : bean.getBuyPrice().getBuyPrice()) {
             FiveRangeItem buyItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
-            buyItem.tag = "买" + (++i);
 
             buyItem.price = buyPrice;
             if (i < bean.getBuyPrice().getBuyVol().size()) {
@@ -304,18 +303,19 @@ public class StockQuotesChartFragment extends Fragment {
             } else {
                 buyItem.vol = "0";
             }
+            buyItem.tag = "买" + (++i);
             buyList.add(buyItem);
         }
         i = 0;
         for (String sellPrice : bean.getSellPrice().getSellPrice()) {
             FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
-            sellItem.tag = "卖" + (++i);
             sellItem.price = sellPrice;
             if (i < bean.getSellPrice().getSellVol().size()) {
                 sellItem.vol = bean.getSellPrice().getSellVol().get(i);
             } else {
                 sellItem.vol = "0";
             }
+            sellItem.tag = "卖" + (++i);
             sellList.add(sellItem);
         }
 
