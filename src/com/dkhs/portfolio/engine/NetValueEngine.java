@@ -60,6 +60,16 @@ public class NetValueEngine {
         requeryNetValue(mConbinationId, "2", listener);
     }
 
+    public void requeryDay(String fromDate, String toDate, IHttpListener listener) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("from_date", fromDate);
+        NameValuePair valuePair2 = new BasicNameValuePair("to_date", toDate);
+        params.add(valuePair);
+        params.add(valuePair2);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, mConbinationId), null, params,
+                listener);
+    }
+
     // http://192.168.107.251:8000/api/v1/portfolio/query_daily_netvalue/?portfolio_id=525&types=0
     public void requeryNetValue(String combinationId, String type, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();

@@ -10,11 +10,14 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,19 +36,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.engine.CompareEngine;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.NetValueEngine;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
+import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
@@ -55,12 +66,13 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-9-3 上午9:32:29
  * @version 1.0
  */
-public class FragmentCompare extends Fragment implements OnClickListener ,FragmentLifecycle{
+public class FragmentCompare extends Fragment implements OnClickListener, FragmentLifecycle {
 
     private final int REQUESTCODE_SELECT_FUND = 900;
 
     private GridView mGridView;
     private CompareIndexAdapter mAdapter;
+    private List<CompareFundItem> mCompareItemList;
 
     private Button btnStartTime;
     private Button btnEndTime;
@@ -68,6 +80,8 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
     private Button btnSelectFund;
     private TextView tvTimeDuration;
     private TextView tvNoData;
+    private TextView tvIncreaseValue;
+    private View increaseView;
 
     private int mYear;
     private int mMonth;
@@ -85,16 +99,24 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
     private String mCompareIds = "106000082,106000232";
 
     private CompareEngine mCompareEngine;
+    private Calendar mCurrentCalendar;
+
+    private Calendar mCreateCalender;
+
+    // private Date mSelectStartDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mAdapter = new CompareIndexAdapter(getActivity());
-        final Calendar c = Calendar.getInstance();
-        mYear = c.get(Calendar.YEAR);
-        mMonth = c.get(Calendar.MONTH);
-        mDay = c.get(Calendar.DAY_OF_MONTH);
+        mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
+
+        mAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
+
+        mCurrentCalendar = Calendar.getInstance();
+        mYear = mCurrentCalendar.get(Calendar.YEAR);
+        mMonth = mCurrentCalendar.get(Calendar.MONTH);
+        mDay = mCurrentCalendar.get(Calendar.DAY_OF_MONTH);
         // handle intent extras
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
@@ -102,11 +124,22 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
         }
 
         mCompareEngine = new CompareEngine();
+        setGridItemData();
+    }
+
+    private void setGridItemData() {
+        CompareFundItem defalutItem1 = mAdapter.new CompareFundItem();
+        defalutItem1.name = "沪深300";
+        CompareFundItem defalutItem2 = mAdapter.new CompareFundItem();
+        defalutItem2.name = "上证指数";
+        mCompareItemList.add(defalutItem1);
+        mCompareItemList.add(defalutItem2);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-        System.out.println("create day:" + mCombinationBean.getCreateTime());
+        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
     }
 
     @Override
@@ -128,6 +161,8 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
         btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
         tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
+        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_addup_value);
+        increaseView = view.findViewById(R.id.rl_addup_history);
 
         btnStartTime.setOnClickListener(this);
         btnEndTime.setOnClickListener(this);
@@ -162,11 +197,27 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
         });
 
         if (null != mCombinationBean) {
-            strStartTime = TimeUtils.getSimpleDay(mCombinationBean.getCreateTime());
-            strEndTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
+            setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+            setEndTime(String.format(mDayFormat, mYear, (mMonth + 1), mDay));
             updateDayDisplay();
         }
 
+    }
+
+    private void setStartTime(String startDay) {
+        strStartTime = startDay;
+    }
+
+    private void setEndTime(String endDay) {
+        strEndTime = endDay;
+    }
+
+    private String getStartTime() {
+        return strStartTime;
+    }
+
+    private String getEndTime() {
+        return strEndTime;
     }
 
     private void initMaChart(TrendChart machart) {
@@ -304,9 +355,58 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
     }
 
     private void requestCompare() {
-        mCompareEngine.compare(compareListener, mCompareIds, strStartTime, strEndTime);
+        new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
+        mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
 
     }
+
+    ParseHttpListener historyNetValueListener = new ParseHttpListener<HistoryNetValue>() {
+
+        @Override
+        protected HistoryNetValue parseDateTask(String jsonData) {
+            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            return histroyValue;
+        }
+
+        @Override
+        protected void afterParseData(HistoryNetValue object) {
+            if (object != null) {
+
+                // List<HistoryNetBean> dayNetValueList = object.getChartlist();
+                // if (dayNetValueList != null && dayNetValueList.size() < 7) {
+                // tvNoData.setVisibility(View.VISIBLE);
+                // } else {
+                // int sizeLength = dayNetValueList.size();
+                // setYTitle(object.getEnd(), getMaxOffetValue(object));
+                // setHistoryPointTitle();
+                // setLineData(lineDataList);
+                // String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
+                // String strRight = getString(R.string.time_end, dayNetValueList.get(0).getDate());
+                // tvTimeLeft.setText(strLeft);
+                //
+                // tvTimeRight.setText(strRight);
+                //
+                // setXTitle(dayNetValueList);
+                //
+                // }
+                //
+                // tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
+                // float addupValue = object.getEnd() - object.getBegin();
+                // tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
+                // // fl
+                // tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
+
+                float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
+                tvIncreaseValue.setText(StringFromatUtils.get4PointPercent(increaseValue * 100));
+                if (increaseValue > 0) {
+                    increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
+                } else {
+                    increaseView.setBackgroundColor(ColorTemplate.DEF_GREEN);
+                }
+            }
+        }
+
+    };
 
     ParseHttpListener compareListener = new ParseHttpListener<String>() {
 
@@ -336,27 +436,73 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
         dpg.show();
     }
 
+    private void showBeforeCreateDayDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+
+        builder.setTitle(R.string.dialog_before_createday_title)
+                .setItems(R.array.query_compare_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        if (which == 0) {
+                            queryFromCreateDay();
+                        } else {
+                            queryBeforeCreateMonth();
+                        }
+                        updateDayDisplay();
+                        // setSelectBack(which);
+                    }
+                }).setNegativeButton(R.string.cancel, null).show();
+
+    }
+
+    private void queryFromCreateDay() {
+        setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+    }
+
+    private void queryBeforeCreateMonth() {
+
+        setStartTime(String.format(mDayFormat, mCreateCalender.get(Calendar.YEAR),
+                (mCreateCalender.get(Calendar.MONTH)), mCreateCalender.get(Calendar.DAY_OF_MONTH)));
+        setEndTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+
+    }
+
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             mYear = year;
             mMonth = monthOfYear;
             mDay = dayOfMonth;
+
             String sbTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
             if (isPickStartDate) {
+                Calendar cStart = Calendar.getInstance();
+                cStart.set(mYear, mMonth, mDay); // NB: 2 means March, not February!
 
-                strStartTime = sbTime.toString();
+                if (isBeforeCreateDate(cStart, mCreateCalender)) {
+                    showBeforeCreateDayDialog();
+                } else {
+                    setStartTime(sbTime.toString());
+                }
+
             } else {
-
-                strEndTime = sbTime.toString();
+                setEndTime(sbTime.toString());
             }
             updateDayDisplay();
         }
     };
 
+    private boolean isBeforeCreateDate(Calendar cStart, Calendar cCreate) {
+
+        return cStart.before(cCreate);
+
+    }
+
     private void updateDayDisplay() {
 
-        btnStartTime.setText(strStartTime);
-        btnEndTime.setText(strEndTime);
+        btnStartTime.setText(getStartTime());
+        btnEndTime.setText(getEndTime());
         String durTime = btnStartTime.getText() + " ---- " + btnEndTime.getText();
         tvTimeDuration.setText(durTime);
 
@@ -395,7 +541,7 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
         }
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -403,10 +549,10 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
     @Override
     public void onPauseFragment() {
         // TODO Auto-generated method stub
-        
+
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -414,7 +560,7 @@ public class FragmentCompare extends Fragment implements OnClickListener ,Fragme
     @Override
     public void onResumeFragment() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

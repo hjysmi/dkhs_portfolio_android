@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
+import java.util.List;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +33,11 @@ public class CompareIndexAdapter extends BaseAdapter {
     private Context mContext;
     private int mItemHeight = 0;
     private GridView.LayoutParams mItemViewLayoutParams;
+    private List<CompareFundItem> mDataList;
 
-    public CompareIndexAdapter(Context context) {
+    public CompareIndexAdapter(Context context, List<CompareFundItem> mCompareItemList) {
         this.mContext = context;
+        this.mDataList = mCompareItemList;
         mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
     }
@@ -41,7 +45,7 @@ public class CompareIndexAdapter extends BaseAdapter {
     @Override
     public int getCount() {
 
-        return 5;
+        return mDataList.size();
     }
 
     @Override
@@ -69,6 +73,12 @@ public class CompareIndexAdapter extends BaseAdapter {
         convertView.setLayoutParams(mItemViewLayoutParams);
         int colorId = ColorTemplate.DEFAULTCOLORS[position];
         convertView.setBackgroundColor(mContext.getResources().getColor(colorId));
+
+        CompareFundItem item = mDataList.get(position);
+
+        viewHolder.tvName.setText(item.name);
+        viewHolder.tvValue.setText(item.value);
+
         return convertView;
     }
 
@@ -86,4 +96,10 @@ public class CompareIndexAdapter extends BaseAdapter {
         notifyDataSetChanged();
 
     }
+
+    public class CompareFundItem {
+        public String name;
+        public String value;
+    }
+
 }
