@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -105,6 +106,12 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     // private Date mSelectStartDate;
 
+    private TrendChart maChartView;
+    private List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+    private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
+
+    private boolean isBeforeCreateDate;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +153,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_compare, null);
         initView(view);
-        TrendChart maChartView = (TrendChart) view.findViewById(R.id.machart);
+        maChartView = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
 
         requestCompare();
@@ -224,56 +231,18 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
-        List<LineEntity> lines = new ArrayList<LineEntity>();
-
-        LineEntity MA1 = new LineEntity();
-        MA1.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]));
-        MA1.setLineData(initMA(72));
-        MA1.setTitle("线条一");
-        LineEntity MA2 = new LineEntity();
-        MA2.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]));
-        MA2.setLineData(initMA(72));
-        MA2.setTitle("线条二");
-        LineEntity MA3 = new LineEntity();
-        MA3.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]));
-        MA3.setLineData(initMA(72));
-        MA3.setTitle("线条三");
-        LineEntity MA4 = new LineEntity();
-        MA4.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[3]));
-        MA4.setLineData(initMA(72));
-        MA4.setTitle("线条四");
-        LineEntity MA5 = new LineEntity();
-        MA5.setLineColor(getResources().getColor(ColorTemplate.DEFAULTCOLORS[4]));
-        MA5.setLineData(initMA(72));
-        MA5.setTitle("线条五");
-
-        lines.add(MA1);
-        lines.add(MA2);
-        lines.add(MA3);
-        lines.add(MA4);
-        lines.add(MA5);
-
-        List<String> linetitle = new ArrayList<String>();
-
-        List<String> ytitle = new ArrayList<String>();
-        ytitle.add("1.1051");
-        ytitle.add("1.0532");
-        ytitle.add("1.0001");
-        ytitle.add("0.0000");
-        ytitle.add("1.0522");
-        ytitle.add("1.1031");
-
-        List<String> xtitle = new ArrayList<String>();
-        xtitle.add("08-08");
-        // xtitle.add("10:30");
-        // xtitle.add("11:30");
-        // xtitle.add("14:00");
-        xtitle.add("08-10");
 
         machart.setDisplayBorder(false);
-        machart.setSmallLine();
-        machart.setDashLineLenght(20);
+        // machart.setDrawXBorke(true);
+
         machart.setLatitudeColor(Color.LTGRAY);
+
+        // machart.setMaxValue(120);
+        // machart.setMinValue(0);
+        // machart.setMaxPointNum(72);
+        // machart.setDisplayAxisYTitle(false);
+        // machart.setDisplayLatitude(true);
+        // machart.setFill(true);
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
@@ -282,8 +251,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         machart.setAxisMarginTop(10);
         machart.setAxisMarginLeft(20);
         machart.setAxisMarginRight(10);
-        machart.setAxisYTitles(ytitle);
-        machart.setAxisXTitles(xtitle);
+
         machart.setLongtitudeFontSize(10);
         machart.setLongtitudeFontColor(Color.GRAY);
         machart.setDisplayAxisYTitleColor(true);
@@ -292,7 +260,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         machart.setLongitudeColor(Color.GRAY);
         machart.setMaxValue(120);
         machart.setMinValue(0);
-        machart.setMaxPointNum(72);
+
         machart.setDisplayAxisXTitle(true);
         machart.setDisplayAxisYTitle(true);
         machart.setDisplayLatitude(true);
@@ -372,13 +340,23 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         protected void afterParseData(HistoryNetValue object) {
             if (object != null) {
 
-                // List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                // if (dayNetValueList != null && dayNetValueList.size() < 7) {
-                // tvNoData.setVisibility(View.VISIBLE);
-                // } else {
-                // int sizeLength = dayNetValueList.size();
-                // setYTitle(object.getEnd(), getMaxOffetValue(object));
-                // setHistoryPointTitle();
+                List<HistoryNetBean> dayNetValueList = object.getChartlist();
+                if (dayNetValueList != null && dayNetValueList.size() < 7) {
+                    tvNoData.setVisibility(View.VISIBLE);
+                } else {
+                    tvNoData.setVisibility(View.GONE);
+                    int sizeLength = dayNetValueList.size();
+                    setYTitle(object.getEnd(), getMaxOffetValue(object));
+                    setHistoryPointTitle();
+                    setXTitle(dayNetValueList);
+
+                    LineEntity mCombinationLine = new LineEntity();
+                    mCombinationLine.setLineColor(getActivity().getResources().getColor(
+                            ColorTemplate.MY_COMBINATION_LINE));
+                    mCombinationLine.setLineData(lineDataList);
+                    setLineData(mCombinationLine);
+
+                }
                 // setLineData(lineDataList);
                 // String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
                 // String strRight = getString(R.string.time_end, dayNetValueList.get(0).getDate());
@@ -386,7 +364,6 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 //
                 // tvTimeRight.setText(strRight);
                 //
-                // setXTitle(dayNetValueList);
                 //
                 // }
                 //
@@ -407,6 +384,89 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         }
 
     };
+
+    private void setLineData(LineEntity lineEntity) {
+        lineEntityList.add(lineEntity);
+        maChartView.setDrawDashLine(isBeforeCreateDate);
+        maChartView.setLineData(lineEntityList);
+    }
+
+    private void setHistoryPointTitle() {
+        List<String> titles = new ArrayList<String>();
+        titles.add("日期");
+        titles.add("当前净值");
+        maChartView.setPointTitleList(titles);
+    }
+
+    private void setXTitle(List<HistoryNetBean> dayNetValueList) {
+        List<String> xtitle = new ArrayList<String>();
+        System.out.println("list size:" + (dayNetValueList.size() - 1));
+        String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
+        System.out.println("endDate:" + endDate);
+        if (TextUtils.isEmpty(endDate)) {
+            xtitle.add("");
+        } else {
+            xtitle.add(endDate);
+
+        }
+        xtitle.add(dayNetValueList.get(0).getDate());
+        maChartView.setMaxPointNum(dayNetValueList.size());
+        maChartView.setAxisXTitles(xtitle);
+
+    }
+
+    /**
+     * 设置纵坐标标题，并设置曲线的最大值和最小值
+     */
+    private void setYTitle(float baseNum, float offetYvalue) {
+        // int baseNum = 1;
+        List<String> ytitle = new ArrayList<String>();
+        float halfOffetValue = offetYvalue / 2.0f;
+
+        ytitle.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
+        ytitle.add(StringFromatUtils.get4Point(baseNum - halfOffetValue));
+        ytitle.add(StringFromatUtils.get4Point(baseNum));
+        ytitle.add(StringFromatUtils.get4Point(baseNum + halfOffetValue));
+        ytitle.add(StringFromatUtils.get4Point(baseNum + offetYvalue));
+        maChartView.setAxisYTitles(ytitle);
+        maChartView.setMaxValue(baseNum + offetYvalue);
+        maChartView.setMinValue(baseNum - offetYvalue);
+
+    }
+
+    /**
+     * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
+     */
+    private float getMaxOffetValue(HistoryNetValue historyNetValue) {
+        // lineDataList.clear();
+        float baseNum = historyNetValue.getEnd();
+        float maxNum = baseNum, minNum = baseNum;
+        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+        int dataLenght = historyNetList.size();
+        for (int i = dataLenght - 1; i >= 0; i--) {
+
+            LinePointEntity pointEntity = new LinePointEntity();
+            HistoryNetBean todayBean = historyNetList.get(i);
+            pointEntity.setDesc(todayBean.getDate());
+            pointEntity.setValue(todayBean.getNetvalue());
+            lineDataList.add(pointEntity);
+
+            if (todayBean.getNetvalue() > maxNum) {
+                maxNum = todayBean.getNetvalue();
+
+            } else if (todayBean.getNetvalue() < minNum) {
+                minNum = todayBean.getNetvalue();
+            }
+        }
+        float offetValue;
+        maxNum = maxNum - baseNum;
+        minNum = baseNum - minNum;
+
+        offetValue = maxNum > minNum ? maxNum : minNum;
+
+        return offetValue;
+
+    }
 
     ParseHttpListener compareListener = new ParseHttpListener<String>() {
 
@@ -494,8 +554,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     };
 
     private boolean isBeforeCreateDate(Calendar cStart, Calendar cCreate) {
-
-        return cStart.before(cCreate);
+        isBeforeCreateDate = cStart.before(cCreate);
+        return isBeforeCreateDate;
 
     }
 

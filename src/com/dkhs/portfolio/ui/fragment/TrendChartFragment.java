@@ -248,7 +248,7 @@ public class TrendChartFragment extends Fragment {
         lines.add(MA5);
         mMaChart.setLineData(lines);
     }
-
+    
     // private void set
 
     private void initTodayTrendTitle() {
@@ -516,11 +516,7 @@ public class TrendChartFragment extends Fragment {
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
-        // xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
-        System.out.println("list size:" + (dayNetValueList.size() - 1));
-        // System.out.println("list size:"+(dayNetValueList.size() - 1));
         String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
-        System.out.println("endDate:" + endDate);
         if (TextUtils.isEmpty(endDate)) {
             xtitle.add("");
         } else {

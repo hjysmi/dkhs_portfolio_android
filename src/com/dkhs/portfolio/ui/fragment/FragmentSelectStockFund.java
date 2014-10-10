@@ -323,6 +323,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SelectStockBean itemStock = mDataList.get(position);
+            itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name, Toast.LENGTH_SHORT).show();
             getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }

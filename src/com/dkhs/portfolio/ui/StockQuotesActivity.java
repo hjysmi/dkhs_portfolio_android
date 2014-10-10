@@ -281,6 +281,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     if (null != selectBean) {
                         mStockBean = selectBean;
                         setTitle(selectBean.name);
+                        setAddOptionalButton();
                     }
                     break;
             }
