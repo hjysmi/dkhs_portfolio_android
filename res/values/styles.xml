@@ -83,6 +83,15 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/tab_backgroud</item>
     </style>
+    
+     <!-- 自定义dialog 没有背景样式-->
+    <style name="dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 
     <style name="SwitchTextAppearance" parent="@android:style/TextAppearance.Holo.Small">
         <item name="android:textColor">@color/switch_textcolor</item>

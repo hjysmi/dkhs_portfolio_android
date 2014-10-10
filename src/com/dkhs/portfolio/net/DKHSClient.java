@@ -15,6 +15,7 @@ import org.apache.http.NameValuePair;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.common.GlobalParams;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -31,7 +32,7 @@ import com.lidroid.xutils.util.LogUtils;
  * @version 1.0
  */
 public class DKHSClient {
-    // private static
+
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
         HttpUtils mHttpUtils = new HttpUtils();
 
@@ -39,15 +40,19 @@ public class DKHSClient {
             params = new RequestParams();
         }
 
-        params.addHeader("Authorization", "Bearer " + "a96bbfeaf41fcf76793d97a0c07dfe60d0c0a4c2");
+        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+            LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
+        }
+
         String requestUrl = getAbsoluteUrl(url);
 
         LogUtils.d("requestUrl:" + requestUrl);
 
         LogUtils.d("RequestParams:" + params);
-        // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
         // mHttpUtils.configDefaultHttpCacheExpiry(0);
         // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
+
         mHttpUtils.configCurrentHttpCacheExpiry(0);
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 

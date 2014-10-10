@@ -12,6 +12,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 
 public class ModelAcitivity extends BaseActivity {
 
@@ -29,6 +30,8 @@ public class ModelAcitivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
+    	// 模拟堆栈管理activity
+    	PortfolioApplication.getInstance().addActivity(this);
         onCreate(arg0, R.layout.layout_model_default);
     }
 
