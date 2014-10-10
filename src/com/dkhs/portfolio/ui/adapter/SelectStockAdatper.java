@@ -56,7 +56,11 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+        if (this instanceof AddStockItemAdapter) {
+            viewHolder.mCheckbox.setChecked(item.isFollowed);
+        } else {
+            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+        }
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.name);
@@ -74,7 +78,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         viewHolder.tvCurrentValue.setText("" + item.currentValue);
         viewHolder.tvIncreaseValue.setTextColor(textCsl);
         viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
-       
+
         return convertView;
     }
 

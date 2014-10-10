@@ -24,6 +24,7 @@ public class SelectStockBean implements Serializable {
     public float percentage;
     public long id;
     public String code;
+    public boolean isFollowed;
 
     public static SelectStockBean copy(ConStockBean stockBean) {
 

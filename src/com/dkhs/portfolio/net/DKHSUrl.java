@@ -50,7 +50,7 @@ public class DKHSUrl {
         String quotes = "/api/v1/symbols/{0}/quote";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
         // http://192.168.107.251:8002/api/v1/symbols/101000100/unfollow/
-        String unfollow = "/api/v1/symbols/{0}/unfollow";
+        String unfollow = "/api/v1/symbols/{0}/unfollow/";
 
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/symbols/profile/";

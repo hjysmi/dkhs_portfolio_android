@@ -30,6 +30,8 @@ public class StockPriceBean {
     // 涨跌幅
     @SerializedName("percentage")
     private float percentage;
+    @SerializedName("followed")
+    private boolean isFollowed;
 
     public long getId() {
         return id;
@@ -69,6 +71,14 @@ public class StockPriceBean {
 
     public void setPercentage(float percentage) {
         this.percentage = percentage;
+    }
+
+    public boolean isFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(boolean isFollowed) {
+        this.isFollowed = isFollowed;
     }
 
 }

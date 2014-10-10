@@ -65,7 +65,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvChange;
     private TextView tvPercentage;
     private Button btnAddOptional;
-    private ScrollView mScrollview; //滚动条，用于滚动到头部
+    private ScrollView mScrollview; // 滚动条，用于滚动到头部
 
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
@@ -125,15 +125,25 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         initTabPage();
         // setupViewData();
-        
-        //scrollview + listview 会滚动到底部，需要滚动到头部
+
+        // scrollview + listview 会滚动到底部，需要滚动到头部
         scrollToTop();
+        setAddOptionalButton();
     }
-    
+
+    private void setAddOptionalButton() {
+
+        if (mStockBean.isFollowed) {
+            btnAddOptional.setText(R.string.delete_fllow);
+        } else {
+            btnAddOptional.setText(R.string.add_fllow);
+        }
+    }
+
     private void scrollToTop() {
-    	mScrollview = (ScrollView) findViewById(R.id.sc_content);
-        mScrollview.smoothScrollTo(0, 0);		
-	}
+        mScrollview = (ScrollView) findViewById(R.id.sc_content);
+        mScrollview.smoothScrollTo(0, 0);
+    }
 
     private void setupViewData() {
         if (null != mQuotesEngine) {
@@ -178,9 +188,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
         fragmentList.add(mStockQuotesChartFragment);
 
-        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,mStockCode));
-        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,mStockCode));
-        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,mStockCode));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode));
+        fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode));
         // fragmentList.add(new TestFragment());
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
@@ -277,19 +287,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
-    private boolean hasFollow = true;
+    // private boolean hasFollow = true;
     IHttpListener baseListener = new BasicHttpListener() {
 
         @Override
         public void onSuccess(String result) {
-            hasFollow = !hasFollow;
-            if (hasFollow) {
-
-                btnAddOptional.setText(R.string.delete_fllow);
-            } else {
-
-                btnAddOptional.setText(R.string.add_fllow);
-            }
+            mStockBean.isFollowed = !mStockBean.isFollowed;
+            setAddOptionalButton();
         }
     };
 
@@ -312,7 +316,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
-            
+
             setupViewData();
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
@@ -330,7 +334,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         switch (id) {
             case R.id.btn_add_optional:
 
-                if (hasFollow) {
+                if (mStockBean.isFollowed) {
                     mQuotesEngine.delfollow(mStockBean.id, baseListener);
                 } else {
                     mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
