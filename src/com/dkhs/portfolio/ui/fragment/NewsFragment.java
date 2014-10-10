@@ -1,19 +1,28 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import java.security.acl.LastOwnerException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +43,8 @@ public class NewsFragment extends Fragment{
 	private ExpandableListView mListView; //资讯列表
 	private MyExpandableListAdapter mAdapter;
 	private LayoutInflater mLayoutInflater;
+	
+	private Handler mHandler = new Handler();
 	
 	private static List<Map<String, String>> titles = new ArrayList<Map<String,String>>();
 	
@@ -158,10 +169,14 @@ public class NewsFragment extends Fragment{
 	public class MyExpandableListAdapter extends BaseExpandableListAdapter {
        
         private int pos; //点击的索引
+        private int loastPos; //上一次点击位置
+        private View mClickItemView;
 		
         
         public void loadPosition(int pos) {
+        	this.loastPos = this.pos;
         	this.pos = pos;
+        	
 //        	mAdapter.notifyDataSetChanged();
         }
 		
@@ -190,10 +205,51 @@ public class NewsFragment extends Fragment{
         	}else {
         		view = mLayoutInflater.inflate(R.layout.item_news_child, null);
         	}
+        	if(groupPosition == pos) {
+        		mClickItemView = view;
+//        		if(groupPosition != loastPos) {
+        			loastPos = groupPosition;
+            		WebView mTextView = (WebView) view.findViewById(R.id.view_news);
+                	loadText(groupPosition,mTextView);
+//        		}
+        	}else {
+        	}
         	
-        	WebView mTextView = (WebView) view.findViewById(R.id.view_news);
-        	loadText(groupPosition,mTextView);
+        	
         	return view;
+        }
+        
+        /**
+         * 添加webview
+         * @param webview
+         */
+        public void resetWebView(final WebView webview) {
+        	if(webview == null) {
+        		return;
+        	}
+        	webview.measure(0, 0);
+        	int height = webview.getContentHeight();
+        	if(height == 0) {
+        		height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        	}
+        	LinearLayout.LayoutParams lp = (LayoutParams) webview.getLayoutParams();
+//        	lp.height = height;
+//        	webview.invalidate();
+//        	if(mClickItemView != null) {
+//        		AbsListView.LayoutParams ilp = (android.widget.AbsListView.LayoutParams) mClickItemView.getLayoutParams();
+//        		if(ilp != null) {
+//        			ilp.height = height;
+//        			if(height > 0) {
+//        				mListView.invalidate();
+//        			}
+//        		}
+//        	}
+        	
+//        	mListView.measure(0, 0);
+//        	webview.invalidate();
+//        	webview.requestLayout();
+//        	webview.requestLayout();
+        	//        	mAdapter.notifyDataSetChanged();
         }
 
 
@@ -202,24 +258,55 @@ public class NewsFragment extends Fragment{
          * @param groupPosition
          * @param mTextView
          */
-		private void loadText(int groupPosition, WebView mTextView) {
+		private void loadText(int groupPosition, final WebView mTextView) {
+//			mTextView.setVisibility(View.GONE);
 			Map<String,String> group = titles.get(groupPosition);
         	if(group != null) {
-//        		String url = group.get(KEY_URL);
-//        		mTextView.loadUrl(url);
-        		String text = group.get(KEY_TEXT);
+        		String url = group.get(KEY_URL);
+//        		mTextView.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+        		mTextView.loadUrl(url);
+        		mTextView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+        		mTextView.getSettings().setJavaScriptEnabled(true);
+        		
+        		mTextView.setWebViewClient(new WebViewClient(){
+        			
+        			@Override
+        			public void onScaleChanged(WebView view, float oldScale,
+        					float newScale) {
+        				super.onScaleChanged(view, oldScale, newScale);
+//        				view.requestLayout();
+        				mAdapter.resetWebView(view);
+        			}
+        			
+        			
+    				@Override
+    				public void onPageFinished(WebView view, String url) {
+    					super.onPageFinished(view, url);
+    					mAdapter.resetWebView(view);
+    				}
+    			});
+        		
+//        		String text = group.get(KEY_TEXT);
         		
         		//测试
 //        		mTextView.loadUrl("file:///android_asset/test.html"); 
-        		if(text != null && text.trim().length() > 0) {
-        			mTextView.getSettings().setDefaultTextEncodingName("utf-8");
-        			mTextView.loadDataWithBaseURL("about:blank",text, "text/html", "utf-8",null);
-//        			mTextView.setText(Html.fromHtml(text));
-        		}else {
-        			//请求网络加载数据
-        			String url = group.get(KEY_URL);
-            		DKHSClient.requestByGet(url, null, null, new TextLoadListener(group,mTextView));
-        		}
+//        		if(text != null && text.trim().length() > 0) {
+//        			mTextView.getSettings().setDefaultTextEncodingName("utf-8");
+//        			mTextView.loadDataWithBaseURL("about:blank",text, "text/html", "utf-8",null);
+//        			mTextView.setWebViewClient(new WebViewClient(){
+//        				@Override
+//        				public void onPageFinished(WebView view, String url) {
+//        					super.onPageFinished(view, url);
+//        					view.requestLayout();
+//        					mListView.requestLayout();
+//        				}
+//        			});
+////        			mTextView.setText(Html.fromHtml(text));
+//        		}else {
+//        			//请求网络加载数据
+//        			String url = group.get(KEY_URL);
+//            		DKHSClient.requestByGet(url, null, null, new TextLoadListener(group,mTextView));
+//        		}
         		
         	}
 		}

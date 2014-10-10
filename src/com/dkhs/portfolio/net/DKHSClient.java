@@ -37,7 +37,7 @@ public class DKHSClient {
             params = new RequestParams();
         }
 
-        params.addHeader("Authorization", "Bearer " + "5ab43e70dce6acf8936b3229edfb36de9849d157");
+        params.addHeader("Authorization", "Bearer " + "a96bbfeaf41fcf76793d97a0c07dfe60d0c0a4c2");
         if(!url.contains("http")){
         	url = getAbsoluteUrl(url);
         	
