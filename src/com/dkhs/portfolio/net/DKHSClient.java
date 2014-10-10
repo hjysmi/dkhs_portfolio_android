@@ -37,10 +37,12 @@ public class DKHSClient {
         if (null == params) {
             params = new RequestParams();
         }
+
         mHttpUtils = new HttpUtils();
         if(!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)){
         	params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
         	LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
+
         }
         String requestUrl = getAbsoluteUrl(url);
 
