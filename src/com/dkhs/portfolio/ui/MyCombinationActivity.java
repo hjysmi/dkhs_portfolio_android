@@ -332,10 +332,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
-        builder.setMessage("您将要删除选中的组合!");
-        builder.setTitle("提示");
+        builder.setMessage(R.string.dialog_message_delete_combination);
+        builder.setTitle(R.string.tips);
 
-        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -346,7 +346,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                     public void onSuccess(String result) {
                         // mCombinationAdapter.getDelPosition().clear();
                         mDataList.remove(mCombination);
-                        upateDelViewStatus();
+                        mCombinationAdapter.notifyDataSetChanged();
+                        // upateDelViewStatus();
                     }
 
                     @Override
@@ -360,7 +361,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
         });
 
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
