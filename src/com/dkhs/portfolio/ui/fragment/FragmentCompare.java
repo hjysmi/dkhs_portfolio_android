@@ -10,9 +10,11 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -37,16 +39,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.CompareFundsBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
-import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.CompareEngine;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.NetValueEngine;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
@@ -345,7 +345,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     tvNoData.setVisibility(View.GONE);
-                    int sizeLength = dayNetValueList.size();
+                    // int sizeLength = dayNetValueList.size();
                     setYTitle(object.getEnd(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setXTitle(dayNetValueList);
@@ -357,21 +357,6 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     setLineData(mCombinationLine);
 
                 }
-                // setLineData(lineDataList);
-                // String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
-                // String strRight = getString(R.string.time_end, dayNetValueList.get(0).getDate());
-                // tvTimeLeft.setText(strLeft);
-                //
-                // tvTimeRight.setText(strRight);
-                //
-                //
-                // }
-                //
-                // tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
-                // float addupValue = object.getEnd() - object.getBegin();
-                // tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
-                // // fl
-                // tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
 
                 float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
                 tvIncreaseValue.setText(StringFromatUtils.get4PointPercent(increaseValue * 100));
@@ -387,6 +372,12 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     private void setLineData(LineEntity lineEntity) {
         lineEntityList.add(lineEntity);
+        maChartView.setDrawDashLine(isBeforeCreateDate);
+        maChartView.setLineData(lineEntityList);
+    }
+
+    private void setLineListsData(List<LineEntity> linesList) {
+        lineEntityList.addAll(linesList);
         maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
     }
@@ -448,7 +439,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
             pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(todayBean.getNetvalue());
+            pointEntity.setValue(todayBean.getPercentage());
             lineDataList.add(pointEntity);
 
             if (todayBean.getNetvalue() > maxNum) {
@@ -468,17 +459,49 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     }
 
-    ParseHttpListener compareListener = new ParseHttpListener<String>() {
+    ParseHttpListener compareListener = new ParseHttpListener<List<LineEntity>>() {
 
         @Override
-        protected String parseDateTask(String jsonData) {
-            // TODO Auto-generated method stub
-            return null;
+        protected List<LineEntity> parseDateTask(String jsonData) {
+
+            List<LineEntity> linesList = new ArrayList<LineEntity>();
+            try {
+                List<CompareFundsBean> beanList = DataParse.parseArrayJson(CompareFundsBean.class, new JSONArray(
+                        jsonData));
+
+                // List<ComparePoint> chartlist = bean.getChartlist();
+                // 解析数据，把线条数赋值
+
+                int i = 0;
+                for (CompareFundsBean bean : beanList) {
+                    LineEntity lineEntity = new LineEntity();
+                    lineEntity.setLineColor(ColorTemplate.getDefaultColor(i));
+                    List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+                    for (ComparePoint cPoint : bean.getChartlist()) {
+                        LinePointEntity pointEntity = new LinePointEntity();
+                        pointEntity.setDesc(cPoint.getDate());
+                        pointEntity.setValue(cPoint.getPercentage());
+                        lineDataList.add(pointEntity);
+                    }
+                    lineEntity.setLineData(lineDataList);
+                    linesList.add(lineEntity);
+                    i++;
+                }
+
+            } catch (JSONException e) {
+
+                e.printStackTrace();
+            }
+
+            return linesList;
         }
 
         @Override
-        protected void afterParseData(String object) {
-            // TODO Auto-generated method stub
+        protected void afterParseData(List<LineEntity> object) {
+            if (null != object && object.size() > 0) {
+                setLineListsData(object);
+
+            }
 
         }
     };
@@ -571,14 +594,22 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private void updateSelectData(List<SelectStockBean> listStock) {
         StringBuilder sb = new StringBuilder();
         StringBuilder sbCompareIds = new StringBuilder();
+        mCompareItemList.clear();
         for (SelectStockBean csBean : listStock) {
+            CompareFundItem item = mAdapter.new CompareFundItem();
+            item.name = csBean.name;
+            // item.value = csBean.id + "";
+            mCompareItemList.add(item);
+
             sb.append(csBean.name);
             sb.append(" ");
             sbCompareIds.append(csBean.id);
             sbCompareIds.append(",");
+
         }
         mCompareIds = sbCompareIds.toString();
         btnSelectFund.setText(sb);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
