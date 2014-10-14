@@ -29,7 +29,9 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
+import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
@@ -111,25 +113,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
     }
 
-    public enum OrderType {
-        // 排序模式，日排行
-        DAY(1),
-        // 排序模式，月排行
-        MONTH(2),
-        // 排序模式，季度排行
-        QUARTER(3);
-
-        private int typeId;
-
-        OrderType(int type) {
-            this.typeId = type;
-        }
-
-        public int getTypeId() {
-            return typeId;
-        }
-    }
-
     public static FragmentSelectStockFund getStockFragment(ViewType type) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
@@ -156,35 +139,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
-    }
-
-    // public void searchByKey(String key) {
-    // mDataList.clear();
-    // // testSearchKey(key);
-    // if (mViewType == ViewType.SEARCH_STOCK.typeId) {
-    //
-    // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
-    // }
-    // mAdapterConbinStock.notifyDataSetChanged();
-    // }
-
-    private void testSearchKey(String key) {
-
-        // for (int i = 0; i < 20; i++) {
-        // ConStockBean csBean = new ConStockBean();
-        // if (isFund) {
-        //
-        // csBean.setName("基金" + key + i);
-        // } else {
-        // csBean.setName("股票" + key + i);
-        //
-        // }
-        // csBean.setStockId(i+101000001);
-        // csBean.setStockCode("" + (600000 + i));
-        // csBean.setCurrentValue(20.00f + i);
-        // mDataList.add(csBean);
-        // }
-
     }
 
     @Override
@@ -224,13 +178,17 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     private void loadDataByFund() {
-        for (int i = 0; i < 20; i++) {
-            SelectStockBean csBean = new SelectStockBean();
-            csBean.name = "基金名称" + i;
-            csBean.id = i + 100;
-            csBean.currentValue = 9.15f + i;
-            mDataList.add(csBean);
+
+        if (mViewType == ViewType.FUND_MAININDEX.typeId) {
+            mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_MAININDEX);
+        } else if (mViewType == ViewType.FUND_INDEX.typeId) {
+            mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
+        } else if (mViewType == ViewType.STOCK_DRAWDOWN.typeId) {
+            mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
+
         }
+        mLoadDataEngine.loadData();
+
     }
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
@@ -246,6 +204,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
 
     };
+
+    public void setOrderType(OrderType orderType) {
+        if (mLoadDataEngine instanceof FundDataEngine) {
+            ((FundDataEngine) mLoadDataEngine).setOrderType(orderType);
+            mDataList.clear();
+            mLoadDataEngine.loadData();
+        }
+    }
 
     private void loadDataByStock() {
 
@@ -357,6 +323,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SelectStockBean itemStock = mDataList.get(position);
+            itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name, Toast.LENGTH_SHORT).show();
             getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }

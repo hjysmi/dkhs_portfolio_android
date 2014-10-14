@@ -303,13 +303,13 @@ public class TrendGridChart extends View {
         // drawWithFingerClick(canvas);
         // }
 
-        if (mDrawBitmap == null || mDrawCanvas == null) {
-
-            // use RGB_565 for best performance
-            mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
-            mDrawCanvas = new Canvas(mDrawBitmap);
-        }
-        mDrawCanvas.drawColor(backgroudColor);
+//        if (mDrawBitmap == null || mDrawCanvas == null) {
+//
+//            // use RGB_565 for best performance
+//            mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+//            mDrawCanvas = new Canvas(mDrawBitmap);
+//        }
+//        mDrawCanvas.drawColor(backgroudColor);
         // }
     }
 

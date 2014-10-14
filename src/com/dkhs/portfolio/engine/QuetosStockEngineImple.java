@@ -56,14 +56,19 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
         params.add(valuePair);
         // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist + "?exchange=1,2&sort=" + orderType, null, params,
         // this);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType), null, this);
+        // DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist+"&page="+, "1,2", orderType),
+        // null, params,
+        // this);
+
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist + "&page=" + (getCurrentpage() + 1),
+                "1,2", orderType, 1), null, this);
     }
 
     @Override
     public void loadData() {
 
         // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType, null, this);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType, 1), null, this);
 
     }
 
@@ -88,6 +93,7 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
                     selectBean.currentValue = stockBean.getCurrent();
                     selectBean.code = stockBean.getSymbol();
                     selectBean.percentage = stockBean.getPercentage();
+                    selectBean.isFollowed = stockBean.isFollowed();
                     selectList.add(selectBean);
 
                     // results.add(stockBean);

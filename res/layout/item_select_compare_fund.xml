@@ -13,21 +13,25 @@
 
     <TextView
         android:id="@+id/tv_fund_name"
-        style="@style/hw_wrap"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:text="沪深大盘"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_increase_value"
-        style="@style/hw_wrap"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="+2.22%"
+        android:paddingLeft="14dp"
         android:textColor="@color/red"
         android:textSize="16sp" />
 
     <RelativeLayout
-        style="@style/hw_wrap"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1" >
 
         <CheckBox

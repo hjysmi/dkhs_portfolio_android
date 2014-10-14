@@ -17,7 +17,10 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    public static final String BASE_URL = "http://58.23.5.117:8010";
+
+    // public static final String BASE_URL = "http://192.168.107.251:8010";
+    public static final String BASE_URL = "http://58.23.5.117:8030";
+
 
     public interface Portfolio {
         // 查询我的组合
@@ -25,11 +28,11 @@ public class DKHSUrl {
         // 创建我的组合
         String create = "/api/v1/portfolio/";
         // 删除组合
-        String delete = "/api/v1/portfolio/delete_portfolios/";
+        String delete = "/api/v1/portfolio/{0}/";
         // 更新组合信息
         String update = "/api/v1/portfolio/";
         // 持仓调整
-        String adjust = "/api/v1/portfolio/";
+        String adjust = "/api/v1/portfolio/{0}/adjust_positions/";
 
     }
 
@@ -43,14 +46,14 @@ public class DKHSUrl {
 
         // http://192.168.107.251:8002/api/v1/symbols/?exchange=1&sort=change
 
-        String stocklist = "/api/v1/symbols/?exchange={0}&sort={1}";
+        String stocklist = "/api/v1/symbols/?exchange={0}&sort={1}&symbol_type={2}";
 
         // 查股票实时行情信息，包含5档信息
         // http://192.168.107.251:8002/api/v1/symbols/SZ000002/quote/
         String quotes = "/api/v1/symbols/{0}/quote";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
         // http://192.168.107.251:8002/api/v1/symbols/101000100/unfollow/
-        String unfollow = "/api/v1/symbols/{0}/unfollow";
+        String unfollow = "/api/v1/symbols/{0}/unfollow/";
 
         // GET /api/v1/quotes/symbols_profile/
         String profile = "/api/v1/symbols/profile/";
@@ -80,7 +83,15 @@ public class DKHSUrl {
         // /api/v1/portfolio/{pk}/netvalue_history/
         String report = "/api/v1/portfolio/{0}/netvalue_history/";
     }
-    
+
+    public interface Fund {
+        // http://192.168.107.251:8002/api/v1/symbols/funds/?type=1&sort=percent_month
+        String fundsList = "/api/v1/symbols/funds/?type={0}&sort={1}";
+        // http://192.168.107.251:8002/api/v1/symbols/106000082%2C106000232/quote_history/?from_date=2014-09-01&to_date=2014-10-08
+        String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
+
+    }
+
     public interface User {
         // 登录
         String login = "/api/v1/accounts/login/";
@@ -92,8 +103,9 @@ public class DKHSUrl {
         String is_setpassword = "/api/v1/accounts/is_password_set/";
         // 设置密码
         String setpassword = "/api/v1/accounts/set_password/";
-        //修改密码
+        // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
 
     }
+
 }

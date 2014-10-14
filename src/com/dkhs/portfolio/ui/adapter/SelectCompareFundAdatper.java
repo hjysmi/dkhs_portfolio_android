@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName SelectFundAdatper
@@ -59,7 +60,7 @@ public class SelectCompareFundAdatper extends BaseAdatperSelectStockFund {
         viewHolder.tvStockName.setText(item.name);
 
         ColorStateList textCsl;
-        if (position % 3 == 0) {
+        if (item.percentage > 0) {
             textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
 
         } else {
@@ -68,6 +69,7 @@ public class SelectCompareFundAdatper extends BaseAdatperSelectStockFund {
         }
 
         viewHolder.tvIncreaseValue.setTextColor(textCsl);
+        viewHolder.tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(item.percentage * 100));
         return convertView;
     }
 

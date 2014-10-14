@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -36,7 +37,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-9-1 下午1:52:54
  * @version 1.0
  */
-public class FragmentNetValueTrend extends Fragment implements OnClickListener {
+public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
 
     // private EditText etCombinName;
     private TextView tvCombinName;
@@ -47,6 +48,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     // private Button btnEditName;
 
     private CombinationBean mCombinationBean;
+
+    MyPagerFragmentAdapter mPagerAdapter;
 
     /**
      * @Title
@@ -101,7 +104,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     private void setupViewData() {
         if (null != mCombinationBean) {
-            System.out.println("mCombinationBean name:" + mCombinationBean.getName());
+            // System.out.println("mCombinationBean name:" + mCombinationBean.getName());
             tvCombinName.setText(mCombinationBean.getName());
             tvCombinDesc.setText(getString(R.string.descrition_format, mCombinationBean.getDescription()));
             tvCombinCreateTime.setText(getString(R.string.create_time_format,
@@ -120,12 +123,14 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
-        ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
-        pager.setCanScroll(false);
-        pager.setAdapter(new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray));
+        ScrollViewPager mViewPager = (ScrollViewPager) view.findViewById(R.id.pager);
+        mViewPager.setCanScroll(false);
+        mPagerAdapter = new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray);
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(pageChangeListener);
 
         TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
+        indicator.setViewPager(mViewPager);
 
     }
 
@@ -157,6 +162,29 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         }
 
     }
+
+    private OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        int currentPosition = 0;
+
+        @Override
+        public void onPageSelected(int newPosition) {
+
+            Fragment fragmentToShow = (Fragment) mPagerAdapter.getItem(newPosition);
+            fragmentToShow.setUserVisibleHint(true);
+
+            Fragment fragmentToHide = (Fragment) mPagerAdapter.getItem(currentPosition);
+            fragmentToHide.setUserVisibleHint(false);
+            currentPosition = newPosition;
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+        }
+
+        public void onPageScrollStateChanged(int arg0) {
+        }
+    };
 
     @Override
     public void onClick(View v) {
@@ -190,6 +218,28 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         // default:
         // break;
         // }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPauseFragment() {
+        System.out.println("Fragment net value trend onPauseFragment（）");
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResumeFragment() {
+        // TODO Auto-generated method stub
 
     }
 }
