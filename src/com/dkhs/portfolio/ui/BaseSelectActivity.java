@@ -23,6 +23,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -264,8 +265,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     }
 
     private void showTypeDialog() {
-        new AlertDialog.Builder(BaseSelectActivity.this).setTitle("组合创建模式")
-                .setItems(R.array.create_type, new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(new ContextThemeWrapper(this, android.R.style.Theme_Holo_Light_Dialog_NoActionBar))
+                .setTitle("组合创建模式").setItems(R.array.create_type, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 
                         /* User clicked so do some stuff */

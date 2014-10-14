@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName OptionalStockAdapter
@@ -139,7 +140,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         AdjustListBean item = mDataList.get(position);
-        viewHolder.tvAdjustTime.setText(item.time);
+        viewHolder.tvAdjustTime.setText(TimeUtils.getSimpleFormatTime(item.time));
         viewHolder.tvAdjustContent.setText(item.content);
         // viewHolder.colorView.setBackgroundColor(item.getDutyColor());
 
