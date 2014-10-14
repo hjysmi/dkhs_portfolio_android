@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.engine;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,11 +63,11 @@ public class MyCombinationEngineImpl {
      */
     public void deleteCombination(String Ids, IHttpListener listener) {
 
-        RequestParams params = new RequestParams();
-        // params.addBodyParameter("portfolios ", "1,2,3");
-        params.addBodyParameter("portfolios", Ids);
+        // RequestParams params = new RequestParams();
+        // // params.addBodyParameter("portfolios ", "1,2,3");
+        // params.addBodyParameter("portfolios", Ids);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.delete, params, listener);
+        DKHSClient.request(HttpMethod.DELETE, MessageFormat.format(DKHSUrl.Portfolio.delete, Ids), null, listener);
         // DKHSClilent.request(HttpMethod.DELETE, DKHSUrl.Portfolio.portfolio + id + "/", null, listener);
 
     }
@@ -76,13 +77,13 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void updateCombination(int id, String name,String desc, IHttpListener listener) {
+    public void updateCombination(int id, String name, String desc, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("name", name);
-         params.addBodyParameter("description", desc);
+        params.addBodyParameter("description", desc);
 
-        DKHSClient.request(HttpMethod.PUT, DKHSUrl.Portfolio.update + id , params, listener);
+        DKHSClient.request(HttpMethod.PUT, DKHSUrl.Portfolio.update + id+"/", params, listener);
 
     }
 
@@ -100,7 +101,7 @@ public class MyCombinationEngineImpl {
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClient.requestByPost(DKHSUrl.Portfolio.adjust + id + "/adjust_positions/", params, listener);
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust , id), params, listener);
 
     }
 

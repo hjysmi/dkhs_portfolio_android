@@ -62,7 +62,6 @@ import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName FragmentCompare
- * @Description TODO(这里用一句话描述这个类的作用)
  * @author zjz
  * @date 2014-9-3 上午9:32:29
  * @version 1.0
@@ -553,27 +552,31 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     }
 
+    int noOfTimesCalled = 0;
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            mYear = year;
-            mMonth = monthOfYear;
-            mDay = dayOfMonth;
+            if (noOfTimesCalled % 2 == 0) {
+                mYear = year;
+                mMonth = monthOfYear;
+                mDay = dayOfMonth;
 
-            String sbTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
-            if (isPickStartDate) {
-                Calendar cStart = Calendar.getInstance();
-                cStart.set(mYear, mMonth, mDay); // NB: 2 means March, not February!
+                String sbTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
+                if (isPickStartDate) {
+                    Calendar cStart = Calendar.getInstance();
+                    cStart.set(mYear, mMonth, mDay); // NB: 2 means March, not February!
 
-                if (isBeforeCreateDate(cStart, mCreateCalender)) {
-                    showBeforeCreateDayDialog();
+                    if (isBeforeCreateDate(cStart, mCreateCalender)) {
+                        showBeforeCreateDayDialog();
+                    } else {
+                        setStartTime(sbTime.toString());
+                    }
+
                 } else {
-                    setStartTime(sbTime.toString());
+                    setEndTime(sbTime.toString());
                 }
-
-            } else {
-                setEndTime(sbTime.toString());
+                updateDayDisplay();
             }
-            updateDayDisplay();
+            noOfTimesCalled++;
         }
     };
 

@@ -26,11 +26,11 @@ public class DKHSUrl {
         // 创建我的组合
         String create = "/api/v1/portfolio/";
         // 删除组合
-        String delete = "/api/v1/portfolio/delete_portfolios/";
+        String delete = "/api/v1/portfolio/{0}/";
         // 更新组合信息
         String update = "/api/v1/portfolio/";
         // 持仓调整
-        String adjust = "/api/v1/portfolio/";
+        String adjust = "/api/v1/portfolio/{0}/adjust_positions/";
 
     }
 
