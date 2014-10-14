@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.widget.kline;
 
 public class OHLCEntity {
 
+	private double volume; //成交量
 	private double open;// 开盘价
 	private double high;// 最高价
 	private double low;// 最低价
@@ -12,8 +13,9 @@ public class OHLCEntity {
 		super();
 	}
 
-	public OHLCEntity(double open, double high, double low, double close, String date) {
+	public OHLCEntity(double volumn,double open, double high, double low, double close, String date) {
 		super();
+		this.volume = volumn;
 		this.open = open;
 		this.high = high;
 		this.low = low;
@@ -61,4 +63,12 @@ public class OHLCEntity {
 		this.date = date;
 	}
 
+	public double getVolume() {
+		return volume;
+	}
+
+	public void setVolume(double volume) {
+		this.volume = volume;
+	}
+	
 }

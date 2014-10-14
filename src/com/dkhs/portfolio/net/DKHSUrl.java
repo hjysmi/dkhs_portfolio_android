@@ -17,7 +17,7 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    public static final String BASE_URL = "http://192.168.107.251:8002";
+    public static final String BASE_URL = "http://58.23.5.117:8010";
 
     public interface Portfolio {
         // 查询我的组合
