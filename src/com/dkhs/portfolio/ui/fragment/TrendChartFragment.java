@@ -248,7 +248,7 @@ public class TrendChartFragment extends Fragment {
         lines.add(MA5);
         mMaChart.setLineData(lines);
     }
-    
+
     // private void set
 
     private void initTodayTrendTitle() {
@@ -573,13 +573,18 @@ public class TrendChartFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        System.out.println("setUserVisibleHint:" + isVisibleToUser);
-        if (isVisibleToUser) {
-            // 相当于Fragment的onResume
-        } else {
+        if (trendType.equals(TREND_TYPE_TODAY)) {
+            System.out.println("setUserVisibleHint:" + isVisibleToUser);
 
-            // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-            // 相当于Fragment的onPause
+            if (isVisibleToUser) {
+                // 相当于Fragment的onResume{
+                dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+            } else {
+                System.out.println("dataHandler.removeCallbacks");
+                dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+                // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+                // 相当于Fragment的onPause
+            }
         }
     }
 

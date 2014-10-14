@@ -305,7 +305,6 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             }
                 break;
             case R.id.btn_compare_fund: {
-                Toast.makeText(getActivity(), "业绩比较查询", Toast.LENGTH_SHORT).show();
                 requestCompare();
             }
 
@@ -345,8 +344,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     tvNoData.setVisibility(View.GONE);
-                    // int sizeLength = dayNetValueList.size();
-                    setYTitle(object.getEnd(), getMaxOffetValue(object));
+                    int sizeLength = dayNetValueList.size();
+                    setYTitle(dayNetValueList.get(sizeLength - 1).getPercentage(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setXTitle(dayNetValueList);
 
@@ -377,6 +376,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     }
 
     private void setLineListsData(List<LineEntity> linesList) {
+        System.out.println("setLineListsData :" + linesList.size());
         lineEntityList.addAll(linesList);
         maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
@@ -391,9 +391,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
-        System.out.println("list size:" + (dayNetValueList.size() - 1));
         String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
-        System.out.println("endDate:" + endDate);
         if (TextUtils.isEmpty(endDate)) {
             xtitle.add("");
         } else {
@@ -430,10 +428,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         // lineDataList.clear();
-        float baseNum = historyNetValue.getEnd();
-        float maxNum = baseNum, minNum = baseNum;
+
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
+        float baseNum = historyNetList.get(dataLenght - 1).getPercentage();
+        float maxNum = baseNum, minNum = baseNum;
         for (int i = dataLenght - 1; i >= 0; i--) {
 
             LinePointEntity pointEntity = new LinePointEntity();
@@ -476,6 +475,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
                     lineEntity.setLineColor(ColorTemplate.getDefaultColor(i));
+
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         LinePointEntity pointEntity = new LinePointEntity();
@@ -483,6 +483,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                         pointEntity.setValue(cPoint.getPercentage());
                         lineDataList.add(pointEntity);
                     }
+
                     lineEntity.setLineData(lineDataList);
                     linesList.add(lineEntity);
                     i++;
@@ -536,7 +537,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                         updateDayDisplay();
                         // setSelectBack(which);
                     }
-                }).setNegativeButton(R.string.cancel, null).show();
+                }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
 
     }
 
@@ -639,7 +640,6 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     @Override
     public void onPauseFragment() {
-        // TODO Auto-generated method stub
 
     }
 
@@ -650,7 +650,6 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     @Override
     public void onResumeFragment() {
-        // TODO Auto-generated method stub
 
     }
 

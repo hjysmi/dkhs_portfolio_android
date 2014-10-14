@@ -61,14 +61,14 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
         // this);
 
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist + "&page=" + (getCurrentpage() + 1),
-                "1,2", orderType), null, this);
+                "1,2", orderType, 1), null, this);
     }
 
     @Override
     public void loadData() {
 
         // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType, null, this);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist, "1,2", orderType, 1), null, this);
 
     }
 

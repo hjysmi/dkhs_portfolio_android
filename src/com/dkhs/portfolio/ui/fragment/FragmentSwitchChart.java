@@ -15,10 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Switch;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.Switch;
 
 /**
  * @ClassName FragmentSwitchChart
@@ -51,7 +52,7 @@ public class FragmentSwitchChart extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        getActivity().setTheme(R.style.AppThemeLight);
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -70,6 +71,21 @@ public class FragmentSwitchChart extends Fragment {
         return view;
     }
 
+    // One controller for all.
+    View.OnClickListener switchClickListener = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            Switch switchButton = (Switch) v;
+            if (switchButton.isChecked()) {
+                replaceChartView();
+            } else {
+                replaceReportView();
+
+            }
+        }
+    };
+
     private void initView(View view) {
         swChart = (Switch) view.findViewById(R.id.switch_chart);
         // chartView = view.findViewById(id)
@@ -77,24 +93,24 @@ public class FragmentSwitchChart extends Fragment {
             swChart.setVisibility(View.GONE);
         }
         replaceChartView();
-
-        swChart.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // System.out.println("isChecked :" + isChecked + " text:" + buttonView.getText());
-                if (isChecked) {
-                    // 选中时 do some thing
-                    // statusText.setText("开");
-                    replaceReportView();
-                } else {
-                    replaceChartView();
-                    // 非选中时 do some thing
-                    // statusText.setText("关");
-                }
-
-            }
-        });
+        swChart.setOnClickListener(switchClickListener);
+        // swChart.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        //
+        // @Override
+        // public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        // // System.out.println("isChecked :" + isChecked + " text:" + buttonView.getText());
+        // if (isChecked) {
+        // // 选中时 do some thing
+        // // statusText.setText("开");
+        // replaceReportView();
+        // } else {
+        // replaceChartView();
+        // // 非选中时 do some thing
+        // // statusText.setText("关");
+        // }
+        //
+        // }
+        // });
     }
 
     private void replaceChartView() {
@@ -119,6 +135,24 @@ public class FragmentSwitchChart extends Fragment {
         ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         ft.replace(R.id.chart_content, mFragmentReport);
         ft.commit();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        System.out.println("setUserVisibleHint:" + isVisibleToUser);
+        // if (isVisibleToUser) {
+        // 相当于Fragment的onResume
+        if (null != mFragmentChart) {
+
+            mFragmentChart.setUserVisibleHint(isVisibleToUser);
+
+            // } else {
+            mFragmentChart.setUserVisibleHint(isVisibleToUser);
+            // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+            // 相当于Fragment的onPause
+            // }
+        }
     }
 
 }
