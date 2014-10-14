@@ -20,7 +20,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
             android:hint="@string/hint_account"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="1218229610@qq.com" />
 
         <EditText
             android:id="@+id/password"
@@ -30,7 +31,8 @@
             android:background="@drawable/edittext_bg"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:text="123456" />
     </LinearLayout>
 
     <TextView
@@ -63,18 +65,6 @@
             android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="18sp" />
-
-
-        <!-- <Button
-            android:id="@+id/register"
-            android:layout_width="290dip"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dip"
-            android:background="@drawable/button_register_main"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            android:textSize="18sp" /> -->
     </LinearLayout>
-
 
 </RelativeLayout>

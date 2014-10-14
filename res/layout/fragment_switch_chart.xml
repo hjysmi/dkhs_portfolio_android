@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
-    <Switch
+    <com.dkhs.portfolio.ui.widget.Switch
         android:id="@+id/switch_chart"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:checked="false"
-        android:switchTextAppearance="@style/SwitchTextAppearance"
-        android:textOff="曲线"
-        android:textOn="报表"
-        android:thumb="@drawable/theme_color"
-        android:track="@drawable/report_switch_inner" />
+        android:layout_gravity="right"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        app:isChecked="true"
+        app:textLeft="报表"
+        app:textRight="曲线" />
 
     <RelativeLayout
         android:id="@+id/chart_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/switch_chart" >
+        android:layout_height="match_parent" >
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>
