@@ -4,6 +4,9 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.R.color;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,10 +26,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private final static int ZOOM = 3;
 
 	/** 默认Y轴字体颜色 **/
-	private static final int DEFAULT_AXIS_Y_TITLE_COLOR = Color.YELLOW;
+	private static final int DEFAULT_AXIS_Y_TITLE_COLOR = Color.GRAY;
 
 	/** 默认X轴字体颜色 **/
-	private static final int DEFAULT_AXIS_X_TITLE_COLOR = Color.RED;
+	private static final int DEFAULT_AXIS_X_TITLE_COLOR = Color.GRAY;
 
 	/** 显示的最小Candle数 */
 	private final static int MIN_CANDLE_NUM = 10;
@@ -69,6 +72,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	MACDEntity mMACDData;
 	KDJEntity mKDJData;
 	RSIEntity mRSIData;
+	
 
 	public KChartsView(Context context) {
 		super(context);
@@ -117,6 +121,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		drawTitles(canvas);
 		drawCandleDetails(canvas);
 	}
+	
+	
 
 	private void drawCandleDetails(Canvas canvas) {
 		if (showDetails) {
@@ -151,7 +157,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			// 绘制详情文字
 			Paint textPaint = new Paint();
 			textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-			textPaint.setColor(Color.WHITE);
+			textPaint.setColor(Color.BLACK);
 			textPaint.setFakeBoldText(true);
 			canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top
 					+ DEFAULT_AXIS_TITLE_SIZE, textPaint);
@@ -161,9 +167,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			try {
 				double ysdclose = mOHLCData.get(selectIndext + 1).getClose();
 				if (open >= ysdclose) {
-					textPaint.setColor(Color.RED);
+					textPaint.setColor(Color.BLACK);
 				} else {
-					textPaint.setColor(Color.GREEN);
+					textPaint.setColor(Color.BLACK);
 				}
 				canvas.drawText(new DecimalFormat("#.##").format(open), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 2.0f,
@@ -174,28 +180,28 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						textPaint);
 			}
 
-			textPaint.setColor(Color.WHITE);
+			textPaint.setColor(Color.BLACK);
 			canvas.drawText("最高:", left + 1, top + DEFAULT_AXIS_TITLE_SIZE * 3.0f, textPaint);
 			double high = mOHLCData.get(selectIndext).getHigh();
 			if (open < high) {
-				textPaint.setColor(Color.RED);
+				textPaint.setColor(Color.BLACK);
 			} else {
-				textPaint.setColor(Color.GREEN);
+				textPaint.setColor(Color.BLACK);
 			}
 			canvas.drawText(new DecimalFormat("#.##").format(high), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 3.0f,
 					textPaint);
 
-			textPaint.setColor(Color.WHITE);
+			textPaint.setColor(Color.BLACK);
 			canvas.drawText("最低:", left + 1, top + DEFAULT_AXIS_TITLE_SIZE * 4.0f, textPaint);
 			double low = mOHLCData.get(selectIndext).getLow();
 			try {
 				double yesterday = (mOHLCData.get(selectIndext + 1).getLow() + mOHLCData.get(
 						selectIndext + 1).getHigh()) / 2.0f;
 				if (yesterday <= low) {
-					textPaint.setColor(Color.RED);
+					textPaint.setColor(Color.BLACK);
 				} else {
-					textPaint.setColor(Color.GREEN);
+					textPaint.setColor(Color.BLACK);
 				}
 			} catch (Exception e) {
 
@@ -204,16 +210,16 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 4.0f,
 					textPaint);
 
-			textPaint.setColor(Color.WHITE);
+			textPaint.setColor(Color.BLACK);
 			canvas.drawText("收盘:", left + 1, top + DEFAULT_AXIS_TITLE_SIZE * 5.0f, textPaint);
 			double close = mOHLCData.get(selectIndext).getClose();
 			try {
 				double yesdopen = (mOHLCData.get(selectIndext + 1).getLow() + mOHLCData.get(
 						selectIndext + 1).getHigh()) / 2.0f;
 				if (yesdopen <= close) {
-					textPaint.setColor(Color.RED);
+					textPaint.setColor(Color.BLACK);
 				} else {
-					textPaint.setColor(Color.GREEN);
+					textPaint.setColor(Color.BLACK);
 				}
 			} catch (Exception e) {
 
@@ -222,15 +228,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 5.0f,
 					textPaint);
 
-			textPaint.setColor(Color.WHITE);
+			textPaint.setColor(Color.BLACK);
 			canvas.drawText("涨跌幅:", left + 1, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f, textPaint);
 			try {
 				double yesdclose = mOHLCData.get(selectIndext + 1).getClose();
 				double priceRate = (close - yesdclose) / yesdclose;
 				if (priceRate >= 0) {
-					textPaint.setColor(Color.RED);
+					textPaint.setColor(Color.BLACK);
 				} else {
-					textPaint.setColor(Color.GREEN);
+					textPaint.setColor(Color.BLACK);
 				}
 				canvas.drawText(new DecimalFormat("#.##%").format(priceRate), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f,
@@ -248,35 +254,38 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
 		textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 
-		// Y轴Titles
-		canvas.drawText(new DecimalFormat("#.##").format(mMinPrice), 1, UPER_CHART_BOTTOM - 1,
-				textPaint);
-		canvas.drawText(new DecimalFormat("#.##").format(mMinPrice + (mMaxPrice - mMinPrice) / 4),
-				1, UPER_CHART_BOTTOM - getLatitudeSpacing() - 1, textPaint);
-		canvas.drawText(
-				new DecimalFormat("#.##").format(mMinPrice + (mMaxPrice - mMinPrice) / 4 * 2), 1,
-				UPER_CHART_BOTTOM - getLatitudeSpacing() * 2 - 1, textPaint);
-		canvas.drawText(
-				new DecimalFormat("#.##").format(mMinPrice + (mMaxPrice - mMinPrice) / 4 * 3), 1,
-				UPER_CHART_BOTTOM - getLatitudeSpacing() * 3 - 1, textPaint);
-		canvas.drawText(new DecimalFormat("#.##").format(mMaxPrice), 1,
-				DEFAULT_AXIS_TITLE_SIZE * 2, textPaint);
-
-		// X轴Titles
-		textPaint.setColor(DEFAULT_AXIS_X_TITLE_COLOR);
-		canvas.drawText(mOHLCData.get(mDataStartIndext).getDate(), getWidth() - 4 - 4.5f
-				* DEFAULT_AXIS_TITLE_SIZE, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE, textPaint);
-		try {
-			canvas.drawText(
-					String.valueOf(mOHLCData.get(mDataStartIndext + mShowDataNum / 2).getDate()),
-					getWidth() / 2 - 2.25f * DEFAULT_AXIS_TITLE_SIZE, UPER_CHART_BOTTOM
-							+ DEFAULT_AXIS_TITLE_SIZE, textPaint);
-			canvas.drawText(
-					String.valueOf(mOHLCData.get(mDataStartIndext + mShowDataNum - 1).getDate()),
-					2, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE, textPaint);
-		} catch (Exception e) {
-
+		if(isDisplayAxisYTitle()) {
+			// Y轴Titles
+			int len = getUpperLatitudeNum() +1;
+			if(len > 0) {
+				for(int i=0; i<len; i++) {
+					canvas.drawText(
+							new DecimalFormat("#.##").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i), 1,
+							UPER_CHART_BOTTOM - getLatitudeSpacing() * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
+				}
+			}
+			canvas.drawText(new DecimalFormat("#.##").format(mMaxPrice), 1,
+					DEFAULT_AXIS_TITLE_SIZE * 2 + 2, textPaint);
 		}
+		
+		if(isDisplayAxisXTitle()) {
+			// X轴Titles
+			textPaint.setColor(DEFAULT_AXIS_X_TITLE_COLOR);
+			canvas.drawText(mOHLCData.get(mDataStartIndext).getDate(), getWidth() - 4 - 4.5f
+					* DEFAULT_AXIS_TITLE_SIZE, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE, textPaint);
+			try {
+				canvas.drawText(
+						String.valueOf(mOHLCData.get(mDataStartIndext + mShowDataNum / 2).getDate()),
+						getWidth() / 2 - 2.25f * DEFAULT_AXIS_TITLE_SIZE, UPER_CHART_BOTTOM
+								+ DEFAULT_AXIS_TITLE_SIZE, textPaint);
+				canvas.drawText(
+						String.valueOf(mOHLCData.get(mDataStartIndext + mShowDataNum - 1).getDate()),
+						2, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE, textPaint);
+			} catch (Exception e) {
+
+			}
+		}
+		
 	}
 
 	private void drawUpperRegion(Canvas canvas) {
@@ -284,7 +293,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		Paint redPaint = new Paint();
 		redPaint.setColor(Color.RED);
 		Paint greenPaint = new Paint();
-		greenPaint.setColor(Color.GREEN);
+		greenPaint.setColor(getResources().getColor(R.color.dark_green));
 		int width = getWidth();
 		mCandleWidth = (width - 4) / 10.0 * 10.0 / mShowDataNum;
 		double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
@@ -409,7 +418,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					}
 
 				} else {
-					paint.setColor(Color.GREEN);
+					paint.setColor(getResources().getColor(R.color.dark_green));
 					float bottom = (float) ((high - MACD.get(i)) * rate) + lowertop;
 
 					if (bottom - zero < 0.55f) {
@@ -614,6 +623,25 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		}
 
 	}
+	
+	/**
+	 * 获取显示的数据
+	 * @return
+	 */
+	public List<OHLCEntity> getDisplayOHLCEntitys() {
+		if(mOHLCData == null || mOHLCData.size() == 0) {
+			return null;
+		}
+		
+		List<OHLCEntity> result = new ArrayList<OHLCEntity>();
+		for (int i = mDataStartIndext + 1; i < mOHLCData.size()
+				&& i < mShowDataNum + mDataStartIndext; i++) {
+			OHLCEntity entity = mOHLCData.get(i);
+			result.add(entity);
+		}
+		
+		return result;
+	}
 
 	private void zoomIn() {
 		mShowDataNum++;
@@ -717,7 +745,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private void initMALineData() {
 		MALineEntity MA5 = new MALineEntity();
 		MA5.setTitle("MA5");
-		MA5.setLineColor(Color.WHITE);
+		MA5.setLineColor(Color.GRAY);
 		MA5.setLineData(initMA(mOHLCData, 5));
 
 		MALineEntity MA10 = new MALineEntity();
