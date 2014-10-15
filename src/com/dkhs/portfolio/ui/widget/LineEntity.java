@@ -8,8 +8,10 @@ public class LineEntity {
     /** 线表示数据 */
     private List<LinePointEntity> lineData;
 
-    /** 线�?�? */
+    /** 线条名称 */
     private String title;
+    /** 线条值 */
+    private String value;
 
     /** 线表示颜色 */
     private int lineColor;
@@ -65,5 +67,13 @@ public class LineEntity {
             lineData = new ArrayList<LinePointEntity>();
         }
         lineData.add(value);
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

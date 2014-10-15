@@ -63,7 +63,7 @@ public class CompareFundsBean {
         }
 
         public float getPercentage() {
-            return percentage;
+            return percentage*100;
         }
 
         public void setPercentage(float percentage) {

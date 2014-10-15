@@ -350,6 +350,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     setXTitle(dayNetValueList);
 
                     LineEntity mCombinationLine = new LineEntity();
+                    mCombinationLine.setTitle("我的组合");
                     mCombinationLine.setLineColor(getActivity().getResources().getColor(
                             ColorTemplate.MY_COMBINATION_LINE));
                     mCombinationLine.setLineData(lineDataList);
@@ -413,11 +414,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
-        ytitle.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum - halfOffetValue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + halfOffetValue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + offetYvalue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum - offetYvalue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum - halfOffetValue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum + halfOffetValue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum + offetYvalue));
         maChartView.setAxisYTitles(ytitle);
         maChartView.setMaxValue(baseNum + offetYvalue);
         maChartView.setMinValue(baseNum - offetYvalue);
@@ -475,6 +476,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 int i = 0;
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
+                    lineEntity.setTitle(bean.getSymbol());
                     lineEntity.setLineColor(ColorTemplate.getDefaultColor(i));
 
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
