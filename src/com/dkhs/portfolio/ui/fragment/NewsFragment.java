@@ -345,35 +345,35 @@ public class NewsFragment extends Fragment{
 
     }
 	
-	class TextLoadListener implements IHttpListener {
-
-		private WebView mTextView;
-		
-		private Map<String,String> data;
-		
-		public TextLoadListener(Map<String,String> data,WebView textview) {
-			this.data = data;
-			this.mTextView = textview;
-		}
-		
-		@Override
-		public void onHttpSuccess(String text) {
-			data.put(KEY_TEXT, text);
-			mTextView.getSettings().setDefaultTextEncodingName("utf-8");
-			mTextView.loadDataWithBaseURL("about:blank",text, "text/html", "utf-8",null);
-//			mTextView.setText(Html.fromHtml(jsonObject));			
-		}
-
-		@Override
-		public void onHttpFailure(int errCode, String errMsg) {
-			Toast.makeText(getActivity(), "加载失败！", Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onHttpFailure(int errCode, Throwable err) {
-			Toast.makeText(getActivity(), "加载失败！", Toast.LENGTH_LONG).show();
-		}
-		
-	}
+    // class TextLoadListener implements IHttpListener {
+    //
+    // private WebView mTextView;
+    //
+    // private Map<String,String> data;
+    //
+    // public TextLoadListener(Map<String,String> data,WebView textview) {
+    // this.data = data;
+    // this.mTextView = textview;
+    // }
+    //
+    // @Override
+    // public void onHttpSuccess(String text) {
+    // data.put(KEY_TEXT, text);
+    // mTextView.getSettings().setDefaultTextEncodingName("utf-8");
+    // mTextView.loadDataWithBaseURL("about:blank",text, "text/html", "utf-8",null);
+    // // mTextView.setText(Html.fromHtml(jsonObject));
+    // }
+    //
+    // @Override
+    // public void onHttpFailure(int errCode, String errMsg) {
+    // Toast.makeText(getActivity(), "加载失败！", Toast.LENGTH_LONG).show();
+    // }
+    //
+    // @Override
+    // public void onHttpFailure(int errCode, Throwable err) {
+    // Toast.makeText(getActivity(), "加载失败！", Toast.LENGTH_LONG).show();
+    // }
+    //
+    // }
 	
 }

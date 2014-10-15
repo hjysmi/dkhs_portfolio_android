@@ -55,10 +55,12 @@ public class DKHSClient {
         // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
 
         mHttpUtils.configCurrentHttpCacheExpiry(0);
+        listener.beforeRequest();
         mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
+                listener.requestCallBack();
                 LogUtils.customTagPrefix = "DKHSClilent";
 
                 String result = StringDecodeUtil.fromUnicode(responseInfo.result);
@@ -71,6 +73,7 @@ public class DKHSClient {
 
             @Override
             public void onFailure(HttpException error, String msg) {
+                listener.requestCallBack();
                 // System.out.println("error code:" + error.getExceptionCode());
                 LogUtils.customTagPrefix = "DKHSClilent"; // 方便调试时过滤 adb logcat 输出
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出

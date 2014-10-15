@@ -590,7 +590,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         btnStartTime.setText(getStartTime());
         btnEndTime.setText(getEndTime());
-        String durTime = btnStartTime.getText() + " ---- " + btnEndTime.getText();
+        String durTime = btnStartTime.getText() + " 一一 " + btnEndTime.getText();
         tvTimeDuration.setText(durTime);
 
     }
