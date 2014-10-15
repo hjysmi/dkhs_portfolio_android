@@ -321,6 +321,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     }
 
     private void requestCompare() {
+        lineEntityList.clear();
         new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
 
@@ -408,7 +409,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
-        offetYvalue = offetYvalue/0.8f;
+        offetYvalue = offetYvalue / 0.8f;
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
@@ -616,7 +617,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             sbCompareIds.append(",");
 
         }
-        mCompareIds = sbCompareIds.toString();
+        int lenght = sbCompareIds.length();
+        mCompareIds = sbCompareIds.substring(0, lenght - 1);
+
         btnSelectFund.setText(sb);
         mGridAdapter.notifyDataSetChanged();
     }
