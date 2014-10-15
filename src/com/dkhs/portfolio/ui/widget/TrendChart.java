@@ -375,12 +375,18 @@ public class TrendChart extends TrendGridChart {
     private void getTouchPointData(Canvas canvas) {
         if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
             int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1)) + 1;
-            LineEntity lineEntity = lineData.get(0);
-            int maxPointSize = lineEntity.getLineData().size();
-            if (pointIndex < maxPointSize) {
-                // pointIndex = maxPointSize - 1;
-                LinePointEntity data = lineEntity.getLineData().get(pointIndex);
-                drawDataView(canvas, pointIndex, data);
+
+            if (lineData.size() == 1) {
+
+                LineEntity lineEntity = lineData.get(0);
+                int maxPointSize = lineEntity.getLineData().size();
+                if (pointIndex < maxPointSize) {
+                    // pointIndex = maxPointSize - 1;
+                    LinePointEntity data = lineEntity.getLineData().get(pointIndex);
+                    drawDataView(canvas, pointIndex, data);
+                }
+            } else {
+                drawDataView(canvas, pointIndex);
             }
             // drawDataView(canvas);
 
@@ -439,7 +445,7 @@ public class TrendChart extends TrendGridChart {
         /*********** End *************/
 
         /******* draw text ********/
-        int textMargin = 10;
+        int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
         FontMetrics fm = selectPaint.getFontMetrics();
         int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
@@ -488,6 +494,103 @@ public class TrendChart extends TrendGridChart {
                 // }
                 if (i == 0)
                     canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+            }
+        }
+
+        /***************/
+
+    }
+
+    private void drawDataView(Canvas canvas, int pointIndex) {
+
+        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        float startX;
+        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_mulit_view_lenght);
+        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
+        int margin = 40;
+        float marginTop = margin + axisMarginTop;
+        // = margin;
+        // 当触摸点在左边
+        if (getTouchPoint().x > midPointx) {
+            startX = getAxisMarginLeft() + margin;
+
+        } else {
+            startX = super.getWidth() - viewLength - margin;
+
+        }
+
+        // 创建画笔 画背景图
+        Paint selectPaint = new Paint();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(Color.WHITE);
+        int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
+
+        FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+
+        if (lineData.size() > 3) {
+            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
+        }
+
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        selectPaint.setStyle(Paint.Style.STROKE);// 描边
+        selectPaint.setStrokeWidth(2);
+        selectPaint.setColor(Color.LTGRAY);
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        /*********** End *************/
+
+        /******* draw text ********/
+
+        float preYpoint = textTextHeight + textMargin + marginTop;
+        selectPaint.reset();
+        selectPaint.setColor(Color.BLACK);
+        selectPaint.setAntiAlias(true);
+        selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
+        String firtLineText = "";
+        // if (null != pointTitleList && pointTitleList.size() > 0) {
+        // firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
+        if (lineData.size() > 0 && lineData.get(0).getLineData().size() > 0) {
+            firtLineText = "日期：" + lineData.get(0).getLineData().get(0).getDesc();
+        }
+        canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+
+        // FontMetrics fontMetrics = selectPaint.getFontMetrics();
+        // float preTextBottom = fontMetrics.bottom;
+        int lineLength = lineData.size();
+        for (int i = 0; i < lineLength; i++) {
+            if (pointIndex < lineData.get(i).getLineData().size()) {
+
+                selectPaint.setColor(lineData.get(i).getLineColor());
+                preYpoint += textMargin + textTextHeight;
+                String text = "";
+                // if (i == 0) {
+                if (TextUtils.isEmpty(lineData.get(i).getTitle())) {
+                    // text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+
+                    if (null != pointTitleList && pointTitleList.size() > 1) {
+                        text = pointTitleList.get(1) + "："
+                                + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
+                    } else {
+                        text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
+                    }
+                } else {
+
+                    text = lineData.get(i).getTitle()
+                            + "："
+                            + StringFromatUtils.get2PointPercent(lineData.get(i).getLineData().get(pointIndex)
+                                    .getValue());
+                }
+                // } else if (i == 1) {
+                // text = "沪深300:1.43%";
+                // } else {
+                // text = "创业板:1.40%";
+                // }
+                // if (i == 0)
+                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
         }
 

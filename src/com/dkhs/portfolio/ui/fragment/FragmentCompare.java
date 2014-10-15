@@ -321,6 +321,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     }
 
     private void requestCompare() {
+        lineEntityList.clear();
         new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
 
@@ -343,12 +344,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     tvNoData.setVisibility(View.GONE);
-                    int sizeLength = dayNetValueList.size();
-                    setYTitle(dayNetValueList.get(sizeLength - 1).getPercentage(), getMaxOffetValue(object));
+                    // int sizeLength = dayNetValueList.size();
+                    setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setXTitle(dayNetValueList);
 
                     LineEntity mCombinationLine = new LineEntity();
+                    mCombinationLine.setTitle("我的组合");
                     mCombinationLine.setLineColor(getActivity().getResources().getColor(
                             ColorTemplate.MY_COMBINATION_LINE));
                     mCombinationLine.setLineData(lineDataList);
@@ -408,15 +410,15 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
-        offetYvalue = offetYvalue/0.8f;
+        offetYvalue = offetYvalue / 0.8f;
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
-        ytitle.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum - halfOffetValue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + halfOffetValue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + offetYvalue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum - offetYvalue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum - halfOffetValue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum + halfOffetValue));
+        ytitle.add(StringFromatUtils.get2PointPercent(baseNum + offetYvalue));
         maChartView.setAxisYTitles(ytitle);
         maChartView.setMaxValue(baseNum + offetYvalue);
         maChartView.setMinValue(baseNum - offetYvalue);
@@ -431,12 +433,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
-        float baseNum = historyNetList.get(dataLenght - 1).getPercentage();
+        float baseNum = historyNetList.get(0).getPercentageBegin();
         float maxNum = baseNum, minNum = baseNum;
-        for (int i = dataLenght - 1; i >= 0; i--) {
+        for (int i = 0; i <= dataLenght - 1; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
-            float pointValue = todayBean.getPercentage();
+            float pointValue = todayBean.getPercentageBegin();
+            System.out.println("");
             pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
@@ -473,6 +476,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 int i = 0;
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
+                    lineEntity.setTitle(bean.getSymbol());
                     lineEntity.setLineColor(ColorTemplate.getDefaultColor(i));
 
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
@@ -616,7 +620,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             sbCompareIds.append(",");
 
         }
-        mCompareIds = sbCompareIds.toString();
+        int lenght = sbCompareIds.length();
+        mCompareIds = sbCompareIds.substring(0, lenght - 1);
+
         btnSelectFund.setText(sb);
         mGridAdapter.notifyDataSetChanged();
     }
