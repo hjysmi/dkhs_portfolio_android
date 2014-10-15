@@ -41,7 +41,7 @@ public class KChartsFragment extends Fragment {
 	private String mStockCode; //股票code
 	private QuotesEngineImpl mQuotesDataEngine;
 	
-	public static final boolean testInterface = true; //测试，使用本地数据
+	public static final boolean testInterface = false; //测试，使用本地数据
 	
 
 	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
@@ -157,8 +157,10 @@ public class KChartsFragment extends Fragment {
 
 	private void refreshVolumnCharts() {
 		List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
-		mVolumnChartView.setStickData(volumns);
-		mVolumnChartView.postInvalidate();		
+		if(volumns != null && volumns.size() > 0) {
+			mVolumnChartView.setStickData(volumns);
+			mVolumnChartView.postInvalidate();		
+		}
 	}
 
 	/**
