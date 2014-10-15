@@ -28,6 +28,7 @@
     <dimen name="compare_horspacing">8dp</dimen>
     <dimen name="popwindow_padding">5dp</dimen>
     <dimen name="main_page_padding">8dp</dimen>
+	<dimen name="text_size">8sp</dimen>
     <dimen name="float_view_lenght">100dp</dimen>
     <dimen name="float_view_hight">60dp</dimen>
 
