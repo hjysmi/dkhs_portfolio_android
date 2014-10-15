@@ -2,15 +2,19 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
+import com.dkhs.portfolio.ui.widget.kline.KChartsView.DisplayDataChangeListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,7 +40,7 @@ public class KChartsFragment extends Fragment {
 	private String mStockCode; //股票code
 	private QuotesEngineImpl mQuotesDataEngine;
 	
-	public static final boolean testInterface = true; //测试，使用本地数据
+	public static final boolean testInterface = false; //测试，使用本地数据
 	
 
 	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
@@ -88,12 +92,22 @@ public class KChartsFragment extends Fragment {
 		return view;
 	}
 	
+	private DisplayDataChangeListener mDisplayDataChangeListener = new DisplayDataChangeListener() {
+
+		@Override
+		public void onDisplayDataChange(List<OHLCEntity> entitys) {
+			refreshVolumnCharts();
+		}
+		
+	};
+	
 	private void initChartView() {
 		mMyChartsView.setAxisColor(Color.LTGRAY);
 		mMyChartsView.setLongiLatitudeColor(Color.LTGRAY);
 		mMyChartsView.setBorderColor(Color.LTGRAY);
 		mMyChartsView.setDisplayLongitude(false);
 		mMyChartsView.setDisplayAxisXTitle(false);
+		mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
 	}
 
 	private void initVloumnChartView() {
@@ -105,22 +119,22 @@ public class KChartsFragment extends Fragment {
 	    mVolumnChartView.setLongtitudeFontColor(Color.GRAY);
 	    mVolumnChartView.setLatitudeFontColor(Color.GRAY);
 //	       mVolumnChartView.setStickFillColor(getResources().getColor(R.drawable.yellow));
-	    mVolumnChartView.setAxisMarginTop(5);
+	    mVolumnChartView.setAxisMarginTop(0);
 	    mVolumnChartView.setAxisMarginRight(1);
 	       
 	    //最大显示足数
 //	    mVolumnChartView.setMaxStickDataNum(52);
 	    //最大纬线数
-//	    mVolumnChartView.setLatitudeNum(2);
+	    mVolumnChartView.setLatitudeNum(1);
 	    //最大经线数
 //	    mVolumnChartView.setLongtitudeNum(3);
 	    //最大价格
-//	    mVolumnChartView.setMaxValue(10000);
+	    mVolumnChartView.setMaxValue(10000);
 	    //最小价格
 //	    mVolumnChartView.setMinValue(100);
 	       
 	    mVolumnChartView.setDisplayAxisXTitle(true);
-	    mVolumnChartView.setDisplayAxisYTitle(false);
+	    mVolumnChartView.setDisplayAxisYTitle(true);
 	    mVolumnChartView.setDisplayLatitude(false);
 	    mVolumnChartView.setDisplayLongitude(false);
 	    mVolumnChartView.setBackgroudColor(Color.WHITE);		
@@ -137,9 +151,13 @@ public class KChartsFragment extends Fragment {
 		mMyChartsView.postInvalidate();
 		
 		//刷新成交量
+		refreshVolumnCharts();
+	}
+
+	private void refreshVolumnCharts() {
 		List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
 		mVolumnChartView.setStickData(volumns);
-		mVolumnChartView.postInvalidate();
+		mVolumnChartView.postInvalidate();		
 	}
 
 	/**
@@ -155,7 +173,8 @@ public class KChartsFragment extends Fragment {
 		List<StickEntity> volumns = new ArrayList<StickEntity>();
 		StickEntity temp = null;
 		for(OHLCEntity entity : ohlc) {
-			temp = new StickEntity(entity.getHigh(),0,entity.getDate());
+			temp = new StickEntity(entity.getVolume(),0,entity.getDate());
+			temp.setUp(entity.isup());
 			volumns.add(temp);
 		}
 		
@@ -269,7 +288,7 @@ public class KChartsFragment extends Fragment {
 	private List<OHLCEntity> getTestDatas() {
 		List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
 		ohlc.add(new OHLCEntity(100,246, 248, 235, 235, "20110825"));
-		ohlc.add(new OHLCEntity(312,240, 242, 236, 242, "20110824"));
+		ohlc.add(new OHLCEntity(2312,240, 242, 236, 242, "20110824"));
 		ohlc.add(new OHLCEntity(111,236, 240, 235, 240, "20110823"));
 		ohlc.add(new OHLCEntity(111,232, 236, 231, 236, "20110822"));
 		ohlc.add(new OHLCEntity(111,240, 240, 235, 235, "20110819"));
@@ -312,19 +331,19 @@ public class KChartsFragment extends Fragment {
 		ohlc.add(new OHLCEntity(111,256, 256, 253, 255, "20110629"));
 		ohlc.add(new OHLCEntity(111,254, 256, 254, 255, "20110628"));
 		ohlc.add(new OHLCEntity(111,247, 256, 247, 254, "20110627"));
-		ohlc.add(new OHLCEntity(111,244, 249, 243, 248, "20110624"));
-		ohlc.add(new OHLCEntity(111,244, 245, 243, 244, "20110623"));
+		ohlc.add(new OHLCEntity(1411,244, 249, 243, 248, "20110624"));
+		ohlc.add(new OHLCEntity(1311,244, 245, 243, 244, "20110623"));
 		ohlc.add(new OHLCEntity(111,242, 244, 241, 244, "20110622"));
 		ohlc.add(new OHLCEntity(111,243, 243, 241, 242, "20110621"));
 		ohlc.add(new OHLCEntity(111,246, 247, 244, 244, "20110620"));
-		ohlc.add(new OHLCEntity(111,248, 249, 246, 246, "20110617"));
-		ohlc.add(new OHLCEntity(111,251, 253, 250, 250, "20110616"));
+		ohlc.add(new OHLCEntity(2511,248, 249, 246, 246, "20110617"));
+		ohlc.add(new OHLCEntity(2211,251, 253, 250, 250, "20110616"));
 		ohlc.add(new OHLCEntity(111,249, 253, 249, 253, "20110615"));
 		ohlc.add(new OHLCEntity(111,248, 250, 246, 250, "20110614"));
 		ohlc.add(new OHLCEntity(111,249, 250, 247, 250, "20110613"));
 		ohlc.add(new OHLCEntity(111,254, 254, 250, 250, "20110610"));
 		ohlc.add(new OHLCEntity(111,254, 255, 251, 255, "20110609"));
-		ohlc.add(new OHLCEntity(111,252, 254, 251, 254, "20110608"));
+		ohlc.add(new OHLCEntity(1551,252, 254, 251, 254, "20110608"));
 		ohlc.add(new OHLCEntity(111,250, 253, 250, 252, "20110607"));
 		ohlc.add(new OHLCEntity(111,251, 252, 247, 250, "20110603"));
 		ohlc.add(new OHLCEntity(111,253, 254, 252, 254, "20110602"));

@@ -22,6 +22,14 @@ public class OHLCEntity {
 		this.close = close;
 		this.date = date;
 	}
+	
+	/**
+	 * 是否是提升的
+	 * @return
+	 */
+	public boolean isup() {
+		return close >= open;
+	}
 
 	public double getOpen() {
 		return open;
