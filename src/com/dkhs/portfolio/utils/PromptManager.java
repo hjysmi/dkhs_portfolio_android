@@ -45,6 +45,9 @@ public class PromptManager {
 	 * @param msgid
 	 */
 	public static void showProgressDialog(Context context , int msgid) {
+	    if(null!=dialog&&dialog.isShowing()){
+	       dialog.dismiss();
+	    }
 		View v = View.inflate(context, R.layout.progressbar, null);
 		TextView tv = (TextView) v.findViewById(R.id.tv_desc);
 		tv.setText(msgid);

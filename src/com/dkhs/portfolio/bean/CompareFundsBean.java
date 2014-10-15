@@ -37,6 +37,7 @@ public class CompareFundsBean {
     private String fundsId;
     private String symbol;
     private float end;
+    private float begin;
     private List<ComparePoint> chartlist;
 
     public class ComparePoint {
@@ -99,6 +100,14 @@ public class CompareFundsBean {
 
     public void setChartlist(List<ComparePoint> chartlist) {
         this.chartlist = chartlist;
+    }
+
+    public float getBegin() {
+        return begin;
+    }
+
+    public void setBegin(float begin) {
+        this.begin = begin;
     }
 
 }

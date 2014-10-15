@@ -55,8 +55,7 @@ public class TrendChart extends TrendGridChart {
 
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
-    
-    
+
     private boolean isDrawDashLine;
 
     public TrendChart(Context context) {
@@ -409,9 +408,9 @@ public class TrendChart extends TrendGridChart {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
-        int viewLength = 180;
-        int viewHeight = 120;
-        int margin = 20;
+        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_view_lenght);
+        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
+        int margin = 40;
         float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边

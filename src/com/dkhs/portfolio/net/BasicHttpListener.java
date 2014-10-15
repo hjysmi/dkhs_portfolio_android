@@ -3,12 +3,23 @@ package com.dkhs.portfolio.net;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.lidroid.xutils.util.LogUtils;
 
 public abstract class BasicHttpListener implements IHttpListener {
+
+    @Override
+    public void beforeRequest() {
+
+    }
+
+    @Override
+    public void requestCallBack() {
+
+    }
 
     @Override
     public void onHttpSuccess(String result) {

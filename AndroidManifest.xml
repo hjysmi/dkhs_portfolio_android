@@ -9,7 +9,11 @@
         android:targetSdkVersion="15" />
 
     <supports-screens
+        android:anyDensity="true"
         android:largeScreens="true"
+        android:normalScreens="true"
+        android:resizeable="true"
+        android:smallScreens="true"
         android:xlargeScreens="true" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -58,7 +62,6 @@
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" >
         </activity>
-        
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
             android:theme="@style/Theme.PageIndicatorDefaults" />
