@@ -25,7 +25,7 @@ public class GridChart extends View {
 	public static final int DEFAULT_BACKGROUD = android.R.color.white;
 
 	/** 默认XY轴字体大小 **/
-	public static final int DEFAULT_AXIS_TITLE_SIZE = 22;
+	public static final int DEFAULT_AXIS_TITLE_SIZE = 12;
 
 	/** 默认XY坐标轴颜色 */
 	private static final int DEFAULT_AXIS_COLOR = Color.RED;
@@ -106,6 +106,18 @@ public class GridChart extends View {
 	
 	/** 下表纬线数 **/
 	private int lowerLatitudeNum;
+	
+	/** 经线是否显示 */
+	private boolean displayLongitude = true;
+
+	/** 纬线是否显示 */
+	private boolean displayLatitude = true;
+	
+	/** 经线是否显示 */
+	private boolean displayAxisXTitle = true;
+
+	/** 经线是否显示 */
+	private boolean displayAxisYTitle = true;
 
 	private OnTabClickListener mOnTabClickListener;
 
@@ -237,11 +249,20 @@ public class GridChart extends View {
 	private void drawBorders(Canvas canvas, int viewHeight, int viewWidth) {
 		Paint paint = new Paint();
 		paint.setColor(mBorderColor);
-		paint.setStrokeWidth(2);
-		canvas.drawLine(1, 1, viewWidth - 1, 1, paint);
-		canvas.drawLine(1, 1, 1, viewHeight - 1, paint);
-		canvas.drawLine(viewWidth - 1, viewHeight - 1, viewWidth - 1, 1, paint);
-		canvas.drawLine(viewWidth - 1, viewHeight - 1, 1, viewHeight - 1, paint);
+		paint.setStrokeWidth(1);
+		
+		int th = viewHeight - 1;
+		
+		if(!isDisplayAxisXTitle()) {
+			th -= DEFAULT_AXIS_TITLE_SIZE;
+		}
+		
+//		canvas.drawLine(1, 1, viewWidth - 1, 1, paint);
+		canvas.drawLine(1, 1 + topTitleHeight , 1, th, paint);
+		canvas.drawLine(viewWidth - 1, th, viewWidth - 1, 1 + topTitleHeight, paint);
+		if(isDisplayAxisXTitle()) {
+			canvas.drawLine(viewWidth - 1, th, 1, th, paint);
+		}
 	}
 
 	/**
@@ -252,6 +273,9 @@ public class GridChart extends View {
 	 * @param viewWidth
 	 */
 	private void drawLongitudes(Canvas canvas, int viewHeight, float longitudeSpacing) {
+		if(!displayLongitude) {
+			return;
+		}
 		Paint paint = new Paint();
 		paint.setColor(mLongiLatitudeColor);
 		paint.setPathEffect(mDashEffect);
@@ -272,6 +296,9 @@ public class GridChart extends View {
 	 * @param viewWidth
 	 */
 	private void drawLatitudes(Canvas canvas, int viewHeight, int viewWidth, float latitudeSpacing) {
+		if(!displayLatitude) {
+			return;
+		}
 		Paint paint = new Paint();
 		paint.setColor(mLongiLatitudeColor);
 		paint.setPathEffect(mDashEffect);
@@ -301,8 +328,8 @@ public class GridChart extends View {
 					1 + DEFAULT_AXIS_TITLE_SIZE + 2, paint);
 		}
 		canvas.drawLine(1, UPER_CHART_BOTTOM, viewWidth - 1, UPER_CHART_BOTTOM, paint);
-		canvas.drawLine(1, LOWER_CHART_TOP, viewWidth - 1, LOWER_CHART_TOP, paint);
 		if (showLowerChartTabs) {
+			canvas.drawLine(1, LOWER_CHART_TOP, viewWidth - 1, LOWER_CHART_TOP, paint);
 			canvas.drawLine(1, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE + 2, viewWidth - 1,
 					UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE + 2, paint);
 			if (mLowerChartTabTitles == null || mLowerChartTabTitles.length <= 0) {
@@ -444,6 +471,39 @@ public class GridChart extends View {
 	public void setLowerLatitudeNum(int lowerLatitudeNum) {
 		this.lowerLatitudeNum = lowerLatitudeNum;
 	}
+
+	public boolean isDisplayLongitude() {
+		return displayLongitude;
+	}
+
+	public void setDisplayLongitude(boolean displayLongitude) {
+		this.displayLongitude = displayLongitude;
+	}
+
+	public boolean isDisplayLatitude() {
+		return displayLatitude;
+	}
+
+	public void setDisplayLatitude(boolean displayLatitude) {
+		this.displayLatitude = displayLatitude;
+	}
+
+	public boolean isDisplayAxisXTitle() {
+		return displayAxisXTitle;
+	}
+
+	public void setDisplayAxisXTitle(boolean displayAxisXTitle) {
+		this.displayAxisXTitle = displayAxisXTitle;
+	}
+
+	public boolean isDisplayAxisYTitle() {
+		return displayAxisYTitle;
+	}
+
+	public void setDisplayAxisYTitle(boolean displayAxisYTitle) {
+		this.displayAxisYTitle = displayAxisYTitle;
+	}
+	
 
 	
 }

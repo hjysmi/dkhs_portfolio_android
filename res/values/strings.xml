@@ -111,7 +111,7 @@
     <string name="performance_comparison">业绩比较</string>
     <string name="position_detail">持仓明细</string>
     <string name="related_news">相关新闻</string>
-    <string name="from">由</string>
+    <string name="from"> 由</string>
     <string name="to">至</string>
     <string name="to_now">至今</string>
     <string name="stock">股票</string>
@@ -141,7 +141,7 @@
     <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日涨幅:</string>
-    <string name="add_up_value">累计涨幅::</string>
+    <string name="add_up_value">累计涨幅:</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">复盘至创建时间前一个月</string>

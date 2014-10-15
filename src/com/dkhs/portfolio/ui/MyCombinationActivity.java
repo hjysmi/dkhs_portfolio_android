@@ -181,7 +181,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                 mCombinationAdapter.notifyDataSetChanged();
             }
 
-        });
+        }.setLoadingDialog(MyCombinationActivity.this, R.string.loading));
         mCombinationAdapter.notifyDataSetChanged();
     }
 

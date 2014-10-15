@@ -30,5 +30,9 @@
     <dimen name="main_page_padding">8dp</dimen>
 	<dimen name="text_size">8sp</dimen>
     <integer name="select_touch_text">20</integer>
+    <dimen name="float_view_lenght">100dp</dimen>
+    <dimen name="float_view_hight">60dp</dimen>
+
+    <integer name="select_touch_text">22</integer>
 
 </resources>

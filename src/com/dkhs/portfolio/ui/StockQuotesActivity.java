@@ -146,7 +146,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void setupViewData() {
-        if (null != mQuotesEngine) {
+        if (null != mQuotesEngine && mStockBean != null) {
             mQuotesEngine.quotes(mStockBean.code, listener);
         }
     }
