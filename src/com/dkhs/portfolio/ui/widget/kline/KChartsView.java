@@ -73,6 +73,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	KDJEntity mKDJData;
 	RSIEntity mRSIData;
 	
+	private DisplayDataChangeListener mDisplayChangeListener; //显示数据变化监听
 
 	public KChartsView(Context context) {
 		super(context);
@@ -122,7 +123,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		drawCandleDetails(canvas);
 	}
 	
-	
+
+	public DisplayDataChangeListener getDisplayChangeListener() {
+		return mDisplayChangeListener;
+	}
+
+	public void setDisplayChangeListener(
+			DisplayDataChangeListener mDisplayChangeListener) {
+		this.mDisplayChangeListener = mDisplayChangeListener;
+	}
 
 	private void drawCandleDetails(Canvas canvas) {
 		if (showDetails) {
@@ -622,6 +631,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}
 		}
 
+		if(mDisplayChangeListener != null) {
+			mDisplayChangeListener.onDisplayDataChange(getDisplayOHLCEntitys());
+		}
 	}
 	
 	/**
@@ -796,5 +808,19 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		zoomIn(5);
 		setCurrentData();
 		postInvalidate();
+	}
+	
+	/**
+	 * 显示数据变化
+	 * @author linbing
+	 *
+	 */
+	public interface DisplayDataChangeListener {
+		
+		/**
+		 * 显示的数据变化
+		 * @param entitys
+		 */
+		void onDisplayDataChange(List<OHLCEntity> entitys);
 	}
 }

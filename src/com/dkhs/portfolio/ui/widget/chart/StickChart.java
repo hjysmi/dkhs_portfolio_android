@@ -3,6 +3,8 @@ package com.dkhs.portfolio.ui.widget.chart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dkhs.portfolio.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import android.util.AttributeSet;
 public class StickChart extends GridChart {
 	
 	////////////默认值///////////////
+	
 	/** 显示纬线数 */
 	public static final int DEFAULT_LATITUDE_NUM = 4;
 	
@@ -30,7 +33,9 @@ public class StickChart extends GridChart {
 	private int stickBorderColor = DEFAULT_STICK_BORDER_COLOR ;
 
 	/** 柱条填�?��色 */
-	private int stickFillColor = DEFAULT_STICK_FILL_COLOR;
+	private int stickFillColorUp = DEFAULT_STICK_FILL_COLOR;
+	
+	private int stickFillColorDown = DEFAULT_STICK_FILL_COLOR;
 	
 	/** 显示纬线数 */
 	private int latitudeNum = DEFAULT_LATITUDE_NUM;
@@ -79,6 +84,11 @@ public class StickChart extends GridChart {
 		super.onDraw(canvas);
 
 		drawSticks(canvas);
+	
+		// 绘制十字坐�?,防止被盖住
+		if (isDisplayCrossXOnTouch() || isDisplayCrossYOnTouch()) {
+			drawWithFingerClick(canvas);
+		}
 	}
 	
 	
@@ -135,18 +145,22 @@ public class StickChart extends GridChart {
 	 */
 	protected void initAxisX() {
 		List<String> TitleX = new ArrayList<String>();
-		if(null != StickData){
-			float average = maxStickDataNum / longtitudeNum;
-			//�?��刻度
-			for (int i = 0; i < longtitudeNum; i++) {
-				int index = (int) Math.floor(i * average);
-				if(index > maxStickDataNum-1){
-					index = maxStickDataNum-1;
+		try {
+			if(null != StickData){
+				float average = maxStickDataNum / longtitudeNum;
+				//�?��刻度
+				for (int i = 0; i < longtitudeNum; i++) {
+					int index = (int) Math.floor(i * average);
+					if(index > maxStickDataNum-1){
+						index = maxStickDataNum-1;
+					}
+					//追�??�?
+					TitleX.add(String.valueOf(StickData.get(index).getDate()));
 				}
-				//追�??�?
-				TitleX.add(String.valueOf(StickData.get(index).getDate()).substring(4));
+				TitleX.add(String.valueOf(StickData.get(maxStickDataNum-1).getDate()));
 			}
-			TitleX.add(String.valueOf(StickData.get(maxStickDataNum-1).getDate()).substring(4));
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		super.setAxisXTitles(TitleX);
 	}
@@ -200,19 +214,30 @@ public class StickChart extends GridChart {
 
 		super.setAxisYTitles(TitleY);
 	}
+	
+	@Override
+	protected void drawMaxYValue(Paint paint,Canvas canvas) {
+		super.drawMaxYValue(paint,canvas);
+//		String maxValueStr = String.valueOf(maxValue);
+//		canvas.drawText(maxValueStr, 0f, 
+//				paint.measureText(maxValueStr.substring(0,1)), paint);
+	}
 
 	/**
 	 * 绘制柱状线
 	 * @param canvas
 	 */
 	protected void drawSticks(Canvas canvas) {
+		//初始化颜色 linbing
+		stickFillColorUp = Color.RED;
+		stickFillColorDown = getResources().getColor(R.color.dark_green);
+		
 		// 蜡烛棒宽度
-		float stickWidth = ((super.getWidth() - super.getAxisMarginLeft()-super.getAxisMarginRight()) / maxStickDataNum) - 1;
+		float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/-super.getAxisMarginRight()) / maxStickDataNum) - 1;
 		// 蜡烛棒起始绘制位置
-		float stickX = super.getAxisMarginLeft() + 1;
+		float stickX = /*super.getAxisMarginLeft() +*/ 1;
 
 		Paint mPaintStick = new Paint();
-		mPaintStick.setColor(stickFillColor);
 
 		if(null != StickData){
 			
@@ -220,18 +245,24 @@ public class StickChart extends GridChart {
 			for (int i = 0; i < StickData.size(); i++) {
 				StickEntity ohlc = StickData.get(i);
 	
+				if(ohlc.isUp()) {
+					mPaintStick.setColor(stickFillColorUp);
+				}else {
+					mPaintStick.setColor(stickFillColorDown);
+				}
+				
 				float highY = (float) ((1f - (ohlc.getHigh() - minValue)
 						/ (maxValue - minValue)) * (super.getHeight() - super
-						.getAxisMarginBottom()) - super.getAxisMarginTop());
+						.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop());
 				float lowY = (float) ((1f - (ohlc.getLow() - minValue)
 						/ (maxValue - minValue)) * (super.getHeight() - super
-						.getAxisMarginBottom()) - super.getAxisMarginTop());
+						.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop());
 	
 				//绘制数据?��?据宽度判断绘制直线或方柱
 				if(stickWidth >= 2f){
-					canvas.drawRect(stickX, highY, stickX + stickWidth, lowY, mPaintStick);
+					canvas.drawRect(stickX, highY + mTitleHeight, stickX + stickWidth, lowY + mTitleHeight, mPaintStick);
 				}else{
-					canvas.drawLine(stickX, highY, stickX , lowY, mPaintStick);
+					canvas.drawLine(stickX, highY + mTitleHeight, stickX , lowY + mTitleHeight, mPaintStick);
 				}
 				
 				//X位移
@@ -267,6 +298,8 @@ public class StickChart extends GridChart {
 			
 			if(StickData.size() > maxStickDataNum){
 				maxStickDataNum = maxStickDataNum +1;
+			}else {
+				maxStickDataNum = this.StickData.size();
 			}
 		}
 	}
@@ -285,14 +318,6 @@ public class StickChart extends GridChart {
 		for(StickEntity e :stickData){
 			addData(e);
 		}
-	}
-
-	public int getStickFillColor() {
-		return stickFillColor;
-	}
-
-	public void setStickFillColor(int stickFillColor) {
-		this.stickFillColor = stickFillColor;
 	}
 
 	public int getLatitudeNum() {

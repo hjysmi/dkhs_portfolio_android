@@ -132,7 +132,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void setAddOptionalButton() {
-
+    	if(mStockBean == null) {
+    		return;
+    	}
         if (mStockBean.isFollowed) {
             btnAddOptional.setText(R.string.delete_fllow);
         } else {

@@ -15,7 +15,7 @@
 	        android:paddingBottom="10dp"
 	        android:layout_height="wrap_content"
 	        android:layout_width="wrap_content"
-	        android:src="@drawable/menu_icon_reflush"
+	        android:src="@drawable/nav_refresh_selector"
 	        android:id="@+id/right_image_point"
 	        />
 	    <TextView 
