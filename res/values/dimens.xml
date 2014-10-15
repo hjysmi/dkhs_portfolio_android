@@ -28,7 +28,7 @@
     <dimen name="compare_horspacing">8dp</dimen>
     <dimen name="popwindow_padding">5dp</dimen>
     <dimen name="main_page_padding">8dp</dimen>
-
+	<dimen name="text_size">8sp</dimen>
     <integer name="select_touch_text">20</integer>
 
 </resources>
