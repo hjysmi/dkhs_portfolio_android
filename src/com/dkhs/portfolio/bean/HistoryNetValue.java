@@ -30,6 +30,8 @@ public class HistoryNetValue {
         @SerializedName("net_value")
         private float netvalue;
         private float percentage;
+        @SerializedName("percentage_begin")
+        private float percentageBegin;
 
         public int getId() {
             return id;
@@ -61,6 +63,14 @@ public class HistoryNetValue {
 
         public void setPercentage(float percentage) {
             this.percentage = percentage;
+        }
+
+        public float getPercentageBegin() {
+            return percentageBegin;
+        }
+
+        public void setPercentageBegin(float percentageBegin) {
+            this.percentageBegin = percentageBegin;
         }
     }
 

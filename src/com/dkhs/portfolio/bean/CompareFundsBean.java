@@ -43,15 +43,16 @@ public class CompareFundsBean {
     public class ComparePoint {
         private float netvalue;
         private String date;
+
         private float percentage;
 
-        public float getNetvalue() {
-            return netvalue;
-        }
-
-        public void setNetvalue(float netvalue) {
-            this.netvalue = netvalue;
-        }
+        // public float getNetvalue() {
+        // return netvalue;
+        // }
+        //
+        // public void setNetvalue(float netvalue) {
+        // this.netvalue = netvalue;
+        // }
 
         public String getDate() {
             return date;
@@ -68,6 +69,7 @@ public class CompareFundsBean {
         public void setPercentage(float percentage) {
             this.percentage = percentage;
         }
+
     }
 
     public String getFundsId() {

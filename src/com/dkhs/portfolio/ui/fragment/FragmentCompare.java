@@ -344,8 +344,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     tvNoData.setVisibility(View.GONE);
-                    int sizeLength = dayNetValueList.size();
-                    setYTitle(dayNetValueList.get(sizeLength - 1).getPercentage(), getMaxOffetValue(object));
+                    // int sizeLength = dayNetValueList.size();
+                    setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setXTitle(dayNetValueList);
 
@@ -432,12 +432,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
-        float baseNum = historyNetList.get(dataLenght - 1).getPercentage();
+        float baseNum = historyNetList.get(0).getPercentageBegin();
         float maxNum = baseNum, minNum = baseNum;
-        for (int i = dataLenght - 1; i >= 0; i--) {
+        for (int i = 0; i <= dataLenght - 1; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
-            float pointValue = todayBean.getPercentage();
+            float pointValue = todayBean.getPercentageBegin();
+            System.out.println("");
             pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
