@@ -71,7 +71,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private final int REQUESTCODE_SELECT_FUND = 900;
 
     private GridView mGridView;
-    private CompareIndexAdapter mAdapter;
+    private CompareIndexAdapter mGridAdapter;
     private List<CompareFundItem> mCompareItemList;
 
     private Button btnStartTime;
@@ -117,7 +117,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         setRetainInstance(true);
         mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
 
-        mAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
+        mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
 
         mCurrentCalendar = Calendar.getInstance();
         mYear = mCurrentCalendar.get(Calendar.YEAR);
@@ -134,13 +134,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     }
 
     private void setGridItemData() {
-        CompareFundItem defalutItem1 = mAdapter.new CompareFundItem();
+        CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();
         defalutItem1.name = "沪深300";
-        CompareFundItem defalutItem2 = mAdapter.new CompareFundItem();
+        CompareFundItem defalutItem2 = mGridAdapter.new CompareFundItem();
         defalutItem2.name = "上证指数";
         mCompareItemList.add(defalutItem1);
         mCompareItemList.add(defalutItem2);
-        mAdapter.notifyDataSetChanged();
+        mGridAdapter.notifyDataSetChanged();
     }
 
     private void handleExtras(Bundle extras) {
@@ -176,7 +176,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         btnCompare.setOnClickListener(this);
 
         mGridView = (GridView) view.findViewById(R.id.gv_comparison);
-        mGridView.setAdapter(mAdapter);
+        mGridView.setAdapter(mGridAdapter);
         mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
@@ -198,7 +198,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 final int columnWidth = (mGridView.getWidth() - (getResources()
                         .getDimensionPixelSize(R.dimen.compare_horspacing)) * 4) / 5;
 
-                mAdapter.setItemHeight((int) (columnWidth));
+                mGridAdapter.setItemHeight((int) (columnWidth));
             }
         });
 
@@ -356,7 +356,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
                 }
 
-                float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
+                float increaseValue = (object.getBegin() - object.getEnd()) / object.getEnd();
                 tvIncreaseValue.setText(StringFromatUtils.get4PointPercent(increaseValue * 100));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
@@ -408,6 +408,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
+        offetYvalue = offetYvalue/0.8f;
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
@@ -433,18 +434,17 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         float baseNum = historyNetList.get(dataLenght - 1).getPercentage();
         float maxNum = baseNum, minNum = baseNum;
         for (int i = dataLenght - 1; i >= 0; i--) {
-
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
+            float pointValue = todayBean.getPercentage();
             pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(todayBean.getPercentage());
+            pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
 
-            if (todayBean.getNetvalue() > maxNum) {
-                maxNum = todayBean.getNetvalue();
-
-            } else if (todayBean.getNetvalue() < minNum) {
-                minNum = todayBean.getNetvalue();
+            if (pointValue > maxNum) {
+                maxNum = pointValue;
+            } else if (pointValue < minNum) {
+                minNum = pointValue;
             }
         }
         float offetValue;
@@ -485,6 +485,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
                     lineEntity.setLineData(lineDataList);
                     linesList.add(lineEntity);
+
+                    float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
+
+                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value);
                     i++;
                 }
 
@@ -501,6 +505,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             if (null != object && object.size() > 0) {
                 setLineListsData(object);
 
+                mGridAdapter.notifyDataSetChanged();
             }
 
         }
@@ -600,7 +605,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         StringBuilder sbCompareIds = new StringBuilder();
         mCompareItemList.clear();
         for (SelectStockBean csBean : listStock) {
-            CompareFundItem item = mAdapter.new CompareFundItem();
+            CompareFundItem item = mGridAdapter.new CompareFundItem();
             item.name = csBean.name;
             // item.value = csBean.id + "";
             mCompareItemList.add(item);
@@ -613,7 +618,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         }
         mCompareIds = sbCompareIds.toString();
         btnSelectFund.setText(sb);
-        mAdapter.notifyDataSetChanged();
+        mGridAdapter.notifyDataSetChanged();
     }
 
     @Override
