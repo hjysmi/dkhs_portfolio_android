@@ -433,6 +433,8 @@ public class TrendChartFragment extends Fragment {
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
+        //增加20的空白区域
+        offetYvalue = offetYvalue / 0.8f;
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 

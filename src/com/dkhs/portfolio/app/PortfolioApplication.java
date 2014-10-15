@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.DisplayMetrics;
 
 import com.dkhs.portfolio.service.LoadStockToDBService;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -42,6 +43,18 @@ public class PortfolioApplication extends Application {
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
+
+        DisplayMetrics metric = getResources().getDisplayMetrics();
+
+        int width = metric.widthPixels; // 屏幕宽度（像素）
+        int height = metric.heightPixels; // 屏幕高度（像素）
+        float density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
+        int densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
+
+        System.out.println("Devices width:" + width);
+        System.out.println("Devices height:" + height);
+        System.out.println("Devices density:" + density);
+        System.out.println("Devices densityDpi:" + densityDpi);
 
     }
 

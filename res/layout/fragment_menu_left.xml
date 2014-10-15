@@ -7,72 +7,151 @@
     <RelativeLayout
         android:id="@+id/menu_userinfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp" >
+        android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/iv_userheader"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:background="@color/white" />
-
-        <TextView
-            android:id="@+id/tv_username"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/iv_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/iv_userheader"
-            android:text="laohu"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:layout_centerHorizontal="true" >
 
-        <TextView
-            android:id="@+id/tv_combin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/iv_userheader"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/iv_userheader"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/iv_userheader"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true"
+                android:background="@color/white" />
 
-        <TextView
-            android:id="@+id/tv_stock"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_icon_backheader" />
+
+            <TextView
+                android:paddingTop="15dp"
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_userheader"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:text="laohu"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_combin"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/tv_combin"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:layout_below="@id/iv_header"
+            android:orientation="horizontal" >
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/menu_icon_backleft"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/tv_combin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="15"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_combin"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="组合"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/menu_icon_backright"
+                android:gravity="center_vertical" >
+
+                <TextView
+                    android:id="@+id/tv_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="15"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_stock"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="5dp"
+                    android:text="自选股"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
-    <View
+    <!--
+         <View
         android:id="@id/login_divider"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/sliding_menu_divider_height"
         android:layout_below="@+id/menu_userinfo"
         android:layout_marginTop="10dp"
         android:background="@color/sliding_menu_divider_color" />
+    -->
 
-    <ListView
-        android:id="@+id/menu_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/login_divider"
-        android:layout_marginTop="15dp" >
-    </ListView>
-
-    <Button
-        android:id="@+id/btn_setting"
+    <RelativeLayout
+        android:id="@+id/menu_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginBottom="30dp"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/icon_setting" />
+        android:paddingBottom="15dip"
+        android:paddingLeft="22dip" >
+
+        <ImageView
+            android:id="@+id/btn_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/menu_icon_setting" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@id/btn_setting"
+            android:paddingBottom="7.5dip"
+            android:paddingLeft="20dip"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <ListView
+        
+        android:id="@+id/menu_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/menu_setting"
+        android:layout_below="@id/menu_userinfo"
+        android:layout_marginTop="5dp"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/sliding_menu_divider_color"
+        android:scrollbars="none" >
+    </ListView>
 
 </RelativeLayout>

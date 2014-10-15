@@ -3,10 +3,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ff333333" >
+	<RelativeLayout 
+	    android:id="@+id/right_reflush"
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    >
+	    <ImageView 
+	        android:paddingLeft="20dp"
+	        android:paddingTop="10dp"
+	        android:paddingRight="10dp"
+	        android:paddingBottom="10dp"
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:src="@drawable/menu_icon_reflush"
+	        android:id="@+id/right_image_point"
+	        />
+	    <TextView 
+	        android:layout_height="wrap_content"
+	        android:layout_width="wrap_content"
+	        android:text="动态"
+	        android:layout_toRightOf="@id/right_image_point"
+	        android:layout_centerVertical="true"
+	        android:textColor="@color/white"
+	        android:textSize="16sp"
+	        />
+	</RelativeLayout>
+    <RelativeLayout
+        	android:layout_below="@id/right_reflush"
+            android:id="@+id/right_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="MenuRight" />
+            <ImageView
+                android:id="@+id/right_userheader"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:scaleType="fitXY"
+                android:layout_centerInParent="true"
+                android:background="@color/white" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/menu_icon_backheader" />
+
+            <TextView
+                android:paddingTop="15dp"
+                android:id="@+id/right_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/right_userheader"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="5dp"
+                android:text="laohu"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+        </RelativeLayout>
+		<ListView 
+		    android:layout_height="wrap_content"
+		    android:layout_width="match_parent"
+		    android:cacheColorHint="@color/transparent"
+        	android:divider="@color/sliding_menu_divider_color"
+        	android:scrollbars="none"
+        	android:layout_below="@id/right_header"
+        	android:id="@+id/right_listview"
+		    ></ListView>
 </RelativeLayout>

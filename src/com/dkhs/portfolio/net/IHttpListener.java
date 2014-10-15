@@ -3,6 +3,10 @@ package com.dkhs.portfolio.net;
 
 public interface IHttpListener {
 
+    
+    public void beforeRequest();
+    public void requestCallBack();
+    
     /**
      * 
     *

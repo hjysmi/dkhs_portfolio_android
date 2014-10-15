@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
@@ -40,7 +41,7 @@ public class KChartsFragment extends Fragment {
 	private String mStockCode; //股票code
 	private QuotesEngineImpl mQuotesDataEngine;
 	
-	public static final boolean testInterface = false; //测试，使用本地数据
+	public static final boolean testInterface = true; //测试，使用本地数据
 	
 
 	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
@@ -217,70 +218,64 @@ public class KChartsFragment extends Fragment {
 		return "d";
 	}
 	
-	private IHttpListener mKlineHttpListener = new IHttpListener() {
-		
-		@Override
-		public void onHttpSuccess(String jsonObject) {
-			//解析json todo：此处应该放到线程中处理
-			List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonObject);
-			refreshChartsView(ohlc);
-		}
-		
-		/**
-		 * 从json中解析k线数据
-		 * @param jsonObject
-		 * @return
-		 */
-		private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
-			List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
-			if(jsonObject == null || jsonObject.trim().length() == 0) {
-				return entitys;
-			}
-			
-			try {
-				JSONArray ja = new JSONArray(jsonObject);
-				int len = ja.length();
-				if(len > 0) {
-					JSONObject jo = null;
-					OHLCEntity ohlc = null;
-					for(int i=0; i<len; i++) {
-						jo = ja.getJSONObject(i);
-						if(jo != null) {
-							ohlc = new OHLCEntity();
-							if(jo.has("open"))
-								ohlc.setOpen(jo.getDouble("open"));
-							if(jo.has("high"))
-								ohlc.setHigh(jo.getDouble("high"));
-							if(jo.has("low"))
-								ohlc.setLow(jo.getDouble("low"));
-							if(jo.has("close"))
-								ohlc.setClose(jo.getDouble("close"));
-							if(jo.has("tradedate"))
-								ohlc.setDate(jo.getString("tradedate"));
-							if(jo.has("volume"))
-								ohlc.setVolume(jo.getDouble("volume"));
-							entitys.add(ohlc);
-						}
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
+	private IHttpListener mKlineHttpListener = new BasicHttpListener() {
+
+        @Override
+        public void onSuccess(String result) {
+            List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
+            refreshChartsView(ohlc);
+
+        }
+
+        public void onFailure(int errCode, String errMsg) {
+            Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+        };
+    };
+    
+	
+	/**
+	 * 从json中解析k线数据
+	 * @param jsonObject
+	 * @return
+	 */
+	private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
+		List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
+		if(jsonObject == null || jsonObject.trim().length() == 0) {
 			return entitys;
 		}
-
-		@Override
-		public void onHttpFailure(int errCode, Throwable err) {
-			Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+		
+		try {
+			JSONArray ja = new JSONArray(jsonObject);
+			int len = ja.length();
+			if(len > 0) {
+				JSONObject jo = null;
+				OHLCEntity ohlc = null;
+				for(int i=0; i<len; i++) {
+					jo = ja.getJSONObject(i);
+					if(jo != null) {
+						ohlc = new OHLCEntity();
+						if(jo.has("open"))
+							ohlc.setOpen(jo.getDouble("open"));
+						if(jo.has("high"))
+							ohlc.setHigh(jo.getDouble("high"));
+						if(jo.has("low"))
+							ohlc.setLow(jo.getDouble("low"));
+						if(jo.has("close"))
+							ohlc.setClose(jo.getDouble("close"));
+						if(jo.has("tradedate"))
+							ohlc.setDate(jo.getString("tradedate"));
+						if(jo.has("volume"))
+							ohlc.setVolume(jo.getDouble("volume"));
+						entitys.add(ohlc);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
-		@Override
-		public void onHttpFailure(int errCode, String errMsg) {
-			Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-		}
-	};
-
+		return entitys;
+	}
 	/**
 	 * 测试数据
 	 * @return

@@ -2,6 +2,10 @@ package com.dkhs.portfolio.net;
 
 import org.json.JSONObject;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.utils.PromptManager;
+
+import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -15,6 +19,30 @@ import android.os.Message;
  * @version 1.0
  */
 public abstract class ParseHttpListener<T> extends BasicHttpListener {
+
+    private Context mContext;
+    private int msgId;
+
+    public ParseHttpListener setLoadingDialog(Context context, int msgid) {
+        this.mContext = context;
+        this.msgId = msgid;
+        return this;
+    }
+
+    @Override
+    public void beforeRequest() {
+        if (null != mContext && this.msgId > 0) {
+            PromptManager.showProgressDialog(mContext, msgId);
+        }
+    }
+
+    @Override
+    public void requestCallBack() {
+        if (null != mContext) {
+            PromptManager.closeProgressDialog();
+        }
+
+    }
 
     public ParseHttpListener() {
         HandlerThread thread = new HandlerThread("HttpListenerThread");
@@ -121,7 +149,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private void stopSelf() {
         mServiceLooper.quit();
-        
+
     }
 
     // 耗时操作，解析数据
