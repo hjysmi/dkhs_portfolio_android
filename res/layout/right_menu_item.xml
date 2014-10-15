@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/left_menu_item_selector"
     android:clickable="true"
+    android:orientation="horizontal"
     android:gravity="center_vertical"
     android:paddingLeft="30.0dip"
     android:paddingRight="17.0dip" >
@@ -17,6 +18,7 @@
             android:layout_width="wrap_content"
             android:src="@drawable/menu_icon_line"
 	    	android:scaleType="fitXY"
+	    	android:id="@+id/right_menu_line_first"
 	    	android:layout_centerHorizontal="true"
             />
         <ImageView 
@@ -25,6 +27,7 @@
 	    android:layout_width="wrap_content"
 	    android:src="@drawable/menu_icon_line"
 	    android:scaleType="fitXY"
+	    android:id="@+id/right_menu_line_all"
 	    android:layout_centerHorizontal="true"
 	    />
         <ImageView 
@@ -48,10 +51,11 @@
                 android:layout_width="wrap_content"
                 android:id="@+id/right_menu_date"
                 android:text="10月14日  20:23:36"
-                android:textColor="@color/black"
+                android:textColor="@color/light_gray"
                 android:textSize="16sp"
                 />
             <LinearLayout 
+                android:layout_below="@id/right_menu_date"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:id="@+id/right_menu_layout_foradd"
@@ -60,4 +64,4 @@
         </RelativeLayout>
   
 
-</RelativeLayout>
+</LinearLayout>
