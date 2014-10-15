@@ -157,8 +157,10 @@ public class KChartsFragment extends Fragment {
 
 	private void refreshVolumnCharts() {
 		List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
-		mVolumnChartView.setStickData(volumns);
-		mVolumnChartView.postInvalidate();		
+		if(volumns != null && volumns.size() > 0) {
+			mVolumnChartView.setStickData(volumns);
+			mVolumnChartView.postInvalidate();		
+		}
 	}
 
 	/**
