@@ -554,7 +554,7 @@ public class TrendChart extends TrendGridChart {
         // if (null != pointTitleList && pointTitleList.size() > 0) {
         // firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
         if (lineData.size() > 0 && lineData.get(0).getLineData().size() > 0) {
-            firtLineText = "日期：" + lineData.get(0).getLineData().get(0).getDesc();
+            firtLineText = "日期：" + lineData.get(0).getLineData().get(pointIndex).getDesc();
         }
         canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 

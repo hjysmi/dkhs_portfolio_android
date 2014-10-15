@@ -83,9 +83,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private TextView tvIncreaseValue;
     private View increaseView;
 
-    private int mYear;
-    private int mMonth;
-    private int mDay;
+    // private int mYear;
+    // private int mMonth;
+    // private int mDay;
 
     private boolean isPickStartDate;
 
@@ -99,10 +99,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private String mCompareIds = "106000082,106000232";
 
     private CompareEngine mCompareEngine;
-    private Calendar mCurrentCalendar;
+    // private Calendar mCurrentCalendar;
 
     private Calendar mCreateCalender;
-
+    Calendar cStart, cEnd;
     // private Date mSelectStartDate;
 
     private TrendChart maChartView;
@@ -119,10 +119,12 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
 
-        mCurrentCalendar = Calendar.getInstance();
-        mYear = mCurrentCalendar.get(Calendar.YEAR);
-        mMonth = mCurrentCalendar.get(Calendar.MONTH);
-        mDay = mCurrentCalendar.get(Calendar.DAY_OF_MONTH);
+        cStart = Calendar.getInstance();
+        cStart.add(Calendar.MONTH, -1);
+        cEnd = Calendar.getInstance();
+        // mYear = cStart.get(Calendar.YEAR);
+        // mMonth = cStart.get(Calendar.MONTH);
+        // mDay = cStart.get(Calendar.DAY_OF_MONTH);
         // handle intent extras
         Bundle extras = getActivity().getIntent().getExtras();
         if (extras != null) {
@@ -146,6 +148,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+
     }
 
     @Override
@@ -203,8 +206,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         });
 
         if (null != mCombinationBean) {
-            setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
-            setEndTime(String.format(mDayFormat, mYear, (mMonth + 1), mDay));
+            // setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+            setStartTime(TimeUtils.getTimeString(cStart));
+            setEndTime(TimeUtils.getTimeString(cEnd));
+            // Calendar cStart = Calendar.getInstance();
+            // cStart.set(mYear, mMonth - 1, mDay);
+            isBeforeCreateDate(cStart, mCreateCalender);
+
             updateDayDisplay();
         }
 
@@ -304,7 +312,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             }
                 break;
             case R.id.btn_compare_fund: {
-                requestCompare();
+                if (isBetween7day()) {
+                    Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
+                } else {
+                    requestCompare();
+                }
             }
 
                 break;
@@ -320,8 +332,14 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     }
 
+    private boolean isBetween7day() {
+        long between_days = (cEnd.getTimeInMillis() - cStart.getTimeInMillis()) / (1000 * 3600 * 24);
+        return between_days < 7 ? true : false;
+    }
+
     private void requestCompare() {
         lineEntityList.clear();
+
         new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
 
@@ -346,7 +364,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     tvNoData.setVisibility(View.GONE);
                     // int sizeLength = dayNetValueList.size();
                     setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
-                    setHistoryPointTitle();
+                    // setHistoryPointTitle();
                     setXTitle(dayNetValueList);
 
                     LineEntity mCombinationLine = new LineEntity();
@@ -358,7 +376,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
                 }
 
-                float increaseValue = (object.getBegin() - object.getEnd()) / object.getEnd();
+                float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
                 tvIncreaseValue.setText(StringFromatUtils.get4PointPercent(increaseValue * 100));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
@@ -383,23 +401,23 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         maChartView.setLineData(lineEntityList);
     }
 
-    private void setHistoryPointTitle() {
-        List<String> titles = new ArrayList<String>();
-        titles.add("日期");
-        titles.add("当前净值");
-        maChartView.setPointTitleList(titles);
-    }
+    // private void setHistoryPointTitle() {
+    // List<String> titles = new ArrayList<String>();
+    // titles.add("日期");
+    // titles.add("当前净值");
+    // maChartView.setPointTitleList(titles);
+    // }
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
-        String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
-        if (TextUtils.isEmpty(endDate)) {
+        String startDay = dayNetValueList.get(0).getDate();
+        if (TextUtils.isEmpty(startDay)) {
             xtitle.add("");
         } else {
-            xtitle.add(endDate);
+            xtitle.add(startDay);
 
         }
-        xtitle.add(dayNetValueList.get(0).getDate());
+        xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
         maChartView.setMaxPointNum(dayNetValueList.size());
         maChartView.setAxisXTitles(xtitle);
 
@@ -435,11 +453,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         int dataLenght = historyNetList.size();
         float baseNum = historyNetList.get(0).getPercentageBegin();
         float maxNum = baseNum, minNum = baseNum;
-        for (int i = 0; i <= dataLenght - 1; i++) {
+        for (int i = 0; i < dataLenght; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
             float pointValue = todayBean.getPercentageBegin();
-            System.out.println("");
             pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
@@ -516,13 +533,17 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     };
 
     private void showPickerDate() {
-        DatePickerDialog dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar), mDateSetListener, mYear, mMonth, mDay);
-        if (isPickStartDate) {
 
+        DatePickerDialog dpg = null;
+        if (isPickStartDate) {
+            dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar), mDateSetListener, cStart.get(Calendar.YEAR),
+                    cStart.get(Calendar.MONTH), cStart.get(Calendar.DAY_OF_MONTH));
             dpg.setTitle(R.string.dialog_start_time_title);
         } else {
-
+            dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
+                    android.R.style.Theme_Holo_Light_Dialog_NoActionBar), mDateSetListener, cEnd.get(Calendar.YEAR),
+                    cEnd.get(Calendar.MONTH), cEnd.get(Calendar.DAY_OF_MONTH));
             dpg.setTitle(R.string.dialog_end_time_title);
         }
         dpg.show();
@@ -562,17 +583,18 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     }
 
     int noOfTimesCalled = 0;
+
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             if (noOfTimesCalled % 2 == 0) {
-                mYear = year;
-                mMonth = monthOfYear;
-                mDay = dayOfMonth;
+                // mYear = year;
+                // mMonth = monthOfYear;
+                // mDay = dayOfMonth;
 
-                String sbTime = String.format(mDayFormat, mYear, (mMonth + 1), mDay);
+                String sbTime = String.format(mDayFormat, year, (monthOfYear + 1), dayOfMonth);
                 if (isPickStartDate) {
-                    Calendar cStart = Calendar.getInstance();
-                    cStart.set(mYear, mMonth, mDay); // NB: 2 means March, not February!
+                    // cStart = Calendar.getInstance();
+                    cStart.set(year, monthOfYear, dayOfMonth);
 
                     if (isBeforeCreateDate(cStart, mCreateCalender)) {
                         showBeforeCreateDayDialog();
@@ -581,6 +603,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     }
 
                 } else {
+                    cEnd.set(year, monthOfYear, dayOfMonth);
                     setEndTime(sbTime.toString());
                 }
                 updateDayDisplay();
