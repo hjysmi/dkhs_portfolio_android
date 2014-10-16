@@ -108,6 +108,7 @@
                 android:paddingBottom="3dp"
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
+                android:textSize="14sp"
                 android:paddingTop="3dp"
                 android:text="@string/adjust_position" />
         </RelativeLayout>

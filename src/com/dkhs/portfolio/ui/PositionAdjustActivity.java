@@ -354,8 +354,15 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
+
+                List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
+                for (ConStockBean stockBean : stockList) {
+                    SelectStockBean bean = SelectStockBean.copy(stockBean);
+                    mSelectList.add(bean);
+                }
+
                 Intent intent = new Intent(this, SelectStockActivity.class);
-                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) stockList);
+                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
                 startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
 
             }

@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -46,11 +47,15 @@ import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.CompareEngine;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NetValueEngine;
+import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
+import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
@@ -73,7 +78,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private GridView mGridView;
     private CompareIndexAdapter mGridAdapter;
     private List<CompareFundItem> mCompareItemList;
-
+    private List<SelectStockBean> selectStockList;
     private Button btnStartTime;
     private Button btnEndTime;
     private Button btnCompare;
@@ -116,7 +121,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
-
+        selectStockList = new ArrayList<SelectStockBean>();
         mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
 
         cStart = Calendar.getInstance();
@@ -136,10 +141,21 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     }
 
     private void setGridItemData() {
+
         CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();
         defalutItem1.name = "沪深300";
         CompareFundItem defalutItem2 = mGridAdapter.new CompareFundItem();
         defalutItem2.name = "上证指数";
+        SelectStockBean sBean1 = new SelectStockBean();
+        sBean1.code = "106000082";
+        sBean1.name = "上证指数";
+        SelectStockBean sBean2 = new SelectStockBean();
+        sBean2.code = "106000232";
+        sBean2.name = "沪深300";
+
+        selectStockList.add(sBean1);
+        selectStockList.add(sBean2);
+
         mCompareItemList.add(defalutItem1);
         mCompareItemList.add(defalutItem2);
         mGridAdapter.notifyDataSetChanged();
@@ -322,6 +338,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 break;
             case R.id.btn_select_fund: {
                 Intent intent = new Intent(getActivity(), SelectFundActivity.class);
+
+                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) selectStockList);
+
                 // Intent intent = new Intent(getActivity(), SelectStockActivity.class);
                 startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
@@ -669,6 +688,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
                             .getSerializableExtra("list_select");
                     if (null != listStock) {
+                        selectStockList = listStock;
                         updateSelectData(listStock);
                     } else {
 

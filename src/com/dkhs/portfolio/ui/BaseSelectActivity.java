@@ -84,13 +84,13 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private void handleExtras(Bundle extras) {
 
-        ArrayList<ConStockBean> listStock = (ArrayList<ConStockBean>) extras
+        ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
                 .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
         if (null != listStock) {
-            for (ConStockBean stockBean : listStock) {
-
-                mSelectList.add(SelectStockBean.copy(stockBean));
-            }
+            // for (ConStockBean stockBean : listStock) {
+            //
+            mSelectList.addAll(listStock);
+            // }
         }
     }
 
