@@ -33,6 +33,13 @@ public class StockPriceBean {
     @SerializedName("followed")
     private boolean isFollowed;
 
+    @SerializedName("chng_pct_day")
+    private float dayPercentage;
+    @SerializedName("chng_pct_month")
+    private float monthPercentage;
+    @SerializedName("chng_pct_three_month")
+    private float seasonPercentage;
+
     public long getId() {
         return id;
     }
@@ -79,6 +86,30 @@ public class StockPriceBean {
 
     public void setFollowed(boolean isFollowed) {
         this.isFollowed = isFollowed;
+    }
+
+    public float getDayPercentage() {
+        return dayPercentage;
+    }
+
+    public void setDayPercentage(float dayPercentage) {
+        this.dayPercentage = dayPercentage;
+    }
+
+    public float getMonthPercentage() {
+        return monthPercentage;
+    }
+
+    public void setMonthPercentage(float monthPercentage) {
+        this.monthPercentage = monthPercentage;
+    }
+
+    public float getSeasonPercentage() {
+        return seasonPercentage;
+    }
+
+    public void setSeasonPercentage(float seasonPercentage) {
+        this.seasonPercentage = seasonPercentage;
     }
 
 }
