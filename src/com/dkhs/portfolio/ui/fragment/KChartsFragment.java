@@ -44,7 +44,7 @@ public class KChartsFragment extends Fragment {
 	private ImageButton mLargerButton;
 	private ImageButton mSmallerButton;
 	
-	public static final boolean testInterface = true; //测试，使用本地数据
+	public static final boolean testInterface = false; //测试，使用本地数据
 	
 
 	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
@@ -257,7 +257,7 @@ public class KChartsFragment extends Fragment {
 			if(len > 0) {
 				JSONObject jo = null;
 				OHLCEntity ohlc = null;
-				for(int i=0; i<len; i++) {
+				for(int i=len-1; i >= 0; i--) {
 					jo = ja.getJSONObject(i);
 					if(jo != null) {
 						ohlc = new OHLCEntity();

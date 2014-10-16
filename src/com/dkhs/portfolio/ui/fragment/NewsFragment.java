@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 
 /**
@@ -73,67 +74,67 @@ public class NewsFragment extends Fragment{
 	private void intialTitles() {
 		Map<String, String> title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "财报摘要");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "操盘必读");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "股东情况");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "主营业务");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "核心题材");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "机构评级");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "股本情况");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "成交回报");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "大宗交易");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "融资融券");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "管理层");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "分红融资");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "公司概况");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "回顾展望");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "资本运作");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 		title = new HashMap<String, String>();
 		title.put(KEY_TITLE, "板块分析");
-		title.put(KEY_URL, "http://58.23.5.117:8002/finance/company/f10/financeindex/101000001");
+		title.put(KEY_URL, DKHSUrl.BASE_URL + "/finance/company/f10/financeindex/101000001");
 		titles.add(title);
 	}
 
@@ -142,7 +143,9 @@ public class NewsFragment extends Fragment{
 		mAdapter = new MyExpandableListAdapter();
 		mListView.setAdapter(mAdapter);
 		mListView.setOnGroupExpandListener(onGroupClickListener);
+		mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
 	}
+	
 	
 	private OnGroupExpandListener onGroupClickListener = new OnGroupExpandListener() {
 
