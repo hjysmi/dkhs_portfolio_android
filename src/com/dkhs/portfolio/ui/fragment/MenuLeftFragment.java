@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import java.lang.reflect.Type;
+import java.util.List;
+
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,16 +20,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.FundDataEngine;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
+import com.google.gson.reflect.TypeToken;
 
 public class MenuLeftFragment extends Fragment implements OnClickListener {
 	private String[] items;
 	private String[] icon_items;
 	BaseAdapter itemAdapter;
 	private RelativeLayout menuSetting;
-
+	private TextView tvCombin;
+	private TextView tvStock;
+	LoadSelectDataEngine mLoadDataEngine;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -42,13 +59,16 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 		menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
 		menuSetting.setOnClickListener(this);
 		initView(view);
+		loadCombinationData();
+		/*mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_MAININDEX);
+		mLoadDataEngine.loadData();*/
 		return view;
 	}
 
 	private void initView(View view) {
-		TextView tvCombin = (TextView) view.findViewById(R.id.tv_combin);
+		tvCombin = (TextView) view.findViewById(R.id.tv_combin);
 		//tvCombin.setText(getString(R.string.combin, 3));
-		TextView tvStock = (TextView) view.findViewById(R.id.tv_stock);
+		tvStock = (TextView) view.findViewById(R.id.tv_stock);
 		//tvStock.setText(getString(R.string.optional_stock_format, 12));
 		//view.findViewById(R.id.btn_setting).setOnClickListener(this);
 		ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
@@ -149,4 +169,33 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 		}
 		
 	}
+	private void loadCombinationData() {
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+
+            @Override
+            protected List<CombinationBean> parseDateTask(String jsonData) {
+                Type listType = new TypeToken<List<CombinationBean>>() {
+                }.getType();
+                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+                
+                return combinationList;
+            }
+
+            @Override
+            protected void afterParseData(List<CombinationBean> dataList) {
+                tvCombin.setText(dataList.size()+"");
+            }
+
+        });
+        new OptionalStockEngineImpl(mSelectStockBackListener).loadData();
+    }
+	ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+        	tvStock.setText(dataList.size()+"");
+
+        }
+
+    };
 }

@@ -8,8 +8,8 @@
 		        android:angle="0" android:endColor="#dc2222"
 		        android:startColor="#dc2222" />
     		<corners
-		        android:bottomLeftRadius="6dip" android:bottomRightRadius="6dip"
-		        android:topLeftRadius="6dip" android:topRightRadius="6dip" />
+		        android:bottomLeftRadius="3dip" android:bottomRightRadius="3dip"
+		        android:topLeftRadius="3dip" android:topRightRadius="3dip" />
 
     		<padding
 		        android:bottom="10dp" android:left="10dp"
@@ -25,8 +25,8 @@
 		        android:angle="0" android:endColor="#dc2222"
 		        android:startColor="#dc2222" />
     		<corners
-		        android:bottomLeftRadius="6dip" android:bottomRightRadius="6dip"
-		        android:topLeftRadius="6dip" android:topRightRadius="6dip" />
+		        android:bottomLeftRadius="3dip" android:bottomRightRadius="3dip"
+		        android:topLeftRadius="3dip" android:topRightRadius="3dip" />
 
     		<padding
 		        android:bottom="10dp" android:left="10dp"
@@ -42,8 +42,8 @@
 		        android:angle="0" android:endColor="#ef2222"
 		        android:startColor="#ef2222" />
     		<corners
-		        android:bottomLeftRadius="6dip" android:bottomRightRadius="6dip"
-		        android:topLeftRadius="6dip" android:topRightRadius="6dip" />
+		        android:bottomLeftRadius="3dip" android:bottomRightRadius="3dip"
+		        android:topLeftRadius="3dip" android:topRightRadius="3dip" />
 
     		<padding
 		        android:bottom="10dp" android:left="10dp"
