@@ -40,4 +40,8 @@ public class StringFromatUtils {
         return String.format("%.2f", value);
     }
 
+    public static String convertToWan(float value) {
+        return String.format("%.2f万", value / 10000f);
+    }
+
 }

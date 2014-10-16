@@ -56,6 +56,14 @@ public class QuotesEngineImpl {
 
     }
 
+    public void queryMoreTimeShare(String stockCode, String current, IHttpListener listener) {
+        // RequestParams params = new RequestParams();
+        // params.addBodyParameter("period", "1");
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.sfthumbnail, stockCode) + "&fromtime="
+                + current, null, listener);
+
+    }
+
     /**
      * 获取k线图数据
      * 

@@ -102,9 +102,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initView() {
         if (null != mStockBean) {
-            setTitle(mStockBean.name);
+
             mStockId = mStockBean.id;
             mStockCode = mStockBean.code;
+            updateStockInfo();
         }
 
         tvCurrent = (TextView) findViewById(R.id.tv_current_price);
@@ -132,9 +133,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void setAddOptionalButton() {
-    	if(mStockBean == null) {
-    		return;
-    	}
+        if (mStockBean == null) {
+            return;
+        }
         if (mStockBean.isFollowed) {
             btnAddOptional.setText(R.string.delete_fllow);
         } else {
@@ -282,12 +283,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             .getSerializableExtra(FragmentSelectStockFund.ARGUMENT);
                     if (null != selectBean) {
                         mStockBean = selectBean;
-                        setTitle(selectBean.name);
+                        updateStockInfo();
                         setAddOptionalButton();
                     }
                     break;
             }
         }
+    }
+
+    private void updateStockInfo() {
+        setTitle(mStockBean.name);
+        setTitleTipString(mStockBean.code);
     }
 
     // private boolean hasFollow = true;
