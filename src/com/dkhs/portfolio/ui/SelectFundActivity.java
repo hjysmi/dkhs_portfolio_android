@@ -49,9 +49,13 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         int titleLenght = tArray.length;
         for (int i = 0; i < titleLenght; i++) {
             titleList.add(tArray[i]);
-            FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getFundFragment(ViewType.FUND_MAININDEX);
-            fragmenList.add(mPagerFragment);
         }
+        FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getFundFragment(ViewType.FUND_MAININDEX);
+        FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getFundFragment(ViewType.FUND_INDEX);
+        FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getFundFragment(ViewType.FUND_STOCK);
+        fragmenList.add(mPagerFragment);
+        fragmenList.add(mPagerFragment2);
+        fragmenList.add(mPagerFragment3);
 
     }
 

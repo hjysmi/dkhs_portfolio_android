@@ -33,6 +33,7 @@ import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -178,16 +179,21 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     private void loadDataByFund() {
-
+        System.out.println("loadDataByFund view type:" + mViewType);
         if (mViewType == ViewType.FUND_MAININDEX.typeId) {
-            mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_MAININDEX);
+            mLoadDataEngine = new MainIndexEngineImple(mSelectStockBackListener);
+
         } else if (mViewType == ViewType.FUND_INDEX.typeId) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
-        } else if (mViewType == ViewType.STOCK_DRAWDOWN.typeId) {
+        } else if (mViewType == ViewType.FUND_STOCK.typeId) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
 
         }
-        mLoadDataEngine.loadData();
+        if (null != mLoadDataEngine) {
+            mLoadDataEngine.loadData();
+        } else {
+            LogUtils.d("LoadDataEngine is null");
+        }
 
     }
 
@@ -208,6 +214,11 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     public void setOrderType(OrderType orderType) {
         if (mLoadDataEngine instanceof FundDataEngine) {
             ((FundDataEngine) mLoadDataEngine).setOrderType(orderType);
+            mDataList.clear();
+            mLoadDataEngine.loadData();
+        }
+        if (mLoadDataEngine instanceof MainIndexEngineImple) {
+            ((MainIndexEngineImple) mLoadDataEngine).setOrderType(orderType);
             mDataList.clear();
             mLoadDataEngine.loadData();
         }

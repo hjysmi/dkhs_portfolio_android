@@ -81,14 +81,17 @@ public class FundDataEngine extends LoadSelectDataEngine {
         params.add(valuePair);
         // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist + "?exchange=1,2&sort=" + orderType, null, params,
         // this);
+
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.Fund.fundsList, mFundsType, mOrderType.getType()), null,
                 params, this);
+
     }
 
     @Override
     public void loadData() {
-        
+        System.out.println("Load FundDataEngine");
         DKHSClient.requestByGet(this, DKHSUrl.Fund.fundsList, mFundsType, mOrderType.getType());
+
     }
 
     /**

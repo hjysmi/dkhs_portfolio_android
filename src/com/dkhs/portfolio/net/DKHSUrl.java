@@ -87,6 +87,7 @@ public class DKHSUrl {
     public interface Fund {
         // http://192.168.107.251:8002/api/v1/symbols/funds/?type=1&sort=percent_month
         String fundsList = "/api/v1/symbols/funds/?type={0}&sort={1}";
+        String mainIndexList = "/api/v1/symbols/?symbol_type=5&is_midx=1&sort={0}";
         // http://192.168.107.251:8002/api/v1/symbols/106000082%2C106000232/quote_history/?from_date=2014-09-01&to_date=2014-10-08
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
 
