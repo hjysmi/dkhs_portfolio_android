@@ -13,8 +13,8 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         app:isChecked="true"
-        app:textLeft="报表"
-        app:textRight="曲线" />
+        app:textLeft="曲线"
+        app:textRight="报表" />
 
     <RelativeLayout
         android:id="@+id/chart_content"

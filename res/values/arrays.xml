@@ -39,7 +39,6 @@
         <item>自定义</item>
     </string-array>
     <string-array name="query_compare_type">
-        <item>@string/query_from_create</item>
         <item>@string/query_before_month</item>
     </string-array>
     <string-array name="detail_news_titles">
@@ -65,17 +64,17 @@
         <item>menu_icon_collection</item>
         <item>menu_icon_cal</item>
     </string-array>
-    
     <string-array name="left_menu_img_items">
         <item>行情</item>
         <item>自选股</item>
         <item>我的组合</item>
         <item>新闻资讯</item>
     </string-array>
-	<string-array name="left_menu_img">
+    <string-array name="left_menu_img">
         <item>menu_icon_market</item>
         <item>menu_icon_optional</item>
         <item>menu_icon_myteam</item>
         <item>menu_icon_news</item>
     </string-array>
+
 </resources>

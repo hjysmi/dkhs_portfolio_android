@@ -155,7 +155,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
         Log.i("CrashHandler", "come into sendCrashReportToServer");
 
-        final File cr = new File("/sdcard/gtg/", ErrorReportName);
+        final File cr = new File("/sdcard/portfolio/", ErrorReportName);
         if (cr.length() >= FILELEGTH) {
             Log.i("CrashHandler", "sendCrashReportToServer");
             new Thread() {

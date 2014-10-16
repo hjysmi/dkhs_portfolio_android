@@ -91,6 +91,10 @@ public class TimeUtils {
 
     }
 
+    public static String getTimeString(Calendar calendar) {
+        return ACCEPTED_TIMESTAMP_FORMATS[7].format(calendar.getTime());
+    }
+
     public static String getTimeByMSecond(float second) {
         String time = new SimpleDateFormat("HH:mm").format(float2Date(second));
         return time;
@@ -108,6 +112,7 @@ public class TimeUtils {
     public static String getSimpleFormatTime(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[2].format(toDate(iso8601str));
     }
+
     public static String getSimpleDay(String iso8601str) {
         return ACCEPTED_TIMESTAMP_FORMATS[7].format(toDate(iso8601str));
     }
