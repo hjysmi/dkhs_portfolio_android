@@ -176,5 +176,10 @@
     <string name="set_password_failed">设置失败</string>
     <string name="tips">提示</string>
     <string name="dialog_message_delete_combination">您将要删除选中的组合!</string>
-
+    <string name="setting_string_opinion">意见反馈</string>
+    <string name="setting_string_news">新版本检测</string>
+    <string name="setting_string_abortus">关于我们</string>
+	<string name="setting_string_public">公开投资组合</string>
+    <string name="setting_string_publicexplan">公开后可参与排名及比赛等活动</string>
+    <string name="setting_string_exit">退出账户</string>
 </resources>
