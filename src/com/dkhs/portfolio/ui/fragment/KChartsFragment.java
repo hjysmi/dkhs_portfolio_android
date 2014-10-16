@@ -44,7 +44,7 @@ public class KChartsFragment extends Fragment {
 	private ImageButton mLargerButton;
 	private ImageButton mSmallerButton;
 	
-	public static final boolean testInterface = true; //测试，使用本地数据
+	public static final boolean testInterface = false; //测试，使用本地数据
 	
 
 	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {

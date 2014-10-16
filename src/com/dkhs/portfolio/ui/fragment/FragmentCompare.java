@@ -391,14 +391,14 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private void setLineData(LineEntity lineEntity) {
         lineEntityList.add(0, lineEntity);
         // lineEntityList.add(lineEntity);
-        maChartView.setDrawDashLine(isBeforeCreateDate);
+        // maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
     }
 
     private void setLineListsData(List<LineEntity> linesList) {
         System.out.println("setLineListsData :" + linesList.size());
         lineEntityList.addAll(linesList);
-        maChartView.setDrawDashLine(isBeforeCreateDate);
+        // maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
     }
 
@@ -449,7 +449,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         // lineDataList.clear();
-
+        int dashLineSize = 0;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
         float baseNum = historyNetList.get(0).getPercentageBegin();
@@ -459,6 +459,12 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             HistoryNetBean todayBean = historyNetList.get(i);
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
+            if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
+                if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
+                    dashLineSize = i;
+                }
+            }
+
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
 
@@ -473,6 +479,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         minNum = baseNum - minNum;
 
         offetValue = maxNum > minNum ? maxNum : minNum;
+        maChartView.setDashLinePointSize(dashLineSize);
 
         return offetValue;
 

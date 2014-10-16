@@ -56,7 +56,8 @@ public class TrendChart extends TrendGridChart {
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
 
-    private boolean isDrawDashLine;
+//    private boolean isDrawDashLine;
+    private int dashLinePointSize;
 
     public TrendChart(Context context) {
         super(context);
@@ -303,7 +304,7 @@ public class TrendChart extends TrendGridChart {
                         valueY += mStartLineYpoint;
                         // valueY += mStartLineYpoint;
                         // if (dashLongitude) {
-                        if (isDrawDashLine) {
+                        if (j<dashLinePointSize) {
                             mLinePaint.setPathEffect(dashEffect);
                         } else {
                             mLinePaint.setPathEffect(null);
@@ -666,11 +667,20 @@ public class TrendChart extends TrendGridChart {
         this.isTouch = isTouch;
     }
 
-    public boolean isDrawDashLine() {
-        return isDrawDashLine;
+    public int getDashLinePointSize() {
+        return dashLinePointSize;
     }
 
-    public void setDrawDashLine(boolean isDrawDashLine) {
-        this.isDrawDashLine = isDrawDashLine;
+    public void setDashLinePointSize(int dashLinePointSize) {
+        this.dashLinePointSize = dashLinePointSize;
     }
+
+    // public boolean isDrawDashLine() {
+    // return isDrawDashLine;
+    // }
+    //
+    // public void setDrawDashLine(boolean isDrawDashLine) {
+    // this.isDrawDashLine = isDrawDashLine;
+    // }
+
 }
