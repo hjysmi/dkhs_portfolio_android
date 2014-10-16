@@ -15,6 +15,7 @@ import org.apache.http.NameValuePair;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
@@ -44,6 +45,9 @@ public class DKHSClient {
             params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
             LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
 
+        } else if (!url.contains(DKHSUrl.User.login)) {
+            LogUtils.e("Authorization token is null,Exit app");
+            PortfolioApplication.getInstance().exitApp();
         }
 
         String requestUrl = getAbsoluteUrl(url);
