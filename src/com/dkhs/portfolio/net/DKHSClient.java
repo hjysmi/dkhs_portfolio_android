@@ -13,10 +13,18 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 
+import android.content.Intent;
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.ui.NoAccountMainActivity;
+import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -43,6 +51,29 @@ public class DKHSClient {
         if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
             params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
             LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
+
+        } else if (!url.contains(DKHSUrl.User.login)) {
+
+            try {
+                UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+              
+                    if (user != null&&!TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                        GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                        GlobalParams.MOBILE = user.getMobile();
+                        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                        } else {
+                            LogUtils.e("Authorization token is null,Exit app");
+                            PortfolioApplication.getInstance().exitApp();
+                        }
+                    }
+            
+            } catch (DbException e) {
+                e.printStackTrace();
+                LogUtils.e("Authorization token is null,Exit app");
+                PortfolioApplication.getInstance().exitApp();
+            }
 
         }
 
