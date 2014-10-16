@@ -338,7 +338,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			float startY = 0;
 			Paint paint = new Paint();
 			paint.setColor(lineEntity.getLineColor());
-			paint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+			paint.setTextSize( DEFAULT_AXIS_TITLE_SIZE);
 			canvas.drawText(
 					lineEntity.getTitle()
 							+ "="
@@ -646,7 +646,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		}
 		
 		List<OHLCEntity> result = new ArrayList<OHLCEntity>();
-		for (int i = mDataStartIndext + 1; i < mOHLCData.size()
+		for (int i = mDataStartIndext; i < mOHLCData.size()
 				&& i < mShowDataNum + mDataStartIndext; i++) {
 			OHLCEntity entity = mOHLCData.get(i);
 			result.add(entity);
@@ -800,6 +800,24 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		postInvalidate();
 	}
 	
+	/**
+	 * 判断是否是最大
+	 * @return
+	 */
+	public boolean isLargest() {
+		if(mOHLCData == null || mOHLCData.size() == 0) {
+			return false;
+		}
+		return mShowDataNum == mOHLCData.size();
+	}
+	
+	/**
+	 * 是否是最小
+	 * @return
+	 */
+	public boolean isSmallest() {
+		return mShowDataNum == MIN_CANDLE_NUM;
+	}
 	
 	/**
 	 * 缩小
@@ -810,6 +828,18 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		postInvalidate();
 	}
 	
+	
+	
+	public int getShowDataNum() {
+		return mShowDataNum;
+	}
+
+	public void setShowDataNum(int ShowDataNum) {
+		this.mShowDataNum = ShowDataNum;
+	}
+
+
+
 	/**
 	 * 显示数据变化
 	 * @author linbing
