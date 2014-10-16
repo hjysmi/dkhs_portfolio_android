@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 
@@ -32,12 +33,18 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.util.LogUtils;
-
+/**
+ * 软件设置界面
+ * 用于设置组合股是否公开
+ * 当前有个问题:退出按钮暂时无法符合美工要求(当高度没达到全屏时,退出按钮位于屏幕最下方,当高度超过当前屏幕长度时,可以被顶到屏幕外去)
+ * @author weiting
+ *
+ */
 public class SettingActivity extends ModelAcitivity implements OnClickListener{
 public static boolean isSetPassword = true;
 private LinearLayout settingLayoutGroup;
 private Context context;
+private CheckBox settingCheckbox;
 	
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
@@ -56,6 +63,7 @@ private Context context;
 		setContentView(R.layout.setting_layout);
 		context = this;
 		initViews();
+		settingCheckbox.setChecked(true);
 		setListener();
 		initData();
 		loadCombinationData();
@@ -98,6 +106,7 @@ private Context context;
 		// TODO Auto-generated method stub
 		setTitle(R.string.setting);
 		settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
+		settingCheckbox = (CheckBox) findViewById(R.id.setting_checkbox);
 	}
 
 	@Override
@@ -147,15 +156,23 @@ private Context context;
 			break;
 		}
 	}
+	/**
+	 * 添加组合股是否公开列表数据
+	 * @param lsit
+	 */
 	public void createGroupShow(List<CombinationBean> lsit){
 		int i = 0;
+		if(settingCheckbox.isChecked()){
+			settingLayoutGroup.setClickable(false);
+		}
 		for (CombinationBean combinationBean : lsit) {
 			LayoutInflater l = LayoutInflater.from(context);
 			View view = l.inflate(R.layout.setting_group_item, null);
 			Switch s = (Switch) view.findViewById(R.id.switch1);
 			s.setText(combinationBean.getName());
-			if(i++%2 == 0)
-				s.setChecked(true);
+			if(settingCheckbox.isChecked()){
+				s.setChecked(false);
+			}
 			settingLayoutGroup.addView(view);
 		}
 	}
