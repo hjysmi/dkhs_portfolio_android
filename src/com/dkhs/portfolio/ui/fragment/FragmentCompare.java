@@ -377,7 +377,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 }
 
                 float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
-                tvIncreaseValue.setText(StringFromatUtils.get4PointPercent(increaseValue * 100));
+                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(increaseValue * 100));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
                 } else {
@@ -389,7 +389,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     };
 
     private void setLineData(LineEntity lineEntity) {
-        lineEntityList.add(lineEntity);
+        lineEntityList.add(0, lineEntity);
+        // lineEntityList.add(lineEntity);
         maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
     }

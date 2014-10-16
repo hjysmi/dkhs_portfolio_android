@@ -48,7 +48,7 @@ public class TrendChart extends TrendGridChart {
 
     private float startPointX;
     private float endY;
-
+    private int lineStrokeWidth;
     private boolean isTouchAble;
     /** 选中位置X坐标 */
     private float clickPostX = 0f;
@@ -74,13 +74,14 @@ public class TrendChart extends TrendGridChart {
     }
 
     private void init() {
+        lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_stroke_width);
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(2);
+        mLinePaint.setStrokeWidth(lineStrokeWidth);
     }
 
     public void setSmallLine() {
-        mLinePaint.setStrokeWidth(1);
+        mLinePaint.setStrokeWidth(lineStrokeWidth);
     }
 
     /** 当前被选中的坐标点 */
@@ -159,6 +160,7 @@ public class TrendChart extends TrendGridChart {
 
         Paint mPaint = new Paint();
         mPaint.setColor(Color.CYAN);
+        mPaint.setStrokeWidth(lineStrokeWidth);
 
         // 水平线长度
         float lineHLength = getWidth() - 2f;
@@ -375,18 +377,18 @@ public class TrendChart extends TrendGridChart {
     private void getTouchPointData(Canvas canvas) {
         if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
             int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1)) + 1;
+            LineEntity lineEntity = lineData.get(0);
+            int maxPointSize = lineEntity.getLineData().size();
+            if (pointIndex < maxPointSize) {
+                if (lineData.size() == 1) {
 
-            if (lineData.size() == 1) {
-
-                LineEntity lineEntity = lineData.get(0);
-                int maxPointSize = lineEntity.getLineData().size();
-                if (pointIndex < maxPointSize) {
                     // pointIndex = maxPointSize - 1;
                     LinePointEntity data = lineEntity.getLineData().get(pointIndex);
                     drawDataView(canvas, pointIndex, data);
+
+                } else {
+                    drawDataView(canvas, pointIndex);
                 }
-            } else {
-                drawDataView(canvas, pointIndex);
             }
             // drawDataView(canvas);
 

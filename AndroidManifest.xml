@@ -64,6 +64,7 @@
         </activity>
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PageIndicatorDefaults" />
         <activity
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
