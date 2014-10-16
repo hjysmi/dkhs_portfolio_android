@@ -41,7 +41,10 @@ public class KChartsFragment extends Fragment {
 	private String mStockCode; //股票code
 	private QuotesEngineImpl mQuotesDataEngine;
 	
-	public static final boolean testInterface = false; //测试，使用本地数据
+	private ImageButton mLargerButton;
+	private ImageButton mSmallerButton;
+	
+	public static final boolean testInterface = true; //测试，使用本地数据
 	
 
 	public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
@@ -69,8 +72,8 @@ public class KChartsFragment extends Fragment {
 		initChartView();
 		initVloumnChartView();
 		
-		ImageButton ibl = (ImageButton) view.findViewById(R.id.btn_large);
-		ibl.setOnClickListener(new View.OnClickListener() {
+		mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
+		mLargerButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -78,8 +81,8 @@ public class KChartsFragment extends Fragment {
 			}
 		});
 		
-		ImageButton ibs = (ImageButton) view.findViewById(R.id.btn_small);
-		ibs.setOnClickListener(new View.OnClickListener() {
+		mSmallerButton = (ImageButton) view.findViewById(R.id.btn_small);
+		mSmallerButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -175,7 +178,9 @@ public class KChartsFragment extends Fragment {
 		
 		List<StickEntity> volumns = new ArrayList<StickEntity>();
 		StickEntity temp = null;
-		for(OHLCEntity entity : ohlc) {
+		OHLCEntity entity = null;
+		for(int i= ohlc.size() -1; i >= 0; i--) {
+			entity = ohlc.get(i);
 			temp = new StickEntity(entity.getVolume(),0,entity.getDate());
 			temp.setUp(entity.isup());
 			volumns.add(temp);
@@ -391,12 +396,30 @@ public class KChartsFragment extends Fragment {
 
 	public void large(View view) {
 		mMyChartsView.makeLager();
+		changeButtonState();
 	}
 	
 	public void small(View view) {
 		mMyChartsView.makeSmaller();
+		changeButtonState();
 	}
 
+	/**
+	 * 改变增大，缩小按钮状态
+	 */
+	private void changeButtonState() {
+		if(mMyChartsView.isSmallest()) {
+			mLargerButton.setVisibility(View.INVISIBLE);
+		}else {
+			mLargerButton.setVisibility(View.VISIBLE);
+		}
+		if(mMyChartsView.isLargest()) {
+			mSmallerButton.setVisibility(View.INVISIBLE);
+		}else {
+			mSmallerButton.setVisibility(View.VISIBLE);
+		}		
+	}
+	
 	public Integer getType() {
 		return type;
 	}

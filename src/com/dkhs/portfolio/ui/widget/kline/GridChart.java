@@ -25,7 +25,7 @@ public class GridChart extends View {
 	public static final int DEFAULT_BACKGROUD = android.R.color.white;
 
 	/** 默认XY轴字体大小 **/
-	public static final int DEFAULT_AXIS_TITLE_SIZE = 12;
+	public static int DEFAULT_AXIS_TITLE_SIZE = 12;
 
 	/** 默认XY坐标轴颜色 */
 	private static final int DEFAULT_AXIS_COLOR = Color.RED;
@@ -169,6 +169,10 @@ public class GridChart extends View {
 		if (showLowerChartTabs) {
 			mTabHight = viewHeight / 16.0f;
 		}
+		
+		//快速容错处理
+		DEFAULT_AXIS_TITLE_SIZE = 12;
+		DEFAULT_AXIS_TITLE_SIZE = DisplayUtil.sp2px(getContext(), DEFAULT_AXIS_TITLE_SIZE);
 		if (showTopTitles) {
 			topTitleHeight = DEFAULT_AXIS_TITLE_SIZE + 2;
 		} else {
