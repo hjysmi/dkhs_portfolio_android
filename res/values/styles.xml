@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -107,5 +107,33 @@
         <item name="@attr/backgroundDrawable">@drawable/switch_bg</item>
         <item name="@attr/switchDrawable">@drawable/switch_thumb</item>
     </style>
-
+    <!-- 用于自定义选择框 -->
+	<style name="widget_gender_switch">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textOff">"ON"</item><!-- 此设置不需要文字，只显示背景图的开关 -->
+        <item name="android:textOn">"OFF"</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:thumb">@drawable/switch_button</item><!--滑块格式9.png -->
+        <item name="android:thumbTextPadding">15dp</item><!-- 用来控制背景图片和文字之间的间距来控制switch整体宽度 -->
+        <item name="android:track">@drawable/switch_back</item><!-- 背景图的开关 格式9.png-->
+    </style>
+    <!-- 人员设置界面字体样式 -->
+    <style name="text_16_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 人员设置界面字体样式 -->
+    <style name="text_18_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <!-- 人员设置界面checkbox所用样式 -->
+    <style name="checkbox_setting" parent="@android:style/Widget.CompoundButton.CheckBox">  
+    <item name="android:button">@drawable/setting_checkbox_selector</item>
+    </style>
 </resources>
