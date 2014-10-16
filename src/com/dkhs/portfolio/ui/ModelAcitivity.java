@@ -30,8 +30,8 @@ public class ModelAcitivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle arg0) {
-    	// 模拟堆栈管理activity
-    	PortfolioApplication.getInstance().addActivity(this);
+        // 模拟堆栈管理activity
+        PortfolioApplication.getInstance().addActivity(this);
         onCreate(arg0, R.layout.layout_model_default);
     }
 
@@ -165,6 +165,17 @@ public class ModelAcitivity extends BaseActivity {
 
     public void setBackTitle(int stringId) {
         ((TextView) findViewById(BACKBUTTON_ID)).setText(stringId);
+    }
+
+    public void setTitleTipString(int stringId) {
+        // ((TextView) findViewById(R.id.tv_title_info)).setText(stringId);
+        setTitleTipString(getString(stringId));
+    }
+
+    public void setTitleTipString(String text) {
+        TextView titleTip = ((TextView) findViewById(R.id.tv_title_info));
+        titleTip.setText(text);
+        titleTip.setVisibility(View.VISIBLE);
     }
 
     public Button getRightButton() {

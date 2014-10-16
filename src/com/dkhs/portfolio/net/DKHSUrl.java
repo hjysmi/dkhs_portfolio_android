@@ -19,7 +19,7 @@ public class DKHSUrl {
 
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
-    public static final String BASE_URL = "http://58.23.5.117:8030";
+    public static final String BASE_URL = "http://58.23.5.117:8010";
 
 
     public interface Portfolio {

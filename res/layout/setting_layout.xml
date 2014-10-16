@@ -1,26 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout 
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/person_setting_backgroud"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<ScrollView 
+    android:layout_width="match_parent"
+    android:scrollbars="none"
+    android:background="@android:color/transparent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/btn_exit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dip"
-        android:background="@drawable/button_normal_blue"
-        android:text="退出账户"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/white" />
-    <Button
-        android:id="@+id/btn_setpassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dip"
-        android:background="@drawable/button_normal_blue"
-        android:text="设置密码"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/white" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent" >
 
-</RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/person_setting_parent"
+            
+            android:orientation="vertical" >
+			<include layout="@layout/layout_line_text"/>
+            <RelativeLayout	
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" >
+
+                <ImageView
+                    android:id="@+id/setting_image_head"
+                    android:src="@drawable/ic_launcher"
+                    android:layout_width="110dp"
+                    android:layout_height="80dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp" />
+
+                <ImageView
+                    android:id="@+id/setting_image_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"	
+                    android:layout_toLeftOf="@id/setting_image_right"
+                    android:layout_toRightOf="@id/setting_image_head" >
+
+                    <TextView
+                        android:id="@+id/settingt_text_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MASTER"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/setting_text_name" />
+
+                    <TextView
+                        android:id="@+id/settingt_text_phoneNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/settingt_text_name"
+                        android:paddingTop="10dp"
+                        android:text="手机号:186065***22"
+                        android:textColor="@color/person_setting_phonecolor"
+                        android:textSize="@dimen/setting_text_phone" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line"/>
+			<include layout="@layout/layout_line_text"/>
+			<RelativeLayout 
+			    android:paddingTop="15dp"
+			    android:paddingBottom="15dp"
+			    android:paddingLeft="30dp"
+			    android:layout_height="wrap_content"
+			    android:layout_width="match_parent"
+			    android:background="@color/white"
+			    >
+                <LinearLayout 
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingRight="30dp"
+                    android:layout_centerVertical="true"
+			        android:layout_alignParentRight="true"
+                    android:id="@+id/setting_layout_checkbox"
+                    >
+                <CheckBox
+                    
+                    style="@style/checkbox_setting"
+			        android:id="@+id/setting_checkbox"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        
+			        android:text="" />
+                </LinearLayout>
+                <RelativeLayout 
+                    android:layout_toLeftOf="@id/setting_layout_checkbox"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_centerVertical="true"
+                    >
+			    <TextView 
+			        
+			        style="@style/text_16_style"
+			        android:id="@+id/setting_public_name"
+			        android:text="@string/setting_string_public"
+			        />
+			    <TextView 
+			        android:paddingTop="5dp"
+			        android:layout_height="wrap_content"
+			        android:layout_width="wrap_content"
+			        android:textColor="@color/setting_public_explan"
+			        android:textSize="14sp"
+			        android:layout_below="@id/setting_public_name"
+			        android:text="@string/setting_string_publicexplan"
+			        />
+			    </RelativeLayout>
+			</RelativeLayout>
+        </LinearLayout>
+        <include layout="@layout/layout_line"/>
+        <LinearLayout 
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/setting_layout_group"
+            >
+            <!-- <include layout="@layout/setting_group_item"/>
+            <include layout="@layout/setting_group_item"/>
+            <include layout="@layout/setting_group_item"/> -->
+        </LinearLayout>
+        <include layout="@layout/layout_line_text"/>
+        <RelativeLayout
+            android:paddingTop="15dp"
+			    android:paddingBottom="15dp"
+			    android:paddingLeft="30dp"
+			    android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+            <ImageView
+                    android:id="@+id/setting_image_opinion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
+            <TextView 
+                android:layout_toLeftOf="@id/setting_image_opinion"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/setting_string_opinion"
+                style="@style/text_18_style"
+                />
+        </RelativeLayout>
+        <include layout="@layout/layout_line"/>
+        <RelativeLayout
+            android:paddingTop="15dp"
+			    android:paddingBottom="15dp"
+			    android:paddingLeft="30dp"
+			    android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+            <ImageView
+                    android:id="@+id/setting_image_news"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
+            <TextView 
+                android:layout_toLeftOf="@id/setting_image_news"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/setting_string_news"
+                style="@style/text_18_style"
+                />
+        </RelativeLayout>
+        <include layout="@layout/layout_line"/>
+        <RelativeLayout
+            android:paddingTop="15dp"
+			    android:paddingBottom="15dp"
+			    android:paddingLeft="30dp"
+			    android:background="@color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
+            <ImageView
+                    android:id="@+id/setting_image_abortus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
+            <TextView 
+                android:layout_toLeftOf="@id/setting_image_abortus"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="@string/setting_string_abortus"
+                style="@style/text_18_style"
+                />
+        </RelativeLayout>
+        <include layout="@layout/layout_line"/>"
+        <RelativeLayout 
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:padding="30dp"
+            >
+            <Button
+                android:id="@+id/btn_exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/setting_text_name"
+                android:background="@drawable/white_black_selector"
+                android:text="@string/setting_string_exit"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+        
+
+            <Button
+                android:id="@+id/btn_setpassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dip"
+                android:background="@drawable/white_black_selector"
+                android:text="设置密码"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+    </LinearLayout>
+	
+</ScrollView>
+</LinearLayout>

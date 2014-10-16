@@ -50,7 +50,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 		//tvCombin.setText(getString(R.string.combin, 3));
 		TextView tvStock = (TextView) view.findViewById(R.id.tv_stock);
 		//tvStock.setText(getString(R.string.optional_stock_format, 12));
-		view.findViewById(R.id.btn_setting).setOnClickListener(this);
+		//view.findViewById(R.id.btn_setting).setOnClickListener(this);
 		ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
 		lvItem.setAdapter(itemAdapter);
 	}

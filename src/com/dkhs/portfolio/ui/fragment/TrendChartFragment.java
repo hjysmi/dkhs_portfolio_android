@@ -384,23 +384,24 @@ public class TrendChartFragment extends Fragment {
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         lineDataList.clear();
-        float baseNum = historyNetValue.getEnd();
+        float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
-        for (int i = dataLenght - 1; i >= 0; i--) {
+        for (int i = 0; i < dataLenght; i++) {
 
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
+            float value = todayBean.getNetvalue();
             pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(todayBean.getNetvalue());
+            pointEntity.setValue(value);
             lineDataList.add(pointEntity);
 
-            if (todayBean.getNetvalue() > maxNum) {
-                maxNum = todayBean.getNetvalue();
+            if (value > maxNum) {
+                maxNum = value;
 
-            } else if (todayBean.getNetvalue() < minNum) {
-                minNum = todayBean.getNetvalue();
+            } else if (value < minNum) {
+                minNum = value;
             }
         }
         float offetValue;
@@ -433,7 +434,7 @@ public class TrendChartFragment extends Fragment {
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
-        //增加20的空白区域
+        // 增加20的空白区域
         offetYvalue = offetYvalue / 0.8f;
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
@@ -492,11 +493,11 @@ public class TrendChartFragment extends Fragment {
                     tvNoData.setVisibility(View.VISIBLE);
                 } else {
                     int sizeLength = dayNetValueList.size();
-                    setYTitle(object.getEnd(), getMaxOffetValue(object));
+                    setYTitle(object.getBegin(), getMaxOffetValue(object));
                     setHistoryPointTitle();
                     setLineData(lineDataList);
-                    String strLeft = getString(R.string.time_start, dayNetValueList.get(sizeLength - 1).getDate());
-                    String strRight = getString(R.string.time_end, dayNetValueList.get(0).getDate());
+                    String strLeft = getString(R.string.time_start, dayNetValueList.get(0).getDate());
+                    String strRight = getString(R.string.time_end, dayNetValueList.get(sizeLength - 1).getDate());
                     tvTimeLeft.setText(strLeft);
 
                     tvTimeRight.setText(strRight);
@@ -518,14 +519,14 @@ public class TrendChartFragment extends Fragment {
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
         List<String> xtitle = new ArrayList<String>();
-        String endDate = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
+        String endDate = dayNetValueList.get(0).getDate();
         if (TextUtils.isEmpty(endDate)) {
             xtitle.add("");
         } else {
             xtitle.add(endDate);
 
         }
-        xtitle.add(dayNetValueList.get(0).getDate());
+        xtitle.add(dayNetValueList.get(dayNetValueList.size() - 1).getDate());
         mMaChart.setMaxPointNum(dayNetValueList.size());
         mMaChart.setAxisXTitles(xtitle);
 

@@ -21,6 +21,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.bean.StockQuotesBean.BuyPrice;
 import com.dkhs.portfolio.bean.StockQuotesBean.SellPrice;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName OptionalStockAdapter
@@ -94,8 +95,8 @@ public class FiveRangeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         FiveRangeItem item = dataList.get(position);
-        viewHolder.tvPrice.setText(item.price);
-        viewHolder.tvVol.setText(item.vol);
+        viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
+        viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
         viewHolder.tvTag.setText(item.tag);
         return convertView;
     }

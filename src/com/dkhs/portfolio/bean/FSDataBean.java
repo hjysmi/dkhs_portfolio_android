@@ -22,7 +22,7 @@ public class FSDataBean {
     private long amstart;
     private long pmstart;
     private long pmend;
-
+    private String curtime;
     /*
      * [
      * "1411983240.0", 时间戳
@@ -90,42 +90,62 @@ public class FSDataBean {
         private float current;
         private float percentage;
         private String time;
+
         public float getVolume() {
             return volume;
         }
+
         public void setVolume(float volume) {
             this.volume = volume;
         }
+
         public float getAvgcurrent() {
             return avgcurrent;
         }
+
         public void setAvgcurrent(float avgcurrent) {
             this.avgcurrent = avgcurrent;
         }
+
         public float getAvgline() {
             return avgline;
         }
+
         public void setAvgline(float avgline) {
             this.avgline = avgline;
         }
+
         public float getCurrent() {
             return current;
         }
+
         public void setCurrent(float current) {
             this.current = current;
         }
+
         public float getPercentage() {
             return percentage;
         }
+
         public void setPercentage(float percentage) {
             this.percentage = percentage;
         }
+
         public String getTime() {
             return time;
         }
+
         public void setTime(String time) {
             this.time = time;
         }
+    }
+
+    public String getCurtime() {
+        return curtime;
+    }
+
+    public void setCurtime(String curtime) {
+        this.curtime = curtime;
     }
 
 }

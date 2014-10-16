@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -306,7 +307,7 @@ public class StockQuotesChartFragment extends Fragment {
             buyItem.tag = "买" + (++i);
             buyList.add(buyItem);
         }
-        i = 0;
+        // i = 0;
         for (String sellPrice : bean.getSellPrice().getSellPrice()) {
             FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
             sellItem.price = sellPrice;
@@ -315,7 +316,7 @@ public class StockQuotesChartFragment extends Fragment {
             } else {
                 sellItem.vol = "0";
             }
-            sellItem.tag = "卖" + (++i);
+            sellItem.tag = "卖" + (i--);
             sellList.add(sellItem);
         }
 
@@ -324,6 +325,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
+    FSDataBean mFsDataBean = new FSDataBean();
     ParseHttpListener todayListener = new ParseHttpListener<FSDataBean>() {
 
         @Override
@@ -342,8 +344,14 @@ public class StockQuotesChartFragment extends Fragment {
         protected void afterParseData(FSDataBean fsDataBean) {
 
             if (fsDataBean != null) {
+                mFsDataBean.setCurtime(fsDataBean.getCurtime());
+                if (null == mFsDataBean.getMainstr()) {
+                    mFsDataBean.setMainstr(fsDataBean.getMainstr());
+                } else {
 
-                List<TimeStock> mainList = fsDataBean.getMainstr();
+                    mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
+                }
+                List<TimeStock> mainList = mFsDataBean.getMainstr();
 
                 // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
                 if (mainList != null && mainList.size() > 0) {
@@ -383,7 +391,7 @@ public class StockQuotesChartFragment extends Fragment {
             LinePointEntity pointEntity = new LinePointEntity();
             LinePointEntity point2Entity = new LinePointEntity();
 
-            pointEntity.setDesc(bean.getTime());
+            pointEntity.setDesc(TimeUtils.getSimpleFormatTime(bean.getTime()));
             pointEntity.setValue(iPrice);
             point2Entity.setValue(bean.getAvgline());
             lineDataList.add(pointEntity);
@@ -401,40 +409,6 @@ public class StockQuotesChartFragment extends Fragment {
 
     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
     List<LinePointEntity> averagelineData = new ArrayList<LinePointEntity>();
-
-    /**
-     * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
-     */
-    private float getMaxOffetValue(HistoryNetValue historyNetValue) {
-        lineDataList.clear();
-        float baseNum = historyNetValue.getBegin();
-        float maxNum = baseNum, minNum = baseNum;
-        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-        int dataLenght = historyNetList.size();
-        for (int i = dataLenght - 1; i >= 0; i--) {
-
-            LinePointEntity pointEntity = new LinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(todayBean.getNetvalue());
-            lineDataList.add(pointEntity);
-
-            if (todayBean.getNetvalue() > maxNum) {
-                maxNum = todayBean.getNetvalue();
-
-            } else if (todayBean.getNetvalue() < minNum) {
-                minNum = todayBean.getNetvalue();
-            }
-        }
-        float offetValue;
-        maxNum = maxNum - baseNum;
-        minNum = baseNum - minNum;
-
-        offetValue = maxNum > minNum ? maxNum : minNum;
-
-        return offetValue;
-
-    }
 
     /**
      * 设置纵坐标标题，并设置曲线的最大值和最小值
@@ -462,13 +436,6 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setPointTitleList(titles);
     }
 
-    private void setHistoryPointTitle() {
-        List<String> titles = new ArrayList<String>();
-        titles.add("日期");
-        titles.add("当前净值");
-        mMaChart.setPointTitleList(titles);
-    }
-
     Handler dataHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (trendType.equals(TREND_TYPE_TODAY)) {
@@ -479,34 +446,6 @@ public class StockQuotesChartFragment extends Fragment {
 
             }
         };
-    };
-
-    ParseHttpListener historyNetValueListener = new ParseHttpListener<HistoryNetValue>() {
-
-        @Override
-        protected HistoryNetValue parseDateTask(String jsonData) {
-            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            return histroyValue;
-        }
-
-        @Override
-        protected void afterParseData(HistoryNetValue object) {
-            if (object != null) {
-
-                List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() > 1) {
-                    int sizeLength = dayNetValueList.size();
-                    setYTitle(object.getBegin(), getMaxOffetValue(object));
-                    setHistoryPointTitle();
-                    setLineData(lineDataList);
-
-                    setXTitle(dayNetValueList);
-
-                }
-
-            }
-        }
-
     };
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
@@ -539,8 +478,12 @@ public class StockQuotesChartFragment extends Fragment {
         @Override
         public void run() {
             dataHandler.sendEmptyMessage(1722);
-            if (null != mQuotesDataEngine) {
+            if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
+
+            } else {
+                mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
+
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
