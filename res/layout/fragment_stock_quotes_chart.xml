@@ -6,7 +6,7 @@
     android:padding="5dp" >
 
     <ListView
-        android:id="@+id/list_five_range_buy"
+        android:id="@+id/list_five_range_sall"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -18,12 +18,12 @@
         style="@style/divider_line"
         android:layout_width="88dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/list_five_range_buy"
+        android:layout_below="@+id/list_five_range_sall"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp" />
 
     <ListView
-        android:id="@+id/list_five_range_sall"
+        android:id="@+id/list_five_range_buy"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -37,6 +37,6 @@
         android:layout_above="@+id/rl_trend_info"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="2dp"
-        android:layout_toLeftOf="@+id/list_five_range_buy" />
+        android:layout_toLeftOf="@+id/list_five_range_sall" />
 
 </RelativeLayout>

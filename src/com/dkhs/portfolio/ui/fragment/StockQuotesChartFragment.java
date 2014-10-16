@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -306,7 +307,7 @@ public class StockQuotesChartFragment extends Fragment {
             buyItem.tag = "买" + (++i);
             buyList.add(buyItem);
         }
-        i = 0;
+        // i = 0;
         for (String sellPrice : bean.getSellPrice().getSellPrice()) {
             FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
             sellItem.price = sellPrice;
@@ -315,7 +316,7 @@ public class StockQuotesChartFragment extends Fragment {
             } else {
                 sellItem.vol = "0";
             }
-            sellItem.tag = "卖" + (++i);
+            sellItem.tag = "卖" + (i--);
             sellList.add(sellItem);
         }
 
@@ -324,7 +325,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
-    FSDataBean mFsDataBean;
+    FSDataBean mFsDataBean = new FSDataBean();
     ParseHttpListener todayListener = new ParseHttpListener<FSDataBean>() {
 
         @Override
@@ -344,7 +345,12 @@ public class StockQuotesChartFragment extends Fragment {
 
             if (fsDataBean != null) {
                 mFsDataBean.setCurtime(fsDataBean.getCurtime());
-                mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
+                if (null == mFsDataBean.getMainstr()) {
+                    mFsDataBean.setMainstr(fsDataBean.getMainstr());
+                } else {
+
+                    mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
+                }
                 List<TimeStock> mainList = mFsDataBean.getMainstr();
 
                 // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
@@ -472,7 +478,7 @@ public class StockQuotesChartFragment extends Fragment {
         @Override
         public void run() {
             dataHandler.sendEmptyMessage(1722);
-            if (null != mQuotesDataEngine && mFsDataBean == null) {
+            if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
 
             } else {
