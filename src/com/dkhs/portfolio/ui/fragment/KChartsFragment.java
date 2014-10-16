@@ -257,7 +257,7 @@ public class KChartsFragment extends Fragment {
 			if(len > 0) {
 				JSONObject jo = null;
 				OHLCEntity ohlc = null;
-				for(int i=0; i<len; i++) {
+				for(int i=len-1; i >= 0; i--) {
 					jo = ja.getJSONObject(i);
 					if(jo != null) {
 						ohlc = new OHLCEntity();

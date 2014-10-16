@@ -478,6 +478,9 @@ public class StockQuotesChartFragment extends Fragment {
         @Override
         public void run() {
             dataHandler.sendEmptyMessage(1722);
+            if(mQuotesDataEngine == null) {
+            	return;
+            }
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
 

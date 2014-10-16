@@ -306,7 +306,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
-		if (event.getY() > 0
+		if (event.getY() > mTitleHeight
 				&& event.getY() < super.getBottom() - getAxisMarginBottom()
 				&& event.getX() > super.getLeft() + getAxisMarginLeft()
 				&& event.getX() < super.getRight()) {

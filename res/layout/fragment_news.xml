@@ -9,6 +9,9 @@
         android:layout_height="match_parent"
         android:cacheColorHint="#00000000"
         android:fadingEdge="none"
+        android:dividerHeight="1px"
+        android:divider="#d0d0d0"
+        android:listSelector="@drawable/btn_gray_bg"
         />
 
 </RelativeLayout>
