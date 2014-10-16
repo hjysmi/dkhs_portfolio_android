@@ -177,6 +177,19 @@ public class TimeUtils {
         return date;
     }
 
+    public static Calendar simpleStringToCalend(String dateString) {
+        Calendar calendar = GregorianCalendar.getInstance();
+        Date date;
+        try {
+            date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(dateString);
+            calendar.setTime(date);
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        }
+        return calendar;
+    }
+
     // public static String formatShortDate(Context context, Date date) {
     // StringBuilder sb = new StringBuilder();
     // Formatter formatter = new Formatter(sb);
