@@ -38,16 +38,16 @@
             android:layout_marginTop="16dp">
 	         <ImageButton 
 	            android:id="@+id/btn_large"
-	            android:layout_width="20dp"
-	            android:layout_height="20dp"
+	            android:layout_width="30dp"
+	            android:layout_height="30dp"
 	            android:scaleType="fitCenter"
 	            android:src="@drawable/zoom_in"
 	            android:background="@null"/>
 	         
 	         <ImageButton 
 	            android:id="@+id/btn_small"
-	            android:layout_width="20dp"
-	            android:layout_height="20dp"
+	            android:layout_width="30dp"
+	            android:layout_height="30dp"
 	            android:scaleType="fitCenter"
 	            android:src="@drawable/zoom_out"
 	            android:background="@null"

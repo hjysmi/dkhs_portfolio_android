@@ -3,6 +3,8 @@ package com.dkhs.portfolio.ui.widget.chart;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -225,6 +227,14 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		// 设置背景色
 		super.setBackgroundColor(backgroudColor);
 
+		//解决适配字体大小
+		longtitudeFontSize = DEFAULT_LONGTITUDE_FONT_SIZE;
+		longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
+		axisMarginBottom = DEFAULT_LATITUDE_FONT_SIZE;
+		latitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LATITUDE_FONT_SIZE);
+		mTitleHeight = longtitudeFontSize;
+		axisMarginBottom = latitudeFontSize;
+		
 		// 绘制XY轴
 		drawXAxis(canvas);
 		drawYAxis(canvas);
@@ -346,6 +356,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		Paint mPaintBoxLine = new Paint();
 		mPaintBoxLine.setColor(Color.BLACK);
 		mPaintBoxLine.setAntiAlias(true);
+		mPaintBoxLine.setTextSize(fontSize);
 
 		// 绘制矩形填�?
 		canvas.drawRoundRect(new RectF(ptStart.x, ptStart.y, ptEnd.x, ptEnd.y),
@@ -432,7 +443,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 				if (displayCrossYOnTouch) {
 					PointF BoxHS = new PointF(1f, clickPostY - latitudeFontSize
 							/ 2f);
-					PointF BoxHE = new PointF(axisMarginLeft, clickPostY
+					PointF BoxHE = new PointF(axisMarginLeft + latitudeFontSize, clickPostY
 							+ latitudeFontSize / 2f);
 
 					// 绘制�?���?
@@ -446,8 +457,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		if (clickPostX > 0 && clickPostY > 0) {
 			// 显示纵线
 			if (displayCrossXOnTouch) {
-				canvas
-						.drawLine(clickPostX, 1f + mTitleHeight, clickPostX, lineVLength,
+				canvas.drawLine(clickPostX, 1f + mTitleHeight, clickPostX, lineVLength,
 								mPaint);
 			}
 
