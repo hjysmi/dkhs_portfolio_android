@@ -238,15 +238,16 @@ public class TrendChartFragment extends Fragment {
     }
 
     private void setLineData(List<LinePointEntity> lineDataList) {
-
-        List<LineEntity> lines = new ArrayList<LineEntity>();
-        LineEntity MA5 = new LineEntity();
-        // MA5.setTitle("MA5");
-        // MA5.setLineColor(ColorTemplate.getRaddomColor())
-        MA5.setLineColor(getActivity().getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
-        MA5.setLineData(lineDataList);
-        lines.add(MA5);
-        mMaChart.setLineData(lines);
+        if (isAdded()) {
+            List<LineEntity> lines = new ArrayList<LineEntity>();
+            LineEntity MA5 = new LineEntity();
+            // MA5.setTitle("MA5");
+            // MA5.setLineColor(ColorTemplate.getRaddomColor())
+            MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+            MA5.setLineData(lineDataList);
+            lines.add(MA5);
+            mMaChart.setLineData(lines);
+        }
     }
 
     // private void set

@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
@@ -226,21 +227,22 @@ public class StockQuotesChartFragment extends Fragment {
     }
 
     private void setLineData(List<LinePointEntity> lineDataList) {
+        if (isAdded()) {
+            List<LineEntity> lines = new ArrayList<LineEntity>();
+            LineEntity MA5 = new LineEntity();
+            // MA5.setTitle("MA5");
+            // MA5.setLineColor(ColorTemplate.getRaddomColor())
+            MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+            MA5.setLineData(lineDataList);
 
-        List<LineEntity> lines = new ArrayList<LineEntity>();
-        LineEntity MA5 = new LineEntity();
-        // MA5.setTitle("MA5");
-        // MA5.setLineColor(ColorTemplate.getRaddomColor())
-        MA5.setLineColor(getActivity().getResources().getColor(ColorTemplate.MY_COMBINATION_LINE));
-        MA5.setLineData(lineDataList);
+            LineEntity averageLine = new LineEntity();
+            averageLine.setLineColor(PortfolioApplication.getInstance().getResources().getColor(R.color.orange));
+            averageLine.setLineData(averagelineData);
 
-        LineEntity averageLine = new LineEntity();
-        averageLine.setLineColor(getResources().getColor(R.color.orange));
-        averageLine.setLineData(averagelineData);
-
-        lines.add(MA5);
-        lines.add(averageLine);
-        mMaChart.setLineData(lines);
+            lines.add(MA5);
+            lines.add(averageLine);
+            mMaChart.setLineData(lines);
+        }
     }
 
     // private void set
@@ -478,8 +480,8 @@ public class StockQuotesChartFragment extends Fragment {
         @Override
         public void run() {
             dataHandler.sendEmptyMessage(1722);
-            if(mQuotesDataEngine == null) {
-            	return;
+            if (mQuotesDataEngine == null) {
+                return;
             }
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);

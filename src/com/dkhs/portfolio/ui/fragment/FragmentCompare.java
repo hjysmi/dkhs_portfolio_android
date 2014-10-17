@@ -374,7 +374,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         @Override
         protected void afterParseData(HistoryNetValue object) {
-            if (object != null) {
+            if (object != null && isAdded()) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() < 7) {
@@ -388,8 +388,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
                     LineEntity mCombinationLine = new LineEntity();
                     mCombinationLine.setTitle("我的组合");
-                    mCombinationLine.setLineColor(getActivity().getResources().getColor(
-                            ColorTemplate.MY_COMBINATION_LINE));
+                    mCombinationLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                     mCombinationLine.setLineData(lineDataList);
                     setLineData(mCombinationLine);
 
@@ -498,6 +497,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         minNum = baseNum - minNum;
 
         offetValue = maxNum > minNum ? maxNum : minNum;
+        if (dashLineSize == 0) {
+            dashLineSize = dataLenght;
+        }
+        System.out.println("dashLineSize:" + dashLineSize);
         maChartView.setDashLinePointSize(dashLineSize);
 
         return offetValue;
