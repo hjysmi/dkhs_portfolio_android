@@ -3,10 +3,10 @@ package com.dkhs.portfolio.ui.widget;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LineEntity {
+public class LineEntity<T extends LinePointEntity> {
 
     /** 线表示数据 */
-    private List<LinePointEntity> lineData;
+    private List<T> lineData;
 
     /** 线条名称 */
     private String title;
@@ -19,11 +19,11 @@ public class LineEntity {
     /** 是否显示线 */
     private boolean display = true;
 
-    public List<LinePointEntity> getLineData() {
+    public List<T> getLineData() {
         return lineData;
     }
 
-    public void setLineData(List<LinePointEntity> lineData) {
+    public void setLineData(List<T> lineData) {
         this.lineData = lineData;
     }
 
@@ -55,16 +55,16 @@ public class LineEntity {
         super();
     }
 
-    public LineEntity(List<LinePointEntity> lineData, String title, int lineColor) {
+    public LineEntity(List<T> lineData, String title, int lineColor) {
         super();
         this.lineData = lineData;
         this.title = title;
         this.lineColor = lineColor;
     }
 
-    public void put(LinePointEntity value) {
+    public void put(T value) {
         if (null == lineData) {
-            lineData = new ArrayList<LinePointEntity>();
+            lineData = new ArrayList<T>();
         }
         lineData.add(value);
     }
@@ -76,4 +76,5 @@ public class LineEntity {
     public void setValue(String value) {
         this.value = value;
     }
+
 }

@@ -38,6 +38,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter.FiveRangeItem;
+import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
@@ -211,6 +212,7 @@ public class StockQuotesChartFragment extends Fragment {
         machart.setDisplayLatitude(true);
         machart.setDisplayLongitude(true);
         machart.setFill(true);
+        machart.setDrawFirstLineInfo(true);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -226,7 +228,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
-    private void setLineData(List<LinePointEntity> lineDataList) {
+    private void setLineData(List<FSLinePointEntity> lineDataList) {
         if (isAdded()) {
             List<LineEntity> lines = new ArrayList<LineEntity>();
             LineEntity MA5 = new LineEntity();
@@ -239,7 +241,7 @@ public class StockQuotesChartFragment extends Fragment {
             averageLine.setLineColor(PortfolioApplication.getInstance().getResources().getColor(R.color.orange));
             averageLine.setLineData(averagelineData);
 
-            lines.add(MA5);
+            lines.add(0, MA5);
             lines.add(averageLine);
             mMaChart.setLineData(lines);
         }
@@ -306,7 +308,7 @@ public class StockQuotesChartFragment extends Fragment {
             } else {
                 buyItem.vol = "0";
             }
-            buyItem.tag = "买" + (++i);
+            buyItem.tag = "" + (++i);
             buyList.add(buyItem);
         }
         // i = 0;
@@ -318,12 +320,15 @@ public class StockQuotesChartFragment extends Fragment {
             } else {
                 sellItem.vol = "0";
             }
-            sellItem.tag = "卖" + (i--);
+            sellItem.tag = "" + (i--);
             sellList.add(sellItem);
         }
 
         mBuyAdapter.setList(buyList);
         mSellAdapter.setList(sellList);
+
+        mBuyAdapter.setCompareValue(bean.getLastClose());
+        mSellAdapter.setCompareValue(bean.getLastClose());
 
     }
 
@@ -390,14 +395,20 @@ public class StockQuotesChartFragment extends Fragment {
                 minNum = iPrice;
             }
 
-            LinePointEntity pointEntity = new LinePointEntity();
-            LinePointEntity point2Entity = new LinePointEntity();
+            FSLinePointEntity pointEntity = new FSLinePointEntity();
+            LinePointEntity averagePoint = new LinePointEntity();
 
-            pointEntity.setDesc(TimeUtils.getSimpleFormatTime(bean.getTime()));
+            // pointEntity.setDesc(TimeUtils.getTimeString(bean.getTime()));
             pointEntity.setValue(iPrice);
-            point2Entity.setValue(bean.getAvgline());
+            pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
+            pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
+            pointEntity.setIncreaseValue("-");
+            pointEntity.setIncreaseRange(StringFromatUtils.get2PointPercent(bean.getPercentage()));
+            pointEntity.setTurnover(StringFromatUtils.convertToWanHand(bean.getVolume()));
+
+            averagePoint.setValue(bean.getAvgline());
             lineDataList.add(pointEntity);
-            averagelineData.add(point2Entity);
+            averagelineData.add(averagePoint);
         }
 
         float offetValue;
@@ -409,7 +420,7 @@ public class StockQuotesChartFragment extends Fragment {
         return offetValue;
     }
 
-    List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+    List<FSLinePointEntity> lineDataList = new ArrayList<FSLinePointEntity>();
     List<LinePointEntity> averagelineData = new ArrayList<LinePointEntity>();
 
     /**
@@ -417,7 +428,9 @@ public class StockQuotesChartFragment extends Fragment {
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
+        offetYvalue = offetYvalue / 0.8f;
         List<String> ytitle = new ArrayList<String>();
+        List<String> rightYtitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
         ytitle.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
@@ -429,12 +442,21 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setMaxValue(baseNum + offetYvalue);
         mMaChart.setMinValue(baseNum - offetYvalue);
 
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-(baseNum + offetYvalue) / baseNum));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-(baseNum + halfOffetValue) / baseNum));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((baseNum + halfOffetValue) / baseNum));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((baseNum + offetYvalue) / baseNum));
+
+        mMaChart.setDrawRightYTitle(true);
+        mMaChart.setAxisRightYTitles(rightYtitle);
+
     }
 
     private void setTodayPointTitle() {
         List<String> titles = new ArrayList<String>();
         titles.add("时间");
-        titles.add("当前净值");
+        titles.add("价格");
         mMaChart.setPointTitleList(titles);
     }
 

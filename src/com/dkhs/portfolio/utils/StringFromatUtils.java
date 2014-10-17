@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.utils;
 
+import android.R.integer;
+
 /**
  * @ClassName StringFromatUtils
  * @Description 字符格式化工具类
@@ -32,6 +34,14 @@ public class StringFromatUtils {
         return String.format("%.2f", value) + "%";
     }
 
+    public static String get2PointPercentPlus(float value) {
+        if (value > 0) {
+            return String.format("+%.2f", value) + "%";
+
+        }
+        return String.format("%.2f", value) + "%";
+    }
+
     public static String get4Point(float value) {
         return String.format("%.4f", value);
     }
@@ -40,8 +50,27 @@ public class StringFromatUtils {
         return String.format("%.2f", value);
     }
 
-    public static String convertToWan(float value) {
+    public static String get2PointPlus(float value) {
+        if (value > 0) {
+            return String.format("+%.2f", value);
+
+        } else {
+            return String.format("%.2f", value);
+        }
+    }
+
+    public static String convertToWan(int value) {
+        if (value < 100000) {
+            return String.valueOf(value);
+        }
         return String.format("%.2f万", value / 10000f);
+    }
+
+    public static String convertToWanHand(int value) {
+        if (value < 100000) {
+            return String.valueOf(value) + "手";
+        }
+        return String.format("%.2f万手", value / 10000f);
     }
 
 }

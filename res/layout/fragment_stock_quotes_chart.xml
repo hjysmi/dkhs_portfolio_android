@@ -5,30 +5,61 @@
     android:orientation="vertical"
     android:padding="5dp" >
 
-    <ListView
-        android:id="@+id/list_five_range_sall"
+    <RelativeLayout
+        android:id="@+id/layout_sell"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical" />
+        android:layout_marginTop="10dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="卖"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="26sp" />
+
+        <ListView
+            android:id="@+id/list_five_range_sall"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </RelativeLayout>
 
     <View
         android:id="@+id/view_divider"
         style="@style/divider_line"
         android:layout_width="88dp"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/list_five_range_sall"
+        android:layout_below="@+id/layout_sell"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp" />
 
-    <ListView
-        android:id="@+id/list_five_range_buy"
+    <RelativeLayout
+        android:id="@+id/layout_buy"
         android:layout_width="88dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/view_divider"
-        android:orientation="vertical" />
+        android:layout_below="@+id/view_divider" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="买"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="26sp" />
+
+        <ListView
+            android:id="@+id/list_five_range_buy"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:orientation="vertical" />
+    </RelativeLayout>
 
     <com.dkhs.portfolio.ui.widget.TrendChart
         android:id="@+id/machart"
@@ -37,6 +68,6 @@
         android:layout_above="@+id/rl_trend_info"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="2dp"
-        android:layout_toLeftOf="@+id/list_five_range_sall" />
+        android:layout_toLeftOf="@+id/layout_sell" />
 
 </RelativeLayout>

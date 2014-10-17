@@ -577,7 +577,7 @@ public class TrendChartFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (trendType.equals(TREND_TYPE_TODAY)) {
+        if (isAdded()&&trendType.equals(TREND_TYPE_TODAY)) {
             System.out.println("setUserVisibleHint:" + isVisibleToUser);
 
             if (isVisibleToUser) {

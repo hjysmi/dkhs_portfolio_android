@@ -21,6 +21,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
  * 坐�?轴使用的View
@@ -190,6 +191,7 @@ public class TrendGridChart extends View {
 
     /** 纵轴刻度�?�? */
     private List<String> axisYTitles;
+    private List<String> axisRightYTitles;
 
     /** 纵轴刻度�?��字符数 */
     private int axisYMaxTitleLength = DEFAULT_AXIS_Y_MAX_TITLE_LENGTH;
@@ -215,6 +217,7 @@ public class TrendGridChart extends View {
     // private boolean isTouch;
 
     private boolean isDrawXBorke;
+    private boolean isDrawRightYTitle;
 
     /** final bitmap that contains all information and is drawn to the screen */
     protected Bitmap mDrawBitmap;
@@ -255,7 +258,7 @@ public class TrendGridChart extends View {
 
         mXTitlePaint.setTextSize(latitudeFontSize);
         mXTitlePaint.setAntiAlias(true);
-        mXTitlePaint.setColor(longitudeColor);
+        mXTitlePaint.setColor(ColorTemplate.THEME_COLOR);
         // mXTitlePaint.setTextAlign(Paint.Align.CENTER);
         // if (dashLongitude) {
         FontMetrics fm = mXTitlePaint.getFontMetrics();
@@ -270,6 +273,7 @@ public class TrendGridChart extends View {
 
         drawXtitleText(canvas);
         drawYtitleText(canvas);
+
         mGridLineHeight = getHeight() - xTitleTextHeight / 2 - axisMarginTop - axisMarginBottom;
         mStartLineYpoint = axisMarginTop + xTitleTextHeight / 2;
         mStartLineXpoint = axisMarginLeft;
@@ -296,6 +300,10 @@ public class TrendGridChart extends View {
             drawAxisGridY(canvas);
         }
 
+        if (isDrawRightYTitle) {
+            drawRightYtitleText(canvas);
+        }
+
         // System.out.println("isTouch Up:" + isTouch);
         // 绘制触摸界面
         // if (displayCrossXOnTouch || displayCrossYOnTouch) {
@@ -303,13 +311,13 @@ public class TrendGridChart extends View {
         // drawWithFingerClick(canvas);
         // }
 
-//        if (mDrawBitmap == null || mDrawCanvas == null) {
-//
-//            // use RGB_565 for best performance
-//            mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
-//            mDrawCanvas = new Canvas(mDrawBitmap);
-//        }
-//        mDrawCanvas.drawColor(backgroudColor);
+        // if (mDrawBitmap == null || mDrawCanvas == null) {
+        //
+        // // use RGB_565 for best performance
+        // mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
+        // mDrawCanvas = new Canvas(mDrawBitmap);
+        // }
+        // mDrawCanvas.drawColor(backgroudColor);
         // }
     }
 
@@ -366,6 +374,48 @@ public class TrendGridChart extends View {
                         // mPaintFont);
                         // }
                     }
+                }
+            }
+        }
+
+    }
+
+    private void drawRightYtitleText(Canvas canvas) {
+        if (null != axisRightYTitles) {
+            int counts = axisRightYTitles.size();
+            float xTitleWidth = mXTitlePaint.measureText(axisXTitles.get(counts - 1));
+            float offetText = xTitleWidth;
+            float startX = (super.getWidth() - axisMarginLeft - offetText);
+            // 线条Paint
+            Paint mPaintLine = new Paint();
+            mPaintLine.setColor(latitudeColor);
+            if (dashLatitude) {
+                mPaintLine.setPathEffect(dashEffect);
+            }
+            // �?��Paint
+            Paint mPaintFont = new Paint();
+            mPaintFont.setColor(latitudeFontColor);
+            mPaintFont.setTextSize(latitudeFontSize);
+
+            mPaintFont.setAntiAlias(true);
+
+            // 绘制线条坐Y轴
+            if (counts > 1) {
+                float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
+                        / (counts - 1);
+                float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight;
+
+                float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
+
+                for (int i = 0; i < counts; i++) {
+
+                    if (displayAxisYTitleColor) {
+                        mPaintFont.setColor(getYTitlePaintFont(i, counts));
+                    }
+
+                    canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize / 2f,
+                            mPaintFont);
+
                 }
             }
         }
@@ -437,8 +487,8 @@ public class TrendGridChart extends View {
 
                 if (displayAxisXTitle) {
 
-                    if (i == 0&&axisXTitles.size()>0) {
-                        
+                    if (i == 0 && axisXTitles.size() > 0) {
+
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset, offsetX, mXTitlePaint);
 
                     } else if (i < axisXTitles.size()) {
@@ -1007,6 +1057,22 @@ public class TrendGridChart extends View {
 
     public void setDrawXBorke(boolean isDrawXBorke) {
         this.isDrawXBorke = isDrawXBorke;
+    }
+
+    public boolean isDrawRightYTitle() {
+        return isDrawRightYTitle;
+    }
+
+    public void setDrawRightYTitle(boolean isDrawRightYTitle) {
+        this.isDrawRightYTitle = isDrawRightYTitle;
+    }
+
+    public List<String> getAxisRightYTitles() {
+        return axisRightYTitles;
+    }
+
+    public void setAxisRightYTitles(List<String> axisRightYTitles) {
+        this.axisRightYTitles = axisRightYTitles;
     }
 
 }
