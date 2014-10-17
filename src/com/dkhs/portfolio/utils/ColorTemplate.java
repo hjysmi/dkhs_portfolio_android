@@ -59,4 +59,19 @@ public class ColorTemplate {
 
     }
 
+    public static ColorStateList getUpOrDrownCSL(float value) {
+        ColorStateList colorStateList = (ColorStateList) PortfolioApplication.getInstance().getResources()
+                .getColorStateList(R.color.theme_color);
+        if (value > 0) {
+            colorStateList = (ColorStateList) PortfolioApplication.getInstance().getResources()
+                    .getColorStateList(R.color.red);
+
+        } else if (value < 0) {
+            colorStateList = (ColorStateList) PortfolioApplication.getInstance().getResources()
+                    .getColorStateList(R.color.green);
+        }
+        return colorStateList;
+
+    }
+
 }

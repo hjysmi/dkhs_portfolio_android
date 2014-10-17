@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -86,30 +87,13 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         viewHolder.tvTitle.setText(item.getName());
         viewHolder.tvIndex.setText((position + 1) + "");
 
-        float currenValue = item.getCurrentValue();
-        if (currenValue > 0) {
-            ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
-            viewHolder.tvCurrent.setTextColor(redCsl);
-            viewHolder.tvCurrent.setText("+" + currenValue + "%");
+        float currenValue = item.getCurrentValue() * 100;
+        viewHolder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
+        viewHolder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
-        } else {
-            ColorStateList greenCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
-            viewHolder.tvCurrent.setTextColor(greenCsl);
-            viewHolder.tvCurrent.setText(currenValue + "%");
-        }
-        float addValue = item.getAddUpValue();
-        if (addValue > 0) {
-            ColorStateList redCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
-            viewHolder.tvAddup.setTextColor(redCsl);
-            viewHolder.tvAddup.setText("+" + StringFromatUtils.getPercentValue(addValue));
-
-        } else {
-            ColorStateList greenCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
-            viewHolder.tvAddup.setTextColor(greenCsl);
-
-            viewHolder.tvAddup.setText(StringFromatUtils.getPercentValue(addValue));
-        }
-
+        float addValue = item.getAddUpValue() * 100;
+        viewHolder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
+        viewHolder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
         // viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
         //
         // @Override
