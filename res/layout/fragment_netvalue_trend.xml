@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="5dp"
+        android:visibility="gone"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="5dp" >
@@ -43,9 +44,10 @@
     <View style="@style/divider_line" />
 
     <RelativeLayout
+        android:id="@+id/tv_combination_layout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/theme_gray" >
+        android:layout_height="90dp"
+        android:background="@color/red" >
 
         <View
             android:id="@+id/divider_line"
@@ -59,47 +61,85 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/divider_line"
-            android:gravity="center" >
-
+             >
+			<ImageView 
+			    android:paddingLeft="15dp"
+			    android:layout_height="wrap_content"
+			    android:layout_width="wrap_content"
+			    android:id="@+id/tv_combination_image_value"
+			    android:src="@drawable/tv_combination_currentnet"
+			    />
             <TextView
+                android:layout_toRightOf="@id/tv_combination_image_value"
                 android:id="@+id/tv_history"
                 style="@style/hw_wrap"
                 android:layout_centerHorizontal="true"
-                android:text="累计净值增长(元)"
-                android:textColor="@android:color/darker_gray"
-                android:textSize="12sp" />
+                android:text="当前净值"
+                android:paddingLeft="5dp"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
 
             <TextView
+                android:paddingLeft="15dp"
                 android:id="@+id/tv_history_netvalue"
-                style="@style/hw_wrap"
+               	android:layout_width="wrap_content"
+               	android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_history"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/red"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:textSize="35sp" />
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/divider_line"
-            android:gravity="center" >
-
+            android:layout_toRightOf="@+id/divider_line" >
+            <ImageView 
+                android:paddingRight="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+			    android:layout_height="wrap_content"
+			    android:layout_width="wrap_content"
+			    android:src="@drawable/tv_combination_up"
+			    android:layout_alignParentRight="true"
+			    android:id="@+id/tv_combination_image_uporlow"
+			    />
+            <RelativeLayout 
+                android:layout_toLeftOf="@id/tv_combination_image_uporlow"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_centerVertical="true"
+                >
+                <ImageView 
+			    android:paddingLeft="15dp"
+			    android:layout_height="wrap_content"
+			    android:layout_width="wrap_content"
+			    android:src="@drawable/tv_combination_totalnet"
+			    android:id="@+id/tv_combination_image_totalnet"
+			    />
+			
             <TextView
                 android:id="@+id/tv_income"
                 style="@style/hw_wrap"
                 android:layout_centerHorizontal="true"
                 android:text="累记涨幅:"
-                android:textColor="@android:color/darker_gray"
+                android:paddingLeft="5dp"
+                android:textColor="@android:color/white"
+                android:layout_toRightOf="@id/tv_combination_image_totalnet"
+                
                 android:textSize="12sp" />
 
             <TextView
+                android:paddingLeft="15dp"
                 android:id="@+id/tv_income_netvalue"
-                style="@style/hw_wrap"
+                android:layout_width="match_parent"
+               	android:layout_height="wrap_content"
+                android:text="10.15%"
                 android:layout_below="@+id/tv_income"
-                android:layout_centerHorizontal="true"
-                android:textColor="@color/red"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:textSize="35sp" />
+            </RelativeLayout>
+			
         </RelativeLayout>
     </RelativeLayout>
 
