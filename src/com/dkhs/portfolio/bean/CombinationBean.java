@@ -26,7 +26,7 @@ public class CombinationBean implements Serializable {
     private String name;
     private String description;
     private float percent;
-    @SerializedName("net_value")
+    @SerializedName("cumulative")
     private float addUpValue;
     @SerializedName("created_at")
     private String createTime;
