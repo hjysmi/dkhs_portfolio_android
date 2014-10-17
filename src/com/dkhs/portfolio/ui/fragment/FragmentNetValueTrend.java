@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -45,6 +49,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView tvCombinCreateTime;
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
+    private View viewNetvalueHead;
+    private ImageView ivUpDownIcon;
     // private Button btnEditName;
 
     private CombinationBean mCombinationBean;
@@ -89,12 +95,13 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
         // etCombinName = (EditText) view.findViewById(R.id.et_combination_name);
-
+        ivUpDownIcon = (ImageView) view.findViewById(R.id.tv_combination_image_uporlow);
         tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
         tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
         tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
+        viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
         initTabPage(view);
@@ -109,16 +116,41 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             tvCombinDesc.setText(getString(R.string.descrition_format, mCombinationBean.getDescription()));
             tvCombinCreateTime.setText(getString(R.string.create_time_format,
                     TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime())));
-            tvIncreaseRatio.setText(StringFromatUtils.getPercentValue(mCombinationBean.getAddUpValue()));
-            tvIncreaseValue.setText(StringFromatUtils.get4Point(mCombinationBean.getAddUpValue() / 100f));
+            // tvIncreaseRatio.setText(StringFromatUtils.getPercentValue(mCombinationBean.getAddUpValue()));
+            // tvIncreaseValue.setText(StringFromatUtils.get4Point(1 + mCombinationBean.getAddUpValue()));
+            // Message msg = updateHandler.obtainMessage();
+            // msg.obj = 1 + mCombinationBean.getAddUpValue();
+            // updateHandler.sendMessage(msg);
         }
     }
+
+    Handler updateHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            System.out.println("hand update message");
+            float netValue = (Float) msg.obj;
+            if (netValue > 1) {
+                ivUpDownIcon.setImageResource(R.drawable.ic_combination_up);
+                viewNetvalueHead.setBackgroundResource(R.color.red);
+            } else if (netValue < 1) {
+                ivUpDownIcon.setImageResource(R.drawable.ic_combination_down);
+                viewNetvalueHead.setBackgroundResource(R.color.green);
+
+            } else {
+                ivUpDownIcon.setImageDrawable(null);
+                viewNetvalueHead.setBackgroundResource(R.color.red);
+            }
+            tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
+            tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
+        };
+    };
 
     private void initTabPage(View view) {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY));
+        FragmentSwitchChart todayFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY);
+        todayFragment.setUpdateHandler(updateHandler);
+        fragmentList.add(todayFragment);
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));

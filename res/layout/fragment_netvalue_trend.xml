@@ -9,10 +9,10 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:paddingBottom="5dp"
-        android:visibility="gone"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="5dp" >
+        android:paddingTop="5dp"
+        android:visibility="gone" >
 
         <TextView
             android:id="@+id/tv_combination_name"
@@ -60,31 +60,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/divider_line"
-             >
-			<ImageView 
-			    android:paddingLeft="15dp"
-			    android:layout_height="wrap_content"
-			    android:layout_width="wrap_content"
-			    android:id="@+id/tv_combination_image_value"
-			    android:src="@drawable/tv_combination_currentnet"
-			    />
+            android:layout_toLeftOf="@+id/divider_line" >
+
+            <ImageView
+                android:id="@+id/tv_combination_image_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp"
+                android:src="@drawable/tv_combination_currentnet" />
+
             <TextView
-                android:layout_toRightOf="@id/tv_combination_image_value"
                 android:id="@+id/tv_history"
                 style="@style/hw_wrap"
                 android:layout_centerHorizontal="true"
-                android:text="当前净值"
+                android:layout_toRightOf="@id/tv_combination_image_value"
                 android:paddingLeft="5dp"
+                android:text="@string/current_netvalue"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
             <TextView
-                android:paddingLeft="15dp"
                 android:id="@+id/tv_history_netvalue"
-               	android:layout_width="wrap_content"
-               	android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_history"
+                android:paddingLeft="15dp"
+                android:text="-"
                 android:textColor="@color/white"
                 android:textSize="35sp" />
         </RelativeLayout>
@@ -94,52 +95,48 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/divider_line" >
-            <ImageView 
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-			    android:layout_height="wrap_content"
-			    android:layout_width="wrap_content"
-			    android:src="@drawable/tv_combination_up"
-			    android:layout_alignParentRight="true"
-			    android:id="@+id/tv_combination_image_uporlow"
-			    />
-            <RelativeLayout 
-                android:layout_toLeftOf="@id/tv_combination_image_uporlow"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_centerVertical="true"
-                >
-                <ImageView 
-			    android:paddingLeft="15dp"
-			    android:layout_height="wrap_content"
-			    android:layout_width="wrap_content"
-			    android:src="@drawable/tv_combination_totalnet"
-			    android:id="@+id/tv_combination_image_totalnet"
-			    />
-			
-            <TextView
-                android:id="@+id/tv_income"
-                style="@style/hw_wrap"
-                android:layout_centerHorizontal="true"
-                android:text="累记涨幅:"
-                android:paddingLeft="5dp"
-                android:textColor="@android:color/white"
-                android:layout_toRightOf="@id/tv_combination_image_totalnet"
-                
-                android:textSize="12sp" />
 
-            <TextView
-                android:paddingLeft="15dp"
-                android:id="@+id/tv_income_netvalue"
+            <ImageView
+                android:id="@+id/tv_combination_image_uporlow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="10dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp" />
+
+            <RelativeLayout
                 android:layout_width="match_parent"
-               	android:layout_height="wrap_content"
-                android:text="10.15%"
-                android:layout_below="@+id/tv_income"
-                android:textColor="@color/white"
-                android:textSize="35sp" />
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tv_combination_image_uporlow" >
+
+                <ImageView
+                    android:id="@+id/tv_combination_image_totalnet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15dp" />
+
+                <TextView
+                    android:id="@+id/tv_income"
+                    style="@style/hw_wrap"
+                    android:layout_centerHorizontal="true"
+                    android:layout_toRightOf="@id/tv_combination_image_totalnet"
+                    android:paddingLeft="5dp"
+                    android:text="@string/add_up_value"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_income_netvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_income"
+                    android:paddingLeft="15dp"
+                    android:text="-"
+                    android:textColor="@color/white"
+                    android:textSize="35sp" />
             </RelativeLayout>
-			
         </RelativeLayout>
     </RelativeLayout>
 

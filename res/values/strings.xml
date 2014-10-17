@@ -138,10 +138,10 @@
     <string name="accumulative_comtribute">累计贡献</string>
     <string name="surplus_capital_ratio">剩余资金占比</string>
     <string name="data_deficient">数据不足</string>
-    <string name="current_netvalue">当前净值:</string>
+    <string name="current_netvalue">当前净值</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日涨幅:</string>
-    <string name="add_up_value">累计涨幅:</string>
+    <string name="add_up_value">累计涨幅</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">复盘至创建时间前一个月</string>
