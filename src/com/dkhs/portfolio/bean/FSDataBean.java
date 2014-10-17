@@ -84,18 +84,18 @@ public class FSDataBean {
      * */
 
     public class TimeStock {
-        private float volume;
+        private int volume;
         private float avgcurrent;
         private float avgline;
         private float current;
         private float percentage;
         private String time;
 
-        public float getVolume() {
+        public int getVolume() {
             return volume;
         }
 
-        public void setVolume(float volume) {
+        public void setVolume(int volume) {
             this.volume = volume;
         }
 

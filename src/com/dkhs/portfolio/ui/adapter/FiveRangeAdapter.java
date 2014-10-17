@@ -21,6 +21,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.bean.StockQuotesBean.BuyPrice;
 import com.dkhs.portfolio.bean.StockQuotesBean.SellPrice;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -37,6 +38,8 @@ public class FiveRangeAdapter extends BaseAdapter {
     private BuyPrice mBuyPrice;
     private SellPrice mSellPrice;
     private List<FiveRangeItem> dataList;
+
+    private float mCompareValue;
 
     // public FiveRangeAdapter(Context mContext, StockQuotesBean stockBean, boolean isBuy) {
     // this.mContext = mContext;
@@ -61,6 +64,10 @@ public class FiveRangeAdapter extends BaseAdapter {
     public void setList(List<FiveRangeItem> dList) {
         this.dataList = dList;
         notifyDataSetChanged();
+    }
+
+    public void setCompareValue(float compareValue) {
+        this.mCompareValue = compareValue;
     }
 
     @Override
@@ -95,6 +102,7 @@ public class FiveRangeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         FiveRangeItem item = dataList.get(position);
+        viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price), mCompareValue));
         viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
         viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
         viewHolder.tvTag.setText(item.tag);

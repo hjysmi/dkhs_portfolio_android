@@ -22,7 +22,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class TrendChart extends TrendGridChart {
     /** 显示数据线 */
-    private List<LineEntity> lineData;
+    List<LineEntity> lineData;
 
     /** 最大点数 */
     private int maxPointNum;
@@ -56,8 +56,10 @@ public class TrendChart extends TrendGridChart {
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
 
-//    private boolean isDrawDashLine;
+    // private boolean isDrawDashLine;
     private int dashLinePointSize;
+
+    private boolean isDrawTimesharingplanChart;
 
     public TrendChart(Context context) {
         super(context);
@@ -304,7 +306,7 @@ public class TrendChart extends TrendGridChart {
                         valueY += mStartLineYpoint;
                         // valueY += mStartLineYpoint;
                         // if (dashLongitude) {
-                        if (j<dashLinePointSize) {
+                        if (j < dashLinePointSize) {
                             mLinePaint.setPathEffect(dashEffect);
                         } else {
                             mLinePaint.setPathEffect(null);
@@ -381,19 +383,127 @@ public class TrendChart extends TrendGridChart {
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
             if (pointIndex < maxPointSize) {
-                if (lineData.size() == 1) {
-
-                    // pointIndex = maxPointSize - 1;
-                    LinePointEntity data = lineEntity.getLineData().get(pointIndex);
-                    drawDataView(canvas, pointIndex, data);
-
+                if (isDrawTimesharingplanChart) {
+                    drawTimesharingInfo(canvas, pointIndex);
                 } else {
-                    drawDataView(canvas, pointIndex);
+
+                    if (lineData.size() == 1) {
+
+                        // pointIndex = maxPointSize - 1;
+
+                        drawSingleDataView(canvas, pointIndex);
+
+                    } else {
+                        drawDataView(canvas, pointIndex);
+                    }
                 }
             }
             // drawDataView(canvas);
 
         }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void drawTimesharingInfo(Canvas canvas, int pointIndex) {
+        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        float startX;
+        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight);
+        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_width);
+        int margin = 40 / 2;
+        float marginTop = margin + axisMarginTop;
+        // = margin;
+        // 当触摸点在左边
+        if (getTouchPoint().x > midPointx) {
+            startX = getAxisMarginLeft() + margin;
+
+        } else {
+            startX = super.getWidth() - viewLength - margin;
+
+        }
+
+        // 创建画笔 画背景图
+        Paint selectPaint = new Paint();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(Color.WHITE);
+        int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
+
+        FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+
+        if (lineData.size() > 3) {
+            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
+        }
+
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        selectPaint.setStyle(Paint.Style.STROKE);// 描边
+        selectPaint.setStrokeWidth(2);
+        selectPaint.setColor(Color.LTGRAY);
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        /*********** End *************/
+
+        /******* draw text ********/
+
+        float preYpoint = textTextHeight + textMargin + marginTop;
+        selectPaint.reset();
+        selectPaint.setColor(Color.BLACK);
+        selectPaint.setAntiAlias(true);
+        selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
+        String firtLineText;
+
+        LineEntity lineentity = lineData.get(0);
+        LinePointEntity data = (LinePointEntity) lineentity.getLineData().get(pointIndex);
+        if (data instanceof FSLinePointEntity) {
+            FSLinePointEntity fsPoint = (FSLinePointEntity) data;
+            canvas.drawText(fsPoint.getTime(), startX + textMargin, preYpoint, selectPaint);
+            preYpoint += textMargin + textTextHeight;
+            canvas.drawText(fsPoint.getPrice(), startX + textMargin, preYpoint, selectPaint);
+
+            preYpoint += textMargin + textTextHeight;
+            canvas.drawText(fsPoint.getIncreaseValue(), startX + textMargin, preYpoint, selectPaint);
+
+            preYpoint += textMargin + textTextHeight;
+            canvas.drawText(fsPoint.getIncreaseRange(), startX + textMargin, preYpoint, selectPaint);
+
+            preYpoint += textMargin + textTextHeight;
+            canvas.drawText(fsPoint.getTurnover(), startX + textMargin, preYpoint, selectPaint);
+
+        }
+        //
+        //
+        // if (null != pointTitleList && pointTitleList.size() > 0) {
+        // firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
+        // } else {
+        // firtLineText = "日期：" + date.getDesc();
+        // }
+
+        // LineEntity lineentity = lineData.get(0);
+        // if (pointIndex < lineentity.getLineData().size()) {
+        //
+        // selectPaint.setColor(lineentity.getLineColor());
+        // preYpoint += textMargin + textTextHeight;
+        // String text = "";
+        // if (TextUtils.isEmpty(lineentity.getTitle())) {
+        //
+        // if (null != pointTitleList && pointTitleList.size() > 1) {
+        // text = pointTitleList.get(1) + "："
+        // + StringFromatUtils.get4Point(lineentity.getLineData().get(pointIndex).getValue());
+        // } else {
+        // text = StringFromatUtils.get4Point(lineentity.getLineData().get(pointIndex).getValue());
+        // }
+        //
+        // }
+        // canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+        //
+        // }
 
     }
 
@@ -413,7 +523,12 @@ public class TrendChart extends TrendGridChart {
     }
 
     // clearRect(x,y,width,height) ‒ clears the given area and makes it fully opaque
-    private void drawDataView(Canvas canvas, int pointIndex, LinePointEntity date) {
+
+    /**
+     * 
+     * 描述走势图触摸时信息
+     */
+    private void drawSingleDataView(Canvas canvas, int pointIndex) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
@@ -459,6 +574,93 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setAntiAlias(true);
         selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
         String firtLineText;
+        LineEntity lineentity = lineData.get(0);
+        LinePointEntity data = (LinePointEntity) lineentity.getLineData().get(pointIndex);
+        if (null != pointTitleList && pointTitleList.size() > 0) {
+            firtLineText = pointTitleList.get(0) + ":" + data.getDesc();
+        } else {
+            firtLineText = "日期：" + data.getDesc();
+        }
+        canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
+
+        if (pointIndex < lineentity.getLineData().size()) {
+
+            selectPaint.setColor(lineentity.getLineColor());
+            preYpoint += textMargin + textTextHeight;
+            String text = "";
+            if (TextUtils.isEmpty(lineentity.getTitle())) {
+
+                if (null != pointTitleList && pointTitleList.size() > 1) {
+                    text = pointTitleList.get(1)
+                            + "："
+                            + StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
+                                    .getValue());
+                } else {
+                    text = StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
+                            .getValue());
+                }
+
+            }
+            canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+
+        }
+
+    }
+
+    /**
+     * 
+     * 描述分时图触摸时信息
+     */
+    private void drawFenShiDataView(Canvas canvas, int pointIndex, LinePointEntity date) {
+
+        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        float startX;
+        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_mulit_view_lenght);
+        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
+        int margin = 40;
+        float marginTop = margin + axisMarginTop;
+        // = margin;
+        // 当触摸点在左边
+        if (getTouchPoint().x > midPointx) {
+            startX = getAxisMarginLeft() + margin;
+
+        } else {
+            startX = super.getWidth() - viewLength - margin;
+
+        }
+
+        // 创建画笔 画背景图
+        Paint selectPaint = new Paint();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(Color.WHITE);
+        int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
+
+        FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+
+        if (lineData.size() > 3) {
+            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
+        }
+
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        selectPaint.setStyle(Paint.Style.STROKE);// 描边
+        selectPaint.setStrokeWidth(2);
+        selectPaint.setColor(Color.LTGRAY);
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        /*********** End *************/
+
+        /******* draw text ********/
+
+        float preYpoint = textTextHeight + textMargin + marginTop;
+        selectPaint.reset();
+        selectPaint.setColor(Color.BLACK);
+        selectPaint.setAntiAlias(true);
+        selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
+        String firtLineText;
         if (null != pointTitleList && pointTitleList.size() > 0) {
             firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
         } else {
@@ -466,45 +668,36 @@ public class TrendChart extends TrendGridChart {
         }
         canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
-        // FontMetrics fontMetrics = selectPaint.getFontMetrics();
-        // float preTextBottom = fontMetrics.bottom;
-        int lineLength = lineData.size();
-        for (int i = 0; i < lineLength; i++) {
-            if (pointIndex < lineData.get(i).getLineData().size()) {
+        LineEntity lineentity = lineData.get(0);
+        if (pointIndex < lineentity.getLineData().size()) {
 
-                selectPaint.setColor(lineData.get(i).getLineColor());
-                preYpoint += textMargin + textTextHeight;
-                String text = "";
-                // if (i == 0) {
-                if (TextUtils.isEmpty(lineData.get(i).getTitle())) {
-                    // text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+            selectPaint.setColor(lineentity.getLineColor());
+            preYpoint += textMargin + textTextHeight;
+            String text = "";
+            if (TextUtils.isEmpty(lineentity.getTitle())) {
 
-                    if (null != pointTitleList && pointTitleList.size() > 1) {
-                        text = pointTitleList.get(1) + ":"
-                                + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
-                    } else {
-                        text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
-                    }
+                if (null != pointTitleList && pointTitleList.size() > 1) {
+                    text = pointTitleList.get(1)
+                            + "："
+                            + StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
+                                    .getValue());
                 } else {
-
-                    // text = lineData.get(i).getTitle()
-                    // + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
+                    text = StringFromatUtils.get4Point(((LinePointEntity) lineentity.getLineData().get(pointIndex))
+                            .getValue());
                 }
-                // } else if (i == 1) {
-                // text = "沪深300:1.43%";
-                // } else {
-                // text = "创业板:1.40%";
-                // }
-                if (i == 0)
-                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
-            }
-        }
 
-        /***************/
+            }
+            canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+
+        }
 
     }
 
-    private void drawDataView(Canvas canvas, int pointIndex) {
+    /**
+     * 
+     * 描述业绩比较时触摸时信息
+     */
+    protected void drawDataView(Canvas canvas, int pointIndex) {
 
         float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
         float startX;
@@ -557,7 +750,7 @@ public class TrendChart extends TrendGridChart {
         // if (null != pointTitleList && pointTitleList.size() > 0) {
         // firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
         if (lineData.size() > 0 && lineData.get(0).getLineData().size() > 0) {
-            firtLineText = "日期：" + lineData.get(0).getLineData().get(pointIndex).getDesc();
+            firtLineText = "日期：" + ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex)).getDesc();
         }
         canvas.drawText(firtLineText, startX + textMargin, preYpoint, selectPaint);
 
@@ -575,17 +768,20 @@ public class TrendChart extends TrendGridChart {
                     // text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getNetvalue());
 
                     if (null != pointTitleList && pointTitleList.size() > 1) {
-                        text = pointTitleList.get(1) + "："
-                                + StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
+                        text = pointTitleList.get(1)
+                                + "："
+                                + StringFromatUtils.get4Point(((LinePointEntity) lineData.get(i).getLineData()
+                                        .get(pointIndex)).getValue());
                     } else {
-                        text = StringFromatUtils.get4Point(lineData.get(i).getLineData().get(pointIndex).getValue());
+                        text = StringFromatUtils.get4Point(((LinePointEntity) lineData.get(i).getLineData()
+                                .get(pointIndex)).getValue());
                     }
                 } else {
 
                     text = lineData.get(i).getTitle()
                             + "："
-                            + StringFromatUtils.get2PointPercent(lineData.get(i).getLineData().get(pointIndex)
-                                    .getValue());
+                            + StringFromatUtils.get2PointPercent(((LinePointEntity) lineData.get(i).getLineData()
+                                    .get(pointIndex)).getValue());
                 }
                 // } else if (i == 1) {
                 // text = "沪深300:1.43%";
@@ -673,6 +869,14 @@ public class TrendChart extends TrendGridChart {
 
     public void setDashLinePointSize(int dashLinePointSize) {
         this.dashLinePointSize = dashLinePointSize;
+    }
+
+    public boolean isDrawFirstLineInfo() {
+        return isDrawTimesharingplanChart;
+    }
+
+    public void setDrawFirstLineInfo(boolean isDrawFirstLineInfo) {
+        this.isDrawTimesharingplanChart = isDrawFirstLineInfo;
     }
 
     // public boolean isDrawDashLine() {

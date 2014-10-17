@@ -2,6 +2,7 @@ package com.dkhs.portfolio.utils;
 
 import java.util.Random;
 
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 
 import com.dkhs.portfolio.R;
@@ -11,11 +12,15 @@ public class ColorTemplate {
 
     public static final int[] DEFAULTCOLORS = { R.color.def_1, R.color.def_2, R.color.def_3, R.color.def_4,
             R.color.def_5 };
-    public static final int MY_COMBINATION_LINE = R.color.blue_line;
+    public static final int MY_COMBINATION_LINE = PortfolioApplication.getInstance().getResources()
+            .getColor(R.color.blue_line);
     // public static final int DEF_RED =0xFFE73535;
     // public static final int DEF_GREEN = Color.GREEN;
-    public static final int DEF_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.red);
-    public static final int DEF_GREEN = PortfolioApplication.getInstance().getResources().getColor(R.color.green);
+    public static final int DEF_RED = PortfolioApplication.getInstance().getResources().getColor(R.color.def_red);
+    public static final int DEF_GREEN = PortfolioApplication.getInstance().getResources().getColor(R.color.def_green);
+    public static final int DEF_GRAY = PortfolioApplication.getInstance().getResources().getColor(R.color.def_gray);
+    public static final int THEME_COLOR = PortfolioApplication.getInstance().getResources()
+            .getColor(R.color.theme_color);
 
     public static int getRaddomColor() {
         Random rnd = new Random();
@@ -30,6 +35,28 @@ public class ColorTemplate {
         } else {
             return getRaddomColor();
         }
+    }
+
+    public static ColorStateList getTextColor(float value1, float value2) {
+
+        if (value1 < value2) {
+
+            return (ColorStateList) PortfolioApplication.getInstance().getResources()
+                    .getColorStateList(R.color.def_green);
+
+        } else if (value1 > value2) {
+
+            return (ColorStateList) PortfolioApplication.getInstance().getResources()
+                    .getColorStateList(R.color.def_red);
+        }
+        return (ColorStateList) PortfolioApplication.getInstance().getResources()
+                .getColorStateList(R.color.theme_color);
+    }
+
+    public static ColorStateList getTextColor(int resId) {
+
+        return (ColorStateList) PortfolioApplication.getInstance().getResources().getColorStateList(resId);
+
     }
 
 }

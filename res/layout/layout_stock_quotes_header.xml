@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textColor="@color/red"
+            android:text="-"
+            android:textColor="@color/theme_color"
             android:textSize="22sp" />
 
         <TextView
@@ -36,7 +37,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_current_price"
-            android:textColor="@color/red"
+            android:text="-"
+            android:textColor="@color/theme_color"
             android:textSize="14sp" />
 
         <TextView
@@ -46,7 +48,8 @@
             android:layout_below="@+id/tv_current_price"
             android:layout_marginLeft="12sp"
             android:layout_toRightOf="@+id/tv_up_price"
-            android:textColor="@color/red" />
+            android:text="-"
+            android:textColor="@color/theme_color" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,6 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="今开："
+            android:textColor="@color/def_gray"
             android:textSize="14sp" />
 
         <TextView
@@ -70,7 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_today_open"
             android:layout_toRightOf="@+id/tv_today_open"
-            android:textColor="@color/red"
+            android:text="-"
+            android:textColor="@color/theme_color"
             android:textSize="14sp" />
 
         <TextView
@@ -79,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_today_open"
             android:text="最高："
+            android:textColor="@color/def_gray"
             android:textSize="14sp" />
 
         <TextView
@@ -87,7 +93,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_highest"
             android:layout_toRightOf="@+id/tv_highest"
-            android:textColor="@color/green"
+            android:text="-"
+            android:textColor="@color/theme_color"
             android:textSize="14sp" />
 
         <TextView
@@ -96,6 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_highest"
             android:text="最低："
+            android:textColor="@color/def_gray"
             android:textSize="14sp" />
 
         <TextView
@@ -104,7 +112,8 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/tv_lowest"
             android:layout_toRightOf="@+id/tv_lowest"
-            android:textColor="@color/green"
+            android:text="-"
+            android:textColor="@color/theme_color"
             android:textSize="14sp" />
     </RelativeLayout>
 

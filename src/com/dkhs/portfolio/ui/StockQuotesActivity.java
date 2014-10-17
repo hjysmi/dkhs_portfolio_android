@@ -42,6 +42,7 @@ import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -138,8 +139,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         if (mStockBean.isFollowed) {
             btnAddOptional.setText(R.string.delete_fllow);
+            btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
+            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
+
         } else {
+            btnAddOptional.setBackgroundResource(R.drawable.btn_blue_selector);
             btnAddOptional.setText(R.string.add_fllow);
+            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
         }
     }
 
@@ -212,16 +218,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
 
             tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
-            tvChange.setText(StringFromatUtils.get2Point(mStockQuotesBean.getChange()));
+            tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
 
-            tvHigh.setTextColor(getTextColor(mStockQuotesBean.getHigh() - mStockQuotesBean.getLastClose()));
-            tvLow.setTextColor(getTextColor(mStockQuotesBean.getLow() - mStockQuotesBean.getLastClose()));
+            // tvHigh.setTextColor(getTextColor(mStockQuotesBean.getHigh() - mStockQuotesBean.getLastClose()));
+            // tvLow.setTextColor(getTextColor(mStockQuotesBean.getLow() - mStockQuotesBean.getLastClose()));
             tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
 
             tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
             tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
             tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
-            tvPercentage.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getPercentage()));
+            tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
         }
     }
 
