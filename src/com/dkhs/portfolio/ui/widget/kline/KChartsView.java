@@ -533,7 +533,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		// 设置触摸模式
 		case MotionEvent.ACTION_DOWN:
 			TOUCH_MODE = DOWN;
-			mStartX = event.getRawX();
+			mStartX = event.getX();
 			mStartY = event.getRawY();
 			break;
 		case MotionEvent.ACTION_UP:
