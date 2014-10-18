@@ -402,7 +402,7 @@ public class StockQuotesChartFragment extends Fragment {
             pointEntity.setValue(iPrice);
             pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
             pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
-            pointEntity.setIncreaseValue("-");
+            pointEntity.setIncreaseValue(StringFromatUtils.get2Point(iPrice - baseNum));
             pointEntity.setIncreaseRange(StringFromatUtils.get2PointPercent(bean.getPercentage()));
             pointEntity.setTurnover(StringFromatUtils.convertToWanHand(bean.getVolume()));
 
@@ -433,11 +433,11 @@ public class StockQuotesChartFragment extends Fragment {
         List<String> rightYtitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
-        ytitle.add(StringFromatUtils.get4Point(baseNum - offetYvalue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum - halfOffetValue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + halfOffetValue));
-        ytitle.add(StringFromatUtils.get4Point(baseNum + offetYvalue));
+        ytitle.add(StringFromatUtils.get2Point(baseNum - offetYvalue));
+        ytitle.add(StringFromatUtils.get2Point(baseNum - halfOffetValue));
+        ytitle.add(StringFromatUtils.get2Point(baseNum));
+        ytitle.add(StringFromatUtils.get2Point(baseNum + halfOffetValue));
+        ytitle.add(StringFromatUtils.get2Point(baseNum + offetYvalue));
         mMaChart.setAxisYTitles(ytitle);
         mMaChart.setMaxValue(baseNum + offetYvalue);
         mMaChart.setMinValue(baseNum - offetYvalue);
