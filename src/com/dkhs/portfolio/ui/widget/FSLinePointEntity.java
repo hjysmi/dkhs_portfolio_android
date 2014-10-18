@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
+import com.dkhs.portfolio.utils.StringFromatUtils;
+
 /**
  * @ClassName FSLinePointEntity
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -18,9 +20,10 @@ package com.dkhs.portfolio.ui.widget;
 public class FSLinePointEntity extends LinePointEntity {
     private String time;
     private String price;
-    private String increaseValue;
-    private String increaseRange;
-    private String turnover;
+    private float avgPrice;
+    private float increaseValue;
+    private float increaseRange;
+    private int turnover;
 
     public String getTime() {
         return time;
@@ -38,28 +41,52 @@ public class FSLinePointEntity extends LinePointEntity {
         this.price = "价格：" + price;
     }
 
-    public String getIncreaseValue() {
+    public float getIncreaseValue() {
         return increaseValue;
     }
 
-    public void setIncreaseValue(String increaseValue) {
-        this.increaseValue = "涨跌：" + increaseValue;
+    public String getIncreaseValueDesc() {
+        return "涨跌：" + StringFromatUtils.get2Point(increaseValue);
     }
 
-    public String getIncreaseRange() {
+    public void setIncreaseValue(float increaseValue) {
+        this.increaseValue = increaseValue;
+    }
+
+    public float getIncreaseRange() {
         return increaseRange;
     }
 
-    public void setIncreaseRange(String increaseRange) {
-        this.increaseRange = "涨幅：" + increaseRange;
+    public String getIncreaseRangeDesc() {
+        return "涨幅：" + StringFromatUtils.get2PointPercent(increaseRange);
     }
 
-    public String getTurnover() {
+    public void setIncreaseRange(float increaseRange) {
+        this.increaseRange = increaseRange;
+    }
+
+    public int getTurnover() {
         return turnover;
     }
 
-    public void setTurnover(String turnover) {
-        this.turnover = "成交量：" + turnover;
+    public String getTurnoverDesc() {
+        return "成交量：" + StringFromatUtils.convertToWanHand(turnover);
+    }
+
+    public void setTurnover(int turnover) {
+        this.turnover = turnover;
+    }
+
+    public float getAvgPrice() {
+        return avgPrice;
+    }
+
+    public String getAvgPriceDesc() {
+        return "均价：" + StringFromatUtils.get2Point(avgPrice);
+    }
+
+    public void setAvgPrice(float avgPrice) {
+        this.avgPrice = avgPrice;
     }
 
 }

@@ -27,7 +27,6 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
-import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
@@ -41,6 +40,7 @@ import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter.FiveRangeItem;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -66,7 +66,7 @@ public class StockQuotesChartFragment extends Fragment {
     private String trendType;
     private boolean isTodayNetValue;
 
-    private TrendChart mMaChart;
+    private TimesharingplanChart mMaChart;
 
     private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
@@ -76,6 +76,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private long mStockId;
     private String mStockCode;
+    LineEntity fenshiPiceLine;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartFragment newInstance(String trendType) {
@@ -108,6 +109,12 @@ public class StockQuotesChartFragment extends Fragment {
         if (extras != null) {
             handleExtras(extras);
         }
+
+        fenshiPiceLine = new LineEntity();
+        // MA5.setTitle("MA5");
+        // MA5.setLineColor(ColorTemplate.getRaddomColor())
+        fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+        // fenshiPiceLine.setLineData(lineDataList);
 
     }
 
@@ -149,7 +156,7 @@ public class StockQuotesChartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
-        mMaChart = (TrendChart) view.findViewById(R.id.machart);
+        mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         initMaChart(mMaChart);
         initView(view);
         return view;
@@ -231,17 +238,13 @@ public class StockQuotesChartFragment extends Fragment {
     private void setLineData(List<FSLinePointEntity> lineDataList) {
         if (isAdded()) {
             List<LineEntity> lines = new ArrayList<LineEntity>();
-            LineEntity MA5 = new LineEntity();
-            // MA5.setTitle("MA5");
-            // MA5.setLineColor(ColorTemplate.getRaddomColor())
-            MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-            MA5.setLineData(lineDataList);
 
+            fenshiPiceLine.setLineData(lineDataList);
             LineEntity averageLine = new LineEntity();
             averageLine.setLineColor(PortfolioApplication.getInstance().getResources().getColor(R.color.orange));
             averageLine.setLineData(averagelineData);
 
-            lines.add(0, MA5);
+            lines.add(0, fenshiPiceLine);
             lines.add(averageLine);
             mMaChart.setLineData(lines);
         }
@@ -383,16 +386,28 @@ public class StockQuotesChartFragment extends Fragment {
     private float getMaxOffetValue(List<TimeStock> mainList) {
         lineDataList.clear();
         averagelineData.clear();
-        int priceIndex = 1;
+
         float baseNum = mainList.get(0).getCurrent();
         float maxNum = baseNum, minNum = baseNum;
+
+        int minVolCount = mainList.get(0).getVolume();
+        int maxVolCount = minVolCount;
+
         for (TimeStock bean : mainList) {
             float iPrice = bean.getCurrent();
+            int volCount = bean.getVolume();
+
             if (iPrice > maxNum) {
                 maxNum = iPrice;
 
             } else if (iPrice < minNum) {
                 minNum = iPrice;
+            }
+
+            if (volCount < minVolCount) {
+                minVolCount = volCount;
+            } else if (volCount > maxVolCount) {
+                maxVolCount = volCount;
             }
 
             FSLinePointEntity pointEntity = new FSLinePointEntity();
@@ -402,14 +417,18 @@ public class StockQuotesChartFragment extends Fragment {
             pointEntity.setValue(iPrice);
             pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
             pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
-            pointEntity.setIncreaseValue(StringFromatUtils.get2Point(iPrice - baseNum));
-            pointEntity.setIncreaseRange(StringFromatUtils.get2PointPercent(bean.getPercentage()));
-            pointEntity.setTurnover(StringFromatUtils.convertToWanHand(bean.getVolume()));
+            pointEntity.setIncreaseValue(iPrice - baseNum);
+            pointEntity.setIncreaseRange(bean.getPercentage());
+            pointEntity.setTurnover(bean.getVolume());
+            pointEntity.setAvgPrice(bean.getAvgline());
 
             averagePoint.setValue(bean.getAvgline());
             lineDataList.add(pointEntity);
             averagelineData.add(averagePoint);
         }
+
+        fenshiPiceLine.setMaxVolNum(maxVolCount);
+        fenshiPiceLine.setMinVolNum(minVolCount);
 
         float offetValue;
         maxNum = maxNum - baseNum;

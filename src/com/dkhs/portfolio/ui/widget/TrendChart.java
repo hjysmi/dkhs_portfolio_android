@@ -16,6 +16,7 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -78,9 +79,11 @@ public class TrendChart extends TrendGridChart {
 
     private void init() {
         lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_stroke_width);
+
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
-        mLinePaint.setStrokeWidth(lineStrokeWidth);
+        // mLinePaint.setStrokeWidth(lineStrokeWidth);
+
     }
 
     public void setSmallLine() {
@@ -144,13 +147,18 @@ public class TrendChart extends TrendGridChart {
 
         startPointX = mStartLineXpoint + 2;
         endY = mGridLineHeight - axisMarginBottom;
+        mLinePaint.setStrokeWidth(lineStrokeWidth);
         // 绘制平线
         drawLines(canvas);
+
+        drawFingerTouch(canvas);
+    }
+
+    protected void drawFingerTouch(Canvas canvas) {
         if (isTouch) {
             getTouchPointData(canvas);
 
         }
-
     }
 
     /**
@@ -397,6 +405,7 @@ public class TrendChart extends TrendGridChart {
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
             if (pointIndex < maxPointSize) {
+                drawWithFingerClick(canvas, pointIndex);
                 if (isDrawTimesharingplanChart) {
                     drawTimesharingInfo(canvas, pointIndex);
                 } else {
@@ -412,7 +421,6 @@ public class TrendChart extends TrendGridChart {
                     }
                 }
 
-                drawWithFingerClick(canvas, pointIndex);
 
             }
             // drawDataView(canvas);
@@ -483,15 +491,17 @@ public class TrendChart extends TrendGridChart {
             canvas.drawText(fsPoint.getTime(), startX + textMargin, preYpoint, selectPaint);
             preYpoint += textMargin + textTextHeight;
             canvas.drawText(fsPoint.getPrice(), startX + textMargin, preYpoint, selectPaint);
+            preYpoint += textMargin + textTextHeight;
+            canvas.drawText(fsPoint.getAvgPriceDesc(), startX + textMargin, preYpoint, selectPaint);
 
             preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getIncreaseValue(), startX + textMargin, preYpoint, selectPaint);
+            canvas.drawText(fsPoint.getIncreaseValueDesc(), startX + textMargin, preYpoint, selectPaint);
 
             preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getIncreaseRange(), startX + textMargin, preYpoint, selectPaint);
+            canvas.drawText(fsPoint.getIncreaseRangeDesc(), startX + textMargin, preYpoint, selectPaint);
 
             preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getTurnover(), startX + textMargin, preYpoint, selectPaint);
+            canvas.drawText(fsPoint.getTurnoverDesc(), startX + textMargin, preYpoint, selectPaint);
 
         }
         //
@@ -894,6 +904,14 @@ public class TrendChart extends TrendGridChart {
 
     public void setDrawFirstLineInfo(boolean isDrawFirstLineInfo) {
         this.isDrawTimesharingplanChart = isDrawFirstLineInfo;
+    }
+
+    public int getLineStrokeWidth() {
+        return lineStrokeWidth;
+    }
+
+    public void setLineStrokeWidth(int lineStrokeWidth) {
+        this.lineStrokeWidth = lineStrokeWidth;
     }
 
     // public boolean isDrawDashLine() {

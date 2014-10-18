@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -234,6 +235,7 @@ public class TrendGridChart extends View {
     public float mGridLineLenght;
     public float mStartLineYpoint = 0;
     public float mStartLineXpoint;
+    public float volHight;
 
     public TrendGridChart(Context context) {
         super(context);
@@ -251,6 +253,15 @@ public class TrendGridChart extends View {
     }
 
     private void init() {
+
+        this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                getLayoutParams().height = getWidth() * 3 / 4;
+
+            }
+        });
+
         latitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
         longtitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
 
@@ -272,9 +283,9 @@ public class TrendGridChart extends View {
         // canvas.drawColor(0, PorterDuff.Mode.CLEAR);
 
         drawXtitleText(canvas);
-        drawYtitleText(canvas);
 
-        mGridLineHeight = getHeight() - xTitleTextHeight / 2 - axisMarginTop - axisMarginBottom;
+        mGridLineHeight = getmGridLineHeight();
+        drawYtitleText(canvas);
         mStartLineYpoint = axisMarginTop + xTitleTextHeight / 2;
         mStartLineXpoint = axisMarginLeft;
         mGridLineLenght = getWidth() - mStartLineXpoint - axisMarginRight;
@@ -346,11 +357,10 @@ public class TrendGridChart extends View {
 
             // 绘制线条坐Y轴
             if (counts > 1) {
-                float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
-                        / (counts - 1);
-                float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight;
+                float postOffset = (mGridLineHeight - axisMarginTop - xTitleTextHeight / 2) / (counts - 1);
+                float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight - getVolHight();
 
-                float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
+                // float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
 
                 for (int i = 0; i < counts; i++) {
                     // 绘制线条
@@ -401,11 +411,8 @@ public class TrendGridChart extends View {
 
             // 绘制线条坐Y轴
             if (counts > 1) {
-                float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
-                        / (counts - 1);
-                float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight;
-
-                float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
+                float postOffset = (mGridLineHeight - axisMarginTop - xTitleTextHeight / 2) / (counts - 1);
+                float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight - getVolHight();
 
                 for (int i = 0; i < counts; i++) {
 
@@ -655,8 +662,8 @@ public class TrendGridChart extends View {
 
         // 绘制线条坐�?轴
         if (counts > 1) {
-            float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
-                    / (counts - 1);
+
+            float postOffset = (mGridLineHeight - axisMarginTop - xTitleTextHeight / 2) / (counts - 1);
             // float postOffset = (super.getHeight() - axisMarginBottom - axisMarginTop * 2 - xTitleTextHeight)
             // / (counts - 1);
 
@@ -1092,6 +1099,34 @@ public class TrendGridChart extends View {
 
     public void setAxisRightYTitles(List<String> axisRightYTitles) {
         this.axisRightYTitles = axisRightYTitles;
+    }
+
+    public float getmGridLineHeight() {
+        return getHeight() - xTitleTextHeight / 2 - axisMarginTop - axisMarginBottom;
+    }
+
+    public void setmGridLineHeight(float mGridLineHeight) {
+        this.mGridLineHeight = mGridLineHeight;
+    }
+
+    public float getmGridLineLenght() {
+        return mGridLineLenght;
+    }
+
+    public void setmGridLineLenght(float mGridLineLenght) {
+        this.mGridLineLenght = mGridLineLenght;
+    }
+
+    public float getVolHight() {
+        return volHight;
+    }
+
+    public void setVolHight(float volHight) {
+        this.volHight = volHight;
+    }
+
+    public int getxLineCounts() {
+        return xLineCounts;
     }
 
 }

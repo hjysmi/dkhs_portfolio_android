@@ -63,8 +63,8 @@
             android:orientation="vertical" />
     </RelativeLayout>
 
-    <com.dkhs.portfolio.ui.widget.TrendChart
-        android:id="@+id/machart"
+    <com.dkhs.portfolio.ui.widget.TimesharingplanChart
+        android:id="@+id/timesharingchart"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/rl_trend_info"

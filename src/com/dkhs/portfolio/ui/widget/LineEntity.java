@@ -19,6 +19,9 @@ public class LineEntity<T extends LinePointEntity> {
     /** 是否显示线 */
     private boolean display = true;
 
+    private int maxVolNum;
+    private int minVolNum;
+
     public List<T> getLineData() {
         return lineData;
     }
@@ -75,6 +78,22 @@ public class LineEntity<T extends LinePointEntity> {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public int getMaxVolNum() {
+        return maxVolNum;
+    }
+
+    public void setMaxVolNum(int maxVolNum) {
+        this.maxVolNum = maxVolNum;
+    }
+
+    public int getMinVolNum() {
+        return minVolNum;
+    }
+
+    public void setMinVolNum(int minVolNum) {
+        this.minVolNum = minVolNum;
     }
 
 }
