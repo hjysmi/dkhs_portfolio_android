@@ -204,7 +204,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	public static final int DEFAULT_TITLE_HEIGHT = 14;
 	
 	protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; //标题的高度
-	
+	private boolean ismove ;
 
 	// ////////////�??方�?//////////////
 	public GridChart(Context context) {
@@ -299,21 +299,38 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			Rect previouslyFocusedRect) {
 		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 	}
-
+	public void onSet(MotionEvent event,boolean ismove){
+		this.ismove = ismove;
+		clickPostX = event.getX();
+		clickPostY = event.getY();
+		
+		PointF point = new PointF(clickPostX,clickPostY);
+		touchPoint = point;
+		// super.invalidate();
+		super.invalidate();
+		notifyEventAll(this);
+	}
 	/**
 	 * 触摸事件
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
-		if (event.getY() > mTitleHeight
+		/*clickPostX = event.getX();
+		clickPostY = event.getY();
+		
+		PointF point = new PointF(clickPostX,clickPostY);
+		touchPoint = point;
+		// super.invalidate();
+		super.invalidate();
+		notifyEventAll(this);*/
+		/*if (event.getY() > mTitleHeight
 				&& event.getY() < super.getBottom() - getAxisMarginBottom()
 				&& event.getX() > super.getLeft() + getAxisMarginLeft()
 				&& event.getX() < super.getRight()) {
 
-			/*
+			
 			 * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
-			 */
+			 
 			if (event.getPointerCount() == 1) {
 				// 获取点击坐�?
 				clickPostX = event.getX();
@@ -331,7 +348,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 
 			} else if (event.getPointerCount() == 2) {
 			}
-		}
+		}*/
 		return super.onTouchEvent(event);
 	}
 
@@ -395,9 +412,9 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	 */
 	public String getAxisYGraduate(Object value) {
 
-		float length = super.getHeight() - axisMarginBottom - 2 * axisMarginTop;
+		float length = super.getHeight() - axisMarginBottom - 2 * axisMarginTop - mTitleHeight;
 		float valueLength = length
-				- (((Float) value).floatValue() - axisMarginTop);
+				- (((Float) value).floatValue() - axisMarginTop - mTitleHeight);
 
 		return String.valueOf(valueLength / length);
 	}
@@ -406,67 +423,70 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	 * 单点击事件
 	 */
 	protected void drawWithFingerClick(Canvas canvas) {
-		Paint mPaint = new Paint();
-		mPaint.setColor(Color.LTGRAY);
-
-		// 水平线长度
-		float lineHLength = getWidth() - 2f;
-		// 垂直线高度
-		float lineVLength = getHeight() - 2f - mTitleHeight;
-
-		// 绘制横纵线
-		if (isDisplayAxisXTitle()) {
-			lineVLength = lineVLength - axisMarginBottom;
-
+		if(ismove){
+			Paint mPaint = new Paint();
+			mPaint.setColor(Color.LTGRAY);
+	
+			// 水平线长度
+			float lineHLength = getWidth() - 2f;
+			// 垂直线高度
+			float lineVLength = getHeight() - 2f - mTitleHeight;
+	
+			// 绘制横纵线
+			/*if (isDisplayAxisXTitle()) {
+				lineVLength = lineVLength - axisMarginBottom;
+	
+				if (clickPostX > 0 && clickPostY > 0) {
+					// 绘制X轴�?���?
+					if (displayCrossXOnTouch) {
+						// TODO �?���?��小控制�?�?��
+						PointF BoxVS = new PointF(clickPostX - longtitudeFontSize
+								* 5f / 2f, lineVLength + 2f);
+						PointF BoxVE = new PointF(clickPostX + longtitudeFontSize
+								* 5f / 2f, lineVLength + axisMarginBottom - 1f);
+	
+						// 绘制�?���?
+						drawAlphaTextBox(BoxVS, BoxVE,
+								getAxisXGraduate(clickPostX), longtitudeFontSize,
+								canvas);
+					}
+				}
+			}*/
+	
+			/*if (isDisplayAxisYTitle()) {
+				lineHLength = lineHLength - getAxisMarginLeft();
+	
+				if (clickPostX > 0 && clickPostY > 0) {
+					// 绘制Y轴�?���?
+					if (displayCrossYOnTouch) {
+						PointF BoxHS = new PointF(1f, clickPostY - latitudeFontSize
+								/ 2f);
+						PointF BoxHE = new PointF(axisMarginLeft + latitudeFontSize, clickPostY
+								+ latitudeFontSize / 2f);
+	
+						// 绘制�?���?
+						drawAlphaTextBox(BoxHS, BoxHE,
+								getAxisYGraduate(clickPostY), latitudeFontSize,
+								canvas);
+					}
+				}
+			}*/
+	
 			if (clickPostX > 0 && clickPostY > 0) {
-				// 绘制X轴�?���?
+				// 显示纵线
 				if (displayCrossXOnTouch) {
-					// TODO �?���?��小控制�?�?��
-					PointF BoxVS = new PointF(clickPostX - longtitudeFontSize
-							* 5f / 2f, lineVLength + 2f);
-					PointF BoxVE = new PointF(clickPostX + longtitudeFontSize
-							* 5f / 2f, lineVLength + axisMarginBottom - 1f);
-
-					// 绘制�?���?
-					drawAlphaTextBox(BoxVS, BoxVE,
-							getAxisXGraduate(clickPostX), longtitudeFontSize,
-							canvas);
+					canvas.drawLine(clickPostX, 1f + mTitleHeight, clickPostX, lineVLength,
+									mPaint);
 				}
+	
+				// 显示横线
+				/*if (displayCrossYOnTouch) {
+					canvas.drawLine(axisMarginLeft, clickPostY, axisMarginLeft
+							+ lineHLength, clickPostY, mPaint);
+				}*/
 			}
 		}
-
-		if (isDisplayAxisYTitle()) {
-			lineHLength = lineHLength - getAxisMarginLeft();
-
-			if (clickPostX > 0 && clickPostY > 0) {
-				// 绘制Y轴�?���?
-				if (displayCrossYOnTouch) {
-					PointF BoxHS = new PointF(1f, clickPostY - latitudeFontSize
-							/ 2f);
-					PointF BoxHE = new PointF(axisMarginLeft + latitudeFontSize, clickPostY
-							+ latitudeFontSize / 2f);
-
-					// 绘制�?���?
-					drawAlphaTextBox(BoxHS, BoxHE,
-							getAxisYGraduate(clickPostY), latitudeFontSize,
-							canvas);
-				}
-			}
-		}
-
-		if (clickPostX > 0 && clickPostY > 0) {
-			// 显示纵线
-			if (displayCrossXOnTouch) {
-				canvas.drawLine(clickPostX, 1f + mTitleHeight, clickPostX, lineVLength,
-								mPaint);
-			}
-
-			// 显示横线
-			if (displayCrossYOnTouch) {
-				canvas.drawLine(axisMarginLeft, clickPostY, axisMarginLeft
-						+ lineHLength, clickPostY, mPaint);
-			}
-		}
+		//postInvalidate();
 	}
 
 	/**

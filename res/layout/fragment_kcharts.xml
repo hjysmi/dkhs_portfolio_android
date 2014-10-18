@@ -34,7 +34,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_above="@id/chart_volumn"
             android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
             android:layout_marginTop="16dp">
 	         <ImageButton 
 	            android:id="@+id/btn_large"

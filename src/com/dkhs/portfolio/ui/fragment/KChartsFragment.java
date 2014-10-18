@@ -20,7 +20,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -71,7 +73,7 @@ public class KChartsFragment extends Fragment {
 		
 		initChartView();
 		initVloumnChartView();
-		
+		mMyChartsView.setStick(mVolumnChartView);
 		mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
 		mLargerButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -112,8 +114,30 @@ public class KChartsFragment extends Fragment {
 		mMyChartsView.setDisplayLongitude(false);
 		mMyChartsView.setDisplayAxisXTitle(false);
 		mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
+		//mMyChartsView.setOnTouchListener(new OnChartListener());
 	}
-
+	/*class OnChartListener implements OnTouchListener{
+		boolean g = true;
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			if(event.getAction()  == MotionEvent.ACTION_DOWN){
+				g = true;
+			}
+			if(event.getAction()  == MotionEvent.ACTION_MOVE){
+				if(g){
+					event.setLocation(0, 0);
+					mVolumnChartView.onSet(event);
+				}
+				g = false;
+			}
+			if(event.getAction()  == MotionEvent.ACTION_UP && g){
+				mVolumnChartView.onSet(event);
+			}
+			return false;
+		}
+		
+	}*/
 	private void initVloumnChartView() {
 		mVolumnChartView.setAxisXColor(Color.LTGRAY);
 	    mVolumnChartView.setAxisYColor(Color.LTGRAY);
