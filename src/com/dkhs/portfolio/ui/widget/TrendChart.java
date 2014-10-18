@@ -150,16 +150,13 @@ public class TrendChart extends TrendGridChart {
             getTouchPointData(canvas);
 
         }
-        if (isTouch) {
-            drawWithFingerClick(canvas);
-        }
 
     }
 
     /**
      * 单点击事件
      */
-    protected void drawWithFingerClick(Canvas canvas) {
+    protected void drawWithFingerClick(Canvas canvas, int pointIndex) {
 
         Paint mPaint = new Paint();
         mPaint.setColor(Color.CYAN);
@@ -212,6 +209,22 @@ public class TrendChart extends TrendGridChart {
             // canvas.drawLine(clickPostX, axisMarginTop + xTitleTextHeight / 2, clickPostX, lineVLength, mPaint);
             canvas.drawLine(clickPostX, mStartLineYpoint, clickPostX, lineVLength, mPaint);
 
+            float value = ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex)).getValue();
+            // 获取终点Y坐�?
+            // j=1,vlaueY=29.866665
+            // minvalue = 220,maxvalue=280
+            // valueY为Y坐标的值
+            float hightPrecent = 0;
+            if (this.getMaxValue() == this.getMinValue()) {
+                hightPrecent = 0.5f;
+            } else {
+
+                hightPrecent = (1f - (value - this.getMinValue()) / (this.getMaxValue() - this.getMinValue()));
+            }
+            float valueY = (float) (hightPrecent * (lineHeight));
+            valueY += mStartLineYpoint;
+            canvas.drawLine(axisMarginLeft, valueY, mGridLineLenght + axisMarginLeft, valueY, mPaint);
+
             // }
 
             // 显示横线
@@ -246,6 +259,7 @@ public class TrendChart extends TrendGridChart {
     //
     // mHandler.sendEmptyMessageDelayed(11, 2000);
     // }
+    private float lineHeight;
 
     protected void drawLines(Canvas canvas) {
         // lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
@@ -256,7 +270,7 @@ public class TrendChart extends TrendGridChart {
         float startX;
 
         // float lineHeight = super.getHeight() - axisMarginTop - super.getAxisMarginBottom() - xTitleTextHeight;
-        float lineHeight = mGridLineHeight - axisMarginBottom - 2 - mStartLineYpoint;
+        lineHeight = mGridLineHeight - axisMarginBottom - 2 - mStartLineYpoint;
 
         Paint fillPaint = new Paint();
         // fillPaint.setColor(ColorTemplate.getRaddomColor());
@@ -397,6 +411,9 @@ public class TrendChart extends TrendGridChart {
                         drawDataView(canvas, pointIndex);
                     }
                 }
+
+                drawWithFingerClick(canvas, pointIndex);
+
             }
             // drawDataView(canvas);
 
