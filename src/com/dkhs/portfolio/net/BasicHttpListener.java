@@ -102,7 +102,7 @@ public abstract class BasicHttpListener implements IHttpListener {
         // if(showDialogIfIsTokenCode(errCode)){
         // GTGUtils.showTip(HttpCode.getCodeResId(errCode));
         // }
-        Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
 
     }

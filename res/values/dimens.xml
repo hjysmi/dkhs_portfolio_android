@@ -37,7 +37,7 @@
     <dimen name="float_fs_view_hight">80dp</dimen>
     <dimen name="float_view_hight">60dp</dimen>
     <dimen name="float_text_margin">4dp</dimen>
-    <dimen name="line_stroke_width">2dp</dimen>
+    <dimen name="line_stroke_width">1dp</dimen>
 
     <integer name="select_touch_text">22</integer>
 

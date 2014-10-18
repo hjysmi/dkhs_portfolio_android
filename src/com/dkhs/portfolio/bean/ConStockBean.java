@@ -111,4 +111,8 @@ public class ConStockBean extends StockBean implements Serializable {
         this.percent = percent;
 
     }
+    
+    
+    
+    
 }

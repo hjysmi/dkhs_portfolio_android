@@ -353,8 +353,31 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                     @Override
                     public void onFailure(int errCode, String errMsg) {
                         super.onFailure(errCode, errMsg);
-                        Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
                     }
+
+                    /**
+                     * @Title
+                     * @Description TODO: (用一句话描述这个方法的功能)
+                     * @return
+                     */
+                    @Override
+                    public void beforeRequest() {
+                        // TODO Auto-generated method stub
+                        super.beforeRequest();
+                    }
+
+                    /**
+                     * @Title
+                     * @Description TODO: (用一句话描述这个方法的功能)
+                     * @return
+                     */
+                    @Override
+                    public void requestCallBack() {
+                        // TODO Auto-generated method stub
+                        super.requestCallBack();
+                    }
+
                 });
                 dialog.dismiss();
             }
