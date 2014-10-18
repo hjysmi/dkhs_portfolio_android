@@ -279,8 +279,8 @@ public class TrendChart extends TrendGridChart {
             return;
         }
         // 逐条输入MA线
-
-        for (int i = 0; i < lineData.size(); i++) {
+        int lineSize = lineData.size();
+        for (int i = lineSize - 1; i >= 0; i--) {
             LineEntity line = (LineEntity) lineData.get(i);
 
             if (line.isDisplay()) {
