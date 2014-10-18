@@ -62,7 +62,6 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
 
     @Override
     protected ListViewType getLoadByType() {
-        // TODO Auto-generated method stub
         return ListViewType.STOCK;
     }
 

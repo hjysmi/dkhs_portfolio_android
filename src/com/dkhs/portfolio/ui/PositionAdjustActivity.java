@@ -18,6 +18,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +43,7 @@ import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -363,6 +365,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                 Intent intent = new Intent(this, SelectStockActivity.class);
                 intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
+                if (isAdjustCombination) {
+                    intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
+                }
                 startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
 
             }
@@ -375,7 +380,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void adjustPositionDetailToServer() {
         MyCombinationEngineImpl engine = new MyCombinationEngineImpl();
-        engine.adjustCombination(mCombinationId, generateSymbols(), adjustListener);
+        if (generateSymbols().size() < 1) {
+            PromptManager.showToast("请添加个股");
+        } else {
+            engine.adjustCombination(mCombinationId, generateSymbols(), adjustListener);
+        }
         String nameText = etConbinationName.getText().toString();
         String descText = etConbinationDesc.getText().toString();
         if (!nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
@@ -409,18 +418,31 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != etConbinationName) {
             combinationName = etConbinationName.getText().toString();
         }
+        if (TextUtils.isEmpty(combinationName)) {
+            PromptManager.showToast("组合名称不能为空");
+        }
+
         String combinationDesc = "";
         if (null != etConbinationDesc) {
             combinationDesc = etConbinationDesc.getText().toString();
         }
-        new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, generateSymbols(),
-                new BasicHttpListener() {
 
-                    @Override
-                    public void onSuccess(String result) {
-                        finish();
-                    }
-                });
+        List<SubmitSymbol> symbolsList = generateSymbols();
+        if (symbolsList.size() < 1) {
+
+            PromptManager.showToast("请添加个股");
+
+        } else {
+
+            new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
+                    new BasicHttpListener() {
+
+                        @Override
+                        public void onSuccess(String result) {
+                            finish();
+                        }
+                    });
+        }
     }
 
     private void submitAdjustToServer() {
@@ -445,17 +467,21 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
+                        if (createType != -1) {
 
-                        if (stockList == null) {
-                            stockList = new ArrayList<ConStockBean>();
+                            if (stockList == null) {
+                                stockList = new ArrayList<ConStockBean>();
+                            }
+                            stockList.clear();
+                            for (SelectStockBean selectBean : listStock) {
+                                stockList.add(selectBean.parseStock());
+                            }
+
+                            setCombinationBack(createType);
+
+                        } else {
+                            setAddStockBack(listStock);
                         }
-                        stockList.clear();
-                        for (SelectStockBean selectBean : listStock) {
-                            stockList.add(selectBean.parseStock());
-                        }
-
-                        setCombinationBack(createType);
-
                         setPieList();
                         // lvStock.removeFooterView(mFooterView);
                         stockAdapter.setList(stockList);
@@ -464,12 +490,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         // stockAdapter.
                         // stockAdapter.notifyDataSetChanged();
                         lvStock.invalidate();
-                        // lvstock
-                        // lvStock.setAdapter(stockAdapter);
-
-                    } else {
-
-                        // System.out.println("listStock is null");
                     }
                     break;
             }
@@ -488,6 +508,26 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 c.setDutyColor(ColorTemplate.getDefaultColor(i));
 
             }
+        }
+
+    }
+
+    private void setAddStockBack(List<SelectStockBean> listStock) {
+        int i = 0;
+        for (SelectStockBean selectBean : listStock) {
+            ConStockBean csBean = selectBean.parseStock();
+            if (stockList.contains(csBean)) {
+                if (i < stockList.size()) {
+                    stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
+                }
+                i++;
+                continue;
+            }
+            csBean.setPercent(0);
+            csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
+            stockList.add(csBean);
+            i++;
+
         }
 
     }

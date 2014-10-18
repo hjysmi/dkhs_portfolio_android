@@ -48,6 +48,7 @@ import com.dkhs.portfolio.ui.widget.TabPageIndicator;
  */
 public abstract class BaseSelectActivity extends ModelAcitivity implements OnClickListener {
     public static final String KEY_SELECT_STOCK = "key_select_stock";
+    public static final String KEY_ISADJUST_COMBINATION = "key_isadjust_combination";
     // protected static final boolean is_load_fund = ;
     // protected static final boolean is_load_stock =true;
     private GridView mSelctStockView;
@@ -61,6 +62,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private View mSearchListView;
 
     private Button btnOrder;
+    private boolean isAdjustCombination;
 
     public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
 
@@ -86,6 +88,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
                 .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+        isAdjustCombination = extras.getBoolean(KEY_ISADJUST_COMBINATION, false);
         if (null != listStock) {
             // for (ConStockBean stockBean : listStock) {
             //
@@ -243,6 +246,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         int id = v.getId();
 
         if (RIGHTBUTTON_ID == id) {
+            if (isAdjustCombination) {
+                setSelectBack(-1);
+                return;
+            }
             if (getLoadByType() == ListViewType.STOCK) {
                 showTypeDialog();
             } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {

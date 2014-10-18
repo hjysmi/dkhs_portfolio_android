@@ -481,7 +481,8 @@ public class TrendGridChart extends View {
 
             float xTitleWidth = mXTitlePaint.measureText(axisXTitles.get(counts - 1));
             offetText = xTitleWidth / 2;
-            float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight - offetText) / (counts - 1);
+
+            float postOffset = (super.getWidth() - axisMarginLeft - axisMarginRight) / (counts - 1);
 
             for (int i = 0; i < counts; i++) {
 
@@ -491,13 +492,17 @@ public class TrendGridChart extends View {
 
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset, offsetX, mXTitlePaint);
 
-                    } else if (i < axisXTitles.size()) {
+                    } else if (i < axisXTitles.size() - 1) {
 
                         canvas.drawText(axisXTitles.get(i), offset + i * postOffset - offetText, offsetX, mXTitlePaint);
+                    } else if (i == axisXTitles.size() - 1) {
+                        canvas.drawText(axisXTitles.get(i), super.getWidth() - xTitleWidth - axisMarginRight, offsetX,
+                                mXTitlePaint);
                     }
 
                 }
             }
+
         }
     }
 
