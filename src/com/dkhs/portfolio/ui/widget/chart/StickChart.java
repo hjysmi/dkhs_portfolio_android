@@ -250,7 +250,7 @@ public class StickChart extends GridChart {
 				}else {
 					mPaintStick.setColor(stickFillColorDown);
 				}
-				
+				float y = (float) ((super.getHeight()-mTitleHeight) * (ohlc.getHigh()/maxValue));
 				float highY = (float) ((1f - (ohlc.getHigh() - minValue)
 						/ (maxValue - minValue)) * (super.getHeight() - super
 						.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop());
