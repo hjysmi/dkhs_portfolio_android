@@ -84,7 +84,7 @@
     <string name="portfolio_position">持仓组合</string>
     <string name="duty_percent">%1$d&#037;</string>
     <string name="my_combination">我的组合</string>
-    <string name="desc_format">描述：</string>
+    <string name="desc_format">描述：%1$s</string>
     <string name="current">当前：</string>
     <string name="add_up">累计：</string>
     <string name="create_combination">创建组合</string>

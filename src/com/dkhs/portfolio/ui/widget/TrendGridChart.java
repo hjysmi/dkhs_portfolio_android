@@ -609,11 +609,17 @@ public class TrendGridChart extends View {
         Paint mXTitlePaint = new Paint();
         mXTitlePaint.setColor(longitudeColor);
 
-        mXTitlePaint.setPathEffect(dashEffect);
         if (counts > 1) {
             float postOffset = mGridLineLenght / (counts - 1);
             float offset = axisMarginLeft;
-            for (int i = 0; i <= counts; i++) {
+            for (int i = 0; i < counts; i++) {
+                if (i == 0 || i == counts - 1) {
+
+                    mXTitlePaint.setPathEffect(null);
+                } else {
+
+                    mXTitlePaint.setPathEffect(dashEffect);
+                }
                 // 绘制线条
                 if (displayLongitude) {
                     canvas.drawLine(offset + i * postOffset, mStartLineYpoint, offset + i * postOffset,
@@ -651,7 +657,15 @@ public class TrendGridChart extends View {
 
             // float offsetX = super.getHeight() - axisMarginBottom - xTitleTextHeight / 2;
 
-            for (int i = 0; i <= counts; i++) {
+            for (int i = 0; i < counts; i++) {
+
+                if (i == 0 || i == counts - 1) {
+
+                    mPaintLine.setPathEffect(null);
+                } else {
+
+                    mPaintLine.setPathEffect(dashEffect);
+                }
                 // 绘制线条
                 if (displayLatitude) {
                     canvas.drawLine(mStartLineXpoint, height - i * postOffset, length + mStartLineXpoint, height - i
