@@ -721,4 +721,17 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        compareListener.stopRequest(true);
+        historyNetValueListener.stopRequest(true);
+    }
+
 }

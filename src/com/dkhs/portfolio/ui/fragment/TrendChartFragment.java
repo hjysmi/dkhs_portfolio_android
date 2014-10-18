@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -17,6 +18,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -75,6 +77,8 @@ public class TrendChartFragment extends Fragment {
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
 
+    private Handler updateHandler;
+
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static TrendChartFragment newInstance(String trendType) {
         TrendChartFragment fragment = new TrendChartFragment();
@@ -123,6 +127,11 @@ public class TrendChartFragment extends Fragment {
     }
 
     private void handleSavedInstanceState(Bundle savedInstanceState) {
+    }
+
+    public void setUpdateHandler(Handler updateHandler) {
+        this.updateHandler = updateHandler;
+        System.out.println("set TrendChartFragment setUpdateHandler");
     }
 
     private void handleExtras(Bundle extras) {
@@ -322,6 +331,14 @@ public class TrendChartFragment extends Fragment {
                 }
 
                 tvNetValue.setText(StringFromatUtils.get4Point(todayNetvalue.getEnd()));
+
+                System.out.println("get current netvalue:" + todayNetvalue.getEnd());
+                if (null != updateHandler) {
+                    System.out.println("send get current netvalue:" + todayNetvalue.getEnd());
+                    Message msg = updateHandler.obtainMessage();
+                    msg.obj = todayNetvalue.getEnd();
+                    updateHandler.sendMessage(msg);
+                }
                 float addupValue = todayNetvalue.getEnd() - todayNetvalue.getBegin();
                 tvUpValue.setText(StringFromatUtils.get4Point(addupValue));
                 float increase = addupValue / todayNetvalue.getBegin() * 100;
@@ -577,7 +594,7 @@ public class TrendChartFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isAdded()&&trendType.equals(TREND_TYPE_TODAY)) {
+        if (isAdded() && trendType.equals(TREND_TYPE_TODAY)) {
             System.out.println("setUserVisibleHint:" + isVisibleToUser);
 
             if (isVisibleToUser) {

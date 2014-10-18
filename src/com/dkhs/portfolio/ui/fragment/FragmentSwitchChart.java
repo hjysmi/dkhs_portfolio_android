@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -34,7 +35,7 @@ public class FragmentSwitchChart extends Fragment {
     private Switch swChart;
     private View chartView;
 
-    private Fragment mFragmentChart;
+    private TrendChartFragment mFragmentChart;
     private Fragment mFragmentReport;
 
     public static FragmentSwitchChart newInstance(String trendType) {
@@ -62,6 +63,7 @@ public class FragmentSwitchChart extends Fragment {
 
     private void handleArguments(Bundle arguments) {
         trendType = arguments.getString(TrendChartFragment.ARGUMENT_TREND_TYPE);
+        mFragmentChart = TrendChartFragment.newInstance(trendType);
     }
 
     @Override
@@ -119,6 +121,9 @@ public class FragmentSwitchChart extends Fragment {
         if (mFragmentChart == null) {
             mFragmentChart = TrendChartFragment.newInstance(trendType);
         }
+
+        mFragmentChart.setUpdateHandler(updHandler);
+
         // replaceContentView(mFragment, R.id.btn_trend + "");
         ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         ft.replace(R.id.chart_content, mFragmentChart);
@@ -131,6 +136,7 @@ public class FragmentSwitchChart extends Fragment {
         if (mFragmentReport == null) {
             mFragmentReport = FragmentReportForm.newInstance(trendType);
         }
+
         // replaceContentView(mFragment, R.id.btn_trend + "");
         ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         ft.replace(R.id.chart_content, mFragmentReport);
@@ -155,4 +161,11 @@ public class FragmentSwitchChart extends Fragment {
         }
     }
 
+    private Handler updHandler;
+
+    public void setUpdateHandler(Handler updateHandler) {
+    
+        this.updHandler = updateHandler;
+
+    }
 }

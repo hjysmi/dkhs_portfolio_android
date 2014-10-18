@@ -363,4 +363,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+        listener.stopRequest(true);
+    }
+
 }

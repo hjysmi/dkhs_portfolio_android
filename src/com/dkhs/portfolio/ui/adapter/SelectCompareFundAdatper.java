@@ -69,7 +69,7 @@ public class SelectCompareFundAdatper extends BaseAdatperSelectStockFund {
         }
 
         viewHolder.tvIncreaseValue.setTextColor(textCsl);
-        viewHolder.tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(item.percentage * 100));
+        viewHolder.tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         return convertView;
     }
 

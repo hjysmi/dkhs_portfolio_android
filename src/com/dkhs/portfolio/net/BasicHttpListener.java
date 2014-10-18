@@ -11,6 +11,8 @@ import com.lidroid.xutils.util.LogUtils;
 
 public abstract class BasicHttpListener implements IHttpListener {
 
+    private boolean isStop;
+
     @Override
     public void beforeRequest() {
 
@@ -18,6 +20,30 @@ public abstract class BasicHttpListener implements IHttpListener {
 
     @Override
     public void requestCallBack() {
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public boolean isStopRequest() {
+
+        return isStop;
+    }
+
+    /**
+     * @Title
+     * @Description:是否中断请求
+     * @param isStop
+     * @return
+     */
+    @Override
+    public void stopRequest(boolean isStop) {
+        this.isStop = isStop;
 
     }
 

@@ -41,8 +41,9 @@ import com.lidroid.xutils.util.LogUtils;
  */
 public class DKHSClient {
 
+    static HttpUtils mHttpUtils = new HttpUtils();
+
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
-        HttpUtils mHttpUtils = new HttpUtils();
 
         if (null == params) {
             params = new RequestParams();
@@ -53,22 +54,22 @@ public class DKHSClient {
             LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
 
         } else if (!url.contains(DKHSUrl.User.login)) {
-
+            mHttpUtils = new HttpUtils();
             try {
                 UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-              
-                    if (user != null&&!TextUtils.isEmpty(user.getAccess_token())) {
-                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                        GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
-                        GlobalParams.MOBILE = user.getMobile();
-                        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-                            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
-                        } else {
-                            LogUtils.e("Authorization token is null,Exit app");
-                            PortfolioApplication.getInstance().exitApp();
-                        }
+
+                if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                    GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                    GlobalParams.MOBILE = user.getMobile();
+                    if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                        params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                    } else {
+                        LogUtils.e("Authorization token is null,Exit app");
+                        PortfolioApplication.getInstance().exitApp();
                     }
-            
+                }
+
             } catch (DbException e) {
                 e.printStackTrace();
                 LogUtils.e("Authorization token is null,Exit app");
@@ -96,7 +97,7 @@ public class DKHSClient {
 
                 String result = StringDecodeUtil.fromUnicode(responseInfo.result);
                 LogUtils.d("请求成功:" + result);
-                if (null != listener) {
+                if (null != listener && !listener.isStopRequest()) {
                     listener.onHttpSuccess(result);
                 }
 
@@ -110,7 +111,7 @@ public class DKHSClient {
                 // LogUtils.allowI = false; //关闭 LogUtils.i(...) 的 adb log 输出
                 LogUtils.e("请求失败:" + msg);
 
-                if (null != listener) {
+                if (null != listener && !listener.isStopRequest()) {
                     listener.onHttpFailure(error.getExceptionCode(), msg);
                 }
 
