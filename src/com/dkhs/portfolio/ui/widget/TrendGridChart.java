@@ -254,13 +254,13 @@ public class TrendGridChart extends View {
 
     private void init() {
 
-        this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                getLayoutParams().height = getWidth() * 3 / 4;
-
-            }
-        });
+        // this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        // @Override
+        // public void onGlobalLayout() {
+        // getLayoutParams().height = getWidth() * 3 / 4;
+        //
+        // }
+        // });
 
         latitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
         longtitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
@@ -436,7 +436,9 @@ public class TrendGridChart extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+        // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+        int mesasureWidth = measureWidth(widthMeasureSpec);
+        setMeasuredDimension(mesasureWidth, mesasureWidth * 3 / 4);
     }
 
     private int measureWidth(int measureSpec) {

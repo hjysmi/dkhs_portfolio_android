@@ -180,7 +180,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(StockQuotesBean object) {
-            if (null != object) {
+            if (null != object ) {
                 mStockQuotesBean = object;
                 updateStockView();
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
