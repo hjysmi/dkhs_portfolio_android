@@ -76,7 +76,7 @@
                 style="@style/hw_wrap"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/button_gray_border"
+                android:background="@drawable/btn_grayborder_selector"
                 android:drawableRight="@drawable/ic_select_down"
                 android:paddingBottom="3dp"
                 android:paddingLeft="5dp"

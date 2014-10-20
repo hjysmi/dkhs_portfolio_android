@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/lv_white_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingBottom="5dp"
@@ -26,7 +26,7 @@
             style="@style/hw_wrap"
             android:layout_below="@+id/tv_stock_name"
             android:textColor="@android:color/darker_gray"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
     </RelativeLayout>
 
     <TextView
