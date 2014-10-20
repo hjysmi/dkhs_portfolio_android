@@ -19,7 +19,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/button_gray_border"
+            android:background="@drawable/btn_grayborder_selector"
             android:paddingBottom="6dp"
             android:paddingTop="6dp" >
 
@@ -97,20 +97,19 @@
                 android:text="@string/my_config"
                 android:textColor="@color/white" />
 
-            <Button
+            <TextView
                 android:id="@+id/btn_adjust_position"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/button_gray_border"
-                android:paddingBottom="3dp"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:textSize="14sp"
-                android:paddingTop="3dp"
-                android:text="@string/adjust_position" />
+                android:background="@drawable/btn_grayborder_selector"
+                android:drawableLeft="@drawable/icon_adjust"
+                android:drawablePadding="4dp"
+                android:padding="5dp"
+                android:text="@string/adjust_position"
+                android:textSize="14sp" />
         </RelativeLayout>
         <!-- 净值占比饼图 -->
 
