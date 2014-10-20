@@ -44,7 +44,7 @@ public class DKHSClient {
     static HttpUtils mHttpUtils = new HttpUtils();
 
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
-
+        
         if (null == params) {
             params = new RequestParams();
         }

@@ -436,6 +436,30 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
                     new BasicHttpListener() {
+                        /**
+                         * @Title
+                         * @Description TODO: (用一句话描述这个方法的功能)
+                         * @return
+                         */
+                        @Override
+                        public void beforeRequest() {
+                            // TODO Auto-generated method stub
+                            super.beforeRequest();
+                            btnConfirm.setEnabled(false);
+                        }
+
+                        /**
+                         * @Title
+                         * @Description TODO: (用一句话描述这个方法的功能)
+                         * @return
+                         */
+                        @Override
+                        public void requestCallBack() {
+                            // TODO Auto-generated method stub
+                            super.requestCallBack();
+
+                            btnConfirm.setEnabled(true);
+                        }
 
                         @Override
                         public void onSuccess(String result) {

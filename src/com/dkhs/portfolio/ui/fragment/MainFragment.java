@@ -183,7 +183,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                 break;
         }
         if (null != intent) {
-            startActivity(intent);
+            getActivity().startActivity(intent);
         }
 
     }

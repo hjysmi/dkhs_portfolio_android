@@ -114,8 +114,23 @@ public class StockQuotesChartFragment extends Fragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
         // fenshiPiceLine.setLineData(lineDataList);
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -166,8 +181,6 @@ public class StockQuotesChartFragment extends Fragment {
         mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
         mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
 
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
         mListviewBuy.setAdapter(mBuyAdapter);
         mListviewSell.setAdapter(mSellAdapter);
         // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
@@ -263,6 +276,14 @@ public class StockQuotesChartFragment extends Fragment {
 
         mMaChart.setAxisXTitles(xtitle);
         mMaChart.setMaxPointNum(240);
+
+        List<String> rightYtitle = new ArrayList<String>();
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
+        mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
     // private void initTrendTitle() {
@@ -298,40 +319,43 @@ public class StockQuotesChartFragment extends Fragment {
     StockQuotesBean mStockBean;
 
     public void setStockQuotesBean(StockQuotesBean bean) {
-        this.mStockBean = bean;
-        List<FiveRangeItem> buyList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
-        List<FiveRangeItem> sellList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
-        int i = 0;
-        for (String buyPrice : bean.getBuyPrice().getBuyPrice()) {
-            FiveRangeItem buyItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
+        if (isAdded()) {
 
-            buyItem.price = buyPrice;
-            if (i < bean.getBuyPrice().getBuyVol().size()) {
-                buyItem.vol = bean.getBuyPrice().getBuyVol().get(i);
-            } else {
-                buyItem.vol = "0";
+            this.mStockBean = bean;
+            List<FiveRangeItem> buyList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
+            List<FiveRangeItem> sellList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
+            int i = 0;
+            for (String buyPrice : bean.getBuyPrice().getBuyPrice()) {
+                FiveRangeItem buyItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
+
+                buyItem.price = buyPrice;
+                if (i < bean.getBuyPrice().getBuyVol().size()) {
+                    buyItem.vol = bean.getBuyPrice().getBuyVol().get(i);
+                } else {
+                    buyItem.vol = "0";
+                }
+                buyItem.tag = "" + (++i);
+                buyList.add(buyItem);
             }
-            buyItem.tag = "" + (++i);
-            buyList.add(buyItem);
-        }
-        // i = 0;
-        for (String sellPrice : bean.getSellPrice().getSellPrice()) {
-            FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
-            sellItem.price = sellPrice;
-            if (i < bean.getSellPrice().getSellVol().size()) {
-                sellItem.vol = bean.getSellPrice().getSellVol().get(i);
-            } else {
-                sellItem.vol = "0";
+            // i = 0;
+            for (String sellPrice : bean.getSellPrice().getSellPrice()) {
+                FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
+                sellItem.price = sellPrice;
+                if (i < bean.getSellPrice().getSellVol().size()) {
+                    sellItem.vol = bean.getSellPrice().getSellVol().get(i);
+                } else {
+                    sellItem.vol = "0";
+                }
+                sellItem.tag = "" + (i--);
+                sellList.add(sellItem);
             }
-            sellItem.tag = "" + (i--);
-            sellList.add(sellItem);
+
+            mBuyAdapter.setList(buyList);
+            mSellAdapter.setList(sellList);
+
+            mBuyAdapter.setCompareValue(bean.getLastClose());
+            mSellAdapter.setCompareValue(bean.getLastClose());
         }
-
-        mBuyAdapter.setList(buyList);
-        mSellAdapter.setList(sellList);
-
-        mBuyAdapter.setCompareValue(bean.getLastClose());
-        mSellAdapter.setCompareValue(bean.getLastClose());
 
     }
 

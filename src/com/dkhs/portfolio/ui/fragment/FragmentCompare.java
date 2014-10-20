@@ -140,6 +140,19 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         setGridItemData();
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // recLifeCycle_with_savedInstanceState(savedInstanceState);
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     private void setGridItemData() {
 
         CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();

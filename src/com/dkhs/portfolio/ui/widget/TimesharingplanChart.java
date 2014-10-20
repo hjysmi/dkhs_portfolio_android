@@ -56,9 +56,17 @@ public class TimesharingplanChart extends TrendChart {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void drawTimesSharingChart(Canvas canvas) {
         drawVolBorder(canvas);
         drawVolChart(canvas);
-
     }
 
     private void drawVolBorder(Canvas canvas) {
@@ -109,7 +117,7 @@ public class TimesharingplanChart extends TrendChart {
                 if (null != stickData) {
                     float highY = getmGridLineHeight() + getVolHight();
                     // 判断显示为方柱或显示为线条
-                    for (int i = 0; i < 240; i++) {
+                    for (int i = 0; i < stickData.size(); i++) {
                         FSLinePointEntity ohlc = stickData.get(i);
 
                         if (ohlc.getIncreaseRange() >= 0) {
@@ -125,7 +133,8 @@ public class TimesharingplanChart extends TrendChart {
                         // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                         // .getAxisMarginTop());
 
-                        int dValue = ohlc.getTurnover() - lineentity.getMinVolNum();
+                        float dValue = ohlc.getTurnover() - lineentity.getMinVolNum();
+
                         float percentYPoint = 0.0f;
                         if (offsetVol != 0 && dValue != 0) {
                             percentYPoint = dValue / offsetVol;

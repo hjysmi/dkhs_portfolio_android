@@ -151,7 +151,18 @@ public class TrendChart extends TrendGridChart {
         // 绘制平线
         drawLines(canvas);
 
+        drawTimesSharingChart(canvas);
+
         drawFingerTouch(canvas);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    protected void drawTimesSharingChart(Canvas canvas) {
+
     }
 
     protected void drawFingerTouch(Canvas canvas) {
@@ -173,7 +184,7 @@ public class TrendChart extends TrendGridChart {
         // 水平线长度
         float lineHLength = getWidth() - 2f;
         // 垂直线高度
-        float lineVLength = mGridLineHeight - axisMarginBottom;
+        float lineVLength = super.getmGridLineHeight() - axisMarginBottom;
 
         // 绘制横纵线
         if (isDisplayAxisXTitle()) {
@@ -420,7 +431,6 @@ public class TrendChart extends TrendGridChart {
                         drawDataView(canvas, pointIndex);
                     }
                 }
-
 
             }
             // drawDataView(canvas);

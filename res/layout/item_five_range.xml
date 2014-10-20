@@ -8,25 +8,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_detail_value"
-        android:layout_width="30dp"
+        android:layout_width="36dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/tv_buytext"
         android:gravity="right"
-        android:text="100.00"
+        android:singleLine="true"
+        android:text="-"
         android:textColor="@color/red"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_range_vol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/tv_detail_value"
+        android:gravity="right"
+        android:singleLine="true"
         android:text="-"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
 </RelativeLayout>
