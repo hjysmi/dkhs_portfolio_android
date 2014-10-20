@@ -36,7 +36,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/red"
-        android:textSize="20sp" />
+        android:textSize="22sp" />
 
     <TextView
         android:id="@+id/tv_increase_value"
@@ -50,7 +50,6 @@
         android:paddingTop="6dp"
         android:text="+0.43%"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="18sp" />
 
 </LinearLayout>
