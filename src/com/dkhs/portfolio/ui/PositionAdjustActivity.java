@@ -37,6 +37,7 @@ import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
@@ -380,11 +381,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void adjustPositionDetailToServer() {
         MyCombinationEngineImpl engine = new MyCombinationEngineImpl();
+
         if (generateSymbols().size() < 1) {
             PromptManager.showToast("请添加个股");
+            return;
         } else {
-            engine.adjustCombination(mCombinationId, generateSymbols(), adjustListener);
+            engine.adjustCombination(mCombinationId, generateSymbols(), adjustListener.setLoadingDialog(this, "修改中..."));
         }
+
         String nameText = etConbinationName.getText().toString();
         String descText = etConbinationDesc.getText().toString();
         if (!nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
@@ -392,12 +396,21 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             engine.updateCombination(mCombinationId, nameText, descText, adjustListener);
     }
 
-    IHttpListener adjustListener = new BasicHttpListener() {
+    ParseHttpListener adjustListener = new ParseHttpListener() {
+
         @Override
-        public void onSuccess(String result) {
+        protected Object parseDateTask(String jsonData) {
+
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
             Toast.makeText(PositionAdjustActivity.this, "调整持仓成功!", Toast.LENGTH_SHORT).show();
             finish();
+
         }
+
     };
 
     private List<SubmitSymbol> generateSymbols() {
@@ -435,7 +448,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         } else {
 
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
-                    new BasicHttpListener() {
+                    new ParseHttpListener() {
+
                         /**
                          * @Title
                          * @Description TODO: (用一句话描述这个方法的功能)
@@ -463,9 +477,22 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                         @Override
                         public void onSuccess(String result) {
-                            finish();
                         }
-                    });
+
+                        @Override
+                        protected Object parseDateTask(String jsonData) {
+                            // TODO Auto-generated method stub
+                            return null;
+                        }
+
+                        @Override
+                        protected void afterParseData(Object object) {
+
+                            finish();
+
+                        }
+
+                    }.setLoadingDialog(this, "创建中..."));
         }
     }
 

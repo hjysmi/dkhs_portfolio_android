@@ -344,6 +344,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 if (isBetween7day()) {
                     Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
                 } else {
+                    btnCompare.setEnabled(false);
                     requestCompare();
                 }
             }
@@ -388,7 +389,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         @Override
         protected void afterParseData(HistoryNetValue object) {
             if (object != null && isAdded()) {
-
+                btnCompare.setEnabled(true);
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() < 7) {
                     tvNoData.setVisibility(View.VISIBLE);
@@ -403,7 +404,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     mCombinationLine.setTitle("我的组合");
                     mCombinationLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                     mCombinationLine.setLineData(lineDataList);
-                    setLineData(mCombinationLine);
+                    lineEntityList.remove(combinationLineEntity);
+                    combinationLineEntity = mCombinationLine;
+
+                    setLineData();
 
                 }
 
@@ -419,16 +423,20 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     };
 
-    private void setLineData(LineEntity lineEntity) {
-        lineEntityList.add(0, lineEntity);
+    LineEntity combinationLineEntity = new LineEntity<LinePointEntity>();
+
+    private void setLineData() {
+        lineEntityList.add(0, combinationLineEntity);
         // lineEntityList.add(lineEntity);
         // maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
     }
 
-    private void setLineListsData(List<LineEntity> linesList) {
-        System.out.println("setLineListsData :" + linesList.size());
-        lineEntityList.addAll(linesList);
+    List<LineEntity> compareLinesList = new ArrayList<LineEntity>();
+
+    private void setCompareLineList() {
+        System.out.println("setLineListsData :" + compareLinesList.size());
+        lineEntityList.addAll(compareLinesList);
         // maChartView.setDrawDashLine(isBeforeCreateDate);
         maChartView.setLineData(lineEntityList);
     }
@@ -567,8 +575,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         @Override
         protected void afterParseData(List<LineEntity> object) {
             if (null != object && object.size() > 0) {
-                setLineListsData(object);
-
+                // setLineListsData(object);
+                if (null != lineEntityList) {
+                    lineEntityList.removeAll(compareLinesList);
+                }
+                compareLinesList.clear();
+                compareLinesList.addAll(object);
+                setCompareLineList();
                 mGridAdapter.notifyDataSetChanged();
             }
 

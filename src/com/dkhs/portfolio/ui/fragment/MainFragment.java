@@ -146,7 +146,44 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            PromptManager.showToastTest("click Postion:" + position);
+            // PromptManager.showToastTest("click Postion:" + position);
+
+            Intent intent = null;
+            switch (position) {
+                case 0: {
+                    PromptManager.showToastTest("click Postion:牛人栏目");
+                }
+                    break;
+                case 1: {
+                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
+                }
+                    break;
+                case 2: {
+                    PromptManager.showToastTest("click Postion:公告栏目");
+                }
+                    break;
+                case 3: {
+                    PromptManager.showToastTest("click Postion:研报栏目");
+
+                }
+                    break;
+                case 4: {
+                    PromptManager.showToastTest("click Postion:云会议栏目");
+
+                }
+                    break;
+                case 5: {
+                    PromptManager.showToastTest("click Postion:海外资讯");
+
+                }
+                    break;
+                default:
+                    break;
+            }
+            if (null != intent) {
+                getActivity().startActivity(intent);
+            }
+
         }
     };
 

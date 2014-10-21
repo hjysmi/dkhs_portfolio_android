@@ -21,18 +21,29 @@ import android.os.Message;
 public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private Context mContext;
-    private int msgId;
+    private String msg;
 
     public ParseHttpListener setLoadingDialog(Context context, int msgid) {
         this.mContext = context;
-        this.msgId = msgid;
+        this.msg = mContext.getString(msgid);
+        return this;
+    }
+    public ParseHttpListener setLoadingDialog(Context context, String msg) {
+        this.mContext = context;
+        this.msg = msg;
+        return this;
+    }
+    public ParseHttpListener setLoadingDialog(Context context) {
+        this.mContext = context;
+        this.msg = mContext.getString(R.string.loading);
+
         return this;
     }
 
     @Override
     public void beforeRequest() {
-        if (null != mContext && this.msgId > 0) {
-            PromptManager.showProgressDialog(mContext, msgId);
+        if (null != mContext ) {
+            PromptManager.showProgressDialog(mContext, msg);
         }
     }
 

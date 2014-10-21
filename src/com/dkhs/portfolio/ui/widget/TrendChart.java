@@ -63,6 +63,15 @@ public class TrendChart extends TrendGridChart {
 
     private boolean isDrawTimesharingplanChart;
 
+    // 计数器，防止多次点击导致最后一次形成longpress的时间变短
+    private int mCounter;
+    // 是否释放了
+    private boolean isReleased;
+    // 长按的runnable
+    private Runnable mLongPressRunnable;
+    // 移动的阈值
+    private static final int TOUCH_SLOP = 20;
+
     public TrendChart(Context context) {
         super(context);
         init();
@@ -85,6 +94,27 @@ public class TrendChart extends TrendGridChart {
         mLinePaint.setAntiAlias(true);
         // mLinePaint.setStrokeWidth(lineStrokeWidth);
 
+        mLongPressRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+
+                System.out.println("thread");
+                System.out.println("mCounter--->>>" + mCounter);
+                System.out.println("isReleased--->>>" + isReleased);
+                mCounter--;
+                // 计数器大于0，说明当前执行的Runnable不是最后一次down产生的。
+                if (mCounter > 0 || isReleased)
+                    return;
+                performLongClick();
+                isTouch = true;
+                //
+                // if (null != mTouchListener) {
+                // mTouchListener.chartTounching();
+                // }
+            }
+        };
+
     }
 
     public void setSmallLine() {
@@ -104,16 +134,23 @@ public class TrendChart extends TrendGridChart {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                mCounter++;
+                isTouch = true;
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
-                isTouch = true;
+
+                // postDelayed(mLongPressRunnable, 2000);
                 break;
             case MotionEvent.ACTION_UP:
                 isTouch = false;
+                // 释放了
+                isReleased = true;
                 if (null != mTouchListener) {
                     mTouchListener.loseTouching();
                 }
+                // removeCallbacks(mLongPressRunnable);
+
                 break;
 
             default:

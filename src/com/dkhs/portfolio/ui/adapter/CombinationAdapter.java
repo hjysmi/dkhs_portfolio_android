@@ -204,6 +204,9 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     @Override
     public int getCount() {
+        if (isDelStatus) {
+            return this.mDataList.size();
+        }
         return this.mDataList.size() + 1;
     }
 

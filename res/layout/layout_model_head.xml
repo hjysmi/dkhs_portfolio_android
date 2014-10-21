@@ -52,6 +52,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/btn_right"
+        android:background="@null"
         android:visibility="gone" />
 
 </RelativeLayout>
