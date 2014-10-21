@@ -593,18 +593,20 @@ public class TrendChartFragment extends Fragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isAdded() && trendType.equals(TREND_TYPE_TODAY)) {
-            System.out.println("setUserVisibleHint:" + isVisibleToUser);
+        if (isAdded()) {
+            super.setUserVisibleHint(isVisibleToUser);
+            if (trendType.equals(TREND_TYPE_TODAY)) {
+                System.out.println("setUserVisibleHint:" + isVisibleToUser);
 
-            if (isVisibleToUser) {
-                // 相当于Fragment的onResume{
-                dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-            } else {
-                System.out.println("dataHandler.removeCallbacks");
-                dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-                // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-                // 相当于Fragment的onPause
+                if (isVisibleToUser) {
+                    // 相当于Fragment的onResume{
+                    dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+                } else {
+                    System.out.println("dataHandler.removeCallbacks");
+                    dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+                    // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+                    // 相当于Fragment的onPause
+                }
             }
         }
     }
