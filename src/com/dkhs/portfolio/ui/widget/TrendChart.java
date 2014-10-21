@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class TrendChart extends TrendGridChart {
@@ -103,10 +104,16 @@ public class TrendChart extends TrendGridChart {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (null != mTouchListener) {
+                    mTouchListener.chartTounching();
+                }
                 isTouch = true;
                 break;
             case MotionEvent.ACTION_UP:
                 isTouch = false;
+                if (null != mTouchListener) {
+                    mTouchListener.loseTouching();
+                }
                 break;
 
             default:
@@ -299,7 +306,7 @@ public class TrendChart extends TrendGridChart {
         }
         // 逐条输入MA线
         int lineSize = lineData.size();
-        for (int i = lineSize - 1; i >= 0; i--) {
+        for (int i = 0; i < lineSize; i++) {
             LineEntity line = (LineEntity) lineData.get(i);
 
             if (line.isDisplay()) {
@@ -832,6 +839,12 @@ public class TrendChart extends TrendGridChart {
 
         /***************/
 
+    }
+
+    private ITouchListener mTouchListener;
+
+    public void setITouchListener(ITouchListener touchListener) {
+        this.mTouchListener = touchListener;
     }
 
     public List<LineEntity> getLineData() {

@@ -68,9 +68,28 @@
     <RelativeLayout
         android:id="@+id/slide_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/billboard_height"
         android:layout_below="@+id/layout_title"
         android:background="@drawable/slide" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_billboard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10.0dip"
+            android:orientation="horizontal" >
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout
@@ -92,10 +111,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/iv_plus"
             android:layout_centerHorizontal="true"
-            android:text="创建我的基金"
             android:layout_marginTop="4dp"
-            android:textSize="18sp"
-            android:textColor="@color/blue" />
+            android:text="创建我的基金"
+            android:textColor="@color/blue"
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -34,6 +34,7 @@ import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter.FiveRangeItem;
@@ -233,6 +234,9 @@ public class StockQuotesChartFragment extends Fragment {
         machart.setDisplayLongitude(true);
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
+        
+        
+        machart.setITouchListener(mTouchListener);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -246,6 +250,12 @@ public class StockQuotesChartFragment extends Fragment {
         // machart.setFill(true);
         // machart.setFillLineIndex(2);
 
+    }
+    
+    private ITouchListener mTouchListener;
+
+    public void setITouchListener(ITouchListener touchListener) {
+        this.mTouchListener = touchListener;
     }
 
     private void setLineData(List<FSLinePointEntity> lineDataList) {

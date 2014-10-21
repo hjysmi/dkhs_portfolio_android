@@ -10,6 +10,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -45,11 +48,11 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     private MarqueeText tvBottomText;
     //
-    // private ViewPager viewPager;
-    // private LinearLayout dotLayout;
-    // private List<ImageView> imageViews;
+    private ViewPager viewPager;
+    private LinearLayout dotLayout;
+    private List<ImageView> imageViews;
     private int[] imageResId;
-    // private int currentItem = 0;
+    private int currentItem = 0;
 
     private GridView gvFunction;
 
@@ -65,12 +68,13 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            // if (currentItem >= viewPager.getChildCount()) {
-            // currentItem = 0;
-            // } else {
-            // currentItem++;
-            // }
-            // viewPager.setCurrentItem(currentItem, true);
+            System.out.println("handleMessage currentItem:" + currentItem);
+            if (currentItem >= viewPager.getChildCount()) {
+                currentItem = 0;
+            } else {
+                currentItem++;
+            }
+            viewPager.setCurrentItem(currentItem, true);
         };
     };
 
@@ -105,15 +109,20 @@ public class MainFragment extends Fragment implements OnClickListener {
         gvFunction.setOnItemClickListener(functionClick);
 
         // 初始化界面控件实例
-        // dotLayout = (LinearLayout) view.findViewById(R.id.login_register_linearlayout_dot);
-        // initDotAndPicture();
+        dotLayout = (LinearLayout) view.findViewById(R.id.linearlayout_dot);
+        initDotAndPicture();
         //
-        // viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
-        // viewPager.setAdapter(new MyAdapter());
-        // viewPager.setOnPageChangeListener(new MyPageChangeListener());
-        //
-        // viewPager.setCurrentItem(1);
-        // viewPager.setCurrentItem(0);
+        viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
+        List<Fragment> fList = new ArrayList<Fragment>();
+        fList.add(ScrollTopFragment.getInstance());
+        fList.add(ScrollTopFragment.getInstance());
+        fList.add(ScrollTopFragment.getInstance());
+        viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
+        viewPager.setOnPageChangeListener(new MyPageChangeListener());
+        viewPager.setOffscreenPageLimit(3);
+
+        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0);
 
         // viewOptionalStock = view.findViewById(R.id.btn_optional_stoack);
         // viewMyCombination = view.findViewById(R.id.btn_mycombina);
@@ -213,6 +222,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     private void setViewLayoutParams() {
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
+        viewPager.getLayoutParams().width = screenWidth / 2;
         int viewPading = getResources().getDimensionPixelSize(R.dimen.main_page_padding);
         int viewWidth = (screenWidth - 3 * viewPading) / 2;
         int smallViewHeight = (viewWidth * 2 - viewPading) / 3;
@@ -300,26 +310,26 @@ public class MainFragment extends Fragment implements OnClickListener {
      * 初始化要切换的图片和点
      */
     private void initDotAndPicture() {
-        // imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two, R.drawable.pic_three };
-        //
-        // imageViews = new ArrayList<ImageView>();
+        imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two, R.drawable.pic_three };
+
+        imageViews = new ArrayList<ImageView>();
         // int viewWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
-        //
+
         // int dotWidth = viewWidth / imageResId.length;
-        // // 初始化图片资源
-        // for (int i = 0; i < imageResId.length; i++) {
-        // ImageView imageView = new ImageView(getActivity());
-        // imageView.setImageResource(imageResId[i]);
-        // imageView.setScaleType(ScaleType.FIT_XY);
-        // imageViews.add(imageView);
-        //
-        // // 根据图片动态设置小圆点
-        // View sliderView = View.inflate(getActivity(), R.layout.tip_slider, null);
-        // LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dotWidth, 8);
-        // // params.weight = 1.0f;
-        // // dotView.setLayoutParams(params);
-        // dotLayout.addView(sliderView, params);
-        // }
+        // 初始化图片资源
+
+        // 根据图片动态设置小圆点
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        // 初始化图片资源
+        for (int i = 0; i < imageResId.length; i++) {
+            ImageView imageView = new ImageView(getActivity());
+            imageView.setImageResource(imageResId[i]);
+            imageView.setScaleType(ScaleType.FIT_XY);
+            imageViews.add(imageView);
+
+            // 根据图片动态设置小圆点
+            inflater.inflate(R.layout.dot, dotLayout);
+        }
     }
 
     /**
@@ -334,8 +344,9 @@ public class MainFragment extends Fragment implements OnClickListener {
          * 当页面被选中的时候调用这个方法 position: 页面tag标识
          */
         public void onPageSelected(int position) {
-            // dotLayout.getChildAt(oldPosition).setBackgroundResource(R.drawable.dot_normal);
-            // dotLayout.getChildAt(position).setBackgroundResource(R.drawable.dot_focused);
+            System.out.println("opageSelecte change :" + position);
+            dotLayout.getChildAt(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+            dotLayout.getChildAt(position).setBackgroundResource(R.drawable.dot_focused);
             oldPosition = position;
         }
 
@@ -346,28 +357,25 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
     }
 
-    private class MyAdapter extends PagerAdapter {
+    private class ScrollFragmentAdapter extends FragmentStatePagerAdapter {
+
+        private List<Fragment> fragmentList;
+
+        public ScrollFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList2) {
+            super(fm);
+            this.fragmentList = fragmentList2;
+
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+
+            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
+        }
 
         @Override
         public int getCount() {
-            return imageResId.length;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            // ((ViewPager) container).addView(imageViews.get(position));
-            // return imageViews.get(position);
-            return null;
-        }
-
-        @Override
-        public void destroyItem(View arg0, int arg1, Object arg2) {
-            ((ViewPager) arg0).removeView((View) arg2);
-        }
-
-        @Override
-        public boolean isViewFromObject(View arg0, Object arg1) {
-            return arg0 == arg1;
+            return fragmentList == null ? 0 : fragmentList.size();
         }
 
     }

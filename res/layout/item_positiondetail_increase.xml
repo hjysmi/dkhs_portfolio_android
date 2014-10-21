@@ -37,13 +37,14 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="10%" />
+        android:text="-" />
 
     <TextView
         android:id="@+id/tv_right_value"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.5"
+        android:text="-"
         android:gravity="center_horizontal"
         android:textColor="@color/red" />
 

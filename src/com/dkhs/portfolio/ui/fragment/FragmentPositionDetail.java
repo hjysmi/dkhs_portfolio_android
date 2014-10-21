@@ -43,6 +43,7 @@ import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName FragmentPositionDetail
@@ -51,7 +52,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-9-3 上午9:33:13
  * @version 1.0
  */
-public class FragmentPositionDetail extends Fragment implements OnClickListener,FragmentLifecycle {
+public class FragmentPositionDetail extends Fragment implements OnClickListener, FragmentLifecycle {
 
     private PieGraph pgView;
     private View btnDate;
@@ -209,7 +210,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     protected void setCombinationInfo() {
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
         tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
-        tvNetValue.setText(mPositionDetail.getPortfolio().getCurrentValue() + "");
+        tvNetValue.setText(StringFromatUtils.get4Point(mPositionDetail.getPortfolio().getNetvalue()));
 
     }
 
@@ -390,7 +391,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         }
     };
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -398,10 +399,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     @Override
     public void onPauseFragment() {
         // TODO Auto-generated method stub
-        
+
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -409,7 +410,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     @Override
     public void onResumeFragment() {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

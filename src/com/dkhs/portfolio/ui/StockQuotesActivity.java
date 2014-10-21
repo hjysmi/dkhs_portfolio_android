@@ -40,6 +40,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
+import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -52,7 +53,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @date 2014-9-26 上午10:22:32
  * @version 1.0
  */
-public class StockQuotesActivity extends ModelAcitivity implements OnClickListener {
+public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, ITouchListener {
 
     private SelectStockBean mStockBean;
 
@@ -66,7 +67,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvChange;
     private TextView tvPercentage;
     private Button btnAddOptional;
-    private ScrollView mScrollview; // 滚动条，用于滚动到头部
+    private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
 
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
@@ -150,7 +151,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void scrollToTop() {
-        mScrollview = (ScrollView) findViewById(R.id.sc_content);
+        mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         mScrollview.smoothScrollTo(0, 0);
     }
 
@@ -180,7 +181,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(StockQuotesBean object) {
-            if (null != object ) {
+            if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
@@ -195,6 +196,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
+        mStockQuotesChartFragment.setITouchListener(this);
         fragmentList.add(mStockQuotesChartFragment);
 
         fragmentList.add(KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode));
@@ -373,6 +375,32 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         super.onDestroy();
         listener.stopRequest(true);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void chartTounching() {
+        if (mScrollview != null) {
+            mScrollview.setIsfocus(true);
+        }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loseTouching() {
+        if (mScrollview != null) {
+            mScrollview.setIsfocus(false);
+        }
+
     }
 
 }
