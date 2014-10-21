@@ -197,5 +197,5 @@
     <string name="month_top_increase">月度累计涨幅</string>
     <string name="week_top_increase">7天累计涨幅</string>
     <string name="season_top_increase">季度累计涨幅</string>
-
+	<string name="marketcenter_title">行情中心</string>
 </resources>

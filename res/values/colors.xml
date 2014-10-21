@@ -76,7 +76,7 @@
     <color name="fragment_left_list_bg">#15161a</color>
     <color name="fragment_left_list_line1">#2f3239</color>
     <color name="fragment_left_list_line2">#1e2025</color>
-
+	<color name="list_market_light_gray">#d1d1d1</color>
     <drawable name="gray">#4d4c4d</drawable>
     <drawable name="theme_color">#262932</drawable>
     <drawable name="theme_gray">#ffdddddd</drawable>
