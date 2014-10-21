@@ -9,6 +9,7 @@ import com.dkhs.portfolio.ui.widget.kline.MALineEntity;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -317,7 +318,7 @@ public class StickChart extends GridChart {
             FontMetrics fm = paint.getFontMetrics();
             int xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
 
-            canvas.drawText(text, wid, xTitleTextHeight-DEFAULT_AXIS_TITLE_SIZE, paint);
+            canvas.drawText(text, wid, xTitleTextHeight - DEFAULT_AXIS_TITLE_SIZE, paint);
             wid = wid + 2 + rect.width();
             for (int i = 0; i < lineEntity.getLineData().size(); i++) {
                 if (i != 0) {

@@ -183,10 +183,15 @@ public class KChartsFragment extends Fragment {
 	}
 
 	private void refreshVolumnCharts() {
-		List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
-		if(volumns != null && volumns.size() > 0) {
-			mVolumnChartView.setStickData(volumns);
-			mVolumnChartView.postInvalidate();		
+		try {
+			List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+			if(volumns != null && volumns.size() > 0) {
+				mVolumnChartView.setStickData(volumns);
+				mVolumnChartView.postInvalidate();		
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -196,21 +201,27 @@ public class KChartsFragment extends Fragment {
 	 * @return
 	 */
 	private List<StickEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
-		if(ohlc == null || ohlc.size() == 0) {
-			return null;
+		try {
+			if(ohlc == null || ohlc.size() == 0) {
+				return null;
+			}
+			
+			List<StickEntity> volumns = new ArrayList<StickEntity>();
+			StickEntity temp = null;
+			OHLCEntity entity = null;
+			for(int i= ohlc.size() -1; i >= 0; i--) {
+				entity = ohlc.get(i);
+				temp = new StickEntity(entity.getVolume(),0,entity.getDate());
+				temp.setUp(entity.isup());
+				volumns.add(temp);
+			}
+			
+			return volumns;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		List<StickEntity> volumns = new ArrayList<StickEntity>();
-		StickEntity temp = null;
-		OHLCEntity entity = null;
-		for(int i= ohlc.size() -1; i >= 0; i--) {
-			entity = ohlc.get(i);
-			temp = new StickEntity(entity.getVolume(),0,entity.getDate());
-			temp.setUp(entity.isup());
-			volumns.add(temp);
-		}
-		
-		return volumns;
+		return null;
 	}
 
 	/**
@@ -226,8 +237,13 @@ public class KChartsFragment extends Fragment {
 		//测试
 //		mStockCode = "SZ002252";
 		//获取K线类型，日，周，月
-		String mtype = getKLineType();
-		mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
+		try {
+			String mtype = getKLineType();
+			mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -253,8 +269,13 @@ public class KChartsFragment extends Fragment {
 
         @Override
         public void onSuccess(String result) {
-            List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-            refreshChartsView(ohlc);
+            try {
+				List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
+				refreshChartsView(ohlc);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         }
 

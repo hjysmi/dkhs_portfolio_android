@@ -476,7 +476,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         }
 
                         @Override
+                        public void onFailure(int errCode, String errMsg) {
+                            super.onFailure(errCode, errMsg);
+                            PromptManager.showToast(errMsg);
+                        };
+
+                        @Override
                         public void onSuccess(String result) {
+                            super.onSuccess(result);
                         }
 
                         @Override
