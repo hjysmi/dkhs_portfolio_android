@@ -165,6 +165,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			// 绘制点击线条及详情区域
 			Paint paint = new Paint();
 			paint.setColor(Color.LTGRAY);
+			paint.setAntiAlias(true);
 			//paint.setAlpha(150);
 			e.setLocation(startX, startX);
 			mVolumnChartView.onSet(e,ismove,mDataStartIndext);
@@ -197,6 +198,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 			textPaint.setColor(Color.BLACK);
 			textPaint.setFakeBoldText(true);
+			textPaint.setAntiAlias(true);
 			canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top
 					+ DEFAULT_AXIS_TITLE_SIZE, textPaint);
 
@@ -418,7 +420,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			float startY = 0;
 			Paint paint = new Paint();
 			paint.setColor(lineEntity.getLineColor());
-			paint.setTextSize( DEFAULT_AXIS_TITLE_SIZE);
+			paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+			paint.setAntiAlias(true);
 			text = lineEntity.getTitle() + ":" + new DecimalFormat("#.##").format(lineEntity.getLineData().get(mDataStartIndext));
 			Paint p= new Paint(); 
 			Rect rect = new Rect();

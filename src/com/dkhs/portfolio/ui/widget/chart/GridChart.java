@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 
 import android.content.Context;
@@ -621,13 +622,14 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		// �?��Paint
 		Paint mPaintFont = new Paint();
 		mPaintFont.setColor(latitudeFontColor);
-		mPaintFont.setTextSize(latitudeFontSize);
+		mPaintFont.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 		mPaintFont.setAntiAlias(true);
 		if (null != axisYTitles) {
 			int counts = axisYTitles.size();
 			float length = super.getWidth() - axisMarginLeft;
 			// 线条Paint
 			Paint mPaintLine = new Paint();
+			mPaintLine.setAntiAlias(true);
 			mPaintLine.setColor(latitudeColor);
 			if (dashLatitude) {
 				mPaintLine.setPathEffect(dashEffect);

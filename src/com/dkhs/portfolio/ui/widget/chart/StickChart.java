@@ -284,7 +284,7 @@ public class StickChart extends GridChart {
 	public void drawMA(Canvas canvas){
 		try {
 			String text = "";
-			float wid = titalWid *2;
+			float wid = titalWid *2 + 10;
 			float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/-super.getAxisMarginRight()) / maxStickDataNum) - 3;
 			for (int j = 0; j < MALineData.size(); j++) {
 				MALineEntity lineEntity = MALineData.get(j);
@@ -294,7 +294,7 @@ public class StickChart extends GridChart {
 				Paint paint = new Paint();
 				paint.setAntiAlias(true);
 				paint.setColor(lineEntity.getLineColor());
-				paint.setTextSize( DEFAULT_AXIS_TITLE_SIZE);
+				paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 				
 				float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(index)))/100;
 				if(total < 10000){
@@ -308,16 +308,16 @@ public class StickChart extends GridChart {
 				}
 				text = lineEntity.getTitle() + ":" + text;
 				Paint p= new Paint(); 
-				p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+				p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 				p.setColor(lineEntity.getLineColor());
 				Rect rect = new Rect();
 				p.getTextBounds(text, 0, text.length(), rect); 
 				if(j == 0){
 					wid = wid + 2;
 				}else{
-					wid = 2 + rect.width()/2 + wid + 5;
+					wid = rect.width()/2 + wid  -30;
 				}
-				canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
+				canvas.drawText(text, wid,getResources().getDimensionPixelOffset(R.dimen.title_text_font), paint);
 				wid = wid +  2 + rect.width() ;
 				for (int i = 0;  i < lineEntity.getLineData().size(); i++) {
 					if (i != 0) {
