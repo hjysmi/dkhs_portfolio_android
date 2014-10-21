@@ -29,6 +29,9 @@ public class PromptManager {
      * @param msg
      */
     public static void showProgressDialog(Context context, String msg) {
+        if (null != dialog && dialog.isShowing()) {
+            dialog.dismiss();
+        }
         View v = View.inflate(context, R.layout.progressbar, null);
         TextView tv = (TextView) v.findViewById(R.id.tv_desc);
         tv.setText(msg);
