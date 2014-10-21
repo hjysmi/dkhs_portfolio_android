@@ -33,6 +33,8 @@ public class StockQuotesBean {
     private long id;
     @SerializedName("buy_price_level")
     private BuyPrice buyPrice;
+    @SerializedName("abbr_name")
+    private String name;
 
     @SerializedName("sell_price_level")
     private SellPrice sellPrice;
@@ -42,15 +44,19 @@ public class StockQuotesBean {
         private List<String> buyVol;
         @SerializedName("buy_price")
         private List<String> buyPrice;
+
         public List<String> getBuyVol() {
             return buyVol;
         }
+
         public void setBuyVol(List<String> buyVol) {
             this.buyVol = buyVol;
         }
+
         public List<String> getBuyPrice() {
             return buyPrice;
         }
+
         public void setBuyPrice(List<String> buyPrice) {
             this.buyPrice = buyPrice;
         }
@@ -165,6 +171,14 @@ public class StockQuotesBean {
 
     public void setLastClose(float lastClose) {
         this.lastClose = lastClose;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
 }

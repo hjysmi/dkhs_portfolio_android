@@ -23,6 +23,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,12 +36,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.engine.MainpageEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.ui.widget.MarqueeText;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class MainFragment extends Fragment implements OnClickListener {
 
@@ -55,6 +62,12 @@ public class MainFragment extends Fragment implements OnClickListener {
     private int currentItem = 0;
 
     private GridView gvFunction;
+
+    private View viewOnecombination;
+    private View viewTwocombination;
+    private View viewAddcombination;
+
+    private MainpageEngineImpl dataEngine;
 
     // private View viewOptionalStock;
     // private View viewMyCombination;
@@ -81,6 +94,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataEngine = new MainpageEngineImpl();
 
     }
 
@@ -97,11 +111,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.btn_back).setOnClickListener(this);
 
         view.findViewById(R.id.btn_right).setOnClickListener(this);
+        // view.findViewById(R.id.iv_plus).setOnClickListener(this);
+        // view.findViewById(R.id.btn_combination_more).setOnClickListener(this);
 
         // ((TextView) view.findViewById(R.id.tv_title)).setText(R.string.portfolio_text);
 
         tvBottomText = (MarqueeText) view.findViewById(R.id.tv_bottom_text);
-        setMarqueeText();
+        // setMarqueeText();
+        dataEngine.getScrollValue(scrollDataListener);
 
         gvFunction = (GridView) view.findViewById(R.id.gv_function);
         // gvFunction.getLayoutParams().height = getResources().getDisplayMetrics().widthPixels / 3 * 2;
@@ -114,9 +131,9 @@ public class MainFragment extends Fragment implements OnClickListener {
         //
         viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
         List<Fragment> fList = new ArrayList<Fragment>();
-        fList.add(ScrollTopFragment.getInstance());
-        fList.add(ScrollTopFragment.getInstance());
-        fList.add(ScrollTopFragment.getInstance());
+        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK));
+        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH));
+        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON));
         viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
         viewPager.setOnPageChangeListener(new MyPageChangeListener());
         viewPager.setOffscreenPageLimit(3);
@@ -124,22 +141,58 @@ public class MainFragment extends Fragment implements OnClickListener {
         viewPager.setCurrentItem(1);
         viewPager.setCurrentItem(0);
 
-        // viewOptionalStock = view.findViewById(R.id.btn_optional_stoack);
-        // viewMyCombination = view.findViewById(R.id.btn_mycombina);
-        // viewStockRanking = view.findViewById(R.id.btn_stock_ranking);
-        // viewPlateRanking = view.findViewById(R.id.btn_plate_ranking);
-        // viewFundRanking = view.findViewById(R.id.btn_fund_ranking);
-        // viewPortfolioRanking = view.findViewById(R.id.btn_portfolio_ranking);
-        //
-        // viewOptionalStock.setOnClickListener(this);
-        // viewMyCombination.setOnClickListener(this);
-        // viewStockRanking.setOnClickListener(this);
-        // viewPlateRanking.setOnClickListener(this);
-        // viewFundRanking.setOnClickListener(this);
-        // viewPortfolioRanking.setOnClickListener(this);
-
         setViewLayoutParams();
+        // inflateAddLayout(view);
+        // inflateOneLayout(view);
+        inflateTwoLayout(view);
+    }
 
+    private void inflateAddLayout(View view) {
+        ViewStub viewstub = (ViewStub) view.findViewById(R.id.layout_add);
+        if (viewstub != null) {
+            viewAddcombination = viewstub.inflate();
+            viewAddcombination.findViewById(R.id.layout_add_combination).setOnClickListener(this);
+            if (null != viewOnecombination) {
+                viewOnecombination.setVisibility(View.GONE);
+            }
+            if (null != viewTwocombination) {
+                viewTwocombination.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void inflateOneLayout(View view) {
+        ViewStub viewstub = (ViewStub) view.findViewById(R.id.layout_one);
+        if (viewstub != null) {
+            viewOnecombination = viewstub.inflate();
+            viewOnecombination.findViewById(R.id.btn_combination_more).setOnClickListener(this);
+            viewOnecombination.findViewById(R.id.title_main_combination).setOnClickListener(this);
+            viewOnecombination.findViewById(R.id.layout_add_combination).setOnClickListener(this);
+            viewOnecombination.findViewById(R.id.layout_first_combination).setOnClickListener(this);
+            if (null != viewAddcombination) {
+                viewAddcombination.setVisibility(View.GONE);
+            }
+            if (null != viewTwocombination) {
+                viewTwocombination.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    private void inflateTwoLayout(View view) {
+        ViewStub viewstub = (ViewStub) view.findViewById(R.id.layout_two);
+        if (viewstub != null) {
+            viewTwocombination = viewstub.inflate();
+            viewTwocombination.findViewById(R.id.btn_combination_more).setOnClickListener(this);
+            viewTwocombination.findViewById(R.id.title_main_combination).setOnClickListener(this);
+            viewTwocombination.findViewById(R.id.layout_first_combination).setOnClickListener(this);
+            viewTwocombination.findViewById(R.id.layout_two_combination).setOnClickListener(this);
+            if (null != viewAddcombination) {
+                viewAddcombination.setVisibility(View.GONE);
+            }
+            if (null != viewOnecombination) {
+                viewOnecombination.setVisibility(View.GONE);
+            }
+        }
     }
 
     OnItemClickListener functionClick = new OnItemClickListener() {
@@ -187,16 +240,37 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
     };
 
-    private void setMarqueeText() {
+    ParseHttpListener scrollDataListener = new ParseHttpListener<List<StockQuotesBean>>() {
 
-        String szTilte = "上证指数";
-        String szCurrentValue = "2356.90";
-        String szIncrease = "+11.52";
-        String szPercentage = "+1.72%";
-        String scTilte = "深成指数";
-        String scCurrentValue = "8112.39";
-        String scIncrease = "-88.88";
-        String scPercentage = "-1.28%";
+        @Override
+        protected List<StockQuotesBean> parseDateTask(String jsonData) {
+
+            return DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<StockQuotesBean> object) {
+            if (null != object && object.size() > 1) {
+                setMarqueeText(object);
+            }
+
+        }
+    };
+
+    private void setMarqueeText(List<StockQuotesBean> stockList) {
+        // 上证指数：SH000001
+        // 深证成指：SZ399001
+        StockQuotesBean bean1 = stockList.get(0);
+        StockQuotesBean bean2 = stockList.get(1);
+        String szTilte = bean1.getName();
+        String szCurrentValue = StringFromatUtils.get2Point(bean1.getCurrent());
+        String szIncrease = StringFromatUtils.get2Point(bean1.getChange());
+        String szPercentage = StringFromatUtils.get2PointPercent(bean1.getPercentage());
+
+        String scTilte = bean2.getName();
+        String scCurrentValue = StringFromatUtils.get2Point(bean2.getCurrent());
+        String scIncrease = StringFromatUtils.get2Point(bean2.getChange());
+        String scPercentage = StringFromatUtils.get2PointPercent(bean2.getPercentage());
 
         SpannableStringBuilder sp = new SpannableStringBuilder();
         sp.append(szTilte);
@@ -233,7 +307,13 @@ public class MainFragment extends Fragment implements OnClickListener {
         startTextIndex += 1 + szIncrease.length();
         sp.setSpan(new RelativeSizeSpan(0.6f), startTextIndex, startTextIndex + szPercentage.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        sp.setSpan(redSpan, szTilte.length(), startTextIndex + szPercentage.length(),
+        ForegroundColorSpan bean1CSpan;
+        if (bean1.getPercentage() > 0) {
+            bean1CSpan = new ForegroundColorSpan(Color.RED);
+        } else {
+            bean1CSpan = new ForegroundColorSpan(Color.GREEN);
+        }
+        sp.setSpan(bean1CSpan, szTilte.length(), startTextIndex + szPercentage.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         startTextIndex += szPercentage.length() + 1;
 
@@ -244,8 +324,14 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         startTextIndex += scTilte.length() + 1;
 
-        sp.setSpan(new ForegroundColorSpan(Color.GREEN), startTextIndex, startTextIndex + scCurrentValue.length() + 1
-                + scIncrease.length() + 1 + scPercentage.length() + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ForegroundColorSpan bean2CSpan;
+        if (bean2.getPercentage() > 0) {
+            bean2CSpan = new ForegroundColorSpan(Color.RED);
+        } else {
+            bean2CSpan = new ForegroundColorSpan(Color.GREEN);
+        }
+        sp.setSpan(bean2CSpan, startTextIndex, startTextIndex + scCurrentValue.length() + 1 + scIncrease.length() + 1
+                + scPercentage.length() + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         sp.setSpan(new RelativeSizeSpan(0.6f), startTextIndex + 1 + scCurrentValue.length(), startTextIndex
                 + scCurrentValue.length() + 1 + scIncrease.length() + 1 + scPercentage.length() + 1,
@@ -260,21 +346,6 @@ public class MainFragment extends Fragment implements OnClickListener {
     private void setViewLayoutParams() {
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         viewPager.getLayoutParams().width = screenWidth / 2;
-        int viewPading = getResources().getDimensionPixelSize(R.dimen.main_page_padding);
-        int viewWidth = (screenWidth - 3 * viewPading) / 2;
-        int smallViewHeight = (viewWidth * 2 - viewPading) / 3;
-        // viewOptionalStock.getLayoutParams().width = viewWidth;
-        // viewOptionalStock.getLayoutParams().height = viewWidth;
-        // viewMyCombination.getLayoutParams().width = viewWidth;
-        // viewMyCombination.getLayoutParams().height = viewWidth;
-        //
-        // viewStockRanking.getLayoutParams().width = viewWidth;
-        // viewStockRanking.getLayoutParams().height = smallViewHeight;
-        // viewPlateRanking.getLayoutParams().width = viewWidth;
-        // viewPlateRanking.getLayoutParams().height = smallViewHeight;
-        // viewFundRanking.getLayoutParams().width = viewWidth;
-        // viewFundRanking.getLayoutParams().height = smallViewHeight;
-        // viewPortfolioRanking.getLayoutParams().height = (int) (smallViewHeight * 0.7);
     }
 
     @Override
@@ -321,15 +392,27 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
             }
                 break;
-            // case R.id.btn_mycombina: {
-            // intent = new Intent(getActivity(), MyCombinationActivity.class);
-            // }
-            // break;
-            // case R.id.btn_optional_stoack: {
-            // intent = new Intent(getActivity(), OptionalStockListActivity.class);
-            //
-            // }
-            // break;
+            case R.id.layout_add_combination: {
+
+                intent = PositionAdjustActivity.newIntent(getActivity(), null);
+            }
+                break;
+            case R.id.layout_first_combination: {
+
+                PromptManager.showToastTest("进入第一个组合");
+            }
+                break;
+            case R.id.layout_two_combination: {
+                PromptManager.showToastTest("进入第二个组合");
+
+            }
+                break;
+            case R.id.btn_combination_more:
+            case R.id.title_main_combination: {
+                intent = new Intent(getActivity(), MyCombinationActivity.class);
+
+            }
+                break;
             default:
                 break;
         }

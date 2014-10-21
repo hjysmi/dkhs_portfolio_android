@@ -90,6 +90,10 @@ public class TimeUtils {
         return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
 
     }
+    public static String getHourString(String iso8601Time) {
+        return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
+        
+    }
 
     public static String getTimeString(Calendar calendar) {
         return ACCEPTED_TIMESTAMP_FORMATS[7].format(calendar.getTime());
