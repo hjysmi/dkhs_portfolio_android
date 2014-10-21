@@ -98,7 +98,7 @@
     <string name="my_config">我的配置</string>
     <string name="add_postional">添加个股</string>
     <string name="confirm_adjust">确定</string>
-    <string name="today_netvalue">当日净值  </string>
+    <string name="today_netvalue">当前净值  </string>
     <string name="create_time">成立时间 </string>
     <string name="create_time_format">成立时间 :%1$s</string>
     <string name="descrition_format">简介:%1$s</string>
@@ -118,10 +118,11 @@
     <string name="positions">持仓</string>
     <string name="referto">参照</string>
     <string name="rise_range">涨幅榜</string>
+    <string name="rise_value">涨幅</string>
     <string name="drop_range">跌幅榜</string>
     <string name="delete_fllow">取消自选</string>
     <string name="add_fllow">加入自选</string>
-    <string name="turnover">换手榜</string>
+    <string name="turnover">换手率</string>
     <string name="start_netvalue">起始：</string>
     <string name="end_netvalue">结束：</string>
     <string name="netvalue_up">净值增长：</string>
@@ -184,5 +185,11 @@
     <string name="setting_string_exit">退出账户</string>
     <string name="sell">卖</string>
     <string name="buy">买</string>
+    <string name="function_ace">牛人</string>
+    <string name="function_optional">自选股</string>
+    <string name="function_notice">公告</string>
+    <string name="function_report">研报</string>
+    <string name="function_meeting">云会议</string>
+    <string name="function_news">海外资讯</string>
 
 </resources>

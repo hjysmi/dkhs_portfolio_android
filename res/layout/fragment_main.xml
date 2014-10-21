@@ -8,7 +8,7 @@
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/theme_color" >
+        android:background="@color/title_color" >
 
         <ImageButton
             android:id="@+id/btn_back"
@@ -19,13 +19,12 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/nav_left_main_selector" />
 
-        <TextView
+        <ImageView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:src="@drawable/slogen" />
 
         <ImageButton
             android:id="@+id/btn_right"
@@ -37,155 +36,85 @@
             android:background="@drawable/nav_right_main_selector" />
     </RelativeLayout>
 
-    <ScrollView
+    <com.dkhs.portfolio.ui.widget.MarqueeText
+        android:id="@+id/tv_bottom_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="@color/theme_color"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textSize="26sp" />
+
+    <GridView
+        android:id="@+id/gv_function"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_bottom_text"
+        android:listSelector="@drawable/transparent"
+        android:numColumns="3" />
+
+    <View
+        android:id="@+id/dline1"
+        style="@style/divider_line"
+        android:layout_above="@+id/gv_function"
+        android:layout_marginBottom="5dp" />
+
+    <RelativeLayout
+        android:id="@+id/slide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/billboard_height"
+        android:layout_below="@+id/layout_title"
+        android:background="@drawable/slide" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_billboard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10.0dip"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/layout_title" >
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/slide_layout"
+        android:gravity="center" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+        <ImageButton
+            android:id="@+id/iv_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/bg_main_plus_selector" />
 
-            <include
-                android:id="@+id/layout_billboard"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/billboard_height"
-                layout="@layout/layout_roll_billboard" />
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_below="@+id/layout_billboard"
-                android:padding="@dimen/main_page_padding" >
-
-                <RelativeLayout
-                    android:id="@+id/btn_optional_stoack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/main_optional_stock_selector" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_page_padding"
-                        android:background="@drawable/tv_optional_stock" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_optional_stock" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/btn_mycombina"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_optional_stoack"
-                    android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@drawable/main_mycombination_selector" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_page_padding"
-                        android:background="@drawable/tv_my_combination" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_my_combination" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/btn_stock_ranking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/main_page_padding"
-                    android:layout_toRightOf="@+id/btn_optional_stoack"
-                    android:background="@drawable/main_stock_ranking_selector" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_page_padding"
-                        android:background="@drawable/tv_stock_ranking" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_main_stock" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/btn_plate_ranking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/btn_stock_ranking"
-                    android:layout_below="@+id/btn_stock_ranking"
-                    android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@drawable/main_plate_ranking_selector" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_page_padding"
-                        android:background="@drawable/tv_plate_ranking" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_main_plate" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/btn_fund_ranking"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/btn_stock_ranking"
-                    android:layout_below="@+id/btn_plate_ranking"
-                    android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@drawable/main_fund_ranking_selector" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/main_page_padding"
-                        android:background="@drawable/tv_fund_ranking" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_main_funds" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/btn_portfolio_ranking"
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_below="@+id/btn_mycombina"
-                    android:layout_marginTop="@dimen/main_page_padding"
-                    android:background="@drawable/main_portfolio_ranking_selector" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="@dimen/main_page_padding"
-                        android:background="@drawable/tv_main_portfolio" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@drawable/ic_main_portfolio" />
-                </RelativeLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-    </ScrollView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_plus"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:text="创建我的基金"
+            android:textColor="@color/blue"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

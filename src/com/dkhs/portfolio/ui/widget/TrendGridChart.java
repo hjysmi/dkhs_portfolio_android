@@ -18,6 +18,7 @@ import android.graphics.Rect;
 import android.os.Environment;
 import android.provider.MediaStore.Images;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -1078,6 +1079,28 @@ public class TrendGridChart extends View {
     // public void setTouch(boolean isTouch) {
     // this.isTouch = isTouch;
     // }
+
+    // private boolean isIntercept = false;
+    //
+    // /**
+    // *
+    // * @param isfocus true的时候表示拦截当前事件，不继续往下分发，交给自身的onTouchEvent进行处理。
+    // * false则不拦截，继续往下传，让子控件来处理。
+    // */
+    // public synchronized void setIsfocus(boolean isfocus) {
+    // this.isIntercept = isfocus;
+    // }
+    //
+    // @Override
+    // public boolean dispatchTouchEvent(MotionEvent event) {
+    // // TODO Auto-generated method stub
+    // // return super.dispatchTouchEvent(event);
+    // return true;
+    // }
+    //
+    
+    
+    
 
     public boolean isDrawXBorke() {
         return isDrawXBorke;

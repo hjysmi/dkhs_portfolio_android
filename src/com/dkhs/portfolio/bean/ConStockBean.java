@@ -27,6 +27,8 @@ public class ConStockBean extends StockBean implements Serializable {
     protected int dutyColor;
     protected float currentValue;
     protected float increaseValue;
+    @SerializedName("increase_percent")
+    protected float increasePercent;
 
     /**
      * @Title
@@ -110,6 +112,14 @@ public class ConStockBean extends StockBean implements Serializable {
         this.dutyValue = (int) (percent * 100);
         this.percent = percent;
 
+    }
+
+    public float getIncreasePercent() {
+        return increasePercent;
+    }
+
+    public void setIncreasePercent(float increasePercent) {
+        this.increasePercent = increasePercent;
     }
     
     

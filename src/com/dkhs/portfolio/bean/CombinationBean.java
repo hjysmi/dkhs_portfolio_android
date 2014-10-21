@@ -28,6 +28,8 @@ public class CombinationBean implements Serializable {
     private float percent;
     @SerializedName("cumulative")
     private float addUpValue;
+    @SerializedName("net_value")
+    private float netvalue;
     @SerializedName("created_at")
     private String createTime;
 
@@ -99,6 +101,14 @@ public class CombinationBean implements Serializable {
 
     public void setCreateTime(String createTime) {
         this.createTime = createTime;
+    }
+
+    public float getNetvalue() {
+        return netvalue;
+    }
+
+    public void setNetvalue(float netvalue) {
+        this.netvalue = netvalue;
     }
 
 }

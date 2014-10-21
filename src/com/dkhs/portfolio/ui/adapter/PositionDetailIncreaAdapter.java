@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName OptionalStockAdapter
@@ -95,6 +96,8 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
             viewHolder.tvRightValue.setVisibility(View.VISIBLE);
             viewHolder.tvStockCode.setText(item.getStockCode());
             viewHolder.tvStockName.setText(item.getStockName());
+            viewHolder.tvRightValue.setTextColor(ColorTemplate.getUpOrDrownCSL(item.getIncreasePercent()));
+            viewHolder.tvRightValue.setText(StringFromatUtils.get2PointPercent(item.getIncreasePercent()));
         }
 
         return convertView;

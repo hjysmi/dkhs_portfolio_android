@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.dkhs.portfolio.ui.widget.InterceptScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/sc_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -30,12 +30,13 @@
             android:id="@+id/pager"
             android:layout_width="fill_parent"
             android:layout_height="250dp" />
-        
-          <!-- 底部资讯 -->
-        <fragment 
+
+        <!-- 底部资讯 -->
+
+        <fragment
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            class="com.dkhs.portfolio.ui.fragment.NewsFragment"/>
+            class="com.dkhs.portfolio.ui.fragment.NewsFragment" />
     </LinearLayout>
 
-</ScrollView>
+</com.dkhs.portfolio.ui.widget.InterceptScrollView>
