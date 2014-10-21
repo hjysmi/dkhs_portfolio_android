@@ -432,7 +432,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             combinationName = etConbinationName.getText().toString();
         }
         if (TextUtils.isEmpty(combinationName)) {
-            PromptManager.showToast("组合名称不能为空");
+            PromptManager.showToast("基金名称不能为空");
         }
 
         String combinationDesc = "";

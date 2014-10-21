@@ -92,7 +92,7 @@ public class FragmentReportForm extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_report_form, null);
         initView(view);
-        
+
         System.out.println("onCreateView");
         return view;
     }
@@ -102,8 +102,8 @@ public class FragmentReportForm extends Fragment {
         mListView.setAdapter(mAdapter);
 
     }
-    
-    /**  
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param activity
@@ -116,7 +116,7 @@ public class FragmentReportForm extends Fragment {
         System.out.println("OnAttach");
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -126,8 +126,9 @@ public class FragmentReportForm extends Fragment {
         // TODO Auto-generated method stub
         super.onStart();
         System.out.println("onStart");
-   
+
     }
+
     private void loadData() {
         if (!TextUtils.isEmpty(trendType)) {
             if (trendType.equals(TrendChartFragment.TREND_TYPE_SEVENDAY)) {
@@ -144,7 +145,8 @@ public class FragmentReportForm extends Fragment {
 
         @Override
         public void loadFinish(MoreDataBean object) {
-
+            if (null != mReportList)
+                mReportList.clear();
             List<NetValueReportBean> reportList = object.getResults();
             if (null != reportList) {
                 mReportList.addAll(reportList);
