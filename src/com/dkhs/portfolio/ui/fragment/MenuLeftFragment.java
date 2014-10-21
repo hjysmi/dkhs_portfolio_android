@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -119,10 +120,13 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 						.findViewById(R.id.left_menu_item_text);
 				holder.ivItemIcon = (ImageView) convertView
 						.findViewById(R.id.left_menu_item_img);
-
+				holder.layoutLine = (LinearLayout) convertView.findViewById(R.id.left_menu_layout_line);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
+			}
+			if(position == 2 || position == 4 || position == 7){
+				holder.layoutLine.setVisibility(View.VISIBLE);
 			}
 			holder.tvItemName.setText(items[position]);
 			int id = getResources().getIdentifier(
@@ -136,9 +140,15 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 		class ViewHolder {
 			TextView tvItemName;
 			ImageView ivItemIcon;
-
+			LinearLayout layoutLine;
 		}
 	}
+	/**
+	 * 选项监听
+	 * 用于跳转至各个界面
+	 * @author weiting
+	 *
+	 */
 	class OnMyItemListener implements OnClickListener{
 		int position;
 		public OnMyItemListener(int position){
@@ -150,18 +160,30 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 			// TODO Auto-generated method stub
 			switch (position) {
 			case 0:
-				
-				break;
-			case 1:
-				Intent intent = new Intent(getActivity(),OptionalStockListActivity.class);
-				startActivity(intent);
-				break;
-			case 2:
 				Intent intentForCom = new Intent(getActivity(),MyCombinationActivity.class);
 				startActivity(intentForCom);
 				break;
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
 			case 3:
-	
+				Intent intent = new Intent(getActivity(),OptionalStockListActivity.class);
+				startActivity(intent);
+				break;
+			case 4:
+				
+				break;
+			case 5:
+				
+				break;
+			case 6:
+				
+				break;
+			case 7:
+				
 				break;
 			default:
 				break;
