@@ -26,10 +26,12 @@
         android:textSize="16sp" />
 
     <TextView
+        android:id="@+id/tv_increase_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_top_value"
         android:layout_centerHorizontal="true"
+        android:drawableLeft="@drawable/ic_growup"
         android:text="月度累计涨幅"
         android:textColor="@color/white"
         android:textSize="16sp" />

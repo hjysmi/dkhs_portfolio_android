@@ -114,9 +114,9 @@ public class MainFragment extends Fragment implements OnClickListener {
         //
         viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
         List<Fragment> fList = new ArrayList<Fragment>();
-        fList.add(ScrollTopFragment.getInstance());
-        fList.add(ScrollTopFragment.getInstance());
-        fList.add(ScrollTopFragment.getInstance());
+        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK));
+        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH));
+        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON));
         viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
         viewPager.setOnPageChangeListener(new MyPageChangeListener());
         viewPager.setOffscreenPageLimit(3);
