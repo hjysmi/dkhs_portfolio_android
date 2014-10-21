@@ -140,7 +140,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         AdjustListBean item = mDataList.get(position);
-        viewHolder.tvAdjustTime.setText(TimeUtils.getSimpleFormatTime(item.time));
+        viewHolder.tvAdjustTime.setText(TimeUtils.getHourString(item.time));
         viewHolder.tvAdjustContent.setText(item.content);
         // viewHolder.colorView.setBackgroundColor(item.getDutyColor());
 

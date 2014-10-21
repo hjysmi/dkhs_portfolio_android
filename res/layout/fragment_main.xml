@@ -92,29 +92,28 @@
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <ViewStub
+        android:id="@+id/layout_add"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/dline1"
         android:layout_below="@+id/slide_layout"
-        android:gravity="center" >
+        android:layout="@layout/layout_mian_add" />
 
-        <ImageButton
-            android:id="@+id/iv_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/bg_main_plus_selector" />
+    <ViewStub
+        android:id="@+id/layout_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/slide_layout"
+        android:layout="@layout/layout_one_combination" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_plus"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="4dp"
-            android:text="创建我的基金"
-            android:textColor="@color/blue"
-            android:textSize="18sp" />
-    </RelativeLayout>
+    <ViewStub
+        android:id="@+id/layout_two"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/slide_layout"
+        android:layout="@layout/layout_two_combination" />
 
 </RelativeLayout>

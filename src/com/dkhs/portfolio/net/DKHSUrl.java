@@ -17,10 +17,8 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-
     // public static final String BASE_URL = "http://192.168.107.251:8010";
     public static final String BASE_URL = "http://58.23.5.117:8030";
-
 
     public interface Portfolio {
         // 查询我的组合
@@ -107,6 +105,10 @@ public class DKHSUrl {
         // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
 
+    }
+
+    public interface MainPage {
+        String zhishu = "/api/v1/symbols/{0}/quote/";
     }
 
 }
