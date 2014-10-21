@@ -14,7 +14,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Paint.FontMetrics;
 import android.util.AttributeSet;
 
 public class StickChart extends GridChart {
@@ -239,102 +238,110 @@ public class StickChart extends GridChart {
      */
     protected void drawSticks(Canvas canvas) {
         // 初始化颜色 linbing
-        stickFillColorUp = Color.RED;
-        stickFillColorDown = getResources().getColor(R.color.dark_green);
+        try {
+            stickFillColorUp = Color.RED;
+            stickFillColorDown = getResources().getColor(R.color.dark_green);
 
-        // 蜡烛棒宽度
-        float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / maxStickDataNum) - 3;
-        // 蜡烛棒起始绘制位置
-        float stickX = /* super.getAxisMarginLeft() + */3;
+            // 蜡烛棒宽度
+            float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / maxStickDataNum) - 3;
+            // 蜡烛棒起始绘制位置
+            float stickX = /* super.getAxisMarginLeft() + */3;
 
-        Paint mPaintStick = new Paint();
-        drawMA(canvas);
-        if (null != StickData) {
+            Paint mPaintStick = new Paint();
+            drawMA(canvas);
+            if (null != StickData) {
 
-            // 判断显示为方柱或显示为线条
-            for (int i = 0; i < StickData.size(); i++) {
-                StickEntity ohlc = StickData.get(i);
+                // 判断显示为方柱或显示为线条
+                for (int i = 0; i < StickData.size(); i++) {
+                    StickEntity ohlc = StickData.get(i);
 
-                if (ohlc.isUp()) {
-                    mPaintStick.setColor(stickFillColorUp);
-                } else {
-                    mPaintStick.setColor(stickFillColorDown);
+                    if (ohlc.isUp()) {
+                        mPaintStick.setColor(stickFillColorUp);
+                    } else {
+                        mPaintStick.setColor(stickFillColorDown);
+                    }
+                    float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
+                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                            .getAxisMarginTop());
+                    float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
+                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                            .getAxisMarginTop());
+
+                    // 绘制数据?��?据宽度判断绘制直线或方柱
+                    if (stickWidth >= 2f) {
+                        canvas.drawRect(stickX, highY + mTitleHeight, stickX + stickWidth, lowY + mTitleHeight,
+                                mPaintStick);
+                    } else {
+                        canvas.drawLine(stickX, highY + mTitleHeight, stickX, lowY + mTitleHeight, mPaintStick);
+                    }
+
+                    // X位移
+                    stickX = stickX + 3 + stickWidth;
                 }
-                float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
-                        * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop());
-                float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
-                        * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop());
-
-                // 绘制数据?��?据宽度判断绘制直线或方柱
-                if (stickWidth >= 2f) {
-                    canvas.drawRect(stickX, highY + mTitleHeight, stickX + stickWidth, lowY + mTitleHeight, mPaintStick);
-                } else {
-                    canvas.drawLine(stickX, highY + mTitleHeight, stickX, lowY + mTitleHeight, mPaintStick);
-                }
-
-                // X位移
-                stickX = stickX + 3 + stickWidth;
             }
+        } catch (NotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
     public void drawMA(Canvas canvas) {
-        String text = "";
-        float wid = titalWid * 2;
-        float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / maxStickDataNum) - 3;
-        for (int j = 0; j < MALineData.size(); j++) {
-            MALineEntity lineEntity = MALineData.get(j);
+        try {
+            String text = "";
+            float wid = titalWid * 2 + 10;
+            float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / maxStickDataNum) - 3;
+            for (int j = 0; j < MALineData.size(); j++) {
+                MALineEntity lineEntity = MALineData.get(j);
 
-            float startX = -stickWidth / 2 - 3;
-            float startY = 0;
-            Paint paint = new Paint();
-            paint.setAntiAlias(true);
-            paint.setColor(lineEntity.getLineColor());
-            paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-            // paint.setTextSize( DEFAULT_AXIS_TITLE_SIZE);
+                float startX = -stickWidth / 2 - 3;
+                float startY = 0;
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+                paint.setColor(lineEntity.getLineColor());
+                paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 
-            float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(index))) / 100;
-            if (total < 10000) {
-                text = new DecimalFormat("#.##").format(total);
-            } else if (total > 10000 && total < 10000000) {
-                total = total / 10000;
-                text = new DecimalFormat("#.##").format(total) + "万";
-            } else {
-                total = total / 10000000;
-                text = new DecimalFormat("#.##").format(total) + "千万";
-            }
-            text = lineEntity.getTitle() + ":" + text;
-            Paint p = new Paint();
-            p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-            p.setColor(lineEntity.getLineColor());
-            Rect rect = new Rect();
-            p.getTextBounds(text, 0, text.length(), rect);
-            if (j == 0) {
-                wid = wid + 2;
-            } else {
-                wid = 2 + rect.width() / 2 + wid + 5;
-            }
-
-            FontMetrics fm = paint.getFontMetrics();
-            int xTitleTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-
-            canvas.drawText(text, wid, xTitleTextHeight - DEFAULT_AXIS_TITLE_SIZE, paint);
-            wid = wid + 2 + rect.width();
-            for (int i = 0; i < lineEntity.getLineData().size(); i++) {
-                if (i != 0) {
-                    canvas.drawLine(
-                            startX,
-                            startY,
-                            startX + 3 + stickWidth,
-                            (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
-                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                        .getAxisMarginTop()) + mTitleHeight, paint);
+                float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(index))) / 100;
+                if (total < 10000) {
+                    text = new DecimalFormat("#.##").format(total);
+                } else if (total > 10000 && total < 10000000) {
+                    total = total / 10000;
+                    text = new DecimalFormat("#.##").format(total) + "万";
+                } else {
+                    total = total / 10000000;
+                    text = new DecimalFormat("#.##").format(total) + "千万";
                 }
-                startX = startX + 3 + stickWidth;
-                startY = (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
-                        * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop())
-                        + mTitleHeight;
+                text = lineEntity.getTitle() + ":" + text;
+                Paint p = new Paint();
+                p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                p.setColor(lineEntity.getLineColor());
+                Rect rect = new Rect();
+                p.getTextBounds(text, 0, text.length(), rect);
+                if (j == 0) {
+                    wid = wid + 2;
+                } else {
+                    wid = rect.width() / 2 + wid - 30;
+                }
+                canvas.drawText(text, wid, getResources().getDimensionPixelOffset(R.dimen.title_text_font), paint);
+                wid = wid + 2 + rect.width();
+                for (int i = 0; i < lineEntity.getLineData().size(); i++) {
+                    if (i != 0) {
+                        canvas.drawLine(
+                                startX,
+                                startY,
+                                startX + 3 + stickWidth,
+                                (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
+                                        * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                            .getAxisMarginTop()) + mTitleHeight, paint);
+                    }
+                    startX = startX + 3 + stickWidth;
+                    startY = (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
+                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                .getAxisMarginTop()) + mTitleHeight;
+                }
             }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
