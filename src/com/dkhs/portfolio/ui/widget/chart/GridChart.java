@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.widget.chart;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,7 +84,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 
 	/** 默认经线刻度字体颜色 **/
 	private int DEFAULT_LONGTITUDE_FONT_SIZE = 12;
-
+	/** 默认XY轴字体大小 **/
+	public static int DEFAULT_AXIS_TITLE_SIZE = 12;
 	/** 默认经线刻度字体颜色 **/
 	private int DEFAULT_LATITUDE_FONT_COLOR = Color.RED;;
 
@@ -202,10 +204,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	
 	/** 标题高度 */
 	public static final int DEFAULT_TITLE_HEIGHT = 14;
+	/**当前第一个蜡烛所在列表中的位置*/
+	public static int index;
 	
 	protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; //标题的高度
 	private boolean ismove ;
-
+	public static float titalWid = 0;
 	// ////////////�??方�?//////////////
 	public GridChart(Context context) {
 		super(context);
@@ -299,11 +303,11 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			Rect previouslyFocusedRect) {
 		super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
 	}
-	public void onSet(MotionEvent event,boolean ismove){
+	public void onSet(MotionEvent event,boolean ismove,int index){
 		this.ismove = ismove;
 		clickPostX = event.getX();
 		clickPostY = event.getY();
-		
+		this.index = index;
 		PointF point = new PointF(clickPostX,clickPostY);
 		touchPoint = point;
 		// super.invalidate();
@@ -475,7 +479,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			if (clickPostX > 0 && clickPostY > 0) {
 				// 显示纵线
 				if (displayCrossXOnTouch) {
-					canvas.drawLine(clickPostX, 1f + mTitleHeight, clickPostX, lineVLength,
+					canvas.drawLine(clickPostX, 2f + mTitleHeight, clickPostX, lineVLength,
 									mPaint);
 				}
 	
@@ -583,11 +587,19 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 					// 绘制刻度
 					if (displayAxisXTitle) {
 //						if (i < counts && i > 0) {
+						if(i == 0){
+							canvas.drawText(axisXTitles.get(i), 
+									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal), super
+									.getHeight()
+									- axisMarginBottom + longtitudeFontSize,
+									mPaintFont);
+						}else if( i == axisXTitles.size() -1){
 							canvas.drawText(axisXTitles.get(i), 
 									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + axisMarginLeft, super
 									.getHeight()
 									- axisMarginBottom + longtitudeFontSize,
 									mPaintFont);
+						}
 //						} else if (0 == i) {
 //							canvas.drawText(axisXTitles.get(i),
 //									this.axisMarginLeft + 2f, super.getHeight()
@@ -638,8 +650,23 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 					// 绘制刻度
 					if (displayAxisYTitle) {
 						if(counts == 2 && i == counts -1) {
-							canvas.drawText(axisYTitles.get(i), 0f, mTitleHeight,
+							String totals = "";
+							float total = Float.parseFloat(axisYTitles.get(i))/100;
+							if(total < 10000){
+								totals = new DecimalFormat("#.##").format(total);
+							}else if(total > 10000 && total < 10000000){
+								total = total/10000;
+								totals = new DecimalFormat("#.##").format(total) + "万";
+							}else{
+								total = total/10000000;
+								totals = new DecimalFormat("#.##").format(total) + "千万";
+							}
+							canvas.drawText( totals, 0f, mTitleHeight,
 									mPaintFont);
+							Paint p= new Paint(); 
+							Rect rect = new Rect();
+							p.getTextBounds(totals, 0, totals.length(), rect); 
+							titalWid = rect.width();
 						}else {
 							if (i < counts && i > 0) {
 								canvas.drawText(axisYTitles.get(i), 0f, offset - i

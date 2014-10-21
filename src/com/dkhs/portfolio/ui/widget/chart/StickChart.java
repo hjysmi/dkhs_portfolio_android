@@ -1,14 +1,18 @@
 package com.dkhs.portfolio.ui.widget.chart;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.kline.MALineEntity;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 
 public class StickChart extends GridChart {
@@ -54,6 +58,8 @@ public class StickChart extends GridChart {
 
 	/** K线显示�?��价格 */
 	protected float minValue;	
+	/** MA数据 */
+	private List<MALineEntity> MALineData;
 	
 	/////////////////�??函数///////////////
 
@@ -233,12 +239,12 @@ public class StickChart extends GridChart {
 		stickFillColorDown = getResources().getColor(R.color.dark_green);
 		
 		// 蜡烛棒宽度
-		float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/-super.getAxisMarginRight()) / maxStickDataNum) - 1;
+		float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/-super.getAxisMarginRight()) / maxStickDataNum) - 3;
 		// 蜡烛棒起始绘制位置
-		float stickX = /*super.getAxisMarginLeft() +*/ 1;
+		float stickX = /*super.getAxisMarginLeft() +*/ 3;
 
 		Paint mPaintStick = new Paint();
-
+		drawMA(canvas);
 		if(null != StickData){
 			
 			//判断显示为方柱或显示为线条
@@ -250,7 +256,6 @@ public class StickChart extends GridChart {
 				}else {
 					mPaintStick.setColor(stickFillColorDown);
 				}
-				float y = (float) ((super.getHeight()-mTitleHeight) * (ohlc.getHigh()/maxValue));
 				float highY = (float) ((1f - (ohlc.getHigh() - minValue)
 						/ (maxValue - minValue)) * (super.getHeight() - super
 						.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop());
@@ -266,11 +271,63 @@ public class StickChart extends GridChart {
 				}
 				
 				//X位移
-				stickX = stickX + 1 + stickWidth;
+				stickX = stickX + 3 + stickWidth;
 			}
 		}
 	}
-	
+	public void drawMA(Canvas canvas){
+		String text = "";
+		float wid = titalWid *2;
+		float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/-super.getAxisMarginRight()) / maxStickDataNum) - 3;
+		for (int j = 0; j < MALineData.size(); j++) {
+			MALineEntity lineEntity = MALineData.get(j);
+
+			float startX = -stickWidth/2 -3;
+			float startY = 0;
+			Paint paint = new Paint();
+			paint.setAntiAlias(true);
+			paint.setColor(lineEntity.getLineColor());
+			paint.setTextSize( DEFAULT_AXIS_TITLE_SIZE);
+			
+			float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(index)))/100;
+			if(total < 10000){
+				text = new DecimalFormat("#.##").format(total);
+			}else if(total > 10000 && total < 10000000){
+				total = total/10000;
+				text = new DecimalFormat("#.##").format(total) + "万";
+			}else{
+				total = total/10000000;
+				text = new DecimalFormat("#.##").format(total) + "千万";
+			}
+			text = lineEntity.getTitle() + ":" + text;
+			Paint p= new Paint(); 
+			p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+			p.setColor(lineEntity.getLineColor());
+			Rect rect = new Rect();
+			p.getTextBounds(text, 0, text.length(), rect); 
+			if(j == 0){
+				wid = wid + 2;
+			}else{
+				wid = 2 + rect.width()/2 + wid + 5;
+			}
+			canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
+			wid = wid +  2 + rect.width() ;
+			for (int i = 0;  i < lineEntity.getLineData().size(); i++) {
+				if (i != 0) {
+					canvas.drawLine(
+							startX,
+							startY,
+							startX + 3 + stickWidth,
+							(float) ((1f - (lineEntity.getLineData().get(i) - minValue)/ (maxValue - minValue)) * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop()) + mTitleHeight,
+							paint);
+				}
+				startX = startX + 3 + stickWidth;
+				startY = (float) ((1f - (lineEntity.getLineData().get(i) - minValue)
+						/ (maxValue - minValue)) * (super.getHeight() - super
+						.getAxisMarginBottom() - mTitleHeight) - super.getAxisMarginTop()) + mTitleHeight;
+			}
+		}
+	}
 	//Push数据绘制K线图
 	public void pushData(StickEntity entity){
 		if(null != entity){
@@ -303,7 +360,61 @@ public class StickChart extends GridChart {
 			}
 		}
 	}
-	
+	private void initMALineData() {
+		MALineEntity MA5 = new MALineEntity();
+		MA5.setTitle("MA5");
+		MA5.setLineColor(Color.GRAY);
+		MA5.setLineData(initMA(StickData, 5));
+
+		MALineEntity MA10 = new MALineEntity();
+		MA10.setTitle("MA10");
+		MA10.setLineColor(Color.YELLOW);
+		MA10.setLineData(initMA(StickData, 10));
+
+		MALineEntity MA20 = new MALineEntity();
+		MA20.setTitle("MA20");
+		MA20.setLineColor(Color.rgb(139, 0, 225));
+		MA20.setLineData(initMA(StickData, 20));
+
+		MALineData = new ArrayList<MALineEntity>();
+		MALineData.add(MA5);
+		MALineData.add(MA10);
+		MALineData.add(MA20);
+
+	}
+	/**
+	 * 初始化MA值，从数组的最后一个数据开始初始化
+	 * 
+	 * @param entityList
+	 * @param days
+	 * @return
+	 */
+	private List<Float> initMA(List<StickEntity> entityList, int days) {
+		if (days < 2 || entityList == null || entityList.size() <= 0) {
+			return null;
+		}
+		List<Float> MAValues = new ArrayList<Float>();
+
+		float sum = 0;
+		float avg = 0;
+		for (int i = entityList.size() - 1; i >= 0; i--) {
+			float close = (float) entityList.get(i).getHigh();
+			if (i > entityList.size() - days) {
+				sum = sum + close;
+				avg = sum / (entityList.size() - i);
+			} else {
+				sum = close + avg * (days - 1);
+				avg = sum / days;
+			}
+			MAValues.add(avg);
+		}
+
+		List<Float> result = new ArrayList<Float>();
+		for (int j = MAValues.size() - 1; j >= 0; j--) {
+			result.add(MAValues.get(j));
+		}
+		return result;
+	}
 	//////////////属�?GetterSetter/////////////////
 	
 	public List<StickEntity> getStickData() {
@@ -318,6 +429,7 @@ public class StickChart extends GridChart {
 		for(StickEntity e :stickData){
 			addData(e);
 		}
+		initMALineData();
 	}
 
 	public int getLatitudeNum() {
