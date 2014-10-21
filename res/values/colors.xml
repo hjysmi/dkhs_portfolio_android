@@ -71,6 +71,9 @@
     <color name="person_setting_line">#cdcdcd</color>
     <color name="person_setting_phonecolor">#7f7f7f</color>
     <color name="setting_public_explan">#d8d8d8</color>
+    <color name="fragment_left_list_bg">#15161a</color>
+    <color name="fragment_left_list_line1">#2f3239</color>
+    <color name="fragment_left_list_line2">#1e2025</color>
 
     <drawable name="gray">#4d4c4d</drawable>
     <drawable name="theme_color">#262932</drawable>
