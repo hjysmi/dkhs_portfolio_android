@@ -191,5 +191,5 @@
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外资讯</string>
-
+	<string name="marketcenter_title">行情中心</string>
 </resources>
