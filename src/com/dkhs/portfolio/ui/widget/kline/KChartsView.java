@@ -126,10 +126,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		if (mOHLCData == null || mOHLCData.size() <= 0) {
 			return;
 		}
-		drawUpperRegion(canvas);
-		drawLowerRegion(canvas);
-		drawTitles(canvas);
-		drawCandleDetails(canvas);
+		try {
+			drawUpperRegion(canvas);
+			drawLowerRegion(canvas);
+			drawTitles(canvas);
+			drawCandleDetails(canvas);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 
