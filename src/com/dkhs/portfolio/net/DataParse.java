@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
@@ -149,6 +150,28 @@ public class DataParse<T> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return Collections.emptyList();
+    }
+
+    /**
+     * 将JSONArray解析为 List数据
+     * 
+     * @param clazz
+     * @param jsonObj
+     * @param key
+     * @return
+     */
+    public static <K> List<K> parseArrayJson(Class<K> clazz, String arrayJson) {
+
+        try {
+            JSONArray array = new JSONArray(arrayJson);
+            return parseArrayJson(clazz, array);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // }
         return Collections.emptyList();
     }
 

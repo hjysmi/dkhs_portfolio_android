@@ -432,7 +432,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             combinationName = etConbinationName.getText().toString();
         }
         if (TextUtils.isEmpty(combinationName)) {
-            PromptManager.showToast("组合名称不能为空");
+            PromptManager.showToast("基金名称不能为空");
         }
 
         String combinationDesc = "";
@@ -476,7 +476,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         }
 
                         @Override
+                        public void onFailure(int errCode, String errMsg) {
+                            super.onFailure(errCode, errMsg);
+                            PromptManager.showToast(errMsg);
+                        };
+
+                        @Override
                         public void onSuccess(String result) {
+                            super.onSuccess(result);
                         }
 
                         @Override

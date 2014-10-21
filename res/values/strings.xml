@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Portfolio</string>
+    <string name="app_name">谁牛</string>
     <string name="setting">设置</string>
     <string name="release_to_refresh">松开刷新</string>
     <string name="pull_to_refresh">下拉刷新</string>
@@ -71,8 +71,8 @@
     <string name="login_title">多块好省登录</string>
     <string name="noaccout">还没有账号?</string>
     <string name="find_passwrod">找回密码</string>
-    <string name="portfolio_text">投资组合</string>
-    <string name="combin">组合：%1$d</string>
+    <string name="portfolio_text">投资基金</string>
+    <string name="combin">基金：%1$d</string>
     <string name="optional_stock_format">自选股：%1$d</string>
     <string name="optional_stock">自选股</string>
     <string name="add_optional_stock">添加自选股</string>
@@ -81,19 +81,19 @@
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
     <string name="more">更多</string>
-    <string name="portfolio_position">持仓组合</string>
+    <string name="portfolio_position">持仓基金</string>
     <string name="duty_percent">%1$d&#037;</string>
     <string name="my_combination">我的基金</string>
     <string name="desc_format">描述：%1$s</string>
     <string name="current">当前：</string>
     <string name="add_up">累计：</string>
-    <string name="create_combination">创建组合</string>
-    <string name="adjust_combination">调整组合</string>
-    <string name="add_combination">添加组合</string>
-    <string name="del_combination">删除组合</string>
+    <string name="create_combination">创建基金</string>
+    <string name="adjust_combination">调整基金</string>
+    <string name="add_combination">添加基金</string>
+    <string name="del_combination">删除基金</string>
     <string name="quotes_format">(%1$s)</string>
-    <string name="combination_name">组合名称</string>
-    <string name="combination_desc">组合描述</string>
+    <string name="combination_name">基金名称</string>
+    <string name="combination_desc">基金描述</string>
     <string name="conb_desc_hint">简要描述 20字以内</string>
     <string name="my_config">我的配置</string>
     <string name="add_postional">添加个股</string>
@@ -143,7 +143,7 @@
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日涨幅:</string>
     <string name="add_up_value">累计涨幅</string>
-    <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
+    <string name="dialog_before_createday_title">查询时间早于基金创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">复盘至创建时间前一个月</string>
     <string name="hint_account">手机号或邮箱</string>
@@ -176,11 +176,11 @@
     <string name="set_password_success">设置成功</string>
     <string name="set_password_failed">设置失败</string>
     <string name="tips">提示</string>
-    <string name="dialog_message_delete_combination">您将要删除选中的组合!</string>
+    <string name="dialog_message_delete_combination">您将要删除选中的基金!</string>
     <string name="setting_string_opinion">意见反馈</string>
     <string name="setting_string_news">新版本检测</string>
     <string name="setting_string_abortus">关于我们</string>
-    <string name="setting_string_public">公开投资组合</string>
+    <string name="setting_string_public">公开投资基金</string>
     <string name="setting_string_publicexplan">公开后可参与排名及比赛等活动</string>
     <string name="setting_string_exit">退出账户</string>
     <string name="sell">卖</string>
@@ -191,5 +191,11 @@
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外资讯</string>
+    <string name="month_top">月度收益冠军榜</string>
+    <string name="week_top">7天收益冠军榜</string>
+    <string name="season_top">季度收益冠军榜</string>
+    <string name="month_top_increase">月度累计涨幅</string>
+    <string name="week_top_increase">7天累计涨幅</string>
+    <string name="season_top_increase">季度累计涨幅</string>
 	<string name="marketcenter_title">行情中心</string>
 </resources>

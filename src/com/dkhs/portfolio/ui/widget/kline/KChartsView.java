@@ -420,6 +420,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			float startY = 0;
 			Paint paint = new Paint();
 			paint.setColor(lineEntity.getLineColor());
+			paint.setAntiAlias(true);
 			paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 			paint.setAntiAlias(true);
 			text = lineEntity.getTitle() + ":" + new DecimalFormat("#.##").format(lineEntity.getLineData().get(mDataStartIndext));
