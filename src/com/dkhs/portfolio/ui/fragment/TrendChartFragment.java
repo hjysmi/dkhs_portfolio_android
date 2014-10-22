@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +23,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -198,7 +198,7 @@ public class TrendChartFragment extends Fragment {
 
     }
 
-    private void initMaChart(TrendChart machart) {
+    private void initMaChart(final TrendChart machart) {
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
@@ -243,6 +243,15 @@ public class TrendChartFragment extends Fragment {
 
         if (isTodayNetValue) {
             initTodayTrendTitle();
+
+            // machart.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            // @Override
+            // public void onGlobalLayout() {
+            // machart.getLayoutParams().height = getResources().getDisplayMetrics().widthPixels * 3 / 4;
+            //
+            // }
+            // });
+
         } else {
             // initTrendTitle();
         }
@@ -572,10 +581,10 @@ public class TrendChartFragment extends Fragment {
                 }
                 tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
                 tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
-                float addupValue = object.getEnd() - object.getBegin();
+                float addupValue = (object.getEnd() - object.getBegin()) / object.getBegin() * 100;
                 tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
                 // fl
-                tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
+                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
                 tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
                 tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
 

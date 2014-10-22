@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ public class ScrollTopFragment extends Fragment {
     public static final String TYPE_WEEK = "type_week";
     public static final String TYPE_MONTH = "type_month";
 
-    private String mType=TYPE_WEEK;
+    private String mType = TYPE_WEEK;
 
     public static ScrollTopFragment getInstance(String type) {
         ScrollTopFragment mScrollTopFragment = new ScrollTopFragment();
@@ -89,20 +90,23 @@ public class ScrollTopFragment extends Fragment {
         TextView tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
         TextView tvIncreaseValue = (TextView) view.findViewById(R.id.tv_top_value);
 
-        if (mType.equalsIgnoreCase(TYPE_WEEK)) {
-            tvTitle.setText(R.string.week_top);
-            tvIncreaseText.setText(R.string.week_top_increase);
-            tvIncreaseValue.setText("26.69%");
-        } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {
-            tvTitle.setText(R.string.season_top);
-            tvIncreaseText.setText(R.string.season_top_increase);
-            tvIncreaseValue.setText("17.22%");
-        } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
-            tvTitle.setText(R.string.month_top);
-            tvIncreaseText.setText(R.string.month_top_increase);
-            tvIncreaseValue.setText("8.88%");
-        }
+        if (!TextUtils.isEmpty(mType)) {
 
+            if (mType.equalsIgnoreCase(TYPE_WEEK)) {
+                tvTitle.setText(R.string.week_top);
+                tvIncreaseText.setText(R.string.week_top_increase);
+                tvIncreaseValue.setText("26.69%");
+            } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {
+                tvTitle.setText(R.string.season_top);
+                tvIncreaseText.setText(R.string.season_top_increase);
+                tvIncreaseValue.setText("17.22%");
+            } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
+                tvTitle.setText(R.string.month_top);
+                tvIncreaseText.setText(R.string.month_top_increase);
+                tvIncreaseValue.setText("8.88%");
+            }
+
+        }
     }
 
 }
