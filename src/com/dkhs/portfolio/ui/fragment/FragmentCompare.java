@@ -161,9 +161,12 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         defalutItem2.name = "上证指数";
         SelectStockBean sBean1 = new SelectStockBean();
         sBean1.code = "106000082";
+        sBean1.id = 106000082;
+
         sBean1.name = "上证指数";
         SelectStockBean sBean2 = new SelectStockBean();
         sBean2.code = "106000232";
+        sBean2.id = 106000232;
         sBean2.name = "沪深300";
 
         selectStockList.add(sBean1);
@@ -301,6 +304,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         machart.setDisplayAxisYTitle(true);
         machart.setDisplayLatitude(true);
         machart.setDisplayLongitude(true);
+        maChartView.setFromCompare(true);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -344,7 +348,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 if (isBetween7day()) {
                     Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
                 } else {
-                    btnCompare.setEnabled(false);
+                     btnCompare.setEnabled(false);
                     requestCompare();
                 }
             }
@@ -389,7 +393,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         @Override
         protected void afterParseData(HistoryNetValue object) {
             if (object != null && isAdded()) {
-                btnCompare.setEnabled(true);
+                 btnCompare.setEnabled(true);
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() > 0) {
 
@@ -486,7 +490,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         // lineDataList.clear();
-        // int dashLineSize = 0;
+        int dashLineSize = 0;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
         float baseNum = historyNetList.get(0).getPercentageBegin();
@@ -496,11 +500,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             HistoryNetBean todayBean = historyNetList.get(i);
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
-            // if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
-            // if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
-            // dashLineSize = i;
-            // }
-            // }
+            if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
+                if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
+                    dashLineSize = i;
+                }
+            }
 
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
@@ -520,7 +524,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         // dashLineSize = dataLenght;
         // }
         // System.out.println("dashLineSize:" + dashLineSize);
-        // maChartView.setDashLinePointSize(dashLineSize);
+        maChartView.setDashLinePointSize(dashLineSize);
 
         return offetValue;
 

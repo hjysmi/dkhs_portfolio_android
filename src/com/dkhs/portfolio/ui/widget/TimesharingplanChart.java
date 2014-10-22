@@ -15,6 +15,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.View.MeasureSpec;
 
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -44,6 +45,31 @@ public class TimesharingplanChart extends TrendChart {
 
     public TimesharingplanChart(Context context, AttributeSet attrs) {
         super(context, attrs);
+    }
+
+    /**
+     * 重新控件大小
+     */
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
+        int mesasureWidth = measureWidth(widthMeasureSpec);
+        setMeasuredDimension(mesasureWidth, mesasureWidth * 3 / 4);
+    }
+
+    private int measureWidth(int measureSpec) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else if (specMode == MeasureSpec.AT_MOST) {
+            result = Math.min(result, specSize);
+        }
+        return result;
     }
 
     /**

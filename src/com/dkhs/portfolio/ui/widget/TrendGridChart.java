@@ -430,31 +430,6 @@ public class TrendGridChart extends View {
 
     }
 
-    /**
-     * 重新控件大小
-     */
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-        int mesasureWidth = measureWidth(widthMeasureSpec);
-        setMeasuredDimension(mesasureWidth, mesasureWidth * 3 / 4);
-    }
-
-    private int measureWidth(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else if (specMode == MeasureSpec.AT_MOST) {
-            result = Math.min(result, specSize);
-        }
-        return result;
-    }
-
     private int measureHeight(int measureSpec) {
         int result = 0;
         int specMode = MeasureSpec.getMode(measureSpec);
@@ -549,11 +524,11 @@ public class TrendGridChart extends View {
         // System.out.println("Index :" + index + " mid:" + midIndex);
         int textColor;
         if (index < midIndex) {
-            textColor = DEFAULT_LONGTITUDE_FONT_COLOR_DOWN;
+            textColor = ColorTemplate.DEF_GREEN;
         } else if (index == midIndex) {
             textColor = DEFAULT_LONGTITUDE_FONT_COLOR_MID;
         } else {
-            textColor = DEFAULT_LONGTITUDE_FONT_COLOR_UP;
+            textColor = ColorTemplate.DEF_RED;
 
         }
         return textColor;
@@ -1098,9 +1073,6 @@ public class TrendGridChart extends View {
     // return true;
     // }
     //
-    
-    
-    
 
     public boolean isDrawXBorke() {
         return isDrawXBorke;
