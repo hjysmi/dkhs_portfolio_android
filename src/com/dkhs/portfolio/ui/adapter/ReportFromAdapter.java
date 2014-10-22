@@ -38,7 +38,6 @@ public class ReportFromAdapter extends BaseAdapter {
         this.mDataList = dataList;
     }
 
-  
     @Override
     public int getCount() {
 
@@ -73,6 +72,7 @@ public class ReportFromAdapter extends BaseAdapter {
         viewHolder.tvDate.setText(bean.getDate());
         viewHolder.tvNetValue.setText(StringFromatUtils.get4Point(bean.getNetValue()));
         viewHolder.tvDayUP.setTextColor(ColorTemplate.getUpOrDrownCSL(bean.getPercentage()));
+        viewHolder.tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(bean.getPercentage()));
         viewHolder.tvDayUP.setText(StringFromatUtils.getPercentValue(bean.getPercentage()));
         // if (bean.getNetValue() < 1) {
         // viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_GREEN);
