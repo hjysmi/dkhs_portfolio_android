@@ -34,7 +34,7 @@ public class GridChart extends View {
 	private static final int DEFAULT_LONGI_LAITUDE_COLOR = Color.MAGENTA;
 
 	/** 默认上表纬线数 */
-	public static final int DEFAULT_UPER_LATITUDE_NUM = 3;
+	public static final int DEFAULT_UPER_LATITUDE_NUM = 1;
 
 	/** 默认下表纬线数 */
 	private static final int DEFAULT_LOWER_LATITUDE_NUM = 1;
@@ -160,6 +160,11 @@ public class GridChart extends View {
 		setBackgroundResource(mBackGround);
 		int viewHeight = getHeight();
 		int viewWidth = getWidth();
+		/*if(9 * viewWidth < 16 * viewHeight){
+			viewHeight = viewWidth * 9 /16;
+		}else{
+			viewWidth = viewHeight * 16 /9;
+		}*/
 		if(showLowerChartTabs) {
 			mLowerChartHeight = viewHeight - 2 - LOWER_CHART_TOP;
 		}else {
