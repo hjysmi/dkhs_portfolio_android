@@ -58,7 +58,7 @@ public class TrendChart extends TrendGridChart {
     /** 选中位置Y坐标 */
     private float clickPostY = 0f;
 
-    // private boolean isDrawDashLine;
+    private boolean isFromCompare;
     private int dashLinePointSize;
 
     private boolean isDrawTimesharingplanChart;
@@ -383,10 +383,19 @@ public class TrendChart extends TrendGridChart {
                         valueY += mStartLineYpoint;
                         // valueY += mStartLineYpoint;
                         // if (dashLongitude) {
-                        if (j < dashLinePointSize) {
-                            mLinePaint.setPathEffect(dashEffect);
+                        if (isFromCompare) {
+                            if (j < dashLinePointSize && i == 0) {
+                                mLinePaint.setPathEffect(dashEffect);
+                            } else {
+                                mLinePaint.setPathEffect(null);
+                            }
                         } else {
-                            mLinePaint.setPathEffect(null);
+
+                            if (j < dashLinePointSize) {
+                                mLinePaint.setPathEffect(dashEffect);
+                            } else {
+                                mLinePaint.setPathEffect(null);
+                            }
                         }
 
                         // 绘制线条
@@ -972,6 +981,14 @@ public class TrendChart extends TrendGridChart {
 
     public void setLineStrokeWidth(int lineStrokeWidth) {
         this.lineStrokeWidth = lineStrokeWidth;
+    }
+
+    public boolean isFromCompare() {
+        return isFromCompare;
+    }
+
+    public void setFromCompare(boolean isFromCompare) {
+        this.isFromCompare = isFromCompare;
     }
 
     // public boolean isDrawDashLine() {

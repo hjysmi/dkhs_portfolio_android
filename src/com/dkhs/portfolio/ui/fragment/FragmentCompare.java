@@ -301,6 +301,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         machart.setDisplayAxisYTitle(true);
         machart.setDisplayLatitude(true);
         machart.setDisplayLongitude(true);
+        maChartView.setFromCompare(true);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -486,7 +487,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         // lineDataList.clear();
-        // int dashLineSize = 0;
+        int dashLineSize = 0;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
         float baseNum = historyNetList.get(0).getPercentageBegin();
@@ -496,11 +497,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             HistoryNetBean todayBean = historyNetList.get(i);
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
-            // if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
-            // if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
-            // dashLineSize = i;
-            // }
-            // }
+            if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
+                if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
+                    dashLineSize = i;
+                }
+            }
 
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
@@ -520,7 +521,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         // dashLineSize = dataLenght;
         // }
         // System.out.println("dashLineSize:" + dashLineSize);
-        // maChartView.setDashLinePointSize(dashLineSize);
+        maChartView.setDashLinePointSize(dashLineSize);
 
         return offetValue;
 
