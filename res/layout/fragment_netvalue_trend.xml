@@ -103,7 +103,8 @@
                 android:layout_alignParentRight="true"
                 android:paddingBottom="10dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" />
+                android:paddingTop="10dp"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -115,7 +116,8 @@
                     android:id="@+id/tv_combination_image_totalnet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="15dp" />
+                    android:paddingLeft="15dp"
+                    android:src="@drawable/ic_networthrigth" />
 
                 <TextView
                     android:id="@+id/tv_income"
