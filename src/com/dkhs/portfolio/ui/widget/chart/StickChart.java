@@ -241,14 +241,17 @@ public class StickChart extends GridChart {
         try {
             stickFillColorUp = Color.RED;
             stickFillColorDown = getResources().getColor(R.color.dark_green);
-
+            if(maxStickDataNum < 30){
+            	maxStickDataNum = 30;
+            }
             // 蜡烛棒宽度
             float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / maxStickDataNum) - 3;
+           
             // 蜡烛棒起始绘制位置
             float stickX = /* super.getAxisMarginLeft() + */3;
 
             Paint mPaintStick = new Paint();
-            drawMA(canvas);
+            
             if (null != StickData) {
 
                 // 判断显示为方柱或显示为线条
@@ -278,7 +281,9 @@ public class StickChart extends GridChart {
                     // X位移
                     stickX = stickX + 3 + stickWidth;
                 }
+                drawMA(canvas);
             }
+            
         } catch (NotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -381,17 +386,17 @@ public class StickChart extends GridChart {
     private void initMALineData() {
         MALineEntity MA5 = new MALineEntity();
         MA5.setTitle("MA5");
-        MA5.setLineColor(Color.GRAY);
+        MA5.setLineColor(getResources().getColor(R.color.ma5_color));
         MA5.setLineData(initMA(StickData, 5));
 
         MALineEntity MA10 = new MALineEntity();
         MA10.setTitle("MA10");
-        MA10.setLineColor(Color.YELLOW);
+        MA10.setLineColor(getResources().getColor(R.color.ma10_color));
         MA10.setLineData(initMA(StickData, 10));
 
         MALineEntity MA20 = new MALineEntity();
         MA20.setTitle("MA20");
-        MA20.setLineColor(Color.rgb(139, 0, 225));
+        MA20.setLineColor(getResources().getColor(R.color.ma20_color));
         MA20.setLineData(initMA(StickData, 20));
 
         MALineData = new ArrayList<MALineEntity>();

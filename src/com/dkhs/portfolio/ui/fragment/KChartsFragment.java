@@ -10,6 +10,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
@@ -106,7 +107,11 @@ public class KChartsFragment extends Fragment {
 		}
 		
 	};
-	
+	private ITouchListener mTouchListener;
+
+    public void setITouchListener(ITouchListener touchListener) {
+        this.mTouchListener = touchListener;
+    }
 	private void initChartView() {
 		mMyChartsView.setAxisColor(Color.LTGRAY);
 		mMyChartsView.setLongiLatitudeColor(Color.LTGRAY);
@@ -114,6 +119,7 @@ public class KChartsFragment extends Fragment {
 		mMyChartsView.setDisplayLongitude(false);
 		mMyChartsView.setDisplayAxisXTitle(false);
 		mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
+		mMyChartsView.setITouchListener(mTouchListener);
 		//mMyChartsView.setOnTouchListener(new OnChartListener());
 	}
 	/*class OnChartListener implements OnTouchListener{

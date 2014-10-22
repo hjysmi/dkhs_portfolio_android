@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    android:layout_height="match_parent" 
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- <ScrollView 
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        ></ScrollView>
+    <LinearLayout  
+        android:id="@+id/linearLayout1"  
+        android:layout_width="fill_parent"  
+        android:layout_height="40.0dip"  
+        android:background="#FFFFFF" >  
+  
+        <TextView  
+            android:id="@+id/market_text_index"  
+            android:layout_width="fill_parent"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1.0"  
+            android:gravity="center"  
+            android:text=" 大盘指数"  
+            android:textColor="#000000"  
+            android:textSize="16.0dip" />  
+  
+        <TextView  
+            android:id="@+id/market_text_edition"  
+            android:layout_width="fill_parent"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1.0"  
+            android:gravity="center"  
+            android:text="行业版块"  
+            android:textColor="#000000"  
+            android:textSize="16.0dip" />  
+  
+        <TextView  
+            android:id="@+id/text3"  
+            android:layout_width="fill_parent"  
+            android:layout_height="fill_parent"  
+            android:layout_weight="1.0"  
+            android:gravity="center"  
+            android:textColor="#000000"  
+            android:textSize="20.0dip" />  
+    </LinearLayout> 
+    <ImageView  
+        android:id="@+id/market_cursor"  
+        android:layout_width="100dip"  
+        android:layout_height="3dip"  
+        android:scaleType="matrix"  
+        android:src="@drawable/setting_img_exit" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/market_viewpager"  
+        android:layout_width="wrap_content"  
+        android:layout_height="wrap_content"  
+        android:layout_gravity="center"
+        >
+        <android.support.v4.view.PagerTabStrip    
+            android:id="@+id/market_pagertab"    
+            android:layout_width="wrap_content"    
+            android:layout_height="wrap_content"    
+            android:layout_gravity="top"/> 
+    </android.support.v4.view.ViewPager> -->
+    <!-- <com.dkhs.portfolio.ui.widget.TabPageIndicator
+            android:id="@+id/market_indicator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#F5F5F5" /> -->
+</LinearLayout>

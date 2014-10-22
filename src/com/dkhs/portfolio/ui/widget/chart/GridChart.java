@@ -502,7 +502,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	protected void drawBorder(Canvas canvas) {
 		float width = super.getWidth() - 2;
 		float height = super.getHeight() - 2;
-
+		
 		Paint mPaint = new Paint();
 		mPaint.setColor(borderColor);
 
