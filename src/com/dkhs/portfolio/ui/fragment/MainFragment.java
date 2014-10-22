@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -11,43 +12,46 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.View.OnClickListener;
+import android.view.MotionEvent;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.MainpageEngineImpl;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.ui.widget.MarqueeText;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.google.gson.reflect.TypeToken;
 
 public class MainFragment extends Fragment implements OnClickListener {
 
@@ -62,9 +66,11 @@ public class MainFragment extends Fragment implements OnClickListener {
     private int currentItem = 0;
 
     private GridView gvFunction;
+    private GridView gvCombination;
 
-    private View viewOnecombination;
-    private View viewTwocombination;
+    private View comtentView;
+    // private View viewOnecombination;
+    // private View viewTwocombination;
     private View viewAddcombination;
 
     private MainpageEngineImpl dataEngine;
@@ -101,8 +107,8 @@ public class MainFragment extends Fragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, null);
+        comtentView = view;
         initView(view);
-
         return view;
     }
 
@@ -118,9 +124,9 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         tvBottomText = (MarqueeText) view.findViewById(R.id.tv_bottom_text);
         // setMarqueeText();
-        dataEngine.getScrollValue(scrollDataListener);
 
         gvFunction = (GridView) view.findViewById(R.id.gv_function);
+        gvCombination = (GridView) view.findViewById(R.id.gv_mycombination);
         // gvFunction.getLayoutParams().height = getResources().getDisplayMetrics().widthPixels / 3 * 2;
         gvFunction.setAdapter(new MainFunctionAdapter(getActivity()));
         gvFunction.setOnItemClickListener(functionClick);
@@ -142,57 +148,50 @@ public class MainFragment extends Fragment implements OnClickListener {
         viewPager.setCurrentItem(0);
 
         setViewLayoutParams();
-        // inflateAddLayout(view);
+        // inflateAddLayout();
         // inflateOneLayout(view);
-        inflateTwoLayout(view);
+        // inflateTwoLayout(view);
+
+        dataEngine.getScrollValue(scrollDataListener);
+        loadCombination();
     }
 
-    private void inflateAddLayout(View view) {
-        ViewStub viewstub = (ViewStub) view.findViewById(R.id.layout_add);
+    private void inflateAddLayout() {
+        ViewStub viewstub = (ViewStub) comtentView.findViewById(R.id.layout_add);
         if (viewstub != null) {
             viewAddcombination = viewstub.inflate();
             viewAddcombination.findViewById(R.id.layout_add_combination).setOnClickListener(this);
-            if (null != viewOnecombination) {
-                viewOnecombination.setVisibility(View.GONE);
-            }
-            if (null != viewTwocombination) {
-                viewTwocombination.setVisibility(View.GONE);
-            }
+
         }
     }
 
-    private void inflateOneLayout(View view) {
-        ViewStub viewstub = (ViewStub) view.findViewById(R.id.layout_one);
-        if (viewstub != null) {
-            viewOnecombination = viewstub.inflate();
-            viewOnecombination.findViewById(R.id.btn_combination_more).setOnClickListener(this);
-            viewOnecombination.findViewById(R.id.title_main_combination).setOnClickListener(this);
-            viewOnecombination.findViewById(R.id.layout_add_combination).setOnClickListener(this);
-            viewOnecombination.findViewById(R.id.layout_first_combination).setOnClickListener(this);
-            if (null != viewAddcombination) {
-                viewAddcombination.setVisibility(View.GONE);
-            }
-            if (null != viewTwocombination) {
-                viewTwocombination.setVisibility(View.GONE);
-            }
+    private void inflateCombinationLayout(final List<CombinationBean> dataList) {
+        gvCombination.setVisibility(View.VISIBLE);
+        comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+        comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
+        final MainCombinationoAdapter cAdapter = new MainCombinationoAdapter(getActivity(), dataList);
+        // gvCombination.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        // @Override
+        // public void onGlobalLayout() {
+        // final int columnHeight = gvCombination.getHeight();
+        //
+        // cAdapter.setItemHeight((int) (columnHeight));
+        // }
+        // });
+        gvCombination.setAdapter(cAdapter);
+        // gvCombination.setFocusable(true);
+        if (null != viewAddcombination) {
+            viewAddcombination.setVisibility(View.GONE);
         }
-    }
 
-    private void inflateTwoLayout(View view) {
-        ViewStub viewstub = (ViewStub) view.findViewById(R.id.layout_two);
-        if (viewstub != null) {
-            viewTwocombination = viewstub.inflate();
-            viewTwocombination.findViewById(R.id.btn_combination_more).setOnClickListener(this);
-            viewTwocombination.findViewById(R.id.title_main_combination).setOnClickListener(this);
-            viewTwocombination.findViewById(R.id.layout_first_combination).setOnClickListener(this);
-            viewTwocombination.findViewById(R.id.layout_two_combination).setOnClickListener(this);
-            if (null != viewAddcombination) {
-                viewAddcombination.setVisibility(View.GONE);
+        gvCombination.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), dataList.get(position)));
+
             }
-            if (null != viewOnecombination) {
-                viewOnecombination.setVisibility(View.GONE);
-            }
-        }
+        });
     }
 
     OnItemClickListener functionClick = new OnItemClickListener() {
@@ -239,6 +238,38 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         }
     };
+
+    private void loadCombination() {
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+
+            @Override
+            protected List<CombinationBean> parseDateTask(String jsonData) {
+                Type listType = new TypeToken<List<CombinationBean>>() {
+                }.getType();
+                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+
+                return combinationList;
+            }
+
+            @Override
+            protected void afterParseData(List<CombinationBean> dataList) {
+                // LogUtils.d("List<CombinationBean> size:" + dataList.size());
+                if (null != dataList && isAdded()) {
+                    // if (0 == dataList.size()) {
+                    //
+                    // } else if (1 == dataList.size()) {
+                    // inflateOneLayout(dataList);
+                    // } else if (dataList.size() > 1) {
+                    // inflateTwoLayout(dataList);
+                    // }
+                    if (dataList.size() > 1) {
+                        inflateCombinationLayout(dataList);
+                    }
+                }
+            }
+
+        });
+    }
 
     ParseHttpListener scrollDataListener = new ParseHttpListener<List<StockQuotesBean>>() {
 

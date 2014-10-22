@@ -123,9 +123,9 @@
     <string name="delete_fllow">取消自选</string>
     <string name="add_fllow">加入自选</string>
     <string name="turnover">换手率</string>
-    <string name="start_netvalue">起始：</string>
-    <string name="end_netvalue">结束：</string>
-    <string name="netvalue_up">净值增长：</string>
+    <string name="start_netvalue">起始:</string>
+    <string name="end_netvalue">结束:</string>
+    <string name="netvalue_up">净值增长:</string>
     <string name="proportion">占比</string>
     <string name="time_start">%1$s起</string>
     <string name="time_end">%1$s止</string>
@@ -139,7 +139,7 @@
     <string name="accumulative_comtribute">累计贡献</string>
     <string name="surplus_capital_ratio">剩余资金占比</string>
     <string name="data_deficient">数据不足</string>
-    <string name="current_netvalue">当前净值</string>
+    <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日涨幅:</string>
     <string name="add_up_value">累计涨幅</string>
