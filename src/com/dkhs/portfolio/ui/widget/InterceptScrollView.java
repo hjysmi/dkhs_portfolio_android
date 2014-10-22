@@ -21,7 +21,7 @@ import android.widget.ScrollView;
  * @version 1.0
  */
 public class InterceptScrollView extends ScrollView {
-
+	private boolean scrollable = true;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -58,8 +58,18 @@ public class InterceptScrollView extends ScrollView {
     }
 
     private boolean isIntercept = false;
+    
+   /* @Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		// TODO Auto-generated method stub
+    	if(isIntercept){
+    		return super.onTouchEvent(ev);
+    	}else{
+    		return false;
+    	}
+	}*/
 
-    /**
+	/**
      * 
      * @param isfocus true的时候表示拦截当前事件，不继续往下分发，交给自身的onTouchEvent进行处理。
      * false则不拦截，继续往下传，让子控件来处理。
@@ -68,4 +78,12 @@ public class InterceptScrollView extends ScrollView {
         this.isIntercept = isfocus;
     }
 
+	public boolean isScrollable() {
+		return scrollable;
+	}
+
+	public void setScrollable(boolean scrollable) {
+		this.scrollable = scrollable;
+	}
+    
 }
