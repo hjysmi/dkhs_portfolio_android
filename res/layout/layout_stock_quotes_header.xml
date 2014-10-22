@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"
             android:text="-"
             android:textColor="@color/theme_color"
-            android:textSize="22sp" />
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/tv_up_price"

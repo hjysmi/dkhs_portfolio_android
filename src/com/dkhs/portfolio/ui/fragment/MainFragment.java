@@ -148,7 +148,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         viewPager.setCurrentItem(0);
 
         setViewLayoutParams();
-        // inflateAddLayout();
+        inflateAddLayout();
         // inflateOneLayout(view);
         // inflateTwoLayout(view);
 
@@ -168,6 +168,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     private void inflateCombinationLayout(final List<CombinationBean> dataList) {
         gvCombination.setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+        comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
         final MainCombinationoAdapter cAdapter = new MainCombinationoAdapter(getActivity(), dataList);
         // gvCombination.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
