@@ -10,6 +10,8 @@ package com.dkhs.portfolio.ui.adapter;
 
 import java.util.List;
 
+import javax.crypto.spec.PSource;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,12 +81,16 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
                 return;
             }
         }
-        int position = BaseSelectActivity.mSelectList.indexOf(csBean);
         if (isChecked && !BaseSelectActivity.mSelectList.contains(csBean)) {
             BaseSelectActivity.mSelectList.add(csBean);
-            SelectStockBean itemStock = BaseSelectActivity.mSelectList.get(position);
-            itemStock.isFollowed = true;
-            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            /**暂时屏蔽  点击checkbox跳转到个股详情*/
+            if(false && mDataList.contains(csBean)){
+                int position = mDataList.indexOf(csBean);
+                
+                SelectStockBean itemStock = BaseSelectActivity.mSelectList.get(position);
+                itemStock.isFollowed = true;
+                mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            }
         } else {
             boolean isRmove = BaseSelectActivity.mSelectList.remove(csBean);
 
