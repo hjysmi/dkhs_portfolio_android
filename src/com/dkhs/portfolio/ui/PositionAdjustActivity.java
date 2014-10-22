@@ -82,6 +82,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private PositionDetail mPositionDetailBean;
     private int mCombinationId;
     private boolean isAdjustCombination;
+    private TextView positionTextValue;
+    private TextView positionTextCreatedate;
 
     public static Intent newIntent(Context context, PositionDetail positionBean) {
         Intent intent = new Intent(context, PositionAdjustActivity.class);
@@ -153,7 +155,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         findViewById(R.id.btn_add_postional).setOnClickListener(this);
         findViewById(R.id.btn_confirm).setOnClickListener(this);
-
+        positionTextValue = (TextView) findViewById(R.id.position_text_value);
+        positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
+        positionTextValue.setText(mPositionDetailBean.getPortfolio().getNetvalue()+"");
+        positionTextCreatedate.setText("成立时间:" + mPositionDetailBean.getPortfolio().getCreateTime() );
     }
 
     private void initConbinationInfoView() {
