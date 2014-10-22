@@ -61,14 +61,22 @@ public class StickChart extends GridChart {
     protected float minValue;
     /** MA数据 */
     private List<MALineEntity> MALineData;
-
+    private int currentIndex;
     // ///////////////�??函数///////////////
-
+    
     public StickChart(Context context) {
         super(context);
     }
 
-    public StickChart(Context context, AttributeSet attrs, int defStyle) {
+    public int getCurrentIndex() {
+		return currentIndex;
+	}
+
+	public void setCurrentIndex(int currentIndex) {
+		this.currentIndex = currentIndex;
+	}
+
+	public StickChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
@@ -305,7 +313,7 @@ public class StickChart extends GridChart {
                 paint.setColor(lineEntity.getLineColor());
                 paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 
-                float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(index))) / 100;
+                float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(lineEntity.getLineData().size() - 1 - currentIndex))) / 100;
                 if (total < 10000) {
                     text = new DecimalFormat("#.##").format(total);
                 } else if (total > 10000 && total < 10000000) {

@@ -24,6 +24,7 @@
     <color name="def_green">#338833</color>
     <color name="def_gray">#7b7c7d</color>
     <color name="blue_line">#00acec</color>
+    <color name="red_line">#ea3e3e</color>
     <color name="optional_red">#f20000</color>
     <color name="optional_green">#338833</color>
     <color name="blue_normal">#ffdddddd</color>
