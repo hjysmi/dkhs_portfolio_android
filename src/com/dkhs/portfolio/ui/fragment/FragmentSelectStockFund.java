@@ -73,7 +73,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private boolean isItemClickBack;
 
     private int mViewType;
-
+    private boolean fromPosition =false;
     LoadSelectDataEngine mLoadDataEngine;
 
     /**
@@ -151,6 +151,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mViewType = bundle.getInt(ARGUMENT_LOAD_TYPE);
+            fromPosition = bundle.getBoolean("fromPosition");
         }
         if (isItemClickBack) {
             mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
@@ -160,6 +161,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
+            mAdapterConbinStock.setFromShow(!fromPosition);
         }
 
         mAdapterConbinStock.setCheckChangeListener(this);
