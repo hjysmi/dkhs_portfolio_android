@@ -26,47 +26,50 @@
             layout="@layout/layout_create_conbina_info" />
 
         <!-- 持仓组合 创建信息 end -->
-		<RelativeLayout 
-		    android:layout_marginLeft="10dp"
-		    android:layout_marginRight="10dp"
-		    android:layout_marginBottom="10dp"
-		    android:layout_height="wrap_content"
-		    android:layout_width="match_parent"
-		    >
-		    <TextView 
-		        android:layout_height="wrap_content"
-		        android:layout_width="wrap_content"
-		        android:textColor="@color/position_text_lgray"
-		        android:textSize="@dimen/title_text_font"
-		        android:id="@+id/position_text_createdate"
-		        android:layout_alignParentRight="true"
-		        android:text="2014-01-05-10:00"
-		        android:layout_alignParentBottom="true"
-		        />
-		    <TextView 
-		        android:layout_height="wrap_content"
-		        android:layout_width="wrap_content"
-		        android:textColor="@color/position_text_lgray"
-		        android:textSize="@dimen/title_text_font"
-		        android:id="@+id/position_text_valuename"
-		        android:layout_alignParentLeft="true"
-		        android:text="当日净值:"
-		        android:layout_alignParentBottom="true"
-		        />
-		    <TextView 
-		        android:paddingLeft="5dp"
-		        android:layout_toRightOf="@id/position_text_valuename"
-		        android:layout_toLeftOf="@id/position_text_createdate"
-		        android:layout_height="wrap_content"
-		        android:layout_width="match_parent"
-		        android:textColor="@color/red"
-		        android:textSize="@dimen/list_text_size"
-		        android:id="@+id/position_text_value"
-		        android:text="当日净值:"
-		        android:layout_centerVertical="true"
-		        android:layout_alignParentBottom="true"
-		        />
-		</RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:visibility="gone"
+            android:id="@+id/rl_combinationvalue"
+            android:layout_marginRight="10dp" >
+
+            <TextView
+                android:id="@+id/position_text_createdate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="2014-01-05-10:00"
+                android:textColor="@color/position_text_lgray"
+                android:textSize="@dimen/title_text_font" />
+
+            <TextView
+                android:id="@+id/position_text_valuename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:text="当日净值:"
+                android:textColor="@color/position_text_lgray"
+                android:textSize="@dimen/title_text_font" />
+
+            <TextView
+                android:id="@+id/position_text_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/position_text_createdate"
+                android:layout_toRightOf="@id/position_text_valuename"
+                android:paddingLeft="5dp"
+                android:text="-"
+                android:textColor="@color/red"
+                android:textSize="@dimen/list_text_size" />
+        </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
