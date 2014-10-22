@@ -158,7 +158,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         positionTextValue = (TextView) findViewById(R.id.position_text_value);
         positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
         positionTextValue.setText(mPositionDetailBean.getPortfolio().getNetvalue()+"");
-        positionTextCreatedate.setText("成立时间:" + mPositionDetailBean.getPortfolio().getCreateTime() );
+        String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
+        time = time.substring(0, time.length()-4);
+        positionTextCreatedate.setText("成立时间:" + time );
     }
 
     private void initConbinationInfoView() {
