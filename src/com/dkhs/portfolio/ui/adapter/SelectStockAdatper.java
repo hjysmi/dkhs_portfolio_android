@@ -13,13 +13,16 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -30,9 +33,10 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @version 1.0
  */
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
-
+	private Context context;
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
+        this.context = context;
     }
 
     @Override
@@ -47,6 +51,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder.mCheckbox = (CheckBox) convertView.findViewById(R.id.cb_select_stock);
             viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
             viewHolder.tvIncreaseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+            viewHolder.tvStockLayout = (LinearLayout) convertView.findViewById(R.id.tv_stock_layout);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
@@ -54,15 +59,16 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+        //viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
+        viewHolder.tvStockLayout.setOnClickListener(new OnItemListener(position));
         if (this instanceof AddStockItemAdapter) {
             viewHolder.mCheckbox.setChecked(item.isFollowed);
         } else {
             viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
-
+        viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
 
@@ -88,5 +94,40 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         TextView tvStockNum;
         TextView tvCurrentValue;
         TextView tvIncreaseValue;
+        
+        LinearLayout tvStockLayout;
+    }
+    class OnItemListener implements OnClickListener{
+    	private int position;
+    	public OnItemListener(int position){
+    		this.position = position;
+    	}
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			SelectStockBean itemStock = mDataList.get(position);
+            
+           
+            
+            context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+		}
+    	
+    }
+    class OnCheckListener implements OnClickListener{
+    	private int position;
+    	private CheckBox mCheckbox;
+    	public OnCheckListener(CheckBox mCheckbox,int position){
+    		this.position = position;
+    		this.mCheckbox = mCheckbox;
+    	}
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			if(mCheckbox.isChecked()){
+				SelectStockBean itemStock = mDataList.get(position);
+	            itemStock.isFollowed = true;
+	            context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+			}
+		}
     }
 }

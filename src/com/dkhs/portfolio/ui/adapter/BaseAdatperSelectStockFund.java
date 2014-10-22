@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 
 /**
  * @ClassName AdatperSelectConbinStock
@@ -32,11 +33,9 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
 public class BaseAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
     protected Context mContext;
     protected List<SelectStockBean> mDataList;
-
     public BaseAdatperSelectStockFund(Context context, List<SelectStockBean> datas) {
         this.mContext = context;
         this.mDataList = datas;
-
     }
 
     @Override
@@ -80,9 +79,12 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
                 return;
             }
         }
-
+        int position = BaseSelectActivity.mSelectList.indexOf(csBean);
         if (isChecked && !BaseSelectActivity.mSelectList.contains(csBean)) {
             BaseSelectActivity.mSelectList.add(csBean);
+            SelectStockBean itemStock = BaseSelectActivity.mSelectList.get(position);
+            itemStock.isFollowed = true;
+            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
         } else {
             boolean isRmove = BaseSelectActivity.mSelectList.remove(csBean);
 

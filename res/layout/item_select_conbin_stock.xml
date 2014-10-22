@@ -9,6 +9,7 @@
     android:paddingBottom="5dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
+    android:id="@+id/tv_stock_layout"
     android:paddingTop="5dp"
     android:weightSum="10" >
 

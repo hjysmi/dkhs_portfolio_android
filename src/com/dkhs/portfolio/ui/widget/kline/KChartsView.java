@@ -426,7 +426,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			paint.setAntiAlias(true);
 			paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 			paint.setAntiAlias(true);
-			text = lineEntity.getTitle() + ":" + new DecimalFormat("#.##").format(lineEntity.getLineData().get(mDataStartIndext));
+			int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
+			mVolumnChartView.setCurrentIndex(selectIndext);
+			text = lineEntity.getTitle() + ":" + new DecimalFormat("#.##").format(lineEntity.getLineData().get(selectIndext - mDataStartIndext));
 			Paint p= new Paint(); 
 			Rect rect = new Rect();
 			p.getTextBounds(text, 0, text.length(), rect); 
