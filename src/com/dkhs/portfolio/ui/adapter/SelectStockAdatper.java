@@ -106,7 +106,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			SelectStockBean itemStock = mDataList.get(position);
-            itemStock.isFollowed = true;
+            
            
             
             context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
@@ -125,7 +125,8 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 			// TODO Auto-generated method stub
 			if(mCheckbox.isChecked()){
 				SelectStockBean itemStock = mDataList.get(position);
-	            itemStock.isFollowed = true;context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+	            itemStock.isFollowed = true;
+	            context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
 			}
 		}
     }
