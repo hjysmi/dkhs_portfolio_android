@@ -161,6 +161,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (viewstub != null) {
             viewAddcombination = viewstub.inflate();
             viewAddcombination.findViewById(R.id.layout_add_combination).setOnClickListener(this);
+            viewAddcombination.findViewById(R.id.iv_plus).setOnClickListener(this);
 
         }
     }
@@ -263,7 +264,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                     // } else if (dataList.size() > 1) {
                     // inflateTwoLayout(dataList);
                     // }
-                    if (dataList.size() > 1) {
+                    if (dataList.size() > 0) {
                         inflateCombinationLayout(dataList);
                     }
                 }
@@ -424,7 +425,8 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
             }
                 break;
-            case R.id.layout_add_combination: {
+            case R.id.layout_add_combination: 
+                case R.id.iv_plus: {
 
                 intent = PositionAdjustActivity.newIntent(getActivity(), null);
             }

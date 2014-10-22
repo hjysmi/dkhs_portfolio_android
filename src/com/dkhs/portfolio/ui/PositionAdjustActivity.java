@@ -78,6 +78,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationName;
     private EditText etConbinationDesc;
     private Button btnConfirm;
+    private View viewCombinationInfo;
 
     private PositionDetail mPositionDetailBean;
     private int mCombinationId;
@@ -157,10 +158,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         findViewById(R.id.btn_confirm).setOnClickListener(this);
         positionTextValue = (TextView) findViewById(R.id.position_text_value);
         positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
-        positionTextValue.setText(mPositionDetailBean.getPortfolio().getNetvalue()+"");
-        String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
-        time = time.substring(0, time.length()-4);
-        positionTextCreatedate.setText("成立时间:" + time );
+        viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
+        if (null != mPositionDetailBean) {
+            viewCombinationInfo.setVisibility(View.VISIBLE);
+            positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
+            String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
+            time = time.substring(0, time.length() - 4);
+            positionTextCreatedate.setText("成立时间:" + time);
+        }
     }
 
     private void initConbinationInfoView() {

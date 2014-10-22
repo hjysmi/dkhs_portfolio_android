@@ -90,7 +90,7 @@ public class MainCombinationoAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
-        if (dataList.size() > 1) {
+        if (dataList.size() > 0 && position < dataList.size()) {
 
             view = View.inflate(mContext, R.layout.item_main_combination, null);
             TextView cNameText = (TextView) view.findViewById(R.id.tv_mycombination);
