@@ -373,6 +373,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                 Intent intent = new Intent(this, SelectStockActivity.class);
                 intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
+                Bundle b = new Bundle();
+                b.putBoolean("fromPosition", true);
+                intent.putExtras(b);
                 if (isAdjustCombination) {
                     intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
                 }
