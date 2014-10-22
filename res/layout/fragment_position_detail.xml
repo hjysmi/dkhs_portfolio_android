@@ -66,6 +66,7 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="15dp"
                 android:textColor="@color/red"
+                android:text="-"
                 android:textSize="18sp" />
 
             <TextView
@@ -76,7 +77,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_toLeftOf="@+id/tv_today_netvalue"
                 android:text="@string/today_netvalue"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@color/theme_color" />
         </RelativeLayout>
 
         <!-- 持仓配置 -->

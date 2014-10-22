@@ -241,6 +241,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         }
     }
 
+    private ScrollView mScrollview;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_position_detail, null);
@@ -249,8 +251,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         initIncreaseList(view);
         initContributeView(view);
         initAdjustHistoryView(view);
-        ScrollView mScrollview = (ScrollView) view.findViewById(R.id.sc_content);
-        mScrollview.smoothScrollTo(0, 0);
+        mScrollview = (ScrollView) view.findViewById(R.id.sc_content);
+
         return view;
     }
 
@@ -384,32 +386,29 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-        	String createDate = mPositionDetail.getPortfolio().getCreateTime();
-        	DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        	Calendar calendar = GregorianCalendar.getInstance();
-        	Calendar calendar2 = GregorianCalendar.getInstance();
-        	StringBuilder sbTimes = new StringBuilder().append(year).append("-").append(monthOfYear +1).append("-")
+            String createDate = mPositionDetail.getPortfolio().getCreateTime();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = GregorianCalendar.getInstance();
+            Calendar calendar2 = GregorianCalendar.getInstance();
+            StringBuilder sbTimes = new StringBuilder().append(year).append("-").append(monthOfYear + 1).append("-")
                     .append(dayOfMonth);
-        	try
-        	{
-        	calendar.setTime(df.parse(createDate));
-        	calendar2.setTime(df.parse(sbTimes.toString()));
-        	Date d1 = df.parse(createDate);
-        	Date d2 = df.parse(sbTimes.toString());
-        	long diff = calendar2.getTimeInMillis() - calendar.getTimeInMillis();
-        	if(0 > diff){
-        		mYear = calendar.get(Calendar.YEAR);
-                mMonth = calendar.get(Calendar.MONTH);
-                mDay = calendar.get(Calendar.DAY_OF_MONTH);
-        	}else{
-        		mYear = year;
-                mMonth = monthOfYear;
-                mDay = dayOfMonth;
-        	}
-        	}
-        	catch (Exception e)
-        	{
-        	}
+            try {
+                calendar.setTime(df.parse(createDate));
+                calendar2.setTime(df.parse(sbTimes.toString()));
+                Date d1 = df.parse(createDate);
+                Date d2 = df.parse(sbTimes.toString());
+                long diff = calendar2.getTimeInMillis() - calendar.getTimeInMillis();
+                if (0 > diff) {
+                    mYear = calendar.get(Calendar.YEAR);
+                    mMonth = calendar.get(Calendar.MONTH);
+                    mDay = calendar.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    mYear = year;
+                    mMonth = monthOfYear;
+                    mDay = dayOfMonth;
+                }
+            } catch (Exception e) {
+            }
 
             String strMonth = String.format("%02d", (mMonth + 1));
             String strDay = String.format("%02d", mDay);

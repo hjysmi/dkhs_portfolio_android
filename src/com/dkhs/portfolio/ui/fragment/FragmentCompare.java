@@ -562,7 +562,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
                     float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
 
-                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value);
+                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value*100);
                     i++;
                 }
 
