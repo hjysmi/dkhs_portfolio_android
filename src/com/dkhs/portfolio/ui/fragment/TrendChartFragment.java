@@ -63,7 +63,7 @@ public class TrendChartFragment extends Fragment {
     private String trendType;
     private boolean isTodayNetValue;
     private TextView tvTimeLeft;
-    private TextView tvNoData;
+    // private TextView tvNoData;
     private TextView tvTimeRight;
     private TextView tvNetValue;
     private TextView tvUpValue;
@@ -78,6 +78,7 @@ public class TrendChartFragment extends Fragment {
     private CombinationBean mCombinationBean;
 
     private Handler updateHandler;
+    private Calendar mCreateCalender;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static TrendChartFragment newInstance(String trendType) {
@@ -110,6 +111,8 @@ public class TrendChartFragment extends Fragment {
         if (extras != null) {
             handleExtras(extras);
         }
+
+        mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
 
     }
 
@@ -165,7 +168,7 @@ public class TrendChartFragment extends Fragment {
         tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
         tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
         tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
-        tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
+        // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
     }
 
     private void setupViewData() {
@@ -189,6 +192,8 @@ public class TrendChartFragment extends Fragment {
             tvStartText.setText(R.string.start_netvalue);
             tvEndText.setText(R.string.end_netvalue);
             tvIncreaseText.setText(R.string.netvalue_up);
+        } else {
+            tvStartText.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -272,6 +277,14 @@ public class TrendChartFragment extends Fragment {
 
         mMaChart.setAxisXTitles(xtitle);
         mMaChart.setMaxPointNum(240);
+
+        List<String> rightYtitle = new ArrayList<String>();
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
+        mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
     // private void initTrendTitle() {
@@ -326,11 +339,14 @@ public class TrendChartFragment extends Fragment {
                     // String dateStr = lasttime.substring(0, zIndex);
                     tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
                             + calender.get(Calendar.DAY_OF_MONTH));
-                    String timeStr = calender.get(Calendar.HOUR) + ":" + (calender.get(Calendar.MINUTE));
+                    String timeStr = TimeUtils.getTimeString(lasttime);
                     tvTimeRight.setText(timeStr);
                 }
 
                 tvNetValue.setText(StringFromatUtils.get4Point(todayNetvalue.getEnd()));
+                if (isTodayNetValue) {
+                    tvNetValue.setVisibility(View.INVISIBLE);
+                }
 
                 System.out.println("get current netvalue:" + todayNetvalue.getEnd());
                 if (null != updateHandler) {
@@ -340,8 +356,10 @@ public class TrendChartFragment extends Fragment {
                     updateHandler.sendMessage(msg);
                 }
                 float addupValue = todayNetvalue.getEnd() - todayNetvalue.getBegin();
+                tvUpValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
                 tvUpValue.setText(StringFromatUtils.get4Point(addupValue));
                 float increase = addupValue / todayNetvalue.getBegin() * 100;
+                tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
                 tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
 
             }
@@ -368,9 +386,12 @@ public class TrendChartFragment extends Fragment {
      */
     private float getMaxOffetValue(TodayNetValue todayNetvalue) {
         lineDataList.clear();
+        int dashLineSize = 0;
+        int i = 0;
         float baseNum = todayNetvalue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         for (TodayNetBean bean : todayNetvalue.getChartlist()) {
+            i++;
             if (bean.getNetvalue() > maxNum) {
                 maxNum = bean.getNetvalue();
 
@@ -382,10 +403,16 @@ public class TrendChartFragment extends Fragment {
             // HitstroyNetBean todayBean = dayNetValueList.get(i);
             pointEntity.setDesc(TimeUtils.getTimeString(bean.getTimestamp()));
             pointEntity.setValue(bean.getNetvalue());
+
+            if (dashLineSize == 0 && TimeUtils.toCalendar(bean.getTimestamp()) != null) {
+                if (TimeUtils.toCalendar(bean.getTimestamp()).after(mCreateCalender)) {
+                    dashLineSize = i;
+                }
+            }
             lineDataList.add(pointEntity);
 
         }
-
+        mMaChart.setDashLinePointSize(dashLineSize);
         float offetValue;
         maxNum = maxNum - baseNum;
         minNum = baseNum - minNum;
@@ -402,6 +429,7 @@ public class TrendChartFragment extends Fragment {
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         lineDataList.clear();
+        int dashLineSize = 0;
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
@@ -413,6 +441,12 @@ public class TrendChartFragment extends Fragment {
             float value = todayBean.getNetvalue();
             pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(value);
+            if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
+                if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
+                    dashLineSize = i;
+                }
+            }
+
             lineDataList.add(pointEntity);
 
             if (value > maxNum) {
@@ -427,7 +461,10 @@ public class TrendChartFragment extends Fragment {
         minNum = baseNum - minNum;
 
         offetValue = maxNum > minNum ? maxNum : minNum;
-
+        if (dashLineSize == 0) {
+            dashLineSize = dataLenght;
+        }
+        mMaChart.setDashLinePointSize(dashLineSize);
         return offetValue;
         // return lineDataList;
         //
@@ -465,6 +502,17 @@ public class TrendChartFragment extends Fragment {
         mMaChart.setAxisYTitles(ytitle);
         mMaChart.setMaxValue(baseNum + offetYvalue);
         mMaChart.setMinValue(baseNum - offetYvalue);
+
+        List<String> rightYtitle = new ArrayList<String>();
+
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-(offetYvalue / baseNum) * 100));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-(halfOffetValue / baseNum) * 100));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((halfOffetValue / baseNum) * 100));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((offetYvalue / baseNum) * 100));
+
+        mMaChart.setDrawRightYTitle(true);
+        mMaChart.setAxisRightYTitles(rightYtitle);
 
     }
 
@@ -507,9 +555,8 @@ public class TrendChartFragment extends Fragment {
             if (object != null) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() < 7) {
-                    tvNoData.setVisibility(View.VISIBLE);
-                } else {
+                if (dayNetValueList != null) {
+
                     int sizeLength = dayNetValueList.size();
                     setYTitle(object.getBegin(), getMaxOffetValue(object));
                     setHistoryPointTitle();
@@ -523,12 +570,14 @@ public class TrendChartFragment extends Fragment {
                     setXTitle(dayNetValueList);
 
                 }
-
+                tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
                 tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
                 float addupValue = object.getEnd() - object.getBegin();
                 tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
                 // fl
                 tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
+                tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+                tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
 
             }
         }
@@ -621,7 +670,7 @@ public class TrendChartFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         // TODO Auto-generated method stub
         super.onHiddenChanged(hidden);
-        System.out.println("onHiddenChanged:" + hidden);
+        // System.out.println("onHiddenChanged:" + hidden);
 
     }
 
@@ -635,7 +684,7 @@ public class TrendChartFragment extends Fragment {
         // TODO Auto-generated method stub
         super.onDetach();
 
-        System.out.println("onDetach:");
+        // System.out.println("onDetach:");
     }
 
 }

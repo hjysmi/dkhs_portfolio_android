@@ -49,6 +49,9 @@ public class StringFromatUtils {
     public static String get2Point(float value) {
         return String.format("%.2f", value);
     }
+    public static String get4String(String text) {
+        return String.format("%4s", text);
+    }
 
     public static String get2PointPlus(float value) {
         if (value > 0) {

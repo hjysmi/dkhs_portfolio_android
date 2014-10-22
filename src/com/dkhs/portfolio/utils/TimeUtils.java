@@ -88,7 +88,6 @@ public class TimeUtils {
 
     public static String getTimeString(String iso8601Time) {
         return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
-
     }
     public static String getHourString(String iso8601Time) {
         return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));

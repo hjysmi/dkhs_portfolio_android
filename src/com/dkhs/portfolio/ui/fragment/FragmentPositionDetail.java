@@ -56,6 +56,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
     private PieGraph pgView;
     private View btnDate;
+    private View btnAdjust;
     private TextView tvCurrentDay;
     private TextView tvCombinationName;
     private TextView tvNetValue;
@@ -201,6 +202,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     };
 
     private void updateView() {
+        btnAdjust.setEnabled(true);
         setCombinationInfo();
         setStockList();
         setPieList();
@@ -265,7 +267,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void initView(View view) {
-        view.findViewById(R.id.btn_adjust_position).setOnClickListener(this);
+        btnAdjust = view.findViewById(R.id.btn_adjust_position);
+        btnAdjust.setOnClickListener(this);
+        btnAdjust.setEnabled(false);
         btnDate = view.findViewById(R.id.btn_detail_date);
         btnDate.setOnClickListener(this);
         tvCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);

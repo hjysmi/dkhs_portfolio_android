@@ -84,7 +84,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private Button btnCompare;
     private Button btnSelectFund;
     private TextView tvTimeDuration;
-    private TextView tvNoData;
+    // private TextView tvNoData;
     private TextView tvIncreaseValue;
     private View increaseView;
 
@@ -198,7 +198,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         btnSelectFund = (Button) view.findViewById(R.id.btn_select_fund);
         btnCompare = (Button) view.findViewById(R.id.btn_compare_fund);
         tvTimeDuration = (TextView) view.findViewById(R.id.tv_addup_date);
-        tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
+        // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_addup_value);
         increaseView = view.findViewById(R.id.rl_addup_history);
 
@@ -307,7 +307,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         }
 
         // machart.setLineData(lines);
-        tvNoData.setVisibility(View.VISIBLE);
+        // tvNoData.setVisibility(View.VISIBLE);
     }
 
     private List<LinePointEntity> initMA(int length) {
@@ -391,10 +391,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             if (object != null && isAdded()) {
                 btnCompare.setEnabled(true);
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
-                if (dayNetValueList != null && dayNetValueList.size() < 7) {
-                    tvNoData.setVisibility(View.VISIBLE);
-                } else {
-                    tvNoData.setVisibility(View.GONE);
+                if (dayNetValueList != null && dayNetValueList.size() > 0) {
+
                     // int sizeLength = dayNetValueList.size();
                     setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
                     // setHistoryPointTitle();
@@ -488,7 +486,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
      */
     private float getMaxOffetValue(HistoryNetValue historyNetValue) {
         // lineDataList.clear();
-        int dashLineSize = 0;
+        // int dashLineSize = 0;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
         float baseNum = historyNetList.get(0).getPercentageBegin();
@@ -498,11 +496,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
             HistoryNetBean todayBean = historyNetList.get(i);
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
-            if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
-                }
-            }
+            // if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
+            // if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
+            // dashLineSize = i;
+            // }
+            // }
 
             pointEntity.setValue(pointValue);
             lineDataList.add(pointEntity);
@@ -518,11 +516,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         minNum = baseNum - minNum;
 
         offetValue = maxNum > minNum ? maxNum : minNum;
-        if (dashLineSize == 0) {
-            dashLineSize = dataLenght;
-        }
-        System.out.println("dashLineSize:" + dashLineSize);
-        maChartView.setDashLinePointSize(dashLineSize);
+        // if (dashLineSize == 0) {
+        // dashLineSize = dataLenght;
+        // }
+        // System.out.println("dashLineSize:" + dashLineSize);
+        // maChartView.setDashLinePointSize(dashLineSize);
 
         return offetValue;
 

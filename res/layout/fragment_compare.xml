@@ -136,7 +136,7 @@
             <TextView
                 android:id="@+id/tv_addup_text"
                 style="@style/hw_wrap"
-                android:text="@string/add_up_value"
+                android:text="累计涨幅:"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -176,15 +176,6 @@
             android:id="@+id/machart"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
-
-        <TextView
-            android:id="@+id/tv_nodate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/data_deficient"
-            android:textSize="32sp"
-            android:visibility="gone" />
     </RelativeLayout>
 
 </RelativeLayout>

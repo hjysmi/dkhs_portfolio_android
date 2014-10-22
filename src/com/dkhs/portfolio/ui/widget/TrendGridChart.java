@@ -394,7 +394,7 @@ public class TrendGridChart extends View {
     private void drawRightYtitleText(Canvas canvas) {
         if (null != axisRightYTitles) {
             int counts = axisRightYTitles.size();
-            float xTitleWidth = mXTitlePaint.measureText(axisXTitles.get(counts - 1));
+            float xTitleWidth = mXTitlePaint.measureText(axisRightYTitles.get(counts - 1));
             float offetText = xTitleWidth;
             float startX = (super.getWidth() - axisMarginLeft - offetText);
             // 线条Paint

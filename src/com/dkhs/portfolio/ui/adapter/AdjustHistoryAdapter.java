@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
@@ -78,7 +79,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                     sb.append(percent);
                     sb.append("%");
                     sb.append("调至");
-                    sb.append(position.getToPercent() * 100 + "%");
+                    sb.append((int) (position.getToPercent() * 100) + "%");
                     bean.content = sb.toString();
                     this.mDataList.add(bean);
                 } else {
@@ -90,7 +91,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                     sb.append(percent);
                     sb.append("%");
                     sb.append("调至");
-                    sb.append(position.getToPercent() * 100 + "%");
+                    sb.append((int) (position.getToPercent() * 100) + "%");
                     getLastBean().content = sb.toString();
                 }
             }

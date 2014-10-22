@@ -3,11 +3,12 @@
 
     <color name="dark_green">#009966</color>
     <color name="transparent">#00000000</color>
-    <color name="theme_color">#262932</color>
+    <color name="theme_color">#384150</color>
     <color name="title_color">#e73535</color>
     <color name="theme_gray">#F5F5F5</color>
     <color name="theme_gray_press">#d0d0d0</color>
     <color name="edit_textcolor">#d0d0d0</color>
+    <color name="gray_textcolor">#979797</color>
     <color name="green">#36ad3c</color>
     <color name="pink">#FF4444</color>
     <color name="orange">#FF8800</color>

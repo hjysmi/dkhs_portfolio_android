@@ -29,6 +29,7 @@
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/iv_search"
             android:hint="@string/search_fund_hint"
+            android:singleLine="true"
             android:textSize="14sp" />
     </RelativeLayout>
 

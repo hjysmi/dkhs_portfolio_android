@@ -47,7 +47,7 @@
         android:id="@+id/tv_combination_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="@color/red" >
+        android:background="@color/white" >
 
         <View
             android:id="@+id/divider_line"
@@ -75,8 +75,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_toRightOf="@id/tv_combination_image_value"
                 android:paddingLeft="5dp"
-                android:text="@string/current_netvalue"
-                android:textColor="@android:color/white"
+                android:text="当前净值"
+                android:textColor="#979797"
                 android:textSize="14sp" />
 
             <TextView
@@ -103,7 +103,8 @@
                 android:layout_alignParentRight="true"
                 android:paddingBottom="10dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" />
+                android:paddingTop="10dp"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -115,7 +116,8 @@
                     android:id="@+id/tv_combination_image_totalnet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="15dp" />
+                    android:paddingLeft="15dp"
+                    android:src="@drawable/ic_networthrigth" />
 
                 <TextView
                     android:id="@+id/tv_income"
@@ -124,7 +126,7 @@
                     android:layout_toRightOf="@id/tv_combination_image_totalnet"
                     android:paddingLeft="5dp"
                     android:text="@string/add_up_value"
-                    android:textColor="@android:color/white"
+                    android:textColor="#979797"
                     android:textSize="14sp" />
 
                 <TextView

@@ -16,7 +16,7 @@ public class ScrollTopFragment extends Fragment {
     public static final String TYPE_WEEK = "type_week";
     public static final String TYPE_MONTH = "type_month";
 
-    private String mType;
+    private String mType=TYPE_WEEK;
 
     public static ScrollTopFragment getInstance(String type) {
         ScrollTopFragment mScrollTopFragment = new ScrollTopFragment();
