@@ -7,6 +7,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
 public abstract class BasicHttpListener implements IHttpListener {
@@ -104,6 +105,9 @@ public abstract class BasicHttpListener implements IHttpListener {
         // }
         // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
+        if(errCode==500){
+            PromptManager.showToast("网络连接失败,请检查你的网络");
+        }
 
     }
 

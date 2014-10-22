@@ -4,36 +4,47 @@
     android:layout_height="match_parent"
     android:background="@color/white" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/view_stock_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/theme_gray"
+        android:orientation="horizontal"
         android:padding="8dp" >
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/stock_name"
             android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:text="@string/stock_name"
             android:textSize="14sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/current_value"
+            android:layout_weight="1"
+            android:text="最新价"
             android:textSize="14sp" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="涨幅"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
-            android:text="@string/price_change_ratio"
+            android:layout_weight="1"
+            android:text="涨跌"
             android:textSize="14sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_add_optional_stock"

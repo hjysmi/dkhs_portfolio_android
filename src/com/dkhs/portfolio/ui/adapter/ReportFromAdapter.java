@@ -72,6 +72,7 @@ public class ReportFromAdapter extends BaseAdapter {
         NetValueReportBean bean = mDataList.get(position);
         viewHolder.tvDate.setText(bean.getDate());
         viewHolder.tvNetValue.setText(StringFromatUtils.get4Point(bean.getNetValue()));
+        viewHolder.tvDayUP.setTextColor(ColorTemplate.getUpOrDrownCSL(bean.getPercentage()));
         viewHolder.tvDayUP.setText(StringFromatUtils.getPercentValue(bean.getPercentage()));
         if (bean.getNetValue() < 1) {
             viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_GREEN);

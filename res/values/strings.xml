@@ -88,7 +88,7 @@
     <string name="current">当前：</string>
     <string name="add_up">累计：</string>
     <string name="create_combination">创建基金</string>
-    <string name="adjust_combination">调整基金</string>
+    <string name="adjust_combination">持仓调整</string>
     <string name="add_combination">添加基金</string>
     <string name="del_combination">删除基金</string>
     <string name="quotes_format">(%1$s)</string>

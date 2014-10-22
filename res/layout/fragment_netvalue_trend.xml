@@ -75,7 +75,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_toRightOf="@id/tv_combination_image_value"
                 android:paddingLeft="5dp"
-                android:text="@string/current_netvalue"
+                android:text="当前净值"
                 android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
