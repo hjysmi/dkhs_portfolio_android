@@ -39,6 +39,7 @@ import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
+import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -260,7 +261,7 @@ public class TrendChartFragment extends Fragment {
 
     }
 
-    private void setLineData(List<LinePointEntity> lineDataList) {
+    private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
             List<LineEntity> lines = new ArrayList<LineEntity>();
             LineEntity MA5 = new LineEntity();
@@ -339,7 +340,7 @@ public class TrendChartFragment extends Fragment {
                 List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() > 0) {
                     setYTitle(todayNetvalue.getBegin(), getMaxOffetValue(todayNetvalue));
-                    setTodayPointTitle();
+                    // setTodayPointTitle();
                     setLineData(lineDataList);
 
                     String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
@@ -408,10 +409,11 @@ public class TrendChartFragment extends Fragment {
                 minNum = bean.getNetvalue();
             }
 
-            LinePointEntity pointEntity = new LinePointEntity();
+            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
             // HitstroyNetBean todayBean = dayNetValueList.get(i);
-            pointEntity.setDesc(TimeUtils.getTimeString(bean.getTimestamp()));
+            pointEntity.setTime("时间:" + TimeUtils.getTimeString(bean.getTimestamp()));
             pointEntity.setValue(bean.getNetvalue());
+            pointEntity.setIncreaseRange((bean.getNetvalue() - baseNum) / baseNum * 100);
 
             if (dashLineSize == 0 && TimeUtils.toCalendar(bean.getTimestamp()) != null) {
                 if (TimeUtils.toCalendar(bean.getTimestamp()).after(mCreateCalender)) {
@@ -431,7 +433,7 @@ public class TrendChartFragment extends Fragment {
         return offetValue;
     }
 
-    List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
+    List<TrendLinePointEntity> lineDataList = new ArrayList<TrendLinePointEntity>();
 
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
@@ -445,11 +447,14 @@ public class TrendChartFragment extends Fragment {
         int dataLenght = historyNetList.size();
         for (int i = 0; i < dataLenght; i++) {
 
-            LinePointEntity pointEntity = new LinePointEntity();
+            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
             float value = todayBean.getNetvalue();
-            pointEntity.setDesc(todayBean.getDate());
+            // pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(value);
+            pointEntity.setTime("日期:" + todayBean.getDate());
+            pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+
             if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;
@@ -522,22 +527,25 @@ public class TrendChartFragment extends Fragment {
 
         mMaChart.setDrawRightYTitle(true);
         mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.setDrawTrendChart(true);
 
     }
 
-    private void setTodayPointTitle() {
-        List<String> titles = new ArrayList<String>();
-        titles.add("时间");
-        titles.add("当前净值");
-        mMaChart.setPointTitleList(titles);
-    }
-
-    private void setHistoryPointTitle() {
-        List<String> titles = new ArrayList<String>();
-        titles.add("日期");
-        titles.add("当前净值");
-        mMaChart.setPointTitleList(titles);
-    }
+    // private void setTodayPointTitle() {
+    // List<String> titles = new ArrayList<String>();
+    // titles.add("时间");
+    // titles.add("当前净值");
+    // titles.add("涨幅");
+    // mMaChart.setPointTitleList(titles);
+    // }
+    //
+    // private void setHistoryPointTitle() {
+    // List<String> titles = new ArrayList<String>();
+    // titles.add("日期");
+    // titles.add("当前净值");
+    // titles.add("涨幅");
+    // mMaChart.setPointTitleList(titles);
+    // }
 
     Handler dataHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -568,7 +576,7 @@ public class TrendChartFragment extends Fragment {
 
                     int sizeLength = dayNetValueList.size();
                     setYTitle(object.getBegin(), getMaxOffetValue(object));
-                    setHistoryPointTitle();
+                    // setHistoryPointTitle();
                     setLineData(lineDataList);
                     String strLeft = getString(R.string.time_start, dayNetValueList.get(0).getDate());
                     String strRight = getString(R.string.time_end, dayNetValueList.get(sizeLength - 1).getDate());

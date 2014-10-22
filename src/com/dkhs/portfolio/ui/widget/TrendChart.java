@@ -20,6 +20,7 @@ import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class TrendChart extends TrendGridChart {
@@ -62,6 +63,7 @@ public class TrendChart extends TrendGridChart {
     private int dashLinePointSize;
 
     private boolean isDrawTimesharingplanChart;
+    private boolean isDrawTrendChart;
 
     // 计数器，防止多次点击导致最后一次形成longpress的时间变短
     private int mCounter;
@@ -472,6 +474,8 @@ public class TrendChart extends TrendGridChart {
                 drawWithFingerClick(canvas, pointIndex);
                 if (isDrawTimesharingplanChart) {
                     drawTimesharingInfo(canvas, pointIndex);
+                } else if (isDrawTrendChart) {
+                    drawTrendChartInfo(canvas, pointIndex);
                 } else {
 
                     if (lineData.size() == 1) {
@@ -567,33 +571,86 @@ public class TrendChart extends TrendGridChart {
             canvas.drawText(fsPoint.getTurnoverDesc(), startX + textMargin, preYpoint, selectPaint);
 
         }
-        //
-        //
-        // if (null != pointTitleList && pointTitleList.size() > 0) {
-        // firtLineText = pointTitleList.get(0) + ":" + date.getDesc();
-        // } else {
-        // firtLineText = "日期：" + date.getDesc();
-        // }
 
-        // LineEntity lineentity = lineData.get(0);
-        // if (pointIndex < lineentity.getLineData().size()) {
-        //
-        // selectPaint.setColor(lineentity.getLineColor());
-        // preYpoint += textMargin + textTextHeight;
-        // String text = "";
-        // if (TextUtils.isEmpty(lineentity.getTitle())) {
-        //
-        // if (null != pointTitleList && pointTitleList.size() > 1) {
-        // text = pointTitleList.get(1) + "："
-        // + StringFromatUtils.get4Point(lineentity.getLineData().get(pointIndex).getValue());
-        // } else {
-        // text = StringFromatUtils.get4Point(lineentity.getLineData().get(pointIndex).getValue());
-        // }
-        //
-        // }
-        // canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
-        //
-        // }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void drawTrendChartInfo(Canvas canvas, int pointIndex) {
+        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        float startX;
+        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight) / 3 * 2;
+        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_width);
+        int margin = (int) (40 / 3.0f * 2);
+        float marginTop = margin + axisMarginTop;
+        // = margin;
+        // 当触摸点在左边
+        if (getTouchPoint().x > midPointx) {
+            startX = getAxisMarginLeft() + margin;
+
+        } else {
+            startX = super.getWidth() - viewLength - margin;
+
+        }
+
+        // 创建画笔 画背景图
+        Paint selectPaint = new Paint();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(Color.WHITE);
+        int textMargin = (int) (getResources().getDimensionPixelOffset(R.dimen.float_text_margin) * 1.5);
+
+        FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+
+        if (lineData.size() > 3) {
+            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
+        }
+
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        selectPaint.setStyle(Paint.Style.STROKE);// 描边
+        selectPaint.setStrokeWidth(2);
+        selectPaint.setColor(Color.LTGRAY);
+        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+
+        /*********** End *************/
+
+        /******* draw text ********/
+
+        float preYpoint = textTextHeight + textMargin + marginTop;
+        selectPaint.reset();
+        selectPaint.setColor(Color.BLACK);
+        selectPaint.setAntiAlias(true);
+        selectPaint.setTextSize(getResources().getInteger(R.integer.select_touch_text));
+        String firtLineText;
+
+        LineEntity lineentity = lineData.get(0);
+        LinePointEntity data = (LinePointEntity) lineentity.getLineData().get(pointIndex);
+        if (data instanceof TrendLinePointEntity) {
+            TrendLinePointEntity fsPoint = (TrendLinePointEntity) data;
+            canvas.drawText(fsPoint.getTime(), startX + textMargin, preYpoint, selectPaint);
+            preYpoint += textMargin + textTextHeight;
+            selectPaint.setColor(lineentity.getLineColor());
+            canvas.drawText(fsPoint.getDataDesc(), startX + textMargin, preYpoint, selectPaint);
+            preYpoint += textMargin + textTextHeight;
+            if (fsPoint.getIncreaseRange() > 0) {
+
+                selectPaint.setColor(ColorTemplate.DEF_RED);
+            } else if (fsPoint.getIncreaseRange() < 0) {
+
+                selectPaint.setColor(ColorTemplate.DEF_GREEN);
+            } else {
+                selectPaint.setColor(ColorTemplate.DEF_GRAY);
+
+            }
+            canvas.drawText(fsPoint.getIncreaseRangeDesc(), startX + textMargin, preYpoint, selectPaint);
+
+        }
 
     }
 
@@ -793,7 +850,7 @@ public class TrendChart extends TrendGridChart {
         float startX;
         int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_mulit_view_lenght);
         int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
-        int margin = 40;
+        int margin = (int) (40/3.0f*2);
         float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边
@@ -989,6 +1046,14 @@ public class TrendChart extends TrendGridChart {
 
     public void setFromCompare(boolean isFromCompare) {
         this.isFromCompare = isFromCompare;
+    }
+
+    public boolean isDrawTrendChart() {
+        return isDrawTrendChart;
+    }
+
+    public void setDrawTrendChart(boolean isDrawTrendChart) {
+        this.isDrawTrendChart = isDrawTrendChart;
     }
 
     // public boolean isDrawDashLine() {

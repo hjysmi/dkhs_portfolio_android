@@ -92,7 +92,7 @@ public class FragmentSwitchChart extends Fragment {
         swChart = (Switch) view.findViewById(R.id.switch_chart);
         // chartView = view.findViewById(id)
         if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
-            swChart.setVisibility(View.GONE);
+            swChart.setVisibility(View.INVISIBLE);
         }
         replaceChartView();
         swChart.setOnClickListener(switchClickListener);
@@ -164,7 +164,7 @@ public class FragmentSwitchChart extends Fragment {
     private Handler updHandler;
 
     public void setUpdateHandler(Handler updateHandler) {
-    
+
         this.updHandler = updateHandler;
 
     }

@@ -73,8 +73,11 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                     // bean.content = position.get
                     bean.time = position.getModifyTime();
                     StringBuilder sb = new StringBuilder();
-                    sb.append(String.format("%-5s", position.getStockName()));
-
+                    // sb.append(String.format("%-5s", position.getStockName()));
+                    sb.append(position.getStockName());
+                    if (position.getStockName().length() < 4) {
+                        sb.append("    ");
+                    }
                     sb.append(" 从");
                     int percent = (int) (position.getFromPercent() * 100);
                     sb.append(percent);
@@ -86,7 +89,11 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                 } else {
 
                     StringBuilder sb = new StringBuilder(getLastBean().content + "\n");
-                    sb.append(String.format("%-5s", position.getStockName()));
+                    // sb.append(String.format("%-5s", position.getStockName()));
+                    sb.append(position.getStockName());
+                    if (position.getStockName().length() < 4) {
+                        sb.append("    ");
+                    }
                     sb.append(" 从");
                     int percent = (int) (position.getFromPercent() * 100);
                     sb.append(percent);
