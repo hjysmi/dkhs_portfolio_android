@@ -47,7 +47,7 @@
         android:id="@+id/tv_combination_layout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:background="@color/red" >
+        android:background="@color/white" >
 
         <View
             android:id="@+id/divider_line"
@@ -76,7 +76,7 @@
                 android:layout_toRightOf="@id/tv_combination_image_value"
                 android:paddingLeft="5dp"
                 android:text="当前净值"
-                android:textColor="@android:color/white"
+                android:textColor="#979797"
                 android:textSize="14sp" />
 
             <TextView
@@ -126,7 +126,7 @@
                     android:layout_toRightOf="@id/tv_combination_image_totalnet"
                     android:paddingLeft="5dp"
                     android:text="@string/add_up_value"
-                    android:textColor="@android:color/white"
+                    android:textColor="#979797"
                     android:textSize="14sp" />
 
                 <TextView

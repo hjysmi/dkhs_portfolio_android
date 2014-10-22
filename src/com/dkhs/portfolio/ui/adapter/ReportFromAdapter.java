@@ -74,12 +74,12 @@ public class ReportFromAdapter extends BaseAdapter {
         viewHolder.tvNetValue.setText(StringFromatUtils.get4Point(bean.getNetValue()));
         viewHolder.tvDayUP.setTextColor(ColorTemplate.getUpOrDrownCSL(bean.getPercentage()));
         viewHolder.tvDayUP.setText(StringFromatUtils.getPercentValue(bean.getPercentage()));
-        if (bean.getNetValue() < 1) {
-            viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_GREEN);
-        } else {
-
-            viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_RED);
-        }
+        // if (bean.getNetValue() < 1) {
+        // viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_GREEN);
+        // } else {
+        //
+        // viewHolder.tvDayUP.setTextColor(ColorTemplate.DEF_RED);
+        // }
 
         return convertView;
     }

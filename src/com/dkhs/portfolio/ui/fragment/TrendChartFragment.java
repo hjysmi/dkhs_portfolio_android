@@ -412,7 +412,7 @@ public class TrendChartFragment extends Fragment {
             lineDataList.add(pointEntity);
 
         }
-
+        mMaChart.setDashLinePointSize(dashLineSize);
         float offetValue;
         maxNum = maxNum - baseNum;
         minNum = baseNum - minNum;
@@ -464,6 +464,7 @@ public class TrendChartFragment extends Fragment {
         if (dashLineSize == 0) {
             dashLineSize = dataLenght;
         }
+        mMaChart.setDashLinePointSize(dashLineSize);
         return offetValue;
         // return lineDataList;
         //
@@ -569,13 +570,13 @@ public class TrendChartFragment extends Fragment {
                     setXTitle(dayNetValueList);
 
                 }
-                tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(0));
+                tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
                 tvNetValue.setText(StringFromatUtils.get4Point(object.getBegin()));
                 float addupValue = object.getEnd() - object.getBegin();
                 tvUpValue.setText(StringFromatUtils.get4Point(object.getEnd()));
                 // fl
                 tvIncreaseValue.setText(StringFromatUtils.get4Point(addupValue));
-                tvUpValue.setTextColor(ColorTemplate.getUpOrDrownCSL(0));
+                tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
                 tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
 
             }

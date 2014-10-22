@@ -31,6 +31,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -49,7 +50,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView tvCombinCreateTime;
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
-    private View viewNetvalueHead;
+    // private View viewNetvalueHead;
     private ImageView ivUpDownIcon;
     // private Button btnEditName;
 
@@ -101,7 +102,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
-        viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
+//        viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
         initTabPage(view);
@@ -128,18 +129,20 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         public void handleMessage(android.os.Message msg) {
             System.out.println("hand update message");
             float netValue = (Float) msg.obj;
-            if (netValue > 1) {
-                ivUpDownIcon.setImageResource(R.drawable.ic_combination_up);
-                viewNetvalueHead.setBackgroundResource(R.color.red);
-            } else if (netValue < 1) {
-                ivUpDownIcon.setImageResource(R.drawable.ic_combination_down);
-                viewNetvalueHead.setBackgroundResource(R.color.green);
-
-            } else {
-                ivUpDownIcon.setImageDrawable(null);
-                viewNetvalueHead.setBackgroundResource(R.color.red);
-            }
+            // if (netValue > 1) {
+            // ivUpDownIcon.setImageResource(R.drawable.ic_combination_up);
+            // viewNetvalueHead.setBackgroundResource(R.color.red);
+            // } else if (netValue < 1) {
+            // ivUpDownIcon.setImageResource(R.drawable.ic_combination_down);
+            // viewNetvalueHead.setBackgroundResource(R.color.green);
+            //
+            // } else {
+            // ivUpDownIcon.setImageDrawable(null);
+            // viewNetvalueHead.setBackgroundResource(R.color.red);
+            // }
+            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue-1));
             tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
+            tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue-1));
             tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
         };
     };
