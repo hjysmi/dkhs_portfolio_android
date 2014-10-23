@@ -217,7 +217,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
         tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
         tvNetValue.setText(StringFromatUtils.get4Point(mPositionDetail.getPortfolio().getNetvalue()));
-        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue()));
+        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue()-1));
 
     }
 

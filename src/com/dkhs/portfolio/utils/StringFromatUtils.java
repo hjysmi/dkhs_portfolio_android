@@ -76,7 +76,7 @@ public class StringFromatUtils {
             
             return String.format("%.2f万手", value / 10000f);
         }else{
-            return String.format("%.2f千万手", value / 10000000);
+            return String.format("%.2f千万手", value / 10000000f);
         }
     }
 

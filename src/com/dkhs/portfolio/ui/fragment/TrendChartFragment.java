@@ -423,7 +423,11 @@ public class TrendChartFragment extends Fragment {
             lineDataList.add(pointEntity);
 
         }
+        if (dashLineSize == 0) {
+            dashLineSize = todayNetvalue.getChartlist().size();
+        }
         mMaChart.setDashLinePointSize(dashLineSize);
+        System.out.println("dashLineSize :" + dashLineSize);
         float offetValue;
         maxNum = maxNum - baseNum;
         minNum = baseNum - minNum;
@@ -569,7 +573,7 @@ public class TrendChartFragment extends Fragment {
 
         @Override
         protected void afterParseData(HistoryNetValue object) {
-            if (object != null&&isAdded()) {
+            if (object != null && isAdded()) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null) {

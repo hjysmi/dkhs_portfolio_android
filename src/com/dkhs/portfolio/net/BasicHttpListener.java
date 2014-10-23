@@ -1,12 +1,11 @@
 package com.dkhs.portfolio.net;
 
+import java.util.Iterator;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.widget.Toast;
-
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -54,7 +53,8 @@ public abstract class BasicHttpListener implements IHttpListener {
             try {
                 JSONObject jsonObject = new JSONObject(result);
 
-                if (jsonObject.has("errors")) {
+                if (jsonObject.has(KEY_ERROR)) {
+
                     onFailure(777, result);
                     return;
                 }
@@ -105,10 +105,42 @@ public abstract class BasicHttpListener implements IHttpListener {
         // }
         // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
-        if(errCode==500){
+        if (errCode == 500) { // 服务器内部错误
             PromptManager.showToast("网络连接失败,请检查你的网络");
+        } else if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
+            parseToErrorBundle(errMsg);
         }
 
+    }
+
+    private final String KEY_ERROR = "errors";
+
+    private ErrorBundle parseToErrorBundle(String errMsg) {
+        ErrorBundle errorBundle = new ErrorBundle();
+        try {
+            JSONObject errorJson = new JSONObject(errMsg);
+            if (errorJson.has(KEY_ERROR)) {
+                JSONObject eJObject = errorJson.optJSONObject(KEY_ERROR);
+                Iterator keyIter = eJObject.keys();
+                String key = "";
+                while (keyIter.hasNext()) {
+                    key = (String) keyIter.next();
+                    break;
+                }
+                JSONArray eJArray = eJObject.optJSONArray(key);
+                if (eJArray.length() > 0) {
+                    String errorTExt = eJArray.getString(0);
+                    LogUtils.e("setErrorMessage : " + errorTExt);
+                    errorBundle.setErrorMessage(eJArray.getString(0));
+                    PromptManager.showToast(errorTExt);
+                }
+            }
+
+        } catch (JSONException e) {
+            errorBundle.setErrorMessage("请求数据失败");
+            e.printStackTrace();
+        }
+        return errorBundle;
     }
 
     /**

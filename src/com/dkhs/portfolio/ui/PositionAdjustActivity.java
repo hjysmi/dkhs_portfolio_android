@@ -46,6 +46,7 @@ import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName PositionAdjustActivity
@@ -162,9 +163,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
             viewCombinationInfo.setVisibility(View.VISIBLE);
             positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
-            String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
-            time = time.substring(0, time.length() - 4);
-            positionTextCreatedate.setText("成立时间:" + time);
+            positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
+                    .getNetvalue() - 1));
+            // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
+            // time = time.substring(0, time.length() - 4);
+            positionTextCreatedate.setText("成立时间:"
+                    + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
         }
     }
 
@@ -491,29 +495,16 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         }
 
                         @Override
-                        public void onFailure(int errCode, String errMsg) {
-                            super.onFailure(errCode, errMsg);
-                            if (errCode != 500) {
-                                PromptManager.showToast(errMsg);
-                            }
-                        };
+                        protected void afterParseData(Object object) {
 
-                        @Override
-                        public void onSuccess(String result) {
-                            super.onSuccess(result);
+                            finish();
+
                         }
 
                         @Override
                         protected Object parseDateTask(String jsonData) {
                             // TODO Auto-generated method stub
                             return null;
-                        }
-
-                        @Override
-                        protected void afterParseData(Object object) {
-
-                            finish();
-
                         }
 
                     }.setLoadingDialog(this, "创建中..."));
