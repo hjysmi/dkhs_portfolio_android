@@ -127,9 +127,9 @@ public class TimesharingplanChart extends TrendChart {
 
     private void drawVolChart(Canvas canvas) {
         // 蜡烛棒宽度
-        float stickWidth = (getmGridLineLenght() / 240);
+        float stickWidth = ((getmGridLineLenght()) / (this.getMaxPointNum()));
         // 蜡烛棒起始绘制位置
-        float stickX = super.getAxisMarginLeft() + 1;
+        float stickX = super.getAxisMarginLeft() ;
         Paint mPaintStick = new Paint();
 
         if (null != lineData && lineData.size() > 0) {
