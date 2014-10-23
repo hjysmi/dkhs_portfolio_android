@@ -68,7 +68,8 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
-        viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
+        //setFromShow(true);
+       // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
 
