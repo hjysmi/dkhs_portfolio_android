@@ -39,6 +39,9 @@ public class StockQuotesBean {
     @SerializedName("sell_price_level")
     private SellPrice sellPrice;
 
+    private List<FiveRangeItem> buyList;
+    private List<FiveRangeItem> sellList;
+
     public class BuyPrice {
         @SerializedName("buy_vol")
         private List<String> buyVol;
@@ -179,6 +182,22 @@ public class StockQuotesBean {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<FiveRangeItem> getBuyList() {
+        return buyList;
+    }
+
+    public void setBuyList(List<FiveRangeItem> buyList) {
+        this.buyList = buyList;
+    }
+
+    public List<FiveRangeItem> getSellList() {
+        return sellList;
+    }
+
+    public void setSellList(List<FiveRangeItem> sellList) {
+        this.sellList = sellList;
     }
 
 }

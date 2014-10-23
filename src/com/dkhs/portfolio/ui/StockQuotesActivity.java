@@ -26,10 +26,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -189,7 +189,36 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
+                List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
+                List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
+                int i = 0;
+                for (String buyPrice : stockQuotesBean.getBuyPrice().getBuyPrice()) {
+                    FiveRangeItem buyItem = new FiveRangeItem();
 
+                    buyItem.price = buyPrice;
+                    if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
+                        buyItem.vol = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
+                    } else {
+                        buyItem.vol = "0";
+                    }
+                    buyItem.tag = "" + (++i);
+                    buyList.add(buyItem);
+                }
+                // // i = 0;
+                for (int j = 4; j >= 0; j--) {
+                    FiveRangeItem sellItem = new FiveRangeItem();
+                    if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
+                        sellItem.price = stockQuotesBean.getSellPrice().getSellPrice().get(j);
+                        sellItem.vol = stockQuotesBean.getSellPrice().getSellVol().get(j);
+                    } else {
+                        sellItem.vol = "0";
+                    }
+                    sellItem.tag = "" + (j + 1);
+                    sellList.add(sellItem);
+                }
+
+                stockQuotesBean.setBuyList(buyList);
+                stockQuotesBean.setSellList(sellList);
             } catch (JSONException e) {
 
                 e.printStackTrace();
@@ -213,7 +242,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,mStockCode);
+        mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
+                mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
         fragmentList.add(mStockQuotesChartFragment);
         KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode);
@@ -229,7 +259,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, titleArray));
-        
+
         TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         indicator.setViewPager(pager);
 
