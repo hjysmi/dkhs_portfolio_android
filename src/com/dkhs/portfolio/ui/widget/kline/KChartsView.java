@@ -285,8 +285,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f,
 						textPaint);
 			} catch (Exception e) {
-				canvas.drawText("--", left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top
-						+ DEFAULT_AXIS_TITLE_SIZE * 6.0f, textPaint);
+				/*canvas.drawText("--", left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top
+						+ DEFAULT_AXIS_TITLE_SIZE * 6.0f, textPaint);*/
 			}
 			
 			//textPaint.setColor(Color.DKGRAY);

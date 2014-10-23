@@ -35,6 +35,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 public class BaseAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
     protected Context mContext;
     protected List<SelectStockBean> mDataList;
+    private boolean fromShow = true;
     public BaseAdatperSelectStockFund(Context context, List<SelectStockBean> datas) {
         this.mContext = context;
         this.mDataList = datas;
@@ -84,13 +85,24 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
         if (isChecked && !BaseSelectActivity.mSelectList.contains(csBean)) {
             BaseSelectActivity.mSelectList.add(csBean);
             /**暂时屏蔽  点击checkbox跳转到个股详情*/
-            if(false && mDataList.contains(csBean)){
+            /*if(fromShow){
+	            int position = BaseSelectActivity.mSelectList.indexOf(csBean);
+	            SelectStockBean itemStock = BaseSelectActivity.mSelectList.get(position);
+	            itemStock.isFollowed = true;
+	            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            }*/
+            /*if(false && mDataList.contains(csBean)){
                 int position = mDataList.indexOf(csBean);
                 
                 SelectStockBean itemStock = BaseSelectActivity.mSelectList.get(position);
                 itemStock.isFollowed = true;
                 mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
-            }
+            if(fromShow){
+	            int position = BaseSelectActivity.mSelectList.indexOf(csBean);
+	            SelectStockBean itemStock = BaseSelectActivity.mSelectList.get(position);
+	            itemStock.isFollowed = true;
+	            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            }*/
         } else {
             boolean isRmove = BaseSelectActivity.mSelectList.remove(csBean);
 
@@ -102,6 +114,7 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
         if (null != mSelectLisenter) {
             mSelectLisenter.onCheckedChanged(buttonView, isChecked);
         }
+        
     }
 
     private ISelectChangeListener mSelectLisenter;
@@ -114,4 +127,12 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
         this.mSelectLisenter = listener;
     }
 
+	public boolean isFromShow() {
+		return fromShow;
+	}
+
+	public void setFromShow(boolean fromShow) {
+		this.fromShow = fromShow;
+	}
+    
 }
