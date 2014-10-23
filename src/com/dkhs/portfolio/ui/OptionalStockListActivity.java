@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -30,7 +31,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 public class OptionalStockListActivity extends ModelAcitivity implements OnClickListener {
     private FragmentSelectStockFund loadDataListFragment;
     private TextView tvCurrent;
-    private TextView tvIncrease;
+    private TextView tvChange;
     private TextView tvPercentgae;
 
     private final String typeCurrentUp = "current";
@@ -73,10 +74,10 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         });
 
         tvCurrent = (TextView) findViewById(R.id.tv_current);
-        tvIncrease = (TextView) findViewById(R.id.tv_increase);
+        tvChange = (TextView) findViewById(R.id.tv_increase);
         tvPercentgae = (TextView) findViewById(R.id.tv_percentage);
         tvCurrent.setOnClickListener(this);
-        tvIncrease.setOnClickListener(this);
+        tvChange.setOnClickListener(this);
         tvPercentgae.setOnClickListener(this);
 
     }
@@ -101,25 +102,22 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
     private TextView viewLastClick;
     private String orderType;
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.tv_current: {
-                if (null == viewLastClick) {
-                    viewLastClick = tvCurrent;
-                    setCurrentDown();
-                } else if (viewLastClick != tvCurrent) {
-                    setTextDrawableHide(viewLastClick);
-                }
+                setViewOrderIndicator(tvCurrent);
             }
                 break;
             case R.id.tv_percentage: {
+                setViewOrderIndicator(tvPercentgae);
 
             }
                 break;
             case R.id.tv_increase: {
-
+                setViewOrderIndicator(tvChange);
             }
                 break;
 
@@ -127,22 +125,26 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
                 break;
         }
 
+        if (null != loadDataListFragment && !TextUtils.isEmpty(orderType)) {
+            loadDataListFragment.setOptionalOrderType(orderType);
+        }
+
     }
 
-    private void setCurrentUp() {
-        orderType = typeCurrentUp;
+    private void setDrawableUp(TextView view) {
+
         Drawable drawable = getResources().getDrawable(R.drawable.market_icon_up);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        tvCurrent.setCompoundDrawables(null, null, drawable, null);
-        tvCurrent.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+        view.setCompoundDrawables(null, null, drawable, null);
+        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
     }
 
-    private void setCurrentDown() {
-        orderType = typeCurrentDown;
+    private void setDrawableDown(TextView view) {
+        // orderType = typeCurrentDown;
         Drawable drawable = getResources().getDrawable(R.drawable.market_icon_down);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        tvCurrent.setCompoundDrawables(null, null, drawable, null);
-        tvCurrent.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+        view.setCompoundDrawables(null, null, drawable, null);
+        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
     }
 
     private void setTextDrawableHide(TextView view) {
@@ -151,6 +153,45 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         view.setCompoundDrawables(null, null, null, null);
         // tvCurrent.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
 
+    }
+
+    private void setViewOrderIndicator(TextView currentSelectView) {
+        if (null == viewLastClick) {
+
+            setDownType(currentSelectView);
+        } else if (viewLastClick != currentSelectView) {
+            setTextDrawableHide(viewLastClick);
+            setDownType(currentSelectView);
+        } else if (viewLastClick == currentSelectView) {
+            if (orderType == typeChangeDown || orderType == typeCurrentDown || orderType == typePercentageDown) {
+                setUpType(currentSelectView);
+            } else {
+                setDownType(currentSelectView);
+            }
+        }
+        viewLastClick = currentSelectView;
+    }
+
+    private void setDownType(TextView currentSelectView) {
+        if (currentSelectView == tvCurrent) {
+            orderType = typeCurrentDown;
+        } else if (currentSelectView == tvChange) {
+            orderType = typeChangeDown;
+        } else if (currentSelectView == tvPercentgae) {
+            orderType = typePercentageDown;
+        }
+        setDrawableDown(currentSelectView);
+    }
+
+    private void setUpType(TextView currentSelectView) {
+        if (currentSelectView == tvCurrent) {
+            orderType = typeCurrentUp;
+        } else if (currentSelectView == tvChange) {
+            orderType = typeChangeDown;
+        } else if (currentSelectView == tvPercentgae) {
+            orderType = typePercentageDown;
+        }
+        setDrawableUp(currentSelectView);
     }
 
 }

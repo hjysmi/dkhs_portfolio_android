@@ -26,6 +26,7 @@ public class StockPriceBean {
     private String symbol;
     @SerializedName("current")
     private float current;
+    private float change;
 
     // 涨跌幅
     @SerializedName("percentage")
@@ -110,6 +111,14 @@ public class StockPriceBean {
 
     public void setSeasonPercentage(float seasonPercentage) {
         this.seasonPercentage = seasonPercentage;
+    }
+
+    public float getChange() {
+        return change;
+    }
+
+    public void setChange(float change) {
+        this.change = change;
     }
 
 }

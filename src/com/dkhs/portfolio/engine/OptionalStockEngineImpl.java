@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -50,9 +52,10 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
+    private String orderType;
 
-    public void setLoadType() {
-
+    public void setLoadType(String orderType) {
+        this.orderType = orderType;
     }
 
     /**
@@ -64,7 +67,13 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      */
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, this);
+        if (TextUtils.isEmpty(orderType)) {
+
+            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, this);
+        } else {
+            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
+
+        }
     }
 
     @Override
@@ -88,6 +97,8 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     selectBean.currentValue = stockBean.getCurrent();
                     selectBean.code = stockBean.getSymbol();
                     selectBean.percentage = stockBean.getPercentage();
+                    selectBean.percentage = stockBean.getPercentage();
+                    selectBean.change = stockBean.getChange();
                     selectList.add(selectBean);
 
                     results.add(stockBean);
@@ -113,8 +124,18 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     public void loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
+        NameValuePair valuePair2 = new BasicNameValuePair("sort", orderType);
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
+        params.add(valuePair2);
+
+        if (TextUtils.isEmpty(orderType)) {
+
+            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
+
+        } else {
+            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
+
+        }
 
     }
 

@@ -67,6 +67,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvPercentValue.setTextColor(textCsl);
         viewHolder.tvIncearseValue.setTextColor(textCsl);
         viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+        viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
         viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
 
         return convertView;
