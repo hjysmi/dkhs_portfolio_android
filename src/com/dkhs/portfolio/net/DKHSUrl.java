@@ -18,7 +18,7 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
-    public static final String BASE_URL = "http://58.23.5.117:8010";
+    public static final String BASE_URL = "http://58.23.5.117:8030";
 
     public interface Portfolio {
         // 查询我的组合
@@ -64,7 +64,9 @@ public class DKHSUrl {
         // http://192.168.107.251:8002/api/v1/symbols/SZ000002/time_line/?period=1
 
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
-
+        //行情中心 指数排行
+        String marketcenter = "/api/v1/symbols/?sort={0}percentage&page_size=10&is_midx=1";
+        String opitionmarket = "/api/v1/symbols/?sort={0}percentage&page_size=10&symbol_type=1";
     }
 
     public interface NetValue {

@@ -34,6 +34,8 @@ import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
+import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
+import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -41,6 +43,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
+import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
@@ -95,7 +98,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         STOCK_HANDOVER(4),
         // 股票，自选股
         STOCK_OPTIONAL_PRICE(8),
-
+        //行情中心 指数排行榜查询 递减
+        STOC_INDEX_MARKET(9),
+      //行情中心 指数排行榜查询 递减
+        STOC_INDEX_MARKET_ACE(10),
+      //行情中心 个股排行榜查询 递减
+        STOC_INDEX_POSITION(11),
+      //行情中心 个股排行榜查询 递减
+        STOC_INDEX_POSITION_ACE(12),
         // 基金，主要指数
         FUND_MAININDEX(5),
         // 基金，指数
@@ -159,6 +169,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
+        } else if(mViewType == ViewType.STOC_INDEX_MARKET.typeId){
+        	mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(),mDataList);
+        } else if(mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId){
+        	mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(),mDataList);
+        } else if(mViewType == ViewType.STOC_INDEX_POSITION.typeId){
+        	mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(),mDataList);
+        } else if(mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId){
+        	mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(),mDataList);
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
             mAdapterConbinStock.setFromShow(!fromPosition);
@@ -185,6 +203,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mViewType == ViewType.FUND_MAININDEX.typeId) {
             mLoadDataEngine = new MainIndexEngineImple(mSelectStockBackListener);
 
+        } else if(mViewType == ViewType.STOC_INDEX_MARKET.typeId){
+        	
         } else if (mViewType == ViewType.FUND_INDEX.typeId) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
         } else if (mViewType == ViewType.FUND_STOCK.typeId) {
@@ -236,6 +256,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else if (mViewType == ViewType.STOCK_DRAWDOWN.typeId) {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener, QuetosStockEngineImple.ORDER_DOWN);
 
+        } else if(mViewType == ViewType.STOC_INDEX_MARKET.typeId){
+        	mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,MarketCenterStockEngineImple.DESC);
+        } else if(mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId){
+        	mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,MarketCenterStockEngineImple.ACE);
+        } else if(mViewType == ViewType.STOC_INDEX_POSITION.typeId){
+        	mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,MarketCenterStockEngineImple.DESC);
+        } else if(mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId){
+        	mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,MarketCenterStockEngineImple.ACE);
         } else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
