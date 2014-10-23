@@ -18,6 +18,8 @@ public class LineEntity<T extends LinePointEntity> {
 
     /** 是否显示线 */
     private boolean display = true;
+    
+    private float maxOffsetValue;
 
     private int maxVolNum;
     private int minVolNum;
@@ -94,6 +96,14 @@ public class LineEntity<T extends LinePointEntity> {
 
     public void setMinVolNum(int minVolNum) {
         this.minVolNum = minVolNum;
+    }
+
+    public float getMaxOffsetValue() {
+        return maxOffsetValue;
+    }
+
+    public void setMaxOffsetValue(float maxOffsetValue) {
+        this.maxOffsetValue = maxOffsetValue;
     }
 
 }

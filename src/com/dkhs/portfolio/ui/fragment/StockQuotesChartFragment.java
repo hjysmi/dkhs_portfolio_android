@@ -352,16 +352,17 @@ public class StockQuotesChartFragment extends Fragment {
                 buyList.add(buyItem);
             }
             // i = 0;
-            for (String sellPrice : bean.getSellPrice().getSellPrice()) {
+            for (int j=4;j>0;j++) {
                 FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
-                sellItem.price = sellPrice;
-                if (i < bean.getSellPrice().getSellVol().size()) {
-                    sellItem.vol = bean.getSellPrice().getSellVol().get(i);
+                if (j < bean.getSellPrice().getSellVol().size()) {
+                    sellItem.price = bean.getSellPrice().getSellPrice().get(j);
+                    sellItem.vol = bean.getSellPrice().getSellVol().get(j);
                 } else {
                     sellItem.vol = "0";
                 }
-                sellItem.tag = "" + (i--);
+                sellItem.tag = "" + (j+1);
                 sellList.add(sellItem);
+                j--;
             }
 
             mBuyAdapter.setList(buyList);
