@@ -191,6 +191,9 @@
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外资讯</string>
+    <string name="function_combination">我的基金</string>
+    <string name="function_fund_order">基金排行</string>
+    <string name="function_market">行情</string>
     <string name="month_top">月度收益冠军榜</string>
     <string name="week_top">7天收益冠军榜</string>
     <string name="season_top">季度收益冠军榜</string>

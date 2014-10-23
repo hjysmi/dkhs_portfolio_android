@@ -12,6 +12,7 @@
         android:id="@+id/tv_mycombination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
         android:drawableLeft="@drawable/ic_mycombinaton_main"
         android:drawablePadding="4dp"
         android:padding="4dp"

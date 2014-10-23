@@ -67,21 +67,17 @@
     <string-array name="left_menu_img_items">
         <item>我的基金</item>
         <item>基金排行</item>
-        <item>牛人榜</item>
         <item>自选股</item>
         <item>行情中心</item>
         <item>公告</item>
-        <item>研报</item>
         <item>海外资讯</item>
     </string-array>
     <string-array name="left_menu_img">
         <item>menu_icon_myteam</item>
         <item>menu_icon_seniority</item>
-        <item>menu_icon_boolmen</item>
         <item>menu_icon_optional</item>
         <item>menu_icon_market</item>
         <item>menu_icon_notice</item>
-        <item>menu_icon_study</item>
         <item>menu_icon_news</item>
     </string-array>
 

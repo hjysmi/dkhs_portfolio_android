@@ -109,6 +109,8 @@ public abstract class BasicHttpListener implements IHttpListener {
             PromptManager.showToast("网络连接失败,请检查你的网络");
         } else if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
             parseToErrorBundle(errMsg);
+        } else if (errCode == 404) {
+            PromptManager.showToast("网络请求失败,请稍后再试");
         }
 
     }

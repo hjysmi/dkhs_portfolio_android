@@ -348,7 +348,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 if (isBetween7day()) {
                     Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
                 } else {
-                     btnCompare.setEnabled(false);
+                    btnCompare.setEnabled(false);
                     requestCompare();
                 }
             }
@@ -376,6 +376,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     private void requestCompare() {
         lineEntityList.clear();
+        maxOffsetValue = 0f;
 
         new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
@@ -393,12 +394,14 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         @Override
         protected void afterParseData(HistoryNetValue object) {
             if (object != null && isAdded()) {
-                 btnCompare.setEnabled(true);
+                btnCompare.setEnabled(true);
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null && dayNetValueList.size() > 0) {
 
                     // int sizeLength = dayNetValueList.size();
-                    setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
+                    getMaxOffetValue(object);
+                    setYTitle(dayNetValueList.get(0).getPercentageBegin(), maxOffsetValue);
+                    // setYTitle(dayNetValueList.get(0).getPercentageBegin(), );
                     // setHistoryPointTitle();
                     setXTitle(dayNetValueList);
 
@@ -440,6 +443,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         System.out.println("setLineListsData :" + compareLinesList.size());
         lineEntityList.addAll(compareLinesList);
         // maChartView.setDrawDashLine(isBeforeCreateDate);
+        setYTitle(0, maxOffsetValue);
         maChartView.setLineData(lineEntityList);
     }
 
@@ -488,13 +492,14 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
-    private float getMaxOffetValue(HistoryNetValue historyNetValue) {
+    private void getMaxOffetValue(HistoryNetValue historyNetValue) {
         // lineDataList.clear();
         int dashLineSize = 0;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
         float baseNum = historyNetList.get(0).getPercentageBegin();
         float maxNum = baseNum, minNum = baseNum;
+        float tempMaxOffet = 0;
         for (int i = 0; i < dataLenght; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
@@ -519,16 +524,21 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         maxNum = maxNum - baseNum;
         minNum = baseNum - minNum;
 
-        offetValue = maxNum > minNum ? maxNum : minNum;
+        tempMaxOffet = maxNum > minNum ? maxNum : minNum;
+        if (tempMaxOffet > maxOffsetValue) {
+            maxOffsetValue = tempMaxOffet;
+        }
         // if (dashLineSize == 0) {
         // dashLineSize = dataLenght;
         // }
         // System.out.println("dashLineSize:" + dashLineSize);
         maChartView.setDashLinePointSize(dashLineSize);
 
-        return offetValue;
+        // return offetValue;
 
     }
+
+    float maxOffsetValue;
 
     ParseHttpListener compareListener = new ParseHttpListener<List<LineEntity>>() {
 
@@ -544,6 +554,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 // 解析数据，把线条数赋值
 
                 int i = 0;
+                float baseNum = 0;
+                float maxNum = baseNum, minNum = baseNum;
+                float tempMaxOffetValue = 0;
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
                     lineEntity.setTitle(bean.getSymbol());
@@ -552,9 +565,16 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         LinePointEntity pointEntity = new LinePointEntity();
+                        float value = cPoint.getPercentage();
                         pointEntity.setDesc(cPoint.getDate());
-                        pointEntity.setValue(cPoint.getPercentage());
+                        pointEntity.setValue(value);
                         lineDataList.add(pointEntity);
+                        if (value > maxNum) {
+                            maxNum = value;
+                        } else if (value < minNum) {
+                            minNum = value;
+                        }
+
                     }
 
                     lineEntity.setLineData(lineDataList);
@@ -562,8 +582,15 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
                     float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
 
-                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value*100);
+                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value * 100);
                     i++;
+                }
+                maxNum = maxNum - baseNum;
+                minNum = baseNum - minNum;
+
+                tempMaxOffetValue = maxNum > minNum ? maxNum : minNum;
+                if (tempMaxOffetValue > maxOffsetValue) {
+                    maxOffsetValue = tempMaxOffetValue;
                 }
 
             } catch (JSONException e) {
@@ -578,6 +605,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         protected void afterParseData(List<LineEntity> object) {
             if (null != object && object.size() > 0) {
                 // setLineListsData(object);
+                // setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
                 if (null != lineEntityList) {
                     lineEntityList.removeAll(compareLinesList);
                 }
