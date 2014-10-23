@@ -31,10 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/nav_right_main_selector" />
+            android:background="@drawable/nav_right_main_selector"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <com.dkhs.portfolio.ui.widget.MarqueeText
@@ -118,14 +118,16 @@
             android:text="我的基金"
             android:textSize="15sp" />
 
-        <ImageButton
+        <TextView
             android:id="@+id/btn_combination_more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:background="@drawable/bg_hmore_selector" />
+            android:text="更多"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <GridView

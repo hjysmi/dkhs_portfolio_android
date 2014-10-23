@@ -124,15 +124,15 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     public void loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        NameValuePair valuePair2 = new BasicNameValuePair("sort", orderType);
         params.add(valuePair);
-        params.add(valuePair2);
 
         if (TextUtils.isEmpty(orderType)) {
 
             DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
 
         } else {
+            NameValuePair valuePair2 = new BasicNameValuePair("sort", orderType);
+            params.add(valuePair2);
             DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
 
         }
