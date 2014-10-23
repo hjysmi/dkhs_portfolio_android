@@ -94,6 +94,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             // for (ConStockBean stockBean : listStock) {
             //
             mSelectList.addAll(listStock);
+
             // }
         }
     }
