@@ -73,7 +73,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private boolean isItemClickBack;
 
     private int mViewType;
-    private boolean fromPosition =false;
+    private boolean fromPosition = false;
     LoadSelectDataEngine mLoadDataEngine;
 
     /**
@@ -323,8 +323,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         });
 
         if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+            System.out.println("     mListView.setOnItemClickListener(priceStockItemClick);");
             mListView.setOnItemClickListener(priceStockItemClick);
         } else if (isItemClickBack) {
+            // mListView.setOnItemClickListener(itemBackClick);
             mListView.setOnItemClickListener(itemBackClick);
             System.out.println("     mListView.setOnItemClickListener(itemBackClick);");
         }
@@ -345,9 +347,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // System.out.println("OnItemClickListener itemBackClick ");
+            // SelectStockBean itemStock = mDataList.get(position);
+            // setSelectBack(itemStock);
+
             SelectStockBean itemStock = mDataList.get(position);
-            setSelectBack(itemStock);
-            System.out.println("OnItemClickListener itemBackClick ");
+            // itemStock.isFollowed = true;
+
+            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            getActivity().finish();
         }
     };
 

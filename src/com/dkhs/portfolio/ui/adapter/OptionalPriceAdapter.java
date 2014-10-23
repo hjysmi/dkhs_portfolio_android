@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -43,7 +44,8 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
             viewHolder.tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
             viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
-            viewHolder.tvIncreaseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+            viewHolder.tvPercentValue = (TextView) convertView.findViewById(R.id.tv_percent_value);
+            viewHolder.tvIncearseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
 
             convertView.setTag(viewHolder);
         } else {
@@ -53,19 +55,19 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         final SelectStockBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
-        ColorStateList textCsl;
-        if (item.percentage >= 0) {
-            textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
-            viewHolder.tvIncreaseValue.setBackgroundColor(mContext.getResources().getColor(R.color.optional_red));
-
-        } else {
-            textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.green);
-            viewHolder.tvIncreaseValue.setBackgroundColor(mContext.getResources().getColor(R.color.optional_green));
-
-        }
+        ColorStateList textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
+        // if (item.percentage >= 0) {
+        // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.def_red);
+        //
+        // } else {
+        // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.def_green);
+        //
+        // }
         viewHolder.tvCurrentValue.setTextColor(textCsl);
-        viewHolder.tvCurrentValue.setText("" + item.currentValue);
-        viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
+        viewHolder.tvPercentValue.setTextColor(textCsl);
+        viewHolder.tvIncearseValue.setTextColor(textCsl);
+        viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
 
         return convertView;
     }
@@ -75,6 +77,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
 
         TextView tvStockNum;
         TextView tvCurrentValue;
-        TextView tvIncreaseValue;
+        TextView tvPercentValue;
+        TextView tvIncearseValue;
     }
 }

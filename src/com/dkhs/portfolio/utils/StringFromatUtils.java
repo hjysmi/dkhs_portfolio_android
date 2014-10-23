@@ -72,8 +72,12 @@ public class StringFromatUtils {
     public static String convertToWanHand(int value) {
         if (value < 100000) {
             return String.valueOf(value) + "手";
+        }else if(value<10000000){
+            
+            return String.format("%.2f万手", value / 10000f);
+        }else{
+            return String.format("%.2f千万手", value / 10000000);
         }
-        return String.format("%.2f万手", value / 10000f);
     }
 
 }

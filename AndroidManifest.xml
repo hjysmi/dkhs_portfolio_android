@@ -35,7 +35,9 @@
 
         <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
 
-        <activity android:name="com.dkhs.portfolio.ui.SplashActivity" >
+        <activity
+            android:name="com.dkhs.portfolio.ui.SplashActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,7 +47,8 @@
         <!-- <activity android:name="com.dkhs.portfolio.ui.MainActivity" /> -->
         <activity
             android:name="com.dkhs.portfolio.ui.MainActivity"
-            android:launchMode="singleTask" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity android:name="com.dkhs.portfolio.ui.NoAccountMainActivity" />
         <activity android:name="com.dkhs.portfolio.ui.RLFActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SetPasswordActivity" />
@@ -63,6 +66,8 @@
         <activity android:name="com.dkhs.portfolio.ui.MarketCenterActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.PageIndicatorDefaults" >
         </activity>
         <activity

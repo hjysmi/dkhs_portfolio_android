@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
@@ -146,9 +147,14 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // SelectStockBean itemStock = mDataList.get(position);
+            // setSelectBack(itemStock);
+            // System.out.println("OnItemClickListener itemBackClick ");
             SelectStockBean itemStock = mDataList.get(position);
-            setSelectBack(itemStock);
-            System.out.println("OnItemClickListener itemBackClick ");
+            // itemStock.isFollowed = true;
+
+            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            getActivity().finish();
         }
     };
     public static final String ARGUMENT = "ARGUMENT";

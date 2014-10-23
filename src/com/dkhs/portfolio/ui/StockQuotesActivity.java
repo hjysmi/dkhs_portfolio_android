@@ -85,17 +85,41 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+
+        setIntent(intent);// must store the new intent unless getIntent() will return the old one
+
+        processExtraData();
+
+    }
+
+    private void processExtraData() {
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+        if (null != mStockBean) {
+
+            mStockId = mStockBean.id;
+            mStockCode = mStockBean.code;
+            updateStockInfo();
+        }
+        setAddOptionalButton();
+        initTabPage();
+    }
+
+    @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_stockquotes);
         mQuotesEngine = new QuotesEngineImpl();
         // handle intent extras
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            handleExtras(extras);
-        }
-
         initView();
+        processExtraData();
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -103,12 +127,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initView() {
-        if (null != mStockBean) {
-
-            mStockId = mStockBean.id;
-            mStockCode = mStockBean.code;
-            updateStockInfo();
-        }
 
         tvCurrent = (TextView) findViewById(R.id.tv_current_price);
         tvHigh = (TextView) findViewById(R.id.tv_highest_value);
@@ -138,12 +156,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (mStockBean == null) {
             return;
         }
-        if (mStockBean.isFollowed) {
+        if (mStockBean.isFollowed && null != btnAddOptional) {
             btnAddOptional.setText(R.string.delete_fllow);
             btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
 
-        } else {
+        } else if (null != btnAddOptional) {
             btnAddOptional.setBackgroundResource(R.drawable.btn_blue_selector);
             btnAddOptional.setText(R.string.add_fllow);
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
@@ -195,7 +213,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY);
+        mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
         fragmentList.add(mStockQuotesChartFragment);
         KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode);
@@ -211,7 +229,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, titleArray));
-
+        
         TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         indicator.setViewPager(pager);
 
