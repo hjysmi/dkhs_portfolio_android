@@ -203,7 +203,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
+            if (null != dataList&&isAdded()) {
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
                 loadFinishUpdateView();
@@ -221,6 +221,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
         if (mLoadDataEngine instanceof MainIndexEngineImple) {
             ((MainIndexEngineImple) mLoadDataEngine).setOrderType(orderType);
+            mDataList.clear();
+            mLoadDataEngine.loadData();
+        }
+    }
+
+    public void setOptionalOrderType(String type) {
+        if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
+            ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             mDataList.clear();
             mLoadDataEngine.loadData();
         }
@@ -323,12 +331,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         });
 
         if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
-            System.out.println("     mListView.setOnItemClickListener(priceStockItemClick);");
             mListView.setOnItemClickListener(priceStockItemClick);
         } else if (isItemClickBack) {
             // mListView.setOnItemClickListener(itemBackClick);
             mListView.setOnItemClickListener(itemBackClick);
-            System.out.println("     mListView.setOnItemClickListener(itemBackClick);");
         }
 
     }
