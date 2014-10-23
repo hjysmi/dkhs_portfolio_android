@@ -569,7 +569,7 @@ public class TrendChartFragment extends Fragment {
 
         @Override
         protected void afterParseData(HistoryNetValue object) {
-            if (object != null) {
+            if (object != null&&isAdded()) {
 
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
                 if (dayNetValueList != null) {

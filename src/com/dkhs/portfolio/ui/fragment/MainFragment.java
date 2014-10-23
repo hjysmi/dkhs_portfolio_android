@@ -87,7 +87,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            System.out.println("handleMessage currentItem:" + currentItem);
             if (currentItem >= viewPager.getChildCount()) {
                 currentItem = 0;
             } else {
@@ -425,8 +424,8 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
             }
                 break;
-            case R.id.layout_add_combination: 
-                case R.id.iv_plus: {
+            case R.id.layout_add_combination:
+            case R.id.iv_plus: {
 
                 intent = PositionAdjustActivity.newIntent(getActivity(), null);
             }
