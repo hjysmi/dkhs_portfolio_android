@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 
 public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
 	public MarketCenterItemAdapter(Context context, List<SelectStockBean> datas) {
@@ -40,7 +42,7 @@ public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
             viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.market_text_name_num);
             viewHolder.tvTextItemIndex = (TextView) convertView.findViewById(R.id.market_list_item_index);
             viewHolder.tvTextPercent = (TextView) convertView.findViewById(R.id.market_list_item_percent);
-
+            viewHolder.tvLayoutTitle = (LinearLayout) convertView.findViewById(R.id.market_layout_item);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
@@ -63,6 +65,7 @@ public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
         DecimalFormat fnum = new DecimalFormat("##0.00"); 
         String dd=fnum.format(change); 
         viewHolder.tvTextPercent.setText(dd+"%");
+        viewHolder.tvLayoutTitle.setOnClickListener(new OnItemListener(position));
         return convertView;
 	}
 	final static class ViewHodler {
@@ -75,5 +78,21 @@ public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
         TextView tvTextItemIndex;
         TextView tvTextPercent;
         ImageView tvUpDown;
+    }
+	class OnItemListener implements OnClickListener{
+    	private int position;
+    	public OnItemListener(int position){
+    		this.position = position;
+    	}
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			SelectStockBean itemStock = mDataList.get(position);
+            
+           
+            
+            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+		}
+    	
     }
 }
