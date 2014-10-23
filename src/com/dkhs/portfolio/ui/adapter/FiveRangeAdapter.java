@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.bean.StockQuotesBean.BuyPrice;
 import com.dkhs.portfolio.bean.StockQuotesBean.SellPrice;
@@ -91,28 +92,29 @@ public class FiveRangeAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         try {
-			ViewHolder viewHolder = null;
-			if (convertView == null) {
-			    viewHolder = new ViewHolder();
-			    convertView = LayoutInflater.from(mContext).inflate(R.layout.item_five_range, null);
-			    viewHolder.tvTag = (TextView) convertView.findViewById(R.id.tv_buytext);
-			    viewHolder.tvVol = (TextView) convertView.findViewById(R.id.tv_range_vol);
-			    viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tv_detail_value);
-			    convertView.setTag(viewHolder);
-			} else {
-			    viewHolder = (ViewHolder) convertView.getTag();
-			}
-			FiveRangeItem item = dataList.get(position);
-			if(!item.price.contains("-.---")){
-				viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price), mCompareValue));
-				viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
-				viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
-			}
-			viewHolder.tvTag.setText(item.tag);
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            ViewHolder viewHolder = null;
+            if (convertView == null) {
+                viewHolder = new ViewHolder();
+                convertView = LayoutInflater.from(mContext).inflate(R.layout.item_five_range, null);
+                viewHolder.tvTag = (TextView) convertView.findViewById(R.id.tv_buytext);
+                viewHolder.tvVol = (TextView) convertView.findViewById(R.id.tv_range_vol);
+                viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tv_detail_value);
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            FiveRangeItem item = dataList.get(position);
+            if (!item.price.contains("-.---")) {
+                viewHolder.tvPrice
+                        .setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price), mCompareValue));
+                viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
+                viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
+            }
+            viewHolder.tvTag.setText(item.tag);
+        } catch (NumberFormatException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return convertView;
     }
 
@@ -122,24 +124,6 @@ public class FiveRangeAdapter extends BaseAdapter {
         TextView tvVol;
         TextView tvPrice;
 
-    }
-
-    public class FiveRangeItem {
-        public String tag;
-        public String vol;
-        public String price;
-
-        /**
-         * @Title
-         * @Description TODO: (用一句话描述这个方法的功能)
-         * @return
-         * @return
-         */
-        @Override
-        public String toString() {
-            // TODO Auto-generated method stub
-            return "tag:" + tag + " price:" + price + " vol:" + vol;
-        }
     }
 
 }

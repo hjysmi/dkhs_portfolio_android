@@ -15,6 +15,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -93,6 +94,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             // for (ConStockBean stockBean : listStock) {
             //
             mSelectList.addAll(listStock);
+
             // }
         }
     }
@@ -100,7 +102,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private void setupViewData() {
         mSelectStockAdapter = new SelectFundAdapter(this, mSelectList);
         mSelctStockView.setAdapter(mSelectStockAdapter);
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        // btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         btnAdd.setOnClickListener(this);
         etSearchKey.addTextChangedListener(mTextWatcher);
 
@@ -117,6 +119,17 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnOrder.setVisibility(View.GONE);
             setTitle(R.string.add_optional_stock);
             mSelctStockView.setNumColumns(3);
+
+        }
+
+        if (mSelectList.size() > 0) {
+            btnAdd.setEnabled(true);
+            btnAdd.setTextColor(Color.WHITE);
+            btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        } else {
+            btnAdd.setEnabled(false);
+            btnAdd.setText(R.string.add_text);
+            btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
 
         }
 
@@ -262,7 +275,17 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     }
 
     public void notifySelectDataChange(boolean isUpdataFragment) {
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        if (mSelectList.size() > 0) {
+            btnAdd.setEnabled(true);
+            btnAdd.setTextColor(Color.WHITE);
+            btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        } else {
+            btnAdd.setEnabled(false);
+            btnAdd.setText(R.string.add_text);
+            btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
+
+        }
+
         // if (isUpdataFragment) {
         for (FragmentSelectStockFund fragment : fragmentList) {
             fragment.refreshSelect();

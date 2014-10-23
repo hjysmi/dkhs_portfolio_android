@@ -37,7 +37,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
-import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter.FiveRangeItem;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
@@ -76,12 +75,12 @@ public class StockQuotesChartFragment extends Fragment {
     private FiveRangeAdapter mBuyAdapter, mSellAdapter;
     private ListView mListviewBuy, mListviewSell;
 
-//    private long mStockId;
+    // private long mStockId;
     private String mStockCode;
     LineEntity fenshiPiceLine;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
-    public static StockQuotesChartFragment newInstance(String trendType,String stockCode) {
+    public static StockQuotesChartFragment newInstance(String trendType, String stockCode) {
         StockQuotesChartFragment fragment = new StockQuotesChartFragment();
 
         Bundle arguments = new Bundle();
@@ -154,18 +153,18 @@ public class StockQuotesChartFragment extends Fragment {
     private void handleSavedInstanceState(Bundle savedInstanceState) {
     }
 
-//    private void handleExtras(Bundle extras) {
-//        // TODO private void handleExtras(Bundle extras) {
-//        // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-//        // if (null != mCombinationBean) {
-//        SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
-//        if (null != mSelectBean) {
-//            mStockId = mSelectBean.id;
-//            mStockCode = mSelectBean.code;
-//        }
-//        
-//        // }
-//    }
+    // private void handleExtras(Bundle extras) {
+    // // TODO private void handleExtras(Bundle extras) {
+    // // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+    // // if (null != mCombinationBean) {
+    // SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+    // if (null != mSelectBean) {
+    // mStockId = mSelectBean.id;
+    // mStockCode = mSelectBean.code;
+    // }
+    //
+    // // }
+    // }
 
     @Override
     public void onAttach(Activity activity) {
@@ -238,8 +237,7 @@ public class StockQuotesChartFragment extends Fragment {
         machart.setDisplayLongitude(true);
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
-        
-        
+
         machart.setITouchListener(mTouchListener);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
@@ -255,7 +253,7 @@ public class StockQuotesChartFragment extends Fragment {
         // machart.setFillLineIndex(2);
 
     }
-    
+
     private ITouchListener mTouchListener;
 
     public void setITouchListener(ITouchListener touchListener) {
@@ -336,40 +334,22 @@ public class StockQuotesChartFragment extends Fragment {
         if (isAdded()) {
 
             this.mStockBean = bean;
-            List<FiveRangeItem> buyList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
-            List<FiveRangeItem> sellList = new ArrayList<FiveRangeAdapter.FiveRangeItem>();
-            int i = 0;
-            for (String buyPrice : bean.getBuyPrice().getBuyPrice()) {
-                FiveRangeItem buyItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
+            mHandler.sendEmptyMessage(111);
 
-                buyItem.price = buyPrice;
-                if (i < bean.getBuyPrice().getBuyVol().size()) {
-                    buyItem.vol = bean.getBuyPrice().getBuyVol().get(i);
-                } else {
-                    buyItem.vol = "0";
-                }
-                buyItem.tag = "" + (++i);
-                buyList.add(buyItem);
-            }
-            // i = 0;
-            for (String sellPrice : bean.getSellPrice().getSellPrice()) {
-                FiveRangeItem sellItem = new FiveRangeAdapter(getActivity(), isTodayNetValue).new FiveRangeItem();
-                sellItem.price = sellPrice;
-                if (i < bean.getSellPrice().getSellVol().size()) {
-                    sellItem.vol = bean.getSellPrice().getSellVol().get(i);
-                } else {
-                    sellItem.vol = "0";
-                }
-                sellItem.tag = "" + (i--);
-                sellList.add(sellItem);
-            }
-
-            mBuyAdapter.setList(buyList);
-            mSellAdapter.setList(sellList);
-
-            mBuyAdapter.setCompareValue(bean.getLastClose());
-            mSellAdapter.setCompareValue(bean.getLastClose());
         }
+
+    }
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            mBuyAdapter.setList(mStockBean.getBuyList());
+            mSellAdapter.setList(mStockBean.getSellList());
+            mBuyAdapter.setCompareValue(mStockBean.getLastClose());
+            mSellAdapter.setCompareValue(mStockBean.getLastClose());
+        };
+    };
+
+    private void parseFiveRangeData() {
 
     }
 
@@ -548,6 +528,19 @@ public class StockQuotesChartFragment extends Fragment {
         }
 
     };
+
+    @Override
+    public void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        todayListener.isStopRequest();
+    }
 
     public void onStop() {
         super.onStop();

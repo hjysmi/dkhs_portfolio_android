@@ -22,11 +22,8 @@ import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.MotionEvent;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
@@ -42,6 +39,7 @@ import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
@@ -204,29 +202,26 @@ public class MainFragment extends Fragment implements OnClickListener {
             Intent intent = null;
             switch (position) {
                 case 0: {
-                    PromptManager.showToastTest("click Postion:牛人栏目");
+                    intent = new Intent(getActivity(), MyCombinationActivity.class);
                 }
                     break;
                 case 1: {
-                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
                 }
                     break;
                 case 2: {
-                    PromptManager.showToastTest("click Postion:公告栏目");
+                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
                 }
                     break;
                 case 3: {
-                    PromptManager.showToastTest("click Postion:研报栏目");
+                    intent = new Intent(getActivity(), MarketCenterActivity.class);
 
                 }
                     break;
                 case 4: {
-                    PromptManager.showToastTest("click Postion:云会议栏目");
 
                 }
                     break;
                 case 5: {
-                    PromptManager.showToastTest("click Postion:海外资讯");
 
                 }
                     break;
@@ -497,7 +492,6 @@ public class MainFragment extends Fragment implements OnClickListener {
          * 当页面被选中的时候调用这个方法 position: 页面tag标识
          */
         public void onPageSelected(int position) {
-            System.out.println("opageSelecte change :" + position);
             dotLayout.getChildAt(oldPosition).setBackgroundResource(R.drawable.dot_normal);
             dotLayout.getChildAt(position).setBackgroundResource(R.drawable.dot_focused);
             oldPosition = position;
