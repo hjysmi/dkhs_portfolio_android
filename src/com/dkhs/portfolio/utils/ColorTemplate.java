@@ -64,11 +64,11 @@ public class ColorTemplate {
                 .getColorStateList(R.color.theme_color);
         if (value > 0) {
             colorStateList = (ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.red);
+                    .getColorStateList(R.color.def_red);
 
         } else if (value < 0) {
             colorStateList = (ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.green);
+                    .getColorStateList(R.color.def_green);
         }
         return colorStateList;
 

@@ -102,7 +102,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private void setupViewData() {
         mSelectStockAdapter = new SelectFundAdapter(this, mSelectList);
         mSelctStockView.setAdapter(mSelectStockAdapter);
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        // btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         btnAdd.setOnClickListener(this);
         etSearchKey.addTextChangedListener(mTextWatcher);
 
@@ -119,6 +119,17 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnOrder.setVisibility(View.GONE);
             setTitle(R.string.add_optional_stock);
             mSelctStockView.setNumColumns(3);
+
+        }
+
+        if (mSelectList.size() > 0) {
+            btnAdd.setEnabled(true);
+            btnAdd.setTextColor(Color.WHITE);
+            btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
+        } else {
+            btnAdd.setEnabled(false);
+            btnAdd.setText(R.string.add_text);
+            btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
 
         }
 
@@ -267,13 +278,14 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
             btnAdd.setTextColor(Color.WHITE);
+            btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             btnAdd.setEnabled(false);
+            btnAdd.setText(R.string.add_text);
             btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
 
         }
 
-        btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         // if (isUpdataFragment) {
         for (FragmentSelectStockFund fragment : fragmentList) {
             fragment.refreshSelect();
