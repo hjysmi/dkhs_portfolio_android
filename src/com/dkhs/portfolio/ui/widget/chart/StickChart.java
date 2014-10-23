@@ -256,12 +256,14 @@ public class StickChart extends GridChart {
             float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / maxStickDataNum) - 3;
            
             // 蜡烛棒起始绘制位置
-            float stickX = /* super.getAxisMarginLeft() + */3;
-
+            
             Paint mPaintStick = new Paint();
             
             if (null != StickData) {
-
+            	float stickX = /* super.getAxisMarginLeft() + */3;
+                if(maxStickDataNum > StickData.size()){
+                	stickX = (maxStickDataNum - StickData.size()) * (stickWidth + 3);
+                }
                 // 判断显示为方柱或显示为线条
                 for (int i = 0; i < StickData.size(); i++) {
                     StickEntity ohlc = StickData.get(i);
@@ -307,6 +309,9 @@ public class StickChart extends GridChart {
                 MALineEntity lineEntity = MALineData.get(j);
 
                 float startX = -stickWidth / 2 - 3;
+                if(maxStickDataNum > StickData.size()){
+                	startX = startX + (maxStickDataNum - StickData.size()) * (stickWidth + 3);
+                }
                 float startY = 0;
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
