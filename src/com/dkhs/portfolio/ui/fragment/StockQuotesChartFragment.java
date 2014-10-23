@@ -56,6 +56,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  */
 public class StockQuotesChartFragment extends Fragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
+    public static final String ARGUMENT_STOCK_CODE = "stock_code";
 
     // private static final String SAVED_LIST_POSITION = "list_position";
 
@@ -75,16 +76,17 @@ public class StockQuotesChartFragment extends Fragment {
     private FiveRangeAdapter mBuyAdapter, mSellAdapter;
     private ListView mListviewBuy, mListviewSell;
 
-    private long mStockId;
+//    private long mStockId;
     private String mStockCode;
     LineEntity fenshiPiceLine;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
-    public static StockQuotesChartFragment newInstance(String trendType) {
+    public static StockQuotesChartFragment newInstance(String trendType,String stockCode) {
         StockQuotesChartFragment fragment = new StockQuotesChartFragment();
 
         Bundle arguments = new Bundle();
         arguments.putString(ARGUMENT_TREND_TYPE, trendType);
+        arguments.putString(ARGUMENT_STOCK_CODE, stockCode);
         fragment.setArguments(arguments);
 
         return fragment;
@@ -106,10 +108,10 @@ public class StockQuotesChartFragment extends Fragment {
         }
 
         // handle intent extras
-        Bundle extras = getActivity().getIntent().getExtras();
-        if (extras != null) {
-            handleExtras(extras);
-        }
+        // Bundle extras = getActivity().getIntent().getExtras();
+        // if (extras != null) {
+        // handleExtras(extras);
+        // }
 
         fenshiPiceLine = new LineEntity();
         // MA5.setTitle("MA5");
@@ -132,6 +134,7 @@ public class StockQuotesChartFragment extends Fragment {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
+        mQuotesDataEngine = new QuotesEngineImpl();
     }
 
     @Override
@@ -142,6 +145,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private void handleArguments(Bundle arguments) {
         trendType = arguments.getString(ARGUMENT_TREND_TYPE);
+        mStockCode = arguments.getString(ARGUMENT_STOCK_CODE);
         if (trendType.equals(TREND_TYPE_TODAY)) {
             isTodayNetValue = true;
         }
@@ -150,18 +154,18 @@ public class StockQuotesChartFragment extends Fragment {
     private void handleSavedInstanceState(Bundle savedInstanceState) {
     }
 
-    private void handleExtras(Bundle extras) {
-        // TODO private void handleExtras(Bundle extras) {
-        // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-        // if (null != mCombinationBean) {
-        SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
-        if (null != mSelectBean) {
-            mStockId = mSelectBean.id;
-            mStockCode = mSelectBean.code;
-        }
-        mQuotesDataEngine = new QuotesEngineImpl();
-        // }
-    }
+//    private void handleExtras(Bundle extras) {
+//        // TODO private void handleExtras(Bundle extras) {
+//        // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+//        // if (null != mCombinationBean) {
+//        SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+//        if (null != mSelectBean) {
+//            mStockId = mSelectBean.id;
+//            mStockCode = mSelectBean.code;
+//        }
+//        
+//        // }
+//    }
 
     @Override
     public void onAttach(Activity activity) {

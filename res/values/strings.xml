@@ -103,7 +103,7 @@
     <string name="create_time_format">成立时间 :%1$s</string>
     <string name="descrition_format">简介:%1$s</string>
     <string name="select_fund">选择参照基金 </string>
-    <string name="select_stock">选择参照个股 </string>
+    <string name="select_stock">添加个股 </string>
     <string name="search_fund_hint">代码或简拼 </string>
     <string name="add_postional_format">添加(%1$d)</string>
     <string name="loading_list_items">加载中...</string>
