@@ -10,6 +10,7 @@
         android:orientation="horizontal"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
+        android:id="@+id/market_layout_item"
         android:background="@color/transparent"
         android:gravity="center_vertical"
         >
