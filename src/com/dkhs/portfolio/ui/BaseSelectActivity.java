@@ -15,6 +15,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -262,6 +263,15 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     }
 
     public void notifySelectDataChange(boolean isUpdataFragment) {
+        if (mSelectList.size() > 0) {
+            btnAdd.setEnabled(true);
+            btnAdd.setTextColor(Color.WHITE);
+        } else {
+            btnAdd.setEnabled(false);
+            btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
+
+        }
+
         btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         // if (isUpdataFragment) {
         for (FragmentSelectStockFund fragment : fragmentList) {
