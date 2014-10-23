@@ -61,5 +61,5 @@
             android:text="+2.20%"
             />
     </LinearLayout>
-    <include layout="@layout/layout_line"/>
+    <!-- <include layout="@layout/layout_line"/> -->
 </LinearLayout>
