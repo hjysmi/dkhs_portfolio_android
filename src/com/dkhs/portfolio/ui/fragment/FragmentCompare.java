@@ -505,9 +505,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         if (tempMaxOffet > maxOffsetValue) {
             maxOffsetValue = tempMaxOffet;
         }
-        // if (dashLineSize == 0) {
-        // dashLineSize = dataLenght;
-        // }
+        if (dashLineSize == 0) {
+            dashLineSize = dataLenght;
+        }
         // System.out.println("dashLineSize:" + dashLineSize);
         maChartView.setDashLinePointSize(dashLineSize);
 
@@ -651,28 +651,27 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            if (noOfTimesCalled % 2 == 0) {
-                // mYear = year;
-                // mMonth = monthOfYear;
-                // mDay = dayOfMonth;
+            // if (noOfTimesCalled % 2 == 0) {
+            // mYear = year;
+            // mMonth = monthOfYear;
+            // mDay = dayOfMonth;
 
-                // String sbTime = String.format(mDayFormat, year, (monthOfYear + 1), dayOfMonth);
-                if (isPickStartDate) {
-                    // cStart = Calendar.getInstance();
+            // String sbTime = String.format(mDayFormat, year, (monthOfYear + 1), dayOfMonth);
+            if (isPickStartDate) {
+                // cStart = Calendar.getInstance();
 
-                    // if (isBeforeCreateDate(cStart)) {
-                    if (isBeforeMonthCreateDate(cStart)) {
-                        showBeforeCreateDayDialog();
-                    } else {
-                        cStart.set(year, monthOfYear, dayOfMonth);
-                    }
+                cStart.set(year, monthOfYear, dayOfMonth);
+                // if (isBeforeCreateDate(cStart)) {
+                if (isBeforeMonthCreateDate(cStart)) {
+                    showBeforeCreateDayDialog();
+                } 
 
-                } else {
-                    cEnd.set(year, monthOfYear, dayOfMonth);
-                }
-                updateDayDisplay();
+            } else {
+                cEnd.set(year, monthOfYear, dayOfMonth);
             }
-            noOfTimesCalled++;
+            updateDayDisplay();
+            // }
+            // noOfTimesCalled++;
         }
     };
 
