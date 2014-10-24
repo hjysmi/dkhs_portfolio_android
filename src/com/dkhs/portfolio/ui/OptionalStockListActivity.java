@@ -213,9 +213,9 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         if (currentSelectView == tvCurrent) {
             orderType = typeCurrentUp;
         } else if (currentSelectView == tvChange) {
-            orderType = typeChangeDown;
+            orderType = typeChangeUP;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = typePercentageDown;
+            orderType = typePercentageUp;
         }
         setDrawableUp(currentSelectView);
     }
