@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.bean;
 
+import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 public class OptionNewsBean {
@@ -32,10 +34,10 @@ public class OptionNewsBean {
     @SerializedName("content_type")
     String contentType; 
     @SerializedName("at_users")
-    String[] atUser;
-    Symbols symbols;
+    List<String> atUser;
+    List<Symbols> symbols;
     User user;
-	class User{
+	public class User{
 		String id;
         String username;
         @SerializedName("is_active")
@@ -159,7 +161,7 @@ public class OptionNewsBean {
 		}
         
 	}
-	class Symbols{
+	public class Symbols{
 		String id;
 		String symbol;
         @SerializedName("abbr_name")
@@ -280,16 +282,17 @@ public class OptionNewsBean {
 	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
-	public String[] getAtUser() {
+	
+	public List<String> getAtUser() {
 		return atUser;
 	}
-	public void setAtUser(String[] atUser) {
+	public void setAtUser(List<String> atUser) {
 		this.atUser = atUser;
 	}
-	public Symbols getSymbols() {
+	public List<Symbols> getSymbols() {
 		return symbols;
 	}
-	public void setSymbols(Symbols symbols) {
+	public void setSymbols(List<Symbols> symbols) {
 		this.symbols = symbols;
 	}
 	public User getUser() {

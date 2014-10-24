@@ -64,6 +64,7 @@
         <activity android:name="com.dkhs.portfolio.ui.OptionalStockListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectAddOptionalActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MarketCenterActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.OptionMarketNewsActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
             android:launchMode="singleTask"
