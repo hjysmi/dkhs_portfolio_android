@@ -27,6 +27,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 	private LinearLayout marketLayoutUpanddown;
 	private boolean ace = false;
 	private ImageView marketIconUpDown;
+	private TextView marketTextIndex;
+	private TextView marketTextEdition;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -44,6 +46,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 		textShangAndShen = (TextView) findViewById(R.id.text2);
 		marketLayoutUpanddown = (LinearLayout) findViewById(R.id.market_layout_upanddown);
 		marketIconUpDown = (ImageView) findViewById(R.id.market_icon_up_down);
+		marketTextIndex = (TextView) findViewById(R.id.market_text_index);
+		marketTextEdition = (TextView) findViewById(R.id.market_text_edition);
 		textInland.setOnClickListener(this);
 		textShangAndShen.setOnClickListener(this);
 		marketLayoutUpanddown.setOnClickListener(this);
@@ -101,6 +105,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 				getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
 				 ace = false;
+				 marketTextIndex.setText("股指");
+				 marketTextEdition.setText("最新");
 			}
 			break;
 		case R.id.text2:
@@ -118,6 +124,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 				getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
 				 ace = false;
+				 marketTextIndex.setText("个股名称");
+				 marketTextEdition.setText("最新价");
 			}
 			break;
 		case R.id.market_layout_upanddown:
