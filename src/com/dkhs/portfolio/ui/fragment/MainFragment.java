@@ -150,6 +150,17 @@ public class MainFragment extends Fragment implements OnClickListener {
         // inflateOneLayout(view);
         // inflateTwoLayout(view);
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
         dataEngine.getScrollValue(scrollDataListener);
         loadCombination();
     }
@@ -261,6 +272,11 @@ public class MainFragment extends Fragment implements OnClickListener {
                     // }
                     if (dataList.size() > 0) {
                         inflateCombinationLayout(dataList);
+                    } else {
+                        comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
+                        comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
+                        viewAddcombination.setVisibility(View.VISIBLE);
+                        gvCombination.setVisibility(View.GONE);
                     }
                 }
             }

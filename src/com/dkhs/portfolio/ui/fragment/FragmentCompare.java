@@ -96,9 +96,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     private CombinationBean mCombinationBean;
 
-    private String strStartTime = "";
-    private String strEndTime = "";
-    private String mDayFormat = "%d-%02d-%02d";
+    // private String strStartTime = "";
+    // private String strEndTime = "";
+    // private String mDayFormat = "%d-%02d-%02d";
 
     // 默认上证指数，沪深300的id
     private String mCompareIds = "106000082,106000232";
@@ -114,7 +114,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
 
-    private boolean isBeforeCreateDate;
+    // private boolean isBeforeCreateDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -239,32 +239,32 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
         if (null != mCombinationBean) {
             // setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
-            setStartTime(TimeUtils.getTimeString(cStart));
-            setEndTime(TimeUtils.getTimeString(cEnd));
+            // setStartTime(TimeUtils.getTimeString(cStart));
+            // setEndTime(TimeUtils.getTimeString(cEnd));
             // Calendar cStart = Calendar.getInstance();
             // cStart.set(mYear, mMonth - 1, mDay);
-            isBeforeCreateDate(cStart, mCreateCalender);
+            isBeforeMonthCreateDate(cStart);
 
             updateDayDisplay();
         }
 
     }
 
-    private void setStartTime(String startDay) {
-        strStartTime = startDay;
-    }
-
-    private void setEndTime(String endDay) {
-        strEndTime = endDay;
-    }
-
-    private String getStartTime() {
-        return strStartTime;
-    }
-
-    private String getEndTime() {
-        return strEndTime;
-    }
+    // private void setStartTime(String startDay) {
+    // strStartTime = startDay;
+    // }
+    //
+    // private void setEndTime(String endDay) {
+    // strEndTime = endDay;
+    // }
+    //
+    // private String getStartTime() {
+    // return strStartTime;
+    // }
+    //
+    // private String getEndTime() {
+    // return strEndTime;
+    // }
 
     private void initMaChart(TrendChart machart) {
 
@@ -272,16 +272,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         machart.setAxisYColor(Color.LTGRAY);
 
         machart.setDisplayBorder(false);
-        // machart.setDrawXBorke(true);
-
         machart.setLatitudeColor(Color.LTGRAY);
-
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
-        // machart.setMaxPointNum(72);
-        // machart.setDisplayAxisYTitle(false);
-        // machart.setDisplayLatitude(true);
-        // machart.setFill(true);
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
@@ -309,22 +300,6 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
-
-        // machart.setLineData(lines);
-        // tvNoData.setVisibility(View.VISIBLE);
-    }
-
-    private List<LinePointEntity> initMA(int length) {
-        List<LinePointEntity> MA5Values = new ArrayList<LinePointEntity>();
-        NetValueEngine outer = new NetValueEngine(0);
-        for (int i = 0; i < length; i++) {
-            // MA5Values.add((float) new Random().nextInt(99));
-            LinePointEntity bean = new LinePointEntity();
-            bean.setDesc("2014-09-23");
-            bean.setValue(new Random().nextFloat() * 100);
-            MA5Values.add(bean);
-        }
-        return MA5Values;
 
     }
 
@@ -378,8 +353,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         lineEntityList.clear();
         maxOffsetValue = 0f;
 
-        new NetValueEngine(mCombinationBean.getId()).requeryDay(getStartTime(), getEndTime(), historyNetValueListener);
-        mCompareEngine.compare(compareListener, mCompareIds, getStartTime(), getEndTime());
+        new NetValueEngine(mCombinationBean.getId()).requeryDay(TimeUtils.getTimeString(cStart),
+                TimeUtils.getTimeString(cEnd), historyNetValueListener);
+        mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
+                TimeUtils.getTimeString(cEnd));
 
     }
 
@@ -528,9 +505,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         if (tempMaxOffet > maxOffsetValue) {
             maxOffsetValue = tempMaxOffet;
         }
-        // if (dashLineSize == 0) {
-        // dashLineSize = dataLenght;
-        // }
+        if (dashLineSize == 0) {
+            dashLineSize = dataLenght;
+        }
         // System.out.println("dashLineSize:" + dashLineSize);
         maChartView.setDashLinePointSize(dashLineSize);
 
@@ -645,8 +622,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                     public void onClick(DialogInterface dialog, int which) {
 
                         if (which == 0) {
-                            queryFromCreateDay();
-                        } else {
+                            // queryFromCreateDay();
+                            // } else {
                             queryBeforeCreateMonth();
                         }
                         updateDayDisplay();
@@ -656,15 +633,17 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     }
 
-    private void queryFromCreateDay() {
-        setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
-    }
+    // private void queryFromCreateDay() {
+    // setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+    // }
 
     private void queryBeforeCreateMonth() {
-
-        setStartTime(String.format(mDayFormat, mCreateCalender.get(Calendar.YEAR),
-                (mCreateCalender.get(Calendar.MONTH)), mCreateCalender.get(Calendar.DAY_OF_MONTH)));
-        setEndTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+        cStart = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        cStart.add(Calendar.MONTH, -1);
+        cEnd = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        // setStartTime(String.format(mDayFormat, cStart.get(Calendar.YEAR), (cStart.get(Calendar.MONTH) + 1),
+        // cStart.get(Calendar.DAY_OF_MONTH)));
+        // setEndTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
 
     }
 
@@ -672,42 +651,48 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
 
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            if (noOfTimesCalled % 2 == 0) {
-                // mYear = year;
-                // mMonth = monthOfYear;
-                // mDay = dayOfMonth;
+            // if (noOfTimesCalled % 2 == 0) {
+            // mYear = year;
+            // mMonth = monthOfYear;
+            // mDay = dayOfMonth;
 
-                String sbTime = String.format(mDayFormat, year, (monthOfYear + 1), dayOfMonth);
-                if (isPickStartDate) {
-                    // cStart = Calendar.getInstance();
-                    cStart.set(year, monthOfYear, dayOfMonth);
+            // String sbTime = String.format(mDayFormat, year, (monthOfYear + 1), dayOfMonth);
+            if (isPickStartDate) {
+                // cStart = Calendar.getInstance();
 
-                    if (isBeforeCreateDate(cStart, mCreateCalender)) {
-                        showBeforeCreateDayDialog();
-                    } else {
-                        setStartTime(sbTime.toString());
-                    }
+                cStart.set(year, monthOfYear, dayOfMonth);
+                // if (isBeforeCreateDate(cStart)) {
+                if (isBeforeMonthCreateDate(cStart)) {
+                    showBeforeCreateDayDialog();
+                } 
 
-                } else {
-                    cEnd.set(year, monthOfYear, dayOfMonth);
-                    setEndTime(sbTime.toString());
-                }
-                updateDayDisplay();
+            } else {
+                cEnd.set(year, monthOfYear, dayOfMonth);
             }
-            noOfTimesCalled++;
+            updateDayDisplay();
+            // }
+            // noOfTimesCalled++;
         }
     };
 
-    private boolean isBeforeCreateDate(Calendar cStart, Calendar cCreate) {
-        isBeforeCreateDate = cStart.before(cCreate);
+    // private boolean isBeforeCreateDate(Calendar cStart, Calendar cCreate) {
+    // isBeforeCreateDate = cStart.before(cCreate);
+    // return isBeforeCreateDate;
+    //
+    // }
+
+    private boolean isBeforeMonthCreateDate(Calendar cStart) {
+        Calendar beforeMonthCaleder = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
+        beforeMonthCaleder.add(Calendar.MONTH, -1);
+        boolean isBeforeCreateDate = cStart.before(beforeMonthCaleder);
         return isBeforeCreateDate;
 
     }
 
     private void updateDayDisplay() {
 
-        btnStartTime.setText(getStartTime());
-        btnEndTime.setText(getEndTime());
+        btnStartTime.setText(TimeUtils.getTimeString(cStart));
+        btnEndTime.setText(TimeUtils.getTimeString(cEnd));
         String durTime = btnStartTime.getText() + " 一一 " + btnEndTime.getText();
         tvTimeDuration.setText(durTime);
 

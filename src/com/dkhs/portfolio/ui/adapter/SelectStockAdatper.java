@@ -63,7 +63,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         // viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        viewHolder.tvStockLayout.setOnClickListener(new OnItemListener(position));
+        // viewHolder.tvStockLayout.setOnClickListener(new OnItemListener(position));
         if (this instanceof AddStockItemAdapter) {
             viewHolder.mCheckbox.setChecked(item.isFollowed);
         } else {
@@ -101,22 +101,22 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         LinearLayout tvStockLayout;
     }
 
-    class OnItemListener implements OnClickListener {
-        private int position;
-
-        public OnItemListener(int position) {
-            this.position = position;
-        }
-
-        @Override
-        public void onClick(View v) {
-            // TODO Auto-generated method stub
-            SelectStockBean itemStock = mDataList.get(position);
-
-            context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
-        }
-
-    }
+    // class OnItemListener implements OnClickListener {
+    // private int position;
+    //
+    // public OnItemListener(int position) {
+    // this.position = position;
+    // }
+    //
+    // @Override
+    // public void onClick(View v) {
+    // // TODO Auto-generated method stub
+    // SelectStockBean itemStock = mDataList.get(position);
+    //
+    // context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+    // }
+    //
+    // }
 
     class OnCheckListener implements OnClickListener {
         private int position;

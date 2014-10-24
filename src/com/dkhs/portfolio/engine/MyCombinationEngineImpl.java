@@ -47,9 +47,20 @@ public class MyCombinationEngineImpl {
         // [{"symbol": 101000001,"percent":0.45},{"symbol": 101000002,"percent":0.35}]
         if (null != symbols && symbols.size() > 0) {
 
-            Gson gson = new Gson();
-            String symbolsValue = gson.toJson(symbols);
-            params.addBodyParameter("symbols", symbolsValue);
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+
+            for (int i = 0; i < symbols.size(); i++) {
+                Gson gson = new Gson();
+                String symbolsValue = gson.toJson(symbols.get(i));
+                sb.append(symbolsValue);
+                sb.append(",");
+            }
+            sb = sb.deleteCharAt(sb.length() - 1);
+
+            sb.append("]");
+            // System.out.println("symbols:" + sb.toString());
+            params.addBodyParameter("symbols", sb.toString());
         }
 
         DKHSClient.requestByPost(DKHSUrl.Portfolio.create, params, listener);
@@ -83,7 +94,7 @@ public class MyCombinationEngineImpl {
         params.addBodyParameter("name", name);
         params.addBodyParameter("description", desc);
 
-        DKHSClient.request(HttpMethod.PUT, DKHSUrl.Portfolio.update + id+"/", params, listener);
+        DKHSClient.request(HttpMethod.PUT, DKHSUrl.Portfolio.update + id + "/", params, listener);
 
     }
 
@@ -101,7 +112,7 @@ public class MyCombinationEngineImpl {
         String symbolsValue = gson.toJson(symbols);
         params.addBodyParameter("symbols", symbolsValue);
 
-        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust , id), params, listener);
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust, id), params, listener);
 
     }
 
