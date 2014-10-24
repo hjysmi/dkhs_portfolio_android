@@ -54,7 +54,7 @@ public class OptionMarketAdapter extends BaseAdapter{
         }
         viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
         viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getSymbol());
-        viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime());
+        viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
         return convertView;
 	}
 	final static class ViewHodler {

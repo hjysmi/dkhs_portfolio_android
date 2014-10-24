@@ -38,6 +38,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
     private OptionMarketAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
+    boolean first = true;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -133,7 +134,10 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
             try {
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
-				    initView();
+				    if(first){
+				    	initView();
+				    	first = false;
+				    }
 				    mOptionMarketAdapter.notifyDataSetChanged();
 				    loadFinishUpdateView();
 				    

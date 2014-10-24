@@ -124,8 +124,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 				getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
 				 ace = false;
-				 marketTextIndex.setText("个股名称");
-				 marketTextEdition.setText("最新价");
+				 marketTextIndex.setText("股票");
+				 marketTextEdition.setText("最新");
 			}
 			break;
 		case R.id.market_layout_upanddown:
