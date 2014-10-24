@@ -30,12 +30,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
@@ -467,7 +469,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         } else {
 
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
-                    new ParseHttpListener() {
+                    new ParseHttpListener<CombinationBean>() {
 
                         /**
                          * @Title
@@ -481,11 +483,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                             btnConfirm.setEnabled(false);
                         }
 
-                        /**
-                         * @Title
-                         * @Description TODO: (用一句话描述这个方法的功能)
-                         * @return
-                         */
                         @Override
                         public void requestCallBack() {
                             // TODO Auto-generated method stub
@@ -495,16 +492,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         }
 
                         @Override
-                        protected void afterParseData(Object object) {
-
+                        protected void afterParseData(CombinationBean object) {
+                            if (null != object && !isAdjustCombination) {
+                                PositionAdjustActivity.this.startActivity(CombinationDetailActivity.newIntent(
+                                        PositionAdjustActivity.this, object));
+                            }
                             finish();
 
                         }
 
                         @Override
-                        protected Object parseDateTask(String jsonData) {
-                            // TODO Auto-generated method stub
-                            return null;
+                        protected CombinationBean parseDateTask(String jsonData) {
+                            return DataParse.parseObjectJson(CombinationBean.class, jsonData);
+
                         }
 
                     }.setLoadingDialog(this, "创建中..."));
