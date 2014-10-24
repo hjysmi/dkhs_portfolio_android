@@ -103,6 +103,32 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private TextView viewLastClick;
     private String orderType;
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onRestart() {
+        // TODO Auto-generated method stub
+        super.onRestart();
+        if (null != loadDataListFragment) {
+            loadDataListFragment.refresh();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         int id = v.getId();

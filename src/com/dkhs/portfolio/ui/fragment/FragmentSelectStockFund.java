@@ -224,6 +224,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
             if (null != dataList && isAdded()) {
+                if (isRefresh) {
+                    mDataList.clear();
+                    isRefresh = false;
+                }
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
                 loadFinishUpdateView();
@@ -234,22 +238,26 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     };
 
     public void setOrderType(OrderType orderType) {
+        isRefresh = true;
         if (mLoadDataEngine instanceof FundDataEngine) {
             ((FundDataEngine) mLoadDataEngine).setOrderType(orderType);
-            mDataList.clear();
+            // mDataList.clear();
             mLoadDataEngine.loadData();
         }
         if (mLoadDataEngine instanceof MainIndexEngineImple) {
             ((MainIndexEngineImple) mLoadDataEngine).setOrderType(orderType);
-            mDataList.clear();
+            // mDataList.clear();
             mLoadDataEngine.loadData();
         }
     }
 
+    private boolean isRefresh;
+
     public void setOptionalOrderType(String type) {
+        isRefresh = true;
         if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
-            mDataList.clear();
+            // mDataList.clear();
             mLoadDataEngine.loadData();
         }
     }
@@ -292,8 +300,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     public void refresh() {
+        isRefresh = true;
         if (mLoadDataEngine != null) {
-            mDataList.clear();
+            // mDataList.clear();
             mLoadDataEngine.loadData();
         }
     }
