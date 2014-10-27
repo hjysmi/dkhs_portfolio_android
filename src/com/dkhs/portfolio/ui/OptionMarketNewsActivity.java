@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,7 +21,6 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
@@ -111,7 +111,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			
+			Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+			startActivity(intent);
 		}
     };
 

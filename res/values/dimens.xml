@@ -40,7 +40,7 @@
     <dimen name="text_drawable_margin">4dp</dimen>
     <dimen name="line_stroke_width">1dp</dimen>
     <dimen name="list_text_size">16sp</dimen>
-
+	<dimen name="news_text_title_size">20sp</dimen>
     <integer name="select_touch_text">22</integer>
 
 </resources>
