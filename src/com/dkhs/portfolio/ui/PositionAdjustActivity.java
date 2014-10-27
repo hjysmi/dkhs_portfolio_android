@@ -164,8 +164,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
         viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
         btnAverage = (Button) findViewById(R.id.btn_average);
-        
-        
+        btnAverage.setOnClickListener(this);
+
         if (null != mPositionDetailBean) {
             viewCombinationInfo.setVisibility(View.VISIBLE);
             positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
@@ -333,6 +333,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         pieList.get(position).setValue(value);
         pieList.get(pieList.size() - 1).setValue(surpulsValue());
         pgView.invalidate();
+        isShowAverageButton();
         setFootData();
     }
 
@@ -398,10 +399,36 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             }
                 break;
+            case R.id.btn_average: {
+                averageValue();
+                updatePieView();
+            }
+                break;
 
             default:
                 break;
         }
+    }
+
+    private void averageValue() {
+        if (null != stockList && stockList.size() > 0) {
+            int length = stockList.size();
+            float total = 1.0f;
+            float dutyValue = (total / length);
+             float residual = (100f % length);
+            for (int i = 0; i < length; i++) {
+                ConStockBean c = stockList.get(i);
+                total -= dutyValue;
+                c.setPercent(dutyValue);
+
+                c.setDutyColor(ColorTemplate.getDefaultColor(i));
+
+            }
+
+            stockList.get(0).setPercent(dutyValue + residual/100);
+
+        }
+
     }
 
     private void adjustPositionDetailToServer() {
@@ -547,40 +574,54 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                 stockList.add(selectBean.parseStock());
                             }
 
-                            setCombinationBack(createType);
+                            // setCombinationBack(createType);
 
-                        } else {
-                            setAddStockBack(listStock);
+                            // } else {
                         }
-                        setPieList();
-                        // lvStock.removeFooterView(mFooterView);
-                        stockAdapter.setList(stockList);
-                        surpulsValue();
-                        setFootData();
-                        // stockAdapter.
-                        // stockAdapter.notifyDataSetChanged();
-                        lvStock.invalidate();
+                        setAddStockBack(listStock);
+                        updatePieView();
+
                     }
                     break;
             }
         }
     }
 
-    private void setCombinationBack(int which) {
-        if (null != stockList && stockList.size() > 0) {
-            int length = stockList.size();
-            float dutyValue = (1.0f / length);
-            for (int i = 0; i < length; i++) {
-                ConStockBean c = stockList.get(i);
-                if (0 == which) {// 快速
-                    c.setPercent(dutyValue);
-                }
-                c.setDutyColor(ColorTemplate.getDefaultColor(i));
-
-            }
-        }
-
+    private void updatePieView() {
+        setPieList();
+        // lvStock.removeFooterView(mFooterView);
+        stockAdapter.setList(stockList);
+        surpulsValue();
+        setFootData();
+        // stockAdapter.
+        // stockAdapter.notifyDataSetChanged();
+        isShowAverageButton();
+        lvStock.invalidate();
     }
+
+    private void isShowAverageButton() {
+        if (null != stockList && stockList.size() > 0 && surValue != 0) {
+            btnAverage.setVisibility(View.VISIBLE);
+        } else {
+            btnAverage.setVisibility(View.GONE);
+        }
+    }
+
+    // private void setCombinationBack(int which) {
+    // if (null != stockList && stockList.size() > 0) {
+    // int length = stockList.size();
+    // float dutyValue = (1.0f / length);
+    // for (int i = 0; i < length; i++) {
+    // ConStockBean c = stockList.get(i);
+    // if (0 == which) {// 快速
+    // c.setPercent(dutyValue);
+    // }
+    // c.setDutyColor(ColorTemplate.getDefaultColor(i));
+    //
+    // }
+    // }
+    //
+    // }
 
     private void setAddStockBack(List<SelectStockBean> listStock) {
         int i = 0;

@@ -330,6 +330,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void onClick(View v) {
             Intent intent = new Intent(StockQuotesActivity.this, SelectAddOptionalActivity.class);
             startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
+            finish();
         }
     };
 

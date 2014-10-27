@@ -33,6 +33,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.GridView;
@@ -236,6 +238,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 mGridAdapter.setItemHeight((int) (columnWidth));
             }
         });
+        mGridView.setOnItemClickListener(compareItemClick);
 
         if (null != mCombinationBean) {
             // setStartTime(TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
@@ -249,6 +252,22 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         }
 
     }
+
+    OnItemClickListener compareItemClick = new OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // String name = mCompareItemList.get(position).name;
+            // Toast.makeText(getActivity(), "选择" + name, Toast.LENGTH_SHORT).show();
+            if (lineEntityList.size() >= position + 1) {
+                boolean isHide = !(mCompareItemList.get(position).iSelect);
+                mCompareItemList.get(position).iSelect = isHide;
+                lineEntityList.get(position + 1).setDisplay(!isHide);
+                maChartView.invalidate();
+                mGridAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     // private void setStartTime(String startDay) {
     // strStartTime = startDay;
@@ -664,7 +683,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 // if (isBeforeCreateDate(cStart)) {
                 if (isBeforeMonthCreateDate(cStart)) {
                     showBeforeCreateDayDialog();
-                } 
+                }
 
             } else {
                 cEnd.set(year, monthOfYear, dayOfMonth);
