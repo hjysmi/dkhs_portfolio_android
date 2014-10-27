@@ -78,7 +78,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/tv_updown_text"
                 android:layout_toRightOf="@+id/tv_updown_text"
-                android:text="-"
                 android:textColor="@color/red"
                 android:textSize="14sp" />
         </RelativeLayout>
