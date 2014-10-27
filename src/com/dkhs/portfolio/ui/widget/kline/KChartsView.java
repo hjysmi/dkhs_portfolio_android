@@ -214,11 +214,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				} else {
 					//textPaint.setColor(Color.DKGRAY);
 				}
-				canvas.drawText(new DecimalFormat("#.##").format(open), left + 1
+				canvas.drawText(new DecimalFormat("0.00").format(open), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 2.0f,
 						textPaint);
 			} catch (Exception e) {
-				canvas.drawText(new DecimalFormat("#.##").format(open), left + 1
+				canvas.drawText(new DecimalFormat("0.00").format(open), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 2.0f,
 						textPaint);
 			}
@@ -231,7 +231,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			} else {
 				//textPaint.setColor(Color.DKGRAY);
 			}
-			canvas.drawText(new DecimalFormat("#.##").format(high), left + 1
+			canvas.drawText(new DecimalFormat("0.00").format(high), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 3.0f,
 					textPaint);
 
@@ -249,7 +249,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			} catch (Exception e) {
 
 			}
-			canvas.drawText(new DecimalFormat("#.##").format(low), left + 1
+			canvas.drawText(new DecimalFormat("0.00").format(low), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 4.0f,
 					textPaint);
 
@@ -267,7 +267,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			} catch (Exception e) {
 
 			}
-			canvas.drawText(new DecimalFormat("#.##").format(close), left + 1
+			canvas.drawText(new DecimalFormat("0.00").format(close), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 5.0f,
 					textPaint);
 			
@@ -281,7 +281,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				} else {
 					//textPaint.setColor(Color.DKGRAY);
 				}
-				canvas.drawText(new DecimalFormat("#.##").format(priceRate), left + 1
+				canvas.drawText(new DecimalFormat("0.00").format(priceRate), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f,
 						textPaint);
 			} catch (Exception e) {
@@ -299,7 +299,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				} else {
 					//textPaint.setColor(Color.DKGRAY);
 				}
-				canvas.drawText(new DecimalFormat("#.##%").format(priceRate), left + 1
+				canvas.drawText(new DecimalFormat("0.00%").format(priceRate), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 7.0f,
 						textPaint);
 			} catch (Exception e) {
@@ -312,17 +312,17 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			try {
 				double volume = mOHLCData.get(selectIndext).getVolume()/100;
 				if (volume < 10000) {
-					canvas.drawText(new DecimalFormat("#.##").format(volume), left + 1
+					canvas.drawText(new DecimalFormat("0.00").format(volume), left + 1
 							+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 8.0f,
 							textPaint);
 				} else if(volume > 10000 && volume < 10000000){
 					volume = volume/10000;
-					canvas.drawText(new DecimalFormat("#.##").format(volume) + "万", left + 1
+					canvas.drawText(new DecimalFormat("0.00").format(volume) + "万", left + 1
 							+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 8.0f,
 							textPaint);
 				}else{
 					volume = volume/10000000;
-					canvas.drawText(new DecimalFormat("#.##").format(volume) + "千万", left + 1
+					canvas.drawText(new DecimalFormat("0.00").format(volume) + "千万", left + 1
 							+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 8.0f,
 							textPaint);
 				}
