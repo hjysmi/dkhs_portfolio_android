@@ -53,6 +53,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder.mCheckbox = (CheckBox) convertView.findViewById(R.id.cb_select_stock);
             viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
             viewHolder.tvIncreaseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+            viewHolder.tvSuspend = (TextView) convertView.findViewById(R.id.tv_suspend);
             viewHolder.tvStockLayout = (LinearLayout) convertView.findViewById(R.id.tv_stock_layout);
             convertView.setTag(viewHolder);
         } else {
@@ -74,7 +75,15 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
-
+        if (item.isStop) {
+            viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+            viewHolder.mCheckbox.setVisibility(View.GONE);
+            viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.tvSuspend.setVisibility(View.GONE);
+            viewHolder.mCheckbox.setVisibility(View.VISIBLE);
+            viewHolder.tvIncreaseValue.setVisibility(View.VISIBLE);
+        }
         ColorStateList textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
         // if (item.percentage >= 0) {
         // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
@@ -97,6 +106,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         TextView tvStockNum;
         TextView tvCurrentValue;
         TextView tvIncreaseValue;
+        TextView tvSuspend;
 
         LinearLayout tvStockLayout;
     }

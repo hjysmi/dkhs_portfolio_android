@@ -27,6 +27,9 @@ public class ConStockBean extends StockBean implements Serializable {
     protected int dutyColor;
     protected float currentValue;
     protected float increaseValue;
+    // 是否停牌 1是 0否
+    @SerializedName("is_stop")
+    private int isStop;
     @SerializedName("increase_percent")
     protected float increasePercent;
 
@@ -121,8 +124,17 @@ public class ConStockBean extends StockBean implements Serializable {
     public void setIncreasePercent(float increasePercent) {
         this.increasePercent = increasePercent;
     }
-    
-    
-    
-    
+
+    public int getIsStop() {
+        return isStop;
+    }
+
+    public boolean isStop() {
+        return isStop == 1 ? true : false;
+    }
+
+    public void setIsStop(int isStop) {
+        this.isStop = isStop;
+    }
+
 }

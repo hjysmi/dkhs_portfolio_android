@@ -26,6 +26,7 @@ public class SelectStockBean implements Serializable {
     public String code;
     public float change;
     public boolean isFollowed;
+    public boolean isStop;
 
     public static SelectStockBean copy(ConStockBean stockBean) {
 
@@ -35,6 +36,7 @@ public class SelectStockBean implements Serializable {
         // bean.percentage = stockBean.getPercent();
         bean.id = stockBean.getStockId();
         bean.code = stockBean.getStockCode();
+        bean.isStop = stockBean.isStop();
         return bean;
     }
 

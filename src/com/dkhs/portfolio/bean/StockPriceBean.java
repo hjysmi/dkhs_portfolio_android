@@ -41,6 +41,10 @@ public class StockPriceBean {
     @SerializedName("chng_pct_three_month")
     private float seasonPercentage;
 
+    // 是否停牌 1是 0否
+    @SerializedName("is_stop")
+    private int isStop;
+
     public long getId() {
         return id;
     }
@@ -119,6 +123,18 @@ public class StockPriceBean {
 
     public void setChange(float change) {
         this.change = change;
+    }
+
+    public int getIsStop() {
+        return isStop;
+    }
+
+    public boolean isStop() {
+        return isStop == 1 ? true : false;
+    }
+
+    public void setIsStop(int isStop) {
+        this.isStop = isStop;
     }
 
 }

@@ -94,6 +94,7 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
                     selectBean.code = stockBean.getSymbol();
                     selectBean.percentage = stockBean.getPercentage();
                     selectBean.isFollowed = stockBean.isFollowed();
+                    selectBean.isStop = stockBean.isStop();
                     selectList.add(selectBean);
 
                     // results.add(stockBean);

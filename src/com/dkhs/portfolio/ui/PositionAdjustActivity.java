@@ -81,6 +81,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private EditText etConbinationName;
     private EditText etConbinationDesc;
     private Button btnConfirm;
+    private Button btnAverage;
     private View viewCombinationInfo;
 
     private PositionDetail mPositionDetailBean;
@@ -162,6 +163,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         positionTextValue = (TextView) findViewById(R.id.position_text_value);
         positionTextCreatedate = (TextView) findViewById(R.id.position_text_createdate);
         viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
+        btnAverage = (Button) findViewById(R.id.btn_average);
+        
+        
         if (null != mPositionDetailBean) {
             viewCombinationInfo.setVisibility(View.VISIBLE);
             positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
