@@ -70,11 +70,15 @@ public class CompareIndexAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
         }
-        convertView.setLayoutParams(mItemViewLayoutParams);
-        int colorId = ColorTemplate.DEFAULTCOLORS[position];
-        convertView.setBackgroundColor(mContext.getResources().getColor(colorId));
 
         CompareFundItem item = mDataList.get(position);
+        int colorId = ColorTemplate.DEFAULTCOLORS[position];
+        if (item.iSelect) {
+            colorId = R.color.theme_gray_press;
+        }
+
+        convertView.setLayoutParams(mItemViewLayoutParams);
+        convertView.setBackgroundColor(mContext.getResources().getColor(colorId));
 
         viewHolder.tvName.setText(item.name);
         viewHolder.tvValue.setText(item.value);
@@ -100,6 +104,7 @@ public class CompareIndexAdapter extends BaseAdapter {
     public class CompareFundItem {
         public String name;
         public String value;
+        public boolean iSelect;
     }
 
 }
