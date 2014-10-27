@@ -108,11 +108,28 @@ public class MyCombinationEngineImpl {
         RequestParams params = new RequestParams();
         // params.addBodyParameter("portfolio", id + "");
         // 调整比例, 格式如：[{"symbol": 101000002,"percent":0.45},{"symbol": 101000004,"percent":0.35}]
-        Gson gson = new Gson();
-        String symbolsValue = gson.toJson(symbols);
-        params.addBodyParameter("symbols", symbolsValue);
+        // Gson gson = new Gson();
+        // String symbolsValue = gson.toJson(symbols);
+        // params.addBodyParameter("symbols", symbolsValue);
+        if (null != symbols && symbols.size() > 0) {
 
-        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust, id), params, listener);
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+
+            for (int i = 0; i < symbols.size(); i++) {
+                Gson gson = new Gson();
+                String symbolsValue = gson.toJson(symbols.get(i));
+                sb.append(symbolsValue);
+                sb.append(",");
+            }
+            sb = sb.deleteCharAt(sb.length() - 1);
+
+            sb.append("]");
+            // System.out.println("symbols:" + sb.toString());
+            params.addBodyParameter("symbols", sb.toString());
+        }
+
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust, id + ""), params, listener);
 
     }
 

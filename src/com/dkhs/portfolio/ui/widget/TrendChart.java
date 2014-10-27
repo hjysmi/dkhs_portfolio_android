@@ -409,7 +409,10 @@ public class TrendChart extends TrendGridChart {
 
     private void getTouchPointData(Canvas canvas) {
         if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
-            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1)) + 1;
+             int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) /
+             (pointLineLength + 1)) + 1;
+//            int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft()-2) / (pointLineLength)) + 1;
+            System.out.println("touch pointIndex:" + pointIndex);
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
             if (pointIndex < maxPointSize) {
