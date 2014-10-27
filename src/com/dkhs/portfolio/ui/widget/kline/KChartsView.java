@@ -865,6 +865,17 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}else if(mShowDataNum > mOHLCData.size() && mOHLCData.size() > MAX_CANDLE_NUM){
 				mShowDataNum = MAX_CANDLE_NUM;
 			}
+			if(zoomNum == 0){
+				mShowDataNum = 40;
+			}
+			if(zoomNum == 9){
+				if(mOHLCData.size() > MAX_CANDLE_NUM){
+					mShowDataNum = MAX_CANDLE_NUM;
+				}else{
+					mShowDataNum = mOHLCData.size();
+				}
+				
+			}
 			zoomNum++;
 		}
 	}
@@ -875,6 +886,13 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			mShowDataNum -= size;
 			if (mShowDataNum < MIN_CANDLE_NUM) {
 				mShowDataNum = MIN_CANDLE_NUM;
+				
+			}
+			if(zoomNum == 1){
+				mShowDataNum = MIN_CANDLE_NUM;
+			}
+			if(zoomNum == 10){
+				mShowDataNum = 80;
 			}
 			/*if(zoomNum == 1){
 				mShowDataNum = MIN_CANDLE_NUM;
