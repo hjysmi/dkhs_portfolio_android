@@ -239,7 +239,7 @@ public class TrendChart extends TrendGridChart {
         if (isDisplayAxisXTitle()) {
 
             if (clickPostX > 0 && clickPostY > 0) {
-                
+
             }
         }
 
@@ -247,7 +247,7 @@ public class TrendChart extends TrendGridChart {
             lineHLength = lineHLength - getAxisMarginLeft();
 
             if (clickPostX > 0 && clickPostY > 0) {
-              
+
             }
         }
 
@@ -262,7 +262,7 @@ public class TrendChart extends TrendGridChart {
             canvas.drawLine(clickPostX, mStartLineYpoint, clickPostX, lineVLength, mPaint);
 
             float value = ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex)).getValue();
-       
+
             float hightPrecent = 0;
             if (this.getMaxValue() == this.getMinValue()) {
                 hightPrecent = 0.5f;
@@ -274,12 +274,10 @@ public class TrendChart extends TrendGridChart {
             valueY += mStartLineYpoint;
             canvas.drawLine(axisMarginLeft, valueY, mGridLineLenght + axisMarginLeft, valueY, mPaint);
 
-            
         }
 
         invalidate();
     }
-
 
     private float lineHeight;
 
@@ -325,6 +323,11 @@ public class TrendChart extends TrendGridChart {
                             break;
                         }
                         float value = lineData.get(j).getValue();
+                        if (value > this.getMaxValue()) {
+                            value = this.getMaxValue();
+                        } else if (value < this.getMinValue()) {
+                            value = this.getMinValue();
+                        }
                         // 获取终点Y坐�?
                         // j=1,vlaueY=29.866665
                         // minvalue = 220,maxvalue=280
@@ -404,7 +407,6 @@ public class TrendChart extends TrendGridChart {
     private boolean isFill;
     private int fillLineIndex = 0;
 
-
     private void getTouchPointData(Canvas canvas) {
         if (getTouchPoint() != null && null != lineData && lineData.size() > 0) {
             int pointIndex = (int) ((getTouchPoint().x - super.getAxisMarginLeft() - pointLineLength / 2f) / (pointLineLength + 1)) + 1;
@@ -447,7 +449,7 @@ public class TrendChart extends TrendGridChart {
         int viewHeight = 0;
         // int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight);
         int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_width);
-        int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin) ;
+        int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
         float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边

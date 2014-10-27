@@ -9,6 +9,7 @@
     <color name="theme_gray_press">#d0d0d0</color>
     <color name="edit_textcolor">#d0d0d0</color>
     <color name="gray_textcolor">#979797</color>
+    <color name="compare_select_gray">#969696</color>
     <color name="green">#36ad3c</color>
     <color name="pink">#FF4444</color>
     <color name="orange">#FF8800</color>
@@ -83,7 +84,7 @@
     <color name="ma10_color">#ff9900</color>
     <color name="ma20_color">#ff00ff</color>
     <color name="position_text_lgray">#acacac</color>
-	
+
     <drawable name="red">#ff0000</drawable>
     <drawable name="gray">#4d4c4d</drawable>
     <drawable name="theme_color">#262932</drawable>

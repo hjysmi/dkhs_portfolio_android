@@ -74,7 +74,7 @@ public class CompareIndexAdapter extends BaseAdapter {
         CompareFundItem item = mDataList.get(position);
         int colorId = ColorTemplate.DEFAULTCOLORS[position];
         if (item.iSelect) {
-            colorId = R.color.theme_gray_press;
+            colorId = R.color.compare_select_gray;
         }
 
         convertView.setLayoutParams(mItemViewLayoutParams);
