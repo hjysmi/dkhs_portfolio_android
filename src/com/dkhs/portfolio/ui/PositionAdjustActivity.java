@@ -415,7 +415,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             int length = stockList.size();
             float total = 1.0f;
             float dutyValue = (total / length);
-             float residual = (100f % length);
+            float residual = (100f % length);
             for (int i = 0; i < length; i++) {
                 ConStockBean c = stockList.get(i);
                 total -= dutyValue;
@@ -425,7 +425,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             }
 
-            stockList.get(0).setPercent(dutyValue + residual/100);
+            stockList.get(0).setPercent(dutyValue + residual / 100);
 
         }
 
@@ -564,20 +564,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
-                        if (createType != -1) {
-
-                            if (stockList == null) {
-                                stockList = new ArrayList<ConStockBean>();
-                            }
-                            stockList.clear();
-                            for (SelectStockBean selectBean : listStock) {
-                                stockList.add(selectBean.parseStock());
-                            }
-
-                            // setCombinationBack(createType);
-
-                            // } else {
-                        }
+                        // if (createType != -1) {
+                        //
+                        // if (stockList == null) {
+                        // stockList = new ArrayList<ConStockBean>();
+                        // }
+                        // stockList.clear();
+                        // for (SelectStockBean selectBean : listStock) {
+                        // stockList.add(selectBean.parseStock());
+                        // }
+                        //
+                        // // setCombinationBack(createType);
+                        //
+                        // // } else {
+                        // }
                         setAddStockBack(listStock);
                         updatePieView();
 
@@ -625,21 +625,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void setAddStockBack(List<SelectStockBean> listStock) {
         int i = 0;
+        List<ConStockBean> tempList = new ArrayList<ConStockBean>();
         for (SelectStockBean selectBean : listStock) {
             ConStockBean csBean = selectBean.parseStock();
-            if (stockList.contains(csBean)) {
-                if (i < stockList.size()) {
-                    stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
-                }
-                i++;
-                continue;
-            }
             csBean.setPercent(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
-            stockList.add(csBean);
-            i++;
+            if (stockList.contains(csBean)) {
+                if (i < stockList.size()) {
+                    csBean.setPercent(stockList.get(i).getPercent());
+                    // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
+                }
 
+            }
+
+            tempList.add(csBean);
+            i++;
         }
+        stockList.clear();
+        stockList.addAll(tempList);
 
     }
 }

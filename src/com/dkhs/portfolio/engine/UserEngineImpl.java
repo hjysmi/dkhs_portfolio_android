@@ -95,4 +95,8 @@ public class UserEngineImpl {
 		DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
 	}
 	
+	public void checkMobile(String mobile,IHttpListener listener){
+	    DKHSClient.requestByGet(listener, DKHSUrl.User.checkMobile, mobile);
+	}
+	
 }

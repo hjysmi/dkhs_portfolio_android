@@ -371,12 +371,18 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
     private void requestCompare() {
         lineEntityList.clear();
         maxOffsetValue = 0f;
-
+        reShowGirdItem();
         new NetValueEngine(mCombinationBean.getId()).requeryDay(TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
 
+    }
+    private void reShowGirdItem(){
+        for(CompareFundItem item:mCompareItemList){
+            item.iSelect =false;
+        }
+        mGridAdapter.notifyDataSetChanged();
     }
 
     ParseHttpListener historyNetValueListener = new ParseHttpListener<HistoryNetValue>() {

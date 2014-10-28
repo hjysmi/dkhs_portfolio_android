@@ -56,6 +56,7 @@
                 android:layout_height="45dip"
                 android:layout_marginRight="20dip"
                 android:layout_weight="1"
+                android:textColor="@color/white"
                 android:background="@drawable/button_normal_blue"
                 android:text="@string/login" />
 
@@ -66,7 +67,9 @@
                 android:layout_marginLeft="20dip"
                 android:layout_weight="1"
                 android:background="@drawable/button_normal_blue"
-                android:text="@string/cancel" />
+                android:text="@string/cancel"
+                android:textColor="@color/white" />
+
         </LinearLayout>
     </RelativeLayout>
 "

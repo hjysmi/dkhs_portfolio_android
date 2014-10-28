@@ -1,79 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f2f2f2" >
+    android:background="#f2f2f2"
+    android:orientation="vertical"
+    android:padding="30dp" >
 
-    <RelativeLayout
-        android:id="@+id/rl_mobile"
-        android:layout_width="290dip"
+    <EditText
+        android:id="@+id/et_mobile"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dip"
-        android:background="@drawable/edit_text_bg" >
-
-        <TextView
-            android:layout_width="50dip"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:text="@string/mobile"
-            android:textColor="#000000"
-            android:textSize="14sp" />
-
-        <EditText
-            android:id="@+id/et_mobile"
-            android:layout_width="220dip"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:background="@null"
-            android:hint="@string/hint_mobile"
-            android:inputType="number"
-            android:singleLine="true"
-            android:textSize="14sp" />
-    </RelativeLayout>
+        android:background="@drawable/edit_text_bg"
+        android:digits="0123456789"
+        android:hint="@string/hint_mobile"
+        android:inputType="number"
+        android:maxLength="11"
+        android:paddingLeft="10dp"
+        android:singleLine="true"
+        android:textSize="14sp" />
 
     <RelativeLayout
         android:id="@+id/rl_verifycode"
-        android:layout_width="290dip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rl_mobile"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dip" >
-
-        <RelativeLayout
-            android:layout_width="160dip"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/edit_text_bg" >
-
-            <TextView
-                android:id="@+id/tv_verifycode"
-                android:layout_width="50dip"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dip"
-                android:text="@string/verify_code"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-            <EditText
-                android:id="@+id/et_verifycode"
-                android:layout_width="90dip"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dip"
-                android:background="@null"
-                android:hint="@string/hint_verify_code"
-                android:inputType="number"
-                android:singleLine="true"
-                android:textSize="14sp" />
-        </RelativeLayout>
+        android:layout_marginTop="12dip" >
 
         <Button
             android:id="@+id/button_getcode"
@@ -85,31 +35,55 @@
             android:text="@string/get_code"
             android:textColor="@color/white"
             android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_verifycode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="12sp"
+            android:layout_toLeftOf="@+id/button_getcode"
+            android:background="@drawable/edit_text_bg"
+            android:hint="@string/hint_verify_code"
+            android:inputType="number"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="14sp" />
     </RelativeLayout>
 
-    
-    
-
-    <LinearLayout
-        android:id="@+id/ll_btn"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/rl_agree"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:layout_below="@id/rl_verifycode"
-        android:layout_centerHorizontal="true"
-        android:orientation="vertical" >
+        android:paddingTop="6dp" >
 
-        <Button
-            android:id="@+id/rlbutton"
-            android:layout_width="290dip"
+        <CheckBox
+            android:id="@+id/cb_agree"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dip"
-            android:background="@drawable/button_normal_blue"
-            android:clickable="false"
-            android:gravity="center"
-            android:text="@string/register"
-            android:textColor="@color/white"
-            android:textSize="18sp" />
-    </LinearLayout>
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:button="@drawable/cb_agree_seletor"
+            android:checked="true" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_agree_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/cb_agree" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/rlbutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/btn_blue_gray_selector"
+        android:enabled="false"
+        android:gravity="center"
+        android:text="@string/confirm"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+</LinearLayout>
