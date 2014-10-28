@@ -44,5 +44,5 @@
     <dimen name="list_text_size">16sp</dimen>
 	<dimen name="news_text_title_size">20sp</dimen>
     <integer name="select_touch_text">22</integer>
-
+	<dimen name="weight">80dp</dimen>
 </resources>

@@ -32,11 +32,16 @@
             android:layout_height="294dp" />
 
         <!-- 底部资讯 -->
-
-        <fragment
+		<LinearLayout 
+		    android:layout_height="match_parent"
+		    android:layout_width="match_parent"
+		    android:orientation="vertical"
+		    android:id="@+id/stock_layout"
+		    ></LinearLayout>
+        <!-- <fragment
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            class="com.dkhs.portfolio.ui.fragment.NewsFragment" />
+            class="com.dkhs.portfolio.ui.fragment.NewsFragment" /> -->
     </LinearLayout>
 
 </com.dkhs.portfolio.ui.widget.InterceptScrollView>
