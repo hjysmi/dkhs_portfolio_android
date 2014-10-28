@@ -261,9 +261,9 @@ public class StickChart extends GridChart {
             
             if (null != StickData) {
             	float stickX = /* super.getAxisMarginLeft() + */3;
-                if(maxStickDataNum > StickData.size()){
+               /* if(maxStickDataNum > StickData.size()){
                 	stickX = (maxStickDataNum - StickData.size()) * (stickWidth + 3);
-                }
+                }*/
                 // 判断显示为方柱或显示为线条
                 for (int i = 0; i < StickData.size(); i++) {
                     StickEntity ohlc = StickData.get(i);
@@ -309,24 +309,27 @@ public class StickChart extends GridChart {
                 MALineEntity lineEntity = MALineData.get(j);
 
                 float startX = -stickWidth / 2 - 3;
-                if(maxStickDataNum > StickData.size()){
+                /*if(maxStickDataNum >= StickData.size()){
                 	startX = startX + (maxStickDataNum - StickData.size()) * (stickWidth + 3);
-                }
+                }*/
                 float startY = 0;
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setColor(lineEntity.getLineColor());
                 paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-
-                float total = Float.parseFloat(new DecimalFormat("#.##").format(lineEntity.getLineData().get(lineEntity.getLineData().size() - 1 - currentIndex))) / 100;
+                int k = lineEntity.getLineData().size() - 1 - currentIndex;
+                if(k < 0){
+                	k = lineEntity.getLineData().size() - 1;
+                }
+                float total = Float.parseFloat(new DecimalFormat("0.00").format(lineEntity.getLineData().get(k))) / 100;
                 if (total < 10000) {
-                    text = new DecimalFormat("#.##").format(total);
+                    text = new DecimalFormat("0.00").format(total);
                 } else if (total > 10000 && total < 10000000) {
                     total = total / 10000;
-                    text = new DecimalFormat("#.##").format(total) + "万";
+                    text = new DecimalFormat("0.00").format(total) + "万";
                 } else {
                     total = total / 10000000;
-                    text = new DecimalFormat("#.##").format(total) + "千万";
+                    text = new DecimalFormat("0.00").format(total) + "千万";
                 }
                 text = lineEntity.getTitle() + ":" + text;
                 Paint p = new Paint();
