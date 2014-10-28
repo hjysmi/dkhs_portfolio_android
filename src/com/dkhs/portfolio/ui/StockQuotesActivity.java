@@ -26,6 +26,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -37,8 +38,10 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
+import com.dkhs.portfolio.ui.fragment.NewsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -73,9 +76,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private StockQuotesBean mStockQuotesBean;
     private long mStockId;
     private String mStockCode;
+    private Context context;
 
     private StockQuotesChartFragment mStockQuotesChartFragment;
-
+    private LinearLayout stockLayout;
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -115,11 +119,21 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_stockquotes);
+        context = this;
         mQuotesEngine = new QuotesEngineImpl();
         // handle intent extras
         initView();
         processExtraData();
-
+        List<String> name = new ArrayList<String>();
+        name.add("新闻资讯");
+        name.add("个股公告");
+        name.add("F10");
+        Fragment f = new NewsFragment();
+        List<Fragment> frag = new ArrayList<Fragment>();
+        frag.add(f);
+        frag.add(f);
+        frag.add(f);
+        new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager());
     }
 
     private void handleExtras(Bundle extras) {
@@ -135,6 +149,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvChange = (TextView) findViewById(R.id.tv_up_price);
         tvPercentage = (TextView) findViewById(R.id.tv_percentage);
         btnAddOptional = (Button) findViewById(R.id.btn_add_optional);
+        stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
         btnAddOptional.setOnClickListener(this);
 
         Button addButton = getRightButton();
@@ -146,7 +161,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         initTabPage();
         // setupViewData();
-
+        
         // scrollview + listview 会滚动到底部，需要滚动到头部
         scrollToTop();
         setAddOptionalButton();
@@ -167,7 +182,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
         }
     }
-
+    
     private void scrollToTop() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         mScrollview.smoothScrollTo(0, 0);
