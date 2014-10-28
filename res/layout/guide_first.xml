@@ -8,8 +8,18 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:adjustViewBounds="false"
+        android:background="@drawable/dksh_flash"
         android:focusable="true"
         android:scaleType="centerCrop"
-        android:background="@drawable/dksh_flash" />
+        android:visibility="gone" />
+
+    <com.dkhs.portfolio.ui.widget.PowerImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="false"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/gif_guide_frist" />
 
 </RelativeLayout>

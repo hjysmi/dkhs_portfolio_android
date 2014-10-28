@@ -24,96 +24,107 @@ import com.dkhs.portfolio.ui.NoAccountMainActivity;
  */
 public class GuideViewPagerAdapter extends PagerAdapter {
 
-	// 界面列表
-	private List<View> views;
-	private Activity activity;
+    // 界面列表
+    private List<View> views;
+    private Activity activity;
 
-	private static final String SHAREDPREFERENCES_NAME = "first_pref";
+    private static final String SHAREDPREFERENCES_NAME = "first_pref";
 
-	public GuideViewPagerAdapter(List<View> views, Activity activity) {
-		this.views = views;
-		this.activity = activity;
-	}
+    public GuideViewPagerAdapter(List<View> views, Activity activity) {
+        this.views = views;
+        this.activity = activity;
+    }
 
-	// 销毁arg1位置的界面
-	@Override
-	public void destroyItem(View arg0, int arg1, Object arg2) {
-		((ViewPager) arg0).removeView(views.get(arg1));
-	}
+    // 销毁arg1位置的界面
+    @Override
+    public void destroyItem(View arg0, int arg1, Object arg2) {
+        ((ViewPager) arg0).removeView(views.get(arg1));
+    }
 
-	@Override
-	public void finishUpdate(View arg0) {
-	}
+    @Override
+    public void finishUpdate(View arg0) {
+    }
 
-	// 获得当前界面数
-	@Override
-	public int getCount() {
-		if (views != null) {
-			return views.size();
-		}
-		return 0;
-	}
+    // 获得当前界面数
+    @Override
+    public int getCount() {
+        if (views != null) {
+            return views.size();
+        }
+        return 0;
+    }
 
-	// 初始化arg1位置的界面
-	@Override
-	public Object instantiateItem(View arg0, int arg1) {
-		((ViewPager) arg0).addView(views.get(arg1), 0);
-		if (arg1 == views.size() - 1) {
-			Button startLogin = (Button) arg0
-					.findViewById(R.id.btn_start_login);
-			startLogin.setOnClickListener(new OnClickListener() {
+    // 初始化arg1位置的界面
+    @Override
+    public Object instantiateItem(View view, int arg1) {
+        ((ViewPager) view).addView(views.get(arg1), 0);
+        if (arg1 == views.size() - 1) {
+            view.findViewById(R.id.rl_start).setOnClickListener(startClickListener);
+            view.findViewById(R.id.iv_start).setOnClickListener(startClickListener);
+            // Button startLogin = (Button) arg0
+            // .findViewById(R.id.btn_start_login);
+            // startLogin.setOnClickListener(new OnClickListener() {
+            //
+            // @Override
+            // public void onClick(View v) {
+            // // 设置已经引导
+            // setGuided();
+            // goHome();
+            //
+            // }
+            //
+            // });
+        }
+        return views.get(arg1);
+    }
 
-				@Override
-				public void onClick(View v) {
-					// 设置已经引导
-					setGuided();
-					goHome();
+    OnClickListener startClickListener = new OnClickListener() {
 
-				}
+        @Override
+        public void onClick(View v) {
+            setGuided();
+            goHome();
 
-			});
-		}
-		return views.get(arg1);
-	}
+        }
+    };
 
-	private void goHome() {
-		// 跳转
-		Intent intent = new Intent(activity, NoAccountMainActivity.class);
-		activity.startActivity(intent);
-		activity.finish();
-	}
+    private void goHome() {
+        // 跳转
+        Intent intent = new Intent(activity, NoAccountMainActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 
-	/**
-	 * 
-	 * method desc：设置已经引导过了，下次启动不用再次引导
-	 */
-	private void setGuided() {
-		SharedPreferences preferences = activity.getSharedPreferences(
-				SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
-		Editor editor = preferences.edit();
-		// 存入数据
-		editor.putBoolean("isFirstIn", false);
-		// 提交修改
-		editor.commit();
-	}
+    /**
+     * 
+     * method desc：设置已经引导过了，下次启动不用再次引导
+     */
+    private void setGuided() {
+        SharedPreferences preferences = activity.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_PRIVATE);
+        Editor editor = preferences.edit();
+        // 存入数据
+        editor.putBoolean("isFirstIn", false);
+        // 提交修改
+        editor.commit();
+    }
 
-	// 判断是否由对象生成界面
-	@Override
-	public boolean isViewFromObject(View arg0, Object arg1) {
-		return (arg0 == arg1);
-	}
+    // 判断是否由对象生成界面
+    @Override
+    public boolean isViewFromObject(View arg0, Object arg1) {
+        return (arg0 == arg1);
+    }
 
-	@Override
-	public void restoreState(Parcelable arg0, ClassLoader arg1) {
-	}
+    @Override
+    public void restoreState(Parcelable arg0, ClassLoader arg1) {
+    }
 
-	@Override
-	public Parcelable saveState() {
-		return null;
-	}
+    @Override
+    public Parcelable saveState() {
+        return null;
+    }
 
-	@Override
-	public void startUpdate(View arg0) {
-	}
+    @Override
+    public void startUpdate(View arg0) {
+    }
 
 }

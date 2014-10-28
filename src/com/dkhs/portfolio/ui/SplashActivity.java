@@ -23,7 +23,7 @@ import com.lidroid.xutils.exception.DbException;
  * 
  */
 public class SplashActivity extends ModelAcitivity {
-	boolean isFirstIn = false;
+	boolean isFirstIn = true;
 
 	private static final int GO_ACCOUNT_MAIN = 1000;
 	private static final int GO_GUIDE = 1001;
@@ -92,7 +92,7 @@ public class SplashActivity extends ModelAcitivity {
 						SHAREDPREFERENCES_NAME, MODE_PRIVATE);
 
 				// 取得相应的值，如果没有该值，说明还未写入，用true作为默认值
-				isFirstIn = preferences.getBoolean("isFirstIn", true);
+//				isFirstIn = preferences.getBoolean("isFirstIn", true);
 
 				// 判断程序与第几次运行，如果是第一次运行则跳转到引导界面，否则跳转到主界面
 				if (!isFirstIn) {
