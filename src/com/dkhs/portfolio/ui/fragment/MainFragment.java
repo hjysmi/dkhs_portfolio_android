@@ -398,7 +398,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onResume();
         if (mScollTimer == null) { // 保证只有一个 定时任务
             mScollTimer = new Timer(true);
-            mScollTimer.schedule(new ScrollPageTask(), 5000, 5000);
+            mScollTimer.schedule(new ScrollPageTask(), 2000, 2000);
         }
     }
 
