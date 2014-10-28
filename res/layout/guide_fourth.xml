@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ImageView
+    <com.dkhs.portfolio.ui.widget.PowerImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:adjustViewBounds="false"
-        android:background="@drawable/dksh_flash"
         android:focusable="true"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/gif_guide_four" />
 
     <Button
         android:id="@+id/btn_start_login"
@@ -23,6 +23,27 @@
         android:background="@drawable/button_login"
         android:text="@string/start"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/rl_start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/btn_tiyan_selector"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/iv_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/iv_tiyan_selector" />
+    </RelativeLayout>
 
 </RelativeLayout>
