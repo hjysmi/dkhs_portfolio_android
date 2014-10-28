@@ -39,6 +39,7 @@ public class NoAccountMainActivity extends ModelAcitivity implements OnClickList
 			break;
 		}
 	}
+	
 
 
 

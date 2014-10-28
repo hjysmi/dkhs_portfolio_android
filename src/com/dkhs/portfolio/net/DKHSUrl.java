@@ -64,7 +64,7 @@ public class DKHSUrl {
         // http://192.168.107.251:8002/api/v1/symbols/SZ000002/time_line/?period=1
 
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
-        //行情中心 指数排行
+        // 行情中心 指数排行
         String marketcenter = "/api/v1/symbols/?sort={0}percentage&page_size=10&is_midx=1";
         String opitionmarket = "/api/v1/symbols/?sort={0}percentage&page_size=10&symbol_type=1";
     }
@@ -92,14 +92,14 @@ public class DKHSUrl {
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
 
     }
-    
-    public interface News{
-    	//新闻公告  从主界面与左滑动栏进入时调用 
-    	String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=10";
-    	//关于某只股票的新闻与公告  10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
-    	//http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
-    	String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type={1}";
-    	String newstext = "/api/v1/statuses/";
+
+    public interface News {
+        // 新闻公告 从主界面与左滑动栏进入时调用
+        String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=10";
+        // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
+        // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
+        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type={1}";
+        String newstext = "/api/v1/statuses/";
     }
 
     public interface User {
@@ -115,6 +115,7 @@ public class DKHSUrl {
         String setpassword = "/api/v1/accounts/set_password/";
         // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
+        String checkMobile = "/api/v1/accounts/check_mobile/?mobile={0}";
 
     }
 

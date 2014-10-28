@@ -15,14 +15,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -32,20 +38,24 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.TextViewClickableSpan;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private Button btn_get_code;
     private Button rlfbutton;
     private EditText code;
-    private EditText mobile;
+    private EditText etPhoneNum;
+    private CheckBox cbAgree;
+
     public static final int REGIST_TYPE = 1001;
-    public static final int LOGIN_TYPE = 1002;
+    public static final int FORGET_PSW_TYPE = 1002;
     private boolean isLoginByCaptcha = false;
 
     private static final int GET_CODE_UNABLE = 0;
@@ -74,7 +84,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                         if (phoneNumber.startsWith("+86")) {
                             phoneNumber = phoneNumber.replace("+86", "");
                         }
-                        mobile.setText(phoneNumber);
+                        etPhoneNum.setText(phoneNumber);
                     }
                     break;
                 default:
@@ -89,6 +99,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         initViews();
         setListener();
         initData();
+        initLink();
 
     }
 
@@ -104,13 +115,16 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         login.setClickable(true);
         login.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                if (NetUtil.checkNetWork(getApplicationContext())) {
-                    PromptManager.showToast(R.string.logining);
-                    engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-                    dlg.dismiss();
-                } else {
-                    PromptManager.showNoNetWork(getApplicationContext());
-                }
+
+                dlg.dismiss();
+                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+                finish();
+                // if (NetUtil.checkNetWork(getApplicationContext())) {
+                // // PromptManager.showToast(R.string.logining);
+                // // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
+                // } else {
+                // PromptManager.showNoNetWork(getApplicationContext());
+                // }
 
             }
         });
@@ -143,7 +157,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public void setListener() {
         btn_get_code.setOnClickListener(this);
         rlfbutton.setOnClickListener(this);
-        mobile.addTextChangedListener(new TextWatcher() {
+        etPhoneNum.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -157,15 +171,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() == 0) {
-                    mobileAble = false;
-                    setRegistAble(false);
-                } else {
-                    mobileAble = true;
-                    if (codeAble) {
-                        setRegistAble(true);
-                    }
-                }
+                mobileAble = isMobileNO(s.toString());
+
+                setRegistAble();
             }
         });
         code.addTextChangedListener(new TextWatcher() {
@@ -182,61 +190,96 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() != 6) {
-                    setRegistAble(false);
-                    codeAble = false;
-                } else {
+                if (s.length() == 6 && mobileAble) {
+
                     codeAble = true;
-                    if (mobileAble) {
-                        setRegistAble(true);
-                    }
+                } else {
+                    codeAble = false;
                 }
+                setRegistAble();
             }
         });
     }
 
-    private void setRegistAble(boolean flag) {
-        if (flag) {
-            rlfbutton.setBackgroundResource(R.drawable.button_normal_blue);
-            rlfbutton.setClickable(true);
+    private void setRegistAble() {
+        if (codeAble && mobileAble && cbAgree.isChecked()) {
+            rlfbutton.setEnabled(true);
         } else {
-            rlfbutton.setBackgroundResource(R.drawable.button_unable);
-            rlfbutton.setClickable(false);
+            rlfbutton.setEnabled(false);
         }
     }
 
     public void initViews() {
         current_type = getIntent().getIntExtra("activity_type", REGIST_TYPE);
         rlfbutton = (Button) findViewById(R.id.rlbutton);
+        setRegistAble();
+        btn_get_code = (Button) findViewById(R.id.button_getcode);
+        etPhoneNum = (EditText) findViewById(R.id.et_mobile);
+        code = (EditText) findViewById(R.id.et_verifycode);
+        tvMessage = (TextView) findViewById(R.id.tv_agree_info);
+        cbAgree = (CheckBox) findViewById(R.id.cb_agree);
+
         if (current_type == REGIST_TYPE) {
             setTitle(R.string.register);
-            rlfbutton.setText(R.string.register);
-        } else if (current_type == LOGIN_TYPE) {
+            rlfbutton.setText("下一步");
+        } else if (current_type == FORGET_PSW_TYPE) {
             setTitle(R.string.forget_password);
-            rlfbutton.setText(R.string.login);
+            rlfbutton.setText(R.string.confirm);
+            findViewById(R.id.rl_agree).setVisibility(View.INVISIBLE);
+
         }
-        btn_get_code = (Button) findViewById(R.id.button_getcode);
-        mobile = (EditText) findViewById(R.id.et_mobile);
-        code = (EditText) findViewById(R.id.et_verifycode);
+    }
+
+    /**
+     * 提示用户默认是同意服务条款和隐私政策
+     */
+    private TextView tvMessage;
+
+    private static final String str = "我已阅读并同意";
+    private static final String str2 = "《多块好省服务协议》";
+
+    private void initLink() {
+        // 跳转隐私政策
+        // Intent intent1 = new Intent(this, ActivityTermsPrivate.class);
+        // intent1.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_POLICY);
+        // // 跳转服务条款
+        Intent intent = new Intent(this, MainActivity.class);
+        // intent2.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_TERMS);
+
+        SpannableStringBuilder sp = new SpannableStringBuilder();
+        sp.append(str + str2);
+
+        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, intent), str.length(),
+                str.length() + str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvMessage.setText(sp);
+        // 设置TextView可点击
+        tvMessage.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
     public void onClick(View v) {
-        telephone = mobile.getText().toString();
+        telephone = etPhoneNum.getText().toString();
         verify_code = code.getText().toString();
         switch (v.getId()) {
             case R.id.button_getcode:
-                if (TextUtils.isEmpty(telephone)) {
-                    PromptManager.showToast("手机号码不能为空");
+                if (!isValidPhoneNum()) {
                     return;
                 }
-                if (!isMobileNO(telephone)) {
-                    PromptManager.showToast("请输入正确的手机号码");
-                    return;
-                }
+
                 if (NetUtil.checkNetWork(this)) {
                     PromptManager.showProgressDialog(RLFActivity.this, R.string.getting_code, false);
                     engine.getVericode(telephone, new ParseHttpListener<Object>() {
+                        /**
+                         * @Title
+                         * @Description TODO: (用一句话描述这个方法的功能)
+                         * @return
+                         */
+                        @Override
+                        public void requestCallBack() {
+                            // TODO Auto-generated method stub
+                            super.requestCallBack();
+                            PromptManager.closeProgressDialog();
+                        }
 
                         @Override
                         public void onHttpFailure(int errCode, String errMsg) {
@@ -246,7 +289,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                             count = 0;
                             btn_get_code.setBackgroundResource(R.drawable.button_normal_blue);
                             mTimer.cancel();
-                            PromptManager.closeProgressDialog();
+
                         }
 
                         @Override
@@ -256,7 +299,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
                         @Override
                         protected void afterParseData(Object object) {
-                            PromptManager.closeProgressDialog();
                             PromptManager.showToast(R.string.get_code_success);
 
                         }
@@ -274,19 +316,26 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 }
                 break;
             case R.id.rlbutton:
-                if (!isMobileNO(telephone)) {
-                    PromptManager.showToast("请输入正确的手机号码");
+                if (!isValidPhoneNum()) {
                     return;
                 }
                 if (TextUtils.isEmpty(verify_code)) {
-                    PromptManager.showToast("请输入验证码");
+                    code.requestFocus();
+                    return;
+                }
+                if (!cbAgree.isChecked()) {
+                    PromptManager.showToast("请同意服务协议");
                     return;
                 }
                 if (NetUtil.checkNetWork(this)) {
                     if (current_type == REGIST_TYPE) {
-                        engine.register(telephone, verify_code, listener);
-                        PromptManager.showProgressDialog(this, "正在注册...", false);
-                    } else if (current_type == LOGIN_TYPE) {
+                        // // engine.register(telephone, verify_code, listener);
+                        //
+                        // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
+                        // startActivity(intent);
+                        PromptManager.showProgressDialog(this, "正在验证...", false);
+                        engine.checkMobile(telephone, checkListener);
+                    } else if (current_type == FORGET_PSW_TYPE) {
                         engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
                         PromptManager.showProgressDialog(this, "正在登录...", false);
                     }
@@ -298,6 +347,56 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             default:
                 break;
         }
+    }
+
+    ParseHttpListener checkListener = new ParseHttpListener<Boolean>() {
+        @Override
+        public void requestCallBack() {
+            super.requestCallBack();
+            PromptManager.closeProgressDialog();
+        };
+
+        @Override
+        protected Boolean parseDateTask(String jsonData) {
+            try {
+                JSONObject resultObject = new JSONObject(jsonData);
+                return resultObject.optBoolean("status");
+            } catch (JSONException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void afterParseData(Boolean object) {
+            if (!object) {
+                // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
+                startActivity(SettingNameActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(), code
+                        .getText().toString()));
+            } else {
+                // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
+                // startActivity(i);
+                // finish();
+                showCaptchaLoginDailog();
+            }
+        }
+    };
+
+    private boolean isValidPhoneNum() {
+        if (TextUtils.isEmpty(telephone)) {
+            // PromptManager.showToast("手机号码不能为空");
+            etPhoneNum.setError(Html.fromHtml("<font color='red'>手机号码不能为空</font>"));
+            etPhoneNum.requestFocus();
+            return false;
+        }
+        if (!isMobileNO(telephone)) {
+            etPhoneNum.setError(Html.fromHtml("<font color='red'>请输入正确的手机号码</font>"));
+            etPhoneNum.requestFocus();
+            // PromptManager.showToast("请输入正确的手机号码");
+            return false;
+        }
+        return true;
     }
 
     private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
@@ -427,7 +526,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public static boolean isMobileNO(String mobiles) {
         boolean flag = false;
         try {
-            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(147))\\d{8}$");
             Matcher m = p.matcher(mobiles);
             flag = m.matches();
         } catch (Exception e) {
