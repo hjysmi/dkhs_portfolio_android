@@ -67,6 +67,7 @@
         <activity android:name="com.dkhs.portfolio.ui.OptionMarketNewsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NewsActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.FundsOrderActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
             android:launchMode="singleTask"
