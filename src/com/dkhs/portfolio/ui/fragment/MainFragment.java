@@ -208,24 +208,24 @@ public class MainFragment extends Fragment implements OnClickListener {
             Intent intent = null;
             switch (position) {
                 case 0: {
-                    intent = new Intent(getActivity(), MyCombinationActivity.class);
-                }
-                    break;
-                case 1: {
                     intent = new Intent(getActivity(), FundsOrderActivity.class);
                 }
                     break;
+                case 1: {
+                	intent = new Intent(getActivity(), OptionalStockListActivity.class);
+                }
+                    break;
                 case 2: {
-                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
+                	intent = new Intent(getActivity(), MarketCenterActivity.class);
                 }
                     break;
                 case 3: {
-                    intent = new Intent(getActivity(), MarketCenterActivity.class);
+                	intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
 
                 }
                     break;
                 case 4: {
-                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
+                    
                 }
                     break;
                 case 5: {
