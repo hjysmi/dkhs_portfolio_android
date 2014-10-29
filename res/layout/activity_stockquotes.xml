@@ -43,7 +43,7 @@
         <LinearLayout
             android:id="@+id/stock_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
         </LinearLayout>
         <!--
@@ -53,5 +53,6 @@
             class="com.dkhs.portfolio.ui.fragment.NewsFragment" />
         -->
     </LinearLayout>
+>
 
 </com.dkhs.portfolio.ui.widget.InterceptScrollView>

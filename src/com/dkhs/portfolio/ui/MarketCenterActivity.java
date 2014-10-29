@@ -14,7 +14,11 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
-
+/**
+ * 行情中心
+ * @author weiting
+ *
+ */
 public class MarketCenterActivity extends ModelAcitivity implements
 		OnClickListener {
 	private FragmentSelectStockFund loadDataListFragment;

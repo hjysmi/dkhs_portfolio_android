@@ -161,26 +161,24 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
+        	Intent intent = null;
             switch (position) {
                 case 0:
-                    Intent intentForCom = new Intent(getActivity(), MyCombinationActivity.class);
-                    startActivity(intentForCom);
+                    intent = new Intent(getActivity(), MyCombinationActivity.class);
                     break;
                 case 1:
 
                     break;
                 case 2:
-                    Intent intent = new Intent(getActivity(), OptionalStockListActivity.class);
-                    startActivity(intent);
+                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
+                    
 
                     break;
                 case 3:
-                    Intent intentForMarker = new Intent(getActivity(), MarketCenterActivity.class);
-                    startActivity(intentForMarker);
+                	intent = new Intent(getActivity(), MarketCenterActivity.class);
                     break;
                 case 4:
-                   Intent  intentNotice = new Intent(getActivity(),OptionMarketNewsActivity.class);
-                    startActivity(intentNotice);
+                	intent = new Intent(getActivity(),OptionMarketNewsActivity.class);
                     break;
                 case 5:
 
@@ -193,6 +191,9 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                     break;
                 default:
                     break;
+            }
+            if(null != intent){
+            	startActivity(intent);
             }
         }
 
