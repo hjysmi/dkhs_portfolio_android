@@ -166,7 +166,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
                     }
                     PromptManager.showProgressDialog(this, R.string.changing_password, false);
                     curtMode = SET_PASSWORD_MODE;
-                    engine.setPassword(pwd, verifycode, listener);
+                    // engine.setPassword(pwd, verifycode, listener);
                 } else {
                     if (is_setpassword) {
                         // 设置过,用原始密码+新密码修改
@@ -194,7 +194,7 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
                             return;
                         }
                         curtMode = SET_PASSWORD_MODE;
-                        engine.setPassword(pwd, verifycode, listener);
+                        // engine.setPassword(pwd, verifycode, listener);
                     }
                 }
                 break;

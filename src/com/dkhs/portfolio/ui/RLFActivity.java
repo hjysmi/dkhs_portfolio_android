@@ -323,7 +323,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                     code.requestFocus();
                     return;
                 }
-                if (!cbAgree.isChecked()) {
+
+                if (!cbAgree.isChecked() && current_type == REGIST_TYPE) {
                     PromptManager.showToast("请同意服务协议");
                     return;
                 }
@@ -336,8 +337,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                         PromptManager.showProgressDialog(this, "正在验证...", false);
                         engine.checkMobile(telephone, checkListener);
                     } else if (current_type == FORGET_PSW_TYPE) {
-                        engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-                        PromptManager.showProgressDialog(this, "正在登录...", false);
+                        startActivity(SettingNameActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
+                                code.getText().toString(), true));
+                        // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
+                        // PromptManager.showProgressDialog(this, "正在登录...", false);
                     }
                 } else {
                     PromptManager.showNoNetWork(this);
@@ -373,7 +376,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             if (!object) {
                 // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
                 startActivity(SettingNameActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(), code
-                        .getText().toString()));
+                        .getText().toString(), false));
             } else {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
                 // startActivity(i);

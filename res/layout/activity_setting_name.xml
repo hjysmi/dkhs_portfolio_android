@@ -47,6 +47,35 @@
             android:layout_marginRight="6dp"
             android:button="@drawable/cb_psw_seletor" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_repassword"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content" >
+
+        <EditText
+            android:id="@+id/et_repassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="12dip"
+            android:background="@drawable/edit_text_bg"
+            android:hint="再次确认密码"
+            android:inputType="textPassword"
+            android:maxLength="16"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textSize="14sp" />
+
+        <CheckBox
+            android:id="@+id/cb_show_repsw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:button="@drawable/cb_psw_seletor" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/rlbutton"
