@@ -479,11 +479,11 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setMaxValue(baseNum + offetYvalue);
         mMaChart.setMinValue(baseNum - offetYvalue);
 
-        rightYtitle.add(StringFromatUtils.get2PointPercent(-(baseNum + offetYvalue) / baseNum));
-        rightYtitle.add(StringFromatUtils.get2PointPercent(-(baseNum + halfOffetValue) / baseNum));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((-offetYvalue / baseNum) * 100));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((-halfOffetValue / baseNum) * 100));
         rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
-        rightYtitle.add(StringFromatUtils.get2PointPercent((baseNum + halfOffetValue) / baseNum));
-        rightYtitle.add(StringFromatUtils.get2PointPercent((baseNum + offetYvalue) / baseNum));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((halfOffetValue / baseNum) * 100));
+        rightYtitle.add(StringFromatUtils.get2PointPercent((offetYvalue / baseNum) * 100));
 
         mMaChart.setDrawRightYTitle(true);
         mMaChart.setAxisRightYTitles(rightYtitle);
