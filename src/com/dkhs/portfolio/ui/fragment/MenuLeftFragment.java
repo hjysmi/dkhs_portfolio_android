@@ -34,6 +34,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.google.gson.reflect.TypeToken;
@@ -178,6 +179,8 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                     startActivity(intentForMarker);
                     break;
                 case 4:
+                   Intent  intentNotice = new Intent(getActivity(),OptionMarketNewsActivity.class);
+                    startActivity(intentNotice);
                     break;
                 case 5:
 

@@ -40,6 +40,7 @@ import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
@@ -136,7 +137,6 @@ public class MainFragment extends Fragment implements OnClickListener {
         //
         viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
         dataEngine.getChampionList(championDataListener);
-        
 
         setViewLayoutParams();
         inflateAddLayout();
@@ -155,7 +155,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         // TODO Auto-generated method stub
         super.onStart();
         dataEngine.getScrollValue(scrollDataListener);
-       
+
         loadCombination();
     }
 
@@ -212,6 +212,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
                     break;
                 case 1: {
+                    intent = new Intent(getActivity(), FundsOrderActivity.class);
                 }
                     break;
                 case 2: {
@@ -224,7 +225,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
                     break;
                 case 4: {
-                	intent = new Intent(getActivity(),OptionMarketNewsActivity.class);
+                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
                 }
                     break;
                 case 5: {
@@ -295,26 +296,28 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
     };
     ParseHttpListener championDataListener = new ParseHttpListener<ChampionCollectionBean>() {
-        
+
         @Override
         protected ChampionCollectionBean parseDateTask(String jsonData) {
             return DataParse.parseObjectJson(ChampionCollectionBean.class, jsonData);
-//            return DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
+            // return DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
         }
-        
+
         @Override
         protected void afterParseData(ChampionCollectionBean object) {
             List<Fragment> fList = new ArrayList<Fragment>();
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK,object.getWeek().getIncreasePercent()));
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH,object.getMonth().getIncreasePercent()));
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON,object.getSeason().getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
+                    .getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                    .getIncreasePercent()));
             viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
             viewPager.setOnPageChangeListener(new MyPageChangeListener());
             viewPager.setOffscreenPageLimit(3);
 
             viewPager.setCurrentItem(1);
             viewPager.setCurrentItem(0);
-            
+
         }
     };
 

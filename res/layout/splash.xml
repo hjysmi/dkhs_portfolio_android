@@ -9,6 +9,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="@drawable/dksh_flash"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
 
 </RelativeLayout>
