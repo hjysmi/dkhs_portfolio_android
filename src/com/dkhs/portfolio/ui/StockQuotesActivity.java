@@ -23,8 +23,10 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -174,7 +176,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         Button btnRefresh = getSecondRightButton();
         btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
-
+        stockLayout.setOnTouchListener(new OnLayoutlistener());
         initTabPage();
         // setupViewData();
         
@@ -487,5 +489,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
+    class OnLayoutlistener implements OnTouchListener{
 
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				chartTounching();
+				break;
+			case MotionEvent.ACTION_UP:
+				loseTouching();
+				break;
+			default:
+				break;
+			}
+			return false;
+		}
+    	
+    }
 }

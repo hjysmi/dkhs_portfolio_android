@@ -45,19 +45,29 @@ public class FragmentNewsList extends Fragment{
     private View view;
     public final static String BUNDLE_NAME = "optionName";
     public final static String NEWS_TYPE = "newsNum";
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+        	initDate();
+        }
+    }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.activity_option_market_news,null);
 		context = getActivity();
-		mDataList = new ArrayList<OptionNewsBean>();
-		initDate();
+		
+		initView(view);
 		return view;
 	}
 	private void initDate(){
 		Bundle bundle = getArguments();
 		if(null != bundle){
+			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getString(BUNDLE_NAME),bundle.getString(NEWS_TYPE));
 			mLoadDataEngine.loadData();
 		}

@@ -60,7 +60,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 								ConstantValue.DES_PASSWORD);
 					}
 					String userId = user.getId()+"";
-					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,"126",null);
+					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,userId,null);
 					mLoadDataEngine.loadData();
 				}
 			} catch (DbException e) {
