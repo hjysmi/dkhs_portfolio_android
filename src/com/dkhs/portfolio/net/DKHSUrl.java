@@ -17,10 +17,11 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    // public static final String BASE_URL = "http://192.168.107.251:8010";
-    //public static final String BASE_URL = "http://58.23.5.117:8030";
-    //测试用地址
+    // 测试用地址
+    // public static final String BASE_URL = "http://121.41.25.170:8030";
+    // 开发用地址
     public static final String BASE_URL = "http://121.41.25.170:8010";
+
     public interface Portfolio {
         // 查询我的组合
         String portfolio = "/api/v1/portfolio/mine/";

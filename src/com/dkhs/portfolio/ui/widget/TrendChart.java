@@ -766,7 +766,7 @@ public class TrendChart extends TrendGridChart {
         // float preTextBottom = fontMetrics.bottom;
         int lineLength = lineData.size();
         for (int i = 0; i < lineLength; i++) {
-            if (pointIndex < lineData.get(i).getLineData().size()) {
+            if (pointIndex < lineData.get(i).getLineData().size()&&lineData.get(i).isDisplay()) {
 
                 selectPaint.setColor(lineData.get(i).getLineColor());
                 preYpoint += textMargin + textTextHeight;
@@ -797,9 +797,7 @@ public class TrendChart extends TrendGridChart {
                 // text = "创业板:1.40%";
                 // }
                 // if (i == 0)
-                if (lineData.get(i).isDisplay()) {
-                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
-                }
+                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
             }
         }
 
