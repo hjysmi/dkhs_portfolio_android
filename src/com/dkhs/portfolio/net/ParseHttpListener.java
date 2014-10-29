@@ -22,17 +22,26 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     private Context mContext;
     private String msg;
+    private boolean isHideDialog = true;
 
     public ParseHttpListener setLoadingDialog(Context context, int msgid) {
         this.mContext = context;
         this.msg = mContext.getString(msgid);
         return this;
     }
+
     public ParseHttpListener setLoadingDialog(Context context, String msg) {
         this.mContext = context;
         this.msg = msg;
         return this;
     }
+    public ParseHttpListener setLoadingDialog(Context context, String msg,boolean isCancelable) {
+        this.mContext = context;
+        this.msg = msg;
+        this.isHideDialog = isCancelable;
+        return this;
+    }
+
     public ParseHttpListener setLoadingDialog(Context context) {
         this.mContext = context;
         this.msg = mContext.getString(R.string.loading);
@@ -42,8 +51,8 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     @Override
     public void beforeRequest() {
-        if (null != mContext ) {
-            PromptManager.showProgressDialog(mContext, msg);
+        if (null != mContext) {
+            PromptManager.showProgressDialog(mContext, msg, isHideDialog);
         }
     }
 

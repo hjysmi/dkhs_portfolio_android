@@ -18,7 +18,7 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
-    public static final String BASE_URL = "http://58.23.5.117:8010";
+    public static final String BASE_URL = "http://58.23.5.117:8030";
 
     public interface Portfolio {
         // 查询我的组合
@@ -31,6 +31,8 @@ public class DKHSUrl {
         String update = "/api/v1/portfolio/";
         // 持仓调整
         String adjust = "/api/v1/portfolio/{0}/adjust_positions/";
+
+        String champion = "/api/v1/portfolio/champion/";
 
     }
 

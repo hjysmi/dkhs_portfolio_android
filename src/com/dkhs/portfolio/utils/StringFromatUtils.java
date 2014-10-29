@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.utils;
 
+import java.io.UnsupportedEncodingException;
+
 import android.R.integer;
 
 /**
@@ -18,6 +20,18 @@ import android.R.integer;
  * @version 1.0
  */
 public class StringFromatUtils {
+
+    public static int getStringRealLength(String str) {
+        String strTemp = "";
+        try {
+            strTemp = new String(str.getBytes("GBK"), "iso-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return strTemp.length();
+    }
+
     public static String getPercentValue(int value) {
         return value + "%";
     }
@@ -49,6 +63,7 @@ public class StringFromatUtils {
     public static String get2Point(float value) {
         return String.format("%.2f", value);
     }
+
     public static String get4String(String text) {
         return String.format("%4s", text);
     }
@@ -72,10 +87,10 @@ public class StringFromatUtils {
     public static String convertToWanHand(int value) {
         if (value < 100000) {
             return String.valueOf(value) + "手";
-        }else if(value<10000000){
-            
+        } else if (value < 10000000) {
+
             return String.format("%.2f万手", value / 10000f);
-        }else{
+        } else {
             return String.format("%.2f千万手", value / 10000000f);
         }
     }

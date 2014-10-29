@@ -797,7 +797,9 @@ public class TrendChart extends TrendGridChart {
                 // text = "创业板:1.40%";
                 // }
                 // if (i == 0)
-                canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+                if (lineData.get(i).isDisplay()) {
+                    canvas.drawText(text, startX + textMargin, preYpoint, selectPaint);
+                }
             }
         }
 
