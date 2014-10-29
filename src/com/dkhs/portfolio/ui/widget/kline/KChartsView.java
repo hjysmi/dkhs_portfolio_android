@@ -52,7 +52,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private double mCandleWidth;
 
 	/** 触摸点 */
-	private float mStartX;
+	private float mStartX = 6;
 	private float mStartY;
 
 	/** OHLC数据 */
@@ -115,7 +115,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		mMACDData = new MACDEntity(null);
 		mKDJData = new KDJEntity(null);
 		mRSIData = new RSIEntity(null);
-		mStartX = getWidth() - 6;
+		/*if(mOHLCData.size() >= 30){
+			mStartX = getWidth() - 6;
+		}else{
+			mStartX =(int) (getWidth() - 6 - ( 30 - mOHLCData.size()) * (mCandleWidth *3));
+		}*/
 	}
 
 	/*@Override
@@ -138,7 +142,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			if(firsttime){
 				showDetails = false;
 				go = false;
-				mStartX = getWidth() - 6;
+				//mStartX = getWidth() - 6;
 				
 				postInvalidate();
 				firsttime = false;
@@ -484,7 +488,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
 				}
 			}
-			if(!showDetails){
+			if(null != e && !showDetails){
 				e.setLocation(getWidth() - 6, 0);
 				mVolumnChartView.onSet(e,ismove,mDataStartIndext);
 			}
@@ -531,6 +535,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				paint.setAntiAlias(true);
 				paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
 				int selectIndext = (int) ((width - 2.0f - mStartX - mCandleWidth * addNum - 3 * addNum) / (mCandleWidth + 3) + mDataStartIndext);
+				
 				mVolumnChartView.setCurrentIndex(selectIndext);
 				text = lineEntity.getTitle() + ":" + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext - mDataStartIndext));
 				Paint p= new Paint(); 
@@ -559,7 +564,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
 				}
 			}
-			if(!showDetails){
+			if(null != e && !showDetails){
 				e.setLocation(getWidth() - 6, 0);
 				mVolumnChartView.onSet(e,ismove,mDataStartIndext);
 			}
@@ -758,7 +763,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					try {
 						Thread.sleep(700);
 						if(go){
-							mStartX = event.getX();
+							mStartX = (int)(event.getX() - 2 * mCandleWidth - 6);
+							if(mOHLCData.size() < 30){
+								mStartX = (int)(event.getX() -  mCandleWidth - 3);
+							}
 							mStartY = event.getY();
 							showDetails = true;
 							setCurrentData();
@@ -830,39 +838,44 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         this.mTouchListener = touchListener;
     }
 	private void setCurrentData() {
-		if (mShowDataNum > mOHLCData.size()) {
-			mShowDataNum = mOHLCData.size();
-		}
-		if (MIN_CANDLE_NUM > mOHLCData.size()) {
-			mShowDataNum = MIN_CANDLE_NUM;
-		}
-
-		if (mShowDataNum > mOHLCData.size()) {
-			mDataStartIndext = 0;
-		} else if (mShowDataNum + mDataStartIndext > mOHLCData.size()) {
-			mDataStartIndext = mOHLCData.size() - mShowDataNum;
-		}
-		mMinPrice = mOHLCData.get(mDataStartIndext).getLow();
-		mMaxPrice = mOHLCData.get(mDataStartIndext).getHigh();
-		for (int i = mDataStartIndext + 1; i < mOHLCData.size()
-				&& i < mShowDataNum + mDataStartIndext; i++) {
-			OHLCEntity entity = mOHLCData.get(i);
-			mMinPrice = mMinPrice < entity.getLow() ? mMinPrice : entity.getLow();
-			mMaxPrice = mMaxPrice > entity.getHigh() ? mMaxPrice : entity.getHigh();
-		}
-
-		for (MALineEntity lineEntity : MALineData) {
-			for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
-					&& i < mShowDataNum + mDataStartIndext; i++) {
-				mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity
-						.getLineData().get(i);
-				mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity
-						.getLineData().get(i);
+		try {
+			if (mShowDataNum > mOHLCData.size()) {
+				mShowDataNum = mOHLCData.size();
 			}
-		}
+			if (MIN_CANDLE_NUM > mOHLCData.size()) {
+				mShowDataNum = MIN_CANDLE_NUM;
+			}
 
-		if(mDisplayChangeListener != null) {
-			mDisplayChangeListener.onDisplayDataChange(getDisplayOHLCEntitys());
+			if (mShowDataNum > mOHLCData.size()) {
+				mDataStartIndext = 0;
+			} else if (mShowDataNum + mDataStartIndext > mOHLCData.size()) {
+				mDataStartIndext = mOHLCData.size() - mShowDataNum;
+			}
+			mMinPrice = mOHLCData.get(mDataStartIndext).getLow();
+			mMaxPrice = mOHLCData.get(mDataStartIndext).getHigh();
+			for (int i = mDataStartIndext + 1; i < mOHLCData.size()
+					&& i < mShowDataNum + mDataStartIndext; i++) {
+				OHLCEntity entity = mOHLCData.get(i);
+				mMinPrice = mMinPrice < entity.getLow() ? mMinPrice : entity.getLow();
+				mMaxPrice = mMaxPrice > entity.getHigh() ? mMaxPrice : entity.getHigh();
+			}
+
+			for (MALineEntity lineEntity : MALineData) {
+				for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
+						&& i < mShowDataNum + mDataStartIndext; i++) {
+					mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity
+							.getLineData().get(i);
+					mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity
+							.getLineData().get(i);
+				}
+			}
+
+			if(mDisplayChangeListener != null) {
+				mDisplayChangeListener.onDisplayDataChange(getDisplayOHLCEntitys());
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
