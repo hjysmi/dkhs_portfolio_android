@@ -1,0 +1,230 @@
+/**
+ * @Title HScrollTitleView.java
+ * @Package com.dkhs.portfolio.ui.widget
+ * @Description TODO(用一句话描述该文件做什么)
+ * @author zjz
+ * @date 2014-10-29 下午1:13:32
+ * @version V1.0
+ */
+package com.dkhs.portfolio.ui.widget;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.dkhs.portfolio.R;
+
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+/**
+ * @ClassName HScrollTitleView
+ * @Description TODO(这里用一句话描述这个类的作用)
+ * @author zjz
+ * @date 2014-10-29 下午1:13:32
+ * @version 1.0
+ */
+public class HScrollTitleView extends FrameLayout {
+
+    // private Context context;
+    private List<String> nameList = new ArrayList<String>();
+    // private List<Fragment> fragmentList;
+    // private LinearLayout layout;
+    // private FragmentManager mFragmentManager;
+    // private LayoutInflater inflater;
+    private int[] offsetNum;
+    private int[] textWid;
+    // 移动的Icon
+    private ImageView iv;
+    // 历史选中项
+    private int hisPosition;
+    // 用于存储所有标题栏的textview,功能用于变换颜色
+    private TextView[] tvList;
+    // 左边两边下移ICON的边距,仅当当标题栏长度小于当前屏幕宽度会自动计算多于宽度
+    private int offset = 0;
+
+    private int indiatorWidth;
+
+    /**
+     * 
+     * @param context
+     * @param nameListRTl 标题栏的名字
+     * @param fragmentList 下面Fragment界面
+     * @param layout 当前需要添加此控件的父控件
+     * @param fragmentManager fragment管理器
+     */
+    // public HScrollTitleView(Context context, List<String> nameList) {
+    // this.context = context;
+    // this.nameList = nameList;
+    // this.layout = layout;
+    // inflater = LayoutInflater.from(context);
+    // createView();
+    // setAnima(offset, offset);
+    // }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param context
+     * @param attrs
+     * @param defStyle
+     */
+    public HScrollTitleView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        init();
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param context
+     * @param attrs
+     */
+    public HScrollTitleView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param context
+     */
+    public HScrollTitleView(Context context) {
+        super(context);
+        init();
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void init() {
+//        nameList = new ArrayList<String>();
+//        nameList.add("新闻资讯");
+//        nameList.add("个股公告");
+//        nameList.add("F10");
+        indiatorWidth = getContext().getResources().getDimensionPixelSize(R.dimen.weight);
+        if (null != nameList && nameList.size() > 0) {
+
+            createView();
+            setAnima(offset, offset);
+        }
+
+    }
+
+    /**
+     * 实现标题栏的代码实现
+     */
+    public void createView() {
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_horizontal_scroll_title, null);
+        iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager m = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        m.getDefaultDisplay().getMetrics(dm);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
+        if (nameList.size() * indiatorWidth <= dm.widthPixels) {
+            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, LayoutParams.WRAP_CONTENT));
+            offset = (dm.widthPixels / nameList.size() - indiatorWidth) / 2;
+        } else {
+            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.size() * indiatorWidth, LayoutParams.WRAP_CONTENT));
+        }
+        tvList = new TextView[nameList.size()];
+        for (int i = 0; i < nameList.size(); i++) {
+            TextView tv = new TextView(getContext());
+            tv.setTextColor(getContext().getResources().getColor(R.color.black));
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getContext().getResources().getDimensionPixelSize(R.dimen.list_text_size));
+            tv.setPadding(0, 10, 0, 5);
+            tv.setGravity(Gravity.CENTER);
+            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.WRAP_CONTENT, 1.0f));
+            tv.setText(nameList.get(i));
+            tv.setOnClickListener(new OnItemListener(i));
+            ll.addView(tv);
+            tvList[i] = tv;
+            if (i == 0) {
+                tv.setTextColor(getContext().getResources().getColor(R.color.red));
+            }
+        }
+        addView(view);
+    }
+
+    class OnItemListener implements OnClickListener {
+        private int position;
+
+        // private int wei;
+
+        public OnItemListener(int position) {
+            this.position = position;
+            // wei = getContext().getResources().getDimensionPixelSize(R.dimen.weight);
+        }
+
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            // Fragment f = fragmentList.get(position);
+            // changeFrament(0,f,null,fragmentList.get(position).toString());
+            tvList[position].setTextColor(getContext().getResources().getColor(R.color.red));
+            tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+            setAnima(hisPosition * indiatorWidth + offset * (2 * hisPosition + 1), position * indiatorWidth + offset
+                    * (2 * position + 1));
+            hisPosition = position;
+            if (null != mSelectListener) {
+                mSelectListener.onSelectPosition(position);
+            }
+        }
+
+    }
+
+    public void setAnima(int startX, int endX) {
+        Animation animation = null;
+        animation = new TranslateAnimation(startX, endX, 0, 0);
+        animation.setFillAfter(true);// True:图片停在动画结束位置
+        animation.setDuration(300);
+        iv.startAnimation(animation);
+    }
+
+    public void setTitleList(List<String> nameList,int width) {
+        this.nameList = nameList;
+        this.indiatorWidth = width;
+        createView();
+//        invalidate();
+    }
+
+    public void setIndicatorWidth(int width) {
+        invalidate();
+    }
+
+    private ISelectPostionListener mSelectListener;
+
+    private void setSelectPositionListener(ISelectPostionListener selectListener) {
+        this.mSelectListener = selectListener;
+    }
+
+    public interface ISelectPostionListener {
+        public void onSelectPosition(int position);
+    }
+
+//    @Override
+//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+//        View v = getChildAt(0);
+//        v.layout(l, t, r, b);
+//    }
+}
