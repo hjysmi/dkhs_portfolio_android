@@ -1,20 +1,7 @@
-package com.dkhs.portfolio.ui;
-
+package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -22,14 +9,30 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
-public class OptionMarketNewsActivity extends ModelAcitivity{
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView.OnItemClickListener;
+
+public class FragmentNewsList extends Fragment{
 	private ListView mListView;
 
     private boolean isLoadingMore;
@@ -39,40 +42,41 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
+    private View view;
+    public final static String BUNDLE_NAME = "optionName";
+    public final static String NEWS_TYPE = "newsNum";
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+        	initDate();
+        }
+    }
 	@Override
-	protected void onCreate(Bundle arg0) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(arg0);
-		setContentView(R.layout.activity_option_market_news);
-		context = this;
-		mDataList = new ArrayList<OptionNewsBean>();
-		setTitle(R.string.function_notice);
-		initDate();
+		view = inflater.inflate(R.layout.activity_option_market_news,null);
+		context = getActivity();
+		
+		initView(view);
+		return view;
 	}
 	private void initDate(){
-		UserEntity user;
-			try {
-				user = DbUtils.create(PortfolioApplication.getInstance())
-						.findFirst(UserEntity.class);
-				if (user != null) {
-					if (!TextUtils.isEmpty(user.getAccess_token())) {
-						user = UserEntityDesUtil.decode(user, "ENCODE",
-								ConstantValue.DES_PASSWORD);
-					}
-					String userId = user.getId()+"";
-					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,userId,null);
-					mLoadDataEngine.loadData();
-				}
-			} catch (DbException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		Bundle bundle = getArguments();
+		if(null != bundle){
+			mDataList = new ArrayList<OptionNewsBean>();
+			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getString(BUNDLE_NAME),bundle.getString(NEWS_TYPE));
+			mLoadDataEngine.loadData();
+		}
+
 	}
-	private void initView() {
+	private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) findViewById(android.R.id.list);
-        mListView.setEmptyView(findViewById(android.R.id.empty));
+        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
@@ -136,7 +140,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
 				    if(first){
-				    	initView();
+				    	initView(view);
 				    	first = false;
 				    }
 				    mOptionMarketAdapter.notifyDataSetChanged();
@@ -158,4 +162,5 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
             mListView.removeFooterView(mFootView);
         }
     }
+	
 }
