@@ -43,6 +43,7 @@ public class FragmentSelectAdapter {
 	private TextView[] tvList;
 	//左边两边下移ICON的边距,仅当当标题栏长度小于当前屏幕宽度会自动计算多于宽度
 	private int offset = 0;
+	private List<Bundle> bundleList;
 	/**
 	 * 
 	 * @param context
@@ -51,14 +52,16 @@ public class FragmentSelectAdapter {
 	 * @param layout 当前需要添加此控件的父控件
 	 * @param fragmentManager fragment管理器
 	 */
-	public FragmentSelectAdapter(Context context,List<String> nameList,List<Fragment> fragmentList,LinearLayout layout,FragmentManager fragmentManager){
+	public FragmentSelectAdapter(Context context,List<String> nameList,List<Fragment> fragmentList,LinearLayout layout,FragmentManager fragmentManager,List<Bundle> bundleList){
 		this.context = context;
 		this.nameList = nameList;
 		this.fragmentList = fragmentList;
 		this.layout = layout;
 		this.mFragmentManager = fragmentManager;
+		this.bundleList = bundleList;
 		inflater = LayoutInflater.from(context);
 		createView();
+		changeFrament(0,fragmentList.get(0),bundleList.get(0),fragmentList.get(0).toString());
 		setAnima(offset,offset);
 	}
 	/**
@@ -100,15 +103,11 @@ public class FragmentSelectAdapter {
 			for (int i = levels, count = mFragmentManager.getBackStackEntryCount(); i < count; i++) {
 				mFragmentManager.popBackStack();
 			}
-			if(mFragmentManager.findFragmentByTag(tag) != null && mFragmentManager.findFragmentByTag(tag).isHidden()){
-				mFragmentManager.findFragmentByTag(tag).setUserVisibleHint(true);
-			}else{
 				FragmentTransaction fg = mFragmentManager.beginTransaction();
 				(fragment).setArguments(bundle);
 				fg.replace(R.id.selectadapter_parent_child, fragment, tag);
 				fg.addToBackStack(tag);
 				fg.commit();
-			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -125,7 +124,7 @@ public class FragmentSelectAdapter {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			Fragment f = fragmentList.get(position);
-			changeFrament(0,f,null,fragmentList.get(position).toString());
+			changeFrament(0,f,bundleList.get(position),fragmentList.get(position).toString());
 			tvList[position].setTextColor(context.getResources().getColor(R.color.red));
 			tvList[hisPosition].setTextColor(context.getResources().getColor(R.color.black));
 			setAnima(hisPosition *wei + offset * (2 * hisPosition + 1), position * wei + offset * (2 * position + 1) );

@@ -39,6 +39,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
+import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.NewsFragment;
@@ -77,7 +78,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private long mStockId;
     private String mStockCode;
     private Context context;
-
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private LinearLayout stockLayout;
     public static Intent newIntent(Context context, SelectStockBean bean) {
@@ -124,22 +124,38 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // handle intent extras
         initView();
         processExtraData();
-        List<String> name = new ArrayList<String>();
-        name.add("新闻资讯");
-        name.add("个股公告");
-        name.add("F10");
-        Fragment f = new NewsFragment();
-        List<Fragment> frag = new ArrayList<Fragment>();
-        frag.add(f);
-        frag.add(f);
-        frag.add(f);
-        new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager());
+        initList();
     }
 
     private void handleExtras(Bundle extras) {
         mStockBean = (SelectStockBean) extras.getSerializable(EXTRA_STOCK);
     }
-
+    private void initList(){
+    	List<String> name = new ArrayList<String>();
+        name.add("新闻资讯");
+        name.add("个股公告");
+        name.add("F10");
+        
+        List<Fragment> frag = new ArrayList<Fragment>();
+        List<Bundle> buns = new ArrayList<Bundle>();
+        Fragment f1 = new FragmentNewsList();
+        Bundle b1 = new Bundle();
+        b1.putString(FragmentNewsList.NEWS_TYPE, "10");
+        b1.putString(FragmentNewsList.BUNDLE_NAME, mStockBean.code);
+        frag.add(f1);
+        buns.add(b1);
+        Fragment f2 = new FragmentNewsList();
+        Bundle b2 = new Bundle();
+        b2.putString(FragmentNewsList.NEWS_TYPE, "20");
+        b2.putString(FragmentNewsList.BUNDLE_NAME, mStockBean.code);
+        frag.add(f2);
+        buns.add(b2);
+        Fragment f3 = new NewsFragment();
+        Bundle b3 = new Bundle();
+        frag.add(f3);
+        buns.add(b3);
+        new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager(),buns);
+    }
     private void initView() {
 
         tvCurrent = (TextView) findViewById(R.id.tv_current_price);
