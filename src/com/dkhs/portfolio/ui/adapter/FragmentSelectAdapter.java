@@ -105,8 +105,8 @@ public class FragmentSelectAdapter {
 			}
 				FragmentTransaction fg = mFragmentManager.beginTransaction();
 				(fragment).setArguments(bundle);
-				fg.replace(R.id.selectadapter_parent_child, fragment, tag);
-				fg.addToBackStack(tag);
+				fg.replace(R.id.selectadapter_parent_child, fragment);
+				//fg.addToBackStack(tag);
 				fg.commit();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
