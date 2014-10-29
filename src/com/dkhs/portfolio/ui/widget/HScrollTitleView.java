@@ -43,7 +43,7 @@ import android.widget.TextView;
 public class HScrollTitleView extends FrameLayout {
 
     // private Context context;
-    private List<String> nameList = new ArrayList<String>();
+    private String[] nameList;
     // private List<Fragment> fragmentList;
     // private LinearLayout layout;
     // private FragmentManager mFragmentManager;
@@ -117,15 +117,15 @@ public class HScrollTitleView extends FrameLayout {
      * @return void
      */
     private void init() {
-//        nameList = new ArrayList<String>();
-//        nameList.add("新闻资讯");
-//        nameList.add("个股公告");
-//        nameList.add("F10");
+        // nameList = new ArrayList<String>();
+        // nameList.add("新闻资讯");
+        // nameList.add("个股公告");
+        // nameList.add("F10");
         indiatorWidth = getContext().getResources().getDimensionPixelSize(R.dimen.weight);
-        if (null != nameList && nameList.size() > 0) {
+        if (null != nameList && nameList.length > 0) {
 
             createView();
-            setAnima(offset, offset);
+
         }
 
     }
@@ -136,18 +136,19 @@ public class HScrollTitleView extends FrameLayout {
     public void createView() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_horizontal_scroll_title, null);
         iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
+        iv.getLayoutParams().width = indiatorWidth;
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
-        if (nameList.size() * indiatorWidth <= dm.widthPixels) {
+        if (nameList.length * indiatorWidth <= dm.widthPixels) {
             ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, LayoutParams.WRAP_CONTENT));
-            offset = (dm.widthPixels / nameList.size() - indiatorWidth) / 2;
+            offset = (dm.widthPixels / nameList.length - indiatorWidth) / 2;
         } else {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.size() * indiatorWidth, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, LayoutParams.WRAP_CONTENT));
         }
-        tvList = new TextView[nameList.size()];
-        for (int i = 0; i < nameList.size(); i++) {
+        tvList = new TextView[nameList.length];
+        for (int i = 0; i < nameList.length; i++) {
             TextView tv = new TextView(getContext());
             tv.setTextColor(getContext().getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -155,7 +156,7 @@ public class HScrollTitleView extends FrameLayout {
             tv.setPadding(0, 10, 0, 5);
             tv.setGravity(Gravity.CENTER);
             tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.WRAP_CONTENT, 1.0f));
-            tv.setText(nameList.get(i));
+            tv.setText(nameList[i]);
             tv.setOnClickListener(new OnItemListener(i));
             ll.addView(tv);
             tvList[i] = tv;
@@ -164,6 +165,7 @@ public class HScrollTitleView extends FrameLayout {
             }
         }
         addView(view);
+        setAnima(offset, offset);
     }
 
     class OnItemListener implements OnClickListener {
@@ -201,11 +203,23 @@ public class HScrollTitleView extends FrameLayout {
         iv.startAnimation(animation);
     }
 
-    public void setTitleList(List<String> nameList,int width) {
+    public void setTitleList(String[] nameList, int width) {
         this.nameList = nameList;
         this.indiatorWidth = width;
         createView();
-//        invalidate();
+        // invalidate();
+    }
+
+    public void setTitleList(String[] nameList) {
+        this.nameList = nameList;
+        createView();
+        // invalidate();
+    }
+
+    public void setSelectIndex(int index) {
+        if (index >= 0 && index < tvList.length) {
+            tvList[index].performClick();
+        }
     }
 
     public void setIndicatorWidth(int width) {
@@ -214,7 +228,7 @@ public class HScrollTitleView extends FrameLayout {
 
     private ISelectPostionListener mSelectListener;
 
-    private void setSelectPositionListener(ISelectPostionListener selectListener) {
+    public void setSelectPositionListener(ISelectPostionListener selectListener) {
         this.mSelectListener = selectListener;
     }
 
@@ -222,9 +236,9 @@ public class HScrollTitleView extends FrameLayout {
         public void onSelectPosition(int position);
     }
 
-//    @Override
-//    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-//        View v = getChildAt(0);
-//        v.layout(l, t, r, b);
-//    }
+    // @Override
+    // protected void onLayout(boolean changed, int l, int t, int r, int b) {
+    // View v = getChildAt(0);
+    // v.layout(l, t, r, b);
+    // }
 }

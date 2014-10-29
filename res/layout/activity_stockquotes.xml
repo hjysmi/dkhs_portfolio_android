@@ -18,11 +18,18 @@
             layout="@layout/layout_stock_quotes_header"
             android:background="@color/white" />
 
-        <com.dkhs.portfolio.ui.widget.TabPageIndicator
+        <!--
+             <com.dkhs.portfolio.ui.widget.TabPageIndicator
             android:id="@+id/indicator"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#F5F5F5" />
+            android:background="#F5F5F5" />
+        -->
+
+        <com.dkhs.portfolio.ui.widget.HScrollTitleView
+            android:id="@+id/hs_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <View style="@style/divider_line" />
 
@@ -32,16 +39,19 @@
             android:layout_height="294dp" />
 
         <!-- 底部资讯 -->
-		<LinearLayout 
-		    android:layout_height="match_parent"
-		    android:layout_width="match_parent"
-		    android:orientation="vertical"
-		    android:id="@+id/stock_layout"
-		    ></LinearLayout>
-        <!-- <fragment
+
+        <LinearLayout
+            android:id="@+id/stock_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+        <!--
+             <fragment
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            class="com.dkhs.portfolio.ui.fragment.NewsFragment" /> -->
+            class="com.dkhs.portfolio.ui.fragment.NewsFragment" />
+        -->
     </LinearLayout>
 
 </com.dkhs.portfolio.ui.widget.InterceptScrollView>

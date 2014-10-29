@@ -10,10 +10,10 @@
         android:layout_height="wrap_content" >
     </com.dkhs.portfolio.ui.widget.HScrollTitleView>
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/blue" >
-    </ImageView>
+     <com.dkhs.portfolio.ui.widget.ScrollViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/indicator" />
 
 </LinearLayout>

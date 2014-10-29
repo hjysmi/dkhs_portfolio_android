@@ -12,9 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.fragment.FragmentDiscussFlow;
+import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 /**
  * @ClassName FundsOrderActivity
@@ -24,18 +32,16 @@ import android.os.Bundle;
  * @version 1.0
  */
 public class FundsOrderActivity extends ModelAcitivity {
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param arg0
-     * @return
-     */
+
+    private HScrollTitleView hsTitle;
+    private ScrollViewPager pager;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.activity_funds_order);
-        setTitle("基金排行");
+        setTitle(R.string.fund_order);
         initViews();
     }
 
@@ -45,13 +51,74 @@ public class FundsOrderActivity extends ModelAcitivity {
      * @return void
      */
     private void initViews() {
-        List<String> name = new ArrayList<String>();
-        name.add("分时");
-        name.add("日线");
-        name.add("周线");
-        name.add("月线");
-        HScrollTitleView hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
-        hsTitle.setTitleList(name, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+
+        hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
+        hsTitle.setTitleList(getResources().getStringArray(R.array.combination_order));
+        hsTitle.setSelectPositionListener(titleSelectPostion);
+
+        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+
+        fragmentList.add(new TestFragment());
+        fragmentList.add(new TestFragment());
+        fragmentList.add(new TestFragment());
+
+        pager = (ScrollViewPager) findViewById(R.id.pager);
+        pager.setAdapter(new OrderFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        pager.setOnPageChangeListener(pageChangeListener);
+
+    }
+
+    ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
+
+        @Override
+        public void onSelectPosition(int position) {
+            if (null != pager) {
+                pager.setCurrentItem(position);
+            }
+        }
+    };
+
+    OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(int arg0) {
+            hsTitle.setSelectIndex(arg0);
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+            // TODO Auto-generated method stub
+
+        }
+    };
+
+    private class OrderFragmentAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> fragmentList;
+
+        public OrderFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2) {
+            super(fm);
+            this.fragmentList = fragmentList2;
+
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+
+            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList == null ? 0 : fragmentList.size();
+        }
 
     }
 }

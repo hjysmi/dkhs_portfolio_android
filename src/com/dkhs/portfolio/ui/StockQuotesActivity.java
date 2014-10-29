@@ -43,6 +43,8 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.NewsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
@@ -77,9 +79,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private long mStockId;
     private String mStockCode;
     private Context context;
+    private HScrollTitleView hsTitle;
+    // privaet view
+    private ScrollViewPager pager;
 
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private LinearLayout stockLayout;
+
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -151,7 +157,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         btnAddOptional = (Button) findViewById(R.id.btn_add_optional);
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
         btnAddOptional.setOnClickListener(this);
-
+        hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
+        String[] titleArray = getResources().getStringArray(R.array.quotes_title);
+        hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+        hsTitle.setSelectPositionListener(titleSelectPostion);
         Button addButton = getRightButton();
         addButton.setBackgroundResource(R.drawable.ic_search_title);
         addButton.setOnClickListener(mSearchClick);
@@ -161,7 +170,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         initTabPage();
         // setupViewData();
-        
+
         // scrollview + listview 会滚动到底部，需要滚动到头部
         scrollToTop();
         setAddOptionalButton();
@@ -182,7 +191,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
         }
     }
-    
+
     private void scrollToTop() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         mScrollview.smoothScrollTo(0, 0);
@@ -193,6 +202,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mQuotesEngine.quotes(mStockBean.code, listener);
         }
     }
+
+    ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
+
+        @Override
+        public void onSelectPosition(int position) {
+            if (null != pager) {
+                pager.setCurrentItem(position);
+            }
+        }
+    };
 
     ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
 
@@ -254,7 +273,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initTabPage() {
 
-        String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
@@ -271,12 +289,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         fragment3.setITouchListener(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
-        ScrollViewPager pager = (ScrollViewPager) this.findViewById(R.id.pager);
+        pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
-        pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, titleArray));
+        pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
 
-        TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
+        // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
+        // indicator.setViewPager(pager);
 
     }
 
@@ -313,12 +331,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragmentList;
-        private String[] titleList;
 
-        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2, String[] titleList) {
+        // private String[] titleList;
+
+        public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2) {
             super(fm);
             this.fragmentList = fragmentList2;
-            this.titleList = titleList;
+            // this.titleList = titleList;
         }
 
         @Override
@@ -329,7 +348,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return (titleList.length > position) ? titleList[position] : "";
+            // return (titleList.length > position) ? titleList[position] : "";
+            return "";
         }
 
         @Override

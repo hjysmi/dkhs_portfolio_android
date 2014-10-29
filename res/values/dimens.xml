@@ -47,6 +47,6 @@
     <integer name="select_touch_text">22</integer>
 
     <dimen name="weight">80dp</dimen>
-    <dimen name="title_2text_length">40dp</dimen>
+    <dimen name="title_2text_length">50dp</dimen>
 
 </resources>
