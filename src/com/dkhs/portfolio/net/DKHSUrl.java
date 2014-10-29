@@ -32,6 +32,8 @@ public class DKHSUrl {
         // 持仓调整
         String adjust = "/api/v1/portfolio/{0}/adjust_positions/";
 
+        String champion = "/api/v1/portfolio/champion/";
+
     }
 
     public interface StockSymbol {

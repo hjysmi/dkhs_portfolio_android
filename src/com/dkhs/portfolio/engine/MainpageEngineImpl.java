@@ -26,4 +26,8 @@ public class MainpageEngineImpl {
         ///api/v1/symbols/SH000001%2CSZ399001/quote/
         DKHSClient.requestByGet(listener, DKHSUrl.MainPage.zhishu, "SH000001,SZ399001");
     }
+    
+    public void getChampionList(IHttpListener listener){
+        DKHSClient.requestByGet(listener, DKHSUrl.Portfolio.champion);
+    }
 }

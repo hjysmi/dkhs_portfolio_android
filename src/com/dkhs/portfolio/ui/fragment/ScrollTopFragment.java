@@ -10,19 +10,23 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class ScrollTopFragment extends Fragment {
     public static final String ARGUMENT_SCROLL_TYPE = "trend_type";
+    public static final String ARGUMENT_VALUE = "argument_value";
     public static final String TYPE_SEASON = "type_season";
     public static final String TYPE_WEEK = "type_week";
     public static final String TYPE_MONTH = "type_month";
 
     private String mType = TYPE_WEEK;
+    private float value;
 
-    public static ScrollTopFragment getInstance(String type) {
+    public static ScrollTopFragment getInstance(String type, float value) {
         ScrollTopFragment mScrollTopFragment = new ScrollTopFragment();
         Bundle arguments = new Bundle();
         arguments.putString(ARGUMENT_SCROLL_TYPE, type);
+        arguments.putFloat(ARGUMENT_VALUE, value);
         mScrollTopFragment.setArguments(arguments);
         return mScrollTopFragment;
     }
@@ -74,7 +78,7 @@ public class ScrollTopFragment extends Fragment {
 
     private void handleArguments(Bundle arguments) {
         mType = arguments.getString(ARGUMENT_SCROLL_TYPE);
-
+        value = arguments.getFloat(ARGUMENT_VALUE);
     }
 
     @Override
@@ -95,18 +99,17 @@ public class ScrollTopFragment extends Fragment {
             if (mType.equalsIgnoreCase(TYPE_WEEK)) {
                 tvTitle.setText(R.string.week_top);
                 tvIncreaseText.setText(R.string.week_top_increase);
-                tvIncreaseValue.setText("26.69%");
             } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {
                 tvTitle.setText(R.string.season_top);
                 tvIncreaseText.setText(R.string.season_top_increase);
-                tvIncreaseValue.setText("17.22%");
             } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
                 tvTitle.setText(R.string.month_top);
                 tvIncreaseText.setText(R.string.month_top_increase);
-                tvIncreaseValue.setText("8.88%");
             }
 
         }
+
+        tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(value));
     }
 
 }

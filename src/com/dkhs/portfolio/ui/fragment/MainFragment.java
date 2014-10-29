@@ -32,6 +32,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.ChampionCollectionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.MainpageEngineImpl;
@@ -134,16 +135,8 @@ public class MainFragment extends Fragment implements OnClickListener {
         initDotAndPicture();
         //
         viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
-        List<Fragment> fList = new ArrayList<Fragment>();
-        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK));
-        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH));
-        fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON));
-        viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
-        viewPager.setOnPageChangeListener(new MyPageChangeListener());
-        viewPager.setOffscreenPageLimit(3);
-
-        viewPager.setCurrentItem(1);
-        viewPager.setCurrentItem(0);
+        dataEngine.getChampionList(championDataListener);
+        
 
         setViewLayoutParams();
         inflateAddLayout();
@@ -162,6 +155,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         // TODO Auto-generated method stub
         super.onStart();
         dataEngine.getScrollValue(scrollDataListener);
+       
         loadCombination();
     }
 
@@ -298,6 +292,29 @@ public class MainFragment extends Fragment implements OnClickListener {
                 setMarqueeText(object);
             }
 
+        }
+    };
+    ParseHttpListener championDataListener = new ParseHttpListener<ChampionCollectionBean>() {
+        
+        @Override
+        protected ChampionCollectionBean parseDateTask(String jsonData) {
+            return DataParse.parseObjectJson(ChampionCollectionBean.class, jsonData);
+//            return DataParse.parseArrayJson(StockQuotesBean.class, jsonData);
+        }
+        
+        @Override
+        protected void afterParseData(ChampionCollectionBean object) {
+            List<Fragment> fList = new ArrayList<Fragment>();
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK,object.getWeek().getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH,object.getMonth().getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON,object.getSeason().getIncreasePercent()));
+            viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
+            viewPager.setOnPageChangeListener(new MyPageChangeListener());
+            viewPager.setOffscreenPageLimit(3);
+
+            viewPager.setCurrentItem(1);
+            viewPager.setCurrentItem(0);
+            
         }
     };
 
