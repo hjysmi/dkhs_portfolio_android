@@ -15,11 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 
 /**
  * @ClassName LoadMoreListActivity
@@ -28,10 +31,10 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
  * @date 2014-9-22 上午9:50:28
  * @version 1.0
  */
-public class LoadMoreListFragment extends Fragment {
+public abstract class LoadMoreListFragment extends Fragment implements ILoadDataBackListener {
 
     ListView mListView;
-    // private ListAdapter mAdapterConbinStock;
+    // private ListAdapter mAdapter;
     // private BaseSelectActivity mActivity;
 
     // private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
@@ -39,7 +42,12 @@ public class LoadMoreListFragment extends Fragment {
     private boolean isLoadingMore;
     private View mFootView;
 
-    LoadMoreDataEngine mLoadDataEngine;
+    // LoadMoreDataEngine mLoadDataEngine;
+
+    // public LoadMoreListFragment(ListAdapter mAdapter, LoadMoreDataEngine engine) {
+    // this.mAdapter = mAdapter;
+    // this.mLoadDataEngine = engine;
+    // }
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -50,16 +58,20 @@ public class LoadMoreListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.empty_listview, null);
         initLoadMoreList(view);
+        // setListAdatper();
         return view;
     }
+
+    // public void setListAdatper(ListAdapter mAdapter){
+    // mListView.setAdapter(mAdapter);
+    // }
 
     private void initLoadMoreList(View view) {
         mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.addFooterView(mFootView);
-        // mListView.setAdapter(mAdapterConbinStock);
-
+        mListView.setAdapter(getListAdapter());
         mListView.removeFooterView(mFootView);
         mListView.setOnScrollListener(new OnScrollListener() {
 
@@ -87,20 +99,28 @@ public class LoadMoreListFragment extends Fragment {
             }
         });
 
+        getLoadEngine().loadData();
+
     }
 
     private void loadMore() {
-        if (null != mLoadDataEngine) {
-            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+        if (null != getLoadEngine()) {
+            System.out.println("getLoadEngine().getCurrentpage() :" + getLoadEngine().getCurrentpage());
+            System.out.println("getLoadEngine().getTotalpage() :" + getLoadEngine().getTotalpage());
+            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
                 Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
             isLoadingMore = true;
-            mLoadDataEngine.loadMore();
+            getLoadEngine().loadMore();
         }
 
     }
+
+    abstract ListAdapter getListAdapter();
+
+    abstract LoadMoreDataEngine getLoadEngine();
 
     // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
     //
@@ -121,5 +141,30 @@ public class LoadMoreListFragment extends Fragment {
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param object
+     * @return
+     */
+    @Override
+    public void loadFinish(MoreDataBean object) {
+        if (isAdded()) {
+
+            loadFinishUpdateView();
+        }
+        // if (null != dataList && isAdded()) {
+        // if (isRefresh) {
+        // // mDataList.clear();
+        //
+        // isRefresh = false;
+        // }
+        // // mDataList.addAll(dataList);
+        // mAdapterConbinStock.notifyDataSetChanged();
+        // loadFinishUpdateView();
+        // }
+
     }
 }

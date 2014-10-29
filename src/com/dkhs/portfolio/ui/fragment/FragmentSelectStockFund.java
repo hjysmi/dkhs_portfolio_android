@@ -65,12 +65,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private ListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
+    private View mFootView;
+    private boolean isLoadingMore;
     // private BaseSelectActivity mActivity;
 
     private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
 
-    private boolean isLoadingMore;
-    private View mFootView;
     private boolean isFund;
 
     private boolean isItemClickBack;
