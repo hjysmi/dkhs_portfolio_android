@@ -124,7 +124,11 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         fragmentList.add(new FragmentNetValueTrend());
         fragmentList.add(new FragmentCompare());
         fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
-        fragmentList.add(new FragmentNews());
+        Fragment f = new FragmentNews();
+        Bundle b = new Bundle();
+        b.putSerializable(FragmentNews.DATA, mCombinationBean);
+        f.setArguments(b);
+        fragmentList.add(f);
 
         mViewPager = (ScrollViewPager) findViewById(R.id.pager);
         mViewPager.setCanScroll(false);

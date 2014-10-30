@@ -11,11 +11,11 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 
-public class OptionMarketAdapter extends BaseAdapter{
+public class ReportNewsAdapter extends BaseAdapter{
 	private Context mContext;
 	private List<OptionNewsBean> mDataList;
 	private OptionNewsBean mOptionNewsBean;
-	public OptionMarketAdapter(Context mContext,List<OptionNewsBean> mDataList){
+	public ReportNewsAdapter(Context mContext,List<OptionNewsBean> mDataList){
 		this.mContext = mContext;
 		this.mDataList = mDataList;
 	}
@@ -47,10 +47,11 @@ public class OptionMarketAdapter extends BaseAdapter{
 		mOptionNewsBean = mDataList.get(position);
         if (convertView == null) {
             viewHolder = new ViewHodler();
-            convertView = View.inflate(mContext, R.layout.adapter_opition_news, null);
+            convertView = View.inflate(mContext, R.layout.adapter_report_news, null);
             viewHolder.tvTextName = (TextView) convertView.findViewById(R.id.adapter_market_title);
             viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
             viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
+            viewHolder.tvTextFrom = (TextView) convertView.findViewById(R.id.adapter_market_from);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
@@ -58,11 +59,13 @@ public class OptionMarketAdapter extends BaseAdapter{
         viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
         viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getSymbol());
         viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
+        viewHolder.tvTextFrom.setText("");
         return convertView;
 	}
 	final static class ViewHodler {
         TextView tvTextName;
         TextView tvTextNameNum;
         TextView tvTextDate;
+        TextView tvTextFrom;
     }
 }

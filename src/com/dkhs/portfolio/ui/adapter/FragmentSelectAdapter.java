@@ -1,14 +1,19 @@
 package com.dkhs.portfolio.ui.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -24,17 +29,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.fragment.NewsFragment;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 
 public class FragmentSelectAdapter {
 	private Context context;
-	private List<String> nameList;
+	private String[] nameList;
 	private List<Fragment> fragmentList;
 	private LinearLayout layout;
 	private FragmentManager mFragmentManager;
 	private LayoutInflater inflater;
 	private int[] offsetNum;
 	private int[] textWid;
+	private int[] textLayout;
 	//移动的Icon
 	private ImageView iv;
 	//历史选中项
@@ -43,7 +49,11 @@ public class FragmentSelectAdapter {
 	private TextView[] tvList;
 	//左边两边下移ICON的边距,仅当当标题栏长度小于当前屏幕宽度会自动计算多于宽度
 	private int offset = 0;
-	private List<Bundle> bundleList;
+	private int oneTextSize = 0;
+	private int imageAddSize = 0;
+	private ScrollViewPager pager;
+	private DisplayMetrics dm;
+	private int totalLength = 0;
 	/**
 	 * 
 	 * @param context
@@ -52,53 +62,77 @@ public class FragmentSelectAdapter {
 	 * @param layout 当前需要添加此控件的父控件
 	 * @param fragmentManager fragment管理器
 	 */
-	public FragmentSelectAdapter(Context context,List<String> nameList,List<Fragment> fragmentList,LinearLayout layout,FragmentManager fragmentManager,List<Bundle> bundleList){
+	public FragmentSelectAdapter(Context context,String[] nameList,List<Fragment> fragmentList,LinearLayout layout,FragmentManager fragmentManager){
 		this.context = context;
 		this.nameList = nameList;
 		this.fragmentList = fragmentList;
 		this.layout = layout;
 		this.mFragmentManager = fragmentManager;
-		this.bundleList = bundleList;
 		inflater = LayoutInflater.from(context);
+		offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
+		oneTextSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
+		imageAddSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
+		initDate();
 		createView();
-		changeFrament(0,fragmentList.get(0),bundleList.get(0),fragmentList.get(0).toString());
+		//changeFrament(0,fragmentList.get(0),bundleList.get(0),fragmentList.get(0).toString());
 		setAnima(offset,offset);
+	}
+	private void initDate(){
+		dm = new DisplayMetrics();
+		WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		m.getDefaultDisplay().getMetrics(dm);
+		textWid = new int[nameList.length];
+		textLayout = new int[nameList.length];
+		for(int i =0; i < nameList.length; i++){
+			textWid[i] = nameList[i].length() * oneTextSize;
+			textLayout[i] = nameList[i].length() * oneTextSize + imageAddSize * 2 + offset * 2;
+			totalLength  = totalLength + textLayout[i];
+		}
+		if(totalLength < dm.widthPixels){
+			totalLength = dm.widthPixels;
+			int imageLength = 0;
+			for(int k = 0; k < textLayout.length; k++){
+				imageLength = imageLength +textWid[k] + imageAddSize * 2;
+			}
+			offset = (dm.widthPixels - imageLength)/nameList.length/2;
+			for(int k = 0; k < textLayout.length; k++){
+				textLayout[k] = nameList[k].length() * oneTextSize + imageAddSize * 2 + offset * 2;
+			}
+		}
 	}
 	/**
 	 * 实现标题栏的代码实现
 	 */
 	public void createView(){
 		View view = inflater.inflate(R.layout.selectadapter_layout, null);
+		pager = (ScrollViewPager) view.findViewById(R.id.selectadapter_pager);
+        pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
+        pager.setOnPageChangeListener(pageChangeListener);
 		iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
-		DisplayMetrics dm = new DisplayMetrics();
-		WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		m.getDefaultDisplay().getMetrics(dm);
+		
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
-		if(nameList.size()*context.getResources().getDimensionPixelSize(R.dimen.weight) <= dm.widthPixels){
-			ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, LayoutParams.WRAP_CONTENT));
-			offset = (dm.widthPixels/nameList.size() - context.getResources().getDimensionPixelSize(R.dimen.weight))/2;
-		}else{
-			ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.size()*context.getResources().getDimensionPixelSize(R.dimen.weight), LayoutParams.WRAP_CONTENT));
-		}
-		tvList = new TextView[nameList.size()];
-		for(int i = 0; i < nameList.size(); i++){
+		ll.setLayoutParams(new LinearLayout.LayoutParams(totalLength, LayoutParams.WRAP_CONTENT));
+		tvList = new TextView[nameList.length];
+		for(int i = 0; i < nameList.length; i++){
 			TextView tv = new TextView(context);
 			tv.setTextColor(context.getResources().getColor(R.color.black));
 			tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
 			tv.setPadding(0, 10, 0, 5);
+			
+			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.WRAP_CONTENT));
 			tv.setGravity(Gravity.CENTER);
-			tv.setLayoutParams(new LinearLayout.LayoutParams(context.getResources().getDimensionPixelSize(R.dimen.weight), LayoutParams.WRAP_CONTENT, 1.0f));
-			tv.setText(nameList.get(i));
+			tv.setText(nameList[i]);
 			tv.setOnClickListener(new OnItemListener(i));
 			ll.addView(tv);
 			tvList[i] = tv;
 			if(i == 0){
 				tv.setTextColor(context.getResources().getColor(R.color.red));
+				iv.getLayoutParams().width = textWid[i] + imageAddSize * 2;
 			}
 		}
 		layout.addView(view);
 	}
-	public void changeFrament(int levels,Fragment fragment, Bundle bundle, String tag) {
+	/*public void changeFrament(int levels,Fragment fragment, Bundle bundle, String tag) {
 		try {
 			for (int i = levels, count = mFragmentManager.getBackStackEntryCount(); i < count; i++) {
 				mFragmentManager.popBackStack();
@@ -112,25 +146,67 @@ public class FragmentSelectAdapter {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
+	}*/
+	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(int arg0) {
+        	//mHandler.sendEmptyMessage(arg0);
+        	scroll(arg0);
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+            // TODO Auto-generated method stub
+
+        }
+    };
 	class OnItemListener implements OnClickListener{
 		private int position;
-		private int wei;
 		public OnItemListener(int position){
 			this.position = position;
-			wei = context.getResources().getDimensionPixelSize(R.dimen.weight);
+			
 		}
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			Fragment f = fragmentList.get(position);
-			changeFrament(0,f,bundleList.get(position),fragmentList.get(position).toString());
-			tvList[position].setTextColor(context.getResources().getColor(R.color.red));
-			tvList[hisPosition].setTextColor(context.getResources().getColor(R.color.black));
-			setAnima(hisPosition *wei + offset * (2 * hisPosition + 1), position * wei + offset * (2 * position + 1) );
-			hisPosition = position;
+			pager.setCurrentItem(position);
+			//scroll(position);
 		}
 		
+	}
+	Handler mHandler = new Handler(){
+
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			scroll(msg.what);
+			super.handleMessage(msg);
+		}
+		
+	};
+	public void scroll(int position){
+		iv.getLayoutParams().width = textWid[position] + imageAddSize * 2;
+		int end = offset;
+		int start = offset;
+		/*Fragment f = fragmentList.get(position);
+		changeFrament(0,f,bundleList.get(position),fragmentList.get(position).toString());*/
+		for(int i = 0; i < position ; i++){
+			end = end + textLayout[i];
+		}
+		for(int i = 0; i < hisPosition ; i++){
+			start = start + textLayout[i];
+		}
+		tvList[position].setTextColor(context.getResources().getColor(R.color.red));
+		tvList[hisPosition].setTextColor(context.getResources().getColor(R.color.black));
+		setAnima(start, end);
+		hisPosition = position;
 	}
 	public void setAnima(int startX,int endX){
 		Animation animation = null;
@@ -139,4 +215,26 @@ public class FragmentSelectAdapter {
 		animation.setDuration(300);
 		iv.startAnimation(animation);
 	}
+	private class OrderFragmentAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> fragmentList;
+
+        public OrderFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList2) {
+            super(fm);
+            this.fragmentList = fragmentList2;
+
+        }
+
+        @Override
+        public Fragment getItem(int arg0) {
+
+            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList == null ? 0 : fragmentList.size();
+        }
+
+    }
 }

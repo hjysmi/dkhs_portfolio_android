@@ -44,5 +44,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
     </LinearLayout>
-
+	<com.dkhs.portfolio.ui.widget.ScrollViewPager
+        android:id="@+id/selectadapter_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

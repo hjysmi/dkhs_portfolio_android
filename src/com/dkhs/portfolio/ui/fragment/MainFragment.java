@@ -46,6 +46,7 @@ import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.YanBaoActivity;
 import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
@@ -225,7 +226,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
                     break;
                 case 4: {
-                    
+                	intent = new Intent(getActivity(), YanBaoActivity.class);
                 }
                     break;
                 case 5: {

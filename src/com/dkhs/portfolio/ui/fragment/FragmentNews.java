@@ -20,6 +20,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
@@ -31,7 +34,8 @@ import com.dkhs.portfolio.ui.widget.TabPageIndicator;
  * @version 1.0
  */
 public class FragmentNews extends Fragment implements FragmentLifecycle {
-
+	public static final String DATA = "mCombinationBean";
+	private CombinationBean mCombinationBean;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -43,6 +47,10 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        Bundle bunds = getArguments();
+        if(null != bunds){
+        	mCombinationBean = (CombinationBean) bunds.get(DATA);
+        }
         System.out.println("================FragmentNews onCreate()======================");
     }
 
@@ -61,8 +69,15 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
 
         fragmentList.add(new FragmentDiscussFlow());
         fragmentList.add(new TestFragment());
-        fragmentList.add(new TestFragment());
-
+        Fragment f1 = new FragmentNewsList();
+        Bundle b1 = new Bundle();
+        b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
+        NewsforImpleEngine vo = new NewsforImpleEngine();
+        vo.setPortfolioId(mCombinationBean.getId()+"");
+        b1.putSerializable(FragmentNewsList.VO, vo);
+        f1.setArguments(b1);
+        fragmentList.add(f1);
+        
         ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setAdapter(new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray));
 

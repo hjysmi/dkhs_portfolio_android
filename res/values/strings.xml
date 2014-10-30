@@ -204,6 +204,7 @@
     <string name="week_top_increase">7天累计涨幅</string>
     <string name="season_top_increase">季度累计涨幅</string>
     <string name="marketcenter_title">行情中心</string>
+	<string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
 
 </resources>

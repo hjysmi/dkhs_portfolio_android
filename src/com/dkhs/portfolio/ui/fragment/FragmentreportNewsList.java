@@ -14,6 +14,7 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
+import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -33,13 +34,13 @@ import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class FragmentNewsList extends Fragment{
+public class FragmentreportNewsList extends Fragment{
 	private ListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
-    private OptionMarketAdapter mOptionMarketAdapter;
+    private ReportNewsAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
@@ -80,7 +81,7 @@ public class FragmentNewsList extends Fragment{
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+        mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
 
         mListView.removeFooterView(mFootView);
