@@ -16,7 +16,6 @@ public class OptionNewsBean {
     String retweetStatus;
     @SerializedName("parent_comment")
     String parentComment;
-    String source;
     @SerializedName("first_pic")
     String firstPic;
     @SerializedName("retweet_count")
@@ -37,6 +36,31 @@ public class OptionNewsBean {
     List<String> atUser;
     List<Symbols> symbols;
     User user;
+    Source source;
+    public class Source{
+    	String id;
+    	String title;
+    	String url;
+		public String getId() {
+			return id;
+		}
+		public void setId(String id) {
+			this.id = id;
+		}
+		public String getTitle() {
+			return title;
+		}
+		public void setTitle(String title) {
+			this.title = title;
+		}
+		public String getUrl() {
+			return url;
+		}
+		public void setUrl(String url) {
+			this.url = url;
+		}
+    	
+    }
 	public class User{
 		String id;
         String username;
@@ -227,12 +251,6 @@ public class OptionNewsBean {
 	}
 	public void setParentComment(String parentComment) {
 		this.parentComment = parentComment;
-	}
-	public String getSource() {
-		return source;
-	}
-	public void setSource(String source) {
-		this.source = source;
 	}
 	public String getFirstPic() {
 		return firstPic;

@@ -10,6 +10,7 @@ import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 
 import android.content.Context;
+import android.content.res.Resources.NotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -409,165 +410,177 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
 	private void drawUpperRegion(Canvas canvas) {
 		// 绘制蜡烛图
-		Paint redPaint = new Paint();
-		redPaint.setColor(Color.RED);
-		Paint greenPaint = new Paint();
-		greenPaint.setColor(getResources().getColor(R.color.dark_green));
-		Paint grayPaint = new Paint();
-		grayPaint.setColor(getResources().getColor(R.color.def_gray));
-		int width = getWidth();
-		mCandleWidth = (width - 4) / 10.0 * 10.0 / mShowDataNum - 3;
-		double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
-		if(mOHLCData.size() >= 30){
-			for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
-				OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
-				float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-				float close = (float) ((mMaxPrice - entity.getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-				float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-				float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-	
-				float left = (float) (width - 2 - mCandleWidth * (i + 1) - i*3);
-				float right = (float) (width - 3 - mCandleWidth * i - i*3);
-				float startX = (float) (width - 3 - mCandleWidth * i - (mCandleWidth - 1) / 2 - i * 3);
-				if(entity.getOpen()==26.73 ){
-					float a = open;
-					Log.e("asa", a+"");
-				}
-				if (open < close) {
-					canvas.drawRect(left, close, right, open, greenPaint);
-					
-					canvas.drawLine(startX, high, startX, low, greenPaint);
-				} else if (open == close) {
-					canvas.drawLine(left, open, right, open, grayPaint);
-					canvas.drawLine(startX, high, startX, low, grayPaint);
-				} else {
-					canvas.drawRect(left, open, right, close, redPaint);
-					canvas.drawLine(startX, high, startX, low, redPaint);
-				}
-	
-			}
-			// 绘制上部曲线图及上部分MA值
-			float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
-			String text = "";
-			float wid = 0;
-			for (int j = 0; j < MALineData.size(); j++) {
-				MALineEntity lineEntity = MALineData.get(j);
+		
+		try {
+			Paint redPaint = new Paint();
+			redPaint.setColor(Color.RED);
+			Paint greenPaint = new Paint();
+			greenPaint.setColor(getResources().getColor(R.color.dark_green));
+			Paint grayPaint = new Paint();
+			grayPaint.setColor(getResources().getColor(R.color.def_gray));
+			int width = getWidth();
+			mCandleWidth = (width - 4) / 10.0 * 10.0 / mShowDataNum - 3;
+			double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
+			if(mOHLCData.size() >= 30){
+				for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
+					OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
+					float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+					float close = (float) ((mMaxPrice - entity.getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+					float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+					float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 
-				float startX = 0;
-				float startY = 0;
-				Paint paint = new Paint();
-				paint.setColor(lineEntity.getLineColor());
-				paint.setAntiAlias(true);
-				paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-				int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
-				mVolumnChartView.setCurrentIndex(selectIndext);
-				text = lineEntity.getTitle() + ":" + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext - mDataStartIndext));
-				Paint p= new Paint(); 
-				Rect rect = new Rect();
-				p.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-				p.getTextBounds(text, 0, text.length(), rect); 
-				if(j == 0){
-					wid = 2;
-				}else{
-					wid = 2 + rect.width()*2/3 + wid + 5;
-				}
-				canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
-				wid = wid +  2 + rect.width() ;
-				for (int i = 0; i < mShowDataNum
-						&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
-					if (i != 0) {
-						canvas.drawLine(
-								startX,
-								startY + DEFAULT_AXIS_TITLE_SIZE + 4,
-								(float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f),
-								(float) ((mMaxPrice - lineEntity.getLineData()
-										.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
-								paint);
+					float left = (float) (width - 2 - mCandleWidth * (i + 1) - i*3);
+					float right = (float) (width - 3 - mCandleWidth * i - i*3);
+					float startX = (float) (width - 3 - mCandleWidth * i - (mCandleWidth - 1) / 2 - i * 3);
+					if(entity.getOpen()==26.73 ){
+						float a = open;
+						Log.e("asa", a+"");
 					}
-					startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f);
-					startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
-				}
-			}
-			if(null != e && !showDetails){
-				e.setLocation(getWidth() - 6, 0);
-				mVolumnChartView.onSet(e,ismove,mDataStartIndext);
-			}
-		}else{
-			int addNum = 30 - mOHLCData.size();
-			for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
-				OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
-				float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-				float close = (float) ((mMaxPrice - entity.getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-				float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-				float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-	
-				float left = (float) (width - 2 - mCandleWidth * (i + 1 + addNum) - (i + addNum)*3);
-				float right = (float) (width - 3 - mCandleWidth * (i + addNum) - (i + addNum)*3);
-				float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2 - (i + addNum) * 3);
-				if(entity.getOpen()==26.73 ){
-					float a = open;
-					Log.e("asa", a+"");
-				}
-				if (open < close) {
-					canvas.drawRect(left, close, right, open, greenPaint);
-					
-					canvas.drawLine(startX, high, startX, low, greenPaint);
-				} else if (open == close) {
-					canvas.drawLine(left, open, right, open, grayPaint);
-					canvas.drawLine(startX, high, startX, low, grayPaint);
-				} else {
-					canvas.drawRect(left, open, right, close, redPaint);
-					canvas.drawLine(startX, high, startX, low, redPaint);
-				}
-	
-			}
-			
-			float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
-			String text = "";
-			float wid = 0;
-			for (int j = 0; j < MALineData.size(); j++) {
-				MALineEntity lineEntity = MALineData.get(j);
+					if (open < close) {
+						canvas.drawRect(left, close, right, open, greenPaint);
+						
+						canvas.drawLine(startX, high, startX, low, greenPaint);
+					} else if (open == close) {
+						canvas.drawLine(left, open, right, open, grayPaint);
+						canvas.drawLine(startX, high, startX, low, grayPaint);
+					} else {
+						canvas.drawRect(left, open, right, close, redPaint);
+						canvas.drawLine(startX, high, startX, low, redPaint);
+					}
 
-				float startX = 0;
-				float startY = 0;
-				Paint paint = new Paint();
-				paint.setColor(lineEntity.getLineColor());
-				paint.setAntiAlias(true);
-				paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-				int selectIndext = (int) ((width - 2.0f - mStartX - mCandleWidth * addNum - 3 * addNum) / (mCandleWidth + 3) + mDataStartIndext);
+				}
+				// 绘制上部曲线图及上部分MA值
+				//float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
+				String text = "";
+				float wid = 0;
+				for (int j = 0; j < MALineData.size(); j++) {
+					MALineEntity lineEntity = MALineData.get(j);
+
+					float startX = 0;
+					float startY = 0;
+					Paint paint = new Paint();
+					paint.setColor(lineEntity.getLineColor());
+					paint.setAntiAlias(true);
+					paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+					int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
+					mVolumnChartView.setCurrentIndex(selectIndext);
+					mVolumnChartView.setmShowDate(mShowDataNum);
+					if(selectIndext - mDataStartIndext > lineEntity.getLineData().size() -1 || selectIndext - mDataStartIndext < 0){
+						text = lineEntity.getTitle() + ":0.00";
+					}else
+						text = lineEntity.getTitle() + ":" + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext - mDataStartIndext));
+					Paint p= new Paint(); 
+					Rect rect = new Rect();
+					p.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+					p.getTextBounds(text, 0, text.length(), rect); 
+					if(j == 0){
+						wid = 2;
+					}else{
+						wid = 2 + rect.width()*2/3 + wid + 5;
+					}
+					canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
+					wid = wid +  2 + rect.width() ;
+					for (int i = 0; i < mShowDataNum
+							&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
+						if (i != 0) {
+							canvas.drawLine(
+									startX,
+									startY + DEFAULT_AXIS_TITLE_SIZE + 4,
+									(float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f),
+									(float) ((mMaxPrice - lineEntity.getLineData()
+											.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
+									paint);
+						}
+						startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f);
+						startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
+					}
+				}
+				if(null != e && !showDetails){
+					e.setLocation(getWidth() - 6, 0);
+					mVolumnChartView.onSet(e,ismove,mDataStartIndext);
+				}
+			}else{
+				int addNum = 30 - mOHLCData.size();
+				for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
+					OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
+					float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+					float close = (float) ((mMaxPrice - entity.getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+					float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+					float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
+
+					float left = (float) (width - 2 - mCandleWidth * (i + 1 + addNum) - (i + addNum)*3);
+					float right = (float) (width - 3 - mCandleWidth * (i + addNum) - (i + addNum)*3);
+					float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2 - (i + addNum) * 3);
+					if(entity.getOpen()==26.73 ){
+						float a = open;
+						Log.e("asa", a+"");
+					}
+					if (open < close) {
+						canvas.drawRect(left, close, right, open, greenPaint);
+						
+						canvas.drawLine(startX, high, startX, low, greenPaint);
+					} else if (open == close) {
+						canvas.drawLine(left, open, right, open, grayPaint);
+						canvas.drawLine(startX, high, startX, low, grayPaint);
+					} else {
+						canvas.drawRect(left, open, right, close, redPaint);
+						canvas.drawLine(startX, high, startX, low, redPaint);
+					}
+
+				}
 				
-				mVolumnChartView.setCurrentIndex(selectIndext);
-				text = lineEntity.getTitle() + ":" + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext - mDataStartIndext));
-				Paint p= new Paint(); 
-				Rect rect = new Rect();
-				p.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-				p.getTextBounds(text, 0, text.length(), rect); 
-				if(j == 0){
-					wid = 2;
-				}else{
-					wid = 2 + rect.width()*2/3 + wid + 5;
-				}
-				canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
-				wid = wid +  2 + rect.width() ;
-				for (int i = 0; i < mShowDataNum
-						&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
-					if (i != 0) {
-						canvas.drawLine(
-								startX,
-								startY + DEFAULT_AXIS_TITLE_SIZE + 4,
-								(float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f),
-								(float) ((mMaxPrice - lineEntity.getLineData()
-										.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
-								paint);
+				String text = "";
+				float wid = 0;
+				for (int j = 0; j < MALineData.size(); j++) {
+					MALineEntity lineEntity = MALineData.get(j);
+
+					float startX = 0;
+					float startY = 0;
+					Paint paint = new Paint();
+					paint.setColor(lineEntity.getLineColor());
+					paint.setAntiAlias(true);
+					paint.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+					int selectIndext = (int) ((width - 2.0f - mStartX - mCandleWidth * addNum - 3 * addNum) / (mCandleWidth + 3) + mDataStartIndext);
+					
+					mVolumnChartView.setCurrentIndex(selectIndext);
+					if(selectIndext - mDataStartIndext > lineEntity.getLineData().size() -1 || selectIndext - mDataStartIndext < 0){
+						text = lineEntity.getTitle() + ":0.00";
+					}else
+						text = lineEntity.getTitle() + ":" + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext - mDataStartIndext));
+					Paint p= new Paint(); 
+					Rect rect = new Rect();
+					p.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+					p.getTextBounds(text, 0, text.length(), rect); 
+					if(j == 0){
+						wid = 2;
+					}else{
+						wid = 2 + rect.width()*2/3 + wid + 5;
 					}
-					startX = (float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f);
-					startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
+					canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
+					wid = wid +  2 + rect.width() ;
+					for (int i = 0; i < mShowDataNum
+							&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
+						if (i != 0) {
+							canvas.drawLine(
+									startX,
+									startY + DEFAULT_AXIS_TITLE_SIZE + 4,
+									(float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f),
+									(float) ((mMaxPrice - lineEntity.getLineData()
+											.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
+									paint);
+						}
+						startX = (float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f);
+						startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
+					}
+				}
+				if(null != e && !showDetails){
+					e.setLocation(getWidth() - 6, 0);
+					mVolumnChartView.onSet(e,ismove,mDataStartIndext);
 				}
 			}
-			if(null != e && !showDetails){
-				e.setLocation(getWidth() - 6, 0);
-				mVolumnChartView.onSet(e,ismove,mDataStartIndext);
-			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		
@@ -889,8 +902,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		}
 		
 		List<OHLCEntity> result = new ArrayList<OHLCEntity>();
-		for (int i = mDataStartIndext; i < mOHLCData.size()
-				&& i < mShowDataNum + mDataStartIndext; i++) {
+		for (int i = 0; i < mOHLCData.size()
+				; i++) {
 			OHLCEntity entity = mOHLCData.get(i);
 			result.add(entity);
 		}
@@ -990,13 +1003,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		float sum = 0;
 		float avg = 0;
 		for (int i = entityList.size() - 1; i >= 0; i--) {
-			float close = (float) entityList.get(i).getClose();
-			if (i > entityList.size() - days) {
-				sum = sum + close;
-				avg = sum / (entityList.size() - i);
-			} else {
-				sum = close + avg * (days - 1);
+			sum = 0;
+			avg = 0;
+			if (i - days >= -1) {
+				for(int k = 0; k < days; k++){
+					sum = (float) (sum + entityList.get(i-k).getClose());
+				}
 				avg = sum / days;
+			} else{
+				break;
 			}
 			MAValues.add(avg);
 		}
