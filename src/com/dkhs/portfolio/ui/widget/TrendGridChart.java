@@ -394,9 +394,7 @@ public class TrendGridChart extends View {
     private void drawRightYtitleText(Canvas canvas) {
         if (null != axisRightYTitles) {
             int counts = axisRightYTitles.size();
-            float xTitleWidth = mXTitlePaint.measureText(axisRightYTitles.get(counts - 1));
-            float offetText = xTitleWidth;
-            float startX = (super.getWidth() - axisMarginLeft - offetText);
+           
             // 线条Paint
             Paint mPaintLine = new Paint();
             mPaintLine.setColor(latitudeColor);
@@ -416,7 +414,9 @@ public class TrendGridChart extends View {
                 float offset = super.getHeight() - axisMarginBottom - axisMarginTop - xTitleTextHeight - getVolHight();
 
                 for (int i = 0; i < counts; i++) {
-
+                    float xTitleWidth = mXTitlePaint.measureText(axisRightYTitles.get(i));
+                    float offetText = xTitleWidth;
+                    float startX = (super.getWidth() - axisMarginLeft - offetText);
                     if (displayAxisYTitleColor) {
                         mPaintFont.setColor(getYTitlePaintFont(i, counts));
                     }

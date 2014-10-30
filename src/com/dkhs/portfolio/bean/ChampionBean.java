@@ -22,22 +22,69 @@ public class ChampionBean {
     private String name;
     @SerializedName("increase_percent")
     private float increasePercent;
+
+    private User user;
+    private String description;
+
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public float getIncreasePercent() {
         return increasePercent;
     }
+
     public void setIncreasePercent(float increasePercent) {
         this.increasePercent = increasePercent;
     }
+
+    public class User {
+        private String id;
+        private String username;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

@@ -11,18 +11,18 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.fragment.FragmentDiscussFlow;
-import com.dkhs.portfolio.ui.fragment.TestFragment;
-import com.dkhs.portfolio.ui.widget.HScrollTitleView;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 
 /**
  * @ClassName FundsOrderActivity
@@ -43,6 +43,7 @@ public class FundsOrderActivity extends ModelAcitivity {
         setContentView(R.layout.activity_funds_order);
         setTitle(R.string.fund_order);
         initViews();
+        // replaceDataList();
     }
 
     /**
@@ -58,13 +59,14 @@ public class FundsOrderActivity extends ModelAcitivity {
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(new TestFragment());
-        fragmentList.add(new TestFragment());
-        fragmentList.add(new TestFragment());
+        fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_WEEK));
+        fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_MONTH));
+        fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_SEASON));
 
         pager = (ScrollViewPager) findViewById(R.id.pager);
         pager.setAdapter(new OrderFragmentAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
+        pager.setOffscreenPageLimit(3);
 
     }
 
@@ -99,7 +101,7 @@ public class FundsOrderActivity extends ModelAcitivity {
         }
     };
 
-    private class OrderFragmentAdapter extends FragmentPagerAdapter {
+    private class OrderFragmentAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> fragmentList;
 

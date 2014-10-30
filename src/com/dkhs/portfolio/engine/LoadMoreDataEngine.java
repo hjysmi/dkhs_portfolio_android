@@ -49,10 +49,6 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
      */
     public abstract void loadData();
 
-    
-    
-    
-    
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -64,10 +60,14 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
         if (null != iLoadListener) {
             iLoadListener.loadFinish(object);
         }
+        if (null != object) {
 
+            setTotalcount(object.getTotalCount());
+            setTotalpage(object.getTotalPage());
+            setCurrentpage(object.getCurrentPage());
+
+        }
     }
-    
-  
 
     public int getTotalcount() {
         return totalcount;
