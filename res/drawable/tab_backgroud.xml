@@ -3,6 +3,7 @@
 
     <item android:drawable="@drawable/tab_select" android:state_enabled="false"/>
     <item android:drawable="@drawable/tab_select" android:state_checked="true"/>
-    <item android:drawable="@drawable/tab_normal" android:state_checked="false"/>
-    <item android:drawable="@drawable/tab_normal" android:state_enabled="true"/>
-</selector>
+    <item android:drawable="@drawable/tab_select" android:state_checked="false"/>
+    <item android:drawable="@drawable/tab_select" android:state_enabled="true"/>
+
+</selector>

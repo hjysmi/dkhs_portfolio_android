@@ -18,9 +18,10 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // 测试用地址
-    // public static final String BASE_URL = "http://121.41.25.170:8030";
-    // 开发用地址
     public static final String BASE_URL = "http://121.41.25.170:8010";
+
+    // 开发用地址
+    // public static final String BASE_URL = "http://121.41.25.170:8010";
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
     // public static final String BASE_URL = "http://58.23.5.117:8030";
@@ -59,7 +60,7 @@ public class DKHSUrl {
 
         // 查股票实时行情信息，包含5档信息
         // http://192.168.107.251:8002/api/v1/symbols/SZ000002/quote/
-        String quotes = "/api/v1/symbols/{0}/quote";
+        String quotes = "/api/v1/symbols/{0}/quote/";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
         // http://192.168.107.251:8002/api/v1/symbols/101000100/unfollow/
         String unfollow = "/api/v1/symbols/{0}/unfollow/";
