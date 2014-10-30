@@ -144,11 +144,10 @@
 
     <View style="@style/divider_line" />
 
-    <com.dkhs.portfolio.ui.widget.TabPageIndicator
-        android:id="@+id/indicator"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#F5F5F5" />
+    <com.dkhs.portfolio.ui.widget.HScrollTitleView
+            android:id="@+id/hs_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     <View style="@style/divider_line" />
 

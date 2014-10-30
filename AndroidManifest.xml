@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="1"
-    android:versionName="0.3.4" >
+    android:versionName="0.4.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -77,8 +77,7 @@
         </activity>
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.PageIndicatorDefaults" />
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"

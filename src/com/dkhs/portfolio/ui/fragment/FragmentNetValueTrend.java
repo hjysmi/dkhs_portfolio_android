@@ -29,8 +29,10 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -102,7 +104,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
-//        viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
+        // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
         initTabPage(view);
@@ -140,12 +142,16 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // ivUpDownIcon.setImageDrawable(null);
             // viewNetvalueHead.setBackgroundResource(R.color.red);
             // }
-            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue-1));
+            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
             tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
-            tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue-1));
+            tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
             tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
         };
     };
+
+    private HScrollTitleView hsTitle;
+    // privaet view
+    private ScrollViewPager mViewPager;
 
     private void initTabPage(View view) {
 
@@ -158,16 +164,31 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
-        ScrollViewPager mViewPager = (ScrollViewPager) view.findViewById(R.id.pager);
+        mViewPager = (ScrollViewPager) view.findViewById(R.id.pager);
         mViewPager.setCanScroll(false);
         mPagerAdapter = new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray);
         mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setOnPageChangeListener(pageChangeListener);
 
-        TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
-        indicator.setViewPager(mViewPager);
+        hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
+        // String[] titleArray = getResources().getStringArray(R.array.quotes_title);
+        hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+        hsTitle.setSelectPositionListener(titleSelectPostion);
+
+        // TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
+        // indicator.setViewPager(mViewPager);
 
     }
+
+    ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
+
+        @Override
+        public void onSelectPosition(int position) {
+            if (null != mViewPager) {
+                mViewPager.setCurrentItem(position);
+            }
+        }
+    };
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
