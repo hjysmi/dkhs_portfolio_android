@@ -376,6 +376,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
                     public void requestCallBack() {
                         // TODO Auto-generated method stub
                         super.requestCallBack();
+                        refreshData();
                     }
 
                 });
