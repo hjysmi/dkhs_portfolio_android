@@ -85,10 +85,19 @@ public class PromptManager {
     }
 
     public static void closeProgressDialog() {
-        if (dialog != null && dialog.isShowing()) {
-            dialog.dismiss();
+
+        try {
+            if (dialog != null && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        } catch (final IllegalArgumentException e) {
+            // Handle or log or ignore
+        } catch (final Exception e) {
+            // Handle or log or ignore
+        } finally {
             dialog = null;
         }
+
     }
 
     /**
