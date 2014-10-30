@@ -15,12 +15,14 @@ import org.apache.http.NameValuePair;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.NoAccountMainActivity;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
@@ -41,10 +43,10 @@ import com.lidroid.xutils.util.LogUtils;
  */
 public class DKHSClient {
 
-    static HttpUtils mHttpUtils = new HttpUtils();
+    // static HttpUtils mHttpUtils = new HttpUtils();
 
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
-//         HttpUtils mHttpUtils = new HttpUtils();
+        HttpUtils mHttpUtils = new HttpUtils();
 
         if (null == params) {
             params = new RequestParams();
@@ -55,7 +57,7 @@ public class DKHSClient {
             LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
 
         } else if (!url.contains(DKHSUrl.User.login)) {
-            mHttpUtils = new HttpUtils();
+            // mHttpUtils = new HttpUtils();
             try {
                 UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
 
@@ -67,14 +69,16 @@ public class DKHSClient {
                         params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
                     } else {
                         LogUtils.e("Authorization token is null,Exit app");
-                        PortfolioApplication.getInstance().exitApp();
+                        // PortfolioApplication.getInstance().exitApp();
+                        PromptManager.showToast("Authorization token is null,请重新登录");
                     }
                 }
 
             } catch (DbException e) {
                 e.printStackTrace();
+                PromptManager.showToast("Authorization token is null,请重新登录");
                 LogUtils.e("Authorization token is null,Exit app");
-                PortfolioApplication.getInstance().exitApp();
+                // PortfolioApplication.getInstance().exitApp();
             }
 
         }

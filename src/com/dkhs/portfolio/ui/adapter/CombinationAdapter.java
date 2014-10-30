@@ -30,6 +30,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName CombinationAdapter
@@ -94,70 +95,14 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         float addValue = item.getAddUpValue() * 100;
         viewHolder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
         viewHolder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
-        // viewHolder.etTitle.setOnFocusChangeListener(new OnFocusChangeListener() {
-        //
-        // @Override
-        // public void onFocusChange(View v, boolean hasFocus) {
-        //
-        // if (!hasFocus) {
-        // if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
-        // if (viewhold.etTitle.getText().length() > 0) {
-        // viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
-        // }
-        // viewhold.tvTitle.setVisibility(View.VISIBLE);
-        // viewhold.etTitle.setVisibility(View.GONE);
-        // }
-        // }
-        //
-        // }
-        // });
 
-        // initMaChart(viewHolder.machart);
-        // viewHolder.btnEidt.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // if (viewhold.etTitle.getVisibility() != View.GONE) {// 一定要先判断一下，不然只要你一点屏幕就会清空你标题上的文字
-        // // if (viewhold.etTitle.getText().length() > 0) {
-        // // viewhold.tvTitle.setText(viewhold.etTitle.getText().toString());
-        // // }
-        // // viewhold.tvTitle.setVisibility(View.VISIBLE);
-        // viewhold.etTitle.clearFocus();
-        // InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(
-        // Context.INPUT_METHOD_SERVICE);
-        // if (imm != null) {
-        // imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        // }
-        // } else {
-        //
-        // viewhold.tvTitle.setVisibility(View.GONE);
-        // String title = viewhold.tvTitle.getText().toString();
-        // viewhold.etTitle.setText(title);
-        // viewhold.etTitle.setVisibility(View.VISIBLE);
-        // viewhold.etTitle.requestFocus();
-        // viewhold.etTitle.setSelection(title.length());
-        // }
-        //
-        // }
-        // });
-
-        // 长按标题进入编辑状态
-
-        // viewHolder.tvTitle.setOnLongClickListener(new OnLongClickListener() {
-        //
-        // @Override
-        // public boolean onLongClick(View v) {
-        // viewhold.tvTitle.setVisibility(View.GONE);
-        // viewhold.etTitle.setVisibility(View.VISIBLE);
-        // viewhold.etTitle.requestFocus();
-        // viewhold.etTitle.setText(viewhold.tvTitle.getText());
-        // return false;
-        // }
-        // });
         viewHolder.ivDel.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                if (UIUtils.isFastDoubleClick()) {
+                    return;
+                }
                 if (null != mDelListener)
                     mDelListener.clickDeleteButton(position);
             }
