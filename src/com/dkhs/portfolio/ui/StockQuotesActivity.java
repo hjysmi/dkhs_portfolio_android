@@ -424,7 +424,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
-            mStockBean.isFollowed = !mStockBean.isFollowed;
+            mStockQuotesBean.setFollowed(!mStockQuotesBean.isFollowed());
             setAddOptionalButton();
         }
     };
@@ -466,7 +466,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         switch (id) {
             case R.id.btn_add_optional:
 
-                if (mStockBean.isFollowed) {
+                if (mStockQuotesBean.isFollowed()) {
                     mQuotesEngine.delfollow(mStockBean.id, baseListener);
                 } else {
                     mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
