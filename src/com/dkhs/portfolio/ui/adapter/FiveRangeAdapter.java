@@ -105,10 +105,20 @@ public class FiveRangeAdapter extends BaseAdapter {
             }
             FiveRangeItem item = dataList.get(position);
             if (!item.price.contains("-.---")) {
-                viewHolder.tvPrice
-                        .setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price), mCompareValue));
-                viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
-                viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
+                if (Float.parseFloat(item.price)==0) {
+                    viewHolder.tvPrice.setText("-");
+                } else {
+
+                    viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price),
+                            mCompareValue));
+                    viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
+                }
+                if (item.vol.equals("0")) {
+                    viewHolder.tvVol.setText("-");
+                } else {
+
+                    viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
+                }
             }
             viewHolder.tvTag.setText(item.tag);
         } catch (NumberFormatException e) {
