@@ -123,7 +123,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mStockCode = mStockBean.code;
             updateStockInfo();
         }
-        setAddOptionalButton();
+        // setAddOptionalButton();
         initTabPage();
     }
 
@@ -191,6 +191,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvChange = (TextView) findViewById(R.id.tv_up_price);
         tvPercentage = (TextView) findViewById(R.id.tv_percentage);
         btnAddOptional = (Button) findViewById(R.id.btn_add_optional);
+        btnAddOptional.setVisibility(View.GONE);
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
         btnAddOptional.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
@@ -209,14 +210,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         // scrollview + listview 会滚动到底部，需要滚动到头部
         scrollToTop();
-        setAddOptionalButton();
+        // setAddOptionalButton();
     }
 
     private void setAddOptionalButton() {
-        if (mStockBean == null) {
+        if (mStockQuotesBean == null) {
+            btnAddOptional.setVisibility(View.GONE);
             return;
         }
-        if (mStockBean.isFollowed && null != btnAddOptional) {
+        btnAddOptional.setVisibility(View.VISIBLE);
+        if (mStockQuotesBean.isFollowed() && null != btnAddOptional) {
             btnAddOptional.setText(R.string.delete_fllow);
             btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
@@ -302,6 +305,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 mStockQuotesBean = object;
                 updateStockView();
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
+                setAddOptionalButton();
             }
 
         }
@@ -434,7 +438,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
-            mStockBean.isFollowed = !mStockBean.isFollowed;
+            mStockQuotesBean.setFollowed(!mStockQuotesBean.isFollowed());
             setAddOptionalButton();
         }
     };
@@ -476,7 +480,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         switch (id) {
             case R.id.btn_add_optional:
 
-                if (mStockBean.isFollowed) {
+                if (mStockQuotesBean.isFollowed()) {
                     mQuotesEngine.delfollow(mStockBean.id, baseListener);
                 } else {
                     mQuotesEngine.symbolfollow(mStockBean.id, baseListener);

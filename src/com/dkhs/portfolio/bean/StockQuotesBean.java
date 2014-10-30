@@ -35,6 +35,7 @@ public class StockQuotesBean {
     private BuyPrice buyPrice;
     @SerializedName("abbr_name")
     private String name;
+    private boolean followed;
 
     @SerializedName("sell_price_level")
     private SellPrice sellPrice;
@@ -198,6 +199,14 @@ public class StockQuotesBean {
 
     public void setSellList(List<FiveRangeItem> sellList) {
         this.sellList = sellList;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
     }
 
 }

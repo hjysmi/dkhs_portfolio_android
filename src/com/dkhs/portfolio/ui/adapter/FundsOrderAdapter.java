@@ -140,7 +140,7 @@ public class FundsOrderAdapter extends BaseAdapter {
         } else {
             viewHolder.ivTrophy.setVisibility(View.INVISIBLE);
             viewHolder.tvIndex.setVisibility(View.VISIBLE);
-            viewHolder.tvIndex.setText(position + "");
+            viewHolder.tvIndex.setText((position + 1) + "");
         }
 
         viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));

@@ -9,6 +9,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.MainFragment;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
+import com.lidroid.xutils.util.LogUtils;
 
 public class MainActivity extends FragmentActivity implements ITitleButtonListener {
 
@@ -35,7 +36,7 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         }
         mainFragment.setTitleClickListener(this);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, mainFragment).commit();
-        //删除之前的activity,防止返回键退回到登录界面
+        // 删除之前的activity,防止返回键退回到登录界面
         PortfolioApplication.getInstance().clearActivities();
         PortfolioApplication.getInstance().addActivity(this);
     }
@@ -75,6 +76,18 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         if (mDrawerLayout.isDrawerOpen(mRightMenu)) {
             mDrawerLayout.closeDrawer(mRightMenu);
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        LogUtils.i("================onDestroy()====================");
     }
 
 }
