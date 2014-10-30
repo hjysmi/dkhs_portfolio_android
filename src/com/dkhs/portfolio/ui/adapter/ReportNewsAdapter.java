@@ -44,22 +44,27 @@ public class ReportNewsAdapter extends BaseAdapter{
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
 		ViewHodler viewHolder = null;
-		mOptionNewsBean = mDataList.get(position);
-        if (convertView == null) {
-            viewHolder = new ViewHodler();
-            convertView = View.inflate(mContext, R.layout.adapter_report_news, null);
-            viewHolder.tvTextName = (TextView) convertView.findViewById(R.id.adapter_market_title);
-            viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
-            viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
-            viewHolder.tvTextFrom = (TextView) convertView.findViewById(R.id.adapter_market_from);
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHodler) convertView.getTag();
-        }
-        viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
-        viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getSymbol());
-        viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
-        viewHolder.tvTextFrom.setText("");
+		try {
+			mOptionNewsBean = mDataList.get(position);
+			if (convertView == null) {
+			    viewHolder = new ViewHodler();
+			    convertView = View.inflate(mContext, R.layout.adapter_report_news, null);
+			    viewHolder.tvTextName = (TextView) convertView.findViewById(R.id.adapter_market_title);
+			    viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
+			    viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
+			    viewHolder.tvTextFrom = (TextView) convertView.findViewById(R.id.adapter_market_from);
+			    convertView.setTag(viewHolder);
+			} else {
+			    viewHolder = (ViewHodler) convertView.getTag();
+			}
+			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
+			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getSymbol());
+			viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
+			viewHolder.tvTextFrom.setText("");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         return convertView;
 	}
 	final static class ViewHodler {
