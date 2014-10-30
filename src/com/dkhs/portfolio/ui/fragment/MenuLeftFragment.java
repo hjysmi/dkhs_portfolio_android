@@ -37,6 +37,7 @@ import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
+import com.dkhs.portfolio.ui.YanBaoActivity;
 import com.google.gson.reflect.TypeToken;
 
 public class MenuLeftFragment extends Fragment implements OnClickListener {
@@ -181,7 +182,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                 	intent = new Intent(getActivity(),OptionMarketNewsActivity.class);
                     break;
                 case 5:
-
+                	intent = new Intent(getActivity(), YanBaoActivity.class);
                     break;
                 case 6:
 

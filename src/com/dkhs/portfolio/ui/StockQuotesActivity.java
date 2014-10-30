@@ -35,6 +35,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
@@ -43,6 +45,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.NewsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
@@ -50,7 +53,6 @@ import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
@@ -142,30 +144,42 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initList() {
-        List<String> name = new ArrayList<String>();
-        name.add("新闻资讯");
-        name.add("个股公告");
-        name.add("F10");
-
+        String[] name = new String[4];
+        name[0] = "新闻";
+        name[1] = "公告";
+        name[2] = "研报";
+        name[3] = "F10";
+        NewsforImpleEngine vo;
         List<Fragment> frag = new ArrayList<Fragment>();
-        List<Bundle> buns = new ArrayList<Bundle>();
         Fragment f1 = new FragmentNewsList();
         Bundle b1 = new Bundle();
-        b1.putString(FragmentNewsList.NEWS_TYPE, "10");
-        b1.putString(FragmentNewsList.BUNDLE_NAME, mStockBean.code);
+        b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+        vo = new NewsforImpleEngine();
+        vo.setSymbol(mStockBean.code);
+        vo.setContentType("10");
+        b1.putSerializable(FragmentNewsList.VO, vo);
+        f1.setArguments(b1);
         frag.add(f1);
-        buns.add(b1);
         Fragment f2 = new FragmentNewsList();
         Bundle b2 = new Bundle();
-        b2.putString(FragmentNewsList.NEWS_TYPE, "20");
-        b2.putString(FragmentNewsList.BUNDLE_NAME, mStockBean.code);
+        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+        vo = new NewsforImpleEngine();
+        vo.setSymbol(mStockBean.code);
+        vo.setContentType("20");
+        b2.putSerializable(FragmentNewsList.VO, vo);
+        f2.setArguments(b2);
         frag.add(f2);
-        buns.add(b2);
+        Fragment f4 = new FragmentreportNewsList();
+        Bundle b4 = new Bundle();
+        b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
+        vo = new NewsforImpleEngine();
+        vo.setSymbol(mStockBean.code);
+        b4.putSerializable(FragmentNewsList.VO, vo);
+        f4.setArguments(b4);
+        frag.add(f4);
         Fragment f3 = new NewsFragment();
-        Bundle b3 = new Bundle();
         frag.add(f3);
-        buns.add(b3);
-        new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager(), buns);
+        new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager());
     }
 
     private void initView() {

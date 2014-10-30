@@ -23,12 +23,17 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-
+/**
+ * 公告
+ * @author weiting
+ *
+ */
 public class OptionMarketNewsActivity extends ModelAcitivity{
 	private ListView mListView;
 
@@ -60,7 +65,9 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 								ConstantValue.DES_PASSWORD);
 					}
 					String userId = user.getId()+"";
-					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,userId,null);
+					NewsforImpleEngine vo = new NewsforImpleEngine();
+					vo.setUserid(userId);
+					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSALL,vo);
 					mLoadDataEngine.loadData();
 				}
 			} catch (DbException e) {
