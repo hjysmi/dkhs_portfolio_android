@@ -21,6 +21,9 @@ import android.R.integer;
  */
 public class StringFromatUtils {
 
+    /**
+     * 判断字体有多少长度，中文占2个字符
+     */
     public static int getStringRealLength(String str) {
         String strTemp = "";
         try {
@@ -30,6 +33,24 @@ public class StringFromatUtils {
             e.printStackTrace();
         }
         return strTemp.length();
+    }
+
+    /**
+     * 判断是否是中文字符
+     */
+    public static boolean isCN(String str) {
+        try {
+            byte[] bytes = str.getBytes("UTF-8");
+            if (bytes.length == str.length()) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (UnsupportedEncodingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public static String getPercentValue(int value) {

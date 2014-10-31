@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,6 +70,8 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
     }
 
+    String strBefore;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_name);
@@ -80,7 +83,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         engine = new UserEngineImpl();
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
-        setRegistAble();
+        // setRegistAble();
         cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
         cbShowRePassword = (CheckBox) findViewById(R.id.cb_show_repsw);
 
@@ -98,7 +101,8 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                     etPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 
                 }
-
+                int textEnd = etPassword.getText().length();
+                etPassword.setSelection(textEnd);
             }
         }
 
@@ -129,18 +133,40 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                // 在文本变化之前先获取到文本值
+                strBefore = s.toString();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 5) {
 
-                    isPswAble = true;
-                } else {
-                    isPswAble = false;
+                // 一定要加上此判断，否则会进入死循环
+                if (s.toString().equals(strBefore)) {
+                    return;
                 }
-                setRegistAble();
+                int editStart = etPassword.getSelectionStart();
+                // 注意：这里一定要用偏移量，而不是写死用1，因为要考虑到复制粘贴的情况下，不一定是一个个输入的
+                int offset = s.toString().length() - strBefore.length();
+                if (StringFromatUtils.isCN(s.toString())) {// 判断是否为中文符号，是中文符号则剪掉偏移量，再赋值
+                    PromptManager.showToast("不可以输入中文符号");
+                    s.delete(s.toString().length() - offset, s.toString().length());
+                    int tempSelection = editStart - offset;
+                    etPassword.setText(s);
+                    etPassword.setSelection(tempSelection);
+
+                } else {
+                    strBefore = s.toString();// 不是中文符号则进行赋值
+                    etPassword.setText(s);
+                    etPassword.setSelection(editStart);
+                }
+
+                // if (s.length() > 5) {
+                //
+                // isPswAble = true;
+                // } else {
+                // isPswAble = false;
+                // }
+                // setRegistAble();
             }
         });
         etRePassword.addTextChangedListener(new TextWatcher() {
@@ -157,13 +183,13 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 5 && etPassword.getText().toString().equals(etRePassword.getText().toString())) {
-
-                    isRePswAble = true;
-                } else {
-                    isRePswAble = false;
-                }
-                setRegistAble();
+                // if (s.length() > 5 && etPassword.getText().toString().equals(etRePassword.getText().toString())) {
+                //
+                // isRePswAble = true;
+                // } else {
+                // isRePswAble = false;
+                // }
+                // setRegistAble();
             }
         });
         etUserName.addTextChangedListener(new TextWatcher() {
@@ -181,13 +207,13 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             @Override
             public void afterTextChanged(Editable s) {
                 int length = StringFromatUtils.getStringRealLength(s.toString());
-                if (length >= 6 && length <= 20) {
-
-                    isUserNameAble = true;
-                } else {
-                    isUserNameAble = false;
-                }
-                setRegistAble();
+                // if (length >= 6 && length <= 20) {
+                //
+                // isUserNameAble = true;
+                // } else {
+                // isUserNameAble = false;
+                // }
+                // setRegistAble();
             }
         });
 
@@ -197,36 +223,40 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             findViewById(R.id.rl_repassword).setVisibility(View.VISIBLE);
 
         } else {
-            setTitle("设置昵称");
+            setTitle("设置昵称和密码");
+            rlfbutton.setText("完成");
 
         }
 
     }
 
-    private boolean isUserNameAble;
-    private boolean isPswAble;
-    private boolean isRePswAble;
-
-    private void setRegistAble() {
-        if (isResetPsw) {
-            if (isRePswAble && isPswAble) {
-                rlfbutton.setEnabled(true);
-            } else {
-                rlfbutton.setEnabled(false);
-            }
-        } else {
-
-            if (isUserNameAble && isPswAble) {
-                rlfbutton.setEnabled(true);
-            } else {
-                rlfbutton.setEnabled(false);
-            }
-        }
-    }
+    // private boolean isUserNameAble;
+    // private boolean isPswAble;
+    // private boolean isRePswAble;
+    //
+    // private void setRegistAble() {
+    // if (isResetPsw) {
+    // if (isRePswAble && isPswAble) {
+    // rlfbutton.setEnabled(true);
+    // } else {
+    // rlfbutton.setEnabled(false);
+    // }
+    // } else {
+    //
+    // if (isUserNameAble && isPswAble) {
+    // rlfbutton.setEnabled(true);
+    // } else {
+    // rlfbutton.setEnabled(false);
+    // }
+    // }
+    // }
 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.rlbutton) {
+            if (!checkUserName() || !checkPassword()) {
+                return;
+            }
             if (isResetPsw) {
                 if (!etPassword.getText().toString().equals(etRePassword.getText().toString())) {
                     etPassword.requestFocus();
@@ -237,11 +267,32 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                             setPasswordListener.setLoadingDialog(this, "正在修改", false));
                 }
             } else {
-
                 engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),
                         registerListener.setLoadingDialog(this, "正在注册", false));
             }
+
         }
+    }
+
+    private boolean checkUserName() {
+        boolean isValid = true;
+        // etUserName.
+        String text = etUserName.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            isValid = false;
+            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
+        } else if (StringFromatUtils.getStringRealLength(text) < 6) {
+            isValid = false;
+            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于6个字符</font>"));
+        }
+        return isValid;
+    }
+
+    private boolean checkPassword() {
+        boolean isValid = true;
+
+        return isValid;
+
     }
 
     private ParseHttpListener setPasswordListener = new ParseHttpListener() {

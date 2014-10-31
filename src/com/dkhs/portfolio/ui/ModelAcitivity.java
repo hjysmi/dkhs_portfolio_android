@@ -247,4 +247,12 @@ public class ModelAcitivity extends BaseActivity {
         super.onDestroy();
     }
 
+    public Button getBtnBack() {
+        return btnBack;
+    }
+
+    public void setBtnBack(Button btnBack) {
+        this.btnBack = btnBack;
+    }
+
 }

@@ -6,24 +6,43 @@
     android:orientation="vertical"
     android:padding="30dp" >
 
-    <EditText
-        android:id="@+id/et_mobile"
+    <RelativeLayout
+        android:id="@+id/rl_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_bg"
-        android:digits="0123456789"
-        android:hint="@string/hint_mobile"
-        android:inputType="number"
-        android:maxLength="11"
-        android:paddingLeft="10dp"
-        android:singleLine="true"
-        android:textSize="14sp" />
+        android:layout_below="@+id/rl_account"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/edittext_bg" >
+
+        <TextView
+            android:id="@+id/tv_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="20dp"
+            android:text="手机号"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/tv_phone"
+            android:background="@null"
+            android:digits="0123456789"
+            android:hint="@string/hint_mobile"
+            android:inputType="number"
+            android:maxLength="11"
+            android:singleLine="true" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_verifycode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dip" >
+        android:layout_marginTop="12dip"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/button_getcode"
@@ -51,38 +70,24 @@
             android:textSize="14sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_agree"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/cb_agree"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="6dp" >
-
-        <CheckBox
-            android:id="@+id/cb_agree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:button="@drawable/cb_agree_seletor"
-            android:checked="true" />
-
-        <TextView
-            android:id="@+id/tv_agree_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/cb_agree" />
-    </RelativeLayout>
+        android:button="@drawable/cb_agree_seletor"
+        android:checked="true"
+        android:padding="8dp"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/rlbutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:background="@drawable/btn_blue_gray_selector"
-        android:enabled="false"
+        android:background="@drawable/btn_blue_selector"
         android:gravity="center"
-        android:text="@string/confirm"
+        android:padding="6dp"
+        android:text="下一步"
         android:textColor="@color/white"
         android:textSize="18sp" />
 

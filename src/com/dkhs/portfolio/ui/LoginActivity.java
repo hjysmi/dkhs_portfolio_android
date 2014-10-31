@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.BuildConfig;
@@ -42,6 +44,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public static final int RESPONSE_REGIST = 1;
     private EditText etUserName;
     private EditText etPassword;
+    private TextView tvRegister;
     private String phoneNum;
     private CheckBox cbRequestTestServer;
     public static final String EXTRA_PHONENUM = "extra_phone";
@@ -64,6 +67,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (extras != null) {
             handleExtras(extras);
         }
+        getBtnBack().setVisibility(View.GONE);
 
         initViews();
         setListener();
@@ -85,6 +89,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public void initViews() {
         etUserName = (EditText) findViewById(R.id.username);
         etPassword = (EditText) findViewById(R.id.password);
+        tvRegister = (TextView) findViewById(R.id.tv_register);
+        tvRegister.setOnClickListener(this);
         cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
         cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
         cbRequestTestServer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -119,6 +125,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 intent.putExtra("activity_type", RLFActivity.FORGET_PSW_TYPE);
                 startActivity(intent);
                 break;
+            case R.id.tv_register: {
+                Intent intent2 = new Intent(this, RLFActivity.class);
+                intent2.putExtra("activity_type", RLFActivity.REGIST_TYPE);
+                startActivity(intent2);
+            }
+                break;
             default:
                 break;
         }
@@ -142,18 +154,28 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
      * @param passWord
      */
     private void checkAndLogin(String userName, String passWord) {
-        if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(passWord)) {
-            Toast.makeText(this, "用户或者密码不能为空", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(userName)) {
+            // Toast.makeText(this, "用户或者密码不能为空", Toast.LENGTH_SHORT).show();
+            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
+            etUserName.requestFocus();
             return;
         }
-        PromptManager.showProgressDialog(this, R.string.logining);
+        if (TextUtils.isEmpty(passWord)) {
+            etPassword.setError(Html.fromHtml("<font color='red'>密码不能为空</font>"));
+            etPassword.requestFocus();
+            return;
+        }
         UserEngineImpl engine = new UserEngineImpl();
         if (checkEmail(userName)) {
+            PromptManager.showProgressDialog(this, R.string.logining);
             engine.login(userName, passWord, ConstantValue.IS_EMAIL, listener);
         } else if (isMobileNO(userName)) {
+            PromptManager.showProgressDialog(this, R.string.logining);
             engine.login(userName, passWord, ConstantValue.IS_MOBILE, listener);
         } else {
-            Toast.makeText(this, "请输入手机号或者邮箱", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(this, "请输入手机号或者邮箱", Toast.LENGTH_SHORT).show();
+            etUserName.setError(Html.fromHtml("<font color='red'>请输入手机号或者邮箱</font>"));
+            etUserName.requestFocus();
         }
     }
 

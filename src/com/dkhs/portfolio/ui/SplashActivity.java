@@ -105,7 +105,7 @@ public class SplashActivity extends ModelAcitivity {
     }
 
     private void goNoAccountMain() {
-        Intent intent = new Intent(SplashActivity.this, NoAccountMainActivity.class);
+        Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
