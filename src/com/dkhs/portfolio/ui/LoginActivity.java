@@ -154,9 +154,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 JSONObject json = new JSONObject(jsonData);
                 UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
                 String token = (String) json.getJSONObject("token").get("access_token");
-                int id = (Integer) json.getJSONObject("user").get("id");
                 entity.setAccess_token(token);
-                entity.setId(id);
                 GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
                 if (isMobileNO(userName)) {
                     GlobalParams.MOBILE = userName;
