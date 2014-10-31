@@ -266,7 +266,11 @@ public class StickChart extends GridChart {
             	maxStickDataNum = 30;
             }
             // 蜡烛棒宽度
-            float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / mShowDate) - 3;
+            float stickWidth = 0;
+            if(mShowDate > 0){
+            	stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / mShowDate) - 3;
+            }
+            
            
             // 蜡烛棒起始绘制位置
             
@@ -278,7 +282,13 @@ public class StickChart extends GridChart {
                 	stickX = (maxStickDataNum - StickData.size()) * (stickWidth + 3);
                 }*/
                 // 判断显示为方柱或显示为线条
-                for (int i = StickData.size() - mShowDate; i < StickData.size(); i++) {
+            	int num = StickData.size() - mShowDate;
+            	if(StickData.size() < maxStickDataNum){
+            		mShowDate = maxStickDataNum;
+            		stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / mShowDate) - 3;
+            		num = 0;
+            	}
+                for (int i = num; i < StickData.size(); i++) {
                     StickEntity ohlc = StickData.get(i);
 
                     if (ohlc.isUp()) {
@@ -341,8 +351,9 @@ public class StickChart extends GridChart {
                 }else{
                 	total = Float.parseFloat(new DecimalFormat("0.00").format(lineEntity.getLineData().get(k))) / 100;
                 }
-                
-                if (total < 10000) {
+                if(total == 0){
+                	text = "0.00";
+                }else if (total < 10000) {
                     text = new DecimalFormat("0.00").format(total);
                 } else if (total > 10000 && total < 10000000) {
                     total = total / 10000;

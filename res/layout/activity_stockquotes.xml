@@ -15,6 +15,7 @@
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/layout_view"
             layout="@layout/layout_stock_quotes_header"
             android:background="@color/white" />
 
@@ -36,7 +37,7 @@
         <com.dkhs.portfolio.ui.widget.ScrollViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
-            android:layout_height="294dp" />
+            android:layout_height="303dp" />
 
         <!-- 底部资讯 -->
 

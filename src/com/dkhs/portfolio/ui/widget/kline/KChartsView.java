@@ -141,11 +141,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			drawTitles(canvas);
 			drawCandleDetails(canvas);
 			if(firsttime){
-				showDetails = false;
-				go = false;
-				//mStartX = getWidth() - 6;
-				
-				postInvalidate();
+				setOnTouchOnce();
 				firsttime = false;
 			}
 		} catch (Exception e) {
@@ -309,14 +305,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			//textPaint.setColor(Color.DKGRAY);
 			canvas.drawText("涨跌:", left + 1, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f, textPaint);
 			try {
-				double yesdclose = mOHLCData.get(selectIndext + 1).getClose();
-				double priceRate = (close - yesdclose);
-				if (priceRate >= 0) {
-					//textPaint.setColor(Color.DKGRAY);
-				} else {
-					//textPaint.setColor(Color.DKGRAY);
-				}
-				canvas.drawText(new DecimalFormat("0.00").format(priceRate), left + 1
+				canvas.drawText(new DecimalFormat("0.00").format(mOHLCData.get(selectIndext).getChange()), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f,
 						textPaint);
 			} catch (Exception e) {
@@ -327,14 +316,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			//textPaint.setColor(Color.DKGRAY);
 			canvas.drawText("涨幅:", left + 1, top + DEFAULT_AXIS_TITLE_SIZE * 7.0f, textPaint);
 			try {
-				double yesdclose = mOHLCData.get(selectIndext + 1).getClose();
-				double priceRate = (close - yesdclose) / yesdclose;
-				if (priceRate >= 0) {
-					//textPaint.setColor(Color.DKGRAY);
-				} else {
-					//textPaint.setColor(Color.DKGRAY);
-				}
-				canvas.drawText(new DecimalFormat("0.00%").format(priceRate), left + 1
+				canvas.drawText(new DecimalFormat("0.00").format(mOHLCData.get(selectIndext).getPercentage()) + "%", left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + DEFAULT_AXIS_TITLE_SIZE * 7.0f,
 						textPaint);
 			} catch (Exception e) {
@@ -849,6 +831,17 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     public void setITouchListener(ITouchListener touchListener) {
         this.mTouchListener = touchListener;
+    }
+    private void setOnTouchOnce(){
+    	showDetails = false;
+		go = false;
+		mStartX = getWidth() - 6;
+		if( mOHLCData.size() < 30){
+			mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (30 - mOHLCData.size()));
+		}
+		/*e.setLocation(getWidth() - 6, 0);
+		mVolumnChartView.onSet(e,ismove,mDataStartIndext);*/
+		postInvalidate();
     }
 	private void setCurrentData() {
 		try {
