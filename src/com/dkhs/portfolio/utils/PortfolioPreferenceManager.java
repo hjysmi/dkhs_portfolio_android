@@ -26,6 +26,7 @@ public class PortfolioPreferenceManager {
     private static final String PREFERENCE_NAME = "dkhs_preference";
 
     public static final String KEY_HAS_LOADSEARCHSTOCK = "key_hasloadsearchstock";
+    public static final String KEY_IS_REQUESTTESTSERVER = "key_is_requesttestserver";
 
     public static SharedPreferences getSharePreferences() {
         return PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -73,5 +74,13 @@ public class PortfolioPreferenceManager {
 
     public static void setLoadSearchStock() {
         saveValue(KEY_HAS_LOADSEARCHSTOCK, true);
+    }
+
+    public static void setRequestByTestServer(boolean isRequestTest) {
+        saveValue(KEY_IS_REQUESTTESTSERVER, isRequestTest);
+    }
+
+    public static boolean isRequestByTestServer() {
+        return getBooleanValue(KEY_IS_REQUESTTESTSERVER);
     }
 }

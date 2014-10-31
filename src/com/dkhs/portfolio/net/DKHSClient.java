@@ -22,6 +22,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.NoAccountMainActivity;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
@@ -196,7 +197,12 @@ public class DKHSClient {
         if (relativeUrl.contains("http://")) {
             return relativeUrl;
         } else {
-            return DKHSUrl.BASE_URL + relativeUrl;
+            if (PortfolioPreferenceManager.isRequestByTestServer()) {
+                return DKHSUrl.BASE_TEST_URL + relativeUrl;
+            } else {
+                return DKHSUrl.BASE_DEV_URL + relativeUrl;
+
+            }
         }
     }
 }

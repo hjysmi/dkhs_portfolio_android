@@ -51,4 +51,10 @@
         android:textColor="@color/white"
         android:textSize="18sp" />
 
+    <CheckBox
+        android:id="@+id/cb_is_request_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="是否使用测试服务器" />
+
 </LinearLayout>

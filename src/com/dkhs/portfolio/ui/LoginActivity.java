@@ -13,10 +13,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -26,6 +29,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.NetUtil;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
@@ -39,6 +43,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private EditText etUserName;
     private EditText etPassword;
     private String phoneNum;
+    private CheckBox cbRequestTestServer;
     public static final String EXTRA_PHONENUM = "extra_phone";
 
     public static Intent getLoginActivity(Context context, String phoneNum) {
@@ -80,6 +85,22 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public void initViews() {
         etUserName = (EditText) findViewById(R.id.username);
         etPassword = (EditText) findViewById(R.id.password);
+        cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
+        cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
+        cbRequestTestServer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                PortfolioPreferenceManager.setRequestByTestServer(isChecked);
+            }
+        });
+
+        if (BuildConfig.DEBUG) {
+            cbRequestTestServer.setVisibility(View.VISIBLE);
+        } else {
+            cbRequestTestServer.setVisibility(View.GONE);
+        }
 
         if (!TextUtils.isEmpty(phoneNum)) {
             etUserName.setText(phoneNum);
