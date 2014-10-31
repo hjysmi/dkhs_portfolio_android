@@ -23,12 +23,16 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -52,6 +56,7 @@ import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
+import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -91,7 +96,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private LinearLayout stockLayout;
-
+    private FragmentSelectAdapter mFragmentSelectAdapter;
+    private StockQuotesActivity layouts;
+    private View views;
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -125,6 +132,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         // setAddOptionalButton();
         initTabPage();
+        
     }
 
     @Override
@@ -132,10 +140,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onCreate(arg0);
         setContentView(R.layout.activity_stockquotes);
         context = this;
+        layouts = this;
+        DisplayMetrics dm = new DisplayMetrics();
+		WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		m.getDefaultDisplay().getMetrics(dm);
         mQuotesEngine = new QuotesEngineImpl();
         // handle intent extras
         initView();
         processExtraData();
+        android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+        l.height = dm.heightPixels - getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
     }
 
@@ -179,11 +193,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         frag.add(f4);
         Fragment f3 = new NewsFragment();
         frag.add(f3);
-        new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager());
+        FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager());
+        mFragmentSelectAdapter.setOutLaoyout(layouts);
+        //views.setOnTouchListener(new OnView());
     }
-
+    
     private void initView() {
-
+    	views = findViewById(R.id.layout_view);
         tvCurrent = (TextView) findViewById(R.id.tv_current_price);
         tvHigh = (TextView) findViewById(R.id.tv_highest_value);
         tvLow = (TextView) findViewById(R.id.tv_lowest_value);
@@ -234,6 +250,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void scrollToTop() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         mScrollview.smoothScrollTo(0, 0);
+        mScrollview.setScrollViewListener(mScrollViewListener);
+        
     }
 
     private void setupViewData() {
@@ -241,7 +259,19 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mQuotesEngine.quotes(mStockBean.code, listener);
         }
     }
+    ScrollViewListener mScrollViewListener = new ScrollViewListener(){
 
+		@Override
+		public void onScrollChanged(InterceptScrollView scrollView, int x,
+				int y, int oldx, int oldy) {
+			// TODO Auto-generated method stub
+			if(mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)){
+				chartTounching();
+			}
+				Log.e("mScrollViewListener", mScrollview.getScrollY()+"---" + mScrollview.getHeight());
+		}
+    	
+    };
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
         @Override
@@ -531,7 +561,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
-
     class OnLayoutlistener implements OnTouchListener {
 
         @Override
@@ -547,8 +576,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 default:
                     break;
             }
-            return false;
+            return true;
         }
 
+    }
+    class OnView implements OnTouchListener{
+
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			loseTouching();
+			return true;
+		}
+    	
     }
 }

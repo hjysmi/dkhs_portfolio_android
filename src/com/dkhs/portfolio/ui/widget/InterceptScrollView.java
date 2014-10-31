@@ -20,8 +20,9 @@ import android.widget.ScrollView;
  * @date 2014-10-21 上午9:20:36
  * @version 1.0
  */
-public class InterceptScrollView extends ScrollView {
+public class InterceptScrollView extends ScrollView{
 	private boolean scrollable = true;
+	private ScrollViewListener scrollViewListener = null;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -39,7 +40,9 @@ public class InterceptScrollView extends ScrollView {
     public InterceptScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    public void setScrollViewListener(ScrollViewListener scrollViewListener) {  
+        this.scrollViewListener = scrollViewListener;  
+    }
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -56,7 +59,13 @@ public class InterceptScrollView extends ScrollView {
 
         return super.onInterceptTouchEvent(ev);
     }
-
+    @Override  
+    protected void onScrollChanged(int x, int y, int oldx, int oldy) {  
+        super.onScrollChanged(x, y, oldx, oldy);  
+        if (scrollViewListener != null) {  
+            scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
+        }  
+    } 
     private boolean isIntercept = false;
     
    /* @Override
@@ -85,5 +94,10 @@ public class InterceptScrollView extends ScrollView {
 	public void setScrollable(boolean scrollable) {
 		this.scrollable = scrollable;
 	}
-    
+	public interface ScrollViewListener {  
+		  
+	    void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy);  
+	  
+	}
 }
+

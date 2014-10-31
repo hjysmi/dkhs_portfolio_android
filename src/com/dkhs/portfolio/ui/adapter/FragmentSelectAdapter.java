@@ -18,17 +18,21 @@ import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 
 public class FragmentSelectAdapter {
@@ -54,6 +58,8 @@ public class FragmentSelectAdapter {
 	private ScrollViewPager pager;
 	private DisplayMetrics dm;
 	private int totalLength = 0;
+	private StockQuotesActivity OutLaoyout;
+	private HorizontalScrollView selectScroll;
 	/**
 	 * 
 	 * @param context
@@ -109,9 +115,10 @@ public class FragmentSelectAdapter {
         pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
 		iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
-		
+		//selectScroll = (HorizontalScrollView) view.findViewById(R.id.select_scroll);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
 		ll.setLayoutParams(new LinearLayout.LayoutParams(totalLength, LayoutParams.WRAP_CONTENT));
+		//ll.setOnTouchListener(new OnmyLayout());
 		tvList = new TextView[nameList.length];
 		for(int i = 0; i < nameList.length; i++){
 			TextView tv = new TextView(context);
@@ -122,7 +129,8 @@ public class FragmentSelectAdapter {
 			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.WRAP_CONTENT));
 			tv.setGravity(Gravity.CENTER);
 			tv.setText(nameList[i]);
-			tv.setOnClickListener(new OnItemListener(i));
+			//tv.setOnClickListener(new OnItemListener(i));
+			tv.setOnTouchListener(new OnmyLayout(i));
 			ll.addView(tv);
 			tvList[i] = tv;
 			if(i == 0){
@@ -131,22 +139,8 @@ public class FragmentSelectAdapter {
 			}
 		}
 		layout.addView(view);
+		
 	}
-	/*public void changeFrament(int levels,Fragment fragment, Bundle bundle, String tag) {
-		try {
-			for (int i = levels, count = mFragmentManager.getBackStackEntryCount(); i < count; i++) {
-				mFragmentManager.popBackStack();
-			}
-				FragmentTransaction fg = mFragmentManager.beginTransaction();
-				(fragment).setArguments(bundle);
-				fg.replace(R.id.selectadapter_parent_child, fragment);
-				//fg.addToBackStack(tag);
-				fg.commit();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}*/
 	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
         @Override
@@ -177,6 +171,12 @@ public class FragmentSelectAdapter {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			pager.setCurrentItem(position);
+			if(position % 2 == 1){
+				OutLaoyout.chartTounching();
+            	
+			}else{
+				OutLaoyout.loseTouching();
+			}
 			//scroll(position);
 		}
 		
@@ -237,4 +237,37 @@ public class FragmentSelectAdapter {
         }
 
     }
+	public StockQuotesActivity getOutLaoyout() {
+		return OutLaoyout;
+	}
+	public void setOutLaoyout(StockQuotesActivity outLaoyout) {
+		OutLaoyout = outLaoyout;
+	}
+	class OnmyLayout implements OnTouchListener{
+		int position;
+		public OnmyLayout(int position){
+			this.position = position;
+		}
+		@Override
+		public boolean onTouch(View v, MotionEvent event) {
+			// TODO Auto-generated method stub
+			if(null != OutLaoyout){
+			switch (event.getAction()) {
+			
+            case MotionEvent.ACTION_DOWN:
+            	
+            	OutLaoyout.loseTouching();
+                break;
+            case MotionEvent.ACTION_UP:
+            	pager.setCurrentItem(position);
+            	//OutLaoyout.chartTounching();
+                break;
+            default:
+                break;
+			}
+        }
+        return true;
+		}
+		
+	}
 }

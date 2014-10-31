@@ -284,7 +284,11 @@ public class KChartsFragment extends Fragment {
         public void onSuccess(String result) {
             try {
                 List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-                refreshChartsView(ohlc);
+                List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
+                for(int i = ohlc.size() -1; i >= 0; i--){
+                	ohlcs.add(ohlc.get(i));
+                }
+                refreshChartsView(ohlcs);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -331,6 +335,10 @@ public class KChartsFragment extends Fragment {
                             ohlc.setDate(jo.getString("tradedate"));
                         if (jo.has("volume"))
                             ohlc.setVolume(jo.getDouble("volume"));
+                        if (jo.has("change"))
+                            ohlc.setChange(jo.getDouble("change"));
+                        if (jo.has("percentage"))
+                            ohlc.setPercentage(jo.getDouble("percentage"));
                         entitys.add(ohlc);
                     }
                 }
