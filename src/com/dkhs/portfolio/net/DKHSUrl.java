@@ -18,7 +18,7 @@ package com.dkhs.portfolio.net;
 public class DKHSUrl {
 
     // 测试用地址
-    public static final String BASE_URL = "http://121.41.25.170:8030";
+    public static final String BASE_URL = "http://121.41.25.170:8010";
 
     // 开发用地址
     // public static final String BASE_URL = "http://121.41.25.170:8010";

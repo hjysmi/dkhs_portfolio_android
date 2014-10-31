@@ -32,6 +32,7 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
@@ -162,27 +163,26 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-        	Intent intent = null;
+            Intent intent = null;
             switch (position) {
                 case 0:
                     intent = new Intent(getActivity(), MyCombinationActivity.class);
                     break;
                 case 1:
-
+                    intent = new Intent(getActivity(), FundsOrderActivity.class);
                     break;
                 case 2:
                     intent = new Intent(getActivity(), OptionalStockListActivity.class);
-                    
 
                     break;
                 case 3:
-                	intent = new Intent(getActivity(), MarketCenterActivity.class);
+                    intent = new Intent(getActivity(), MarketCenterActivity.class);
                     break;
                 case 4:
-                	intent = new Intent(getActivity(),OptionMarketNewsActivity.class);
+                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
                     break;
                 case 5:
-                	intent = new Intent(getActivity(), YanBaoActivity.class);
+                    intent = new Intent(getActivity(), YanBaoActivity.class);
                     break;
                 case 6:
 
@@ -193,8 +193,8 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                 default:
                     break;
             }
-            if(null != intent){
-            	startActivity(intent);
+            if (null != intent) {
+                startActivity(intent);
             }
         }
 
