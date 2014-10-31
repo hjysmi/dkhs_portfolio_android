@@ -8,6 +8,8 @@ public class OHLCEntity {
 	private double low;// 最低价
 	private double close;// 收盘价
 	private String date;// 日期，如：2013-09-18
+	private double change;
+	private double percentage;
 
 	public OHLCEntity() {
 		super();
@@ -23,6 +25,22 @@ public class OHLCEntity {
 		this.date = date;
 	}
 	
+	public double getChange() {
+		return change;
+	}
+
+	public void setChange(double change) {
+		this.change = change;
+	}
+
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
 	/**
 	 * 是否是提升的
 	 * @return
