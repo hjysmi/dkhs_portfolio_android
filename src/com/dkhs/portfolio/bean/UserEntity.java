@@ -47,6 +47,8 @@ public class UserEntity {
      */
     private String avatar_xs;
     private String access_token;
+    private String avatar_md;
+    private String avatar_lg;
 
     public long getId() {
         return id;
@@ -150,5 +152,21 @@ public class UserEntity {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getAvatar_md() {
+        return avatar_md;
+    }
+
+    public void setAvatar_md(String avatar_md) {
+        this.avatar_md = avatar_md;
+    }
+
+    public String getAvatar_lg() {
+        return avatar_lg;
+    }
+
+    public void setAvatar_lg(String avatar_lg) {
+        this.avatar_lg = avatar_lg;
     }
 }
