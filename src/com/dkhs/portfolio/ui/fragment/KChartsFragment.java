@@ -74,6 +74,7 @@ public class KChartsFragment extends Fragment {
         initVloumnChartView();
         mMyChartsView.setStick(mVolumnChartView);
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
+        mLargerButton.setVisibility(View.INVISIBLE);
         mLargerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
