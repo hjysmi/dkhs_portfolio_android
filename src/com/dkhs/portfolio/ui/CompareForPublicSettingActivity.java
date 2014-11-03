@@ -3,8 +3,12 @@ package com.dkhs.portfolio.ui;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -71,4 +75,28 @@ public class CompareForPublicSettingActivity extends ModelAcitivity{
 
         }.setLoadingDialog(this, R.string.loading));
     }
+	class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
+		private int position;
+		public QueryCombinationDetailListener(int position){
+			this.position = position;
+		}
+        @Override
+        protected PositionDetail parseDateTask(String jsonData) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+        }
+
+        @Override
+        protected void afterParseData(PositionDetail object) {
+            if (null != object) {
+            	
+            }
+
+        }
+    };
 }
