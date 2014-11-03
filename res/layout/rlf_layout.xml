@@ -37,37 +37,6 @@
             android:singleLine="true" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_verify_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dip"
-        android:background="@drawable/edittext_bg" >
-
-        <TextView
-            android:id="@+id/tv_verify_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="20dp"
-            android:text="验证码"
-            android:textSize="16sp" />
-
-        <EditText
-            android:id="@+id/et_verifycode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_verify_code"
-            android:background="@null"
-            android:digits="0123456789"
-            android:hint="@string/hint_verify_code"
-            android:inputType="number"
-            android:maxLength="6"
-            android:singleLine="true"
-            android:textSize="14sp" />
-    </RelativeLayout>
-
     <CheckBox
         android:id="@+id/cb_agree"
         android:layout_width="wrap_content"
@@ -78,24 +47,12 @@
         android:textSize="14sp" />
 
     <Button
-        android:id="@+id/button_getcode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_blue_gray_selector"
-        android:gravity="center"
-        android:text="@string/get_code"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
-    <Button
         android:id="@+id/rlbutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:background="@drawable/btn_blue_gray_selector"
         android:gravity="center"
-        android:padding="6dp"
         android:text="下一步"
         android:textColor="@color/white"
         android:textSize="18sp" />

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
@@ -39,6 +40,7 @@ import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.google.gson.reflect.TypeToken;
 
 public class MenuLeftFragment extends Fragment implements OnClickListener {
@@ -48,6 +50,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     private RelativeLayout menuSetting;
     private TextView tvCombin;
     private TextView tvStock;
+    private TextView tvUserName;
     LoadSelectDataEngine mLoadDataEngine;
 
     @Override
@@ -76,6 +79,8 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         tvCombin = (TextView) view.findViewById(R.id.tv_combin);
         // tvCombin.setText(getString(R.string.combin, 3));
         tvStock = (TextView) view.findViewById(R.id.tv_stock);
+        tvUserName = (TextView) view.findViewById(R.id.tv_username);
+        tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         // tvStock.setText(getString(R.string.optional_stock_format, 12));
         // view.findViewById(R.id.btn_setting).setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);

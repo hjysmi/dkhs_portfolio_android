@@ -74,6 +74,7 @@ public class SplashActivity extends ModelAcitivity {
                 if (!TextUtils.isEmpty(user.getAccess_token())) {
                     user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                     GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                    GlobalParams.USERNAME = user.getUsername();
                     GlobalParams.MOBILE = user.getMobile();
                     // 直接登陆
                     mHandler.sendEmptyMessageDelayed(GO_ACCOUNT_MAIN, SPLASH_DELAY_MILLIS);

@@ -76,7 +76,7 @@ public class UserEngineImpl {
      * @param mobile
      * @param listener
      */
-    public void isSetPassword(String mobile, ParseHttpListener<Object> listener) {
+    public void isSetPassword(String mobile, IHttpListener listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("mobile", mobile);
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.is_setpassword, params, listener);

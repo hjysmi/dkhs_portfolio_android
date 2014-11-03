@@ -276,8 +276,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                     etPassword.setError(Html.fromHtml("<font color='red'>两次密码输入不一致</font>"));
                     return;
                 } else {
-                    engine.setPassword(phoneNum, etRePassword.getText().toString(), code,
-                            setPasswordListener.setLoadingDialog(this, "正在修改", false));
+                  
                 }
             } else {
                 engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),
