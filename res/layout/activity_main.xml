@@ -21,12 +21,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="left" />
 
-        <fragment
+        <!--
+             <fragment
             android:id="@+id/menu_layout_right"
             android:name="com.dkhs.portfolio.ui.fragment.MenuRightFragment"
             android:layout_width="@dimen/hide_menu_width"
             android:layout_height="match_parent"
             android:layout_gravity="right" />
+        -->
     </android.support.v4.widget.DrawerLayout>
 
 </RelativeLayout>

@@ -1,7 +1,7 @@
 package com.dkhs.portfolio.ui.widget;
 
 public interface ITitleButtonListener {
-	void rightButtonClick();
+    // void rightButtonClick();
 
-	void leftButtonClick();
+    void leftButtonClick();
 }
