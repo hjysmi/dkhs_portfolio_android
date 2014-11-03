@@ -100,7 +100,7 @@ public class UserEngineImpl {
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("captcha", captha);
         params.addBodyParameter("password", password);
-        params.addBodyParameter("username", captha);
+        params.addBodyParameter("username", username);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
     }
 

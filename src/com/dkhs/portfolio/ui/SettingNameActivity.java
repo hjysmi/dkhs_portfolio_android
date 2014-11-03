@@ -201,12 +201,25 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+             // 在文本变化之前先获取到文本值
+                strBefore = s.toString();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                int length = StringFromatUtils.getStringRealLength(s.toString());
+                // 一定要加上此判断，否则会进入死循环
+                if (s.toString().equals(strBefore)) {
+                    return;
+                }
+                // int length = StringFromatUtils.getStringRealLength(s.toString());
+                String inputText = s.toString();
+                inputText = inputText.replaceAll(StringFromatUtils.regexUsername, "");
+                System.out.println("input text:"+inputText);
+                if (!TextUtils.isEmpty(inputText)) {
+
+                    etUserName.setText(inputText);
+                    etUserName.setSelection(inputText.length());
+                }
                 // if (length >= 6 && length <= 20) {
                 //
                 // isUserNameAble = true;
@@ -281,16 +294,27 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         if (TextUtils.isEmpty(text)) {
             isValid = false;
             etUserName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
+            etUserName.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(text) < 6) {
             isValid = false;
             etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于6个字符</font>"));
+            etUserName.requestFocus();
         }
         return isValid;
     }
 
     private boolean checkPassword() {
         boolean isValid = true;
-
+        String psw = etPassword.getText().toString();
+        if (TextUtils.isEmpty(psw)) {
+            isValid = false;
+            etPassword.setError(Html.fromHtml("<font color='red'>密码不能为空</font>"));
+            etPassword.requestFocus();
+        } else if (StringFromatUtils.getStringRealLength(psw) < 6) {
+            isValid = false;
+            etPassword.setError(Html.fromHtml("<font color='red'>用户名不能小于6个字符</font>"));
+            etPassword.requestFocus();
+        }
         return isValid;
 
     }

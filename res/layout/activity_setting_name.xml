@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/tv_name"
             android:background="@null"
-            android:hint="输入昵称"
+            android:hint="4-20个中英文、数字"
             android:maxLength="22"
             android:singleLine="true" />
     </RelativeLayout>
@@ -68,7 +68,7 @@
             android:layout_toLeftOf="@+id/cb_show_psw"
             android:layout_toRightOf="@+id/tv_psw"
             android:background="@null"
-            android:hint="输入密码"
+            android:hint="不少于6位"
             android:inputType="textPassword"
             android:maxLength="16"
             android:singleLine="true" />

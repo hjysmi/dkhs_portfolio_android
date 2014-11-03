@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.NoAccountMainActivity;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.google.gson.Gson;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -53,33 +54,36 @@ public class DKHSClient {
             params = new RequestParams();
         }
 
-        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
-            LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
+        if (!url.contains(DKHSUrl.User.login) && !url.contains(DKHSUrl.User.register)) {
+            if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
 
-        } else if (!url.contains(DKHSUrl.User.login)) {
-            // mHttpUtils = new HttpUtils();
-            try {
-                UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            } else {
 
-                if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                    GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
-                    GlobalParams.MOBILE = user.getMobile();
-                    if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-                        params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
-                    } else {
-                        LogUtils.e("Authorization token is null,Exit app");
-                        // PortfolioApplication.getInstance().exitApp();
-                        PromptManager.showToast("Authorization token is null,请重新登录");
+                // mHttpUtils = new HttpUtils();
+                try {
+                    UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+
+                    if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                        GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                        GlobalParams.MOBILE = user.getMobile();
+                        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                        } else {
+                            LogUtils.e("Authorization token is null,Exit app");
+                            // PortfolioApplication.getInstance().exitApp();
+                            PromptManager.showToast("Authorization token is null,请重新登录");
+                        }
                     }
-                }
 
-            } catch (DbException e) {
-                e.printStackTrace();
-                PromptManager.showToast("Authorization token is null,请重新登录");
-                LogUtils.e("Authorization token is null,Exit app");
-                // PortfolioApplication.getInstance().exitApp();
+                } catch (DbException e) {
+                    e.printStackTrace();
+                    PromptManager.showToast("Authorization token is null,请重新登录");
+                    LogUtils.e("Authorization token is null,Exit app");
+                    // PortfolioApplication.getInstance().exitApp();
+                }
             }
 
         }
@@ -88,7 +92,7 @@ public class DKHSClient {
 
         LogUtils.d("requestUrl:" + requestUrl);
 
-        LogUtils.d("RequestParams:" + params);
+        LogUtils.d("RequestParams:" + new Gson().toJson(params));
         // mHttpUtils.configDefaultHttpCacheExpiry(0);
         // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
 

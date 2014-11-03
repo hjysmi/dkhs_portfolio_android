@@ -21,6 +21,8 @@ import android.R.integer;
  */
 public class StringFromatUtils {
 
+    public final static String regexUsername = "[^\\-_A-Za-z0-9\\u4e00-\\u9fa5]";
+
     /**
      * 判断字体有多少长度，中文占2个字符
      */
