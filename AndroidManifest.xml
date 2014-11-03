@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="1"
-    android:versionName="0.4.2" >
+    android:versionName="0.4.3" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -70,6 +70,7 @@
         <activity android:name="com.dkhs.portfolio.ui.VerificationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NewsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FundsOrderActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.ForgetPswActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"

@@ -1,11 +1,21 @@
+/**
+ * @Title ForgetPswActivity.java
+ * @Package com.dkhs.portfolio.ui
+ * @Description TODO(用一句话描述该文件做什么)
+ * @author zjz
+ * @date 2014-11-3 下午5:03:25
+ * @version V1.0
+ */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import android.content.Context;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -20,58 +30,46 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.SMSBroadcastReceiver;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 
-public class VerificationActivity extends ModelAcitivity implements OnClickListener {
-
-    public static final String EXTRA_PHONENUM = "extra_phone";
-    public static final String EXTRA_CODE = "extra_code";
-    public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
-    private String phoneNum;
-    private String mVerifyCode;
-    private Button rlfbutton;
-    private TextView tvPhoneNum;
-    private EditText etVerifucode;
+/**
+ * @ClassName ForgetPswActivity
+ * @Description TODO(这里用一句话描述这个类的作用)
+ * @author zjz
+ * @date 2014-11-3 下午5:03:25
+ * @version 1.0
+ */
+public class ForgetPswActivity extends ModelAcitivity implements OnClickListener {
     private Button btn_get_code;
+    private Button rlfbutton;
+    private EditText etVerifucode;
+    private EditText etPhoneNum;
+
+    public Timer mTimer = new Timer();// 定时器
+    private static final int GET_CODE_UNABLE = 11;
+    private static final int GET_CODE_ABLE = 12;
 
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
-    public static Intent newIntent(Context context, String phoneNum, String code, boolean resetPsw) {
-        Intent intent = new Intent(context, VerificationActivity.class);
-        intent.putExtra(EXTRA_PHONENUM, phoneNum);
-        intent.putExtra(EXTRA_ISRESETPSW, resetPsw);
-        intent.putExtra(EXTRA_CODE, code);
-        return intent;
-    }
-
-    private void handleExtras(Bundle extras) {
-        phoneNum = extras.getString(EXTRA_PHONENUM);
-    }
-
-    String strBefore;
-
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verification);
-        setTitle("填写验证码");
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            handleExtras(extras);
-        }
+    @Override
+    protected void onCreate(Bundle arg0) {
+        // TODO Auto-generated method stub
+        super.onCreate(arg0);
+        setTitle(R.string.forget_password);
+        setContentView(R.layout.activity_forget_psw);
         engine = new UserEngineImpl();
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
-        tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
-        tvPhoneNum.setText(phoneNum);
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
+        etPhoneNum = (EditText) findViewById(R.id.et_mobile);
         btn_get_code = (Button) findViewById(R.id.btn_getCode);
         btn_get_code.setOnClickListener(this);
         // 生成广播处理
@@ -105,36 +103,38 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
 
             }
         });
-
-        getVerifyCode();
-
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.rlbutton) {
-            String verifyCode = etVerifucode.getText().toString();
-            if (TextUtils.isEmpty(verifyCode)) {
-                // PromptManager.showToast("手机号码不能为空");
-                etVerifucode.setError(Html.fromHtml("<font color='red'>验证码不能为空</font>"));
-                etVerifucode.requestFocus();
-                return;
+    private void checkPhoneRegister() {
+        engine.isSetPassword(etPhoneNum.getText().toString(), new ParseHttpListener<Boolean>() {
+
+            @Override
+            protected Boolean parseDateTask(String jsonData) {
+                boolean isSetPassword = false;
+                try {
+                    JSONObject json = new JSONObject(jsonData);
+                    if (json.has("status")) {
+                        isSetPassword = json.optBoolean("status");
+                    }
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return isSetPassword;
             }
-            startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode, false));
-        }
-        if (v.getId() == R.id.btn_getCode) {
-            getVerifyCode();
-        }
-    }
 
-    public Timer mTimer = new Timer();// 定时器
-    private static final int GET_CODE_UNABLE = 11;
-    private static final int GET_CODE_ABLE = 12;
-    private static final int GET_PHONE_NUMBER = 13;
+            @Override
+            protected void afterParseData(Boolean object) {
+                if (object) {
+                    getVerifyCode();
+                }
+            }
+        });
+    }
 
     private void getVerifyCode() {
         if (NetUtil.checkNetWork(this)) {
-            engine.getVericode(phoneNum, new ParseHttpListener<Object>() {
+            engine.getVericode(etPhoneNum.getText().toString(), new ParseHttpListener<Object>() {
 
                 @Override
                 protected Object parseDateTask(String jsonData) {
@@ -191,25 +191,71 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     btn_get_code.setText((60 - count) + "秒后重新获取验证码");
                     btn_get_code.setEnabled(false);
                     break;
-                case GET_PHONE_NUMBER:
-                    // if (!TextUtils.isEmpty(phoneNumber)) {
-                    // if (phoneNumber.startsWith("+86")) {
-                    // phoneNumber = phoneNumber.replace("+86", "");
-                    // }
-                    // etPhoneNum.setText(phoneNumber);
-                    // }
-                    break;
+
                 default:
                     break;
             }
         };
     };
 
+    private String telephone;
+
+    @Override
+    public void onClick(View v) {
+        String verifyCode = etVerifucode.getText().toString();
+        telephone = etPhoneNum.getText().toString();
+        if (v.getId() == R.id.rlbutton) {
+            if (TextUtils.isEmpty(verifyCode)) {
+                // PromptManager.showToast("手机号码不能为空");
+                etVerifucode.setError(Html.fromHtml("<font color='red'>验证码不能为空</font>"));
+                etVerifucode.requestFocus();
+                return;
+            }
+            startActivity(SetPasswordActivity.newIntent(this, telephone, verifyCode));
+        }
+        if (v.getId() == R.id.btn_getCode) {
+            if (!isValidPhoneNum()) {
+                return;
+            }
+            // getVerifyCode();
+            checkPhoneRegister();
+        }
+    }
+
+    private boolean isValidPhoneNum() {
+        if (TextUtils.isEmpty(telephone)) {
+            // PromptManager.showToast("手机号码不能为空");
+            etPhoneNum.setError(Html.fromHtml("<font color='red'>手机号码不能为空</font>"));
+            etPhoneNum.requestFocus();
+            return false;
+        }
+        if (!isMobileNO(telephone)) {
+            etPhoneNum.setError(Html.fromHtml("<font color='red'>请输入正确的手机号码</font>"));
+            etPhoneNum.requestFocus();
+            // PromptManager.showToast("请输入正确的手机号码");
+            return false;
+        }
+        return true;
+    }
+
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
+     * 验证手机号码
+     * 
+     * @param mobiles
      * @return
      */
+    public static boolean isMobileNO(String mobiles) {
+        boolean flag = false;
+        try {
+            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(147))\\d{8}$");
+            Matcher m = p.matcher(mobiles);
+            flag = m.matches();
+        } catch (Exception e) {
+            flag = false;
+        }
+        return flag;
+    }
+
     @Override
     protected void onDestroy() {
         // TODO Auto-generated method stub

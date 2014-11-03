@@ -121,8 +121,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 login();
                 break;
             case R.id.tv_forget:
-                Intent intent = new Intent(LoginActivity.this, RLFActivity.class);
-                intent.putExtra("activity_type", RLFActivity.FORGET_PSW_TYPE);
+                Intent intent = new Intent(LoginActivity.this, ForgetPswActivity.class);
+                // intent.putExtra("activity_type", RLFActivity.FORGET_PSW_TYPE);
                 startActivity(intent);
                 break;
             case R.id.tv_register: {

@@ -131,24 +131,24 @@ private CheckBox settingCheckbox;
 					startActivity(intent);
 				}
 			}else{
-				intent = new Intent(this, SetPasswordActivity.class);
-				intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
-				intent.putExtra("is_setpassword", isSetPassword);
-				startActivity(intent);
+//				intent = new Intent(this, SetPasswordActivity.class);
+//				intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
+//				intent.putExtra("is_setpassword", isSetPassword);
+//				startActivity(intent);
 			}
 			break;
 		case R.id.btn_setpassword:
-			if(isSetPassword){
-				intent = new Intent(this, SetPasswordActivity.class);
-				intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
-				intent.putExtra("is_setpassword", isSetPassword);
-			}else{
-				intent = new Intent(this, SetPasswordActivity.class);
-				intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
-				intent.putExtra("needClear", false);
-				intent.putExtra("is_setpassword", isSetPassword);
-			}
-			startActivity(intent);
+                // if(isSetPassword){
+                // intent = new Intent(this, SetPasswordActivity.class);
+                // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
+                // intent.putExtra("is_setpassword", isSetPassword);
+                // }else{
+                // intent = new Intent(this, SetPasswordActivity.class);
+                // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
+                // intent.putExtra("needClear", false);
+                // intent.putExtra("is_setpassword", isSetPassword);
+                // }
+                // startActivity(intent);
 			
 			break;
 
