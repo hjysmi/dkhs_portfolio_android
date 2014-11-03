@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 
 import com.dkhs.portfolio.R;
@@ -44,7 +45,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener{
 public static boolean isSetPassword = true;
 private LinearLayout settingLayoutGroup;
 private Context context;
-private CheckBox settingCheckbox;
 	
 	@SuppressLint("HandlerLeak")
 	private Handler handler = new Handler() {
@@ -63,10 +63,9 @@ private CheckBox settingCheckbox;
 		setContentView(R.layout.setting_layout);
 		context = this;
 		initViews();
-		settingCheckbox.setChecked(true);
 		setListener();
 		initData();
-		loadCombinationData();
+		//loadCombinationData();
 	}
 	
 	public void initData() {
@@ -100,13 +99,14 @@ private CheckBox settingCheckbox;
 	public void setListener() {
 		findViewById(R.id.btn_exit).setOnClickListener(this);
 		findViewById(R.id.btn_setpassword).setOnClickListener(this);
+		findViewById(R.id.setting_layout_optiongroup).setOnClickListener(this);
+		findViewById(R.id.setting_layout_password).setOnClickListener(this);
 	}
 
 	public void initViews() {
 		// TODO Auto-generated method stub
 		setTitle(R.string.setting);
 		settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
-		settingCheckbox = (CheckBox) findViewById(R.id.setting_checkbox);
 	}
 
 	@Override
@@ -151,7 +151,14 @@ private CheckBox settingCheckbox;
 			startActivity(intent);
 			
 			break;
-
+		case R.id.setting_layout_optiongroup:
+			intent = new Intent(this,CompareForPublicSettingActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.setting_layout_password:
+			intent = new Intent(this,SettingPasswordOnSettingActivity.class);
+			startActivity(intent);
+			break;
 		default:
 			break;
 		}
@@ -160,7 +167,7 @@ private CheckBox settingCheckbox;
 	 * 添加组合股是否公开列表数据
 	 * @param lsit
 	 */
-	public void createGroupShow(List<CombinationBean> lsit){
+	/*public void createGroupShow(List<CombinationBean> lsit){
 		int i = 0;
 		if(settingCheckbox.isChecked()){
 			settingLayoutGroup.setClickable(false);
@@ -175,7 +182,7 @@ private CheckBox settingCheckbox;
 			}
 			settingLayoutGroup.addView(view);
 		}
-	}
+	}*/
 	private void loadCombinationData() {
         new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
 
@@ -190,7 +197,7 @@ private CheckBox settingCheckbox;
 
             @Override
             protected void afterParseData(List<CombinationBean> dataList) {
-                createGroupShow(dataList);
+                //createGroupShow(dataList);
             }
 
         }.setLoadingDialog(SettingActivity.this, R.string.loading));

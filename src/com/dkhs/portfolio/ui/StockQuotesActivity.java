@@ -249,7 +249,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void scrollToTop() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
-        mScrollview.smoothScrollTo(0, 0);
+        //mScrollview.smoothScrollTo(0, 0);
         mScrollview.setScrollViewListener(mScrollViewListener);
         
     }
