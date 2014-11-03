@@ -172,12 +172,14 @@ public class NewsFragment extends Fragment {
         mListView.setAdapter(mAdapter);
         mListView.setOnGroupExpandListener(onGroupClickListener);
         mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
+        
     }
 
     private OnGroupExpandListener onGroupClickListener = new OnGroupExpandListener() {
 
         @Override
         public void onGroupExpand(int groupPosition) {
+        	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
 
             // 关闭其他的

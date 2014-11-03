@@ -181,7 +181,8 @@
     <string name="setting_string_opinion">意见反馈</string>
     <string name="setting_string_news">新版本检测</string>
     <string name="setting_string_abortus">关于我们</string>
-    <string name="setting_string_public">公开投资基金</string>
+    <string name="setting_string_public">公开基金持仓明细</string>
+    <string name="setting_string_public_title">公开持仓明细</string>
     <string name="setting_string_publicexplan">公开后可参与排名及比赛等活动</string>
     <string name="setting_string_exit">退出账户</string>
     <string name="sell">卖</string>
@@ -206,5 +207,7 @@
     <string name="marketcenter_title">行情中心</string>
 	<string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
+    <string name="setting_password_hint">请输入密码,不少于6位</string>
+    <string name="password_setting_title">修改密码</string>
 
 </resources>
