@@ -32,7 +32,9 @@ public class CombinationBean implements Serializable {
     private float netvalue;
     @SerializedName("created_at")
     private String createTime;
-
+    @SerializedName("is_public")
+    private String ispublic;
+    private boolean ispublics;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -111,4 +113,25 @@ public class CombinationBean implements Serializable {
         this.netvalue = netvalue;
     }
 
+	public String getIspublic() {
+		return ispublic;
+	}
+
+	public void setIspublic(String ispublic) {
+		if(ispublic.equals("0")){
+			setIspublics(true);
+		}else{
+			setIspublics(false);
+		}
+		this.ispublic = ispublic;
+	}
+
+	public boolean isIspublics() {
+		return ispublics;
+	}
+
+	public void setIspublics(boolean ispublics) {
+		this.ispublics = ispublics;
+	}
+    
 }

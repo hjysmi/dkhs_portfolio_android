@@ -209,5 +209,7 @@
     <string name="format_create_name">创建人:%1$s</string>
     <string name="setting_password_hint">请输入密码,不少于6位</string>
     <string name="password_setting_title">修改密码</string>
-
+	<string name="password_setting_old">旧密码不能为空</string>
+	<string name="password_setting_new">新密码不能为空</string>
+	<string name="password_setting_more">密码长度必须超过6位</string>
 </resources>

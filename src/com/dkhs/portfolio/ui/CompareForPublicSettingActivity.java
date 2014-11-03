@@ -39,12 +39,16 @@ public class CompareForPublicSettingActivity extends ModelAcitivity{
 	 * @param lsit
 	 */
 	public void createGroupShow(List<CombinationBean> lsit){
-		int i = 0;
 		for (CombinationBean combinationBean : lsit) {
 			LayoutInflater l = LayoutInflater.from(context);
 			View view = l.inflate(R.layout.setting_group_item, null);
 			Switch s = (Switch) view.findViewById(R.id.switch1);
 			s.setText(combinationBean.getName());
+			if(combinationBean.isIspublics()){
+				s.setSelected(true);
+			}else{
+				s.setSelected(false);
+			}
 			compareForpublicLayout.addView(view);
 		}
 	}
@@ -62,7 +66,7 @@ public class CompareForPublicSettingActivity extends ModelAcitivity{
 
             @Override
             protected void afterParseData(List<CombinationBean> dataList) {
-                //createGroupShow(dataList);
+                createGroupShow(dataList);
             }
 
         }.setLoadingDialog(this, R.string.loading));

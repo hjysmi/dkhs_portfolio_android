@@ -18,7 +18,6 @@
         android:id="@+id/switch1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/widget_gender_switch"
         android:text="我的组合1" />
     </RelativeLayout>
     <LinearLayout 
