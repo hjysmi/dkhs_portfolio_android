@@ -312,7 +312,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             etPassword.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(psw) < 6) {
             isValid = false;
-            etPassword.setError(Html.fromHtml("<font color='red'>用户名不能小于6个字符</font>"));
+            etPassword.setError(Html.fromHtml("<font color='red'>密码不能小于6个字符</font>"));
             etPassword.requestFocus();
         }
         return isValid;

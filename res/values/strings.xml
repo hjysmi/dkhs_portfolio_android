@@ -14,7 +14,7 @@
     <string name="register_success">注册成功</string>
     <string name="start">开始体验</string>
     <string name="status_detail_label">正文页</string>
-    <string name="tv_forget_password"><u>忘记密码</u></string>
+    <string name="tv_forget_password">忘记密码</string>
     <string name="account">邮箱/手机号</string>
     <string name="password">密码</string>
     <string name="phone">手机号码</string>
@@ -153,7 +153,7 @@
     <string name="mobile">手机号</string>
     <string name="hint_mobile">请输入手机号</string>
     <string name="verify_code">验证码</string>
-    <string name="hint_verify_code">验证码</string>
+    <string name="hint_verify_code">请输入验证码</string>
     <string name="get_code">获取验证码</string>
     <string name="getting_code">获取验证码...</string>
     <string name="get_code_fail">获取验证码失败</string>
@@ -204,7 +204,7 @@
     <string name="week_top_increase">7天累计涨幅</string>
     <string name="season_top_increase">季度累计涨幅</string>
     <string name="marketcenter_title">行情中心</string>
-	<string name="report">研报</string>
+    <string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
 
 </resources>

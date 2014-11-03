@@ -9,9 +9,34 @@
     <!-- android:background="#FF9500" -->
 
     <RelativeLayout
+        android:id="@+id/rl_userhead"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/iv_header"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_user_head" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_header"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="6dp"
+            android:text="MASTER" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_userhead"
+        android:layout_marginTop="8dp"
         android:background="@drawable/edittext_bg" >
 
         <TextView
@@ -71,8 +96,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_password"
         android:layout_marginTop="20dip"
-        android:padding="6dp"
         android:background="@drawable/btn_blue_selector"
+        android:padding="6dp"
         android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="18sp" />

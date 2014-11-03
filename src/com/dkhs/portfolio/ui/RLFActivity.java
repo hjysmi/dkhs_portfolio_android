@@ -68,8 +68,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private boolean mobileAble = false;
     private boolean codeAble = false;
 
-
-
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -105,8 +103,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         setListener();
         initData();
         initLink();
-
-      
 
     }
 
@@ -229,10 +225,14 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         if (current_type == REGIST_TYPE) {
             setTitle("注册账号");
             rlfbutton.setText("下一步");
+            findViewById(R.id.rl_verify_code).setVisibility(View.GONE);
+            findViewById(R.id.button_getcode).setVisibility(View.GONE);
         } else if (current_type == FORGET_PSW_TYPE) {
             setTitle(R.string.forget_password);
             rlfbutton.setText(R.string.confirm);
-            cbAgree.setVisibility(View.INVISIBLE);
+            cbAgree.setVisibility(View.GONE);
+            findViewById(R.id.rl_verify_code).setVisibility(View.VISIBLE);
+            findViewById(R.id.button_getcode).setVisibility(View.VISIBLE);
 
         }
 
@@ -336,10 +336,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 if (!isValidPhoneNum()) {
                     return;
                 }
-//                if (TextUtils.isEmpty(verify_code)) {
-//                    code.requestFocus();
-//                    return;
-//                }
+                // if (TextUtils.isEmpty(verify_code)) {
+                // code.requestFocus();
+                // return;
+                // }
 
                 // if (!cbAgree.isChecked() && current_type == REGIST_TYPE) {
                 // PromptManager.showToast("请同意服务协议");
@@ -564,7 +564,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       
+
     }
 
 }
