@@ -451,12 +451,12 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
             }
                 break;
-            case R.id.btn_right: {
-                if (null != mTitleClickListener) {
-                    mTitleClickListener.rightButtonClick();
-                }
-            }
-                break;
+            // case R.id.btn_right: {
+            // if (null != mTitleClickListener) {
+            // mTitleClickListener.rightButtonClick();
+            // }
+            // }
+            // break;
             case R.id.layout_add_combination:
             case R.id.iv_plus: {
 

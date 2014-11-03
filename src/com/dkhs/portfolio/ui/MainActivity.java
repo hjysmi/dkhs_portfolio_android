@@ -14,7 +14,7 @@ import com.lidroid.xutils.util.LogUtils;
 public class MainActivity extends FragmentActivity implements ITitleButtonListener {
 
     private DrawerLayout mDrawerLayout;
-    private View mRightMenu;
+    // private View mRightMenu;
     private View mLeftMenu;
 
     private MainFragment mainFragment;
@@ -24,7 +24,7 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mRightMenu = findViewById(R.id.menu_layout_right);
+        // mRightMenu = findViewById(R.id.menu_layout_right);
         mLeftMenu = findViewById(R.id.menu_layout_left);
 
         // 如果保存的状态不为空则得到之前保存的Fragment，否则实例化MainFragment
@@ -50,13 +50,13 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         getSupportFragmentManager().putFragment(outState, "mContent", mainFragment);
     }
 
-    @Override
-    public void rightButtonClick() {
-        if (null != mDrawerLayout && null != mRightMenu) {
-            mDrawerLayout.openDrawer(mRightMenu);
-        }
-
-    }
+    // @Override
+    // public void rightButtonClick() {
+    // if (null != mDrawerLayout && null != mRightMenu) {
+    // mDrawerLayout.openDrawer(mRightMenu);
+    // }
+    //
+    // }
 
     @Override
     public void leftButtonClick() {
@@ -73,9 +73,9 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         if (mDrawerLayout.isDrawerOpen(mLeftMenu)) {
             mDrawerLayout.closeDrawer(mLeftMenu);
         }
-        if (mDrawerLayout.isDrawerOpen(mRightMenu)) {
-            mDrawerLayout.closeDrawer(mRightMenu);
-        }
+        // if (mDrawerLayout.isDrawerOpen(mRightMenu)) {
+        // mDrawerLayout.closeDrawer(mRightMenu);
+        // }
     }
 
     /**
