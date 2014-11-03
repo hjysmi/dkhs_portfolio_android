@@ -27,6 +27,7 @@ public class PortfolioPreferenceManager {
 
     public static final String KEY_HAS_LOADSEARCHSTOCK = "key_hasloadsearchstock";
     public static final String KEY_IS_REQUESTTESTSERVER = "key_is_requesttestserver";
+    public static final String KEY_USERNAME = "key_username";
 
     public static SharedPreferences getSharePreferences() {
         return PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -83,4 +84,5 @@ public class PortfolioPreferenceManager {
     public static boolean isRequestByTestServer() {
         return getBooleanValue(KEY_IS_REQUESTTESTSERVER);
     }
+
 }

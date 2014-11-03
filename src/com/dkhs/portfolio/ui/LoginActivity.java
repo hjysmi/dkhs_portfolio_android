@@ -45,8 +45,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private EditText etUserName;
     private EditText etPassword;
     private TextView tvRegister;
+    private TextView tvUsername;
     private String phoneNum;
     private CheckBox cbRequestTestServer;
+
     public static final String EXTRA_PHONENUM = "extra_phone";
 
     public static Intent getLoginActivity(Context context, String phoneNum) {
@@ -90,6 +92,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         etUserName = (EditText) findViewById(R.id.username);
         etPassword = (EditText) findViewById(R.id.password);
         tvRegister = (TextView) findViewById(R.id.tv_register);
+        tvUsername = (TextView) findViewById(R.id.tv_username);
+        tvUsername.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         tvRegister.setOnClickListener(this);
         cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
         cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
@@ -203,6 +207,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                     GlobalParams.MOBILE = userName;
                     entity.setMobile(userName);
                 }
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
                 saveUser(entity);
                 return entity;
             } catch (JSONException e) {
