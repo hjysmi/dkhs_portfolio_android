@@ -111,8 +111,8 @@
 	<style name="widget_gender_switch">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textOff">"ON"</item><!-- 此设置不需要文字，只显示背景图的开关 -->
-        <item name="android:textOn">"OFF"</item>
+        <item name="android:textOff">"     "</item><!-- 此设置不需要文字，只显示背景图的开关 -->
+        <item name="android:textOn">"     "</item>
         <item name="android:ellipsize">end</item>
         <item name="android:thumb">@drawable/switch_button</item><!--滑块格式9.png -->
         <item name="android:thumbTextPadding">15dp</item><!-- 用来控制背景图片和文字之间的间距来控制switch整体宽度 -->
@@ -135,5 +135,9 @@
     <!-- 人员设置界面checkbox所用样式 -->
     <style name="checkbox_setting" parent="@android:style/Widget.CompoundButton.CheckBox">  
     <item name="android:button">@drawable/setting_checkbox_selector</item>
+    </style>
+    <!-- 设置密码界面checkbox所用样式 -->
+    <style name="checkbox_password" parent="@android:style/Widget.CompoundButton.CheckBox">  
+    <item name="android:button">@drawable/password_checkbox_selector</item>
     </style>
 </resources>

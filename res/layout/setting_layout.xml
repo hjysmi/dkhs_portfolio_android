@@ -28,14 +28,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/white" >
 
-                <ImageView
-                    android:id="@+id/setting_image_head"
-                    android:src="@drawable/ic_launcher"
-                    android:layout_width="110dp"
-                    android:layout_height="80dp"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="10dp" />
+                
 
                 <ImageView
                     android:id="@+id/setting_image_right"
@@ -45,19 +38,27 @@
                     android:layout_centerVertical="true"
                     android:paddingRight="30dp"
                     android:src="@drawable/setting_image_right" />
-
+				<ImageView
+                    android:id="@+id/setting_image_head"
+                    android:src="@drawable/ic_launcher"
+                    android:layout_toLeftOf="@id/setting_image_right"
+                    android:layout_width="110dp"
+                    android:layout_height="80dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp" />
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"	
-                    android:layout_toLeftOf="@id/setting_image_right"
-                    android:layout_toRightOf="@id/setting_image_head" >
+                    android:paddingLeft="20dp"
+                    android:layout_toLeftOf="@id/setting_image_head" >
 
                     <TextView
                         android:id="@+id/settingt_text_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="MASTER"
+                        android:text="账号"
                         android:textColor="@color/black"
                         android:textSize="@dimen/setting_text_name" />
 
@@ -74,11 +75,76 @@
             </RelativeLayout>
 
             <include layout="@layout/layout_line"/>
+            <RelativeLayout 
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                >
+                <ImageView
+                    android:id="@+id/setting_image_name_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
+                <TextView 
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/setting_text_name_text"
+                    android:text="laohu"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="10dp"
+                    android:layout_toLeftOf="@id/setting_image_name_right"
+                    android:textColor="@color/person_setting_phonecolor"
+                    android:textSize="@dimen/setting_text_phone"
+                    />
+                <TextView 
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_toLeftOf="@id/setting_text_name_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_text_name"
+                    android:text="昵称"
+                    />
+            </RelativeLayout>
+            <include layout="@layout/layout_line"/>
+            <RelativeLayout 
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:id="@+id/setting_layout_password"
+                >
+                <ImageView
+                    android:id="@+id/setting_image_password_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
+                <TextView 
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_toLeftOf="@id/setting_image_password_right"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_text_name"
+                    android:text="密码"
+                    />
+            </RelativeLayout>
+            <include layout="@layout/layout_line"/>
 			<include layout="@layout/layout_line_text"/>
 			<RelativeLayout 
 			    android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
-			    android:paddingLeft="30dp"
+			    android:paddingLeft="20dp"
+			    android:id="@+id/setting_layout_optiongroup"
 			    android:layout_height="wrap_content"
 			    android:layout_width="match_parent"
 			    android:background="@color/white"
@@ -87,19 +153,25 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingRight="30dp"
                     android:layout_centerVertical="true"
 			        android:layout_alignParentRight="true"
                     android:id="@+id/setting_layout_checkbox"
                     >
-                <CheckBox
+                <!-- <CheckBox
                     
                     style="@style/checkbox_setting"
 			        android:id="@+id/setting_checkbox"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
 			        
-			        android:text="" />
+			        android:text="" /> -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:src="@drawable/setting_image_right" />
                 </LinearLayout>
                 <RelativeLayout 
                     android:layout_toLeftOf="@id/setting_layout_checkbox"
@@ -112,15 +184,6 @@
 			        style="@style/text_16_style"
 			        android:id="@+id/setting_public_name"
 			        android:text="@string/setting_string_public"
-			        />
-			    <TextView 
-			        android:paddingTop="5dp"
-			        android:layout_height="wrap_content"
-			        android:layout_width="wrap_content"
-			        android:textColor="@color/setting_public_explan"
-			        android:textSize="14sp"
-			        android:layout_below="@id/setting_public_name"
-			        android:text="@string/setting_string_publicexplan"
 			        />
 			    </RelativeLayout>
 			</RelativeLayout>
@@ -140,7 +203,7 @@
         <RelativeLayout
             android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
-			    android:paddingLeft="30dp"
+			    android:paddingLeft="20dp"
 			    android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -165,7 +228,7 @@
         <RelativeLayout
             android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
-			    android:paddingLeft="30dp"
+			    android:paddingLeft="20dp"
 			    android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
@@ -190,7 +253,7 @@
         <RelativeLayout
             android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
-			    android:paddingLeft="30dp"
+			    android:paddingLeft="20dp"
 			    android:background="@color/white"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

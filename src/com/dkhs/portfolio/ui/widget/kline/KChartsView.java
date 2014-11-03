@@ -40,10 +40,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private static final int DEFAULT_AXIS_X_TITLE_COLOR = Color.GRAY;
 
 	/** 显示的最小Candle数 */
-	private final static int MIN_CANDLE_NUM = 30;
+	private final static int MIN_CANDLE_NUM = 50;
 
 	/** 默认显示的Candle数 */
-	private final static int DEFAULT_CANDLE_NUM = 60;
+	private final static int DEFAULT_CANDLE_NUM = 50;
 	/**显示最多的candle数*/
 	private final static int MAX_CANDLE_NUM = 300;
 	/** 最小可识别的移动距离 */
@@ -83,7 +83,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	RSIEntity mRSIData;
 	private MotionEvent e;
 	private boolean ismove = true;
-	private int zoomNum = 5;
+	private int zoomNum = 0;
 	private long currentTime;
 	private DisplayDataChangeListener mDisplayChangeListener; //显示数据变化监听
 	private boolean go = true;
@@ -162,14 +162,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
 	private void drawCandleDetails(Canvas canvas) {
 		if (showDetails) {
-			int addNum = 30 - mOHLCData.size();
+			int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 			float width = getWidth();
 			float left = 3.0f;
 			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE);
 			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE;
 			float bottom = 8.0f + 9 * DEFAULT_AXIS_TITLE_SIZE;
 			
-			if(mOHLCData.size() < 30){
+			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < width / 2.0f) {
 					right = width - 12.0f;
 					left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE;
@@ -182,13 +182,13 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}
 			int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
 			
-			if(mOHLCData.size() < 30){
+			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				selectIndext = (int) ((width - 2.0f - mStartX - addNum * (mCandleWidth + 3)) / (mCandleWidth + 3) + mDataStartIndext);
 			}
 			double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
 			float cl = (float) ((mMaxPrice - mOHLCData.get(selectIndext).getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 			float startX = (float) (width - 3 - (mCandleWidth + 3) * (selectIndext - mDataStartIndext) - (mCandleWidth - 1) / 2);
-			if(mOHLCData.size() < 30){
+			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				startX = (float) (width - 3 - (mCandleWidth + 3) * (selectIndext - mDataStartIndext) - (mCandleWidth - 1) / 2 - addNum * (mCandleWidth + 3));
 			}
 			// 绘制点击线条及详情区域
@@ -201,7 +201,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			canvas.drawLine(startX, 2.0f + DEFAULT_AXIS_TITLE_SIZE, startX, UPER_CHART_BOTTOM,
 					paint);
 			canvas.drawLine(0, cl, this.getWidth(), cl, paint);//十字光标横线
-			if(mOHLCData.size() < 30){
+			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				canvas.drawLine((int)(mStartX - addNum * (mCandleWidth + 3)), getHeight() - 2.0f, (int)(mStartX - addNum * (mCandleWidth + 3)), LOWER_CHART_TOP, paint);
 			}else{
 				canvas.drawLine(mStartX, getHeight() - 2.0f, mStartX, LOWER_CHART_TOP, paint);
@@ -361,9 +361,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			int len = getUpperLatitudeNum() +1;
 			if(len > 0) {
 				for(int i=0; i<len; i++) {
-					canvas.drawText(
+					if(i == 0){
+						canvas.drawText(
+								new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i), 1,
+								UPER_CHART_BOTTOM - getLatitudeSpacing() * i, textPaint);
+					}else{
+						canvas.drawText(
 							new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i), 1,
 							UPER_CHART_BOTTOM - getLatitudeSpacing() * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
+					}
 				}
 			}
 			canvas.drawText(new DecimalFormat("0.00").format(mMaxPrice), 1,
@@ -403,7 +409,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			int width = getWidth();
 			mCandleWidth = (width - 4) / 10.0 * 10.0 / mShowDataNum - 3;
 			double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
-			if(mOHLCData.size() >= 30){
+			if(mOHLCData.size() >= MIN_CANDLE_NUM){
 				for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
 					OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
 					float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
@@ -482,7 +488,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					mVolumnChartView.onSet(e,ismove,mDataStartIndext);
 				}
 			}else{
-				int addNum = 30 - mOHLCData.size();
+				int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 				for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
 					OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
 					float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
@@ -759,7 +765,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						Thread.sleep(700);
 						if(go){
 							mStartX = (int)(event.getX() - 2 * mCandleWidth - 6);
-							if(mOHLCData.size() < 30){
+							if(mOHLCData.size() < MIN_CANDLE_NUM){
 								mStartX = (int)(event.getX() -  mCandleWidth - 3);
 							}
 							mStartY = event.getY();
@@ -782,8 +788,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				showDetails = false;
 				go = false;
 				mStartX = getWidth() - 6;
-				if( mOHLCData.size() < 30){
-					mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (30 - mOHLCData.size()));
+				if( mOHLCData.size() < MIN_CANDLE_NUM){
+					mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (MIN_CANDLE_NUM - mOHLCData.size()));
 				}
 				/*e.setLocation(getWidth() - 6, 0);
 				mVolumnChartView.onSet(e,ismove,mDataStartIndext);*/
@@ -836,8 +842,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
     	showDetails = false;
 		go = false;
 		mStartX = getWidth() - 6;
-		if( mOHLCData.size() < 30){
-			mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (30 - mOHLCData.size()));
+		if( mOHLCData.size() < MIN_CANDLE_NUM){
+			mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (MIN_CANDLE_NUM - mOHLCData.size()));
 		}
 		/*e.setLocation(getWidth() - 6, 0);
 		mVolumnChartView.onSet(e,ismove,mDataStartIndext);*/
@@ -851,7 +857,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			if (MIN_CANDLE_NUM > mOHLCData.size()) {
 				mShowDataNum = MIN_CANDLE_NUM;
 			}
-
+			mVolumnChartView.setmShowDate(mShowDataNum);
 			if (mShowDataNum > mOHLCData.size()) {
 				mDataStartIndext = 0;
 			} else if (mShowDataNum + mDataStartIndext > mOHLCData.size()) {
@@ -922,14 +928,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	
 	/**缩小*/
 	private void zoomIn(int size) {
-		if(zoomNum < 10){
+		if(zoomNum < 5){
 			mShowDataNum += size;
 			if (mShowDataNum > mOHLCData.size() && mOHLCData.size() <= MAX_CANDLE_NUM) {
 				mShowDataNum = MIN_CANDLE_NUM > mOHLCData.size() ? MIN_CANDLE_NUM : mOHLCData.size();
 			}else if(mShowDataNum > mOHLCData.size() && mOHLCData.size() > MAX_CANDLE_NUM){
 				mShowDataNum = MAX_CANDLE_NUM;
 			}
-			if(zoomNum == 0){
+			/*if(zoomNum == 0){
 				mShowDataNum = 40;
 			}
 			if(zoomNum == 9){
@@ -939,7 +945,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					mShowDataNum = mOHLCData.size();
 				}
 				
-			}
+			}*/
 			zoomNum++;
 		}
 	}
@@ -952,12 +958,12 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				mShowDataNum = MIN_CANDLE_NUM;
 				
 			}
-			if(zoomNum == 1){
+			/*if(zoomNum == 1){
 				mShowDataNum = MIN_CANDLE_NUM;
 			}
 			if(zoomNum == 10){
 				mShowDataNum = 80;
-			}
+			}*/
 			/*if(zoomNum == 1){
 				mShowDataNum = MIN_CANDLE_NUM;
 			}
@@ -1075,7 +1081,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	 * 放大
 	 */
 	public void makeLager() {
-		zoomOut(5);
+		zoomOut(MIN_CANDLE_NUM);
 		setCurrentData();
 		postInvalidate();
 	}
@@ -1103,7 +1109,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	 * 缩小
 	 */
 	public void makeSmaller() {
-		zoomIn(5);
+		zoomIn(MIN_CANDLE_NUM);
 		setCurrentData();
 		postInvalidate();
 	}

@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONException;
@@ -14,12 +13,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -46,7 +42,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public static boolean isSetPassword = true;
     private LinearLayout settingLayoutGroup;
     private Context context;
-    private CheckBox settingCheckbox;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -64,10 +59,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         setContentView(R.layout.setting_layout);
         context = this;
         initViews();
-        settingCheckbox.setChecked(true);
         setListener();
         initData();
-        loadCombinationData();
+        // loadCombinationData();
     }
 
     public void initData() {
@@ -100,13 +94,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void setListener() {
         findViewById(R.id.btn_exit).setOnClickListener(this);
         findViewById(R.id.btn_setpassword).setOnClickListener(this);
+        findViewById(R.id.setting_layout_optiongroup).setOnClickListener(this);
+        findViewById(R.id.setting_layout_password).setOnClickListener(this);
     }
 
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
-        settingCheckbox = (CheckBox) findViewById(R.id.setting_checkbox);
     }
 
     @Override
@@ -131,27 +126,34 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                         startActivity(intent);
                     }
                 } else {
-                    // intent = new Intent(this, SetPasswordActivity.class);
+                    intent = new Intent(this, SetPasswordActivity.class);
                     // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
                     // intent.putExtra("is_setpassword", isSetPassword);
-                    // startActivity(intent);
+                    startActivity(intent);
                 }
                 break;
             case R.id.btn_setpassword:
-                // if(isSetPassword){
-                // intent = new Intent(this, SetPasswordActivity.class);
-                // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
-                // intent.putExtra("is_setpassword", isSetPassword);
-                // }else{
-                // intent = new Intent(this, SetPasswordActivity.class);
-                // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
-                // intent.putExtra("needClear", false);
-                // intent.putExtra("is_setpassword", isSetPassword);
-                // }
-                // startActivity(intent);
+                if (isSetPassword) {
+                    intent = new Intent(this, SetPasswordActivity.class);
+                    // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
+                    intent.putExtra("is_setpassword", isSetPassword);
+                } else {
+                    intent = new Intent(this, SetPasswordActivity.class);
+                    // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
+                    intent.putExtra("needClear", false);
+                    intent.putExtra("is_setpassword", isSetPassword);
+                }
+                startActivity(intent);
 
                 break;
-
+            case R.id.setting_layout_optiongroup:
+                intent = new Intent(this, CompareForPublicSettingActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.setting_layout_password:
+                intent = new Intent(this, SettingPasswordOnSettingActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -162,23 +164,24 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
      * 
      * @param lsit
      */
-    public void createGroupShow(List<CombinationBean> lsit) {
-        int i = 0;
-        if (settingCheckbox.isChecked()) {
-            settingLayoutGroup.setClickable(false);
-        }
-        for (CombinationBean combinationBean : lsit) {
-            LayoutInflater l = LayoutInflater.from(context);
-            View view = l.inflate(R.layout.setting_group_item, null);
-            Switch s = (Switch) view.findViewById(R.id.switch1);
-            s.setText(combinationBean.getName());
-            if (settingCheckbox.isChecked()) {
-                s.setChecked(false);
-            }
-            settingLayoutGroup.addView(view);
-        }
-    }
-
+    /*
+     * public void createGroupShow(List<CombinationBean> lsit){
+     * int i = 0;
+     * if(settingCheckbox.isChecked()){
+     * settingLayoutGroup.setClickable(false);
+     * }
+     * for (CombinationBean combinationBean : lsit) {
+     * LayoutInflater l = LayoutInflater.from(context);
+     * View view = l.inflate(R.layout.setting_group_item, null);
+     * Switch s = (Switch) view.findViewById(R.id.switch1);
+     * s.setText(combinationBean.getName());
+     * if(settingCheckbox.isChecked()){
+     * s.setChecked(false);
+     * }
+     * settingLayoutGroup.addView(view);
+     * }
+     * }
+     */
     private void loadCombinationData() {
         new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
 
@@ -193,7 +196,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             @Override
             protected void afterParseData(List<CombinationBean> dataList) {
-                createGroupShow(dataList);
+                // createGroupShow(dataList);
             }
 
         }.setLoadingDialog(SettingActivity.this, R.string.loading));

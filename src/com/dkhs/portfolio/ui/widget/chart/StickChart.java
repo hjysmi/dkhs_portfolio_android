@@ -183,7 +183,7 @@ public class StickChart extends GridChart {
                         index = maxStickDataNum - 1;
                     }
                     // 追�??�?
-                    TitleX.add(String.valueOf(StickData.get(index).getDate()));
+                    TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate).getDate()));
                 }
                 TitleX.add(String.valueOf(StickData.get(maxStickDataNum - 1).getDate()));
             }
@@ -414,36 +414,41 @@ public class StickChart extends GridChart {
     }
 
     // Push数据绘制K线图
-    public void pushData(StickEntity entity) {
+    /*public void pushData(StickEntity entity) {
         if (null != entity) {
             // 追�?��据到数据列表
             addData(entity);
             // 强制重�?
             super.postInvalidate();
         }
-    }
+    }*/
 
     // Push数据绘制K线图
-    public void addData(StickEntity entity) {
-        if (null != entity) {
-            // 追�?��据
-            if (null == StickData || 0 == StickData.size()) {
-                StickData = new ArrayList<StickEntity>();
-                this.maxValue = ((int) entity.getHigh()) / 100 * 100;
-            }
-
-            this.StickData.add(entity);
-
-            if (this.maxValue < entity.getHigh()) {
-                this.maxValue = 100 + ((int) entity.getHigh()) / 100 * 100;
-            }
-
-            if (StickData.size() > maxStickDataNum) {
-                maxStickDataNum = maxStickDataNum + 1;
-            } else {
-                maxStickDataNum = this.StickData.size();
-            }
-        }
+    public void addData(List<StickEntity> list) {
+    	StickEntity entity;
+    	this.maxValue = 0;
+    	for(int i = 0; i < list.size(); i++){
+    		entity = list.get(i);
+	        if (null != entity) {
+	            // 追�?��据
+	            if (null == StickData || 0 == StickData.size()) {
+	                StickData = new ArrayList<StickEntity>();
+	                this.maxValue = ((int) entity.getHigh()) / 100 * 100;
+	            }
+	
+	            this.StickData.add(entity);
+	            if( i > (list.size() - mShowDate)){
+		            if (this.maxValue < entity.getHigh()) {
+		                this.maxValue = 100 + ((int) entity.getHigh()) / 100 * 100;
+		            }
+	            }
+	            if (StickData.size() > maxStickDataNum) {
+	                maxStickDataNum = maxStickDataNum + 1;
+	            } else {
+	                maxStickDataNum = this.StickData.size();
+	            }
+	        }
+    	}
     }
 
     private void initMALineData() {
@@ -516,9 +521,9 @@ public class StickChart extends GridChart {
         if (null != StickData) {
             StickData.clear();
         }
-        for (StickEntity e : stickData) {
-            addData(e);
-        }
+        //for (StickEntity e : stickData) {
+            addData(stickData);
+        //}
         initMALineData();
     }
 
