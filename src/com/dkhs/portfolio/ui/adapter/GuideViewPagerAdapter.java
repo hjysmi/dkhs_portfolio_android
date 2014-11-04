@@ -15,7 +15,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.LoginActivity;
 import com.dkhs.portfolio.ui.NoAccountMainActivity;
+import com.dkhs.portfolio.ui.RLFActivity;
 
 /**
  * 
@@ -59,7 +61,8 @@ public class GuideViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(View view, int arg1) {
         ((ViewPager) view).addView(views.get(arg1), 0);
         if (arg1 == views.size() - 1) {
-            view.findViewById(R.id.rl_start).setOnClickListener(startClickListener);
+            view.findViewById(R.id.btn_start_login).setOnClickListener(startClickListener);
+            view.findViewById(R.id.btn_start_register).setOnClickListener(registerClickListener);
             view.findViewById(R.id.iv_start).setOnClickListener(startClickListener);
             // Button startLogin = (Button) arg0
             // .findViewById(R.id.btn_start_login);
@@ -87,10 +90,28 @@ public class GuideViewPagerAdapter extends PagerAdapter {
 
         }
     };
+    OnClickListener registerClickListener = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            setGuided();
+            goRegister();
+
+        }
+    };
 
     private void goHome() {
         // 跳转
-        Intent intent = new Intent(activity, NoAccountMainActivity.class);
+        Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    private void goRegister() {
+        // 跳转
+        Intent intent = new Intent(activity, RLFActivity.class);
+        intent.putExtra("activity_type", RLFActivity.REGIST_TYPE);
+
         activity.startActivity(intent);
         activity.finish();
     }
