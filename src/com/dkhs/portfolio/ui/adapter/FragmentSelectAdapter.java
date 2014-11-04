@@ -265,6 +265,8 @@ public class FragmentSelectAdapter {
             default:
                 break;
 			}
+        }else{
+        	pager.setCurrentItem(position);
         }
         return true;
 		}
