@@ -9,14 +9,17 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,6 +49,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private EditText etPassword;
     private TextView tvRegister;
     private TextView tvUsername;
+    private Button rlfbutton;
     private String phoneNum;
     private CheckBox cbRequestTestServer;
 
@@ -61,9 +65,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // hideHead();
+        hideHead();
         // setBackTitle(R.string.login_title);
-        setTitle(R.string.login);
+        // setTitle(R.string.login);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -93,6 +97,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         etPassword = (EditText) findViewById(R.id.password);
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvUsername = (TextView) findViewById(R.id.tv_username);
+        rlfbutton = (Button) findViewById(R.id.login);
         tvUsername.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         tvRegister.setOnClickListener(this);
         cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
@@ -115,6 +120,50 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (!TextUtils.isEmpty(phoneNum)) {
             etUserName.setText(phoneNum);
         }
+
+        etUserName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0 && etPassword.getText().length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
+                }
+            }
+        });
+        etPassword.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0 && etUserName.getText().length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
+                }
+            }
+        });
+
     }
 
     @Override

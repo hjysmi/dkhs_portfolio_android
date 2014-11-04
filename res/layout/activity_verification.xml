@@ -50,25 +50,14 @@
 
     <Button
         android:id="@+id/rlbutton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/btn_login_blue"
         android:layout_marginTop="20dp"
-        android:background="@drawable/btn_blue_gray_selector"
-        android:gravity="center"
-        android:text="下一步"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:text="下一步" />
 
     <Button
         android:id="@+id/btn_getCode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/btn_login_blue"
         android:layout_marginTop="10dp"
-        android:background="@drawable/btn_blue_gray_selector"
-        android:enabled="false"
-        android:gravity="center"
-        android:text="获取验证码"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:text="获取验证码" />
 
 </LinearLayout>

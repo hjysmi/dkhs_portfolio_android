@@ -18,11 +18,14 @@ import org.json.JSONObject;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -34,6 +37,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.SMSBroadcastReceiver;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 
@@ -68,10 +72,13 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
         engine = new UserEngineImpl();
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
+        rlfbutton.setEnabled(false);
+
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
         btn_get_code = (Button) findViewById(R.id.btn_getCode);
         btn_get_code.setOnClickListener(this);
+        btn_get_code.setEnabled(false);
         // 生成广播处理
         mSMSBroadcastReceiver = new SMSBroadcastReceiver();
 
@@ -100,6 +107,56 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                 System.out.println("ReceiveCode:" + codeSb);
                 // System.out.println("code:"+codeSb.substring(0, 6));
                 etVerifucode.setText(codeSb.substring(0, 6));
+
+            }
+        });
+
+        etPhoneNum.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    btn_get_code.setEnabled(true);
+                    if (etVerifucode.getText().length() > 0) {
+                        rlfbutton.setEnabled(true);
+                    } else {
+                        rlfbutton.setEnabled(false);
+                    }
+                } else {
+                    rlfbutton.setEnabled(false);
+                    btn_get_code.setEnabled(false);
+                }
+            }
+        });
+        etVerifucode.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0 && etPhoneNum.getText().length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
+                }
 
             }
         });
@@ -184,11 +241,15 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
                     btn_get_code.setEnabled(true);
+                    btn_get_code.setBackgroundResource(R.drawable.btn_blue_selector);
+                    btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.btn_blue_textselector));
                     count = 0;
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
                     btn_get_code.setText((60 - count) + "秒后重新获取验证码");
+                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
+                    btn_get_code.setTextColor(getResources().getColor(R.color.white));
                     btn_get_code.setEnabled(false);
                     break;
 

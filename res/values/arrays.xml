@@ -93,4 +93,26 @@
         <item>策略</item>
         <item>宏观</item>
     </string-array>
+	<string-array name="color_ids">
+        <item>R.color.def_1</item>
+        <item>R.color.def_2</item>
+        <item>R.color.def_3</item>
+        <item>R.color.def_4</item>
+        <item>R.color.def_5</item>
+        <item>R.color.def_6</item>
+        <item>R.color.def_7</item>
+        <item>R.color.def_8</item>
+        <item>R.color.def_9</item>
+        <item>R.color.def_10</item>
+        <item>R.color.def_11</item>
+        <item>R.color.def_12</item>
+        <item>R.color.def_13</item>
+        <item>R.color.def_14</item>
+        <item>R.color.def_15</item>
+        <item>R.color.def_16</item>
+        <item>R.color.def_17</item>
+        <item>R.color.def_18</item>
+        <item>R.color.def_19</item>
+        <item>R.color.def_20</item>
+    </string-array>
 </resources>

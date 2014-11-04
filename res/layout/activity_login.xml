@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_header"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_user_head" />
@@ -28,7 +28,8 @@
             android:layout_below="@+id/iv_header"
             android:layout_centerHorizontal="true"
             android:layout_margin="6dp"
-            android:text="MASTER" />
+            android:text="MASTER"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -92,15 +93,10 @@
 
     <Button
         android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/btn_login_blue"
         android:layout_below="@+id/rl_password"
         android:layout_marginTop="20dip"
-        android:background="@drawable/btn_blue_selector"
-        android:padding="6dp"
-        android:text="@string/login"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:text="@string/login" />
 
     <CheckBox
         android:id="@+id/cb_is_request_test"
