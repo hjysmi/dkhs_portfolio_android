@@ -21,6 +21,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +32,14 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
@@ -50,8 +53,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private TextView tvRegister;
     private TextView tvUsername;
     private Button rlfbutton;
+    private ImageView ivHeader;
     private String phoneNum;
     private CheckBox cbRequestTestServer;
+
+    private String mUserAccout;
 
     public static final String EXTRA_PHONENUM = "extra_phone";
 
@@ -76,8 +82,40 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         getBtnBack().setVisibility(View.GONE);
 
         initViews();
+        initDatas();
         setListener();
         LogUtils.customTagPrefix = "LoginActivity";
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void initDatas() {
+        mUserAccout = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
+        if (!TextUtils.isEmpty(phoneNum)) {
+            etUserName.setText(phoneNum);
+        } else if (!TextUtils.isEmpty(mUserAccout)) {
+            etUserName.setText(mUserAccout);
+            setupLastUserInfo();
+        }
+
+    }
+
+    private void setupLastUserInfo() {
+        tvUsername.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+        String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+        if (!TextUtils.isEmpty(url)) {
+            BitmapUtils bitmapUtils = new BitmapUtils(this);
+            url = DKHSUrl.BASE_DEV_URL + url;
+            bitmapUtils.display(ivHeader, url);
+        }
+    }
+
+    private void setupDefalutUserInfo() {
+        tvUsername.setText("");
+        ivHeader.setImageResource(R.drawable.ic_user_head);
     }
 
     private void handleExtras(Bundle extras) {
@@ -94,11 +132,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     public void initViews() {
         etUserName = (EditText) findViewById(R.id.username);
+        ivHeader = (ImageView) findViewById(R.id.iv_header);
+
         etPassword = (EditText) findViewById(R.id.password);
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvUsername = (TextView) findViewById(R.id.tv_username);
         rlfbutton = (Button) findViewById(R.id.login);
-        tvUsername.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+
         tvRegister.setOnClickListener(this);
         cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
         cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
@@ -115,10 +155,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             cbRequestTestServer.setVisibility(View.VISIBLE);
         } else {
             cbRequestTestServer.setVisibility(View.GONE);
-        }
-
-        if (!TextUtils.isEmpty(phoneNum)) {
-            etUserName.setText(phoneNum);
         }
 
         etUserName.addTextChangedListener(new TextWatcher() {
@@ -140,6 +176,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 } else {
                     rlfbutton.setEnabled(false);
                 }
+                isLastUserAccount(s.toString());
             }
         });
         etPassword.addTextChangedListener(new TextWatcher() {
@@ -163,6 +200,21 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 }
             }
         });
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param string
+     * @return void
+     */
+    protected void isLastUserAccount(String accountText) {
+        if (accountText.equalsIgnoreCase(mUserAccout)) {
+            setupLastUserInfo();
+        } else {
+            setupDefalutUserInfo();
+        }
 
     }
 
@@ -257,6 +309,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                     entity.setMobile(userName);
                 }
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL,
+                        entity.getAvatar_md());
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, etUserName.getText()
+                        .toString());
                 saveUser(entity);
                 return entity;
             } catch (JSONException e) {
