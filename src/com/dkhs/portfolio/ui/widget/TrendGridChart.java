@@ -376,10 +376,17 @@ public class TrendGridChart extends View {
                             mPaintFont.setColor(getYTitlePaintFont(i, counts));
                         }
 
-                        // if (i < counts && i > 0) {
-                        canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset + latitudeFontSize
-                                / 2f, mPaintFont);
-                        // } else if (0 == i) {
+                        if (i == 0) {
+                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+                                    + latitudeFontSize / 2f, mPaintFont);
+                        } else if (i == counts - 1) {
+                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+                                    + latitudeFontSize / 2f + xTitleTextHeight, mPaintFont);
+                        } else {
+                            canvas.drawText(axisYTitles.get(i), axisMarginLeft, offset - i * postOffset
+                                    + latitudeFontSize / 2f + xTitleTextHeight / 2, mPaintFont);
+                        }
+
                         // canvas.drawText(axisYTitles.get(i), axisMarginLeft, super.getHeight() - this.axisMarginBottom
                         // - 5f,
                         // mPaintFont);
@@ -394,7 +401,7 @@ public class TrendGridChart extends View {
     private void drawRightYtitleText(Canvas canvas) {
         if (null != axisRightYTitles) {
             int counts = axisRightYTitles.size();
-           
+
             // 线条Paint
             Paint mPaintLine = new Paint();
             mPaintLine.setColor(latitudeColor);
@@ -421,8 +428,22 @@ public class TrendGridChart extends View {
                         mPaintFont.setColor(getYTitlePaintFont(i, counts));
                     }
 
-                    canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize / 2f,
-                            mPaintFont);
+
+                    if (i == 0) {
+                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset
+                                + latitudeFontSize / 2f, mPaintFont);
+                    } else if (i == counts - 1) {
+                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset
+                                + latitudeFontSize / 2f + xTitleTextHeight, mPaintFont);
+                    } else {
+                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset
+                                + latitudeFontSize / 2f + xTitleTextHeight / 2, mPaintFont);
+                    }
+
+                    
+                    
+                    // canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize / 2f,
+                    // mPaintFont);
 
                 }
             }
