@@ -151,8 +151,14 @@ public class MyCombinationEngineImpl {
         DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[] { id + "", }, params, listener);
 
     }
-    public void changeCombinationIsPublic(long id,String ispublic){
-    	
+    public void changeCombinationIsPublic(long id,String ispublic,IHttpListener listener){
+        RequestParams params = new RequestParams();
+	    StringBuilder sb = new StringBuilder();
+	   // sb.append("[");
+	     sb.append(ispublic);
+	    //sb.append("]");
+	    params.addBodyParameter("is_public", sb.toString());
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id + ""), params, listener);
     }
     
 }

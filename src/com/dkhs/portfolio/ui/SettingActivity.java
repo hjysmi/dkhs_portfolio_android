@@ -9,12 +9,15 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
@@ -24,9 +27,13 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
@@ -42,6 +49,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public static boolean isSetPassword = true;
     private LinearLayout settingLayoutGroup;
     private Context context;
+    private ImageView settingImageHead;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -89,6 +97,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
             });
         }
+        
     }
 
     public void setListener() {
@@ -96,12 +105,25 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.btn_setpassword).setOnClickListener(this);
         findViewById(R.id.setting_layout_optiongroup).setOnClickListener(this);
         findViewById(R.id.setting_layout_password).setOnClickListener(this);
+        findViewById(R.id.setting_layout_username).setOnClickListener(this);
+        findViewById(R.id.setting_layout_icon).setOnClickListener(this);
     }
 
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
+        settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
+        String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+        if (!TextUtils.isEmpty(url)) {
+            url = DKHSUrl.BASE_DEV_URL + url;
+            BitmapUtils bitmapUtils = new BitmapUtils(context);
+            bitmapUtils.display(settingImageHead, url);
+        }else{
+	        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_user_head);
+	        b = UIUtils.toRoundBitmap(b);
+	        settingImageHead.setImageBitmap(b);
+        }
     }
 
     @Override
@@ -154,6 +176,13 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.setting_layout_username:
+            	intent = new Intent(this, UserNameChangeActivity.class);
+                startActivity(intent);
+            case R.id.setting_layout_icon:
+            	intent = new Intent(context,CopyMessageDialog.class);
+    	    	startActivity(intent);
+            	break;
             default:
                 break;
         }

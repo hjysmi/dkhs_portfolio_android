@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="1"
-    android:versionName="0.4.3" >
+    android:versionName="0.4.4" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -74,6 +74,9 @@
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
         <activity android:name="com.dkhs.portfolio.ui.CompareForPublicSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.CopyMessageDialog" 
+            android:theme="@style/MyDialogStyleBottom"/>
         <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
             android:launchMode="singleTask"
