@@ -11,7 +11,9 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 public class ColorTemplate {
 
     public static final int[] DEFAULTCOLORS = { R.color.def_1, R.color.def_2, R.color.def_3, R.color.def_4,
-            R.color.def_5 };
+            R.color.def_5, R.color.def_6, R.color.def_7, R.color.def_8, R.color.def_9, R.color.def_10, R.color.def_11,
+            R.color.def_12, R.color.def_13, R.color.def_14, R.color.def_15, R.color.def_16, R.color.def_17,
+            R.color.def_18, R.color.def_19, R.color.def_20 };
     public static final int MY_COMBINATION_LINE = PortfolioApplication.getInstance().getResources()
             .getColor(R.color.blue_line);
     // public static final int DEF_RED =0xFFE73535;
