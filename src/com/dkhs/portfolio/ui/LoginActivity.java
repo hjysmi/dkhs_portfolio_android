@@ -58,6 +58,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private CheckBox cbRequestTestServer;
 
     private String mUserAccout;
+    private UserEngineImpl engine;
 
     public static final String EXTRA_PHONENUM = "extra_phone";
 
@@ -80,6 +81,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             handleExtras(extras);
         }
         getBtnBack().setVisibility(View.GONE);
+        engine = new UserEngineImpl();
 
         initViews();
         initDatas();
@@ -270,7 +272,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             etPassword.requestFocus();
             return;
         }
-        UserEngineImpl engine = new UserEngineImpl();
         if (checkEmail(userName)) {
             PromptManager.showProgressDialog(this, R.string.logining);
             engine.login(userName, passWord, ConstantValue.IS_EMAIL, listener);
@@ -303,17 +304,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
                 String token = (String) json.getJSONObject("token").get("access_token");
                 entity.setAccess_token(token);
-                GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
                 if (isMobileNO(userName)) {
                     GlobalParams.MOBILE = userName;
                     entity.setMobile(userName);
                 }
-                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
-                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL,
-                        entity.getAvatar_md());
+                engine.saveLoginUserInfo(entity);
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, etUserName.getText()
                         .toString());
-                saveUser(entity);
                 return entity;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -330,28 +327,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
     };
     private String userName;
-
-    private void saveUser(final UserEntity user) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
-                DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
-                UserEntity dbentity;
-                try {
-                    dbentity = dbutil.findFirst(UserEntity.class);
-                    if (dbentity != null) {
-                        dbutil.delete(dbentity);
-                    }
-                    dbutil.save(entity);
-                } catch (DbException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
 
     /**
      * 验证邮箱地址是否正确

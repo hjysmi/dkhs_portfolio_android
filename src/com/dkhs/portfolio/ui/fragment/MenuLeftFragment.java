@@ -53,6 +53,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     private TextView tvUserName;
     LoadSelectDataEngine mLoadDataEngine;
     private ImageView ivUserheader;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,7 +87,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // view.findViewById(R.id.btn_setting).setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
         lvItem.setAdapter(itemAdapter);
-        
+
     }
 
     @Override
@@ -221,18 +222,22 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
             @Override
             protected void afterParseData(List<CombinationBean> dataList) {
-                tvCombin.setText(dataList.size() + "");
-                String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-                if (!TextUtils.isEmpty(url)) {
-                    url = DKHSUrl.BASE_DEV_URL + url;
-                    BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
-                    bitmapUtils.display(ivUserheader, url);
-                    //b = UIUtils.toRoundBitmap(b);
-                    //ivUserheader.setImageBitmap(b);
-                }else{
-        	        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_user_head);
-        	        b = UIUtils.toRoundBitmap(b);
-        	        ivUserheader.setImageBitmap(b);
+                if (null != dataList && isAdded()) {
+
+                    tvCombin.setText(dataList.size() + "");
+                    String url = PortfolioPreferenceManager
+                            .getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+                    if (!TextUtils.isEmpty(url)) {
+                        url = DKHSUrl.BASE_DEV_URL + url;
+                        BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
+                        bitmapUtils.display(ivUserheader, url);
+                        // b = UIUtils.toRoundBitmap(b);
+                        // ivUserheader.setImageBitmap(b);
+                    } else {
+                        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
+                        b = UIUtils.toRoundBitmap(b);
+                        ivUserheader.setImageBitmap(b);
+                    }
                 }
             }
 

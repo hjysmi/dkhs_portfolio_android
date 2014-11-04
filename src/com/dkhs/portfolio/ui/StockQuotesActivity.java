@@ -81,6 +81,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvOpen;
     private TextView tvChange;
     private TextView tvPercentage;
+
+    private TextView tvChengjiaoLiang;
+    private TextView tvChengjiaoE;
+    private TextView tvHuanShouLv;
+    private TextView tvLiuzhi;
+    private TextView tvZongzhi;
+    private TextView tvShiying;
+    private TextView tvShiJing;
+
     private Button btnAddOptional;
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
 
@@ -99,6 +108,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private FragmentSelectAdapter mFragmentSelectAdapter;
     private StockQuotesActivity layouts;
     private View views;
+
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -132,7 +142,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         // setAddOptionalButton();
         initTabPage();
-        
+
     }
 
     @Override
@@ -142,8 +152,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         context = this;
         layouts = this;
         DisplayMetrics dm = new DisplayMetrics();
-		WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		m.getDefaultDisplay().getMetrics(dm);
+        WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        m.getDefaultDisplay().getMetrics(dm);
         mQuotesEngine = new QuotesEngineImpl();
         // handle intent extras
         initView();
@@ -193,18 +203,28 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         frag.add(f4);
         Fragment f3 = new NewsFragment();
         frag.add(f3);
-        FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout, getSupportFragmentManager());
+        FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
+                getSupportFragmentManager());
         mFragmentSelectAdapter.setOutLaoyout(layouts);
-        //views.setOnTouchListener(new OnView());
+        // views.setOnTouchListener(new OnView());
     }
-    
+
     private void initView() {
-    	views = findViewById(R.id.layout_view);
+        views = findViewById(R.id.layout_view);
         tvCurrent = (TextView) findViewById(R.id.tv_current_price);
         tvHigh = (TextView) findViewById(R.id.tv_highest_value);
         tvLow = (TextView) findViewById(R.id.tv_lowest_value);
         tvOpen = (TextView) findViewById(R.id.tv_today_open_value);
         tvChange = (TextView) findViewById(R.id.tv_up_price);
+
+        tvChengjiaoLiang = (TextView) findViewById(R.id.tv_liang_value);
+        tvChengjiaoE = (TextView) findViewById(R.id.tv_e_value);
+        tvHuanShouLv = (TextView) findViewById(R.id.tv_huan_value);
+        tvLiuzhi = (TextView) findViewById(R.id.tv_liuzhi_value);
+        tvZongzhi = (TextView) findViewById(R.id.tv_zongzhi_value);
+        tvShiying = (TextView) findViewById(R.id.tv_shiying_value);
+        tvShiJing = (TextView) findViewById(R.id.tv_shijing_value);
+
         tvPercentage = (TextView) findViewById(R.id.tv_percentage);
         btnAddOptional = (Button) findViewById(R.id.btn_add_optional);
         btnAddOptional.setVisibility(View.GONE);
@@ -249,9 +269,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void scrollToTop() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
-        //mScrollview.smoothScrollTo(0, 0);
+        // mScrollview.smoothScrollTo(0, 0);
         mScrollview.setScrollViewListener(mScrollViewListener);
-        
+
     }
 
     private void setupViewData() {
@@ -259,18 +279,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mQuotesEngine.quotes(mStockBean.code, listener);
         }
     }
-    ScrollViewListener mScrollViewListener = new ScrollViewListener(){
 
-		@Override
-		public void onScrollChanged(InterceptScrollView scrollView, int x,
-				int y, int oldx, int oldy) {
-			// TODO Auto-generated method stub
-			if(mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)){
-				chartTounching();
-			}
-				Log.e("mScrollViewListener", mScrollview.getScrollY()+"---" + mScrollview.getHeight());
-		}
-    	
+    ScrollViewListener mScrollViewListener = new ScrollViewListener() {
+
+        @Override
+        public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
+            // TODO Auto-generated method stub
+            if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
+                chartTounching();
+            }
+            Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
+        }
+
     };
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
@@ -302,7 +322,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
                         buyItem.vol = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
                     } else {
-                        buyItem.vol = "0";
+                        buyItem.vol = 0;
                     }
                     buyItem.tag = "" + (++i);
                     buyList.add(buyItem);
@@ -314,7 +334,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         sellItem.price = stockQuotesBean.getSellPrice().getSellPrice().get(j);
                         sellItem.vol = stockQuotesBean.getSellPrice().getSellVol().get(j);
                     } else {
-                        sellItem.vol = "0";
+                        sellItem.vol = 0;
                     }
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
@@ -386,6 +406,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
             tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
             tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
+
+            tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
+            tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
+            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
+            tvLiuzhi.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getMarket_capital()));
+            tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
+            tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
+            tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
         }
     }
 
@@ -561,6 +589,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
+
     class OnLayoutlistener implements OnTouchListener {
 
         @Override
@@ -580,14 +609,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
-    class OnView implements OnTouchListener{
 
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			// TODO Auto-generated method stub
-			loseTouching();
-			return true;
-		}
-    	
+    class OnView implements OnTouchListener {
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            // TODO Auto-generated method stub
+            loseTouching();
+            return true;
+        }
+
     }
 }
