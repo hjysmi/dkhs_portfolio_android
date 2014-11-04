@@ -26,7 +26,7 @@
             <RelativeLayout	
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white" >
+                android:background="@drawable/btn_white_selector" >
 
                 
 
@@ -58,27 +58,46 @@
                         android:id="@+id/settingt_text_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="账号"
+                        android:text="头像"
                         android:textColor="@color/black"
                         android:textSize="@dimen/setting_text_name" />
-
-                    <TextView
-                        android:id="@+id/settingt_text_phoneNum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/settingt_text_name"
-                        android:paddingTop="10dp"
-                        android:text="手机号:186065***22"
-                        android:textColor="@color/person_setting_phonecolor"
-                        android:textSize="@dimen/setting_text_phone" />
                 </RelativeLayout>
             </RelativeLayout>
-
+			<include layout="@layout/layout_line"/>
+            <RelativeLayout 
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:background="@drawable/btn_white_selector"
+                >
+                <TextView 
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/setting_text_account_text"
+                    android:text="186065***22"
+                    android:layout_centerVertical="true"
+                    android:paddingRight="30dp"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/person_setting_phonecolor"
+                    android:textSize="@dimen/setting_text_phone"
+                    />
+                <TextView 
+                    android:paddingLeft="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_toLeftOf="@id/setting_text_account_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_text_name"
+                    android:text="账号"
+                    />
+            </RelativeLayout>
             <include layout="@layout/layout_line"/>
             <RelativeLayout 
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="@color/white"
+                android:id="@+id/setting_layout_username"
+                android:background="@drawable/btn_white_selector"
                 >
                 <ImageView
                     android:id="@+id/setting_image_name_right"
@@ -115,7 +134,7 @@
             <RelativeLayout 
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:background="@color/white"
+                android:background="@drawable/btn_white_selector"
                 android:id="@+id/setting_layout_password"
                 >
                 <ImageView
@@ -147,7 +166,7 @@
 			    android:id="@+id/setting_layout_optiongroup"
 			    android:layout_height="wrap_content"
 			    android:layout_width="match_parent"
-			    android:background="@color/white"
+			    android:background="@drawable/btn_white_selector"
 			    >
                 <LinearLayout 
                     android:layout_height="wrap_content"
@@ -204,7 +223,7 @@
             android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
 			    android:paddingLeft="20dp"
-			    android:background="@color/white"
+			    android:background="@drawable/btn_white_selector"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             >
@@ -229,7 +248,7 @@
             android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
 			    android:paddingLeft="20dp"
-			    android:background="@color/white"
+			    android:background="@drawable/btn_white_selector"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             >
@@ -254,7 +273,7 @@
             android:paddingTop="15dp"
 			    android:paddingBottom="15dp"
 			    android:paddingLeft="20dp"
-			    android:background="@color/white"
+			    android:background="@drawable/btn_white_selector"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             >
