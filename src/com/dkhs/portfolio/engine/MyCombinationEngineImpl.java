@@ -108,9 +108,7 @@ public class MyCombinationEngineImpl {
         RequestParams params = new RequestParams();
         // params.addBodyParameter("portfolio", id + "");
         // 调整比例, 格式如：[{"symbol": 101000002,"percent":0.45},{"symbol": 101000004,"percent":0.35}]
-        // Gson gson = new Gson();
-        // String symbolsValue = gson.toJson(symbols);
-        // params.addBodyParameter("symbols", symbolsValue);
+
         if (null != symbols && symbols.size() > 0) {
 
             StringBuilder sb = new StringBuilder();
