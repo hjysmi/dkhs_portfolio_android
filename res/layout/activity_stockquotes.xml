@@ -13,19 +13,11 @@
         android:weightSum="10" >
 
         <include
+            android:id="@+id/layout_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/layout_view"
             layout="@layout/layout_stock_quotes_header"
             android:background="@color/white" />
-
-        <!--
-             <com.dkhs.portfolio.ui.widget.TabPageIndicator
-            android:id="@+id/indicator"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#F5F5F5" />
-        -->
 
         <com.dkhs.portfolio.ui.widget.HScrollTitleView
             android:id="@+id/hs_title"
@@ -37,7 +29,7 @@
         <com.dkhs.portfolio.ui.widget.ScrollViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
-            android:layout_height="303dp" />
+            android:layout_height="310dp" />
 
         <!-- 底部资讯 -->
 

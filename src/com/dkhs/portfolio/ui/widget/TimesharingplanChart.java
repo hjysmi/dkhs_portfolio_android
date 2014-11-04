@@ -56,7 +56,7 @@ public class TimesharingplanChart extends TrendChart {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
         int mesasureWidth = measureWidth(widthMeasureSpec);
-        setMeasuredDimension(mesasureWidth, mesasureWidth * 3 / 4);
+        setMeasuredDimension(mesasureWidth, (int) (mesasureWidth / 4 * 4.5f));
     }
 
     private int measureWidth(int measureSpec) {
@@ -129,7 +129,7 @@ public class TimesharingplanChart extends TrendChart {
         // 蜡烛棒宽度
         float stickWidth = ((getmGridLineLenght()) / (this.getMaxPointNum()));
         // 蜡烛棒起始绘制位置
-        float stickX = super.getAxisMarginLeft() ;
+        float stickX = super.getAxisMarginLeft();
         Paint mPaintStick = new Paint();
 
         if (null != lineData && lineData.size() > 0) {

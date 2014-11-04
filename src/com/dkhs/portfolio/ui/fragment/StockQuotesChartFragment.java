@@ -239,6 +239,16 @@ public class StockQuotesChartFragment extends Fragment {
         machart.setDrawFirstLineInfo(true);
 
         machart.setITouchListener(mTouchListener);
+        List<String> ytitle = new ArrayList<String>();
+        List<String> rightYtitle = new ArrayList<String>();
+
+        ytitle.add("—");
+        ytitle.add("—");
+        ytitle.add("—");
+        ytitle.add("—");
+        ytitle.add("—");
+
+        mMaChart.setAxisYTitles(ytitle);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -281,9 +291,9 @@ public class StockQuotesChartFragment extends Fragment {
 
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
-        xtitle.add("10:30");
-        xtitle.add("11:30");
-        xtitle.add("14:00");
+        // xtitle.add("10:30");
+        // xtitle.add("11:30");
+        // xtitle.add("14:00");
         xtitle.add("15:00");
 
         mMaChart.setAxisXTitles(xtitle);

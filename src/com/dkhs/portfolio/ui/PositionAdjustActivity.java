@@ -136,7 +136,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             if (null != mPositionDetailBean.getPositionList()) {
-                stockList = mPositionDetailBean.getPositionList();
+                stockList.clear();
+                stockList.addAll(mPositionDetailBean.getPositionList());
             }
             mCombinationId = mPositionDetailBean.getPortfolio().getId();
         }
@@ -467,7 +468,30 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private List<SubmitSymbol> generateSymbols() {
         List<SubmitSymbol> symbols = new ArrayList<SubmitSymbol>();
-        for (ConStockBean stock : stockList) {
+        List<ConStockBean> tempList = new ArrayList<ConStockBean>();
+        tempList.addAll(stockList);
+        if (null != mPositionDetailBean) {
+
+            List<ConStockBean> originalBeanList = mPositionDetailBean.getPositionList();
+
+            for (ConStockBean originStock : originalBeanList) {
+                if (tempList.contains(originStock)) {
+                    int index = tempList.indexOf(originStock);
+                    ConStockBean bean = tempList.get(index);
+                    if (originStock.getPercent() == bean.getPercent()) {
+                        tempList.remove(index);
+                    }
+
+                } else {
+                    originStock.setPercent(0);
+                    tempList.add(originStock);
+
+                }
+
+            }
+        }
+
+        for (ConStockBean stock : tempList) {
             SubmitSymbol symbol = new SubmitSymbol();
             symbol.setSymbol(stock.getStockId());
             symbol.setPercent(stock.getDutyValue() / 100.0f);
