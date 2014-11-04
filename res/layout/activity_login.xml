@@ -28,7 +28,7 @@
             android:layout_below="@+id/iv_header"
             android:layout_centerHorizontal="true"
             android:layout_margin="6dp"
-            android:text="MASTER"
+            android:text=""
             android:textSize="16sp" />
     </RelativeLayout>
 
