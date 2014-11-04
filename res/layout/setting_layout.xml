@@ -26,6 +26,7 @@
             <RelativeLayout	
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/setting_layout_icon"
                 android:background="@drawable/btn_white_selector" >
 
                 

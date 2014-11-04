@@ -26,6 +26,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
 
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.bitmap.BitmapCacheListener;
 import com.lidroid.xutils.bitmap.BitmapCommonUtils;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
@@ -242,8 +243,9 @@ public class BitmapUtils implements TaskHandler {
 
         // find bitmap from mem cache.
         Bitmap bitmap = globalConfig.getBitmapCache().getBitmapFromMemCache(uri, displayConfig);
-
+        
         if (bitmap != null) {
+        	bitmap = UIUtils.toRoundBitmap(bitmap);
             callBack.onLoadStarted(container, uri, displayConfig);
             callBack.onLoadCompleted(
                     container,
@@ -264,6 +266,7 @@ public class BitmapUtils implements TaskHandler {
             }
             // set loading image
             Drawable loadingDrawable = displayConfig.getLoadingDrawable();
+            
             callBack.setDrawable(container, new AsyncDrawable<T>(loadingDrawable, loadTask));
 
             loadTask.setPriority(displayConfig.getPriority());
@@ -441,7 +444,7 @@ public class BitmapUtils implements TaskHandler {
                 bitmap = globalConfig.getBitmapCache().downloadBitmap(uri, displayConfig, this);
                 from = BitmapLoadFrom.URI;
             }
-
+            bitmap = UIUtils.toRoundBitmap(bitmap);
             return bitmap;
         }
 

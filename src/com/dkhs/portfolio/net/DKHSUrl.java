@@ -134,6 +134,8 @@ public class DKHSUrl {
         String checkMobile = "/api/v1/accounts/check_mobile/?mobile={0}";
         //设置昵称
         String setUserName = "/api/v1/accounts/set_username/";
+        //修改头像
+        String setUserHead = "/api/v1/accounts/avatar/";
     }
 
     public interface MainPage {

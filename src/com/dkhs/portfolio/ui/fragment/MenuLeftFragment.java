@@ -4,18 +4,16 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,13 +24,10 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
-import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -91,13 +86,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // view.findViewById(R.id.btn_setting).setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
         lvItem.setAdapter(itemAdapter);
-        String url = "";//PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (!TextUtils.isEmpty(url)) {
-            url = DKHSUrl.BASE_DEV_URL + url;
-        }
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
-        b = UIUtils.toRoundBitmap(b);
-        ivUserheader.setImageBitmap(b);
+        
     }
 
     @Override
@@ -233,6 +222,18 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
             @Override
             protected void afterParseData(List<CombinationBean> dataList) {
                 tvCombin.setText(dataList.size() + "");
+                String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+                if (!TextUtils.isEmpty(url)) {
+                    url = DKHSUrl.BASE_DEV_URL + url;
+                    BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
+                    bitmapUtils.display(ivUserheader, url);
+                    //b = UIUtils.toRoundBitmap(b);
+                    //ivUserheader.setImageBitmap(b);
+                }else{
+        	        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_user_head);
+        	        b = UIUtils.toRoundBitmap(b);
+        	        ivUserheader.setImageBitmap(b);
+                }
             }
 
         });

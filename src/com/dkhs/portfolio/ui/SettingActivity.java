@@ -27,10 +27,13 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
@@ -94,6 +97,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
             });
         }
+        
     }
 
     public void setListener() {
@@ -102,6 +106,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.setting_layout_optiongroup).setOnClickListener(this);
         findViewById(R.id.setting_layout_password).setOnClickListener(this);
         findViewById(R.id.setting_layout_username).setOnClickListener(this);
+        findViewById(R.id.setting_layout_icon).setOnClickListener(this);
     }
 
     public void initViews() {
@@ -109,9 +114,16 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         setTitle(R.string.setting);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
-        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
-        b = UIUtils.toRoundBitmap(b);
-        settingImageHead.setImageBitmap(b);
+        String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+        if (!TextUtils.isEmpty(url)) {
+            url = DKHSUrl.BASE_DEV_URL + url;
+            BitmapUtils bitmapUtils = new BitmapUtils(context);
+            bitmapUtils.display(settingImageHead, url);
+        }else{
+	        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_user_head);
+	        b = UIUtils.toRoundBitmap(b);
+	        settingImageHead.setImageBitmap(b);
+        }
     }
 
     @Override
@@ -167,6 +179,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             case R.id.setting_layout_username:
             	intent = new Intent(this, UserNameChangeActivity.class);
                 startActivity(intent);
+            case R.id.setting_layout_icon:
+            	intent = new Intent(context,CopyMessageDialog.class);
+    	    	startActivity(intent);
+            	break;
             default:
                 break;
         }
