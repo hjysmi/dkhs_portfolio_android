@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.engine;
 
+import java.io.File;
+
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
@@ -153,7 +155,11 @@ public class UserEngineImpl {
     }
     
     
-    
+     public void setUserHead(File file,ParseHttpListener<UserEntity> listener) {
+        RequestParams params = new RequestParams();	
+        params.addBodyParameter("avatar", file);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
+    }
     
     
 }

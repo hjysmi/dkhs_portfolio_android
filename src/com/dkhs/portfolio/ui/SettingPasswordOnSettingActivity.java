@@ -68,10 +68,10 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
 	        public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
 
 	           if(passwordSettingCheck.isChecked()){
-	        	   passwordSettingOld.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+	        	   passwordSettingOld.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 	              Editable etable = passwordSettingOld.getText();
 	              Selection.setSelection(etable, etable.length());
-	              passwordSettingNew.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+	              passwordSettingNew.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 	              Editable etable2 = passwordSettingNew.getText();
 	              Selection.setSelection(etable2, etable2.length());
 	           }else{
