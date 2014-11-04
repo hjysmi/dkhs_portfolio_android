@@ -9,12 +9,15 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
@@ -26,6 +29,7 @@ import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -42,6 +46,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public static boolean isSetPassword = true;
     private LinearLayout settingLayoutGroup;
     private Context context;
+    private ImageView settingImageHead;
 
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
@@ -96,12 +101,17 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.btn_setpassword).setOnClickListener(this);
         findViewById(R.id.setting_layout_optiongroup).setOnClickListener(this);
         findViewById(R.id.setting_layout_password).setOnClickListener(this);
+        findViewById(R.id.setting_layout_username).setOnClickListener(this);
     }
 
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
+        settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+        b = UIUtils.toRoundBitmap(b);
+        settingImageHead.setImageBitmap(b);
     }
 
     @Override
@@ -154,6 +164,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.setting_layout_username:
+            	intent = new Intent(this, UserNameChangeActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

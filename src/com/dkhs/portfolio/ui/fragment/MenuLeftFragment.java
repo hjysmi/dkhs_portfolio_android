@@ -5,7 +5,10 @@ import java.util.List;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +44,9 @@ import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.BitmapUtils;
 
 public class MenuLeftFragment extends Fragment implements OnClickListener {
     private String[] items;
@@ -52,7 +57,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     private TextView tvStock;
     private TextView tvUserName;
     LoadSelectDataEngine mLoadDataEngine;
-
+    private ImageView ivUserheader;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,11 +85,19 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // tvCombin.setText(getString(R.string.combin, 3));
         tvStock = (TextView) view.findViewById(R.id.tv_stock);
         tvUserName = (TextView) view.findViewById(R.id.tv_username);
+        ivUserheader = (ImageView) view.findViewById(R.id.iv_userheader);
         tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         // tvStock.setText(getString(R.string.optional_stock_format, 12));
         // view.findViewById(R.id.btn_setting).setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
         lvItem.setAdapter(itemAdapter);
+        String url = "";//PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+        if (!TextUtils.isEmpty(url)) {
+            url = DKHSUrl.BASE_DEV_URL + url;
+        }
+        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher);
+        b = UIUtils.toRoundBitmap(b);
+        ivUserheader.setImageBitmap(b);
     }
 
     @Override

@@ -154,10 +154,13 @@ public class MyCombinationEngineImpl {
 
     }
     public void changeCombinationIsPublic(long id,String ispublic,IHttpListener listener){
-    	List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("is_public", ispublic);
-        params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[] { id + "", }, params, listener);
+        RequestParams params = new RequestParams();
+	    StringBuilder sb = new StringBuilder();
+	   // sb.append("[");
+	     sb.append(ispublic);
+	    //sb.append("]");
+	    params.addBodyParameter("is_public", sb.toString());
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id + ""), params, listener);
     }
     
 }
