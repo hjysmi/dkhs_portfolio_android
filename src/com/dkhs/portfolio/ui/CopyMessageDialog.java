@@ -3,17 +3,31 @@ package com.dkhs.portfolio.ui;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DKHSUrl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.BitmapUtils;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +36,16 @@ import android.widget.Toast;
 
 public class CopyMessageDialog extends Activity implements OnClickListener {
 	private File file_go;
-
+	private UserEngineImpl mUserEngineImpl;
+	private Context context;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.makemessage_dialog);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
+		mUserEngineImpl = new UserEngineImpl();
+		context = this;
 		initView();
 		setListener();
 	}
@@ -57,7 +74,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			/* 使用Intent.ACTION_GET_CONTENT这个Action */
 			intent.setAction(Intent.ACTION_GET_CONTENT);
 			/* 取得相片后返回本画面 */
-			startActivityForResult(intent, 1);
+			startActivityForResult(intent, 5);
 			break;
 		case R.id.dialog_button_cancle:
 			finish();
@@ -69,15 +86,29 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			Uri uri = data.getData();
-			Log.e("uri", uri.toString());
-			ContentResolver cr = this.getContentResolver();
+		if (requestCode == 5 && resultCode == RESULT_OK) {
+			
 			try {
+				Uri uri = data.getData();
+				Log.e("uri", uri.toString());
+				Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+				   cursor.moveToFirst();
+				   for (int i = 0; i < cursor.getColumnCount(); i++)
+				   {// 取得图片uri的列名和此列的详细信息
+				    System.out.println(i + "-" + cursor.getColumnName(i) + "-" + cursor.getString(i));
+				   }
+				   cursor.close();
+				String url = uri.toString().replace("content:", "").replace("file:", "");
+				if(!url.contains(".")){
+					url = url + ".jpg";
+				}
+				File file = new File(url);
+				mUserEngineImpl.setUserHead(file, listener);
+				ContentResolver cr = this.getContentResolver();
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
 						.openInputStream(uri));
 
-			} catch (FileNotFoundException e) {
+			} catch (Exception e) {
 				Log.e("Exception", e.getMessage(), e);
 			}
 		}
@@ -95,6 +126,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 				 * 图片的bitmap对象，仅仅是把图片的高和宽信息给Options对象；
 				 */
 				myoptions.inJustDecodeBounds = true;
+				mUserEngineImpl.setUserHead(file_go, listener);
 				BitmapFactory.decodeFile(file_go.getAbsolutePath(), myoptions);
 				// 根据在图片的宽和高，得到图片在不变形的情况指定大小下的缩略图,设置宽为222；
 				int height = myoptions.outHeight * 222 / myoptions.outWidth;
@@ -143,4 +175,35 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			Toast.makeText(this, "请先安装好sd卡", Toast.LENGTH_LONG).show();
 		}
 	}
+	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+        };
+
+        @Override
+        protected UserEntity parseDateTask(String jsonData) {
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
+                return ue;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(UserEntity entity) {
+
+            // PromptManager.closeProgressDialog();
+            if (null != entity) {
+            	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL,
+                        entity.getAvatar_md());
+            	Intent intent=new Intent();
+    			setResult(RESULT_OK, intent);
+    			finish();
+            }
+        }
+    };
 }

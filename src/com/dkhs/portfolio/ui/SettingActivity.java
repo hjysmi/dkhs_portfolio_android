@@ -179,9 +179,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             case R.id.setting_layout_username:
             	intent = new Intent(this, UserNameChangeActivity.class);
                 startActivity(intent);
+                break;
             case R.id.setting_layout_icon:
             	intent = new Intent(context,CopyMessageDialog.class);
-    	    	startActivity(intent);
+    	    	startActivityForResult(intent,5);
             	break;
             default:
                 break;
@@ -229,5 +230,16 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
 
         }.setLoadingDialog(SettingActivity.this, R.string.loading));
+    }
+    @Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+            if (!TextUtils.isEmpty(url)) {
+                url = DKHSUrl.BASE_DEV_URL + url;
+                BitmapUtils bitmapUtils = new BitmapUtils(context);
+                bitmapUtils.display(settingImageHead, url);
+            }
+		}
     }
 }
