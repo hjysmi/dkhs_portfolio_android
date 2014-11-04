@@ -96,8 +96,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
             viewHolder.tvRightValue.setVisibility(View.VISIBLE);
             viewHolder.tvStockCode.setText(item.getStockCode());
             viewHolder.tvStockCode.setVisibility(View.VISIBLE);
-            System.out.println("item.getStockName()" + item.getStockName() + " item.getStockCode():"
-                    + item.getStockCode());
+
             viewHolder.tvStockName.setText(item.getStockName());
             viewHolder.tvRightValue.setTextColor(ColorTemplate.getUpOrDrownCSL(item.getIncreasePercent()));
             viewHolder.tvRightValue.setText(StringFromatUtils.get2PointPercent(item.getIncreasePercent()));

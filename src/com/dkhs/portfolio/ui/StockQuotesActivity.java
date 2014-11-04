@@ -302,7 +302,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
                         buyItem.vol = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
                     } else {
-                        buyItem.vol = "-";
+                        buyItem.vol = "0";
                     }
                     buyItem.tag = "" + (++i);
                     buyList.add(buyItem);
@@ -314,7 +314,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         sellItem.price = stockQuotesBean.getSellPrice().getSellPrice().get(j);
                         sellItem.vol = stockQuotesBean.getSellPrice().getSellVol().get(j);
                     } else {
-                        sellItem.vol = "-";
+                        sellItem.vol = "0";
                     }
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
