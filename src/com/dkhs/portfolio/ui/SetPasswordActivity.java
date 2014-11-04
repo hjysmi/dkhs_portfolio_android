@@ -119,6 +119,8 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
     private void initViews() {
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
+        rlfbutton.setText(R.string.confirm);
+        rlfbutton.setEnabled(false);
         etPassword = (EditText) findViewById(R.id.et_password);
         cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
 
@@ -152,7 +154,12 @@ public class SetPasswordActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
 
+                }
                 // 一定要加上此判断，否则会进入死循环
                 if (s.toString().equals(strBefore)) {
                     return;

@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -108,15 +108,19 @@
         <item name="@attr/switchDrawable">@drawable/switch_thumb</item>
     </style>
     <!-- 用于自定义选择框 -->
-	<style name="widget_gender_switch">
+    <style name="widget_gender_switch">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textOff">"     "</item><!-- 此设置不需要文字，只显示背景图的开关 -->
+        <item name="android:textOff">"     "</item>
+        <!-- 此设置不需要文字，只显示背景图的开关 -->
         <item name="android:textOn">"     "</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:thumb">@drawable/switch_button</item><!--滑块格式9.png -->
-        <item name="android:thumbTextPadding">15dp</item><!-- 用来控制背景图片和文字之间的间距来控制switch整体宽度 -->
-        <item name="android:track">@drawable/switch_back</item><!-- 背景图的开关 格式9.png-->
+        <item name="android:thumb">@drawable/switch_button</item>
+        <!-- 滑块格式9.png -->
+        <item name="android:thumbTextPadding">15dp</item>
+        <!-- 用来控制背景图片和文字之间的间距来控制switch整体宽度 -->
+        <item name="android:track">@drawable/switch_back</item>
+        <!-- 背景图的开关 格式9.png -->
     </style>
     <!-- 人员设置界面字体样式 -->
     <style name="text_16_style">
@@ -133,11 +137,22 @@
         <item name="android:textSize">18sp</item>
     </style>
     <!-- 人员设置界面checkbox所用样式 -->
-    <style name="checkbox_setting" parent="@android:style/Widget.CompoundButton.CheckBox">  
-    <item name="android:button">@drawable/setting_checkbox_selector</item>
+    <style name="checkbox_setting" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/setting_checkbox_selector</item>
     </style>
     <!-- 设置密码界面checkbox所用样式 -->
-    <style name="checkbox_password" parent="@android:style/Widget.CompoundButton.CheckBox">  
-    <item name="android:button">@drawable/password_checkbox_selector</item>
+    <style name="checkbox_password" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/password_checkbox_selector</item>
     </style>
+
+    <style name="btn_login_blue">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@drawable/btn_blue_selector</item>
+        <item name="android:textColor">@color/btn_blue_textselector</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>

@@ -83,7 +83,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         engine = new UserEngineImpl();
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
-        // setRegistAble();
+        rlfbutton.setEnabled(false);
         cbShowPassword = (CheckBox) findViewById(R.id.cb_show_psw);
         cbShowRePassword = (CheckBox) findViewById(R.id.cb_show_repsw);
 
@@ -139,7 +139,12 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (s.length() > 0 && etUserName.getText().length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
 
+                }
                 // 一定要加上此判断，否则会进入死循环
                 if (s.toString().equals(strBefore)) {
                     return;
@@ -201,12 +206,20 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-             // 在文本变化之前先获取到文本值
+                // 在文本变化之前先获取到文本值
                 strBefore = s.toString();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+
+                if (s.length() > 0 && etPassword.getText().length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
+
+                }
+
                 // 一定要加上此判断，否则会进入死循环
                 if (s.toString().equals(strBefore)) {
                     return;
@@ -214,7 +227,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                 // int length = StringFromatUtils.getStringRealLength(s.toString());
                 String inputText = s.toString();
                 inputText = inputText.replaceAll(StringFromatUtils.regexUsername, "");
-                System.out.println("input text:"+inputText);
+                System.out.println("input text:" + inputText);
                 if (!TextUtils.isEmpty(inputText)) {
 
                     etUserName.setText(inputText);
@@ -276,7 +289,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                     etPassword.setError(Html.fromHtml("<font color='red'>两次密码输入不一致</font>"));
                     return;
                 } else {
-                  
+
                 }
             } else {
                 engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),

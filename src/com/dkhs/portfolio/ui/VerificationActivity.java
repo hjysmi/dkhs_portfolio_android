@@ -11,8 +11,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +25,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.SMSBroadcastReceiver;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 
@@ -69,6 +72,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         engine = new UserEngineImpl();
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         rlfbutton.setOnClickListener(this);
+        rlfbutton.setEnabled(false);
         tvPhoneNum = (TextView) findViewById(R.id.tv_phonenum);
         tvPhoneNum.setText(phoneNum);
         etVerifucode = (EditText) findViewById(R.id.et_verifycode);
@@ -102,6 +106,28 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 System.out.println("ReceiveCode:" + codeSb);
                 // System.out.println("code:"+codeSb.substring(0, 6));
                 etVerifucode.setText(codeSb.substring(0, 6));
+
+            }
+        });
+        etVerifucode.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    rlfbutton.setEnabled(true);
+                } else {
+                    rlfbutton.setEnabled(false);
+                }
 
             }
         });
@@ -184,12 +210,18 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 case GET_CODE_ABLE:
                     btn_get_code.setText(R.string.get_code);
                     btn_get_code.setEnabled(true);
+                    btn_get_code.setBackgroundResource(R.drawable.btn_blue_selector);
+                    btn_get_code.setTextColor(ColorTemplate.getTextColor(R.color.btn_blue_textselector));
+
                     count = 0;
                     mTimer.cancel();
                     break;
                 case GET_CODE_UNABLE:
                     btn_get_code.setText((60 - count) + "秒后重新获取验证码");
                     btn_get_code.setEnabled(false);
+                    btn_get_code.setBackgroundResource(R.drawable.btn_unable_gray);
+                    btn_get_code.setTextColor(getResources().getColor(R.color.white));
+
                     break;
                 case GET_PHONE_NUMBER:
                     // if (!TextUtils.isEmpty(phoneNumber)) {

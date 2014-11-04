@@ -205,7 +205,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private void setRegistAble() {
-        if (cbAgree.isChecked()) {
+        if (cbAgree.isChecked() && etPhoneNum.getText().length() > 0) {
             rlfbutton.setEnabled(true);
         } else {
             rlfbutton.setEnabled(false);
@@ -216,6 +216,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         current_type = getIntent().getIntExtra("activity_type", REGIST_TYPE);
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
+        rlfbutton.setEnabled(false);
         // code = (EditText) findViewById(R.id.et_verifycode);
         // tvMessage = (TextView) findViewById(R.id.tv_agree_info);
         cbAgree = (CheckBox) findViewById(R.id.cb_agree);
@@ -254,13 +255,13 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         // Intent intent1 = new Intent(this, ActivityTermsPrivate.class);
         // intent1.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_POLICY);
         // // 跳转服务条款
-        Intent intent = new Intent(this, MainActivity.class);
+        // Intent intent = new Intent(this, .class);
         // intent2.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_TERMS);
 
         SpannableStringBuilder sp = new SpannableStringBuilder();
         sp.append(str + str2);
 
-        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, intent), str.length(),
+        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, null), str.length(),
                 str.length() + str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         cbAgree.setText(sp);
         // 设置TextView可点击
