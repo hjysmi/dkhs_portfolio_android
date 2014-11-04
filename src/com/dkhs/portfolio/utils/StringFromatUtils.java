@@ -100,11 +100,17 @@ public class StringFromatUtils {
         }
     }
 
-    public static String convertToWan(int value) {
+    public static String convertToWan(long value) {
         if (value < 100000) {
             return String.valueOf(value);
+        } else if (value < 10000000) {
+
+            return String.format("%.2f万", value / 10000f);
+        } else {
+
+            return String.format("%.2f亿", value / 100000000f);
+
         }
-        return String.format("%.2f万", value / 10000f);
     }
 
     public static String convertToWanHand(int value) {

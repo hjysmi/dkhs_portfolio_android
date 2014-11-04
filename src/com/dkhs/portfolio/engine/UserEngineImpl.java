@@ -2,12 +2,18 @@ package com.dkhs.portfolio.engine;
 
 import java.io.File;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -114,9 +120,46 @@ public class UserEngineImpl {
         params.addBodyParameter("username", username);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserName, params, listener);
     }
-    public void setUserHead(File file,ParseHttpListener<UserEntity> listener) {
+    
+    
+    public void saveLoginUserInfo(UserEntity entity){
+        GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
+        
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL,
+                entity.getAvatar_md());
+        
+        saveUser(entity); 
+    }
+    
+    private void saveUser(final UserEntity user) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
+                DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
+                UserEntity dbentity;
+                try {
+                    dbentity = dbutil.findFirst(UserEntity.class);
+                    if (dbentity != null) {
+                        dbutil.delete(dbentity);
+                    }
+                    dbutil.save(entity);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+    
+    
+     public void setUserHead(File file,ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();	
         params.addBodyParameter("avatar", file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
+    
+    
 }

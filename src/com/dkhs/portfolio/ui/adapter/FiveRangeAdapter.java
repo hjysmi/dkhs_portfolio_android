@@ -14,7 +14,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -56,9 +59,13 @@ public class FiveRangeAdapter extends BaseAdapter {
     // }
     //
     // }
+    private ListView.LayoutParams mItemViewLayoutParams;
+
     public FiveRangeAdapter(Context mContext, boolean isBuy) {
         this.mContext = mContext;
         this.isBuy = isBuy;
+        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
 
     }
 
@@ -104,22 +111,25 @@ public class FiveRangeAdapter extends BaseAdapter {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             FiveRangeItem item = dataList.get(position);
-            if (!item.price.contains("-.---")) {
-                if (Float.parseFloat(item.price) == 0) {
-                    viewHolder.tvPrice.setText("-");
-                } else {
+            // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
+            // 13f);
+            // if (!item.price.contains("-.---")) {
+            System.out.println("position:" + position + " item:" + item.price);
+            if (Float.parseFloat(item.price) == 0) {
+                viewHolder.tvPrice.setText("—");
+            } else {
 
-                    viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price),
-                            mCompareValue));
-                    viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
-                }
-
-                viewHolder.tvVol.setText(StringFromatUtils.convertToWan(Integer.parseInt(item.vol)));
-
+                viewHolder.tvPrice
+                        .setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price), mCompareValue));
+                viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
             }
+
+            viewHolder.tvVol.setText(StringFromatUtils.convertToWan(item.vol));
+
             viewHolder.tvTag.setText(item.tag);
+            // convertView.setLayoutParams(mItemViewLayoutParams);
         } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
         return convertView;

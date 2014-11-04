@@ -37,6 +37,21 @@ public class StockQuotesBean {
     private String name;
     private boolean followed;
 
+    // 成交量
+    private int volume;
+    // 成交额
+    private float amount;
+    // 换手率
+    private float turnover_rate;
+    // 流通市值 单位：元
+    private float market_capital;
+    // 总市值 单位：元
+    private float total_capital;
+    // 动态市盈率
+    private float pe_ttm;
+    // 市净率
+    private float pb;
+
     @SerializedName("sell_price_level")
     private SellPrice sellPrice;
 
@@ -45,15 +60,15 @@ public class StockQuotesBean {
 
     public class BuyPrice {
         @SerializedName("buy_vol")
-        private List<String> buyVol;
+        private List<Integer> buyVol;
         @SerializedName("buy_price")
         private List<String> buyPrice;
 
-        public List<String> getBuyVol() {
+        public List<Integer> getBuyVol() {
             return buyVol;
         }
 
-        public void setBuyVol(List<String> buyVol) {
+        public void setBuyVol(List<Integer> buyVol) {
             this.buyVol = buyVol;
         }
 
@@ -68,15 +83,15 @@ public class StockQuotesBean {
 
     public class SellPrice {
         @SerializedName("sell_vol")
-        private List<String> sellVol;
+        private List<Integer> sellVol;
         @SerializedName("sell_price")
         private List<String> sellPrice;
 
-        public List<String> getSellVol() {
+        public List<Integer> getSellVol() {
             return sellVol;
         }
 
-        public void setSellVol(List<String> sellVol) {
+        public void setSellVol(List<Integer> sellVol) {
             this.sellVol = sellVol;
         }
 
@@ -207,6 +222,62 @@ public class StockQuotesBean {
 
     public void setFollowed(boolean followed) {
         this.followed = followed;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public float getTurnover_rate() {
+        return turnover_rate;
+    }
+
+    public void setTurnover_rate(float turnover_rate) {
+        this.turnover_rate = turnover_rate;
+    }
+
+    public float getMarket_capital() {
+        return market_capital;
+    }
+
+    public void setMarket_capital(float market_capital) {
+        this.market_capital = market_capital;
+    }
+
+    public float getTotal_capital() {
+        return total_capital;
+    }
+
+    public void setTotal_capital(float total_capital) {
+        this.total_capital = total_capital;
+    }
+
+    public float getPe_ttm() {
+        return pe_ttm;
+    }
+
+    public void setPe_ttm(float pe_ttm) {
+        this.pe_ttm = pe_ttm;
+    }
+
+    public float getPb() {
+        return pb;
+    }
+
+    public void setPb(float pb) {
+        this.pb = pb;
     }
 
 }

@@ -32,6 +32,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -372,9 +373,8 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                 String token = (String) json.getJSONObject("token").get("access_token");
                 entity.setAccess_token(token);
                 entity.setMobile(phoneNum);
-                GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
-                GlobalParams.MOBILE = phoneNum;
-                saveUser(entity);
+                engine.saveLoginUserInfo(entity);
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
                 return entity;
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -395,25 +395,4 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         }
     };
 
-    private void saveUser(final UserEntity user) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
-                DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
-                UserEntity dbentity;
-                try {
-                    dbentity = dbutil.findFirst(UserEntity.class);
-                    if (dbentity != null) {
-                        dbutil.delete(dbentity);
-                    }
-                    dbutil.save(entity);
-                } catch (DbException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
 }
