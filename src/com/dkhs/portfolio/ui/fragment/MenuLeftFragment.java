@@ -240,6 +240,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+		tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 		String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
             url = DKHSUrl.BASE_DEV_URL + url;

@@ -136,6 +136,8 @@ public class DKHSUrl {
         String setUserName = "/api/v1/accounts/set_username/";
         //修改头像
         String setUserHead = "/api/v1/accounts/avatar/";
+        //获取设置界面信息
+        String settingMessage = "/api/v1/accounts/settings/";
     }
 
     public interface MainPage {
