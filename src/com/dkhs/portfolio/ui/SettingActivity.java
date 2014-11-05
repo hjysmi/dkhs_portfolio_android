@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -50,7 +51,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private LinearLayout settingLayoutGroup;
     private Context context;
     private ImageView settingImageHead;
-
+    private TextView settingTextAccountText;
+    private TextView settingTextNameText;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -74,6 +76,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
     public void initData() {
         UserEngineImpl engine = new UserEngineImpl();
+        engine.getSettingMessage(listener);
         if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
 
@@ -114,9 +117,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         setTitle(R.string.setting);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
+        settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
+        settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
+        String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
+        account = setAccount(account);
+        settingTextAccountText.setText(account);
+        settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
-            url = DKHSUrl.BASE_DEV_URL + url;
+            //url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(context);
             bitmapUtils.display(settingImageHead, url);
         }else{
@@ -125,7 +134,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 	        settingImageHead.setImageBitmap(b);
         }
     }
-
+    public String setAccount(String account){
+    	if(account.contains("@")){
+    		int k = account.indexOf("@");
+    		account = account.substring(0, k-3) + "***" + account.substring(k,account.length());
+    	}else{
+    		account = account.substring(0, account.length() - 5) + "***" + account.substring(account.length() - 2,account.length());
+    	}
+    	return account;
+    }
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -178,7 +195,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 break;
             case R.id.setting_layout_username:
             	intent = new Intent(this, UserNameChangeActivity.class);
-                startActivity(intent);
+            	startActivityForResult(intent,6);
                 break;
             case R.id.setting_layout_icon:
             	intent = new Intent(context,CopyMessageDialog.class);
@@ -234,12 +251,40 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
+			settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 			String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url)) {
-                url = DKHSUrl.BASE_DEV_URL + url;
+                //url = DKHSUrl.BASE_DEV_URL + url;
                 BitmapUtils bitmapUtils = new BitmapUtils(context);
                 bitmapUtils.display(settingImageHead, url);
             }
 		}
     }
+    private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+        };
+
+        @Override
+        protected UserEntity parseDateTask(String jsonData) {
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                UserEntity ue = DataParse.parseObjectJson(UserEntity.class, json);
+                return ue;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(UserEntity entity) {
+
+            // PromptManager.closeProgressDialog();
+            if (null != entity) {
+            	settingTextNameText.setText(entity.getUsername());
+            }
+        }
+    };
 }

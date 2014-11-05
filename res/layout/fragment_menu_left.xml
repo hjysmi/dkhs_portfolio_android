@@ -36,7 +36,7 @@
                     android:id="@+id/tv_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
+                    android:paddingTop="8dp"
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -106,16 +106,6 @@
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-
-    <!--
-         <View
-        android:id="@id/login_divider"
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/sliding_menu_divider_height"
-        android:layout_below="@+id/menu_userinfo"
-        android:layout_marginTop="10dp"
-        android:background="@color/sliding_menu_divider_color" />
-    -->
 
     <RelativeLayout
         android:id="@+id/menu_setting"
