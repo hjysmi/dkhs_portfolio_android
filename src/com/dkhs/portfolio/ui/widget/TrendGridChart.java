@@ -50,7 +50,7 @@ public class TrendGridChart extends View {
     public static final int DEFAULT_LAITUDE_COLOR = Color.RED;
 
     /** 默认轴线左边距 */
-    public static final float DEFAULT_AXIS_MARGIN_LEFT = 42f;
+    public static final float DEFAULT_AXIS_MARGIN_LEFT = 5f;
 
     /** 默认轴线底边据 */
     public static final float DEFAULT_AXIS_MARGIN_BOTTOM = 0f;
@@ -428,20 +428,17 @@ public class TrendGridChart extends View {
                         mPaintFont.setColor(getYTitlePaintFont(i, counts));
                     }
 
-
                     if (i == 0) {
-                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset
-                                + latitudeFontSize / 2f, mPaintFont);
+                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
+                                / 2f, mPaintFont);
                     } else if (i == counts - 1) {
-                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset
-                                + latitudeFontSize / 2f + xTitleTextHeight, mPaintFont);
+                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
+                                / 2f + xTitleTextHeight, mPaintFont);
                     } else {
-                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset
-                                + latitudeFontSize / 2f + xTitleTextHeight / 2, mPaintFont);
+                        canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize
+                                / 2f + xTitleTextHeight / 2, mPaintFont);
                     }
 
-                    
-                    
                     // canvas.drawText(axisRightYTitles.get(i), startX, offset - i * postOffset + latitudeFontSize / 2f,
                     // mPaintFont);
 
@@ -670,7 +667,7 @@ public class TrendGridChart extends View {
 
             for (int i = 0; i < counts; i++) {
 
-                if (i == 0 || i == counts - 1) {
+                if (i == 0 || i == counts - 1 || i == 2) {
 
                     mPaintLine.setPathEffect(null);
                 } else {

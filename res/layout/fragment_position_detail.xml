@@ -65,8 +65,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="15dp"
-                android:textColor="@color/red"
                 android:text="-"
+                android:textColor="@color/red"
                 android:textSize="18sp" />
 
             <TextView

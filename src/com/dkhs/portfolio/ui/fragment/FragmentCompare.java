@@ -64,6 +64,7 @@ import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -297,9 +298,9 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         machart.setAxisYColor(Color.LTGRAY);
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(20);
-        machart.setAxisMarginRight(10);
+        machart.setAxisMarginTop(5);
+        machart.setAxisMarginLeft(5);
+        machart.setAxisMarginRight(5);
 
         machart.setLongtitudeFontSize(10);
         machart.setLongtitudeFontColor(Color.GRAY);
@@ -692,7 +693,16 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 }
 
             } else {
+                Calendar sevenAfter = (Calendar) cStart.clone();
+                sevenAfter.add(Calendar.DAY_OF_MONTH, 7);
                 cEnd.set(year, monthOfYear, dayOfMonth);
+                if(cEnd.before(sevenAfter)){
+                    PromptManager.showToast("查询结束时间不应早于开始时间");
+                    cEnd = sevenAfter;
+                }
+                
+                
+                
             }
             updateDayDisplay();
             // }

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:padding="5dp"
     android:weightSum="4" >
 
     <com.dkhs.portfolio.ui.widget.TimesharingplanChart
@@ -11,13 +10,13 @@
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="2dp"
         android:layout_weight="3" />
 
     <RelativeLayout
         android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:padding="5dp" >
 
         <RelativeLayout
             android:id="@+id/layout_sell"

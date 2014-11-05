@@ -11,6 +11,7 @@ package com.dkhs.portfolio.bean;
 import java.io.Serializable;
 
 import com.google.gson.annotations.SerializedName;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
  * @ClassName CombinationStock
@@ -105,6 +106,21 @@ public class ConStockBean extends StockBean implements Serializable {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public ConStockBean clone() {
+        ConStockBean stock = new ConStockBean();
+        stock.stockCode = this.stockCode;
+        stock.stockId = this.stockId;
+        stock.stockName = this.stockName;
+        stock.dutyColor = this.dutyColor;
+        stock.dutyValue = this.dutyValue;
+        stock.percent = this.percent;
+        stock.isStop = this.isStop;
+        stock.increasePercent = this.increasePercent;
+
+        return stock;
     }
 
     public float getPercent() {

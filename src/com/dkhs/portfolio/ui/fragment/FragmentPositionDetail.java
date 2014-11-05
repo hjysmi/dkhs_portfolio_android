@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -64,6 +65,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private TextView tvCurrentDay;
     private TextView tvCombinationName;
     private TextView tvNetValue;
+    private ScrollView mScrollview;
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
     private float surValue;
 
@@ -182,6 +184,25 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
     class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
 
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @return
+         */
+        @Override
+        public void beforeRequest() {
+            // TODO Auto-generated method stub
+            super.beforeRequest();
+            // if(null!=mPositionDetail){
+            //
+            // mPositionDetail.getAdjustList().clear();
+            // mPositionDetail.getPositionList().clear();
+            //
+            // updateView();
+            // btnAdjust.setEnabled(false);
+            // }
+        }
+
         @Override
         protected PositionDetail parseDateTask(String jsonData) {
             JSONObject jsonObject = null;
@@ -206,18 +227,20 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     };
 
     private void updateView() {
+
         btnAdjust.setEnabled(true);
         setCombinationInfo();
         setStockList();
         setPieList();
         setAdjustHistoryList();
+        // mScrollview.fullScroll(ScrollView.FOCUS_UP);
     }
 
     protected void setCombinationInfo() {
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
         tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
         tvNetValue.setText(StringFromatUtils.get4Point(mPositionDetail.getPortfolio().getNetvalue()));
-        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue()-1));
+        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue() - 1));
 
     }
 
@@ -228,7 +251,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void setStockList() {
-        stockList = mPositionDetail.getPositionList();
+        stockList.clear();
+        stockList.addAll(mPositionDetail.getPositionList());
         if (null != stockList && stockList.size() > 0) {
 
             int listSize = stockList.size();
@@ -236,13 +260,12 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             for (int i = 0; i < listSize; i++) {
                 stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
             }
-
-            mContributeAdapter.setList(stockList);
-            stockAdapter.setList(stockList);
         }
-    }
 
-    private ScrollView mScrollview;
+        stockAdapter.setList(stockList);
+        mContributeAdapter.setList(stockList);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -253,7 +276,13 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         initContributeView(view);
         initAdjustHistoryView(view);
         mScrollview = (ScrollView) view.findViewById(R.id.sc_content);
-
+        mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // Ready, move up
+                mScrollview.fullScroll(View.FOCUS_UP);
+            }
+        });
         return view;
     }
 
