@@ -136,12 +136,18 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             if (null != mPositionDetailBean.getPositionList()) {
-                stockList.clear();
-                stockList.addAll(mPositionDetailBean.getPositionList());
+                copyDefalutList();
             }
             mCombinationId = mPositionDetailBean.getPortfolio().getId();
         }
 
+    }
+
+    private void copyDefalutList() {
+        stockList.clear();
+        for (ConStockBean bean : mPositionDetailBean.getPositionList()) {
+            stockList.add(bean.clone());
+        }
     }
 
     /**
@@ -150,15 +156,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @return void
      */
     private void initView() {
-        initConbinationInfoView();
 
-        initPieView();
-        initFooterView();
-        initStockPercentView();
         btnConfirm = getRightButton();
         btnConfirm.setText(R.string.confirm);
         btnConfirm.setOnClickListener(this);
-
         findViewById(R.id.btn_add_postional).setOnClickListener(this);
         findViewById(R.id.btn_confirm).setOnClickListener(this);
         positionTextValue = (TextView) findViewById(R.id.position_text_value);
@@ -166,6 +167,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         viewCombinationInfo = findViewById(R.id.rl_combinationvalue);
         btnAverage = (Button) findViewById(R.id.btn_average);
         btnAverage.setOnClickListener(this);
+
+        initConbinationInfoView();
+
+        initPieView();
+        initFooterView();
+        initStockPercentView();
 
         if (null != mPositionDetailBean) {
             viewCombinationInfo.setVisibility(View.VISIBLE);
@@ -177,6 +184,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             positionTextCreatedate.setText("成立时间:"
                     + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
         }
+        isShowAverageButton();
     }
 
     private void initConbinationInfoView() {
@@ -478,12 +486,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 if (tempList.contains(originStock)) {
                     int index = tempList.indexOf(originStock);
                     ConStockBean bean = tempList.get(index);
-                    if (originStock.getPercent() == bean.getPercent()) {
+                    if (originStock.getDutyValue() == bean.getDutyValue()) {
                         tempList.remove(index);
                     }
 
                 } else {
-                    originStock.setPercent(0);
+                    originStock.setDutyColor(0);
                     tempList.add(originStock);
 
                 }

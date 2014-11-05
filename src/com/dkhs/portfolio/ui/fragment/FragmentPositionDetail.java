@@ -182,6 +182,25 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
     class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
 
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @return
+         */
+        @Override
+        public void beforeRequest() {
+            // TODO Auto-generated method stub
+            super.beforeRequest();
+            // if(null!=mPositionDetail){
+            //
+            // mPositionDetail.getAdjustList().clear();
+            // mPositionDetail.getPositionList().clear();
+            //
+            // updateView();
+            // btnAdjust.setEnabled(false);
+            // }
+        }
+
         @Override
         protected PositionDetail parseDateTask(String jsonData) {
             JSONObject jsonObject = null;
@@ -217,7 +236,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
         tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
         tvNetValue.setText(StringFromatUtils.get4Point(mPositionDetail.getPortfolio().getNetvalue()));
-        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue()-1));
+        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue() - 1));
 
     }
 
@@ -228,7 +247,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void setStockList() {
-        stockList = mPositionDetail.getPositionList();
+        stockList.clear();
+        stockList.addAll(mPositionDetail.getPositionList());
         if (null != stockList && stockList.size() > 0) {
 
             int listSize = stockList.size();
@@ -236,10 +256,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             for (int i = 0; i < listSize; i++) {
                 stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
             }
-
-            mContributeAdapter.setList(stockList);
-            stockAdapter.setList(stockList);
         }
+
+        stockAdapter.setList(stockList);
+        mContributeAdapter.setList(stockList);
+
     }
 
     private ScrollView mScrollview;
