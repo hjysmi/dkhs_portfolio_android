@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -64,6 +65,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private TextView tvCurrentDay;
     private TextView tvCombinationName;
     private TextView tvNetValue;
+    private ScrollView mScrollview;
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
     private float surValue;
 
@@ -225,11 +227,13 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     };
 
     private void updateView() {
+
         btnAdjust.setEnabled(true);
         setCombinationInfo();
         setStockList();
         setPieList();
         setAdjustHistoryList();
+        // mScrollview.fullScroll(ScrollView.FOCUS_UP);
     }
 
     protected void setCombinationInfo() {
@@ -263,8 +267,6 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
     }
 
-    private ScrollView mScrollview;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_position_detail, null);
@@ -274,7 +276,13 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         initContributeView(view);
         initAdjustHistoryView(view);
         mScrollview = (ScrollView) view.findViewById(R.id.sc_content);
-
+        mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // Ready, move up
+                mScrollview.fullScroll(View.FOCUS_UP);
+            }
+        });
         return view;
     }
 
