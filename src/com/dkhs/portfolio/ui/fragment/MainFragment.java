@@ -87,7 +87,14 @@ public class MainFragment extends Fragment implements OnClickListener {
     // private View viewPortfolioRanking;
 
     private static final int MSG_CHANGE_PAGER = 172;
+
+    // 15s
+    private static final long mPollRequestTime = 1000 * 15;
+    // 1分钟
+    private static final long mCombinationRequestTime = 1000 * 30;
     private Timer mScollTimer;
+    private Timer mMarketTimer;
+    private Timer mCombinationTimer;
 
     Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -152,6 +159,16 @@ public class MainFragment extends Fragment implements OnClickListener {
             }
         });
 
+        tvBottomText.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MarketCenterActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
         setViewLayoutParams();
         inflateAddLayout();
 
@@ -166,9 +183,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        dataEngine.getScrollValue(scrollDataListener);
 
-        loadCombination();
     }
 
     private void setViewPageScroll() {
@@ -492,6 +507,14 @@ public class MainFragment extends Fragment implements OnClickListener {
             mScollTimer = new Timer(true);
             mScollTimer.schedule(new ScrollPageTask(), 2000, 2000);
         }
+        if (mMarketTimer == null) {
+            mMarketTimer = new Timer(true);
+            mMarketTimer.schedule(new RequestMarketTask(), 1000, mPollRequestTime);
+        }
+        if (mCombinationTimer == null) {
+            mCombinationTimer = new Timer(true);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 1000, mCombinationRequestTime);
+        }
     }
 
     @Override
@@ -502,6 +525,14 @@ public class MainFragment extends Fragment implements OnClickListener {
             mScollTimer.cancel();
             mScollTimer = null;
         }
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
+        if (mCombinationTimer != null) {
+            mCombinationTimer.cancel();
+            mCombinationTimer = null;
+        }
     }
 
     public class ScrollPageTask extends TimerTask {
@@ -509,6 +540,24 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         public void run() {
             mHandler.sendEmptyMessage(MSG_CHANGE_PAGER);
+        }
+    }
+
+    public class RequestMarketTask extends TimerTask {
+
+        @Override
+        public void run() {
+            dataEngine.getScrollValue(scrollDataListener);
+
+        }
+    }
+
+    public class RequestCombinationTask extends TimerTask {
+
+        @Override
+        public void run() {
+            loadCombination();
+
         }
     }
 
