@@ -12,7 +12,7 @@
         <com.dkhs.portfolio.ui.widget.chart.StickChart
         	android:id="@+id/chart_volumn"
         	android:layout_width="match_parent"
-	        android:layout_height="85.5dp"
+	        android:layout_height="81.5dp"
 	        android:layout_alignParentBottom="true"
 	        android:layout_marginLeft="10dp"
 	        android:layout_marginRight="10dp"

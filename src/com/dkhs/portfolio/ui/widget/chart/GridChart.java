@@ -29,6 +29,7 @@ import android.view.View;
 public class GridChart extends View implements IViewConst, ITouchEventNotify,ITouchEventResponse {
 
 	// ////////////默认值////////////////
+	public static final int PADDING_LEFT = 80;
 	/** 默认背景色 */
 	public static final int DEFAULT_BACKGROUD_COLOR = Color.BLACK;
 
@@ -54,7 +55,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	public static final float DEFAULT_AXIS_MARGIN_TOP = 0f;
 
 	/** 默认轴线右边�?*/
-	public static final float DEFAULT_AXIS_MARGIN_RIGHT = 5f;
+	public static final float DEFAULT_AXIS_MARGIN_RIGHT = 4f;
 
 	/** 默认经线是否显示刻度 */
 	public static final boolean DEFAULT_DISPLAY_LONGTITUDE = Boolean.TRUE;
@@ -479,8 +480,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	
 			if (clickPostX > 0 && clickPostY > 0) {
 				// 显示纵线
-				if (displayCrossXOnTouch) {
-					canvas.drawLine(clickPostX, 2f + mTitleHeight, clickPostX, lineVLength,
+				if (displayCrossXOnTouch && clickPostX > 3) {
+					canvas.drawLine(clickPostX + PADDING_LEFT, 2f + mTitleHeight, clickPostX + PADDING_LEFT, lineVLength,
 									mPaint);
 				}
 	
@@ -507,10 +508,10 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		mPaint.setColor(borderColor);
 
 		// 绘制边�?��
-		canvas.drawLine(1f, 1f + mTitleHeight, 1f + width, 1f  + mTitleHeight, mPaint);
+		canvas.drawLine(PADDING_LEFT, 1f + mTitleHeight, 1f + width, 1f  + mTitleHeight, mPaint);
 		canvas.drawLine(1f + width, 1f + mTitleHeight, 1f + width, 1f + height, mPaint);
-		canvas.drawLine(1f + width, 1f + height, 1f , 1f + height, mPaint);
-		canvas.drawLine(1f, 1f + height, 1f, 1f + mTitleHeight, mPaint);
+		canvas.drawLine(1f + width, 1f + height, PADDING_LEFT , 1f + height, mPaint);
+		canvas.drawLine(PADDING_LEFT, 1f + height, PADDING_LEFT, 1f + mTitleHeight, mPaint);
 	}
 
 	/**
@@ -526,7 +527,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		Paint mPaint = new Paint();
 		mPaint.setColor(axisXColor);
 
-		canvas.drawLine(0f, postY, length, postY, mPaint);
+		canvas.drawLine(PADDING_LEFT, postY, length, postY, mPaint);
 
 	}
 
@@ -538,7 +539,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	protected void drawYAxis(Canvas canvas) {
 
 		float length = super.getHeight() - axisMarginBottom;
-		float postX = /*axisMarginLeft +*/ 1;
+		float postX = /*axisMarginLeft +*/ PADDING_LEFT;
 
 		Paint mPaint = new Paint();
 		mPaint.setColor(axisXColor);
@@ -571,7 +572,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			if (counts > 1) {
 				float postOffset = (super.getWidth() - axisMarginLeft - 2 * axisMarginRight)
 						/ (counts - 1);
-				float offset = axisMarginLeft + axisMarginRight;
+				float offset = axisMarginLeft + axisMarginRight + PADDING_LEFT;
 				float sumTexts = 0l;
 				for(int i=0; i<counts; i++) {
 					sumTexts += mPaintFont.measureText(axisXTitles.get(i));
@@ -590,7 +591,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 //						if (i < counts && i > 0) {
 						if(i == 0){
 							canvas.drawText(axisXTitles.get(i), 
-									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal), super
+									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT, super
 									.getHeight()
 									- axisMarginBottom + longtitudeFontSize,
 									mPaintFont);
@@ -663,7 +664,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 								total = total/10000000;
 								totals = new DecimalFormat("0.00").format(total) + "千万";
 							}
-							canvas.drawText( totals, 0f, mTitleHeight,
+							canvas.drawText( totals, 0f, mTitleHeight + 20,
 									mPaintFont);
 							Paint p= new Paint(); 
 							Rect rect = new Rect();

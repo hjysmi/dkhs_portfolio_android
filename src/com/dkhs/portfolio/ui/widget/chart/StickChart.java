@@ -47,7 +47,7 @@ public class StickChart extends GridChart {
 
     /** 显示经线数 */
     private int longtitudeNum = DEFAULT_LONGTITUDE_NUM;
-
+    
     /** K线数据 */
     private List<StickEntity> StickData;
 
@@ -268,7 +268,7 @@ public class StickChart extends GridChart {
             // 蜡烛棒宽度
             float stickWidth = 0;
             if(mShowDate > 0){
-            	stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / mShowDate) - 3;
+            	stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
             }
             
            
@@ -277,7 +277,7 @@ public class StickChart extends GridChart {
             Paint mPaintStick = new Paint();
             
             if (null != StickData) {
-            	float stickX = /* super.getAxisMarginLeft() + */3;
+            	float stickX = /* super.getAxisMarginLeft() + */ + 4 + PADDING_LEFT;
                /* if(maxStickDataNum > StickData.size()){
                 	stickX = (maxStickDataNum - StickData.size()) * (stickWidth + 3);
                 }*/
@@ -285,7 +285,7 @@ public class StickChart extends GridChart {
             	int num = StickData.size() - mShowDate;
             	if(StickData.size() < maxStickDataNum){
             		mShowDate = maxStickDataNum;
-            		stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight()) / mShowDate) - 3;
+            		stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
             		num = 0;
             	}
                 for (int i = num; i < StickData.size(); i++) {
@@ -326,13 +326,13 @@ public class StickChart extends GridChart {
     public void drawMA(Canvas canvas) {
         try {
             String text = "";
-            float wid = titalWid * 2 + 10;
-            float stickWidth = ((super.getWidth() /*- super.getAxisMarginLeft()*/- super.getAxisMarginRight() -3) / mShowDate) - 3;
+            float wid =0 ;
+            float stickWidth = ((super.getWidth()  - PADDING_LEFT- super.getAxisMarginRight() -3) / mShowDate) - 3;
             
             for (int j = 0; j < MALineData.size(); j++) {
                 MALineEntity lineEntity = MALineData.get(j);
 
-                float startX = -stickWidth / 2 + 3;
+                float startX = -stickWidth / 2 + 2 + PADDING_LEFT;
                 /*if(maxStickDataNum >= StickData.size()){
                 	startX = startX + (maxStickDataNum - StickData.size()) * (stickWidth + 3);
                 }*/
@@ -369,12 +369,12 @@ public class StickChart extends GridChart {
                 Rect rect = new Rect();
                 p.getTextBounds(text, 0, text.length(), rect);
                 if (j == 0) {
-                    wid = wid + 2;
-                } else {
-                    wid = rect.width() / 2 + wid - 30;
-                }
-                canvas.drawText(text, wid, getResources().getDimensionPixelOffset(R.dimen.title_text_font), paint);
-                wid = wid + 2 + rect.width();
+                    wid =  2;
+                }/* else {
+                    wid = 2 + rect.width()*2/3 + wid + 5;
+                }*/
+                canvas.drawText(text, wid + PADDING_LEFT, getResources().getDimensionPixelOffset(R.dimen.title_text_font), paint);
+                wid = wid + 32 + rect.width();
                 int addWid;
                 if(j == 0){
                 	addWid = (int) (4 * (stickWidth + 3));
@@ -387,7 +387,7 @@ public class StickChart extends GridChart {
                 int s = lineEntity.getLineData().size();
                 if(lineEntity.getLineData().size() < mShowDate){
                 	s =0;
-                	startX = addWid;
+                	startX = addWid + PADDING_LEFT;
                 }else{
                 	s = lineEntity.getLineData().size() - mShowDate;
                 }
