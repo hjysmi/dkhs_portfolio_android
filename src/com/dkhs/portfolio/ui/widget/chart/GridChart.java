@@ -510,7 +510,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		// 绘制边�?��
 		canvas.drawLine(PADDING_LEFT, 1f + mTitleHeight, 1f + width, 1f  + mTitleHeight, mPaint);
 		canvas.drawLine(1f + width, 1f + mTitleHeight, 1f + width, 1f + height, mPaint);
-		canvas.drawLine(1f + width, 1f + height, 1f , 1f + height, mPaint);
+		canvas.drawLine(1f + width, 1f + height, PADDING_LEFT , 1f + height, mPaint);
 		canvas.drawLine(PADDING_LEFT, 1f + height, PADDING_LEFT, 1f + mTitleHeight, mPaint);
 	}
 
@@ -572,7 +572,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			if (counts > 1) {
 				float postOffset = (super.getWidth() - axisMarginLeft - 2 * axisMarginRight)
 						/ (counts - 1);
-				float offset = axisMarginLeft + axisMarginRight;
+				float offset = axisMarginLeft + axisMarginRight + PADDING_LEFT;
 				float sumTexts = 0l;
 				for(int i=0; i<counts; i++) {
 					sumTexts += mPaintFont.measureText(axisXTitles.get(i));

@@ -355,24 +355,35 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		Paint textPaint = new Paint();
 		textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
 		textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-
+		int pand = 32;
+		int pad = 13;
 		if(isDisplayAxisYTitle()) {
 			// Y轴Titles
 			int len = getUpperLatitudeNum() +1;
 			if(len > 0) {
 				for(int i=0; i<len; i++) {
 					if(i == 0){
-						canvas.drawText(
-								new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i), 1,
+						String t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
+						if(t.length() > 6){
+							t = t.substring(0, 6);
+						}
+						canvas.drawText(t, pand - (t.length() - 4)*pad,
 								UPER_CHART_BOTTOM - getLatitudeSpacing() * i, textPaint);
 					}else{
-						canvas.drawText(
-							new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i), 1,
+						String t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
+						if(t.length() > 6){
+							t = t.substring(0, 6);
+						}
+						canvas.drawText(t, pand - (t.length() - 4)*pad,
 							UPER_CHART_BOTTOM - getLatitudeSpacing() * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
 					}
 				}
 			}
-			canvas.drawText(new DecimalFormat("0.00").format(mMaxPrice), 1,
+			String t = new DecimalFormat("0.00").format(mMaxPrice);
+			if(t.length() > 6){
+				t = t.substring(0, 6);
+			}
+			canvas.drawText(t, pand - (t.length() - 4)*pad,
 					DEFAULT_AXIS_TITLE_SIZE * 2 + 2, textPaint);
 		}
 		
@@ -841,9 +852,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
     private void setOnTouchOnce(){
     	showDetails = false;
 		go = false;
-		mStartX = getWidth() - 6;
+		mStartX = getWidth() - 6 - PADDING_LEFT;
 		if( mOHLCData.size() < MIN_CANDLE_NUM){
-			mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (MIN_CANDLE_NUM - mOHLCData.size()));
+			mStartX = (int)(getWidth() - 6 - (mCandleWidth + 3) * (MIN_CANDLE_NUM - mOHLCData.size()) - PADDING_LEFT);
 		}
 		/*e.setLocation(getWidth() - 6, 0);
 		mVolumnChartView.onSet(e,ismove,mDataStartIndext);*/

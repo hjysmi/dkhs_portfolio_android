@@ -110,7 +110,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
             BitmapUtils bitmapUtils = new BitmapUtils(this);
-            url = DKHSUrl.BASE_DEV_URL + url;
+            //url = DKHSUrl.BASE_DEV_URL + url;
             bitmapUtils.display(ivHeader, url);
         }
     }

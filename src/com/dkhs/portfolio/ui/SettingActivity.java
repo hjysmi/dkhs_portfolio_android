@@ -125,7 +125,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
-            url = DKHSUrl.BASE_DEV_URL + url;
+            //url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(context);
             bitmapUtils.display(settingImageHead, url);
         }else{
@@ -254,7 +254,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 			settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 			String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url)) {
-                url = DKHSUrl.BASE_DEV_URL + url;
+                //url = DKHSUrl.BASE_DEV_URL + url;
                 BitmapUtils bitmapUtils = new BitmapUtils(context);
                 bitmapUtils.display(settingImageHead, url);
             }

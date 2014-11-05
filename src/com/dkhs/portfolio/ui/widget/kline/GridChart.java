@@ -160,11 +160,11 @@ public class GridChart extends View {
 		setBackgroundResource(mBackGround);
 		int viewHeight = getHeight();
 		int viewWidth = getWidth();
-		if(9 * viewWidth < 16 * viewHeight){
+		/*if(9 * viewWidth < 16 * viewHeight){
 			viewHeight = viewWidth * 9 /16;
 		}else{
 			viewWidth = viewHeight * 16 /9;
-		}
+		}*/
 		if(showLowerChartTabs) {
 			mLowerChartHeight = viewHeight - 2 - LOWER_CHART_TOP;
 		}else {
