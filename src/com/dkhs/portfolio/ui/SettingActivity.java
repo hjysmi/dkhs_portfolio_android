@@ -97,7 +97,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
             });
         }
-        
+
     }
 
     public void setListener() {
@@ -116,13 +116,13 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
-            url = DKHSUrl.BASE_DEV_URL + url;
+            // url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(context);
             bitmapUtils.display(settingImageHead, url);
-        }else{
-	        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_user_head);
-	        b = UIUtils.toRoundBitmap(b);
-	        settingImageHead.setImageBitmap(b);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
+            b = UIUtils.toRoundBitmap(b);
+            settingImageHead.setImageBitmap(b);
         }
     }
 
@@ -177,13 +177,13 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.setting_layout_username:
-            	intent = new Intent(this, UserNameChangeActivity.class);
+                intent = new Intent(this, UserNameChangeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.setting_layout_icon:
-            	intent = new Intent(context,CopyMessageDialog.class);
-    	    	startActivityForResult(intent,5);
-            	break;
+                intent = new Intent(context, CopyMessageDialog.class);
+                startActivityForResult(intent, 5);
+                break;
             default:
                 break;
         }
@@ -231,15 +231,16 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
         }.setLoadingDialog(SettingActivity.this, R.string.loading));
     }
+
     @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url)) {
-                url = DKHSUrl.BASE_DEV_URL + url;
+                // url = DKHSUrl.BASE_DEV_URL + url;
                 BitmapUtils bitmapUtils = new BitmapUtils(context);
                 bitmapUtils.display(settingImageHead, url);
             }
-		}
+        }
     }
 }

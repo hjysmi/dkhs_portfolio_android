@@ -115,23 +115,22 @@ public class UserEngineImpl {
     public void checkMobile(String mobile, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.checkMobile, mobile);
     }
-    public void setUserName(String username,ParseHttpListener<String> listener) {
+
+    public void setUserName(String username, ParseHttpListener<String> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("username", username);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserName, params, listener);
     }
-    
-    
-    public void saveLoginUserInfo(UserEntity entity){
+
+    public void saveLoginUserInfo(UserEntity entity) {
         GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
-        
+
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
-        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL,
-                entity.getAvatar_md());
-        
-        saveUser(entity); 
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
+
+        saveUser(entity);
     }
-    
+
     private void saveUser(final UserEntity user) {
         new Thread(new Runnable() {
             @Override
@@ -153,13 +152,11 @@ public class UserEngineImpl {
             }
         }).start();
     }
-    
-    
-     public void setUserHead(File file,ParseHttpListener<UserEntity> listener) {
-        RequestParams params = new RequestParams();	
+
+    public void setUserHead(File file, ParseHttpListener<UserEntity> listener) {
+        RequestParams params = new RequestParams();
         params.addBodyParameter("avatar", file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
-    
-    
+
 }

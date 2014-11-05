@@ -57,8 +57,7 @@
             android:layout_toRightOf="@+id/tv_accout"
             android:background="@null"
             android:hint="@string/hint_account"
-            android:singleLine="true"
-            android:text="1218229610@qq.com" />
+            android:singleLine="true" />
     </RelativeLayout>
 
     <RelativeLayout
