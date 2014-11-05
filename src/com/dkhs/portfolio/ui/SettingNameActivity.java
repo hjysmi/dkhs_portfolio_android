@@ -310,7 +310,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             etUserName.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(text) < 6) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于6个字符</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于4个字符</font>"));
             etUserName.requestFocus();
         }
         return isValid;

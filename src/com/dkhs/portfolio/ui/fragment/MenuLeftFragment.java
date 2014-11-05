@@ -68,7 +68,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
         menuSetting.setOnClickListener(this);
         initView(view);
-        loadCombinationData();
+        // loadCombinationData();
         /*
          * mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_MAININDEX);
          * mLoadDataEngine.loadData();
@@ -225,39 +225,39 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                 if (null != dataList && isAdded()) {
 
                     tvCombin.setText(dataList.size() + "");
-                   
+
                 }
             }
 
         });
-        new OptionalStockEngineImpl(mSelectStockBackListener).loadData();
+        // new OptionalStockEngineImpl(mSelectStockBackListener).loadData();
     }
 
-    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    //
+    // @Override
+    // public void loadFinish(List<SelectStockBean> dataList) {
+    // tvStock.setText(dataList.size() + "");
+    //
+    // }
+    //
+    // };
 
-        @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            tvStock.setText(dataList.size() + "");
-
-        }
-
-    };
-    
     @Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+    public void onResume() {
+        // TODO Auto-generated method stub
+        String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
             url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
             bitmapUtils.display(ivUserheader, url);
-            //b = UIUtils.toRoundBitmap(b);
-            //ivUserheader.setImageBitmap(b);
-        }else{
-	        Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.ic_user_head);
-	        b = UIUtils.toRoundBitmap(b);
-	        ivUserheader.setImageBitmap(b);
+            // b = UIUtils.toRoundBitmap(b);
+            // ivUserheader.setImageBitmap(b);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
+            b = UIUtils.toRoundBitmap(b);
+            ivUserheader.setImageBitmap(b);
         }
-		super.onResume();
-	}
+        super.onResume();
+    }
 }
