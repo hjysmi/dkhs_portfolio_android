@@ -475,8 +475,7 @@ public class StockQuotesChartFragment extends Fragment {
      */
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
-        // offetYvalue = offetYvalue;
-        // int tenPercentValue =
+        offetYvalue = offetYvalue / 0.8f;
         if ((offetYvalue / baseNum) > 0.1f) {
             offetYvalue = 0.1f * baseNum;
         }
