@@ -209,11 +209,13 @@
     <string name="format_create_name">创建人:%1$s</string>
     <string name="setting_password_hint">请输入密码,不少于6位</string>
     <string name="password_setting_title">修改密码</string>
-	<string name="password_setting_old">原密码不能为空</string>
-	<string name="password_setting_new">新密码不能为空</string>
-	<string name="password_setting_more">密码长度必须超过6位</string>
-	<string name="change_usesr_name_notice">为了方便其它用户通过昵称找到你\n建议不要频繁更改昵称</string>
-	<string name="change_usesr_name_title">修改昵称</string>
-	<string name="password_setting_name_null">昵称不能为空</string>
-	<string name="password_setting_name_success">修改成功</string>
+    <string name="password_setting_old">原密码不能为空</string>
+    <string name="password_setting_new">新密码不能为空</string>
+    <string name="password_setting_more">密码长度必须超过6位</string>
+    <string name="change_usesr_name_notice">为了方便其它用户通过昵称找到你\n建议不要频繁更改昵称</string>
+    <string name="change_usesr_name_title">修改昵称</string>
+    <string name="password_setting_name_null">昵称不能为空</string>
+    <string name="password_setting_name_success">修改成功</string>
+    <string name="tip_message_dashline">注:虚线为模拟复盘走势</string>
+
 </resources>

@@ -25,7 +25,7 @@
                 android:layout_centerHorizontal="true"
                 android:text="-"
                 android:textColor="@color/theme_color"
-                android:textSize="30sp" />
+                android:textSize="28sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
             <TextView
                 android:id="@+id/tv_today_open"
                 style="@style/text_stock_name"
-                android:text="开：" />
+                android:text="开:" />
 
             <TextView
                 android:id="@+id/tv_today_open_value"
@@ -74,7 +74,7 @@
                 android:id="@+id/tv_highest"
                 style="@style/text_stock_name"
                 android:layout_below="@+id/tv_today_open"
-                android:text="高：" />
+                android:text="高:" />
 
             <TextView
                 android:id="@+id/tv_highest_value"
@@ -86,7 +86,7 @@
                 android:id="@+id/tv_lowest"
                 style="@style/text_stock_name"
                 android:layout_below="@+id/tv_highest"
-                android:text="低：" />
+                android:text="低:" />
 
             <TextView
                 android:id="@+id/tv_lowest_value"
@@ -104,7 +104,7 @@
             <TextView
                 android:id="@+id/tv_liang"
                 style="@style/text_stock_name"
-                android:text="量：" />
+                android:text="量:" />
 
             <TextView
                 android:id="@+id/tv_liang_value"
@@ -116,7 +116,7 @@
                 android:id="@+id/tv_e"
                 style="@style/text_stock_name"
                 android:layout_below="@+id/tv_liang"
-                android:text="额：" />
+                android:text="额:" />
 
             <TextView
                 android:id="@+id/tv_e_value"
@@ -128,7 +128,7 @@
                 android:id="@+id/tv_huan"
                 style="@style/text_stock_name"
                 android:layout_below="@+id/tv_e"
-                android:text="换：" />
+                android:text="换:" />
 
             <TextView
                 android:id="@+id/tv_huan_value"
@@ -174,7 +174,7 @@
             <TextView
                 android:id="@+id/tv_liuzhi"
                 style="@style/text_stock_name"
-                android:text="流值：" />
+                android:text="流值:" />
 
             <TextView
                 android:id="@+id/tv_liuzhi_value"
@@ -191,7 +191,7 @@
             <TextView
                 android:id="@+id/tv_zongzhi"
                 style="@style/text_stock_name"
-                android:text="总值：" />
+                android:text="总值:" />
 
             <TextView
                 android:id="@+id/tv_zongzhi_value"
@@ -208,7 +208,7 @@
             <TextView
                 android:id="@+id/tv_shiying"
                 style="@style/text_stock_name"
-                android:text="市盈：" />
+                android:text="市盈:" />
 
             <TextView
                 android:id="@+id/tv_shiying_value"
@@ -225,7 +225,7 @@
             <TextView
                 android:id="@+id/tv_shijing"
                 style="@style/text_stock_name"
-                android:text="市净：" />
+                android:text="市净:" />
 
             <TextView
                 android:id="@+id/tv_shijing_value"

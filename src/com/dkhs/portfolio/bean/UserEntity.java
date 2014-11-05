@@ -48,6 +48,7 @@ public class UserEntity {
     private String avatar_xs;
     private String access_token;
     private String avatar_md;
+    private String avatar_sm;
     private String avatar_lg;
 
     public long getId() {
@@ -168,5 +169,13 @@ public class UserEntity {
 
     public void setAvatar_lg(String avatar_lg) {
         this.avatar_lg = avatar_lg;
+    }
+
+    public String getAvatar_sm() {
+        return avatar_sm;
+    }
+
+    public void setAvatar_sm(String avatar_sm) {
+        this.avatar_sm = avatar_sm;
     }
 }
