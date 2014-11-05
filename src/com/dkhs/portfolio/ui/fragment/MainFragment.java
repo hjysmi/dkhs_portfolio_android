@@ -509,11 +509,11 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
         if (mMarketTimer == null) {
             mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), 1000, mPollRequestTime);
+            mMarketTimer.schedule(new RequestMarketTask(), 100, mPollRequestTime);
         }
         if (mCombinationTimer == null) {
             mCombinationTimer = new Timer(true);
-            mCombinationTimer.schedule(new RequestCombinationTask(), 1000, mCombinationRequestTime);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 200, mCombinationRequestTime);
         }
     }
 

@@ -138,6 +138,12 @@ public class TrendChartFragment extends Fragment {
         System.out.println("set TrendChartFragment setUpdateHandler");
     }
 
+    private Handler tipHandler;
+
+    public void setTipshowHandler(Handler handler) {
+        this.tipHandler = handler;
+    }
+
     private void handleExtras(Bundle extras) {
         // TODO private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
@@ -323,6 +329,14 @@ public class TrendChartFragment extends Fragment {
 
     }
 
+    private void setTipVisible(boolean isShow) {
+        if (null != tipHandler) {
+            Message msg = tipHandler.obtainMessage(777);
+            msg.obj = isShow;
+            tipHandler.sendMessage(msg);
+        }
+    }
+
     ParseHttpListener todayListener = new ParseHttpListener<TodayNetValue>() {
 
         @Override
@@ -426,6 +440,15 @@ public class TrendChartFragment extends Fragment {
         if (dashLineSize == 0) {
             dashLineSize = todayNetvalue.getChartlist().size();
         }
+        if (dashLineSize > 2) {
+            System.out.println("虚线提示语");
+            setTipVisible(true);
+
+        } else {
+            setTipVisible(false);
+            System.out.println("不显示虚线提示语");
+
+        }
         mMaChart.setDashLinePointSize(dashLineSize);
         System.out.println("dashLineSize :" + dashLineSize);
         float offetValue;
@@ -481,6 +504,15 @@ public class TrendChartFragment extends Fragment {
         offetValue = maxNum > minNum ? maxNum : minNum;
         if (dashLineSize == 0) {
             dashLineSize = dataLenght;
+        }
+        if (dashLineSize > 2) {
+            System.out.println("虚线提示语");
+            setTipVisible(true);
+
+        } else {
+            setTipVisible(false);
+            System.out.println("不显示虚线提示语");
+
         }
         mMaChart.setDashLinePointSize(dashLineSize);
         return offetValue;
