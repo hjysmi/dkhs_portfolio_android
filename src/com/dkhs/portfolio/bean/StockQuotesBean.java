@@ -38,7 +38,7 @@ public class StockQuotesBean {
     private boolean followed;
 
     // 成交量
-    private int volume;
+    private long volume;
     // 成交额
     private float amount;
     // 换手率
@@ -60,15 +60,15 @@ public class StockQuotesBean {
 
     public class BuyPrice {
         @SerializedName("buy_vol")
-        private List<Integer> buyVol;
+        private List<String> buyVol;
         @SerializedName("buy_price")
         private List<String> buyPrice;
 
-        public List<Integer> getBuyVol() {
+        public List<String> getBuyVol() {
             return buyVol;
         }
 
-        public void setBuyVol(List<Integer> buyVol) {
+        public void setBuyVol(List<String> buyVol) {
             this.buyVol = buyVol;
         }
 
@@ -83,15 +83,15 @@ public class StockQuotesBean {
 
     public class SellPrice {
         @SerializedName("sell_vol")
-        private List<Integer> sellVol;
+        private List<String> sellVol;
         @SerializedName("sell_price")
         private List<String> sellPrice;
 
-        public List<Integer> getSellVol() {
+        public List<String> getSellVol() {
             return sellVol;
         }
 
-        public void setSellVol(List<Integer> sellVol) {
+        public void setSellVol(List<String> sellVol) {
             this.sellVol = sellVol;
         }
 
@@ -224,11 +224,11 @@ public class StockQuotesBean {
         this.followed = followed;
     }
 
-    public int getVolume() {
+    public long getVolume() {
         return volume;
     }
 
-    public void setVolume(int volume) {
+    public void setVolume(long volume) {
         this.volume = volume;
     }
 

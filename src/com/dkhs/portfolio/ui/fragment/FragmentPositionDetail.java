@@ -49,6 +49,7 @@ import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName FragmentPositionDetail
@@ -417,36 +418,27 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             String createDate = mPositionDetail.getPortfolio().getCreateTime();
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar calendar = GregorianCalendar.getInstance();
-            Calendar calendar2 = GregorianCalendar.getInstance();
-            StringBuilder sbTimes = new StringBuilder().append(year).append("-").append(monthOfYear + 1).append("-")
-                    .append(dayOfMonth);
-            try {
-                calendar.setTime(df.parse(createDate));
-                calendar2.setTime(df.parse(sbTimes.toString()));
-                Date d1 = df.parse(createDate);
-                Date d2 = df.parse(sbTimes.toString());
-                long diff = calendar2.getTimeInMillis() - calendar.getTimeInMillis();
-                if (0 > diff) {
-                    mYear = calendar.get(Calendar.YEAR);
-                    mMonth = calendar.get(Calendar.MONTH);
-                    mDay = calendar.get(Calendar.DAY_OF_MONTH);
-                } else {
-                    mYear = year;
-                    mMonth = monthOfYear;
-                    mDay = dayOfMonth;
-                }
-            } catch (Exception e) {
+
+            Calendar calCreate = TimeUtils.toCalendar(createDate);
+            Calendar calSelect = GregorianCalendar.getInstance();
+            Calendar calToday = GregorianCalendar.getInstance();
+            calSelect.set(year, monthOfYear, dayOfMonth);
+
+            String queryDay = "";
+            if (calSelect.before(calCreate)) {
+                queryDay = TimeUtils.getTimeString(calCreate);
+            } else {
+                queryDay = TimeUtils.getTimeString(calSelect);
+            }
+            if (calSelect.before(calToday)) {
+                btnAdjust.setVisibility(View.GONE);
+            } else {
+                btnAdjust.setVisibility(View.VISIBLE);
+
             }
 
-            String strMonth = String.format("%02d", (mMonth + 1));
-            String strDay = String.format("%02d", mDay);
-            StringBuilder sbTime = new StringBuilder().append(mYear).append("-").append(strMonth).append("-")
-                    .append(strDay);
-
-            tvCurrentDay.setText(sbTime);
-            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, sbTime.toString(),
+            tvCurrentDay.setText(queryDay);
+            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay,
                     new QueryCombinationDetailListener());
         }
     };

@@ -297,7 +297,7 @@ public class StockQuotesChartFragment extends Fragment {
         xtitle.add("15:00");
 
         mMaChart.setAxisXTitles(xtitle);
-        mMaChart.setMaxPointNum(240);
+        mMaChart.setMaxPointNum(242);
 
         List<String> rightYtitle = new ArrayList<String>();
         rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
@@ -476,6 +476,9 @@ public class StockQuotesChartFragment extends Fragment {
     private void setYTitle(float baseNum, float offetYvalue) {
         // int baseNum = 1;
         offetYvalue = offetYvalue / 0.8f;
+        if ((offetYvalue / baseNum) > 0.1f) {
+            offetYvalue = 0.1f * baseNum;
+        }
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;

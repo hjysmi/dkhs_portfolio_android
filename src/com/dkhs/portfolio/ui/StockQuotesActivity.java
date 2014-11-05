@@ -320,7 +320,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                     buyItem.price = buyPrice;
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
-                        buyItem.vol = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
+                        String volText = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
+                        buyItem.vol = volText.contains("-") ? 0 : Integer.parseInt(volText);
                     } else {
                         buyItem.vol = 0;
                     }
@@ -332,7 +333,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     FiveRangeItem sellItem = new FiveRangeItem();
                     if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
                         sellItem.price = stockQuotesBean.getSellPrice().getSellPrice().get(j);
-                        sellItem.vol = stockQuotesBean.getSellPrice().getSellVol().get(j);
+                        String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
+                        sellItem.vol = sellVol.contains("-") ? 0 : Integer.parseInt(sellVol);
                     } else {
                         sellItem.vol = 0;
                     }

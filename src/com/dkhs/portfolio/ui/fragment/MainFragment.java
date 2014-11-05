@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
@@ -49,6 +50,7 @@ import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
 import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
+import com.dkhs.portfolio.ui.widget.FixedSpeedScroller;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.ui.widget.MarqueeText;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -63,7 +65,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     //
     private ViewPager viewPager;
     private LinearLayout dotLayout;
-    private List<ImageView> imageViews;
+    // private List<ImageView> imageViews;
     private int[] imageResId;
     private int currentItem = 0;
 
@@ -137,12 +139,21 @@ public class MainFragment extends Fragment implements OnClickListener {
         initDotAndPicture();
         //
         viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
+        setViewPageScroll();
+
         dataEngine.getChampionList(championDataListener);
+
+        view.findViewById(R.id.order_layout).setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
+                startActivity(intent);
+            }
+        });
 
         setViewLayoutParams();
         inflateAddLayout();
-        // inflateOneLayout(view);
-        // inflateTwoLayout(view);
 
     }
 
@@ -158,6 +169,21 @@ public class MainFragment extends Fragment implements OnClickListener {
         dataEngine.getScrollValue(scrollDataListener);
 
         loadCombination();
+    }
+
+    private void setViewPageScroll() {
+        // Interpolator sInterpolator = new AccelerateInterpolator();
+        try {
+            Field mScroller;
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            FixedSpeedScroller scroller = new FixedSpeedScroller(viewPager.getContext());
+            scroller.setDuration(1000);
+            mScroller.set(viewPager, scroller);
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException e) {
+        }
     }
 
     private void inflateAddLayout() {
@@ -213,20 +239,20 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
                     break;
                 case 1: {
-                	intent = new Intent(getActivity(), OptionalStockListActivity.class);
+                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
                 }
                     break;
                 case 2: {
-                	intent = new Intent(getActivity(), MarketCenterActivity.class);
+                    intent = new Intent(getActivity(), MarketCenterActivity.class);
                 }
                     break;
                 case 3: {
-                	intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
+                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
 
                 }
                     break;
                 case 4: {
-                	intent = new Intent(getActivity(), YanBaoActivity.class);
+                    intent = new Intent(getActivity(), YanBaoActivity.class);
                 }
                     break;
                 case 5: {
@@ -296,6 +322,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         }
     };
+
+    List<Fragment> fList = new ArrayList<Fragment>();
     ParseHttpListener championDataListener = new ParseHttpListener<ChampionCollectionBean>() {
 
         @Override
@@ -306,18 +334,61 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         @Override
         protected void afterParseData(ChampionCollectionBean object) {
-            List<Fragment> fList = new ArrayList<Fragment>();
+            // = new ArrayList<Fragment>();
+            fList.clear();
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                    .getIncreasePercent()));
             fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
             fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
                     .getIncreasePercent()));
             fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
                     .getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
+
             viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
-            viewPager.setOnPageChangeListener(new MyPageChangeListener());
-            viewPager.setOffscreenPageLimit(3);
+            viewPager.setOnPageChangeListener(scrollPageChangeListener);
+            viewPager.setOffscreenPageLimit(5);
 
             viewPager.setCurrentItem(1);
-            viewPager.setCurrentItem(0);
+            // viewPager.setCurrentItem(0);
+
+        }
+    };
+
+    OnPageChangeListener scrollPageChangeListener = new OnPageChangeListener() {
+        private int oldPosition = 0;
+
+        @Override
+        public void onPageSelected(int i) {
+            int pageIndex = i;
+
+            if (i == 0) {
+                // 当视图在第一个时，将页面号设置为图片的最后一张。
+                pageIndex = fList.size() - 2;
+            } else if (i == fList.size() - 2 + 1) {
+                // 当视图在最后一个是,将页面号设置为图片的第一张。
+                pageIndex = 1;
+            }
+            dotLayout.getChildAt(oldPosition).setBackgroundResource(R.drawable.dot_normal);
+            dotLayout.getChildAt(pageIndex).setBackgroundResource(R.drawable.dot_focused);
+            oldPosition = pageIndex;
+            currentItem = pageIndex;
+            if (i != pageIndex) {
+                viewPager.setCurrentItem(pageIndex, false);
+                return;
+            }
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+            // TODO Auto-generated method stub
 
         }
     };
@@ -498,7 +569,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     private void initDotAndPicture() {
         imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two, R.drawable.pic_three };
 
-        imageViews = new ArrayList<ImageView>();
+        // imageViews = new ArrayList<ImageView>();
         // int viewWidth = getActivity().getResources().getDisplayMetrics().widthPixels;
 
         // int dotWidth = viewWidth / imageResId.length;
@@ -507,15 +578,17 @@ public class MainFragment extends Fragment implements OnClickListener {
         // 根据图片动态设置小圆点
         LayoutInflater inflater = getActivity().getLayoutInflater();
         // 初始化图片资源
-        for (int i = 0; i < imageResId.length; i++) {
-            ImageView imageView = new ImageView(getActivity());
-            imageView.setImageResource(imageResId[i]);
-            imageView.setScaleType(ScaleType.FIT_XY);
-            imageViews.add(imageView);
+        for (int i = 0; i < imageResId.length + 2; i++) {
+            // ImageView imageView = new ImageView(getActivity());
+            // imageView.setImageResource(imageResId[i]);
+            // imageView.setScaleType(ScaleType.FIT_XY);
+            // imageViews.add(imageView);
 
             // 根据图片动态设置小圆点
             inflater.inflate(R.layout.dot, dotLayout);
         }
+        dotLayout.getChildAt(0).setVisibility(View.INVISIBLE);
+        dotLayout.getChildAt(imageResId.length + 1).setVisibility(View.INVISIBLE);
     }
 
     /**
@@ -524,15 +597,12 @@ public class MainFragment extends Fragment implements OnClickListener {
      * 
      */
     private class MyPageChangeListener implements OnPageChangeListener {
-        private int oldPosition = 0;
 
         /**
          * 当页面被选中的时候调用这个方法 position: 页面tag标识
          */
         public void onPageSelected(int position) {
-            dotLayout.getChildAt(oldPosition).setBackgroundResource(R.drawable.dot_normal);
-            dotLayout.getChildAt(position).setBackgroundResource(R.drawable.dot_focused);
-            oldPosition = position;
+
         }
 
         public void onPageScrollStateChanged(int arg0) {

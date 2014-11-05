@@ -9,13 +9,16 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 
 /**
  * @ClassName MainFunctionAdapter
@@ -27,11 +30,11 @@ import com.dkhs.portfolio.R;
 public class MainFunctionAdapter extends BaseAdapter {
 
     private Context mContext;
-    private int[] titleRes = {  R.string.function_fund_order, R.string.function_optional,
-            R.string.function_market, R.string.function_notice,R.string.function_yanbao, R.string.function_news };
-    private int[] iconRes = { R.drawable.bg_f_fundsorder_selector,
-            R.drawable.bg_f_optinal_selector, R.drawable.bg_f_market_selector, R.drawable.bg_f_notice_selector,
-            R.drawable.bg_f_report_selector,R.drawable.bg_f_news_selector };
+    private int[] titleRes = { R.string.function_fund_order, R.string.function_optional, R.string.function_market,
+            R.string.function_notice, R.string.function_yanbao, R.string.function_news };
+    private int[] iconRes = { R.drawable.bg_f_fundsorder_selector, R.drawable.bg_f_optinal_selector,
+            R.drawable.bg_f_market_selector, R.drawable.bg_f_notice_selector, R.drawable.bg_f_report_selector,
+            R.drawable.bg_f_news_selector };
 
     public MainFunctionAdapter(Context context) {
         this.mContext = context;
