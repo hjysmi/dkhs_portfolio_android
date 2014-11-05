@@ -25,7 +25,7 @@ public class GridChart extends View {
 	public static final int DEFAULT_BACKGROUD = android.R.color.white;
 
 	/** 默认XY轴字体大小 **/
-	public static int DEFAULT_AXIS_TITLE_SIZE = 12;
+	public static int DEFAULT_AXIS_TITLE_SIZE = 8;
 
 	/** 默认XY坐标轴颜色 */
 	private static final int DEFAULT_AXIS_COLOR = Color.RED;
@@ -41,7 +41,7 @@ public class GridChart extends View {
 
 	/** 默认经线数 */
 	public static final int DEFAULT_LOGITUDE_NUM = 3;
-
+	public static final int PADDING_LEFT = 80;
 	/** 默认边框的颜色 */
 	public static final int DEFAULT_BORDER_COLOR = Color.RED;
 
@@ -160,11 +160,11 @@ public class GridChart extends View {
 		setBackgroundResource(mBackGround);
 		int viewHeight = getHeight();
 		int viewWidth = getWidth();
-		/*if(9 * viewWidth < 16 * viewHeight){
+		if(9 * viewWidth < 16 * viewHeight){
 			viewHeight = viewWidth * 9 /16;
 		}else{
 			viewWidth = viewHeight * 16 /9;
-		}*/
+		}
 		if(showLowerChartTabs) {
 			mLowerChartHeight = viewHeight - 2 - LOWER_CHART_TOP;
 		}else {
@@ -267,7 +267,7 @@ public class GridChart extends View {
 		}
 		
 //		canvas.drawLine(1, 1, viewWidth - 1, 1, paint);
-		canvas.drawLine(1, 1 + topTitleHeight , 1, th, paint);
+		canvas.drawLine(PADDING_LEFT, 1 + topTitleHeight , PADDING_LEFT, th, paint);
 		canvas.drawLine(viewWidth - 1, th, viewWidth - 1, 1 + topTitleHeight, paint);
 		if(isDisplayAxisXTitle()) {
 			canvas.drawLine(viewWidth - 1, th, 1, th, paint);
@@ -289,9 +289,9 @@ public class GridChart extends View {
 		paint.setColor(mLongiLatitudeColor);
 		paint.setPathEffect(mDashEffect);
 		for (int i = 1; i <= DEFAULT_LOGITUDE_NUM; i++) {
-			canvas.drawLine(1 + longitudeSpacing * i, topTitleHeight + 2, 1 + longitudeSpacing * i,
+			canvas.drawLine(PADDING_LEFT + longitudeSpacing * i, topTitleHeight + 2, 1 + longitudeSpacing * i,
 					UPER_CHART_BOTTOM, paint);
-			canvas.drawLine(1 + longitudeSpacing * i, LOWER_CHART_TOP, 1 + longitudeSpacing * i,
+			canvas.drawLine(PADDING_LEFT + longitudeSpacing * i, LOWER_CHART_TOP, 1 + longitudeSpacing * i,
 					viewHeight - 1, paint);
 		}
 
@@ -313,14 +313,14 @@ public class GridChart extends View {
 		paint.setPathEffect(mDashEffect);
 		if(upperLatitudeNum > 0) {
 			for (int i = 1; i <= upperLatitudeNum; i++) {
-				canvas.drawLine(1, topTitleHeight + 1 + latitudeSpacing * i, viewWidth - 1,
+				canvas.drawLine(PADDING_LEFT, topTitleHeight + 1 + latitudeSpacing * i, viewWidth - 1,
 						topTitleHeight + 1 + latitudeSpacing * i, paint);
 			}
 		}
 		
 		if(lowerLatitudeNum > 0) {
 			for (int i = 1; i <= lowerLatitudeNum; i++) {
-				canvas.drawLine(1, viewHeight - 1 - latitudeSpacing, viewWidth - 1, viewHeight - 1
+				canvas.drawLine(PADDING_LEFT, viewHeight - 1 - latitudeSpacing, viewWidth - 1, viewHeight - 1
 						- latitudeSpacing, paint);
 			}
 		}
@@ -333,13 +333,13 @@ public class GridChart extends View {
 		paint.setColor(mAxisColor);
 		paint.setAlpha(150);
 		if (showTopTitles) {
-			canvas.drawLine(1, 1 + DEFAULT_AXIS_TITLE_SIZE + 2, viewWidth - 1,
+			canvas.drawLine(PADDING_LEFT, 1 + DEFAULT_AXIS_TITLE_SIZE + 2, viewWidth - 1,
 					1 + DEFAULT_AXIS_TITLE_SIZE + 2, paint);
 		}
-		canvas.drawLine(1, UPER_CHART_BOTTOM, viewWidth - 1, UPER_CHART_BOTTOM, paint);
+		canvas.drawLine(PADDING_LEFT, UPER_CHART_BOTTOM, viewWidth - 1, UPER_CHART_BOTTOM, paint);
 		if (showLowerChartTabs) {
-			canvas.drawLine(1, LOWER_CHART_TOP, viewWidth - 1, LOWER_CHART_TOP, paint);
-			canvas.drawLine(1, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE + 2, viewWidth - 1,
+			canvas.drawLine(PADDING_LEFT, LOWER_CHART_TOP, viewWidth - 1, LOWER_CHART_TOP, paint);
+			canvas.drawLine(PADDING_LEFT, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE + 2, viewWidth - 1,
 					UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE + 2, paint);
 			if (mLowerChartTabTitles == null || mLowerChartTabTitles.length <= 0) {
 				return;

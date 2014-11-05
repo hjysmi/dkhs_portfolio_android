@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:id="@+id/setting_text_name_text"
-                    android:text="laohu"
+                    android:text=""
                     android:layout_centerVertical="true"
                     android:paddingRight="10dp"
                     android:layout_toLeftOf="@id/setting_image_name_right"

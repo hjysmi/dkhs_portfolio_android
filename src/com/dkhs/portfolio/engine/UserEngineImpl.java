@@ -160,6 +160,7 @@ public class UserEngineImpl {
         params.addBodyParameter("avatar", file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
-    
-    
+    public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.settingMessage, null, listener);
+    }
 }

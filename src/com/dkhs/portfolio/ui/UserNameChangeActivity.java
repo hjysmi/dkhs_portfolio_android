@@ -46,6 +46,8 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
 		btnCancle.setCompoundDrawables(null, null, null, null);
 		btnSave.setText("保存");
 		btnSave.setBackgroundResource(R.drawable.white_black_selector);
+		changeEditName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+		changeEditName.setSelection(changeEditName.length());
 	}
 	private void setListener(){
 		btnSave.setOnClickListener(this);
@@ -91,7 +93,9 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
             if (null != entity) {
             	PromptManager.showToast(R.string.password_setting_name_success);
             	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME,changeEditName.getText().toString());
-            	finish();
+            	Intent intent=new Intent();
+    			setResult(RESULT_OK, intent);
+    			finish();
             }
         }
     };

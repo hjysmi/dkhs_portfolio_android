@@ -91,19 +91,19 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			try {
 				Uri uri = data.getData();
 				Log.e("uri", uri.toString());
-				Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+				/*Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
 				   cursor.moveToFirst();
 				   for (int i = 0; i < cursor.getColumnCount(); i++)
 				   {// 取得图片uri的列名和此列的详细信息
 				    System.out.println(i + "-" + cursor.getColumnName(i) + "-" + cursor.getString(i));
 				   }
-				   cursor.close();
+				   cursor.close();*/
 				String url = uri.toString().replace("content:", "").replace("file:", "");
-				if(!url.contains(".")){
+				/*if(!url.contains(".")){
 					url = url + ".jpg";
-				}
+				}*/
 				File file = new File(url);
-				mUserEngineImpl.setUserHead(file, listener);
+				mUserEngineImpl.setUserHead(file, listener.setLoadingDialog(context));
 				ContentResolver cr = this.getContentResolver();
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
 						.openInputStream(uri));
@@ -126,7 +126,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 				 * 图片的bitmap对象，仅仅是把图片的高和宽信息给Options对象；
 				 */
 				myoptions.inJustDecodeBounds = true;
-				mUserEngineImpl.setUserHead(file_go, listener);
+				mUserEngineImpl.setUserHead(file_go, listener.setLoadingDialog(context));
 				BitmapFactory.decodeFile(file_go.getAbsolutePath(), myoptions);
 				// 根据在图片的宽和高，得到图片在不变形的情况指定大小下的缩略图,设置宽为222；
 				int height = myoptions.outHeight * 222 / myoptions.outWidth;

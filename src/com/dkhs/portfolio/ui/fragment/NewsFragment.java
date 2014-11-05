@@ -112,7 +112,7 @@ public class NewsFragment extends Fragment {
         title.put(KEY_TITLE, "股东情况");
         title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/shareholders/" + mStockBean.id);
         titles.add(title);
-        title = new HashMap<String, String>();
+        /*title = new HashMap<String, String>();
         title.put(KEY_TITLE, "主营业务");
         title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
         titles.add(title);
@@ -163,7 +163,7 @@ public class NewsFragment extends Fragment {
         title = new HashMap<String, String>();
         title.put(KEY_TITLE, "板块分析");
         title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
+        titles.add(title);*/
     }
 
     private void initailViews(View view) {
@@ -260,7 +260,7 @@ public class NewsFragment extends Fragment {
             webview.measure(0, 0);
             int height = webview.getContentHeight();
             if (height == 0) {
-                height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
             LinearLayout.LayoutParams lp = (LayoutParams) webview.getLayoutParams();
             // lp.height = height;
@@ -296,7 +296,7 @@ public class NewsFragment extends Fragment {
                 String url = group.get(KEY_URL);
                 // mTextView.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
                 mTextView.loadUrl(url);
-                mTextView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+                //mTextView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
                 mTextView.getSettings().setJavaScriptEnabled(true);
 
                 mTextView.setWebViewClient(new WebViewClient() {
