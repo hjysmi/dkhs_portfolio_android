@@ -129,8 +129,8 @@ public class FragmentSelectAdapter {
 			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.WRAP_CONTENT));
 			tv.setGravity(Gravity.CENTER);
 			tv.setText(nameList[i]);
-			//tv.setOnClickListener(new OnItemListener(i));
-			tv.setOnTouchListener(new OnmyLayout(i));
+			tv.setOnClickListener(new OnItemListener(i));
+			//tv.setOnTouchListener(new OnmyLayout(i));
 			ll.addView(tv);
 			tvList[i] = tv;
 			if(i == 0){
@@ -147,6 +147,7 @@ public class FragmentSelectAdapter {
         public void onPageSelected(int arg0) {
         	//mHandler.sendEmptyMessage(arg0);
         	scroll(arg0);
+        	
         }
 
         @Override
@@ -171,12 +172,12 @@ public class FragmentSelectAdapter {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			pager.setCurrentItem(position);
-			if(position % 2 == 1){
+			/*if(position % 2 == 1){
 				OutLaoyout.chartTounching();
             	
 			}else{
 				OutLaoyout.loseTouching();
-			}
+			}*/
 			//scroll(position);
 		}
 		
@@ -207,6 +208,7 @@ public class FragmentSelectAdapter {
 		tvList[hisPosition].setTextColor(context.getResources().getColor(R.color.black));
 		setAnima(start, end);
 		hisPosition = position;
+		//layout.getLayoutParams().height = 2000;
 	}
 	public void setAnima(int startX,int endX){
 		Animation animation = null;
