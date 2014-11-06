@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.List;
+import java.io.Serializable;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,9 +13,12 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
-import com.lidroid.xutils.BitmapUtils;
 
-public class NewsActivity extends ModelAcitivity{
+public class NewsActivity extends ModelAcitivity implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 24654131315456464L;
 	private ImageView newsTitleIcon;
 	private TextView newsTitleName;
 	private TextView newsTitleDate;
@@ -23,7 +26,6 @@ public class NewsActivity extends ModelAcitivity{
 	private TextView newsTextTitle;
 	private TextView newsTextText;
 	private static final String EXTRA = "newsId";
-	private static final String EXTRA_NUM = "num";
 	private static final String EXTRA_NAME = "name";
 	private String textId;
 	 private LoadNewsTextEngine mLoadDataEngine;
@@ -47,8 +49,10 @@ public class NewsActivity extends ModelAcitivity{
 	}
 	public static Intent newIntent(Context context, String id,String name) {
         Intent intent = new Intent(context, NewsActivity.class);
-         intent.putExtra(EXTRA, id);
-         intent.putExtra(EXTRA_NAME, name);
+        Bundle b = new Bundle();
+        b.putString(EXTRA, id);
+        b.putString(EXTRA_NAME, name);
+         intent.putExtras(b);
         return intent;
     }
 	

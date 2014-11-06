@@ -87,7 +87,7 @@ public class NewsFragment extends Fragment {
         initailDatas();
 
         initailViews(view);
-
+        collapseGroups(0);
         return view;
     }
 
@@ -172,7 +172,8 @@ public class NewsFragment extends Fragment {
         mListView.setAdapter(mAdapter);
         mListView.setOnGroupExpandListener(onGroupClickListener);
         mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
-        
+        /*android.view.ViewGroup.LayoutParams lp = mListView.getLayoutParams();
+        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;*/
     }
 
     private OnGroupExpandListener onGroupClickListener = new OnGroupExpandListener() {
@@ -186,18 +187,18 @@ public class NewsFragment extends Fragment {
             collapseGroups(groupPosition);
         }
 
-        private void collapseGroups(int groupPosition) {
-            int count = mAdapter.getGroupCount();
-            for (int i = 0; i < count; i++) {
-                if (i == groupPosition) {
-                    continue;
-                }
-                mListView.collapseGroup(i);
-            }
-        }
+        
 
     };
-
+    private void collapseGroups(int groupPosition) {
+        int count = mAdapter.getGroupCount();
+        for (int i = 0; i < count; i++) {
+            if (i == groupPosition) {
+                continue;
+            }
+            mListView.collapseGroup(i);
+        }
+    }
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
         private int pos; // 点击的索引
@@ -263,24 +264,24 @@ public class NewsFragment extends Fragment {
                 height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
             LinearLayout.LayoutParams lp = (LayoutParams) webview.getLayoutParams();
-            // lp.height = height;
-            // webview.invalidate();
-            // if(mClickItemView != null) {
-            // AbsListView.LayoutParams ilp = (android.widget.AbsListView.LayoutParams)
-            // mClickItemView.getLayoutParams();
-            // if(ilp != null) {
-            // ilp.height = height;
-            // if(height > 0) {
-            // mListView.invalidate();
-            // }
-            // }
-            // }
+            /*lp.height = height;
+            webview.invalidate();
+            if(mClickItemView != null) {
+            AbsListView.LayoutParams ilp = (android.widget.AbsListView.LayoutParams)
+            mClickItemView.getLayoutParams();
+            if(ilp != null) {
+            ilp.height = height;
+            if(height > 0) {
+            mListView.invalidate();
+            }
+            }
+            }
 
-            // mListView.measure(0, 0);
-            // webview.invalidate();
-            // webview.requestLayout();
-            // webview.requestLayout();
-            // mAdapter.notifyDataSetChanged();
+            mListView.measure(0, 0);
+            webview.invalidate();
+            webview.requestLayout();
+            webview.requestLayout();
+            mAdapter.notifyDataSetChanged();*/
         }
 
         /**
@@ -372,6 +373,16 @@ public class NewsFragment extends Fragment {
         }
 
     }
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		/*mListView.requestFocus();
+        mAdapter.loadPosition(0);
+
+        // 关闭其他的
+        collapseGroups(0);*/
+		super.onResume();
+	}
 
     // class TextLoadListener implements IHttpListener {
     //
