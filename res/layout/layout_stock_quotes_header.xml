@@ -16,7 +16,7 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_weight="3" >
+            android:layout_weight="3.5" >
 
             <TextView
                 android:id="@+id/tv_current_price"
@@ -25,7 +25,8 @@
                 android:layout_centerHorizontal="true"
                 android:text="-"
                 android:textColor="@color/theme_color"
-                android:textSize="28sp" />
+                android:textSize="28sp"
+                android:textStyle="bold" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -140,7 +141,7 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_weight="3" >
+            android:layout_weight="2.5" >
 
             <Button
                 android:id="@+id/btn_add_optional"
@@ -164,12 +165,13 @@
         android:orientation="horizontal"
         android:paddingBottom="6dp"
         android:paddingLeft="10dp"
-        android:paddingRight="6dp" >
+        android:paddingRight="6dp"
+        android:weightSum="10" >
 
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="3" >
 
             <TextView
                 android:id="@+id/tv_liuzhi"
@@ -186,7 +188,7 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="3" >
 
             <TextView
                 android:id="@+id/tv_zongzhi"
@@ -203,7 +205,7 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <TextView
                 android:id="@+id/tv_shiying"
@@ -220,7 +222,7 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" >
+            android:layout_weight="2" >
 
             <TextView
                 android:id="@+id/tv_shijing"
