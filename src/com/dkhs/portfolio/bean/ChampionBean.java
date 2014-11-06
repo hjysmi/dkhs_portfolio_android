@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -17,9 +19,13 @@ import com.google.gson.annotations.SerializedName;
  * @date 2014-10-29 上午11:28:18
  * @version 1.0
  */
-public class ChampionBean {
+public class ChampionBean implements Serializable {
+
+    private static final long serialVersionUID = 129599595218L;
     private String id;
     private String name;
+    // 0公开/1保密
+    private int is_public;
     @SerializedName("increase_percent")
     private float increasePercent;
 
@@ -50,7 +56,9 @@ public class ChampionBean {
         this.increasePercent = increasePercent;
     }
 
-    public class User {
+    public class User implements Serializable {
+
+        private static final long serialVersionUID = 12894595218L;
         private String id;
         private String username;
 
@@ -85,6 +93,14 @@ public class ChampionBean {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getIs_public() {
+        return is_public;
+    }
+
+    public void setIs_public(int is_public) {
+        this.is_public = is_public;
     }
 
 }

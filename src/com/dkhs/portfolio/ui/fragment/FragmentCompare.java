@@ -264,8 +264,8 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 boolean isHide = !(mCompareItemList.get(position).iSelect);
                 mCompareItemList.get(position).iSelect = isHide;
                 lineEntityList.get(position + 1).setDisplay(!isHide);
-                maChartView.invalidate();
                 mGridAdapter.notifyDataSetChanged();
+                maChartView.invalidate();
             }
         }
     };
@@ -379,9 +379,10 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 TimeUtils.getTimeString(cEnd));
 
     }
-    private void reShowGirdItem(){
-        for(CompareFundItem item:mCompareItemList){
-            item.iSelect =false;
+
+    private void reShowGirdItem() {
+        for (CompareFundItem item : mCompareItemList) {
+            item.iSelect = false;
         }
         mGridAdapter.notifyDataSetChanged();
     }
@@ -696,13 +697,11 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 Calendar sevenAfter = (Calendar) cStart.clone();
                 sevenAfter.add(Calendar.DAY_OF_MONTH, 7);
                 cEnd.set(year, monthOfYear, dayOfMonth);
-                if(cEnd.before(sevenAfter)){
+                if (cEnd.before(sevenAfter)) {
                     PromptManager.showToast("查询结束时间不应早于开始时间");
                     cEnd = sevenAfter;
                 }
-                
-                
-                
+
             }
             updateDayDisplay();
             // }

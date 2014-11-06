@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -72,6 +73,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.addFooterView(mFootView);
         mListView.setAdapter(getListAdapter());
+        mListView.setOnItemClickListener(getItemClickListener());
         mListView.removeFooterView(mFootView);
         mListView.setOnScrollListener(new OnScrollListener() {
 
@@ -105,8 +107,6 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
 
     private void loadMore() {
         if (null != getLoadEngine()) {
-            System.out.println("getLoadEngine().getCurrentpage() :" + getLoadEngine().getCurrentpage());
-            System.out.println("getLoadEngine().getTotalpage() :" + getLoadEngine().getTotalpage());
             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
                 Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
@@ -121,6 +121,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     abstract ListAdapter getListAdapter();
 
     abstract LoadMoreDataEngine getLoadEngine();
+
+    abstract OnItemClickListener getItemClickListener();
 
     // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
     //
@@ -166,5 +168,11 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         // loadFinishUpdateView();
         // }
 
+    }
+
+    public void setListItemClick(OnItemClickListener listener) {
+        if (null != listener && null != mListView) {
+            mListView.setOnItemClickListener(listener);
+        }
     }
 }
