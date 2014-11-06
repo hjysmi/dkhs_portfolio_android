@@ -150,8 +150,9 @@ public class TimesharingplanChart extends TrendChart {
 
                 if (null != stickData) {
                     float highY = getmGridLineHeight() + getVolHight();
+                    int lenght = stickData.size() > getMaxPointNum() ? getMaxPointNum() : stickData.size();
                     // 判断显示为方柱或显示为线条
-                    for (int i = 0; i < getMaxPointNum(); i++) {
+                    for (int i = 0; i < lenght; i++) {
                         FSLinePointEntity ohlc = stickData.get(i);
 
                         if (ohlc.getIncreaseRange() >= 0) {

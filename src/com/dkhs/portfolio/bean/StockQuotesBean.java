@@ -36,6 +36,7 @@ public class StockQuotesBean {
     @SerializedName("abbr_name")
     private String name;
     private boolean followed;
+    private String symbol;
 
     // 成交量
     private long volume;
@@ -289,6 +290,14 @@ public class StockQuotesBean {
 
     public void setSymbol_type(int symbol_type) {
         this.symbol_type = symbol_type;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
 }

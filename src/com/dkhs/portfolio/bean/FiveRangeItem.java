@@ -18,7 +18,7 @@ package com.dkhs.portfolio.bean;
 public class FiveRangeItem {
     public String tag;
     public int vol;
-    public String price;
+    public float price;
 
     /**
      * @Title

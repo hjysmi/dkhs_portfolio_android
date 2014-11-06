@@ -20,7 +20,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 public class FSLinePointEntity extends LinePointEntity {
     private String time;
     private String price;
-    private float avgPrice;
+    private String avgPrice;
     private float increaseValue;
     private float increaseRange;
     private int turnover;
@@ -77,15 +77,15 @@ public class FSLinePointEntity extends LinePointEntity {
         this.turnover = turnover;
     }
 
-    public float getAvgPrice() {
+    public String getAvgPrice() {
         return avgPrice;
     }
 
     public String getAvgPriceDesc() {
-        return "均价：" + StringFromatUtils.get2Point(avgPrice);
+        return "均价：" + avgPrice;
     }
 
-    public void setAvgPrice(float avgPrice) {
+    public void setAvgPrice(String avgPrice) {
         this.avgPrice = avgPrice;
     }
 

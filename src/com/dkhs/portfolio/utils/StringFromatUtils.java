@@ -71,6 +71,10 @@ public class StringFromatUtils {
         return String.format("%.2f", value) + "%";
     }
 
+    public static String get3PointPercent(float value) {
+        return String.format("%.3f", value) + "%";
+    }
+
     public static String get2PointPercentPlus(float value) {
         if (value > 0) {
             return String.format("+%.2f", value) + "%";
@@ -87,6 +91,10 @@ public class StringFromatUtils {
         return String.format("%.2f", value);
     }
 
+    public static String get3Point(float value) {
+        return String.format("%.3f", value);
+    }
+
     public static String get4String(String text) {
         return String.format("%4s", text);
     }
@@ -97,6 +105,15 @@ public class StringFromatUtils {
 
         } else {
             return String.format("%.2f", value);
+        }
+    }
+
+    public static String get3PointPlus(float value) {
+        if (value > 0) {
+            return String.format("+%.3f", value);
+
+        } else {
+            return String.format("%.3f", value);
         }
     }
 
