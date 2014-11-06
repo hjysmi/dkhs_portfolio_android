@@ -43,6 +43,7 @@ import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -360,8 +361,8 @@ public class StockQuotesChartFragment extends Fragment {
                 viewFiveRange.setVisibility(View.GONE);
             } else {
 
-                mBuyAdapter.setList(mStockBean.getBuyList());
-                mSellAdapter.setList(mStockBean.getSellList());
+                mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
+                mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
 
@@ -452,13 +453,20 @@ public class StockQuotesChartFragment extends Fragment {
             LinePointEntity averagePoint = new LinePointEntity();
 
             // pointEntity.setDesc(TimeUtils.getTimeString(bean.getTime()));
+            if (null != mStockBean && StockUitls.isShangZhengB(mStockBean.getSymbol())) {
+                pointEntity.setAvgPrice(StringFromatUtils.get3Point(bean.getAvgline()));
+                pointEntity.setPrice(StringFromatUtils.get3Point(iPrice));
+            } else {
+
+                pointEntity.setAvgPrice(StringFromatUtils.get2Point(bean.getAvgline()));
+                pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
+
+            }
             pointEntity.setValue(iPrice);
             pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
-            pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
             pointEntity.setIncreaseValue(iPrice - baseNum);
             pointEntity.setIncreaseRange(bean.getPercentage());
             pointEntity.setTurnover(bean.getVolume());
-            pointEntity.setAvgPrice(bean.getAvgline());
 
             averagePoint.setValue(bean.getAvgline());
             lineDataList.add(pointEntity);
@@ -493,7 +501,7 @@ public class StockQuotesChartFragment extends Fragment {
         List<String> rightYtitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
-        if (mStockBean.getSymbol_type() == 5) {
+        if (StockUitls.isShangZhengB(mStockBean.getSymbol())) {
             ytitle.add(StringFromatUtils.get3Point(baseNum - offetYvalue));
             ytitle.add(StringFromatUtils.get3Point(baseNum - halfOffetValue));
             ytitle.add(StringFromatUtils.get3Point(baseNum));

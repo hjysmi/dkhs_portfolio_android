@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.bean.StockQuotesBean.BuyPrice;
 import com.dkhs.portfolio.bean.StockQuotesBean.SellPrice;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -69,8 +71,11 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     }
 
-    public void setList(List<FiveRangeItem> dList) {
+    private String symbol;
+
+    public void setList(List<FiveRangeItem> dList, String symbol) {
         this.dataList = dList;
+        this.symbol = symbol;
         notifyDataSetChanged();
     }
 
@@ -114,13 +119,16 @@ public class FiveRangeAdapter extends BaseAdapter {
             // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
             // 13f);
             // if (!item.price.contains("-.---")) {
-            if (Float.parseFloat(item.price) == 0) {
+            if (item.price == 0) {
                 viewHolder.tvPrice.setText("—");
             } else {
 
-                viewHolder.tvPrice
-                        .setTextColor(ColorTemplate.getTextColor(Float.parseFloat(item.price), mCompareValue));
-                viewHolder.tvPrice.setText(StringFromatUtils.get2Point(Float.parseFloat(item.price)));
+                viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(item.price, mCompareValue));
+                if (!TextUtils.isEmpty(symbol) && StockUitls.isShangZhengB(symbol)) {
+                    viewHolder.tvPrice.setText(StringFromatUtils.get3Point(item.price));
+                } else {
+                    viewHolder.tvPrice.setText(StringFromatUtils.get2Point(item.price));
+                }
             }
 
             viewHolder.tvVol.setText(StringFromatUtils.convertToWan(item.vol));

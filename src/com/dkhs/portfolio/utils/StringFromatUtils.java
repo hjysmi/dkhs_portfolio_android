@@ -108,6 +108,15 @@ public class StringFromatUtils {
         }
     }
 
+    public static String get3PointPlus(float value) {
+        if (value > 0) {
+            return String.format("+%.3f", value);
+
+        } else {
+            return String.format("%.3f", value);
+        }
+    }
+
     public static String convertToWan(long value) {
         if (value < 100000) {
             return String.valueOf(value);

@@ -499,24 +499,29 @@ public class TrendChart extends TrendGridChart {
 
         LineEntity lineentity = lineData.get(0);
         LinePointEntity data = (LinePointEntity) lineentity.getLineData().get(pointIndex);
-        if (data instanceof FSLinePointEntity) {
-            FSLinePointEntity fsPoint = (FSLinePointEntity) data;
-            float textMarginLeft = startX + textMargin;
-            canvas.drawText(fsPoint.getTime(), textMarginLeft, preYpoint, selectPaint);
-            preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getPrice(), textMarginLeft, preYpoint, selectPaint);
-            preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getAvgPriceDesc(), textMarginLeft, preYpoint, selectPaint);
+        try {
 
-            preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getIncreaseValueDesc(), textMarginLeft, preYpoint, selectPaint);
+            if (data instanceof FSLinePointEntity) {
+                FSLinePointEntity fsPoint = (FSLinePointEntity) data;
+                float textMarginLeft = startX + textMargin;
+                canvas.drawText(fsPoint.getTime(), textMarginLeft, preYpoint, selectPaint);
+                preYpoint += textMargin + textTextHeight;
+                canvas.drawText(fsPoint.getPrice(), textMarginLeft, preYpoint, selectPaint);
+                preYpoint += textMargin + textTextHeight;
+                canvas.drawText(fsPoint.getAvgPriceDesc(), textMarginLeft, preYpoint, selectPaint);
 
-            preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getIncreaseRangeDesc(), textMarginLeft, preYpoint, selectPaint);
+                preYpoint += textMargin + textTextHeight;
+                canvas.drawText(fsPoint.getIncreaseValueDesc(), textMarginLeft, preYpoint, selectPaint);
 
-            preYpoint += textMargin + textTextHeight;
-            canvas.drawText(fsPoint.getTurnoverDesc(), textMarginLeft, preYpoint, selectPaint);
+                preYpoint += textMargin + textTextHeight;
+                canvas.drawText(fsPoint.getIncreaseRangeDesc(), textMarginLeft, preYpoint, selectPaint);
 
+                preYpoint += textMargin + textTextHeight;
+                canvas.drawText(fsPoint.getTurnoverDesc(), textMarginLeft, preYpoint, selectPaint);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -766,7 +771,7 @@ public class TrendChart extends TrendGridChart {
         // float preTextBottom = fontMetrics.bottom;
         int lineLength = lineData.size();
         for (int i = 0; i < lineLength; i++) {
-            if (pointIndex < lineData.get(i).getLineData().size()&&lineData.get(i).isDisplay()) {
+            if (pointIndex < lineData.get(i).getLineData().size() && lineData.get(i).isDisplay()) {
 
                 selectPaint.setColor(lineData.get(i).getLineColor());
                 preYpoint += textMargin + textTextHeight;

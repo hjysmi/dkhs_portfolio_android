@@ -59,6 +59,7 @@ import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -317,24 +318,46 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 int i = 0;
                 for (String buyPrice : stockQuotesBean.getBuyPrice().getBuyPrice()) {
                     FiveRangeItem buyItem = new FiveRangeItem();
+                    if (isFloatText(buyPrice)) {
 
-                    buyItem.price = buyPrice;
+                        buyItem.price = Float.parseFloat(buyPrice);
+                    } else {
+                        buyItem.price = 0;
+                    }
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
                         String volText = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
-                        buyItem.vol = volText.contains("-") ? 0 : Integer.parseInt(volText);
+                        if (isFloatText(volText)) {
+                            buyItem.vol = Integer.parseInt(volText);
+                        } else {
+
+                            buyItem.vol = 0;
+                        }
                     } else {
                         buyItem.vol = 0;
                     }
                     buyItem.tag = "" + (++i);
                     buyList.add(buyItem);
                 }
-                // // i = 0;
+
                 for (int j = 4; j >= 0; j--) {
                     FiveRangeItem sellItem = new FiveRangeItem();
                     if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
-                        sellItem.price = stockQuotesBean.getSellPrice().getSellPrice().get(j);
+                        String sellPrice = stockQuotesBean.getSellPrice().getSellPrice().get(j);
+                        if (isFloatText(sellPrice)) {
+
+                            sellItem.price = Float.parseFloat(sellPrice);
+                        } else {
+                            sellItem.price = 0;
+                        }
+
+                        // sellItem.price = Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
                         String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
-                        sellItem.vol = sellVol.contains("-") ? 0 : Integer.parseInt(sellVol);
+                        if (isFloatText(sellVol)) {
+                            sellItem.vol = Integer.parseInt(sellVol);
+                        } else {
+
+                            sellItem.vol = 0;
+                        }
                     } else {
                         sellItem.vol = 0;
                     }
@@ -362,6 +385,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         }
     };
+
+    private boolean isFloatText(String str) {
+        try {
+            Float.parseFloat(str);
+            return true;
+        } catch (NumberFormatException e) {
+            // TODO Auto-generated catch block
+            return false;
+        }
+    }
 
     private void initTabPage() {
 
@@ -396,17 +429,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-
-            tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
-            tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
-
-            // tvHigh.setTextColor(getTextColor(mStockQuotesBean.getHigh() - mStockQuotesBean.getLastClose()));
-            // tvLow.setTextColor(getTextColor(mStockQuotesBean.getLow() - mStockQuotesBean.getLastClose()));
             tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
 
-            tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
-            tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
-            tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+            if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
+                tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
+                tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
+                tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
+                tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
+                tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
+
+            } else {
+
+                tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
+                tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+                tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
+                tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
+                tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+            }
             tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
 
             tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
