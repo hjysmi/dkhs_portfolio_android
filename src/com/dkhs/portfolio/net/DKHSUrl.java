@@ -113,7 +113,8 @@ public class DKHSUrl {
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
         String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type={1}";
         String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=10&user_id={0}&content_type=30&content_subtype={1}";
-        String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=10&portfolio_id={0}&content_type=30";
+        String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=10&content_type=30&content_subtype={0}";
+        String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=10&portfolio_id={0}&content_type={1}";
         String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type=30";
         String newstext = "/api/v1/statuses/";
     }

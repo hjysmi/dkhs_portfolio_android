@@ -73,7 +73,6 @@ public class YanBaoActivity extends ModelAcitivity{
         frag.add(f1);
         Fragment f2 = new FragmentreportNewsList();
         Bundle b2 = new Bundle();
-        b2.putString(FragmentNewsList.NEWS_TYPE, "303");
         vo = new NewsforImpleEngine();
         vo.setUserid(userId);
         vo.setContentSubType("303");
@@ -87,7 +86,7 @@ public class YanBaoActivity extends ModelAcitivity{
         vo = new NewsforImpleEngine();
         vo.setUserid(userId);
         vo.setContentSubType("302");
-        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP);
+        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_TWO);
         b3.putSerializable(FragmentNewsList.VO, vo);
         f3.setArguments(b3);
         frag.add(f3);
@@ -97,7 +96,7 @@ public class YanBaoActivity extends ModelAcitivity{
         vo = new NewsforImpleEngine();
         vo.setUserid(userId);
         vo.setContentSubType("301");
-        b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP);
+        b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_TWO);
         b4.putSerializable(FragmentNewsList.VO, vo);
         f4.setArguments(b4);
         frag.add(f4);
