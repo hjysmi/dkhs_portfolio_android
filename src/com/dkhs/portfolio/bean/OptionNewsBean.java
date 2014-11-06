@@ -37,7 +37,14 @@ public class OptionNewsBean {
     List<Symbols> symbols;
     User user;
     Source source;
-    public class Source{
+    
+    public Source getSource() {
+		return source;
+	}
+	public void setSource(Source source) {
+		this.source = source;
+	}
+	public class Source{
     	String id;
     	String title;
     	String url;

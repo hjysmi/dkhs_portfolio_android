@@ -10,6 +10,8 @@ package com.dkhs.portfolio.engine;
 
 import java.util.List;
 
+import android.content.Context;
+
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -62,8 +64,14 @@ public abstract class LoadNewsTextEngine extends ParseHttpListener<OptionNewsBea
         }
 
     }
+    
+    @Override
+	public ParseHttpListener setLoadingDialog(Context context) {
+		// TODO Auto-generated method stub
+		return super.setLoadingDialog(context);
+	}
 
-    /**
+	/**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
