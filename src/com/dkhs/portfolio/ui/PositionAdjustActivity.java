@@ -684,11 +684,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         List<ConStockBean> tempList = new ArrayList<ConStockBean>();
         for (SelectStockBean selectBean : listStock) {
             ConStockBean csBean = selectBean.parseStock();
-            csBean.setPercent(0);
+            csBean.setDutyValue(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
             if (stockList.contains(csBean)) {
                 if (i < stockList.size()) {
-                    csBean.setPercent(stockList.get(i).getPercent());
+                    csBean.setDutyValue(stockList.get(i).getDutyValue());
                     // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
                 }
 
