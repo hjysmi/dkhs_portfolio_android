@@ -52,6 +52,9 @@ public class StockQuotesBean {
     // 市净率
     private float pb;
 
+    // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
+    private int symbol_type;
+
     @SerializedName("sell_price_level")
     private SellPrice sellPrice;
 
@@ -278,6 +281,14 @@ public class StockQuotesBean {
 
     public void setPb(float pb) {
         this.pb = pb;
+    }
+
+    public int getSymbol_type() {
+        return symbol_type;
+    }
+
+    public void setSymbol_type(int symbol_type) {
+        this.symbol_type = symbol_type;
     }
 
 }

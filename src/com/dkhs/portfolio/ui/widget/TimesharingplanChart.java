@@ -9,15 +9,17 @@
 package com.dkhs.portfolio.ui.widget;
 
 import java.util.List;
-import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.os.Build;
 import android.util.AttributeSet;
-import android.view.View.MeasureSpec;
+import android.view.Display;
+import android.view.WindowManager;
 
-import com.dkhs.portfolio.ui.widget.chart.StickEntity;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
@@ -56,7 +58,13 @@ public class TimesharingplanChart extends TrendChart {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
         int mesasureWidth = measureWidth(widthMeasureSpec);
-        setMeasuredDimension(mesasureWidth, (int) (mesasureWidth / 4 * 4.5f));
+        int screenWidth = measureWidth((int) DisplayUtil.getWindowSizePoint().x);
+
+        // setMeasuredDimension(mesasureWidth, (int)
+        // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
+        // System.out.println("mesasureWidth:" + mesasureWidth);
+        // System.out.println("screenWidth:" + screenWidth);
+        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));
     }
 
     private int measureWidth(int measureSpec) {
