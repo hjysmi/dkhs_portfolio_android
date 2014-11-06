@@ -429,7 +429,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 ConStockBean c = stockList.get(i);
                 total -= dutyValue;
                 c.setPercent(dutyValue);
-
+                
                 c.setDutyColor(ColorTemplate.getDefaultColor(i));
 
             }
@@ -516,6 +516,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                 } else {
                     originStock.setDutyColor(0);
+                    originStock.setPercent(0);
                     tempList.add(originStock);
 
                 }
@@ -685,10 +686,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         for (SelectStockBean selectBean : listStock) {
             ConStockBean csBean = selectBean.parseStock();
             csBean.setDutyValue(0);
+            csBean.setPercent(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
             if (stockList.contains(csBean)) {
                 if (i < stockList.size()) {
                     csBean.setDutyValue(stockList.get(i).getDutyValue());
+                    csBean.setPercent(stockList.get(i).getPercent());
                     // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
                 }
 
