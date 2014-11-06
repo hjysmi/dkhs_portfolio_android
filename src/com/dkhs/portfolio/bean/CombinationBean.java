@@ -149,6 +149,7 @@ public class CombinationBean implements Serializable {
         bean.id = cBean.getId();
         bean.description = cBean.getDescription();
         bean.name = cBean.getName();
+        bean.setIspublic(cBean.getIs_public());
         return bean;
     }
 

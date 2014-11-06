@@ -33,12 +33,15 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.ChampionCollectionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.MainpageEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
@@ -55,6 +58,8 @@ import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.ui.widget.MarqueeText;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class MainFragment extends Fragment implements OnClickListener {
@@ -285,35 +290,37 @@ public class MainFragment extends Fragment implements OnClickListener {
     };
 
     private void loadCombination() {
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
 
             @Override
-            protected List<CombinationBean> parseDateTask(String jsonData) {
-                Type listType = new TypeToken<List<CombinationBean>>() {
-                }.getType();
-                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+            protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
 
-                return combinationList;
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+                        new TypeToken<MoreDataBean<CombinationBean>>() {
+                        }.getType());
+                return moreBean;
+
             }
 
             @Override
-            protected void afterParseData(List<CombinationBean> dataList) {
+            protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
                 // LogUtils.d("List<CombinationBean> size:" + dataList.size());
-                if (null != dataList && isAdded()) {
-                    // if (0 == dataList.size()) {
-                    //
-                    // } else if (1 == dataList.size()) {
-                    // inflateOneLayout(dataList);
-                    // } else if (dataList.size() > 1) {
-                    // inflateTwoLayout(dataList);
-                    // }
-                    if (dataList.size() > 0) {
-                        inflateCombinationLayout(dataList);
-                    } else {
-                        comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
-                        comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
-                        viewAddcombination.setVisibility(View.VISIBLE);
-                        gvCombination.setVisibility(View.GONE);
+                if (null != moreBean) {
+                    List<CombinationBean> dataList = moreBean.getResults();
+
+                    if (null != dataList && isAdded()) {
+
+                        if (dataList.size() > 0) {
+                            inflateCombinationLayout(dataList);
+                        } else {
+                            comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
+                            comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
+                            viewAddcombination.setVisibility(View.VISIBLE);
+                            gvCombination.setVisibility(View.GONE);
+                        }
                     }
                 }
             }

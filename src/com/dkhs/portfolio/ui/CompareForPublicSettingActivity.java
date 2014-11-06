@@ -18,10 +18,13 @@ import android.widget.Switch;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SetCombinPublicEntity;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 public class CompareForPublicSettingActivity extends ModelAcitivity {
@@ -69,21 +72,24 @@ public class CompareForPublicSettingActivity extends ModelAcitivity {
     }
 
     private void loadCombinationData() {
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
 
             @Override
-            protected List<CombinationBean> parseDateTask(String jsonData) {
-                Type listType = new TypeToken<List<CombinationBean>>() {
-                }.getType();
-                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+            protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
 
-                return combinationList;
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+                        new TypeToken<MoreDataBean<CombinationBean>>() {
+                        }.getType());
+                return moreBean;
+
             }
 
             @Override
-            protected void afterParseData(List<CombinationBean> dataList) {
-                list = dataList;
-                createGroupShow(dataList);
+            protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
+                list = moreBean.getResults();
+                createGroupShow(list);
             }
 
         }.setLoadingDialog(this, R.string.loading));

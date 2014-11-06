@@ -8,12 +8,19 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.text.TextUtils;
+import android.view.View;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -28,6 +35,28 @@ public class MyCombinationEngineImpl {
         RequestParams params = new RequestParams();
 
         DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, listener);
+
+    }
+
+    public class MyCombinationListent extends ParseHttpListener<MoreDataBean<CombinationBean>> {
+
+        @Override
+        protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
+
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+            MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+                    new TypeToken<MoreDataBean<CombinationBean>>() {
+                    }.getType());
+            return moreBean;
+
+            // return combinationList;
+        }
+
+        @Override
+        protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
+
+        }
 
     }
 

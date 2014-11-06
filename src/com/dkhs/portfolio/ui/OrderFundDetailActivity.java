@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -19,7 +20,10 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
+import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
+import com.dkhs.portfolio.ui.widget.InterceptScrollView;
+import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -30,7 +34,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-11-6 下午12:04:35
  * @version 1.0
  */
-public class OrderFundDetailActivity extends ModelAcitivity implements OnClickListener {
+public class OrderFundDetailActivity extends ModelAcitivity implements OnClickListener, ITouchListener {
     private CombinationBean mChampionBean;
 
     private View mViewHeader;
@@ -42,6 +46,8 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     private TextView tvConDesc;
     private TextView tvBottomTip;
     private boolean isClickable;
+
+    private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
 
     public static final String EXTRA_COMBINATION = "extra_combination";
 
@@ -71,6 +77,8 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     }
 
     private void initViews() {
+        mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
+        mScrollview.setScrollViewListener(mScrollViewListener);
         mViewHeader = findViewById(R.id.rl_combination_header);
         mViewBottom = findViewById(R.id.combination_position);
         if (isClickable) {
@@ -85,6 +93,19 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         replaceTrendView();
     }
 
+    ScrollViewListener mScrollViewListener = new ScrollViewListener() {
+
+        @Override
+        public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
+            // TODO Auto-generated method stub
+            if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
+                chartTounching();
+            }
+            Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
+        }
+
+    };
+
     private void replaceTrendView() {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, new FragmentNetValueTrend())
@@ -95,7 +116,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     private void replaceBottomView() {
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.combination_position, FragmentPositionDetail.newInstance(mChampionBean.getId())).commit();
+                .replace(R.id.combination_position, FragmentPositionBottom.newInstance(mChampionBean.getId())).commit();
 
     }
 
@@ -122,10 +143,12 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         int id = v.getId();
         switch (id) {
             case R.id.rl_combination_header: {
-                PromptManager.showToast("查看用户信息");
+                // PromptManager.showToast("查看用户信息");
+                startActivity(UserCombinationActivity.getIntent(this, mChampionBean.getCreateUser().getId(), false));
             }
                 break;
-            case R.id.tv_position_tip: {
+            case R.id.tv_position_tip:
+            case R.id.combination_position: {
                 if (tvBottomTip.getVisibility() == View.VISIBLE) {
                     tvBottomTip.setVisibility(View.GONE);
                     replaceBottomView();
@@ -134,6 +157,32 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
                 break;
             default:
                 break;
+        }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void chartTounching() {
+        if (mScrollview != null) {
+            mScrollview.setIsfocus(true);
+        }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loseTouching() {
+        if (mScrollview != null) {
+            mScrollview.setIsfocus(false);
         }
 
     }

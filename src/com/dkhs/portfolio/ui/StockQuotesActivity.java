@@ -451,7 +451,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
             tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
             tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
-            tvLiuzhi.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getMarket_capital()));
+            tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
             tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
             tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
             tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));

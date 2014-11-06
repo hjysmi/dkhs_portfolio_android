@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.utils;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.bean.StockQuotesBean;
 
 /**
@@ -20,6 +22,9 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
 public class StockUitls {
 
     public static boolean isShangZhengB(String symbol) {
+        if (TextUtils.isEmpty(symbol)) {
+            return false;
+        }
         return symbol.startsWith("SH9");
     }
 }
