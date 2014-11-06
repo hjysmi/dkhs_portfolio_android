@@ -303,6 +303,7 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setMaxPointNum(242);
 
         List<String> rightYtitle = new ArrayList<String>();
+
         rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
         rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
@@ -492,11 +493,20 @@ public class StockQuotesChartFragment extends Fragment {
         List<String> rightYtitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
-        ytitle.add(StringFromatUtils.get2Point(baseNum - offetYvalue));
-        ytitle.add(StringFromatUtils.get2Point(baseNum - halfOffetValue));
-        ytitle.add(StringFromatUtils.get2Point(baseNum));
-        ytitle.add(StringFromatUtils.get2Point(baseNum + halfOffetValue));
-        ytitle.add(StringFromatUtils.get2Point(baseNum + offetYvalue));
+        if (mStockBean.getSymbol_type() == 5) {
+            ytitle.add(StringFromatUtils.get3Point(baseNum - offetYvalue));
+            ytitle.add(StringFromatUtils.get3Point(baseNum - halfOffetValue));
+            ytitle.add(StringFromatUtils.get3Point(baseNum));
+            ytitle.add(StringFromatUtils.get3Point(baseNum + halfOffetValue));
+            ytitle.add(StringFromatUtils.get3Point(baseNum + offetYvalue));
+        } else {
+            ytitle.add(StringFromatUtils.get2Point(baseNum - offetYvalue));
+            ytitle.add(StringFromatUtils.get2Point(baseNum - halfOffetValue));
+            ytitle.add(StringFromatUtils.get2Point(baseNum));
+            ytitle.add(StringFromatUtils.get2Point(baseNum + halfOffetValue));
+            ytitle.add(StringFromatUtils.get2Point(baseNum + offetYvalue));
+        }
+
         mMaChart.setAxisYTitles(ytitle);
         mMaChart.setMaxValue(baseNum + offetYvalue);
         mMaChart.setMinValue(baseNum - offetYvalue);
