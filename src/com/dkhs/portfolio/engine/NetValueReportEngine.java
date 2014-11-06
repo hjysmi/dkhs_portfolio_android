@@ -34,9 +34,9 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
 
     private String mConbinationId;
 
-    public NetValueReportEngine(int id, ILoadDataBackListener loadListener) {
+    public NetValueReportEngine(String id, ILoadDataBackListener loadListener) {
         super(loadListener);
-        this.mConbinationId = String.valueOf(id);
+        this.mConbinationId = id;
     }
 
     /**

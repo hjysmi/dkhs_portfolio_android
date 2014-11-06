@@ -616,7 +616,7 @@ public class MainFragment extends Fragment implements OnClickListener {
      * 初始化要切换的图片和点
      */
     private void initDotAndPicture() {
-        imageResId = new int[] { R.drawable.pic_one, R.drawable.pic_two, R.drawable.pic_three };
+        imageResId = new int[] { R.drawable.ic_agree, R.drawable.ic_agree, R.drawable.ic_agree };
 
         // imageViews = new ArrayList<ImageView>();
         // int viewWidth = getActivity().getResources().getDisplayMetrics().widthPixels;

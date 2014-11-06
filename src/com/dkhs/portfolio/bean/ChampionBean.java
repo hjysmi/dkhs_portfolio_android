@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.io.Serializable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -17,13 +19,18 @@ import com.google.gson.annotations.SerializedName;
  * @date 2014-10-29 上午11:28:18
  * @version 1.0
  */
-public class ChampionBean {
+public class ChampionBean implements Serializable {
+
+    private static final long serialVersionUID = 129599595218L;
     private String id;
     private String name;
+    // 0公开/1保密
+    private String is_public;
     @SerializedName("increase_percent")
     private float increasePercent;
+    private String created_at;
 
-    private User user;
+    private CombinationUser user;
     private String description;
 
     public String getId() {
@@ -50,7 +57,9 @@ public class ChampionBean {
         this.increasePercent = increasePercent;
     }
 
-    public class User {
+    public class CombinationUser implements Serializable {
+
+        private static final long serialVersionUID = 12894595218L;
         private String id;
         private String username;
 
@@ -71,11 +80,11 @@ public class ChampionBean {
         }
     }
 
-    public User getUser() {
+    public CombinationUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(CombinationUser user) {
         this.user = user;
     }
 
@@ -85,6 +94,22 @@ public class ChampionBean {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIs_public() {
+        return is_public;
+    }
+
+    public void setIs_public(String is_public) {
+        this.is_public = is_public;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
 }

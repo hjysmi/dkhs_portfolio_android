@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -66,6 +69,7 @@ public class CompareIndexAdapter extends BaseAdapter {
             convertView = View.inflate(mContext, R.layout.item_compare_index, null);
             viewHolder.tvName = (TextView) convertView.findViewById(R.id.tv_comparename);
             viewHolder.tvValue = (TextView) convertView.findViewById(R.id.tv_compare_index);
+            // viewHolder.cbSelect = (CheckBox) convertView.findViewById(R.id.cb_select);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHodler) convertView.getTag();
@@ -73,6 +77,9 @@ public class CompareIndexAdapter extends BaseAdapter {
 
         CompareFundItem item = mDataList.get(position);
         int colorId = ColorTemplate.DEFAULTCOLORS[position];
+        // viewHolder.cbSelect.setBackgroundColor(mContext.getResources().getColor(colorId));
+        // viewHolder.cbSelect.setOnCheckedChangeListener(itemSelectChangeListener);
+        // viewHolder.cbSelect.setTag(position);
         if (item.iSelect) {
             colorId = R.color.compare_select_gray;
         }
@@ -86,9 +93,27 @@ public class CompareIndexAdapter extends BaseAdapter {
         return convertView;
     }
 
+    OnCheckedChangeListener itemSelectChangeListener = new OnCheckedChangeListener() {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            int position = (Integer) buttonView.getTag();
+            if (isChecked) {
+
+                buttonView.setBackgroundColor(mContext.getResources().getColor(R.color.compare_select_gray));
+            } else {
+                int colorId = ColorTemplate.DEFAULTCOLORS[position];
+                buttonView.setBackgroundColor(mContext.getResources().getColor(colorId));
+
+            }
+
+        }
+    };
+
     final static class ViewHodler {
         TextView tvName;
         TextView tvValue;
+        public CheckBox cbSelect;
     }
 
     public void setItemHeight(int height) {
@@ -105,6 +130,7 @@ public class CompareIndexAdapter extends BaseAdapter {
         public String name;
         public String value;
         public boolean iSelect;
+
     }
 
 }
