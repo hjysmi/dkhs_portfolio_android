@@ -108,24 +108,20 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
         initTabPage(view);
-        setupViewData();
+        // setupViewData();
         return view;
     }
 
-    private void setupViewData() {
-        if (null != mCombinationBean) {
-            // System.out.println("mCombinationBean name:" + mCombinationBean.getName());
-            tvCombinName.setText(mCombinationBean.getName());
-            tvCombinDesc.setText(getString(R.string.descrition_format, mCombinationBean.getDescription()));
-            tvCombinCreateTime.setText(getString(R.string.create_time_format,
-                    TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime())));
-            // tvIncreaseRatio.setText(StringFromatUtils.getPercentValue(mCombinationBean.getAddUpValue()));
-            // tvIncreaseValue.setText(StringFromatUtils.get4Point(1 + mCombinationBean.getAddUpValue()));
-            // Message msg = updateHandler.obtainMessage();
-            // msg.obj = 1 + mCombinationBean.getAddUpValue();
-            // updateHandler.sendMessage(msg);
-        }
-    }
+    // private void setupViewData() {
+    // if (null != mCombinationBean) {
+    //
+    // tvCombinName.setText(mCombinationBean.getName());
+    // tvCombinDesc.setText(getString(R.string.descrition_format, mCombinationBean.getDescription()));
+    // tvCombinCreateTime.setText(getString(R.string.create_time_format,
+    // TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime())));
+    //
+    // }
+    // }
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {

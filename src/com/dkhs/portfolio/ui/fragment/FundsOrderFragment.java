@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -20,9 +21,11 @@ import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -34,6 +37,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -64,12 +69,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         return fragment;
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param arg0
-     * @return
-     */
     @Override
     public void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -81,6 +80,21 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         }
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     * @return
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
@@ -89,12 +103,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         return mAdapter;
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param object
-     * @return
-     */
     @Override
     public void loadFinish(MoreDataBean object) {
 
@@ -109,18 +117,27 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
-     */
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
             orderEngine = new FundsOrderEngineImpl(this, mOrderType);
         }
         return orderEngine;
+    }
+
+    @Override
+    OnItemClickListener getItemClickListener() {
+
+        return new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                getActivity().startActivity(
+                        OrderFundDetailActivity.getIntent(getActivity(),
+                                CombinationBean.parse(mDataList.get(position)), true));
+            }
+        };
     }
 
 }

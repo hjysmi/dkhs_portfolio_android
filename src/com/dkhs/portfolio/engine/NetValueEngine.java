@@ -35,8 +35,8 @@ public class NetValueEngine {
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param id
      */
-    public NetValueEngine(int id) {
-        mConbinationId = String.valueOf(id);
+    public NetValueEngine(String id) {
+        mConbinationId = id;
     }
 
     /**

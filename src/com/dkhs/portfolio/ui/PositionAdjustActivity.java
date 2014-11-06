@@ -85,7 +85,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private View viewCombinationInfo;
 
     private PositionDetail mPositionDetailBean;
-    private int mCombinationId;
+    private String mCombinationId;
     private boolean isAdjustCombination;
     private TextView positionTextValue;
     private TextView positionTextCreatedate;
@@ -440,24 +440,33 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
+    private boolean isModiyName;
+    private boolean isModifyPosition;
+
     private void adjustPositionDetailToServer() {
         MyCombinationEngineImpl engine = new MyCombinationEngineImpl();
-
-        if (generateSymbols().size() < 1) {
-            PromptManager.showToast("请添加个股");
-            return;
-        } else {
-            engine.adjustCombination(mCombinationId, generateSymbols(), adjustListener.setLoadingDialog(this, "修改中..."));
-        }
-
         String nameText = etConbinationName.getText().toString();
         String descText = etConbinationDesc.getText().toString();
-        if (!nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
-                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDescription()))
-            engine.updateCombination(mCombinationId, nameText, descText, adjustListener);
+        List<SubmitSymbol> submitList = generateSymbols();
+        isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
+                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDescription());
+        isModifyPosition = submitList.size() > 0;
+        if (!isModifyPosition && !isModiyName) {
+
+            PromptManager.showToast("持仓信息没有修改");
+            return;
+        }
+        if (isModiyName)
+            engine.updateCombination(mCombinationId, nameText, descText, adjustNameListener);
+
+        if (isModifyPosition) {
+            engine.adjustCombination(mCombinationId, generateSymbols(),
+                    adjustPositionListener.setLoadingDialog(this, "修改中..."));
+        }
+
     }
 
-    ParseHttpListener adjustListener = new ParseHttpListener() {
+    ParseHttpListener adjustNameListener = new ParseHttpListener() {
 
         @Override
         protected Object parseDateTask(String jsonData) {
@@ -467,9 +476,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         @Override
         protected void afterParseData(Object object) {
-            Toast.makeText(PositionAdjustActivity.this, "调整持仓成功!", Toast.LENGTH_SHORT).show();
-            finish();
+            mPositionDetailBean.getPortfolio().setName(etConbinationName.getText().toString());
+            mPositionDetailBean.getPortfolio().setDescription(etConbinationDesc.getText().toString());
+            Toast.makeText(PositionAdjustActivity.this, "名称修改成功", Toast.LENGTH_SHORT).show();
+        }
 
+    };
+    ParseHttpListener adjustPositionListener = new ParseHttpListener() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            Toast.makeText(PositionAdjustActivity.this, "持仓调整成功", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
     };
@@ -660,11 +684,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         List<ConStockBean> tempList = new ArrayList<ConStockBean>();
         for (SelectStockBean selectBean : listStock) {
             ConStockBean csBean = selectBean.parseStock();
-            csBean.setPercent(0);
+            csBean.setDutyValue(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
             if (stockList.contains(csBean)) {
                 if (i < stockList.size()) {
-                    csBean.setPercent(stockList.get(i).getPercent());
+                    csBean.setDutyValue(stockList.get(i).getDutyValue());
                     // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
                 }
 

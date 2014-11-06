@@ -4,6 +4,14 @@
     android:layout_height="match_parent"
     android:gravity="center" >
 
+    <CheckBox
+        android:id="@+id/cb_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:button="@null"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/tv_comparename"
         android:layout_width="match_parent"

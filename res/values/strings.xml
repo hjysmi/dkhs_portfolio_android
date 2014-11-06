@@ -207,6 +207,7 @@
     <string name="marketcenter_title">行情中心</string>
     <string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
+    <string name="format_create_time">创建时间:%1$s</string>
     <string name="setting_password_hint">请输入密码,不少于6位</string>
     <string name="password_setting_title">修改密码</string>
     <string name="password_setting_old">原密码不能为空</string>

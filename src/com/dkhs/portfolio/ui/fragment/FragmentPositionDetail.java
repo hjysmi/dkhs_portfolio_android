@@ -84,17 +84,17 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private ListViewEx lvAdjustHistory;
     private AdjustHistoryAdapter mAdjustAdapter;
 
-    private int mCombinationId;
+    private String mCombinationId;
 
     private PositionDetail mPositionDetail;
 
     private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
 
-    public static FragmentPositionDetail newInstance(int combinationId) {
+    public static FragmentPositionDetail newInstance(String combinationId) {
         FragmentPositionDetail fragment = new FragmentPositionDetail();
 
         Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_COMBINTAION_ID, combinationId);
+        arguments.putString(ARGUMENT_COMBINTAION_ID, combinationId);
         fragment.setArguments(arguments);
 
         return fragment;
@@ -137,7 +137,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void handleArguments(Bundle extras) {
-        mCombinationId = extras.getInt(ARGUMENT_COMBINTAION_ID);
+        mCombinationId = extras.getString(ARGUMENT_COMBINTAION_ID);
 
         // setStockList();
         // setPieList();
