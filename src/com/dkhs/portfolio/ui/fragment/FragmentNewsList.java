@@ -46,6 +46,7 @@ public class FragmentNewsList extends Fragment{
     private View view;
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
+    private NewsforImpleEngine vo;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -67,7 +68,7 @@ public class FragmentNewsList extends Fragment{
 	}
 	private void initDate(){
 		Bundle bundle = getArguments();
-		NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+		vo = (NewsforImpleEngine) bundle.getSerializable(VO);
 		if(null != bundle){
 			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
@@ -118,7 +119,7 @@ public class FragmentNewsList extends Fragment{
 				long id) {
 			// TODO Auto-generated method stub
 			try {
-				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(),vo.getPageTitle() );
 				startActivity(intent);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

@@ -69,6 +69,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 					vo.setUserid(userId);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSALL,vo);
 					mLoadDataEngine.loadData();
+					mLoadDataEngine.setLoadingDialog(context);
 				}
 			} catch (DbException e) {
 				// TODO Auto-generated catch block
@@ -118,7 +119,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+			Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文");
 			startActivity(intent);
 		}
     };
@@ -133,6 +134,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
+            //mLoadDataEngine.setLoadingDialog(context);
         }
     }
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

@@ -78,6 +78,7 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
         NewsforImpleEngine vo = new NewsforImpleEngine();
         vo.setPortfolioId(mCombinationBean.getId()+"");
         vo.setContentType("10");
+        vo.setPageTitle("新闻正文");
         b1.putSerializable(FragmentNewsList.VO, vo);
         f1.setArguments(b1);
         fragmentList.add(f1);
@@ -87,6 +88,7 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
         NewsforImpleEngine vo2 = new NewsforImpleEngine();
         vo2.setPortfolioId(mCombinationBean.getId()+"");
         vo2.setContentType("20");
+        vo2.setPageTitle("公告正文");
         b2.putSerializable(FragmentNewsList.VO, vo2);
         f2.setArguments(b2);
         fragmentList.add(f2);
@@ -96,6 +98,7 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
         NewsforImpleEngine vo3 = new NewsforImpleEngine();
         vo3.setPortfolioId(mCombinationBean.getId()+"");
         vo3.setContentType("30");
+        vo3.setPageTitle("研报正文");
         b3.putSerializable(FragmentNewsList.VO, vo3);
         f3.setArguments(b3);
         fragmentList.add(f3);

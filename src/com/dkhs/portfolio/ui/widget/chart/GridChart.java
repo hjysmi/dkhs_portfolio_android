@@ -29,7 +29,7 @@ import android.view.View;
 public class GridChart extends View implements IViewConst, ITouchEventNotify,ITouchEventResponse {
 
 	// ////////////默认值////////////////
-	public static final int PADDING_LEFT = 80;
+	public static final int PADDING_LEFT = 90;
 	/** 默认背景色 */
 	public static final int DEFAULT_BACKGROUD_COLOR = Color.BLACK;
 
@@ -597,7 +597,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 									mPaintFont);
 						}else if( i == axisXTitles.size() -1){
 							canvas.drawText(axisXTitles.get(i), 
-									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + axisMarginLeft, super
+									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + axisMarginLeft + PADDING_LEFT, super
 									.getHeight()
 									- axisMarginBottom + longtitudeFontSize,
 									mPaintFont);

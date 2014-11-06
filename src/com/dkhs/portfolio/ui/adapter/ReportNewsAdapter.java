@@ -59,10 +59,17 @@ public class ReportNewsAdapter extends BaseAdapter{
 			}
 			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
 			if(mOptionNewsBean.getSymbols().size() > 0){
-				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getSymbol());
+				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName() + " " +mOptionNewsBean.getSymbols().get(0).getId());
+			}else{
+				viewHolder.tvTextNameNum.setText("");
 			}
 			viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
-			viewHolder.tvTextFrom.setText("");
+			if(null != mOptionNewsBean.getSource()){
+				viewHolder.tvTextFrom.setText(mOptionNewsBean.getSource().getTitle());
+			}else{
+				viewHolder.tvTextFrom.setText("");
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

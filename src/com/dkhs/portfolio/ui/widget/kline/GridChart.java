@@ -41,7 +41,7 @@ public class GridChart extends View {
 
 	/** 默认经线数 */
 	public static final int DEFAULT_LOGITUDE_NUM = 3;
-	public static final int PADDING_LEFT = 80;
+	public static final int PADDING_LEFT = 90;
 	/** 默认边框的颜色 */
 	public static final int DEFAULT_BORDER_COLOR = Color.RED;
 

@@ -182,6 +182,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         vo = new NewsforImpleEngine();
         vo.setSymbol(mStockBean.code);
         vo.setContentType("10");
+        vo.setPageTitle("新闻正文");
         b1.putSerializable(FragmentNewsList.VO, vo);
         f1.setArguments(b1);
         frag.add(f1);
@@ -191,6 +192,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         vo = new NewsforImpleEngine();
         vo.setSymbol(mStockBean.code);
         vo.setContentType("20");
+        vo.setPageTitle("公告正文");
         b2.putSerializable(FragmentNewsList.VO, vo);
         f2.setArguments(b2);
         frag.add(f2);
@@ -199,6 +201,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
         vo = new NewsforImpleEngine();
         vo.setSymbol(mStockBean.code);
+        vo.setPageTitle("研报正文");
         b4.putSerializable(FragmentNewsList.VO, vo);
         f4.setArguments(b4);
         frag.add(f4);

@@ -30,8 +30,8 @@
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:id="@+id/news_title_name"
                 android:visibility="gone"
+                android:id="@+id/news_title_name"
                 android:textSize="@dimen/list_text_size" />
 
             <RelativeLayout
