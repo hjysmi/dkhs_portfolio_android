@@ -370,7 +370,7 @@ public class TrendChart extends TrendGridChart {
                         if (fillLineIndex == i && j == 0) {
 
                             fillPaint.setColor(line.getLineColor());
-                            fillPaint.setAlpha(85);
+                            fillPaint.setAlpha(50);
                             fillPaint.setAntiAlias(true);
                             fillPath.moveTo(startX, valueY);
                         } else {

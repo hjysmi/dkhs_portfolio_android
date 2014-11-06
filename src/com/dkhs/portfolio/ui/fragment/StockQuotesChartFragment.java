@@ -75,6 +75,8 @@ public class StockQuotesChartFragment extends Fragment {
     private FiveRangeAdapter mBuyAdapter, mSellAdapter;
     private ListView mListviewBuy, mListviewSell;
 
+    private View viewFiveRange;
+
     // private long mStockId;
     private String mStockCode;
     LineEntity fenshiPiceLine;
@@ -182,6 +184,7 @@ public class StockQuotesChartFragment extends Fragment {
     }
 
     private void initView(View view) {
+        viewFiveRange = view.findViewById(R.id.rl_fiverange);
         mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
         mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
 
@@ -352,10 +355,16 @@ public class StockQuotesChartFragment extends Fragment {
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            mBuyAdapter.setList(mStockBean.getBuyList());
-            mSellAdapter.setList(mStockBean.getSellList());
-            mBuyAdapter.setCompareValue(mStockBean.getLastClose());
-            mSellAdapter.setCompareValue(mStockBean.getLastClose());
+            if (mStockBean.getSymbol_type() == 5) {
+                viewFiveRange.setVisibility(View.GONE);
+            } else {
+
+                mBuyAdapter.setList(mStockBean.getBuyList());
+                mSellAdapter.setList(mStockBean.getSellList());
+                mBuyAdapter.setCompareValue(mStockBean.getLastClose());
+                mSellAdapter.setCompareValue(mStockBean.getLastClose());
+
+            }
         };
     };
 

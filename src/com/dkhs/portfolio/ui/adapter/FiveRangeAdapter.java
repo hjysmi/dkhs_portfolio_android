@@ -114,7 +114,6 @@ public class FiveRangeAdapter extends BaseAdapter {
             // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
             // 13f);
             // if (!item.price.contains("-.---")) {
-            System.out.println("position:" + position + " item:" + item.price);
             if (Float.parseFloat(item.price) == 0) {
                 viewHolder.tvPrice.setText("—");
             } else {

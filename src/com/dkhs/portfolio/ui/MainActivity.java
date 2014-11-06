@@ -9,6 +9,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.MainFragment;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.lidroid.xutils.util.LogUtils;
 
 public class MainActivity extends FragmentActivity implements ITitleButtonListener {
@@ -22,6 +23,7 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DisplayUtil.initDisplayUtil(this);
         setContentView(R.layout.activity_main);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // mRightMenu = findViewById(R.id.menu_layout_right);

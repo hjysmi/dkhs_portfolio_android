@@ -105,12 +105,10 @@ public abstract class BasicHttpListener implements IHttpListener {
         // }
         // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
-        if (errCode == 500) { // 服务器内部错误
-            PromptManager.showToast("网络连接失败,请检查你的网络");
+        if (errCode == 500 || errCode == 404) { // 服务器内部错误
+            PromptManager.showToast("服务端暂时不可用,请稍候.");
         } else if (errCode == 777) { // 服务器正确响应，错误参数需要提示用户
             parseToErrorBundle(errMsg);
-        } else if (errCode == 404) {
-            PromptManager.showToast("网络请求失败,请稍后再试");
         }
 
     }
