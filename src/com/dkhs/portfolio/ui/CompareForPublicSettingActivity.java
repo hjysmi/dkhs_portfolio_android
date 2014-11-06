@@ -24,47 +24,51 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.google.gson.reflect.TypeToken;
 
-public class CompareForPublicSettingActivity extends ModelAcitivity{
-	private LinearLayout compareForpublicLayout;
-	private Context context;
-	private MyCombinationEngineImpl mMyCombinationEngineImpl;
-	private List<CombinationBean> list;
-	@Override
-	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
-		super.onCreate(arg0);
-		setContentView(R.layout.activity_compare_forpublicsetting);
-		context = this;
-		mMyCombinationEngineImpl = new MyCombinationEngineImpl();
-		initView();
-		loadCombinationData();
-	}
-	private void initView(){
-		setTitle(getResources().getString(R.string.setting_string_public_title));
-		compareForpublicLayout = (LinearLayout) findViewById(R.id.compare_forpublic_layout);
-	}
-	
-	/**
-	 * 添加组合股是否公开列表数据
-	 * @param lsit
-	 */
-	public void createGroupShow(List<CombinationBean> lsit){
-		int i = 0;
-		for (CombinationBean combinationBean : lsit) {
-			LayoutInflater l = LayoutInflater.from(context);
-			View view = l.inflate(R.layout.setting_group_item, null);
-			Switch s = (Switch) view.findViewById(R.id.switch1);
-			s.setText(combinationBean.getName());
-			if(combinationBean.getIspublic().equals("0")){
-				s.setChecked(true);
-			}else{
-				s.setChecked(false);
-			}
-			s.setOnCheckedChangeListener(new OnSwitchChange(i++));
-			compareForpublicLayout.addView(view);
-		}
-	}
-	private void loadCombinationData() {
+public class CompareForPublicSettingActivity extends ModelAcitivity {
+    private LinearLayout compareForpublicLayout;
+    private Context context;
+    private MyCombinationEngineImpl mMyCombinationEngineImpl;
+    private List<CombinationBean> list;
+
+    @Override
+    protected void onCreate(Bundle arg0) {
+        // TODO Auto-generated method stub
+        super.onCreate(arg0);
+        setContentView(R.layout.activity_compare_forpublicsetting);
+        context = this;
+        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
+        initView();
+        loadCombinationData();
+    }
+
+    private void initView() {
+        setTitle(getResources().getString(R.string.setting_string_public_title));
+        compareForpublicLayout = (LinearLayout) findViewById(R.id.compare_forpublic_layout);
+    }
+
+    /**
+     * 添加组合股是否公开列表数据
+     * 
+     * @param lsit
+     */
+    public void createGroupShow(List<CombinationBean> lsit) {
+        int i = 0;
+        for (CombinationBean combinationBean : lsit) {
+            LayoutInflater l = LayoutInflater.from(context);
+            View view = l.inflate(R.layout.setting_group_item, null);
+            Switch s = (Switch) view.findViewById(R.id.switch1);
+            s.setText(combinationBean.getName());
+            if (combinationBean.getIspublic().equals("0")) {
+                s.setChecked(true);
+            } else {
+                s.setChecked(false);
+            }
+            s.setOnCheckedChangeListener(new OnSwitchChange(i++));
+            compareForpublicLayout.addView(view);
+        }
+    }
+
+    private void loadCombinationData() {
         new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
 
             @Override
@@ -78,17 +82,20 @@ public class CompareForPublicSettingActivity extends ModelAcitivity{
 
             @Override
             protected void afterParseData(List<CombinationBean> dataList) {
-            	list = dataList;
+                list = dataList;
                 createGroupShow(dataList);
             }
 
         }.setLoadingDialog(this, R.string.loading));
     }
-	class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
-		private int position;
-		public QueryCombinationDetailListener(int position){
-			this.position = position;
-		}
+
+    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
+        private int position;
+
+        public QueryCombinationDetailListener(int position) {
+            this.position = position;
+        }
+
         @Override
         protected List<CombinationBean> parseDateTask(String jsonData) {
             JSONArray jsonObject = null;
@@ -103,26 +110,30 @@ public class CompareForPublicSettingActivity extends ModelAcitivity{
         @Override
         protected void afterParseData(List<CombinationBean> object) {
             if (null != object) {
-            	
+
             }
 
         }
     };
-    class OnSwitchChange implements OnCheckedChangeListener{
-    	int position;
-    	public OnSwitchChange(int position){
-    		this.position = position;
-    	}
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			// TODO Auto-generated method stub
-			if(isChecked){
-				mMyCombinationEngineImpl.changeCombinationIsPublic(list.get(position).getId(), "0", new QueryCombinationDetailListener(position));
-			}else{
-				mMyCombinationEngineImpl.changeCombinationIsPublic(list.get(position).getId(), "1", new QueryCombinationDetailListener(position));
-			}
-		}
-    	
+
+    class OnSwitchChange implements OnCheckedChangeListener {
+        int position;
+
+        public OnSwitchChange(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            // TODO Auto-generated method stub
+            if (isChecked) {
+                mMyCombinationEngineImpl.changeCombinationIsPublic(list.get(position).getId(), "0",
+                        new QueryCombinationDetailListener(position));
+            } else {
+                mMyCombinationEngineImpl.changeCombinationIsPublic(list.get(position).getId(), "1",
+                        new QueryCombinationDetailListener(position));
+            }
+        }
+
     }
 }

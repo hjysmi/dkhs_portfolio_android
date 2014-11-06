@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -131,8 +132,10 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // PromptManager.showToast(mDataList.get(position).getUser().getUsername());
-                getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position)));
+
+                getActivity().startActivity(
+                        OrderFundDetailActivity.getIntent(getActivity(),
+                                CombinationBean.parse(mDataList.get(position)), true));
             }
         };
     }

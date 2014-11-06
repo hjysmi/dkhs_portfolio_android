@@ -331,7 +331,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private List<LinePointEntity> initMA(int length) {
         List<LinePointEntity> MA5Values = new ArrayList<LinePointEntity>();
-        NetValueEngine outer = new NetValueEngine(0);
+        NetValueEngine outer = new NetValueEngine("0");
         for (int i = 0; i < length; i++) {
             // MA5Values.add((float) new Random().nextInt(99));
             LinePointEntity bean = new LinePointEntity();

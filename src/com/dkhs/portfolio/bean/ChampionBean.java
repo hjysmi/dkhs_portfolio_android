@@ -25,11 +25,12 @@ public class ChampionBean implements Serializable {
     private String id;
     private String name;
     // 0公开/1保密
-    private int is_public;
+    private String is_public;
     @SerializedName("increase_percent")
     private float increasePercent;
+    private String created_at;
 
-    private User user;
+    private CombinationUser user;
     private String description;
 
     public String getId() {
@@ -56,7 +57,7 @@ public class ChampionBean implements Serializable {
         this.increasePercent = increasePercent;
     }
 
-    public class User implements Serializable {
+    public class CombinationUser implements Serializable {
 
         private static final long serialVersionUID = 12894595218L;
         private String id;
@@ -79,11 +80,11 @@ public class ChampionBean implements Serializable {
         }
     }
 
-    public User getUser() {
+    public CombinationUser getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(CombinationUser user) {
         this.user = user;
     }
 
@@ -95,12 +96,20 @@ public class ChampionBean implements Serializable {
         this.description = description;
     }
 
-    public int getIs_public() {
+    public String getIs_public() {
         return is_public;
     }
 
-    public void setIs_public(int is_public) {
+    public void setIs_public(String is_public) {
         this.is_public = is_public;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 
 }

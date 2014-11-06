@@ -88,7 +88,7 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void updateCombination(int id, String name, String desc, IHttpListener listener) {
+    public void updateCombination(String id, String name, String desc, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
         params.addBodyParameter("name", name);
@@ -103,7 +103,7 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void adjustCombination(int id, List<SubmitSymbol> symbols, IHttpListener listener) {
+    public void adjustCombination(String id, List<SubmitSymbol> symbols, IHttpListener listener) {
 
         RequestParams params = new RequestParams();
         // params.addBodyParameter("portfolio", id + "");
@@ -127,7 +127,7 @@ public class MyCombinationEngineImpl {
             params.addBodyParameter("symbols", sb.toString());
         }
 
-        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust, id + ""), params, listener);
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.adjust, id), params, listener);
 
     }
 
@@ -136,29 +136,30 @@ public class MyCombinationEngineImpl {
      * 
      * @param listener :服务器响应监听
      */
-    public void queryCombinationDetail(long id, IHttpListener listener) {
+    public void queryCombinationDetail(String id, IHttpListener listener) {
 
         // queryCombinationDetailByDay(id, listener);
-        String[] params = { String.valueOf(id) };
+        String[] params = { id };
         DKHSClient.requestByGet(DKHSUrl.Portfolio.create, params, listener);
     }
 
-    public void queryCombinationDetailByDay(int id, String date, IHttpListener listener) {
+    public void queryCombinationDetailByDay(String id, String date, IHttpListener listener) {
 
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("date", date);
         params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[] { id + "", }, params, listener);
+        DKHSClient.requestByGet(DKHSUrl.Portfolio.create, new String[] { id, }, params, listener);
 
     }
-    public void changeCombinationIsPublic(long id,String ispublic,IHttpListener listener){
+
+    public void changeCombinationIsPublic(String id, String ispublic, IHttpListener listener) {
         RequestParams params = new RequestParams();
-	    StringBuilder sb = new StringBuilder();
-	   // sb.append("[");
-	     sb.append(ispublic);
-	    //sb.append("]");
-	    params.addBodyParameter("is_public", sb.toString());
-        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id + ""), params, listener);
+        StringBuilder sb = new StringBuilder();
+        // sb.append("[");
+        sb.append(ispublic);
+        // sb.append("]");
+        params.addBodyParameter("is_public", sb.toString());
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id), params, listener);
     }
-    
+
 }

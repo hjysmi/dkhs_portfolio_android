@@ -85,7 +85,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private View viewCombinationInfo;
 
     private PositionDetail mPositionDetailBean;
-    private int mCombinationId;
+    private String mCombinationId;
     private boolean isAdjustCombination;
     private TextView positionTextValue;
     private TextView positionTextCreatedate;
