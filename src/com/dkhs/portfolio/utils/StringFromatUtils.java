@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 
 import android.R.integer;
 
@@ -122,10 +123,10 @@ public class StringFromatUtils {
             return String.valueOf(value);
         } else if (value < 10000000) {
 
-            return String.format("%.2f万", value / 10000f);
+            return new DecimalFormat("0.00万").format(value / 10000f);
         } else {
 
-            return String.format("%.2f亿", value / 100000000f);
+            return new DecimalFormat("0.00亿").format(value / 100000000f);
 
         }
     }

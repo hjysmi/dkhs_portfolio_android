@@ -38,7 +38,7 @@ public class DKHSUrl {
         String update = "/api/v1/portfolio/";
         // 持仓调整
         String adjust = "/api/v1/portfolio/{0}/adjust_positions/";
-        //设置组合是否公开
+        // 设置组合是否公开
         String ispublic = "/api/v1/portfolio/{0}/set_public/";
         String champion = "/api/v1/portfolio/champion/";
 
@@ -133,12 +133,13 @@ public class DKHSUrl {
         // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
         String checkMobile = "/api/v1/accounts/check_mobile/?mobile={0}";
-        //设置昵称
+        // 设置昵称
         String setUserName = "/api/v1/accounts/set_username/";
-        //修改头像
+        // 修改头像
         String setUserHead = "/api/v1/accounts/avatar/";
-        //获取设置界面信息
+        // 获取设置界面信息
         String settingMessage = "/api/v1/accounts/settings/";
+        String combination_user = "/api/v1/users/{0}/";
     }
 
     public interface MainPage {

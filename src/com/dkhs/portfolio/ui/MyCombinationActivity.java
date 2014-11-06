@@ -38,12 +38,15 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -162,23 +165,30 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         // mDataList.add(conBean3);
         // mDataList.add(conBean4);
         // mDataList.add(conBean5);
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
 
             @Override
-            protected List<CombinationBean> parseDateTask(String jsonData) {
-                Type listType = new TypeToken<List<CombinationBean>>() {
-                }.getType();
-                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+            protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
 
-                return combinationList;
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+                        new TypeToken<MoreDataBean<CombinationBean>>() {
+                        }.getType());
+                return moreBean;
+
             }
 
             @Override
-            protected void afterParseData(List<CombinationBean> dataList) {
-                LogUtils.d("List<CombinationBean> size:" + dataList.size());
-                mDataList.clear();
-                mDataList.addAll(dataList);
-                mCombinationAdapter.notifyDataSetChanged();
+            protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
+                // LogUtils.d("List<CombinationBean> size:" + dataList.size());
+                if (null != moreBean) {
+                    List<CombinationBean> dataList = moreBean.getResults();
+                    LogUtils.d("List<CombinationBean> size:" + dataList.size());
+                    mDataList.clear();
+                    mDataList.addAll(dataList);
+                    mCombinationAdapter.notifyDataSetChanged();
+                }
             }
 
         }.setLoadingDialog(MyCombinationActivity.this, R.string.loading));

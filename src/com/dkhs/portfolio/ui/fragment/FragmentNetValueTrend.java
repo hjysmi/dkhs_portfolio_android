@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
@@ -293,5 +294,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void onResumeFragment() {
         // TODO Auto-generated method stub
 
+    }
+    
+    
+    private ITouchListener mTouchListener;
+
+    public void setITouchListener(ITouchListener touchListener) {
+        this.mTouchListener = touchListener;
     }
 }

@@ -208,30 +208,30 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
     }
 
-    private void loadCombinationData() {
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
-
-            @Override
-            protected List<CombinationBean> parseDateTask(String jsonData) {
-                Type listType = new TypeToken<List<CombinationBean>>() {
-                }.getType();
-                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
-
-                return combinationList;
-            }
-
-            @Override
-            protected void afterParseData(List<CombinationBean> dataList) {
-                if (null != dataList && isAdded()) {
-
-                    tvCombin.setText(dataList.size() + "");
-
-                }
-            }
-
-        });
-        // new OptionalStockEngineImpl(mSelectStockBackListener).loadData();
-    }
+    // private void loadCombinationData() {
+    // new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+    //
+    // @Override
+    // protected List<CombinationBean> parseDateTask(String jsonData) {
+    // Type listType = new TypeToken<List<CombinationBean>>() {
+    // }.getType();
+    // List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+    //
+    // return combinationList;
+    // }
+    //
+    // @Override
+    // protected void afterParseData(List<CombinationBean> dataList) {
+    // if (null != dataList && isAdded()) {
+    //
+    // tvCombin.setText(dataList.size() + "");
+    //
+    // }
+    // }
+    //
+    // });
+    // // new OptionalStockEngineImpl(mSelectStockBackListener).loadData();
+    // }
 
     // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
     //

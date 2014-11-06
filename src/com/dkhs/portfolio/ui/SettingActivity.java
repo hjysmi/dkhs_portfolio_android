@@ -228,25 +228,27 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
      * }
      * }
      */
-    private void loadCombinationData() {
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
-
-            @Override
-            protected List<CombinationBean> parseDateTask(String jsonData) {
-                Type listType = new TypeToken<List<CombinationBean>>() {
-                }.getType();
-                List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
-
-                return combinationList;
-            }
-
-            @Override
-            protected void afterParseData(List<CombinationBean> dataList) {
-                // createGroupShow(dataList);
-            }
-
-        }.setLoadingDialog(SettingActivity.this, R.string.loading));
-    }
+    /*
+     * private void loadCombinationData() {
+     * new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
+     * 
+     * @Override
+     * protected List<CombinationBean> parseDateTask(String jsonData) {
+     * Type listType = new TypeToken<List<CombinationBean>>() {
+     * }.getType();
+     * List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
+     * 
+     * return combinationList;
+     * }
+     * 
+     * @Override
+     * protected void afterParseData(List<CombinationBean> dataList) {
+     * // createGroupShow(dataList);
+     * }
+     * 
+     * }.setLoadingDialog(SettingActivity.this, R.string.loading));
+     * }
+     */
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
