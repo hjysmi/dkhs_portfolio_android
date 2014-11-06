@@ -164,10 +164,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		if (showDetails && mStartX > 3) {
 			int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 			float width = getWidth() - PADDING_LEFT;
-			float left = 3.0f + PADDING_LEFT;
-			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE);
+			float left = 3.0f + PADDING_LEFT + 10;
+			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 10;
 			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
-			float bottom = 8.0f + 9 * DEFAULT_AXIS_TITLE_SIZE;
+			float bottom = 8.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + 10;
 			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f  + PADDING_LEFT)) {
 					right = width - 12.0f - PADDING_LEFT;
@@ -175,8 +175,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				}
 			}else{
 				if (mStartX < width / 2.0f) {
-					right = width - 12.0f;
-					left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE;
+					right = width - 12.0f + PADDING_LEFT;
+					left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
 				}
 			}
 			
@@ -217,7 +217,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	        RectF rectF = new RectF(rect);    
 	        paint.setColor(Color.WHITE);
 	        canvas.drawRoundRect(rectF, 10f, 10f, paint1);
-			canvas.drawRect(left, top, right, bottom, paint);
+	        RectF rectF2 = new RectF((int)left, (int)top, (int)(right), (int)(bottom));  
+	        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+			canvas.drawRoundRect(rectF2,  10f, 10f, paint);
 
 			Paint borderPaint = new Paint();
 			borderPaint.setColor(Color.LTGRAY);
