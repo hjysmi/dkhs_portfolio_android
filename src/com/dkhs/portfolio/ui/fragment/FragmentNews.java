@@ -18,11 +18,13 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 
@@ -36,6 +38,7 @@ import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 public class FragmentNews extends Fragment implements FragmentLifecycle {
 	public static final String DATA = "mCombinationBean";
 	private CombinationBean mCombinationBean;
+	private LinearLayout comLayout;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -63,26 +66,45 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
     }
 
     private void initTabPage(View view) {
-
+    	comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
         String[] titleArray = getResources().getStringArray(R.array.detail_news_titles);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(new FragmentDiscussFlow());
-        fragmentList.add(new TestFragment());
+        /*fragmentList.add(new FragmentDiscussFlow());
+        fragmentList.add(new TestFragment());*/
         Fragment f1 = new FragmentNewsList();
         Bundle b1 = new Bundle();
         b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         NewsforImpleEngine vo = new NewsforImpleEngine();
         vo.setPortfolioId(mCombinationBean.getId()+"");
+        vo.setContentType("10");
         b1.putSerializable(FragmentNewsList.VO, vo);
         f1.setArguments(b1);
         fragmentList.add(f1);
-        
-        ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
+        Fragment f2 = new FragmentNewsList();
+        Bundle b2 = new Bundle();
+        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
+        NewsforImpleEngine vo2 = new NewsforImpleEngine();
+        vo2.setPortfolioId(mCombinationBean.getId()+"");
+        vo2.setContentType("20");
+        b2.putSerializable(FragmentNewsList.VO, vo2);
+        f2.setArguments(b2);
+        fragmentList.add(f2);
+        Fragment f3 = new FragmentNewsList();
+        Bundle b3 = new Bundle();
+        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
+        NewsforImpleEngine vo3 = new NewsforImpleEngine();
+        vo3.setPortfolioId(mCombinationBean.getId()+"");
+        vo3.setContentType("30");
+        b3.putSerializable(FragmentNewsList.VO, vo3);
+        f3.setArguments(b3);
+        fragmentList.add(f3);
+        new FragmentSelectAdapter(getActivity(),titleArray,fragmentList,comLayout,getFragmentManager());
+        /*ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setAdapter(new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray));
 
         TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
+        indicator.setViewPager(pager);*/
 
     }
 

@@ -35,6 +35,8 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 	public final static int NEWS_OPITION_FOREACH = 3;
 	//与人员相关的研报分支
 	public final static int NEWS_GROUP = 4;
+	//与人员相关的研报分支
+		public final static int NEWS_GROUP_TWO = 5;
 	private int orderType;
 	private String model;
 	private NewsforImpleEngine vo;
@@ -65,7 +67,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 			break;
 		case NEWS_GROUP_FOREACH:
 			DKHSClient.requestByGet(
-					MessageFormat.format(DKHSUrl.News.reportnewsgroupeach + "&page=" + (getCurrentpage() + 1), vo.getPortfolioId()),
+					MessageFormat.format(DKHSUrl.News.reportnewsgroupeach + "&page=" + (getCurrentpage() + 1), vo.getPortfolioId(),vo.getContentType()),
 					null, this);
 			break;
 		case NEWS_OPITION_FOREACH:
@@ -76,6 +78,11 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 		case NEWS_GROUP:
 			DKHSClient.requestByGet(
 					MessageFormat.format(DKHSUrl.News.reportnews + "&page=" + (getCurrentpage() + 1), vo.getUserid(),vo.getContentSubType()),
+					null, this);
+			break;
+		case NEWS_GROUP_TWO:
+			DKHSClient.requestByGet(
+					MessageFormat.format(DKHSUrl.News.reportnewstwo + "&page=" + (getCurrentpage() + 1), vo.getContentSubType()),
 					null, this);
 			break;
 		default:
@@ -98,7 +105,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 			break;
 		case NEWS_GROUP_FOREACH:
 			DKHSClient.requestByGet(
-					MessageFormat.format(DKHSUrl.News.reportnewsgroupeach, vo.getPortfolioId()),
+					MessageFormat.format(DKHSUrl.News.reportnewsgroupeach, vo.getPortfolioId(),vo.getContentType()),
 					null, this);
 			break;
 		case NEWS_OPITION_FOREACH:
@@ -109,6 +116,11 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 		case NEWS_GROUP:
 			DKHSClient.requestByGet(
 					MessageFormat.format(DKHSUrl.News.reportnews, vo.getUserid(),vo.getContentSubType()),
+					null, this);
+			break;
+		case NEWS_GROUP_TWO:
+			DKHSClient.requestByGet(
+					MessageFormat.format(DKHSUrl.News.reportnewstwo, vo.getContentSubType()),
 					null, this);
 			break;
 		default:

@@ -35,6 +35,7 @@ public class NewsActivity extends ModelAcitivity{
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_news);
 		initView();
+		setTitle("新闻正文");
 		Bundle extras = getIntent().getExtras();
 	    if (extras != null) {
 	        getId(extras);
@@ -81,9 +82,10 @@ public class NewsActivity extends ModelAcitivity{
 
 	    };
 	    public void setValue(){
-	    	newsTitleName.setText(optionName);
+	    	newsTitleName.setText(mOptionNewsBean.getTitle());
 	    	newsTitleDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
-	    	newsTitleNum.setText(optionNum);
+	    	if(null != optionNum)
+	    		newsTitleNum.setText(optionNum);
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());
 	    }

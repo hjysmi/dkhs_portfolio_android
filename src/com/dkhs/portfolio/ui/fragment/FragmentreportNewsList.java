@@ -52,9 +52,9 @@ public class FragmentreportNewsList extends Fragment{
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
-        if (bundle != null) {
+        /*if (bundle != null) {
         	initDate();
-        }
+        }*/
     }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -119,7 +119,12 @@ public class FragmentreportNewsList extends Fragment{
 				long id) {
 			// TODO Auto-generated method stub
 			try {
-				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+				Intent intent;
+				if(mDataList.get(position).getSymbols().size() >0){
+					intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+				}else{
+					intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
+				}
 				startActivity(intent);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -170,5 +175,11 @@ public class FragmentreportNewsList extends Fragment{
             mListView.removeFooterView(mFootView);
         }
     }
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		initDate();
+		super.onResume();
+	}
 	
 }
