@@ -9,17 +9,15 @@
 package com.dkhs.portfolio.ui.widget;
 
 import java.util.List;
+import java.util.Random;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.os.Build;
 import android.util.AttributeSet;
-import android.view.Display;
-import android.view.WindowManager;
+import android.view.View.MeasureSpec;
 
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 
 /**
@@ -58,13 +56,7 @@ public class TimesharingplanChart extends TrendChart {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
         int mesasureWidth = measureWidth(widthMeasureSpec);
-        int screenWidth = measureWidth((int) DisplayUtil.getWindowSizePoint().x);
-
-        // setMeasuredDimension(mesasureWidth, (int)
-        // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
-        // System.out.println("mesasureWidth:" + mesasureWidth);
-        // System.out.println("screenWidth:" + screenWidth);
-        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));
+        setMeasuredDimension(mesasureWidth, (int) (mesasureWidth / 4 * 4.5f));
     }
 
     private int measureWidth(int measureSpec) {
@@ -150,9 +142,8 @@ public class TimesharingplanChart extends TrendChart {
 
                 if (null != stickData) {
                     float highY = getmGridLineHeight() + getVolHight();
-                    int lenght = stickData.size() > getMaxPointNum() ? getMaxPointNum() : stickData.size();
                     // 判断显示为方柱或显示为线条
-                    for (int i = 0; i < lenght; i++) {
+                    for (int i = 0; i < getMaxPointNum(); i++) {
                         FSLinePointEntity ohlc = stickData.get(i);
 
                         if (ohlc.getIncreaseRange() >= 0) {
