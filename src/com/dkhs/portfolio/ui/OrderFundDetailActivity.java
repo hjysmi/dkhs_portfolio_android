@@ -19,6 +19,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
+import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -33,15 +34,20 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     private CombinationBean mChampionBean;
 
     private View mViewHeader;
+    private View mViewBottom;
+
     private TextView tvConName;
     private TextView tvUserName;
     private TextView tvCreateDay;
     private TextView tvConDesc;
+    private TextView tvBottomTip;
     private boolean isClickable;
+
+    public static final String EXTRA_COMBINATION = "extra_combination";
 
     public static Intent getIntent(Context context, CombinationBean bean, boolean isClickable) {
         Intent intent = new Intent(context, OrderFundDetailActivity.class);
-        intent.putExtra("championbean", bean);
+        intent.putExtra(EXTRA_COMBINATION, bean);
         intent.putExtra("isClickable", isClickable);
         return intent;
     }
@@ -60,26 +66,36 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     }
 
     private void handleExtras(Bundle extras) {
-        mChampionBean = (CombinationBean) extras.getSerializable("championbean");
+        mChampionBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
         isClickable = extras.getBoolean("isClickable");
     }
 
     private void initViews() {
         mViewHeader = findViewById(R.id.rl_combination_header);
+        mViewBottom = findViewById(R.id.combination_position);
         if (isClickable) {
             mViewHeader.setOnClickListener(this);
         }
         tvConName = (TextView) findViewById(R.id.tv_combination_name);
+        tvBottomTip = (TextView) findViewById(R.id.tv_position_tip);
         tvUserName = (TextView) findViewById(R.id.tv_combination_user);
         tvCreateDay = (TextView) findViewById(R.id.tv_combination_time);
         tvConDesc = (TextView) findViewById(R.id.tv_combination_desc);
 
+        replaceTrendView();
     }
 
-    private void replaceSearchView() {
+    private void replaceTrendView() {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, new FragmentNetValueTrend())
                 .commit();
+
+    }
+
+    private void replaceBottomView() {
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.combination_position, FragmentPositionDetail.newInstance(mChampionBean.getId())).commit();
 
     }
 
@@ -91,7 +107,12 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
             tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDescription()));
             tvCreateDay.setText(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
-
+            if (mChampionBean.isIspublics()) {
+                tvBottomTip.setText(R.string.text_combin_open);
+                mViewBottom.setOnClickListener(this);
+            } else {
+                tvBottomTip.setText(R.string.text_no_open);
+            }
         }
 
     }
@@ -104,7 +125,13 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
                 PromptManager.showToast("查看用户信息");
             }
                 break;
-
+            case R.id.tv_position_tip: {
+                if (tvBottomTip.getVisibility() == View.VISIBLE) {
+                    tvBottomTip.setVisibility(View.GONE);
+                    replaceBottomView();
+                }
+            }
+                break;
             default:
                 break;
         }

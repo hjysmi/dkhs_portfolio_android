@@ -218,5 +218,7 @@
     <string name="password_setting_name_null">昵称不能为空</string>
     <string name="password_setting_name_success">修改成功</string>
     <string name="tip_message_dashline">注:虚线为模拟复盘走势</string>
+    <string name="text_no_open">该用户未开放查看权限</string>
+    <string name="text_combin_open">查看持仓明细</string>
 
 </resources>
