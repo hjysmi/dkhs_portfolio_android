@@ -355,8 +355,6 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		Paint textPaint = new Paint();
 		textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
 		textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-		int pand = 32;
-		int pad = 13;
 		if(isDisplayAxisYTitle()) {
 			// Y轴Titles
 			int len = getUpperLatitudeNum() +1;
@@ -367,14 +365,22 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						if(t.length() > 6){
 							t = t.substring(0, 6);
 						}
-						canvas.drawText(t, pand - (t.length() - 4)*pad,
+						Paint p= new Paint(); 
+						Rect rect = new Rect();
+						p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+						p.getTextBounds(t, 0, t.length(), rect); 
+						canvas.drawText(t, PADDING_LEFT - rect.width() - 3,
 								UPER_CHART_BOTTOM - getLatitudeSpacing() * i, textPaint);
 					}else{
 						String t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						if(t.length() > 6){
 							t = t.substring(0, 6);
 						}
-						canvas.drawText(t, pand - (t.length() - 4)*pad,
+						Paint p= new Paint(); 
+						Rect rect = new Rect();
+						p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+						p.getTextBounds(t, 0, t.length(), rect); 
+						canvas.drawText(t,PADDING_LEFT - rect.width() - 3,
 							UPER_CHART_BOTTOM - getLatitudeSpacing() * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
 					}
 				}
@@ -383,7 +389,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			if(t.length() > 6){
 				t = t.substring(0, 6);
 			}
-			canvas.drawText(t, pand - (t.length() - 4)*pad,
+			Paint p= new Paint(); 
+			Rect rect = new Rect();
+			p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+			p.getTextBounds(t, 0, t.length(), rect); 
+			canvas.drawText(t, PADDING_LEFT - rect.width() - 3,
 					DEFAULT_AXIS_TITLE_SIZE * 2 + 2, textPaint);
 		}
 		
@@ -807,7 +817,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				postInvalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			float horizontalSpacing = event.getX() - mStartX;
+			float horizontalSpacing = event.getX() - PADDING_LEFT - mStartX;
 			if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE) {
 				go = false;
 			}

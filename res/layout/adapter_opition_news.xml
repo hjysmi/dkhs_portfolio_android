@@ -13,7 +13,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical" >
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,7 +22,6 @@
             android:text="存款余额冲时面临着巨大挑战的问昊与机器的时间过的飞一样的快"
             android:textColor="@color/black"
             android:textSize="@dimen/list_text_size" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:paddingTop="5dp"

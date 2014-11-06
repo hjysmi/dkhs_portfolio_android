@@ -15,7 +15,7 @@ import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.lidroid.xutils.BitmapUtils;
 
-public class NewsActivity extends ModelAcitivity{
+public class YanbaoNewsActivity extends ModelAcitivity{
 	private ImageView newsTitleIcon;
 	private TextView newsTitleName;
 	private TextView newsTitleDate;
@@ -28,32 +28,33 @@ public class NewsActivity extends ModelAcitivity{
 	private String textId;
 	 private LoadNewsTextEngine mLoadDataEngine;
 	 private OptionNewsBean mOptionNewsBean;
+	 private String optionNum;
 	 private String optionName;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
-		setContentView(R.layout.activity_news);
+		setContentView(R.layout.activity_yanbao_news);
 		initView();
-		
+		setTitle("研报正文");
 		Bundle extras = getIntent().getExtras();
 	    if (extras != null) {
 	        getId(extras);
-	        setTitle(optionName);
 	    }
 	    mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
 		mLoadDataEngine.loadData();
-		mLoadDataEngine.setLoadingDialog(this);
 	}
-	public static Intent newIntent(Context context, String id,String name) {
-        Intent intent = new Intent(context, NewsActivity.class);
+	public static Intent newIntent(Context context, String id,String num,String name) {
+        Intent intent = new Intent(context, YanbaoNewsActivity.class);
          intent.putExtra(EXTRA, id);
+         intent.putExtra(EXTRA_NUM, num);
          intent.putExtra(EXTRA_NAME, name);
         return intent;
     }
 	
     public void getId(Bundle b){
     	textId = b.getString(EXTRA);
+    	optionNum = b.getString(EXTRA_NUM);
     	optionName = b.getString(EXTRA_NAME);
     }
 	public void initView(){

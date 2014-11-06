@@ -13,6 +13,7 @@ import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.NewsActivity;
+import com.dkhs.portfolio.ui.YanbaoNewsActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -121,9 +122,9 @@ public class FragmentreportNewsList extends Fragment{
 			try {
 				Intent intent;
 				if(mDataList.get(position).getSymbols().size() >0){
-					intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
 				}else{
-					intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
+					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
 				}
 				startActivity(intent);
 			} catch (Exception e) {

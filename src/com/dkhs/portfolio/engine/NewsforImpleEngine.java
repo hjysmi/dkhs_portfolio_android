@@ -11,6 +11,14 @@ public class NewsforImpleEngine implements Serializable{
 	private String contentSubType;
 	private String page;
 	private String pageSize;
+	private String pageTitle;
+	
+	public String getPageTitle() {
+		return pageTitle;
+	}
+	public void setPageTitle(String pageTitle) {
+		this.pageTitle = pageTitle;
+	}
 	public String getSymbolId() {
 		return symbolId;
 	}
