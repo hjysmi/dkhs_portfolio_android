@@ -2,7 +2,13 @@ package com.dkhs.portfolio.engine;
 
 import java.io.Serializable;
 
+import android.widget.LinearLayout;
+
 public class NewsforImpleEngine implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 261654643218464654L;
 	private String symbolId;
 	private String symbol;
 	private String userid;
@@ -12,7 +18,14 @@ public class NewsforImpleEngine implements Serializable{
 	private String page;
 	private String pageSize;
 	private String pageTitle;
+	private LinearLayout layout;
 	
+	public LinearLayout getLayout() {
+		return layout;
+	}
+	public void setLayout(LinearLayout layout) {
+		this.layout = layout;
+	}
 	public String getPageTitle() {
 		return pageTitle;
 	}

@@ -1,39 +1,40 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.NewsActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class FragmentNewsList extends Fragment{
+public class FragmentNewsList extends Fragment implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6565512311564641L;
+
 	private ListView mListView;
 
     private boolean isLoadingMore;
@@ -46,7 +47,9 @@ public class FragmentNewsList extends Fragment{
     private View view;
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
+    public final static String LAYOUT = "layout";
     private NewsforImpleEngine vo;
+    //private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -68,8 +71,10 @@ public class FragmentNewsList extends Fragment{
 	}
 	private void initDate(){
 		Bundle bundle = getArguments();
-		vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+		
 		if(null != bundle){
+			vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+			//layouts =  vo.getLayout();
 			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
 			mLoadDataEngine.loadData();
@@ -85,8 +90,9 @@ public class FragmentNewsList extends Fragment{
         mListView.setAdapter(mOptionMarketAdapter);
 
         mListView.removeFooterView(mFootView);
+        
         mListView.setOnScrollListener(new OnScrollListener() {
-
+        	
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
 
@@ -99,12 +105,13 @@ public class FragmentNewsList extends Fragment{
                             loadMore();
 
                         }
+
                     }
 
                 }
 
             }
-
+            
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
@@ -135,7 +142,7 @@ public class FragmentNewsList extends Fragment{
                 return;
             }
             mListView.addFooterView(mFootView);
-
+            
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
         }
@@ -151,6 +158,7 @@ public class FragmentNewsList extends Fragment{
 				    	initView(view);
 				    	first = false;
 				    }
+				    //layouts.getLayoutParams().height = dataList.size() * 150;
 				    mOptionMarketAdapter.notifyDataSetChanged();
 				    loadFinishUpdateView();
 				    
@@ -170,5 +178,12 @@ public class FragmentNewsList extends Fragment{
             mListView.removeFooterView(mFootView);
         }
     }
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		/*if(null != mDataList)
+			layouts.getLayoutParams().height = mDataList.size() * 200;*/
+		super.onResume();
+	}
 	
 }
