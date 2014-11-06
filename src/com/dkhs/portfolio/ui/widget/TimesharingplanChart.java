@@ -127,61 +127,66 @@ public class TimesharingplanChart extends TrendChart {
 
     private void drawVolChart(Canvas canvas) {
         // 蜡烛棒宽度
-        float stickWidth = ((getmGridLineLenght()) / (this.getMaxPointNum()));
-        // 蜡烛棒起始绘制位置
-        float stickX = super.getAxisMarginLeft();
-        Paint mPaintStick = new Paint();
+        try {
+			float stickWidth = ((getmGridLineLenght()) / (this.getMaxPointNum()));
+			// 蜡烛棒起始绘制位置
+			float stickX = super.getAxisMarginLeft();
+			Paint mPaintStick = new Paint();
 
-        if (null != lineData && lineData.size() > 0) {
+			if (null != lineData && lineData.size() > 0) {
 
-            LineEntity lineentity = lineData.get(0);
-            if (null != lineentity) {
+			    LineEntity lineentity = lineData.get(0);
+			    if (null != lineentity) {
 
-                List<FSLinePointEntity> stickData = lineentity.getLineData();
-                int offsetVol = (lineentity.getMaxVolNum() - lineentity.getMinVolNum());
+			        List<FSLinePointEntity> stickData = lineentity.getLineData();
+			        int offsetVol = (lineentity.getMaxVolNum() - lineentity.getMinVolNum());
 
-                if (null != stickData) {
-                    float highY = getmGridLineHeight() + getVolHight();
-                    // 判断显示为方柱或显示为线条
-                    for (int i = 0; i < getMaxPointNum(); i++) {
-                        FSLinePointEntity ohlc = stickData.get(i);
+			        if (null != stickData) {
+			            float highY = getmGridLineHeight() + getVolHight();
+			            // 判断显示为方柱或显示为线条
+			            for (int i = 0; i < getMaxPointNum(); i++) {
+			                FSLinePointEntity ohlc = stickData.get(i);
 
-                        if (ohlc.getIncreaseRange() >= 0) {
-                            mPaintStick.setColor(ColorTemplate.DEF_RED);
-                        } else {
-                            mPaintStick.setColor(ColorTemplate.DEF_GREEN);
-                        }
+			                if (ohlc.getIncreaseRange() >= 0) {
+			                    mPaintStick.setColor(ColorTemplate.DEF_RED);
+			                } else {
+			                    mPaintStick.setColor(ColorTemplate.DEF_GREEN);
+			                }
 
-                        // float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
-                        // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                        // .getAxisMarginTop());
-                        // float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
-                        // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                        // .getAxisMarginTop());
+			                // float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
+			                // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+			                // .getAxisMarginTop());
+			                // float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
+			                // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+			                // .getAxisMarginTop());
 
-                        float dValue = ohlc.getTurnover() - lineentity.getMinVolNum();
+			                float dValue = ohlc.getTurnover() - lineentity.getMinVolNum();
 
-                        float percentYPoint = 0.0f;
-                        if (offsetVol != 0 && dValue != 0) {
-                            percentYPoint = dValue / offsetVol;
-                        }
+			                float percentYPoint = 0.0f;
+			                if (offsetVol != 0 && dValue != 0) {
+			                    percentYPoint = dValue / offsetVol;
+			                }
 
-                        float lowY = getmGridLineHeight() + getVolHight() * (1 - percentYPoint);
-                        // float lowY = getmGridLineHeight() + 0;
+			                float lowY = getmGridLineHeight() + getVolHight() * (1 - percentYPoint);
+			                // float lowY = getmGridLineHeight() + 0;
 
-                        // 绘制数据?��?据宽度判断绘制直线或方柱
-                        if (stickWidth >= 2f) {
-                            canvas.drawRect(stickX, highY, stickX + stickWidth, lowY, mPaintStick);
-                        } else {
-                            canvas.drawLine(stickX, highY, stickX, lowY, mPaintStick);
-                        }
+			                // 绘制数据?��?据宽度判断绘制直线或方柱
+			                if (stickWidth >= 2f) {
+			                    canvas.drawRect(stickX, highY, stickX + stickWidth, lowY, mPaintStick);
+			                } else {
+			                    canvas.drawLine(stickX, highY, stickX, lowY, mPaintStick);
+			                }
 
-                        // X位移
-                        stickX = stickX + stickWidth;
-                    }
-                }
-            }
-        }
+			                // X位移
+			                stickX = stickX + stickWidth;
+			            }
+			        }
+			    }
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
 
