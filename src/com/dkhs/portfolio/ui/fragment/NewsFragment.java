@@ -382,6 +382,8 @@ public class NewsFragment extends Fragment {
 
         // 关闭其他的
         collapseGroups(0);*/
+		mListView.setSelectedGroup(0);
+		mListView.expandGroup(0);
 		super.onResume();
 	}
 
