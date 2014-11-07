@@ -252,6 +252,7 @@
 			    android:paddingLeft="20dp"
 			    android:background="@drawable/btn_white_selector"
             android:layout_height="wrap_content"
+            android:id="@+id/setting_layout_check_version"
             android:layout_width="match_parent"
             >
             <ImageView

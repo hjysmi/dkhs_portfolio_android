@@ -168,5 +168,10 @@ public class UserEngineImpl {
         DKHSClient.requestByGet(listener, DKHSUrl.User.base_userinfo, userId);
 
     }
-
+    public void getAppVersion(String appcode, ParseHttpListener<Object> listener) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("app_code", appcode);
+        //DKHSClient.requestByGet(DKHSUrl.News.newstext +id, null, this);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_version + appcode, null, listener);
+    }
 }
