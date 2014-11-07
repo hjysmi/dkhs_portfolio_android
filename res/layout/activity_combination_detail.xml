@@ -9,12 +9,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         layout="@layout/layout_combination_bottom_tab" />
-
+    
     <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_above="@+id/combination_bottom_view" />
+        android:layout_height="fill_parent" 
+        android:layout_above="@id/combination_bottom_view"/>
 
 
 

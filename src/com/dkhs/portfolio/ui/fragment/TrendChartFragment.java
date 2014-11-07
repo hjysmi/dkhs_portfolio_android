@@ -13,6 +13,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,12 +27,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
@@ -77,7 +84,8 @@ public class TrendChartFragment extends Fragment {
 
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
-
+    private MyCombinationEngineImpl mMyCombinationEngineImpl;
+    private Switch combinationCheck;
     private Handler updateHandler;
     private Calendar mCreateCalender;
 
@@ -160,6 +168,7 @@ public class TrendChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
+        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
         initMaChart(mMaChart);
         initView(view);
         setupViewData();
@@ -176,6 +185,13 @@ public class TrendChartFragment extends Fragment {
         tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
         tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
         // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
+        combinationCheck = (Switch) view.findViewById(R.id.combination_check);
+        combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
+        if (mCombinationBean.getIspublic().equals("0")){
+        	combinationCheck.setChecked(true);
+        }else{
+        	combinationCheck.setChecked(false);
+        }
     }
 
     private void setupViewData() {
@@ -739,5 +755,41 @@ public class TrendChartFragment extends Fragment {
 
         // System.out.println("onDetach:");
     }
+    class OnComCheckListener implements OnCheckedChangeListener{
 
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			// TODO Auto-generated method stub
+			if (isChecked) {
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0",
+                        new QueryCombinationDetailListener());
+            } else {
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1",
+                        new QueryCombinationDetailListener());
+            }
+		}
+    	
+    }
+    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
+
+        @Override
+        protected List<CombinationBean> parseDateTask(String jsonData) {
+            JSONArray jsonObject = null;
+            try {
+                jsonObject = new JSONArray(jsonData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return DataParse.parseArrayJson(CombinationBean.class, jsonObject);
+        }
+
+        @Override
+        protected void afterParseData(List<CombinationBean> object) {
+            if (null != object) {
+
+            }
+
+        }
+    };
 }

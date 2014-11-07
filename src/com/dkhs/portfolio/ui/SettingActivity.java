@@ -109,6 +109,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.setting_layout_password).setOnClickListener(this);
         findViewById(R.id.setting_layout_username).setOnClickListener(this);
         findViewById(R.id.setting_layout_icon).setOnClickListener(this);
+        findViewById(R.id.feed_back_layout).setOnClickListener(this);
     }
 
     public void initViews() {
@@ -200,6 +201,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(context, CopyMessageDialog.class);
                 startActivityForResult(intent, 5);
                 break;
+            case R.id.feed_back_layout:
+            	intent = new Intent(this, FeedBackActivity.class);
+                startActivity(intent);
+            	break;
             default:
                 break;
         }
