@@ -422,19 +422,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private void averageValue() {
         if (null != stockList && stockList.size() > 0) {
             int length = stockList.size();
-            float total = 1.0f;
+            int total = 100;
             float dutyValue = (total / length);
-            float residual = (100f % length);
+            float residual = (total % length);
             for (int i = 0; i < length; i++) {
                 ConStockBean c = stockList.get(i);
                 total -= dutyValue;
-                c.setPercent(dutyValue);
-                
+                // c.setPercent(dutyValue);
+                c.setDutyValue((int) (dutyValue));
+
                 c.setDutyColor(ColorTemplate.getDefaultColor(i));
 
             }
 
-            stockList.get(0).setPercent(dutyValue + residual / 100);
+            stockList.get(0).setDutyValue((int) (dutyValue + residual));
 
         }
 
@@ -516,7 +517,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                 } else {
                     originStock.setDutyColor(0);
-                    originStock.setPercent(0);
+                    // originStock.setPercent(0);
                     tempList.add(originStock);
 
                 }
@@ -542,6 +543,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
         if (TextUtils.isEmpty(combinationName)) {
             PromptManager.showToast("基金名称不能为空");
+            return;
         }
 
         String combinationDesc = "";
@@ -686,14 +688,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         for (SelectStockBean selectBean : listStock) {
             ConStockBean csBean = selectBean.parseStock();
             csBean.setDutyValue(0);
-            csBean.setPercent(0);
+            // csBean.setPercent(0);
             csBean.setDutyColor(ColorTemplate.getDefaultColor(i));
+            System.out.println("csbean name:" + csBean.getName());
             if (stockList.contains(csBean)) {
-                if (i < stockList.size()) {
-                    csBean.setDutyValue(stockList.get(i).getDutyValue());
-                    csBean.setPercent(stockList.get(i).getPercent());
-                    // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
-                }
+                int index = stockList.indexOf(csBean);
+                System.out.println("stockList.contains(csBean)");
+                // System.out.println("stockList.get(index).getPercent():" + stockList.get(index).getPercent());
+                System.out.println("stockList.get(index).getDutyValue():" + stockList.get(index).getDutyValue());
+                // if (i < stockList.size()) {
+                csBean.setDutyValue(stockList.get(index).getDutyValue());
+                // csBean.setPercent(stockList.get(index).getPercent());
+                // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
+                // }
 
             }
 

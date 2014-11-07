@@ -28,6 +28,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_HAS_LOADSEARCHSTOCK = "key_hasloadsearchstock";
     public static final String KEY_IS_REQUESTTESTSERVER = "key_is_requesttestserver";
     public static final String KEY_USERNAME = "key_username";
+    public static final String KEY_USERID = "key_userid";
     public static final String KEY_USER_HEADER_URL = "key_user_header_url";
     public static final String KEY_USER_ACCOUNT = "key_user_account";
 

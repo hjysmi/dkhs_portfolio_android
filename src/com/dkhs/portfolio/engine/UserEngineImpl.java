@@ -126,6 +126,7 @@ public class UserEngineImpl {
         GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
 
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId()+"");
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
 
         saveUser(entity);
@@ -162,4 +163,10 @@ public class UserEngineImpl {
     public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.settingMessage, null, listener);
     }
+
+    public void getBaseUserInfo(String userId, IHttpListener listener) {
+        DKHSClient.requestByGet(listener, DKHSUrl.User.base_userinfo, userId);
+
+    }
+
 }

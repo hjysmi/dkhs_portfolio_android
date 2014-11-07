@@ -139,7 +139,7 @@ public class DKHSUrl {
         String setUserHead = "/api/v1/accounts/avatar/";
         // 获取设置界面信息
         String settingMessage = "/api/v1/accounts/settings/";
-        String combination_user = "/api/v1/users/{0}/";
+        String base_userinfo = "/api/v1/users/{0}/";
     }
 
     public interface MainPage {

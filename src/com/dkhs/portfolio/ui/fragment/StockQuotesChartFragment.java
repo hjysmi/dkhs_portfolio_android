@@ -501,7 +501,7 @@ public class StockQuotesChartFragment extends Fragment {
         List<String> rightYtitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 
-        if (StockUitls.isShangZhengB(mStockBean.getSymbol())) {
+        if (mStockBean != null && StockUitls.isShangZhengB(mStockBean.getSymbol())) {
             ytitle.add(StringFromatUtils.get3Point(baseNum - offetYvalue));
             ytitle.add(StringFromatUtils.get3Point(baseNum - halfOffetValue));
             ytitle.add(StringFromatUtils.get3Point(baseNum));
