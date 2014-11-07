@@ -118,7 +118,7 @@ public class StringFromatUtils {
         }
     }
 
-    public static String convertToWan(long value) {
+    public static String convertToWan(float value) {
         if (value < 100000) {
             return String.valueOf(value);
         } else if (value < 10000000) {

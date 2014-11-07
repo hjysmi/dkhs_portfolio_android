@@ -47,7 +47,7 @@ public class ConStockBean extends StockBean implements Serializable {
         super();
         super.stockCode = stockcode;
         super.stockId = id;
-        setPercent(percent);
+        // setPercent(percent);
         this.dutyColor = dutyColor;
         this.stockName = name;
 
@@ -123,15 +123,15 @@ public class ConStockBean extends StockBean implements Serializable {
         return stock;
     }
 
-    public float getPercent() {
-        return percent;
-    }
+    // public float getPercent() {
+    // return percent;
+    // }
 
-    public void setPercent(float percent) {
-        this.dutyValue = (int) (percent * 100);
-        this.percent = percent;
-
-    }
+    // public void setPercent(float percent) {
+    // this.dutyValue = (int) (percent * 100);
+    // this.percent = percent;
+    //
+    // }
 
     public float getIncreasePercent() {
         return increasePercent;

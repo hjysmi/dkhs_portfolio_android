@@ -62,16 +62,14 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        // viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        // viewHolder.tvStockLayout.setOnClickListener(new OnItemListener(position));
         if (this instanceof AddStockItemAdapter) {
             viewHolder.mCheckbox.setChecked(item.isFollowed);
         } else {
             viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
-        // setFromShow(true);
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);

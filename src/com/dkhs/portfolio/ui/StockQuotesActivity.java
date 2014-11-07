@@ -75,9 +75,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     /**
 	 * 
 	 */
-	private static final long serialVersionUID = 15121212311111156L;
+    private static final long serialVersionUID = 15121212311111156L;
 
-	private SelectStockBean mStockBean;
+    private SelectStockBean mStockBean;
 
     public static final String EXTRA_STOCK = "extra_stock";
     private final int REQUESTCODE_SELECT_STOCK = 901;
@@ -166,7 +166,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         initView();
         processExtraData();
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        l.height = dm.heightPixels * 3/2 - getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        l.height = dm.heightPixels * 3 / 2 - getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
     }
 
@@ -189,9 +189,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         vo.setSymbol(mStockBean.code);
         vo.setContentType("10");
         vo.setPageTitle("新闻正文");
-//        vo.setLayout(stockLayout);
+        // vo.setLayout(stockLayout);
         b1.putSerializable(FragmentNewsList.VO, vo);
-        //b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
+        // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f1.setArguments(b1);
         frag.add(f1);
         Fragment f2 = new FragmentNewsList();
@@ -201,9 +201,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         vo.setSymbol(mStockBean.code);
         vo.setContentType("20");
         vo.setPageTitle("公告正文");
-//        vo.setLayout(stockLayout);
+        // vo.setLayout(stockLayout);
         b2.putSerializable(FragmentNewsList.VO, vo);
-       // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
+        // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f2.setArguments(b2);
         frag.add(f2);
         Fragment f4 = new FragmentreportNewsList();
@@ -212,9 +212,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         vo = new NewsforImpleEngine();
         vo.setSymbol(mStockBean.code);
         vo.setPageTitle("研报正文");
-//        vo.setLayout(stockLayout);
+        // vo.setLayout(stockLayout);
         b4.putSerializable(FragmentNewsList.VO, vo);
-        //b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
+        // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f4.setArguments(b4);
         frag.add(f4);
         Fragment f3 = new NewsFragment();
@@ -256,7 +256,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         Button btnRefresh = getSecondRightButton();
         btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
-        //stockLayout.setOnTouchListener(new OnLayoutlistener());
+        // stockLayout.setOnTouchListener(new OnLayoutlistener());
         initTabPage();
         // setupViewData();
 
@@ -301,9 +301,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
             // TODO Auto-generated method stub
-           /* if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
-                chartTounching();
-            }*/
+            /*
+             * if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
+             * chartTounching();
+             * }
+             */
             Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
         }
 
@@ -382,7 +384,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                 stockQuotesBean.setBuyList(buyList);
                 stockQuotesBean.setSellList(sellList);
-            } catch (JSONException e) {
+            } catch (Exception e) {
 
                 e.printStackTrace();
             }

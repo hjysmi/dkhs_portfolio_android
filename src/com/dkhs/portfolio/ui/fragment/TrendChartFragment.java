@@ -379,10 +379,10 @@ public class TrendChartFragment extends Fragment {
                     msg.obj = todayNetvalue.getEnd();
                     updateHandler.sendMessage(msg);
                 }
-                float addupValue = todayNetvalue.getEnd() - todayNetvalue.getBegin();
+                float addupValue = dayNetValueList.get(dayNetValueList.size() - 1).getChange();
                 tvUpValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
                 tvUpValue.setText(StringFromatUtils.get4Point(addupValue));
-                float increase = addupValue / todayNetvalue.getBegin() * 100;
+                float increase = dayNetValueList.get(dayNetValueList.size() - 1).getPercentage();
                 tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
                 tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
 

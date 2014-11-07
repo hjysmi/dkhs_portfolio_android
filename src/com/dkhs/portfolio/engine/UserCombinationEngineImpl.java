@@ -66,12 +66,18 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
      */
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
+        MoreDataBean<CombinationBean> moreBean = null;
+        try {
 
-        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-        MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
-                new TypeToken<MoreDataBean<CombinationBean>>() {
-                }.getType());
+            moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CombinationBean>>() {
+            }.getType());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return moreBean;
 
     }

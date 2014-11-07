@@ -170,11 +170,18 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
             @Override
             protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
 
-                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                MoreDataBean<CombinationBean> moreBean = null;
+                try {
 
-                MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
-                        new TypeToken<MoreDataBean<CombinationBean>>() {
-                        }.getType());
+                    Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                    moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CombinationBean>>() {
+                    }.getType());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 return moreBean;
 
             }
