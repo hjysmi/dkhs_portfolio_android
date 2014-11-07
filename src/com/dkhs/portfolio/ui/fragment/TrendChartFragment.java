@@ -292,7 +292,7 @@ public class TrendChartFragment extends Fragment {
         xtitle.add("15:00");
 
         mMaChart.setAxisXTitles(xtitle);
-        mMaChart.setMaxPointNum(240);
+        mMaChart.setMaxPointNum(242);
 
         List<String> rightYtitle = new ArrayList<String>();
         rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
