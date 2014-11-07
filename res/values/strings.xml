@@ -220,5 +220,8 @@
     <string name="tip_message_dashline">注:虚线为模拟复盘走势</string>
     <string name="text_no_open">该用户未开放查看权限</string>
     <string name="text_combin_open">查看持仓明细</string>
+    <string name="combination_wornning_text">公开后别人可能看到这只基金的持仓明细</string>
+    <string name="combination_wornning_name">隐私设置：</string>
+    <string name="feed_back_title">意见反馈</string>
 
 </resources>
