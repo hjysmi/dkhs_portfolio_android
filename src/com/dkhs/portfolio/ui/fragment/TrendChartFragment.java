@@ -292,7 +292,7 @@ public class TrendChartFragment extends Fragment {
         xtitle.add("15:00");
 
         mMaChart.setAxisXTitles(xtitle);
-        mMaChart.setMaxPointNum(240);
+        mMaChart.setMaxPointNum(242);
 
         List<String> rightYtitle = new ArrayList<String>();
         rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
@@ -379,10 +379,10 @@ public class TrendChartFragment extends Fragment {
                     msg.obj = todayNetvalue.getEnd();
                     updateHandler.sendMessage(msg);
                 }
-                float addupValue = todayNetvalue.getEnd() - todayNetvalue.getBegin();
+                float addupValue = dayNetValueList.get(dayNetValueList.size() - 1).getChange();
                 tvUpValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
                 tvUpValue.setText(StringFromatUtils.get4Point(addupValue));
-                float increase = addupValue / todayNetvalue.getBegin() * 100;
+                float increase = dayNetValueList.get(dayNetValueList.size() - 1).getPercentage();
                 tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
                 tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
 

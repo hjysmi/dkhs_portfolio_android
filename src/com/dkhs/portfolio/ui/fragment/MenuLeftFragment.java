@@ -31,6 +31,7 @@ import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -77,6 +78,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     }
 
     private void initView(View view) {
+
         tvCombin = (TextView) view.findViewById(R.id.tv_combin);
         // tvCombin.setText(getString(R.string.combin, 3));
         tvStock = (TextView) view.findViewById(R.id.tv_stock);
@@ -87,6 +89,16 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // view.findViewById(R.id.btn_setting).setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
         lvItem.setAdapter(itemAdapter);
+        
+        View userHeader = view.findViewById(R.id.iv_header);
+        userHeader.setOnClickListener(new OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                startActivity(CombinationUserActivity.getIntent(getActivity(), PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME), PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID), true));
+                
+            }
+        });
 
     }
 

@@ -139,7 +139,7 @@ public class FragmentSwitchChart extends Fragment {
         mFragmentChart.setTipshowHandler(mHandler);
 
         // replaceContentView(mFragment, R.id.btn_trend + "");
-        ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         ft.replace(R.id.chart_content, mFragmentChart);
         ft.commit();
     }
@@ -152,7 +152,7 @@ public class FragmentSwitchChart extends Fragment {
         }
 
         // replaceContentView(mFragment, R.id.btn_trend + "");
-        ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+        // ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         ft.replace(R.id.chart_content, mFragmentReport);
         ft.commit();
     }

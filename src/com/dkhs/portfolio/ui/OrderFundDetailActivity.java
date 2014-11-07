@@ -144,7 +144,8 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         switch (id) {
             case R.id.rl_combination_header: {
                 // PromptManager.showToast("查看用户信息");
-                startActivity(UserCombinationActivity.getIntent(this, mChampionBean.getCreateUser().getId(), false));
+                startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getCreateUser().getUsername(),
+                        mChampionBean.getCreateUser().getId(), false));
             }
                 break;
             case R.id.tv_position_tip:

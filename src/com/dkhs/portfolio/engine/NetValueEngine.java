@@ -120,6 +120,8 @@ public class NetValueEngine {
     public class TodayNetBean {
         private String timestamp;
         private float netvalue;
+        private float percentage;
+        private float change;
 
         public String getTimestamp() {
             return timestamp;
@@ -135,6 +137,22 @@ public class NetValueEngine {
 
         public void setNetvalue(float netvalue) {
             this.netvalue = netvalue;
+        }
+
+        public float getPercentage() {
+            return percentage;
+        }
+
+        public void setPercentage(float percentage) {
+            this.percentage = percentage;
+        }
+
+        public float getChange() {
+            return change;
+        }
+
+        public void setChange(float change) {
+            this.change = change;
         }
 
     }

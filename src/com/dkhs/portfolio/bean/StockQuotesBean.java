@@ -39,15 +39,15 @@ public class StockQuotesBean {
     private String symbol;
 
     // 成交量
-    private long volume;
+    private float volume;
     // 成交额
     private float amount;
     // 换手率
     private float turnover_rate;
     // 流通市值 单位：元
-    private long market_capital;
+    private float market_capital;
     // 总市值 单位：元
-    private long total_capital;
+    private float total_capital;
     // 动态市盈率
     private float pe_ttm;
     // 市净率
@@ -228,11 +228,11 @@ public class StockQuotesBean {
         this.followed = followed;
     }
 
-    public long getVolume() {
+    public float getVolume() {
         return volume;
     }
 
-    public void setVolume(long volume) {
+    public void setVolume(float volume) {
         this.volume = volume;
     }
 
@@ -252,19 +252,19 @@ public class StockQuotesBean {
         this.turnover_rate = turnover_rate;
     }
 
-    public long getMarket_capital() {
+    public float getMarket_capital() {
         return market_capital;
     }
 
-    public void setMarket_capital(long market_capital) {
+    public void setMarket_capital(float market_capital) {
         this.market_capital = market_capital;
     }
 
-    public long getTotal_capital() {
+    public float getTotal_capital() {
         return total_capital;
     }
 
-    public void setTotal_capital(long total_capital) {
+    public void setTotal_capital(float total_capital) {
         this.total_capital = total_capital;
     }
 

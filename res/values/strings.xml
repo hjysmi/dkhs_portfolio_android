@@ -223,5 +223,7 @@
     <string name="combination_wornning_text">公开后别人可能看到这只基金的持仓明细</string>
     <string name="combination_wornning_name">隐私设置：</string>
     <string name="feed_back_title">意见反馈</string>
+    <string name="text_other_manager_combin">他管理的基金一览</string>
+    <string name="text_my_manager_combin">我管理的基金一览</string>
 
 </resources>
