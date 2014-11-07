@@ -556,6 +556,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             PromptManager.showToast("请添加个股");
 
+        } else if (surValue == 100) {
+            PromptManager.showToast("持仓不能为空");
         } else {
 
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
