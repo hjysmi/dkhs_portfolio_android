@@ -1,16 +1,21 @@
 package com.dkhs.portfolio.ui;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,16 +28,15 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -112,6 +116,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.setting_layout_icon).setOnClickListener(this);
         findViewById(R.id.feed_back_layout).setOnClickListener(this);
         findViewById(R.id.rl_aboutus).setOnClickListener(this);
+        findViewById(R.id.setting_layout_check_version).setOnClickListener(this);
     }
 
     public void initViews() {
@@ -214,57 +219,79 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(this, AboutUsActivity.class);
                 startActivity(intent);
             }
-                break;
+            	break;
+            case R.id.setting_layout_check_version:
+            	UserEngineImpl mUserEngineImpl = new UserEngineImpl();
+				mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+            	break;
             default:
                 break;
         }
     }
+    ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
 
-    /**
-     * 添加组合股是否公开列表数据
-     * 
-     * @param lsit
-     */
-    /*
-     * public void createGroupShow(List<CombinationBean> lsit){
-     * int i = 0;
-     * if(settingCheckbox.isChecked()){
-     * settingLayoutGroup.setClickable(false);
-     * }
-     * for (CombinationBean combinationBean : lsit) {
-     * LayoutInflater l = LayoutInflater.from(context);
-     * View view = l.inflate(R.layout.setting_group_item, null);
-     * Switch s = (Switch) view.findViewById(R.id.switch1);
-     * s.setText(combinationBean.getName());
-     * if(settingCheckbox.isChecked()){
-     * s.setChecked(false);
-     * }
-     * settingLayoutGroup.addView(view);
-     * }
-     * }
-     */
-    /*
-     * private void loadCombinationData() {
-     * new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
-     * 
-     * @Override
-     * protected List<CombinationBean> parseDateTask(String jsonData) {
-     * Type listType = new TypeToken<List<CombinationBean>>() {
-     * }.getType();
-     * List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
-     * 
-     * return combinationList;
-     * }
-     * 
-     * @Override
-     * protected void afterParseData(List<CombinationBean> dataList) {
-     * // createGroupShow(dataList);
-     * }
-     * 
-     * }.setLoadingDialog(SettingActivity.this, R.string.loading));
-     * }
-     */
+        @Override
+        protected AppBean parseDateTask(String jsonData) {
 
+            return DataParse.parseObjectJson(AppBean.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(AppBean object) {
+            try {
+				if (null != object) {
+					final AppBean bean = object;
+					PackageManager manager = context.getPackageManager();
+					PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+					String version = info.versionName;
+					if(!bean.getAppCode().equals(version)){
+						AlertDialog.Builder alert = new AlertDialog.Builder(context);
+						alert.setTitle("软件升级")
+								.setMessage("发现新版本,建议立即更新使用.")//"发现新版本,建议立即更新使用."
+								.setCancelable(false)
+								.setPositiveButton("更新",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int which) {
+												 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+								            	  
+								            	 Uri uri = Uri.parse(bean.getUrl());
+								            	 Request request = new Request(uri);
+								            	 //设置允许使用的网络类型，这里是移动网络和wifi都可以 
+								            	 request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI); 
+								            	 //禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION 
+								            	 request.setShowRunningNotification(true); 
+								            	 //不显示下载界面 
+								            	 request.setVisibleInDownloadsUi(true);
+								            	       
+								            	//request.setDestinationInExternalFilesDir(this, null, "tar.apk");
+								            	long id = downloadManager.enqueue(request);
+								            	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_ID,id +"");
+								            	PromptManager.showToast("开始下载");
+											}
+										})
+								.setNegativeButton("取消",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int which) {
+												dialog.dismiss();
+											}
+										});
+						alert.show();
+					}else{
+						PromptManager.showToast("当前已经是最新版本");
+					}
+					
+				}
+			} catch (NameNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+        }
+    };
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
