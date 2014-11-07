@@ -155,7 +155,13 @@ public class TimesharingplanChart extends TrendChart {
                     for (int i = 0; i < lenght; i++) {
                         FSLinePointEntity ohlc = stickData.get(i);
 
-                        if (ohlc.getIncreaseRange() >= 0) {
+                        float volColorValue = 0;
+                        if (i == 0) {
+                            volColorValue = ohlc.getIncreaseRange();
+                        } else {
+                            volColorValue = ohlc.getMinchange();
+                        }
+                        if (volColorValue >= 0) {
                             mPaintStick.setColor(ColorTemplate.DEF_RED);
                         } else {
                             mPaintStick.setColor(ColorTemplate.DEF_GREEN);

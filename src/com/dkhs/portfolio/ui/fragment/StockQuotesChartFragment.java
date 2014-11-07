@@ -404,7 +404,7 @@ public class StockQuotesChartFragment extends Fragment {
 
                 // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
                 if (mainList != null && mainList.size() > 0) {
-                    setYTitle(mainList.get(0).getCurrent(), getMaxOffetValue(mainList));
+                    setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(mainList));
                     setTodayPointTitle();
                     setLineData(lineDataList);
                     //
@@ -426,7 +426,8 @@ public class StockQuotesChartFragment extends Fragment {
         lineDataList.clear();
         averagelineData.clear();
 
-        float baseNum = mainList.get(0).getCurrent();
+        // float baseNum = mainList.get(0).getCurrent();
+        float baseNum = mFsDataBean.getLast_close();
         float maxNum = baseNum, minNum = baseNum;
 
         int minVolCount = mainList.get(0).getVolume();
@@ -466,6 +467,7 @@ public class StockQuotesChartFragment extends Fragment {
             pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
             pointEntity.setIncreaseValue(iPrice - baseNum);
             pointEntity.setIncreaseRange(bean.getPercentage());
+            pointEntity.setMinchange(bean.getMinchange());
             pointEntity.setTurnover(bean.getVolume());
 
             averagePoint.setValue(bean.getAvgline());
