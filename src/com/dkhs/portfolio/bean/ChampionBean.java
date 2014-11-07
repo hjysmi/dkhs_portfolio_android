@@ -26,12 +26,20 @@ public class ChampionBean implements Serializable {
     private String name;
     // 0公开/1保密
     private String is_public;
-    @SerializedName("increase_percent")
-    private float increasePercent;
+     @SerializedName("increase_percent")
+     private float increasePercent;
     private String created_at;
-
     private CombinationUser user;
     private String description;
+
+    private float chng_pct_month;
+    private float chng_pct_week;
+    private float chng_pct_three_month;
+
+    // "chng_pct_day": 100805.451612477,
+    // "chng_pct_week": 1.21951342938796,
+    // "chng_pct_month": 1.18893024702341,
+    // "chng_pct_three_month": 1.18893024702341
 
     public String getId() {
         return id;
@@ -110,6 +118,30 @@ public class ChampionBean implements Serializable {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    public float getChng_pct_month() {
+        return chng_pct_month;
+    }
+
+    public void setChng_pct_month(float chng_pct_month) {
+        this.chng_pct_month = chng_pct_month;
+    }
+
+    public float getChng_pct_week() {
+        return chng_pct_week;
+    }
+
+    public void setChng_pct_week(float chng_pct_week) {
+        this.chng_pct_week = chng_pct_week;
+    }
+
+    public float getChng_pct_three_month() {
+        return chng_pct_three_month;
+    }
+
+    public void setChng_pct_three_month(float chng_pct_three_month) {
+        this.chng_pct_three_month = chng_pct_three_month;
     }
 
 }

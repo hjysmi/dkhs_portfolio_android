@@ -98,7 +98,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
-            mAdapter = new FundsOrderAdapter(getActivity(), mDataList);
+            mAdapter = new FundsOrderAdapter(getActivity(), mDataList,mOrderType);
         }
         return mAdapter;
     }

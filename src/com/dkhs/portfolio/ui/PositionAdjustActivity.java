@@ -516,7 +516,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
 
                 } else {
-                    originStock.setDutyColor(0);
+                    originStock.setDutyValue(0);
                     // originStock.setPercent(0);
                     tempList.add(originStock);
 

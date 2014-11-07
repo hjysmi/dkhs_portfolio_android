@@ -34,21 +34,21 @@ public class FragmentSwitchChart extends Fragment {
     private String trendType;
     private Switch swChart;
     private View chartView;
-    private View viewDashLineTip;
+    // private View viewDashLineTip;
 
     private TrendChartFragment mFragmentChart;
     private Fragment mFragmentReport;
 
-    private Handler mHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            boolean isShowTip = (Boolean) msg.obj;
-            if (isShowTip) {
-                viewDashLineTip.setVisibility(View.VISIBLE);
-            } else {
-                viewDashLineTip.setVisibility(View.GONE);
-            }
-        };
-    };
+    // private Handler mHandler = new Handler() {
+    // public void handleMessage(android.os.Message msg) {
+    // boolean isShowTip = (Boolean) msg.obj;
+    // if (isShowTip) {
+    // viewDashLineTip.setVisibility(View.VISIBLE);
+    // } else {
+    // viewDashLineTip.setVisibility(View.GONE);
+    // }
+    // };
+    // };
 
     public static FragmentSwitchChart newInstance(String trendType) {
         FragmentSwitchChart fragment = new FragmentSwitchChart();
@@ -108,7 +108,7 @@ public class FragmentSwitchChart extends Fragment {
         }
         replaceChartView();
         swChart.setOnClickListener(switchClickListener);
-        viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
+      
         // swChart.setOnCheckedChangeListener(new OnCheckedChangeListener() {
         //
         // @Override
@@ -136,7 +136,7 @@ public class FragmentSwitchChart extends Fragment {
         }
 
         mFragmentChart.setUpdateHandler(updHandler);
-        mFragmentChart.setTipshowHandler(mHandler);
+        // mFragmentChart.setTipshowHandler(mHandler);
 
         // replaceContentView(mFragment, R.id.btn_trend + "");
         // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);

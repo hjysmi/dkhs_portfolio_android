@@ -4,66 +4,66 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp" >
-	<LinearLayout 
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
+
+    <LinearLayout
         android:id="@+id/combination_layout_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        >
-    <include layout="@layout/layout_line"/>
-	<RelativeLayout 
-	   	android:layout_marginLeft="20dp"
-	   	android:layout_marginRight="20dp"
-	   	android:layout_marginTop="10dp"
-	   	android:layout_marginBottom="10dp"
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    >
-	    <Switch 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:id="@+id/combination_check"
-	        android:layout_alignParentRight="true"
-	        android:layout_centerVertical="true"
-	        />
-	    
-	    <ImageView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:src="@drawable/change_name_icon"
-	        android:id="@+id/combination_img"
-	        android:paddingBottom="5dp"
-	        />
-	    <TextView 
-	        android:paddingLeft="3dp"
-	        android:layout_height="wrap_content"
-	        android:layout_width="match_parent"
-	        android:textColor="@color/black"
-	        android:textSize="@dimen/setting_text_phone"
-	        android:layout_toRightOf="@id/combination_img"
-	        android:layout_toLeftOf="@id/combination_check"
-	        android:text="@string/combination_wornning_name"
-	        />
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="match_parent"
-	        android:textColor="@color/light_gray"
-            android:textSize="@dimen/setting_text_phone"
-            android:id="@+id/combbination_text"
-            android:layout_toLeftOf="@id/combination_check"
-            android:layout_below="@id/combination_img"
-            android:text="@string/combination_wornning_text"
-	        />
-	</RelativeLayout>
-	</LinearLayout>
+        android:orientation="vertical" >
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp" >
+
+            <Switch
+                android:id="@+id/combination_check"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+
+            <ImageView
+                android:id="@+id/combination_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:src="@drawable/change_name_icon" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/combination_check"
+                android:layout_toRightOf="@id/combination_img"
+                android:paddingLeft="3dp"
+                android:text="@string/combination_wornning_name"
+                android:textColor="@color/black"
+                android:textSize="@dimen/setting_text_phone" />
+
+            <TextView
+                android:id="@+id/combbination_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/combination_img"
+                android:layout_toLeftOf="@id/combination_check"
+                android:text="@string/combination_wornning_text"
+                android:textColor="@color/light_gray"
+                android:textSize="@dimen/setting_text_phone" />
+        </RelativeLayout>
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/rl_trend_bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/combination_layout_check"
-        android:layout_gravity="right"
-        android:layout_marginRight="10dp" >
+        android:layout_gravity="right" >
 
         <TextView
             android:id="@+id/tv_time_right"
@@ -79,6 +79,17 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/tv_time_right"
             android:textColor="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/tv_dashline_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/tv_time_right"
+            android:text="@string/tip_message_dashline"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -178,5 +189,5 @@
             android:textSize="32sp"
             android:visibility="gone" />
     </RelativeLayout>
-	
+
 </RelativeLayout>

@@ -23,17 +23,4 @@
         android:layout_below="@+id/switch_chart" >
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_dashline_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/chart_content"
-        android:layout_alignParentLeft="true"
-        android:layout_margin="4dp"
-        android:layout_toLeftOf="@+id/switch_chart"
-        android:text="@string/tip_message_dashline"
-        android:textColor="@color/red"
-        android:textSize="12sp"
-        android:visibility="gone" />
-	
 </RelativeLayout>

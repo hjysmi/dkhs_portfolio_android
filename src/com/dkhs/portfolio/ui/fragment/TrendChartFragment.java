@@ -80,6 +80,8 @@ public class TrendChartFragment extends Fragment {
     private TextView tvEndText;
     private TextView tvIncreaseText;
 
+    private View viewDashLineTip;
+
     private TrendChart mMaChart;
 
     private NetValueEngine mNetValueDataEngine;
@@ -146,10 +148,10 @@ public class TrendChartFragment extends Fragment {
         System.out.println("set TrendChartFragment setUpdateHandler");
     }
 
-    private Handler tipHandler;
+    // private Handler tipHandler;
 
     public void setTipshowHandler(Handler handler) {
-        this.tipHandler = handler;
+        // this.tipHandler = handler;
     }
 
     private void handleExtras(Bundle extras) {
@@ -176,6 +178,7 @@ public class TrendChartFragment extends Fragment {
     }
 
     private void initView(View view) {
+        viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
         tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
         tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
         tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
@@ -187,10 +190,10 @@ public class TrendChartFragment extends Fragment {
         // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
         combinationCheck = (Switch) view.findViewById(R.id.combination_check);
         combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
-        if (mCombinationBean.getIspublic().equals("0")){
-        	combinationCheck.setChecked(true);
-        }else{
-        	combinationCheck.setChecked(false);
+        if (mCombinationBean.getIspublic().equals("0")) {
+            combinationCheck.setChecked(true);
+        } else {
+            combinationCheck.setChecked(false);
         }
     }
 
@@ -346,11 +349,13 @@ public class TrendChartFragment extends Fragment {
     }
 
     private void setTipVisible(boolean isShow) {
-        if (null != tipHandler) {
-            Message msg = tipHandler.obtainMessage(777);
-            msg.obj = isShow;
-            tipHandler.sendMessage(msg);
+
+        if (isShow) {
+            viewDashLineTip.setVisibility(View.VISIBLE);
+        } else {
+            viewDashLineTip.setVisibility(View.GONE);
         }
+
     }
 
     ParseHttpListener todayListener = new ParseHttpListener<TodayNetValue>() {
@@ -755,22 +760,23 @@ public class TrendChartFragment extends Fragment {
 
         // System.out.println("onDetach:");
     }
-    class OnComCheckListener implements OnCheckedChangeListener{
 
-		@Override
-		public void onCheckedChanged(CompoundButton buttonView,
-				boolean isChecked) {
-			// TODO Auto-generated method stub
-			if (isChecked) {
+    class OnComCheckListener implements OnCheckedChangeListener {
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            // TODO Auto-generated method stub
+            if (isChecked) {
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0",
                         new QueryCombinationDetailListener());
             } else {
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1",
                         new QueryCombinationDetailListener());
             }
-		}
-    	
+        }
+
     }
+
     class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
 
         @Override
