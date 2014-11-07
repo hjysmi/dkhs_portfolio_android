@@ -17,7 +17,7 @@ public class UserEntity {
     /**
      * 性别：0=保密, 1=男, 2=女.
      */
-    private int gender;
+    private String gender;
     /**
      * 简介
      */
@@ -50,6 +50,7 @@ public class UserEntity {
     private String avatar_md;
     private String avatar_sm;
     private String avatar_lg;
+    private String date_joined;
 
     public long getId() {
         return id;
@@ -75,11 +76,11 @@ public class UserEntity {
         this.avatar_xs = avatar_xs;
     }
 
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -177,5 +178,13 @@ public class UserEntity {
 
     public void setAvatar_sm(String avatar_sm) {
         this.avatar_sm = avatar_sm;
+    }
+
+    public String getDate_joined() {
+        return date_joined;
+    }
+
+    public void setDate_joined(String date_joined) {
+        this.date_joined = date_joined;
     }
 }

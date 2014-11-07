@@ -78,7 +78,7 @@
         <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanbaoNewsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OrderFundDetailActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.UserCombinationActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.CopyMessageDialog"
             android:theme="@style/MyDialogStyleBottom" />
