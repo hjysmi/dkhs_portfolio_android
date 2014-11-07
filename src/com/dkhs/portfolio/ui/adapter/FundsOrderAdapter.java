@@ -36,10 +36,12 @@ public class FundsOrderAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<ChampionBean> mDataList;
+    private String mOrderType;
 
-    public FundsOrderAdapter(Context context, List<ChampionBean> dataList) {
+    public FundsOrderAdapter(Context context, List<ChampionBean> dataList, String orderType) {
         this.mContext = context;
         this.mDataList = dataList;
+        this.mOrderType = orderType;
     }
 
     /**
@@ -99,6 +101,14 @@ public class FundsOrderAdapter extends BaseAdapter {
         ViewHolder viewHolder = null;
         View row = convertView;
         ChampionBean item = mDataList.get(position);
+        float increasePercent = 0;
+        if (mOrderType.contains("chng_pct_week")) {
+            increasePercent = item.getChng_pct_week();
+        } else if (mOrderType.contains("chng_pct_month")) {
+            increasePercent = item.getChng_pct_month();
+        } else if (mOrderType.contains("chng_pct_three_month")) {
+            increasePercent = item.getChng_pct_three_month();
+        }
         if (position == 0) {
             row = View.inflate(mContext, R.layout.layout_champion, null);
             row.setTag("champion");
@@ -107,8 +117,8 @@ public class FundsOrderAdapter extends BaseAdapter {
 
             ((TextView) row.findViewById(R.id.tv_create_user)).setText(mContext.getString(R.string.format_create_name,
                     item.getUser().getUsername()));
-            ((TextView) row.findViewById(R.id.tv_value)).setText(StringFromatUtils.get2PointPercentPlus(item
-                    .getIncreasePercent()));
+            ((TextView) row.findViewById(R.id.tv_value)).setText(StringFromatUtils
+                    .get2PointPercentPlus(increasePercent));
             ((TextView) row.findViewById(R.id.tv_desc)).setText(mContext.getString(R.string.desc_format,
                     item.getDescription()));
 
@@ -145,7 +155,7 @@ public class FundsOrderAdapter extends BaseAdapter {
 
         viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
         viewHolder.tvUserName.setText(mContext.getString(R.string.format_create_name, item.getUser().getUsername()));
-        viewHolder.tvValue.setText(StringFromatUtils.get2PointPercentPlus(item.getIncreasePercent()));
+        viewHolder.tvValue.setText(StringFromatUtils.get2PointPercentPlus(increasePercent));
         viewHolder.tvCombinationName.setText(item.getName());
         return row;
     }

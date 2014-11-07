@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="1"
-    android:versionName="0.4.8" >
+    android:versionName="0.5.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -56,6 +56,7 @@
         <activity android:name="com.dkhs.portfolio.ui.SetPasswordActivity" />
         <activity android:name="com.dkhs.portfolio.ui.RegisterSuccessActivity" />
         <activity android:name="com.dkhs.portfolio.ui.GuideActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.AboutUsActivity" />
         <activity android:name="com.dkhs.portfolio.ui.LoginActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />

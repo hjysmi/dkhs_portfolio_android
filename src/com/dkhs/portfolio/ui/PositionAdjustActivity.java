@@ -446,7 +446,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void adjustPositionDetailToServer() {
         MyCombinationEngineImpl engine = new MyCombinationEngineImpl();
-        String nameText = etConbinationName.getText().toString();
+        String nameText = etConbinationName.getText().toString().trim();
         String descText = etConbinationDesc.getText().toString();
         List<SubmitSymbol> submitList = generateSymbols();
         isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
@@ -516,7 +516,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
 
                 } else {
-                    originStock.setDutyColor(0);
+                    originStock.setDutyValue(0);
                     // originStock.setPercent(0);
                     tempList.add(originStock);
 
@@ -539,7 +539,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         String combinationName = "";
         if (null != etConbinationName) {
-            combinationName = etConbinationName.getText().toString();
+            combinationName = etConbinationName.getText().toString().trim();
         }
         if (TextUtils.isEmpty(combinationName)) {
             PromptManager.showToast("基金名称不能为空");
@@ -556,6 +556,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             PromptManager.showToast("请添加个股");
 
+        } else if (surValue == 100) {
+            PromptManager.showToast("持仓不能为空");
         } else {
 
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
