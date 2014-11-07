@@ -23,6 +23,7 @@ public class FSLinePointEntity extends LinePointEntity {
     private String avgPrice;
     private float increaseValue;
     private float increaseRange;
+    private float minchange;
     private int turnover;
 
     public String getTime() {
@@ -87,6 +88,14 @@ public class FSLinePointEntity extends LinePointEntity {
 
     public void setAvgPrice(String avgPrice) {
         this.avgPrice = avgPrice;
+    }
+
+    public float getMinchange() {
+        return minchange;
+    }
+
+    public void setMinchange(float minchange) {
+        this.minchange = minchange;
     }
 
 }

@@ -23,6 +23,7 @@ public class FSDataBean {
     private long pmstart;
     private long pmend;
     private String curtime;
+    private float last_close;
     /*
      * [
      * "1411983240.0", 时间戳
@@ -88,6 +89,7 @@ public class FSDataBean {
         private float avgcurrent;
         private float avgline;
         private float current;
+        private float minchange;
         private float percentage;
         private String time;
 
@@ -138,6 +140,14 @@ public class FSDataBean {
         public void setTime(String time) {
             this.time = time;
         }
+
+        public float getMinchange() {
+            return minchange;
+        }
+
+        public void setMinchange(float minchange) {
+            this.minchange = minchange;
+        }
     }
 
     public String getCurtime() {
@@ -146,6 +156,14 @@ public class FSDataBean {
 
     public void setCurtime(String curtime) {
         this.curtime = curtime;
+    }
+
+    public float getLast_close() {
+        return last_close;
+    }
+
+    public void setLast_close(float last_close) {
+        this.last_close = last_close;
     }
 
 }
