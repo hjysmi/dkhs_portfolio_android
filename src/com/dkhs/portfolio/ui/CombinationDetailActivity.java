@@ -11,6 +11,9 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,10 +29,17 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CompareForPublicSettingActivity.QueryCombinationDetailListener;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
@@ -55,7 +65,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private CombinationBean mCombinationBean;
 
     MyPagerFragmentAdapter mPagerAdapter;
-
+    private Switch combinationCheck;
+    private MyCombinationEngineImpl mMyCombinationEngineImpl;
     // private FragmentNetValueTrend mFragmentTrend;
     // private FragmentCompare mFragmentCompare;
     // private FragmentPositionDetail mFragmentDetail;
@@ -76,7 +87,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         super.onCreate(arg0);
         setContentView(R.layout.activity_combination_detail);
         setTitle(R.string.netvalue_trend);
-
+        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -102,6 +113,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         findViewById(R.id.btn_comparison).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_detail).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_news).setOnClickListener(bottomClickListner);
+        combinationCheck = (Switch) findViewById(R.id.combination_check);
+        combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
         // Button btnShare = getSecondRightButton();
         // btnShare.setOnClickListener(new OnClickListener() {
         //
@@ -111,7 +124,11 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         // Toast.makeText(CombinationDetailActivity.this, "保存截图到相册", Toast.LENGTH_SHORT).show();
         // }
         // });
-
+        if (mCombinationBean.getIspublic().equals("0")){
+        	combinationCheck.setChecked(true);
+        }else{
+        	combinationCheck.setChecked(false);
+        }
         initTabPage();
 
     }
@@ -299,4 +316,41 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         MediaStore.Images.Media.insertImage(getContentResolver(), combination, "test_" + timeStamp + ".jpg",
                 timeStamp.toString());
     }
+    class OnComCheckListener implements OnCheckedChangeListener{
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView,
+				boolean isChecked) {
+			// TODO Auto-generated method stub
+			if (isChecked) {
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0",
+                        new QueryCombinationDetailListener());
+            } else {
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1",
+                        new QueryCombinationDetailListener());
+            }
+		}
+    	
+    }
+    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
+
+        @Override
+        protected List<CombinationBean> parseDateTask(String jsonData) {
+            JSONArray jsonObject = null;
+            try {
+                jsonObject = new JSONArray(jsonData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return DataParse.parseArrayJson(CombinationBean.class, jsonObject);
+        }
+
+        @Override
+        protected void afterParseData(List<CombinationBean> object) {
+            if (null != object) {
+
+            }
+
+        }
+    };
 }

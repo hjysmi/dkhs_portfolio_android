@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -55,6 +57,9 @@ public class MarketCenterActivity extends ModelAcitivity implements
 		textInland.setOnClickListener(this);
 		textShangAndShen.setOnClickListener(this);
 		marketLayoutUpanddown.setOnClickListener(this);
+		Button btn = getRightButton();
+		btn.setBackgroundResource(R.drawable.btn_search_select);
+		btn.setOnClickListener(this);
 	}
 
 	private void replaceDataList() {
@@ -65,6 +70,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
 		}
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
+		
 	}
 
 	/**
@@ -159,8 +165,11 @@ public class MarketCenterActivity extends ModelAcitivity implements
 			getSupportFragmentManager().beginTransaction()
 					.replace(R.id.view_datalist, loadDataListFragment).commit();
 			break;
+		case R.id.btn_right:
+			Intent intent = new Intent(this, SelectAddOptionalActivity.class);
+            startActivity(intent);
+			break;
 		}
 		
 	}
-
 }
