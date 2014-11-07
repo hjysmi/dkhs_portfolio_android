@@ -291,41 +291,40 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     private void loadCombination() {
 
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
+			new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
 
-            @Override
-            protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
+			    @Override
+			    protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
 
-                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+			        Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
-                        new TypeToken<MoreDataBean<CombinationBean>>() {
-                        }.getType());
-                return moreBean;
+			        MoreDataBean<CombinationBean> moreBean = (MoreDataBean) gson.fromJson(jsonData,
+			                new TypeToken<MoreDataBean<CombinationBean>>() {
+			                }.getType());
+			        return moreBean;
+			    }
 
-            }
+			    @Override
+			    protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
+			        // LogUtils.d("List<CombinationBean> size:" + dataList.size());
+			        if (null != moreBean) {
+			            List<CombinationBean> dataList = moreBean.getResults();
 
-            @Override
-            protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
-                // LogUtils.d("List<CombinationBean> size:" + dataList.size());
-                if (null != moreBean) {
-                    List<CombinationBean> dataList = moreBean.getResults();
+			            if (null != dataList && isAdded()) {
 
-                    if (null != dataList && isAdded()) {
+			                if (dataList.size() > 0) {
+			                    inflateCombinationLayout(dataList);
+			                } else {
+			                    comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
+			                    comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
+			                    viewAddcombination.setVisibility(View.VISIBLE);
+			                    gvCombination.setVisibility(View.GONE);
+			                }
+			            }
+			        }
+			    }
 
-                        if (dataList.size() > 0) {
-                            inflateCombinationLayout(dataList);
-                        } else {
-                            comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
-                            comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
-                            viewAddcombination.setVisibility(View.VISIBLE);
-                            gvCombination.setVisibility(View.GONE);
-                        }
-                    }
-                }
-            }
-
-        });
+			});
     }
 
     ParseHttpListener scrollDataListener = new ParseHttpListener<List<StockQuotesBean>>() {
