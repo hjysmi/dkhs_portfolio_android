@@ -172,6 +172,7 @@ public class NewsFragment extends Fragment {
         mListView.setAdapter(mAdapter);
         mListView.setOnGroupExpandListener(onGroupClickListener);
         mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
+        mListView.performItemClick(mListView, 0, 0);
         /*android.view.ViewGroup.LayoutParams lp = mListView.getLayoutParams();
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;*/
     }
