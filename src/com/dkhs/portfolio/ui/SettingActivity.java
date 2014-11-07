@@ -52,6 +52,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private ImageView settingImageHead;
     private TextView settingTextAccountText;
     private TextView settingTextNameText;
+
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -110,6 +111,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.setting_layout_username).setOnClickListener(this);
         findViewById(R.id.setting_layout_icon).setOnClickListener(this);
         findViewById(R.id.feed_back_layout).setOnClickListener(this);
+        findViewById(R.id.rl_aboutus).setOnClickListener(this);
     }
 
     public void initViews() {
@@ -125,7 +127,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
-            //url = DKHSUrl.BASE_DEV_URL + url;
+            // url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(context);
             bitmapUtils.display(settingImageHead, url);
         } else {
@@ -134,15 +136,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             settingImageHead.setImageBitmap(b);
         }
     }
-    public String setAccount(String account){
-    	if(account.contains("@")){
-    		int k = account.indexOf("@");
-    		account = account.substring(0, k-3) + "***" + account.substring(k,account.length());
-    	}else{
-    		account = account.substring(0, account.length() - 5) + "***" + account.substring(account.length() - 2,account.length());
-    	}
-    	return account;
+
+    public String setAccount(String account) {
+        if (account.contains("@")) {
+            int k = account.indexOf("@");
+            account = account.substring(0, k - 3) + "***" + account.substring(k, account.length());
+        } else {
+            account = account.substring(0, account.length() - 5) + "***"
+                    + account.substring(account.length() - 2, account.length());
+        }
+        return account;
     }
+
     @Override
     public void onClick(View v) {
         Intent intent;
@@ -195,16 +200,21 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 break;
             case R.id.setting_layout_username:
                 intent = new Intent(this, UserNameChangeActivity.class);
-            	startActivityForResult(intent,6);
+                startActivityForResult(intent, 6);
                 break;
             case R.id.setting_layout_icon:
                 intent = new Intent(context, CopyMessageDialog.class);
                 startActivityForResult(intent, 5);
                 break;
             case R.id.feed_back_layout:
-            	intent = new Intent(this, FeedBackActivity.class);
+                intent = new Intent(this, FeedBackActivity.class);
                 startActivity(intent);
-            	break;
+                break;
+            case R.id.rl_aboutus: {
+                intent = new Intent(this, AboutUsActivity.class);
+                startActivity(intent);
+            }
+                break;
             default:
                 break;
         }
@@ -258,7 +268,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+            settingTextNameText.setText(PortfolioPreferenceManager
+                    .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url)) {
                 // url = DKHSUrl.BASE_DEV_URL + url;
@@ -267,8 +278,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
         }
     }
-    
-    
+
     private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
         public void onFailure(int errCode, String errMsg) {
@@ -292,7 +302,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-            	settingTextNameText.setText(entity.getUsername());
+                settingTextNameText.setText(entity.getUsername());
             }
         }
     };
