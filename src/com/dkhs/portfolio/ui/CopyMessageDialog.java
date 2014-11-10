@@ -3,7 +3,11 @@ package com.dkhs.portfolio.ui;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +20,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 
 import android.app.Activity;
@@ -92,23 +97,20 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			
 			try {
 				Uri uri = data.getData();
-				Log.e("uri", uri.toString());
-				/*Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
-				   cursor.moveToFirst();
-				   for (int i = 0; i < cursor.getColumnCount(); i++)
-				   {// 取得图片uri的列名和此列的详细信息
-				    System.out.println(i + "-" + cursor.getColumnName(i) + "-" + cursor.getString(i));
-				   }
-				   cursor.close();*/
+				
 				String[] proj = {MediaStore.Images.Media.DATA};
 	            Cursor cursor = managedQuery(uri, proj, null, null, null); 
 	            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	            cursor.moveToFirst();
 
 	            String path = cursor.getString(column_index);
-				//String url = uri.toString().replace("content:", "").replace("file:", "");
+	            copyImg(path);
+	            String file_str = Environment.getExternalStorageDirectory()
+						.getPath();
+				File mars_file = new File(file_str + "/my_camera");
+				File f = new File(mars_file, "file.jpg");
 				File file = new File(path);
-				mUserEngineImpl.setUserHead(file, listener.setLoadingDialog(context));
+				mUserEngineImpl.setUserHead(f, listener.setLoadingDialog(context));
 				ContentResolver cr = this.getContentResolver();
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
 						.openInputStream(uri));
@@ -118,37 +120,16 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			}
 		}
 		if (requestCode == 0x1 && resultCode == RESULT_OK) {
-			/*
-			 * 使用BitmapFactory.Options类防止OOM(Out Of Memory)的问题；
-			 * 创建一个BitmapFactory.Options类用来处理bitmap；
-			 */
 			try {
-				BitmapFactory.Options myoptions = new BitmapFactory.Options();
-				/*
-				 * 设置Options对象inJustDecodeBounds的属性为true，用于在BitmapFactory的
-				 * decodeFile(String path, Options opt)后获取图片的高和宽；
-				 * 而且设置了他的属性值为true后使用BitmapFactory的decodeFile()方法无法返回一张
-				 * 图片的bitmap对象，仅仅是把图片的高和宽信息给Options对象；
-				 */
-				myoptions.inJustDecodeBounds = true;
-				
-				BitmapFactory.decodeFile(file_go.getAbsolutePath(), myoptions);
-				// 根据在图片的宽和高，得到图片在不变形的情况指定大小下的缩略图,设置宽为222；
-				int height = myoptions.outHeight * 222 / myoptions.outWidth;
-				myoptions.outWidth = 222;
-				myoptions.outHeight = height;
-				// 在重新设置玩图片显示的高和宽后记住要修改，Options对象inJustDecodeBounds的属性为false;
-				// 不然无法显示图片;
-				myoptions.inJustDecodeBounds = false;
-				// 还没完这里才刚开始,要节约内存还需要几个属性，下面是最关键的一个；
-				myoptions.inSampleSize = myoptions.outWidth / 222;
-				// 还可以设置其他几个属性用于缩小内存；
-				myoptions.inPurgeable = true;
-				myoptions.inInputShareable = true;
-				myoptions.inPreferredConfig = Bitmap.Config.ARGB_4444;// 默认是Bitmap.Config.ARGB_8888
-				// 成功了，下面就显示图片咯；
-				Bitmap bitmat = BitmapFactory.decodeFile(
-						file_go.getAbsolutePath(), myoptions);
+				String file_str = Environment.getExternalStorageDirectory()
+						.getPath();
+				Bitmap imageBitmap = UIUtils.getimage(file_str +"/my_camera/file.jpg");
+				File f = new File(file_str, "/my_camera/file.jpg");
+				if(f.exists()){
+					f.delete();
+				}
+				FileOutputStream out = new FileOutputStream(f);
+				imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 				mUserEngineImpl.setUserHead(file_go, listener.setLoadingDialog(context));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -158,7 +139,48 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
-
+	public void copyImg(String path){
+		try {
+			int bytesum = 0;   
+			int byteread = 0;   
+			File oldfile = new File(path);   
+			String file_str = Environment.getExternalStorageDirectory()
+					.getPath();
+			File mars_file = new File(file_str + "/my_camera");
+			File f = new File(mars_file, "file.jpg");
+			if(f.exists()){
+				f.delete();
+			}
+			if (oldfile.exists()) { //文件不存在时   
+			    InputStream inStream = new FileInputStream(path); //读入原文件   
+			    FileOutputStream fs = new FileOutputStream(file_str +"/my_camera/file.jpg");   
+			    byte[] buffer = new byte[1444];   
+			    int length;   
+			    while ( (byteread = inStream.read(buffer)) != -1) {   
+			        bytesum += byteread; //字节数 文件大小   
+			        System.out.println(bytesum);   
+			        fs.write(buffer, 0, byteread);   
+			    }   
+			    inStream.close();   
+			}
+			Bitmap imageBitmap;// = BitmapFactory.decodeFile(file_str +"/my_camera/file.jpg");
+			imageBitmap = UIUtils.getimage(file_str +"/my_camera/file.jpg");
+			f = new File(mars_file, "file.jpg");
+			if(f.exists()){
+				f.delete();
+			}
+			FileOutputStream out = new FileOutputStream(f);
+			imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }  
 	public void takePicture() {
 		if (Environment.MEDIA_MOUNTED.equals(Environment
 				.getExternalStorageState())) {
