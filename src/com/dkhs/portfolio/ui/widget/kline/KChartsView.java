@@ -334,14 +334,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					canvas.drawText(new DecimalFormat("0.00").format(volume), left + 1
 							+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 8.0f,
 							textPaint);
-				} else if(volume > 10000 && volume < 10000000){
+				} else if(volume > 10000 && volume < 100000000){
 					volume = volume/10000;
 					canvas.drawText(new DecimalFormat("0.00").format(volume) + "万", left + 1
 							+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 8.0f,
 							textPaint);
 				}else{
-					volume = volume/10000000;
-					canvas.drawText(new DecimalFormat("0.00").format(volume) + "千万", left + 1
+					volume = volume/100000000;
+					canvas.drawText(new DecimalFormat("0.00").format(volume) + "亿", left + 1
 							+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 8.0f,
 							textPaint);
 				}
@@ -573,9 +573,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 							&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
 						if (i != 0) {
 							canvas.drawLine(
-									startX,
+									startX + PADDING_LEFT,
 									startY + DEFAULT_AXIS_TITLE_SIZE + 4,
-									(float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f),
+									(float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f + PADDING_LEFT),
 									(float) ((mMaxPrice - lineEntity.getLineData()
 											.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
 									paint);
