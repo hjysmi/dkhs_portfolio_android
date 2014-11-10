@@ -263,7 +263,7 @@
                     android:text="@string/setting_string_opinion" />
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <!-- <include layout="@layout/layout_line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -277,7 +277,7 @@
                 android:text="@string/setting_string_opinion"
                 style="@style/text_18_style"
                 />
-        </RelativeLayout>
+        </RelativeLayout> -->
         <include layout="@layout/layout_line"/>
         <RelativeLayout
             android:paddingTop="15dp"

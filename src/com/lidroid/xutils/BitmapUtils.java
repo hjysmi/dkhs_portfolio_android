@@ -245,6 +245,7 @@ public class BitmapUtils implements TaskHandler {
         Bitmap bitmap = globalConfig.getBitmapCache().getBitmapFromMemCache(uri, displayConfig);
         
         if (bitmap != null) {
+        	bitmap = UIUtils.compressImage(bitmap);
         	bitmap = UIUtils.toRoundBitmap(bitmap);
             callBack.onLoadStarted(container, uri, displayConfig);
             callBack.onLoadCompleted(
