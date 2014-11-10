@@ -40,6 +40,7 @@ import com.dkhs.portfolio.service.SMSBroadcastReceiver;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.SIMCardInfo;
 
 /**
  * @ClassName ForgetPswActivity
@@ -290,7 +291,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
             etPhoneNum.requestFocus();
             return false;
         }
-        if (!isMobileNO(telephone)) {
+        if (!SIMCardInfo.isMobileNO(telephone)) {
             etPhoneNum.setError(Html.fromHtml("<font color='red'>请输入正确的手机号码</font>"));
             etPhoneNum.requestFocus();
             // PromptManager.showToast("请输入正确的手机号码");
@@ -299,23 +300,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
         return true;
     }
 
-    /**
-     * 验证手机号码
-     * 
-     * @param mobiles
-     * @return
-     */
-    public static boolean isMobileNO(String mobiles) {
-        boolean flag = false;
-        try {
-            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(147))\\d{8}$");
-            Matcher m = p.matcher(mobiles);
-            flag = m.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
-    }
+    
 
     @Override
     protected void onDestroy() {

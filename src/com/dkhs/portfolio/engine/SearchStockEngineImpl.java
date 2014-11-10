@@ -42,7 +42,7 @@ public class SearchStockEngineImpl {
      * 请服务器获取到3348条数据，包括解析数据，插入数据到数据库一共耗时42秒
      */
     public static void loadStockList() {
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.profile + "?symbol_type=1", null, new ParseHttpListener<Boolean>() {
+        DKHSClient.requestByGet(DKHSUrl.StockSymbol.profile + "?symbol_type=1,5", null, new ParseHttpListener<Boolean>() {
 
             @Override
             protected Boolean parseDateTask(String jsonData) {

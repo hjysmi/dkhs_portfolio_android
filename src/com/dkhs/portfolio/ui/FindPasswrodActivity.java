@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.utils.SIMCardInfo;
 
 public class FindPasswrodActivity extends ModelAcitivity implements
 		OnClickListener {
@@ -49,24 +50,7 @@ public class FindPasswrodActivity extends ModelAcitivity implements
 		next_step = (Button) findViewById(R.id.next_step);
 	}
 
-	/**
-	 * 验证手机号码
-	 * 
-	 * @param mobiles
-	 * @return
-	 */
-	public static boolean isMobileNO(String mobiles) {
-		boolean flag = false;
-		try {
-			Pattern p = Pattern
-					.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-			Matcher m = p.matcher(mobiles);
-			flag = m.matches();
-		} catch (Exception e) {
-			flag = false;
-		}
-		return flag;
-	}
+	
 
 	@Override
 	public void onClick(View v) {
@@ -94,7 +78,7 @@ public class FindPasswrodActivity extends ModelAcitivity implements
 			// PromptManager.showToast(this, "手机号或者验证码不能为空");
 			return;
 		}
-		if (isMobileNO(telephone)) {
+		if (SIMCardInfo.isMobileNO(telephone)) {
 			// Intent intent = new Intent(this, RegisterActivity.class);
 			// intent.putExtra("telephone", telephone);
 			// intent.putExtra("code", code);
