@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -98,11 +100,14 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 				    System.out.println(i + "-" + cursor.getColumnName(i) + "-" + cursor.getString(i));
 				   }
 				   cursor.close();*/
-				String url = uri.toString().replace("content:", "").replace("file:", "");
-				/*if(!url.contains(".")){
-					url = url + ".jpg";
-				}*/
-				File file = new File(url);
+				String[] proj = {MediaStore.Images.Media.DATA};
+	            Cursor cursor = managedQuery(uri, proj, null, null, null); 
+	            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	            cursor.moveToFirst();
+
+	            String path = cursor.getString(column_index);
+				//String url = uri.toString().replace("content:", "").replace("file:", "");
+				File file = new File(path);
 				mUserEngineImpl.setUserHead(file, listener.setLoadingDialog(context));
 				ContentResolver cr = this.getContentResolver();
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
@@ -126,7 +131,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 				 * 图片的bitmap对象，仅仅是把图片的高和宽信息给Options对象；
 				 */
 				myoptions.inJustDecodeBounds = true;
-				mUserEngineImpl.setUserHead(file_go, listener.setLoadingDialog(context));
+				
 				BitmapFactory.decodeFile(file_go.getAbsolutePath(), myoptions);
 				// 根据在图片的宽和高，得到图片在不变形的情况指定大小下的缩略图,设置宽为222；
 				int height = myoptions.outHeight * 222 / myoptions.outWidth;
@@ -144,6 +149,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 				// 成功了，下面就显示图片咯；
 				Bitmap bitmat = BitmapFactory.decodeFile(
 						file_go.getAbsolutePath(), myoptions);
+				mUserEngineImpl.setUserHead(file_go, listener.setLoadingDialog(context));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -206,4 +212,5 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
             }
         }
     };
+    
 }
