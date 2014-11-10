@@ -657,12 +657,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 							float total = Float.parseFloat(axisYTitles.get(i))/100;
 							if(total < 10000){
 								totals = new DecimalFormat("0.00").format(total);
-							}else if(total > 10000 && total < 10000000){
+							}else if(total > 10000 && total < 100000000){
 								total = total/10000;
 								totals = new DecimalFormat("0.00").format(total) + "万";
 							}else{
-								total = total/10000000;
-								totals = new DecimalFormat("0.00").format(total) + "千万";
+								total = total/100000000;
+								totals = new DecimalFormat("0.00").format(total) + "亿";
 							}
 							canvas.drawText( totals, 0f, mTitleHeight + 20,
 									mPaintFont);
