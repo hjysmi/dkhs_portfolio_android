@@ -38,6 +38,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
@@ -275,7 +276,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (checkEmail(userName)) {
             PromptManager.showProgressDialog(this, R.string.logining);
             engine.login(userName, passWord, ConstantValue.IS_EMAIL, listener);
-        } else if (isMobileNO(userName)) {
+        } else if (SIMCardInfo.isMobileNO(userName)) {
             PromptManager.showProgressDialog(this, R.string.logining);
             engine.login(userName, passWord, ConstantValue.IS_MOBILE, listener);
         } else {
@@ -304,7 +305,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
                 String token = (String) json.getJSONObject("token").get("access_token");
                 entity.setAccess_token(token);
-                if (isMobileNO(userName)) {
+                if (SIMCardInfo.isMobileNO(userName)) {
                     GlobalParams.MOBILE = userName;
                     entity.setMobile(userName);
                 }
@@ -348,23 +349,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         return flag;
     }
 
-    /**
-     * 验证手机号码
-     * 
-     * @param mobiles
-     * @return
-     */
-    public static boolean isMobileNO(String mobiles) {
-        boolean flag = false;
-        try {
-            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
-            Matcher m = p.matcher(mobiles);
-            flag = m.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
-    }
+    
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

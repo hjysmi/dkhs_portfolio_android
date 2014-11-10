@@ -174,7 +174,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mobileAble = isMobileNO(s.toString());
+                mobileAble = SIMCardInfo.isMobileNO(s.toString());
 
                 setRegistAble();
             }
@@ -352,7 +352,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             etPhoneNum.requestFocus();
             return false;
         }
-        if (!isMobileNO(telephone)) {
+        if (!SIMCardInfo.isMobileNO(telephone)) {
             etPhoneNum.setError(Html.fromHtml("<font color='red'>请输入正确的手机号码</font>"));
             etPhoneNum.requestFocus();
             // PromptManager.showToast("请输入正确的手机号码");
@@ -479,23 +479,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     // }, 0, 1000);
     // }
 
-    /**
-     * 验证手机号码
-     * 
-     * @param mobiles
-     * @return
-     */
-    public static boolean isMobileNO(String mobiles) {
-        boolean flag = false;
-        try {
-            Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9])|(147))\\d{8}$");
-            Matcher m = p.matcher(mobiles);
-            flag = m.matches();
-        } catch (Exception e) {
-            flag = false;
-        }
-        return flag;
-    }
+    
 
     @Override
     public void onBackPressed() {
