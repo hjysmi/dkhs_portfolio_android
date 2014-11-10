@@ -220,7 +220,7 @@ public class StickChart extends GridChart {
      */
     protected void initAxisY() {
         List<String> TitleY = new ArrayList<String>();
-        float average = (int) ((maxValue - minValue) / latitudeNum) / 100 * 100;
+        float average = ((maxValue - minValue) / latitudeNum);
         ;
         // �?��刻度
         for (int i = 0; i < latitudeNum; i++) {
@@ -233,7 +233,7 @@ public class StickChart extends GridChart {
             TitleY.add(value);
         }
         // �?���?��值
-        String value = String.valueOf((int) Math.floor(((int) maxValue) / 100 * 100));
+        String value = maxValue + "";
         if (value.length() < super.getAxisYMaxTitleLength()) {
             while (value.length() < super.getAxisYMaxTitleLength()) {
                 value = new String(" ") + value;
@@ -355,12 +355,12 @@ public class StickChart extends GridChart {
                 	text = "0.00";
                 }else if (total < 10000) {
                     text = new DecimalFormat("0.00").format(total);
-                } else if (total > 10000 && total < 10000000) {
+                } else if (total > 10000 && total < 100000000) {
                     total = total / 10000;
                     text = new DecimalFormat("0.00").format(total) + "万";
                 } else {
                     total = total / 10000000;
-                    text = new DecimalFormat("0.00").format(total) + "千万";
+                    text = new DecimalFormat("0.00").format(total) + "亿";
                 }
                 text = lineEntity.getTitle() + ":" + text;
                 Paint p = new Paint();
@@ -427,19 +427,19 @@ public class StickChart extends GridChart {
     public void addData(List<StickEntity> list) {
     	StickEntity entity;
     	this.maxValue = 0;
+    	StickData = new ArrayList<StickEntity>();
     	for(int i = 0; i < list.size(); i++){
     		entity = list.get(i);
 	        if (null != entity) {
 	            // 追�?��据
-	            if (null == StickData || 0 == StickData.size()) {
-	                StickData = new ArrayList<StickEntity>();
+	            if (i == (list.size() - mShowDate)) {
 	                this.maxValue = ((int) entity.getHigh()) / 100 * 100;
 	            }
 	
 	            this.StickData.add(entity);
 	            if( i > (list.size() - mShowDate)){
 		            if (this.maxValue < entity.getHigh()) {
-		                this.maxValue = 100 + ((int) entity.getHigh()) / 100 * 100;
+		                this.maxValue = (float) entity.getHigh();
 		            }
 	            }
 	            if (StickData.size() > maxStickDataNum) {
