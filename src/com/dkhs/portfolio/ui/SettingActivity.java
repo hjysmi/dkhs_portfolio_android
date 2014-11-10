@@ -127,7 +127,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
         settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
         String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-        account = setAccount(account);
+        //account = setAccount(account);
         settingTextAccountText.setText(account);
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);

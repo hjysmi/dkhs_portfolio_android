@@ -519,9 +519,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 					float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 
-					float left = (float) (width - 2 - mCandleWidth * (i + 1 + addNum) - (i + addNum)*3);
-					float right = (float) (width - 3 - mCandleWidth * (i + addNum) - (i + addNum)*3);
-					float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2 - (i + addNum) * 3);
+					float left = (float) (width - 2 - mCandleWidth * (i + 1 + addNum) - (i + addNum)*3 + PADDING_LEFT);
+					float right = (float) (width - 3 - mCandleWidth * (i + addNum) - (i + addNum)*3 + PADDING_LEFT);
+					float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2 - (i + addNum) * 3 + PADDING_LEFT);
 					if(entity.getOpen()==26.73 ){
 						float a = open;
 						Log.e("asa", a+"");

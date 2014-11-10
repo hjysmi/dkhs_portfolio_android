@@ -262,8 +262,8 @@ public class StickChart extends GridChart {
         try {
             stickFillColorUp = Color.RED;
             stickFillColorDown = getResources().getColor(R.color.dark_green);
-            if(maxStickDataNum < 30){
-            	maxStickDataNum = 30;
+            if(maxStickDataNum < 50){
+            	maxStickDataNum = 50;
             }
             // 蜡烛棒宽度
             float stickWidth = 0;
