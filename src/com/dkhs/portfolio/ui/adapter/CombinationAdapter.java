@@ -120,7 +120,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         }
         viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
 
-        row.setLayoutParams(mItemViewLayoutParams);
+        // row.setLayoutParams(mItemViewLayoutParams);
         return row;
     }
 

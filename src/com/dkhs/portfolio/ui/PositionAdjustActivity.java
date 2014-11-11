@@ -140,6 +140,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
             mCombinationId = mPositionDetailBean.getPortfolio().getId();
         }
+        if(!isAdjustCombination){
+            startSelectStockActivity();
+        }
 
     }
 
@@ -389,23 +392,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
-
-                List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
-                for (ConStockBean stockBean : stockList) {
-                    SelectStockBean bean = SelectStockBean.copy(stockBean);
-                    mSelectList.add(bean);
-                }
-
-                Intent intent = new Intent(this, SelectStockActivity.class);
-                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
-                Bundle b = new Bundle();
-                b.putBoolean("fromPosition", true);
-                intent.putExtras(b);
-                if (isAdjustCombination) {
-                    intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
-                }
-                startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
-
+                startSelectStockActivity();
             }
                 break;
             case R.id.btn_average: {
@@ -417,6 +404,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             default:
                 break;
         }
+    }
+
+    private void startSelectStockActivity() {
+        List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
+        for (ConStockBean stockBean : stockList) {
+            SelectStockBean bean = SelectStockBean.copy(stockBean);
+            mSelectList.add(bean);
+        }
+
+        Intent intent = new Intent(this, SelectStockActivity.class);
+        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
+        Bundle b = new Bundle();
+        b.putBoolean("fromPosition", true);
+        intent.putExtras(b);
+        if (isAdjustCombination) {
+            intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
+        }
+        startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
     }
 
     private void averageValue() {

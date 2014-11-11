@@ -45,6 +45,8 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
+import com.dkhs.portfolio.ui.fragment.MyCombinationListFragment;
+import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -57,14 +59,15 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2014-8-26 下午3:10:51
  * @version 1.0
  */
-public class MyCombinationActivity extends ModelAcitivity implements OnItemClickListener, OnTouchListener,
-        IDelButtonListener, OnClickListener {
-    private GridView gvCombination;
-    private CombinationAdapter mCombinationAdapter;
+public class MyCombinationActivity extends ModelAcitivity implements OnClickListener {
+    // private GridView gvCombination;
+    // private CombinationAdapter mCombinationAdapter;
     private Button btnMore;
     private Button btnRefresh;
-    private PopupWindow mPopMoreWindow;
-    private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
+
+    // private PopupWindow mPopMoreWindow;
+    // private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
+    private MyCombinationListFragment listFragment;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -72,13 +75,13 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         setContentView(R.layout.activity_mycombination);
         setTitle(R.string.my_combination);
 
-        initGridView();
-        this.getWindow().getDecorView().setOnTouchListener(this);
+        // initGridView();
+        // this.getWindow().getDecorView().setOnTouchListener(this);
 
         initTitleView();
 
         // loadCombinationData();
-
+        replaceCombinationListView();
     }
 
     /**
@@ -89,7 +92,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
     @Override
     protected void onStart() {
         super.onStart();
-        loadCombinationData();
+        // loadCombinationData();
     }
 
     private void initTitleView() {
@@ -105,137 +108,95 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
-     */
-    private void initGridView() {
-        gvCombination = (GridView) findViewById(R.id.gv_mycombination);
-
-        mCombinationAdapter = new CombinationAdapter(this, mDataList);
-        gvCombination.setAdapter(mCombinationAdapter);
-        mCombinationAdapter.setDeleteButtonClickListener(this);
-        gvCombination.setOnItemClickListener(this);
-        gvCombination.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-                // if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
-                // // mImageFetcher.setPauseWork(true);
-                // } else {
-                // mImageFetcher.setPauseWork(false);
-                // }
-            }
-
-            @Override
-            public void
-                    onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            }
-        });
-        gvCombination.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                final int columnWidth = (gvCombination.getWidth() - (getResources()
-                        .getDimensionPixelSize(R.dimen.combin_horSpacing))) / 2;
-
-                mCombinationAdapter.setItemHeight((int) (columnWidth));
-            }
-        });
-        gvCombination.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                mCombinationAdapter.setDelStatus(true);
-                setButtonCancel();
-                return true;
-            }
-        });
-        gvCombination.setOnTouchListener(this);
+    private void replaceCombinationListView() {
+        listFragment = MyCombinationListFragment.getFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_layout, listFragment).commit();
 
     }
 
-    private void loadCombinationData() {
-        // CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
-        // CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
-        // CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
-        // CombinationBean conBean4 = new CombinationBean("我的组合4", 1.152f, 13.22f);
-        // CombinationBean conBean5 = new CombinationBean("我的组合5", -1.154f, -10.22f);
-        // mDataList.add(conBean1);
-        // mDataList.add(conBean2);
-        // mDataList.add(conBean3);
-        // mDataList.add(conBean4);
-        // mDataList.add(conBean5);
-        new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
+    //
+    // private void loadCombinationData() {
+    // // CombinationBean conBean1 = new CombinationBean("我的组合1", 1.152f, 11.22f);
+    // // CombinationBean conBean2 = new CombinationBean("我的组合2", 1.153f, 15.22f);
+    // // CombinationBean conBean3 = new CombinationBean("我的组合3", -1.152f, -11.22f);
+    // // CombinationBean conBean4 = new CombinationBean("我的组合4", 1.152f, 13.22f);
+    // // CombinationBean conBean5 = new CombinationBean("我的组合5", -1.154f, -10.22f);
+    // // mDataList.add(conBean1);
+    // // mDataList.add(conBean2);
+    // // mDataList.add(conBean3);
+    // // mDataList.add(conBean4);
+    // // mDataList.add(conBean5);
+    // new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<MoreDataBean<CombinationBean>>() {
+    //
+    // @Override
+    // protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
+    //
+    // MoreDataBean<CombinationBean> moreBean = null;
+    // try {
+    //
+    // Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+    //
+    // moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CombinationBean>>() {
+    // }.getType());
+    //
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    //
+    // return moreBean;
+    //
+    // }
+    //
+    // @Override
+    // protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
+    // // LogUtils.d("List<CombinationBean> size:" + dataList.size());
+    // if (null != moreBean) {
+    // List<CombinationBean> dataList = moreBean.getResults();
+    // LogUtils.d("List<CombinationBean> size:" + dataList.size());
+    // mDataList.clear();
+    // mDataList.addAll(dataList);
+    // mCombinationAdapter.notifyDataSetChanged();
+    // }
+    // }
+    //
+    // }.setLoadingDialog(MyCombinationActivity.this, R.string.loading));
+    // mCombinationAdapter.notifyDataSetChanged();
+    // }
 
-            @Override
-            protected MoreDataBean<CombinationBean> parseDateTask(String jsonData) {
+    // @Override
+    // public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    //
+    // // Intent intent = new Intent(this, CombinationDetailActivity.class);
+    // // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
+    // // startActivity(CombinationDetailActivity.newIntent(this, mDataList.get(position)));
+    //
+    // // new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
+    // // new ParseHttpListener<String>() {
+    // //
+    // // @Override
+    // // protected String parseDateTask(String jsonData) {
+    // // // TODO Auto-generated method stub
+    // // return null;
+    // // }
+    // //
+    // // @Override
+    // // protected void afterParseData(String object) {
+    // // // TODO Auto-generated method stub
+    // //
+    // // }
+    // // });
+    //
+    // }
 
-                MoreDataBean<CombinationBean> moreBean = null;
-                try {
-
-                    Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-
-                    moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CombinationBean>>() {
-                    }.getType());
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                return moreBean;
-
-            }
-
-            @Override
-            protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
-                // LogUtils.d("List<CombinationBean> size:" + dataList.size());
-                if (null != moreBean) {
-                    List<CombinationBean> dataList = moreBean.getResults();
-                    LogUtils.d("List<CombinationBean> size:" + dataList.size());
-                    mDataList.clear();
-                    mDataList.addAll(dataList);
-                    mCombinationAdapter.notifyDataSetChanged();
-                }
-            }
-
-        }.setLoadingDialog(MyCombinationActivity.this, R.string.loading));
-        mCombinationAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        // Intent intent = new Intent(this, CombinationDetailActivity.class);
-        // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_ADJUST_CONBINA);
-        startActivity(CombinationDetailActivity.newIntent(this, mDataList.get(position)));
-
-        // new MyCombinationEngineImpl().queryCombinationDetail(mDataList.get(position).getId(),
-        // new ParseHttpListener<String>() {
-        //
-        // @Override
-        // protected String parseDateTask(String jsonData) {
-        // // TODO Auto-generated method stub
-        // return null;
-        // }
-        //
-        // @Override
-        // protected void afterParseData(String object) {
-        // // TODO Auto-generated method stub
-        //
-        // }
-        // });
-
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        gvCombination.clearFocus();
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-        }
-        return super.onTouchEvent(event);
-    }
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        gvCombination.clearFocus();
+//        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        if (imm != null) {
+//            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+//        }
+//        return super.onTouchEvent(event);
+//    }
 
     @Override
     public void onClick(View v) {
@@ -247,9 +208,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
             clickSecondButton();
         } else if (id == R.id.tv_add_combina) {
-            mCombinationAdapter.addItem();
-            mPopMoreWindow.dismiss();
+//            mCombinationAdapter.addItem();
+//            mPopMoreWindow.dismiss();
 
+            addNewCombination();
         } else if (id == R.id.tv_delete_combina) {
             btnMore.setText("取消");
             btnMore.setTag("del");
@@ -257,10 +219,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
             btnRefresh.setTag("del");
             btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
-            mCombinationAdapter.setDelStatus(true);
-            mPopMoreWindow.dismiss();
-
-            gvCombination.setOnItemClickListener(null);
+//            mCombinationAdapter.setDelStatus(true);
+//            mPopMoreWindow.dismiss();
+            listFragment.setListDelStatus(true);
+//            gvCombination.setOnItemClickListener(null);
 
         }
 
@@ -268,11 +230,19 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void clickRightButton() {
         if (btnMore.getTag() != null && btnMore.getTag().equals("cancel")) {
-            mCombinationAdapter.setDelStatus(false);
+//            mCombinationAdapter.setDelStatus(false);
+            listFragment.setListDelStatus(false);
             setButtonAdd();
         } else {
-            mCombinationAdapter.addItem();
+//            mCombinationAdapter.addItem();
+            addNewCombination();
         }
+
+    }
+    
+    
+    private void addNewCombination(){
+        startActivity(PositionAdjustActivity.newIntent(this, null));
 
     }
 
@@ -283,7 +253,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
         btnRefresh.setVisibility(View.VISIBLE);
     }
 
-    private void setButtonCancel() {
+    public void setButtonCancel() {
         btnMore.setText(R.string.cancel);
         btnMore.setTag("cancel");
         btnMore.setBackgroundDrawable(null);
@@ -298,154 +268,64 @@ public class MyCombinationActivity extends ModelAcitivity implements OnItemClick
 
     private void clickSecondButton() {
         if (btnRefresh.getTag().equals("refresh")) {
-            refreshData();
+//            refreshData();
+            listFragment.refresh();
         } else {
             // setButtonRefresh();
             // setButtonMore();
-            gvCombination.setOnItemClickListener(this);
-            removeSelectDatas();
+//            gvCombination.setOnItemClickListener(this);
+//            removeSelectDatas();
+            listFragment.removeSelectCombinations();
         }
 
     }
 
-    private void refreshData() {
-        // System.out.println("Second refresh button click");
-        loadCombinationData();
-    }
+//    private void refreshData() {
+//        // System.out.println("Second refresh button click");
+//        loadCombinationData();
+//    }
 
-    private void removeSelectDatas() {
-        List<CombinationBean> selectList = mCombinationAdapter.getDelPosition();
-        final List<CombinationBean> delList = new ArrayList<CombinationBean>();
-        StringBuilder sbIds = new StringBuilder();
-        for (CombinationBean delStock : selectList) {
-            // int i = index;
-            // CombinationBean delStock = mDataList.get(i);
-            delList.add(delStock);
-            sbIds.append(delStock.getId());
-            sbIds.append(",");
-        }
-        if (delList.size() > 0) {
-            // new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
-            new MyCombinationEngineImpl().deleteCombination(sbIds.toString(), new BasicHttpListener() {
+    // private void removeSelectDatas() {
+    // List<CombinationBean> selectList = mCombinationAdapter.getDelPosition();
+    // final List<CombinationBean> delList = new ArrayList<CombinationBean>();
+    // StringBuilder sbIds = new StringBuilder();
+    // for (CombinationBean delStock : selectList) {
+    // // int i = index;
+    // // CombinationBean delStock = mDataList.get(i);
+    // delList.add(delStock);
+    // sbIds.append(delStock.getId());
+    // sbIds.append(",");
+    // }
+    // if (delList.size() > 0) {
+    // // new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+    // new MyCombinationEngineImpl().deleteCombination(sbIds.toString(), new BasicHttpListener() {
+    //
+    // @Override
+    // public void onSuccess(String result) {
+    // mCombinationAdapter.getDelPosition().clear();
+    // mDataList.removeAll(delList);
+    // upateDelViewStatus();
+    // }
+    //
+    // @Override
+    // public void onFailure(int errCode, String errMsg) {
+    // super.onFailure(errCode, errMsg);
+    // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+    // }
+    // });
+    // }
+    //
+    // }
 
-                @Override
-                public void onSuccess(String result) {
-                    mCombinationAdapter.getDelPosition().clear();
-                    mDataList.removeAll(delList);
-                    upateDelViewStatus();
-                }
+    
 
-                @Override
-                public void onFailure(int errCode, String errMsg) {
-                    super.onFailure(errCode, errMsg);
-                    Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-
-    }
-
-    private void showDelDialog(final CombinationBean mCombination) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
-        builder.setMessage(R.string.dialog_message_delete_combination);
-        builder.setTitle(R.string.tips);
-
-        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new BasicHttpListener() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        // mCombinationAdapter.getDelPosition().clear();
-                        mDataList.remove(mCombination);
-                        mCombinationAdapter.notifyDataSetChanged();
-                        // upateDelViewStatus();
-                    }
-
-                    @Override
-                    public void onFailure(int errCode, String errMsg) {
-                        super.onFailure(errCode, errMsg);
-                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void beforeRequest() {
-                        // TODO Auto-generated method stub
-                        super.beforeRequest();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void requestCallBack() {
-                        // TODO Auto-generated method stub
-                        super.requestCallBack();
-                        refreshData();
-                    }
-
-                });
-                dialog.dismiss();
-            }
-
-        });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-    }
-
-    private void upateDelViewStatus() {
+    public void upateDelViewStatus() {
         setButtonRefresh();
         setButtonAdd();
 
-        mCombinationAdapter.setDelStatus(false);
-        mCombinationAdapter.notifyDataSetChanged();
+       
     }
 
-    private void showPopWindow() {
-        View view;
-        view = this.getLayoutInflater().inflate(R.layout.layout_more_myconbination, null);
-        mPopMoreWindow = new PopupWindow(view, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        mPopMoreWindow.setOutsideTouchable(true); // 不能在没有焦点的时候使用
-        mPopMoreWindow.setBackgroundDrawable(new BitmapDrawable());
-        mPopMoreWindow.setFocusable(true);
-
-        TextView tvAdd = (TextView) view.findViewById(R.id.tv_add_combina);
-        TextView tvDel = (TextView) view.findViewById(R.id.tv_delete_combina);
-        tvAdd.setOnClickListener(this);
-        tvDel.setOnClickListener(this);
-
-        int width = getApplication().getResources().getDisplayMetrics().widthPixels;
-        view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        int viewWidth = view.getMeasuredWidth();
-
-        mPopMoreWindow.showAsDropDown(findViewById(R.id.includeHead), width - viewWidth, 0);
-
-    }
-
-    @Override
-    public void clickDeleteButton(int position) {
-        CombinationBean combiantinBean = mDataList.get(position);
-        // Toast.makeText(this, "Is del :" + combiantinBean.getName(), Toast.LENGTH_SHORT).show();
-        showDelDialog(combiantinBean);
-
-    }
+   
 
 }

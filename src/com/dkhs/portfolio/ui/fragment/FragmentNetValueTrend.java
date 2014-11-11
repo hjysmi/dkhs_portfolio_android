@@ -35,6 +35,7 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -61,6 +62,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     MyPagerFragmentAdapter mPagerAdapter;
 
+    
+    
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -109,6 +112,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
         initTabPage(view);
+        
+        
+        // if(null!=mCombinationBean&&
+        // mCombinationBean.getCreateUser().getId().equalsIgnoreCase(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID))){
+        //
+        //
+        // }
+        
+        
         // setupViewData();
         return view;
     }
