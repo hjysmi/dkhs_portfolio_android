@@ -223,9 +223,14 @@
     <string name="combination_wornning_text">公开后别人可能看到这只基金的持仓明细</string>
     <string name="combination_wornning_name">隐私设置：</string>
     <string name="feed_back_title">意见反馈</string>
+    <string name="feed_back_hint">请输入您的反馈意见（500字以内）</string>
+    <string name="feed_back_com_title">QQ、邮箱、手机</string>
+    <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题</string>
     <string name="text_other_manager_combin">他管理的基金一览</string>
     <string name="text_my_manager_combin">我管理的基金一览</string>
     <string name="sign_text_title">个人签名</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
+    <string name="feed_text_notice">反馈内容不能为空</string>
+    <string name="feed_text_success">提交成功</string>
 
 </resources>

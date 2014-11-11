@@ -58,8 +58,8 @@ public class NewsTextEngineImple extends LoadNewsTextEngine{
     @Override
     protected OptionNewsBean parseDateTask(String jsonData) {
     	Log.e("json", jsonData);
-    	jsonData = jsonData.replace("<b style=\"color:red;\">", "").replace("<script>currentpage=1;</script>", "").replaceAll("<[^>]*>", "").replaceAll("\\&[a-zA-Z]{1,10};", "").replaceAll("\\&\\#[0-9]{1,10};", "").replaceAll("　　", "").trim();
-    	
+    	//jsonData = jsonData.replace("<b style=\"color:red;\">", "").replace("<script>currentpage=1;</script>", "").replaceAll("<[^>]*>", "").replaceAll("\\&[a-zA-Z]{1,10};", "").replaceAll("\\&\\#[0-9]{1,10};", "").replaceAll("　　", "").trim();
+    	jsonData = jsonData.replaceAll("<br/>", "\n").trim().replaceAll(" ", "");
     	OptionNewsBean stockBean = null;
         try {
         	JSONObject dataObject = new JSONObject(jsonData);
