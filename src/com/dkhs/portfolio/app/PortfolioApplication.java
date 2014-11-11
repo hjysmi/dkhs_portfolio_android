@@ -37,9 +37,9 @@ public class PortfolioApplication extends Application {
         // TODO Auto-generated method stub
         super.onCreate();
         mInstance = this;
-        if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
-            LoadStockToDBService.requestDownload(this);
-        }
+        // if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
+        LoadStockToDBService.requestDownload(this);
+        // }
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
@@ -75,7 +75,7 @@ public class PortfolioApplication extends Application {
     }
 
     public void clearActivities() {
-        System.out.println("lists size :"+lists.size());
+        System.out.println("lists size :" + lists.size());
         if (lists.size() > 1) {
             for (int i = 0; i < lists.size() - 1; i++) {
                 Activity activity = lists.get(i);

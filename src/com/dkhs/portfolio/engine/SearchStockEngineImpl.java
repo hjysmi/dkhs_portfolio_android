@@ -12,10 +12,13 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SearchFundsBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockProfileDataBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -42,66 +45,82 @@ public class SearchStockEngineImpl {
      * 请服务器获取到3348条数据，包括解析数据，插入数据到数据库一共耗时42秒
      */
     public static void loadStockList() {
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.profile + "?symbol_type=1,5", null, new ParseHttpListener<Boolean>() {
+        StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5");
+        // "last_datetime"
+        String lastLoadTime = PortfolioPreferenceManager
+                .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
+        if (!TextUtils.isEmpty(lastLoadTime)) {
+            loadUrl.append("&last_datetime=");
+            loadUrl.append(lastLoadTime);
+        }
+
+        DKHSClient.requestByGet(loadUrl.toString(), null, new ParseHttpListener<String>() {
 
             @Override
-            protected Boolean parseDateTask(String jsonData) {
-                List<SearchStockBean> dataList = new ArrayList<SearchStockBean>();
-                Type listType = new TypeToken<List<SearchStockBean>>() {
-                }.getType();
-                dataList = DataParse.parseJsonList(jsonData, listType);
+            protected String parseDateTask(String jsonData) {
 
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-                // dbUtils.configAllowTransaction(true);
                 try {
-                    dbUtils.saveAll(dataList);
-                    LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
-                    return true;
+
+                    // Type listType = new TypeToken<List<SearchStockBean>>() {
+                    // }.getType();
+                    StockProfileDataBean dataBean = DataParse.parseObjectJson(StockProfileDataBean.class, jsonData);
+                    // dataList = DataParse.parseJsonList(jsonData, listType);
+                    if (null != dataBean) {
+
+                        List<SearchStockBean> dataList = dataBean.getResults();
+                        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                        // dbUtils.configAllowTransaction(true);
+                        dbUtils.replaceAll(dataList);
+                    }
+
+                    // LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
+                    return dataBean.getLast_datetime();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                return false;
+                return "";
             }
 
             @Override
-            protected void afterParseData(Boolean object) {
-                if (object) {
-
-                    PortfolioPreferenceManager.setLoadSearchStock();
+            protected void afterParseData(String object) {
+                if (!TextUtils.isEmpty(object)) {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME, object);
+                    // PortfolioPreferenceManager.setLoadSearchStock();
                 }
 
             }
         });
-        DKHSClient.requestByGet(DKHSUrl.StockSymbol.profile + "?symbol_type=3,5", null, new ParseHttpListener<Boolean>() {
-
-            @Override
-            protected Boolean parseDateTask(String jsonData) {
-                List<SearchFundsBean> dataList = new ArrayList<SearchFundsBean>();
-                Type listType = new TypeToken<List<SearchFundsBean>>() {
-                }.getType();
-                dataList = DataParse.parseJsonList(jsonData, listType);
-
-                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-                // dbUtils.configAllowTransaction(true);
-                try {
-                    dbUtils.saveAll(dataList);
-                    LogUtils.d("Insert " + dataList.size() + " item to funds database success!");
-                    return true;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return false;
-            }
-
-            @Override
-            protected void afterParseData(Boolean object) {
-                // if (object) {
-                //
-                // PortfolioPreferenceManager.setLoadSearchStock();
-                // }
-
-            }
-        });
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.profile + "?symbol_type=3,5", null,
+        // new ParseHttpListener<Boolean>() {
+        //
+        // @Override
+        // protected Boolean parseDateTask(String jsonData) {
+        // List<SearchFundsBean> dataList = new ArrayList<SearchFundsBean>();
+        // Type listType = new TypeToken<List<SearchFundsBean>>() {
+        // }.getType();
+        // dataList = DataParse.parseJsonList(jsonData, listType);
+        //
+        // DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+        // // dbUtils.configAllowTransaction(true);
+        // try {
+        // dbUtils.replaceAll(dataList);
+        // LogUtils.d("Insert " + dataList.size() + " item to funds database success!");
+        // return true;
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
+        // return false;
+        // }
+        //
+        // @Override
+        // protected void afterParseData(Boolean object) {
+        // // if (object) {
+        // //
+        // // PortfolioPreferenceManager.setLoadSearchStock();
+        // // }
+        //
+        // }
+        // });
     }
 
     public void searchStock(String key) {
@@ -112,7 +131,7 @@ public class SearchStockEngineImpl {
         try {
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector.from(SearchStockBean.class)
                     .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
-                    .or("chi_spell", "LIKE", "%" + key + "%"));
+                    .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "1"));
             if (null != searchStockList) {
                 for (SearchStockBean searchBean : searchStockList) {
                     selectStockList.add(SelectStockBean.copy(searchBean));
@@ -135,9 +154,34 @@ public class SearchStockEngineImpl {
         // dbUtils.findById(SearchStockBean.class, key);
         List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
         try {
+            List<SearchStockBean> searchStockList = dbUtils.findAll(Selector.from(SearchStockBean.class)
+                    .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
+                    .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "3"));
+            if (null != searchStockList) {
+                for (SearchStockBean searchBean : searchStockList) {
+                    selectStockList.add(SelectStockBean.copy(searchBean));
+                }
+                LogUtils.d(" searchfundDataList size:" + selectStockList.size());
+            } else {
+
+                LogUtils.d(" searchFundDataList is null");
+            }
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        iLoadListener.loadFinish(selectStockList);
+    }
+
+    public void searchStockAndIndex(String key) {
+        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+        // dbUtils.findById(SearchStockBean.class, key);
+        List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
+        try {
             List<SearchFundsBean> searchStockList = dbUtils.findAll(Selector.from(SearchFundsBean.class)
                     .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
-                    .or("chi_spell", "LIKE", "%" + key + "%"));
+                    .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "1,5"));
             if (null != searchStockList) {
                 for (SearchFundsBean searchBean : searchStockList) {
                     selectStockList.add(SelectStockBean.copy(searchBean));
@@ -154,7 +198,6 @@ public class SearchStockEngineImpl {
 
         iLoadListener.loadFinish(selectStockList);
     }
-
 
     public SearchStockEngineImpl(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;

@@ -32,6 +32,7 @@ public class PortfolioPreferenceManager {
     public static final String KEY_USER_HEADER_URL = "key_user_header_url";
     public static final String KEY_USER_ACCOUNT = "key_user_account";
     public static final String KEY_APP_ID = "key_app_id";
+    public static final String KEY_LAST_LOAD_DATETIME = "key_last_load_datetime";
 
     public static SharedPreferences getSharePreferences() {
         return PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
