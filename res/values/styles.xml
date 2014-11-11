@@ -115,7 +115,7 @@
         <!-- 此设置不需要文字，只显示背景图的开关 -->
         <item name="android:textOn">"     "</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:thumb">@drawable/switch_button</item>
+        <item name="android:thumb">@drawable/switch_selector</item>
         <!-- 滑块格式9.png -->
         <item name="android:thumbTextPadding">15dp</item>
         <!-- 用来控制背景图片和文字之间的间距来控制switch整体宽度 -->
