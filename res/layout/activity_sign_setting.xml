@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    
+    android:background="@color/person_setting_backgroud"
+    android:layout_height="match_parent" >
+    <LinearLayout 
+        android:layout_marginLeft="20dp"
+    	android:layout_marginRight="20dp"
+    	android:layout_marginTop="30dp"
+    	android:background="@drawable/layout_back_ground"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        >
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:id="@+id/sign_edit_text"
+            android:maxLength="40"
+            android:lines="3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="end"
+            android:id="@+id/sign_text_text"
+            android:textSize="@dimen/list_text_size"
+            android:textColor="@color/light_gray"
+            android:text="40" />
+        </LinearLayout>
+</LinearLayout>

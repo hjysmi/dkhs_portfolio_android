@@ -71,7 +71,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 					mLoadDataEngine.loadData();
 					mLoadDataEngine.setLoadingDialog(context);
 				}
-			} catch (DbException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -119,8 +119,13 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
 			// TODO Auto-generated method stub
-			Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文");
-			startActivity(intent);
+			try {
+				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文");
+				startActivity(intent);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
     };
 
