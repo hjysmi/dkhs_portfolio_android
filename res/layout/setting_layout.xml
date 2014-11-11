@@ -80,7 +80,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:paddingRight="30dp"
-                        android:text="186065***22"
+                        android:text="18606511122"
                         android:textColor="@color/person_setting_phonecolor"
                         android:textSize="@dimen/setting_text_phone" />
 
@@ -166,7 +166,48 @@
                 </RelativeLayout>
 
                 <include layout="@layout/layout_line" />
+				<RelativeLayout
+                    android:id="@+id/setting_layout_sign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_white_selector" >
 
+                    <ImageView
+                        android:id="@+id/setting_image_sign_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingRight="30dp"
+                        android:src="@drawable/setting_image_right" />
+					
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:text="个人签名"
+                        android:textColor="@color/black"
+                        android:id="@+id/setting_sign_title"
+                        android:textSize="@dimen/setting_text_name" />
+                    <TextView 
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:textColor="@color/person_setting_phonecolor"
+					    android:layout_height="wrap_content"
+					    android:layout_width="match_parent"
+					    android:textSize="@dimen/setting_text_name"
+					    android:id="@+id/setting_sing_text"
+					    android:singleLine="true"
+					    android:ellipsize="end"
+					    android:layout_centerVertical="true"
+					    android:layout_toLeftOf="@id/setting_image_sign_right"
+					    android:layout_toRightOf="@id/setting_sign_title"
+					    />
+                </RelativeLayout>
+
+                <include layout="@layout/layout_line" />
                 <include layout="@layout/layout_line_text" />
 
                 <RelativeLayout

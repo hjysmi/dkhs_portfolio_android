@@ -56,7 +56,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private ImageView settingImageHead;
     private TextView settingTextAccountText;
     private TextView settingTextNameText;
-
+    private UserEntity ue;
+    private TextView settingSingText;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -74,7 +75,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         context = this;
         initViews();
         setListener();
-        initData();
+        //initData();
         // loadCombinationData();
     }
 
@@ -117,6 +118,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.feed_back_layout).setOnClickListener(this);
         findViewById(R.id.rl_aboutus).setOnClickListener(this);
         findViewById(R.id.setting_layout_check_version).setOnClickListener(this);
+        findViewById(R.id.setting_layout_sign).setOnClickListener(this);
+        settingSingText = (TextView) findViewById(R.id.setting_sing_text);
     }
 
     public void initViews() {
@@ -224,6 +227,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             	UserEngineImpl mUserEngineImpl = new UserEngineImpl();
 				mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
             	break;
+            case R.id.setting_layout_sign:
+            	intent = new Intent(this,PersonSignSettingActivity.class);
+            	Bundle b = new Bundle();
+            	if(null != ue)
+            		b.putString(PersonSignSettingActivity.DESCRIPTION,ue.getDescription() );
+            	intent.putExtras(b);
+            	startActivity(intent);
+            	break;
             default:
                 break;
         }
@@ -305,8 +316,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
         }
     }
-
-    private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
+    
+    @Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+    	initData();
+		super.onResume();
+	}
+	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
@@ -329,7 +346,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
+            	ue = entity;
                 settingTextNameText.setText(entity.getUsername());
+                settingSingText.setText(ue.getDescription());
             }
         }
     };

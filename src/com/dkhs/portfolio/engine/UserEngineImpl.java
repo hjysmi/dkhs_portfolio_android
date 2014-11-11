@@ -3,6 +3,7 @@ package com.dkhs.portfolio.engine;
 import java.io.File;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.FeedBackBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -159,11 +160,15 @@ public class UserEngineImpl {
         params.addBodyParameter("avatar", file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
-
+    
     public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.settingMessage, null, listener);
     }
-
+    public void setSettingMessage(String description, ParseHttpListener<UserEntity> listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("description", description);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.settingMessage, params, listener);
+    }
     public void getBaseUserInfo(String userId, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.base_userinfo, userId);
 
@@ -173,5 +178,17 @@ public class UserEngineImpl {
         params.addQueryStringParameter("app_code", appcode);
         //DKHSClient.requestByGet(DKHSUrl.News.newstext +id, null, this);
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_version + appcode, null, listener);
+    }
+    public void setFeedBack(String app,String content,String contact,File file, ParseHttpListener<FeedBackBean> listener) {
+        RequestParams params = new RequestParams();
+        //if(null != app)
+        	params.addBodyParameter("app", app);
+        //if(null != content)
+        	params.addBodyParameter("content", content);
+        //if(null != contact)
+        	params.addBodyParameter("contact", contact);
+        //if(null != file)
+        	params.addBodyParameter("image", file);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
     }
 }

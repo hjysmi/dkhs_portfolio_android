@@ -88,6 +88,7 @@
 	            android:textColor="@color/black"
 	            android:textSize="@dimen/list_text_size"
 	            android:id="@+id/news_text_text"
+	            
 	            />
 	    </ScrollView>
 	</LinearLayout>

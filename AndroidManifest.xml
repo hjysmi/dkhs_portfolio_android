@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="1"
-    android:versionName="0.5.2" >
+    android:versionName="0.5.3" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -26,7 +26,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	<uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+
     <application
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
@@ -82,6 +83,7 @@
         <activity android:name="com.dkhs.portfolio.ui.UserCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FeedBackActivity" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.CopyMessageDialog"
             android:theme="@style/MyDialogStyleBottom" />
@@ -98,15 +100,16 @@
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
             android:windowSoftInputMode="stateHidden" />
-		<receiver
-            android:name="com.dkhs.portfolio.ui.CompleteReceiver" >
-            <intent-filter android:priority="1000"> <!-- 设置最高优先级 -->  
-         		<action android:name="android.intent.action.BOOT_COMPLETED" />
-         		<action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-                <action android:name="android.intent.action.USER_PRESENT" />
-      		</intent-filter>
+
+        <receiver android:name="com.dkhs.portfolio.ui.CompleteReceiver" >
+            <intent-filter android:priority="1000" >
+
+                <!-- 设置最高优先级 -->
+
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
         </receiver>
+
         <service android:name="com.dkhs.portfolio.service.LoadStockToDBService" />
     </application>
 
