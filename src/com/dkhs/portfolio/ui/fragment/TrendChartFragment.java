@@ -195,6 +195,16 @@ public class TrendChartFragment extends Fragment {
         } else {
             combinationCheck.setChecked(false);
         }
+
+        if (mCombinationBean.getCreateUser() == null) {
+            view.findViewById(R.id.rl_combination_check).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.combination_layout_check).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.rl_combination_check).setVisibility(View.GONE);
+            view.findViewById(R.id.combination_layout_check).setVisibility(View.INVISIBLE);
+
+        }
+
     }
 
     private void setupViewData() {

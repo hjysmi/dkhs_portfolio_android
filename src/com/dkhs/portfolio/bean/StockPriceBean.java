@@ -41,6 +41,9 @@ public class StockPriceBean {
     @SerializedName("chng_pct_three_month")
     private float seasonPercentage;
 
+    // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
+    private String symbol_type;
+
     // 是否停牌 1是 0否
     @SerializedName("is_stop")
     private int isStop;
@@ -135,6 +138,14 @@ public class StockPriceBean {
 
     public void setIsStop(int isStop) {
         this.isStop = isStop;
+    }
+
+    public String getSymbol_type() {
+        return symbol_type;
+    }
+
+    public void setSymbol_type(String symbol_type) {
+        this.symbol_type = symbol_type;
     }
 
 }

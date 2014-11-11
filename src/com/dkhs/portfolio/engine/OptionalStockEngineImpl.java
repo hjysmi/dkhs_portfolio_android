@@ -24,6 +24,7 @@ import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.utils.StockUitls;
 
 /**
  * @ClassName StockEngineImpl
@@ -44,7 +45,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     private int totalpage;
 
     private int currentpage;
-    private List<StockPriceBean> results = new ArrayList<StockPriceBean>();
+//    private List<StockPriceBean> results = new ArrayList<StockPriceBean>();
 
     // /**
     // * 查询自选股
@@ -100,9 +101,11 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     selectBean.percentage = stockBean.getPercentage();
                     selectBean.change = stockBean.getChange();
                     selectBean.isStop = stockBean.isStop();
-                    selectList.add(selectBean);
 
-                    results.add(stockBean);
+                    if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                        selectList.add(selectBean);
+//                        results.add(stockBean);
+                    }
 
                 }
 
@@ -164,12 +167,12 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         this.currentpage = currentpage;
     }
 
-    public List<StockPriceBean> getResults() {
-        return results;
-    }
-
-    public void setResults(List<StockPriceBean> results) {
-        this.results = results;
-    }
+    // public List<StockPriceBean> getResults() {
+    // return results;
+    // }
+    //
+    // public void setResults(List<StockPriceBean> results) {
+    // this.results = results;
+    // }
 
 }
