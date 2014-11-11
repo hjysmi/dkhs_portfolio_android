@@ -44,6 +44,7 @@ public class DKHSUrl {
 
         // 组合排行榜
         String rankingList = "/api/v1/portfolio/ranking_list/";
+        String set_top = "/api/v1/portfolio/{0}/set_top/";
 
     }
 
@@ -140,7 +141,7 @@ public class DKHSUrl {
         // 获取设置界面信息
         String settingMessage = "/api/v1/accounts/settings/";
         String base_userinfo = "/api/v1/users/{0}/";
-        //获取服务器版本信息
+        // 获取服务器版本信息
         String get_version = "/api/v1/apps/";
     }
 

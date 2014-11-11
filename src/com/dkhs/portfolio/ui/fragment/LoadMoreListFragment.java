@@ -73,7 +73,9 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
         mListView.addFooterView(mFootView);
         mListView.setAdapter(getListAdapter());
+
         mListView.setOnItemClickListener(getItemClickListener());
+        setListViewInit(mListView);
         mListView.removeFooterView(mFootView);
         mListView.setOnScrollListener(new OnScrollListener() {
 
@@ -101,7 +103,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
             }
         });
 
-        getLoadEngine().loadData();
+        // getLoadEngine().loadData();
+        loadData();
 
     }
 
@@ -123,6 +126,14 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     abstract LoadMoreDataEngine getLoadEngine();
 
     abstract OnItemClickListener getItemClickListener();
+
+    public void setListViewInit(ListView listview) {
+
+    }
+    
+    public void loadData(){
+        
+    }
 
     // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
     //

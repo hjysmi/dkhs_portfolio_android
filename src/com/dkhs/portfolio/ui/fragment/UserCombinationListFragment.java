@@ -121,6 +121,16 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
         }
         return dataEngine;
     }
+    
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadData() {
+       getLoadEngine().loadData();
+    }
 
     @Override
     OnItemClickListener getItemClickListener() {

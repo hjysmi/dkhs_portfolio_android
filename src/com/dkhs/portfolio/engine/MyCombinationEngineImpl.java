@@ -191,4 +191,9 @@ public class MyCombinationEngineImpl {
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id), params, listener);
     }
 
+    public void setCombinationTOp(String id, IHttpListener listener) {
+
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.set_top, id), null, listener);
+    }
+
 }

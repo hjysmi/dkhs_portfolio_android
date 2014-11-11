@@ -46,6 +46,10 @@
     <string-array name="query_compare_type">
         <item>@string/query_before_month</item>
     </string-array>
+    <string-array name="long_click_type">
+        <item>置于页首</item>
+        <item>删除组合</item>
+    </string-array>
     <string-array name="detail_news_titles">
         <item>新闻资讯</item>
         <item>个股公告</item>
@@ -87,13 +91,13 @@
         <item>menu_icon_study</item>
         <item>menu_icon_news</item>
     </string-array>
-	<string-array name="yanbao_items">
+    <string-array name="yanbao_items">
         <item>公司</item>
         <item>行业</item>
         <item>策略</item>
         <item>宏观</item>
     </string-array>
-	<string-array name="color_ids">
+    <string-array name="color_ids">
         <item>R.color.def_1</item>
         <item>R.color.def_2</item>
         <item>R.color.def_3</item>
@@ -115,4 +119,5 @@
         <item>R.color.def_19</item>
         <item>R.color.def_20</item>
     </string-array>
+
 </resources>
