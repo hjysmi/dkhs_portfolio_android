@@ -27,6 +27,7 @@
                 android:id="@+id/combination_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/widget_gender_switch"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true" />
 

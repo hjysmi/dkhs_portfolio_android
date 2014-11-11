@@ -181,14 +181,14 @@ public class UserEngineImpl {
     }
     public void setFeedBack(String app,String content,String contact,File file, ParseHttpListener<FeedBackBean> listener) {
         RequestParams params = new RequestParams();
-        //if(null != app)
-        	params.addBodyParameter("app", app);
-        //if(null != content)
+        if(null != app)
+        	params.addBodyParameter("app",app);
+        if(null != content)
         	params.addBodyParameter("content", content);
-        //if(null != contact)
-        	params.addBodyParameter("contact", contact);
-        //if(null != file)
-        	params.addBodyParameter("image", file);
+        if(null != contact)
+        	params.addBodyParameter("contact",contact);
+        if(null != file)
+        	params.addBodyParameter("image",  file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
     }
 }

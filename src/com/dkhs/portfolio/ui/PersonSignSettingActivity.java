@@ -47,6 +47,9 @@ public class PersonSignSettingActivity extends ModelAcitivity implements OnClick
 		Bundle b = getIntent().getExtras();
 		if(null != b){
 			signText.setText(b.getString(DESCRIPTION));
+			signText.setSelection(signText.length());
+			int k = 40 - signText.getText().toString().length();
+			signVlaue.setText(k+"");
 		}
 		btnCancle.setText("取消");
 		btnCancle.setBackgroundResource(R.drawable.white_black_selector);
