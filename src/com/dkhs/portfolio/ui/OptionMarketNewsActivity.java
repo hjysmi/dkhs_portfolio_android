@@ -71,7 +71,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 					mLoadDataEngine.loadData();
 					mLoadDataEngine.setLoadingDialog(context);
 				}
-			} catch (DbException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
