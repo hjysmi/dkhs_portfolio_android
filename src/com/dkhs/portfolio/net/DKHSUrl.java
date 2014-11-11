@@ -142,6 +142,8 @@ public class DKHSUrl {
         String base_userinfo = "/api/v1/users/{0}/";
         //获取服务器版本信息
         String get_version = "/api/v1/apps/";
+        //添加用户反馈
+        String add_feed = "/api/v1/apps/";
     }
 
     public interface MainPage {

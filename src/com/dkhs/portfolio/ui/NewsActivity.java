@@ -5,6 +5,7 @@ import java.io.Serializable;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -92,7 +93,5 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	    		newsTitleNum.setText(mOptionNewsBean.getSource().getTitle());
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());
-	    	/*BitmapUtils bitmapUtils = new BitmapUtils(this);
-            bitmapUtils.display(newsTitleIcon, mOptionNewsBean.getUser().getHeadPitureSM());*/
 	    }
 }
