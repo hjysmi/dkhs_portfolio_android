@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui.widget;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
@@ -59,11 +60,16 @@ public class InterceptScrollView extends ScrollView{
 
         return super.onInterceptTouchEvent(ev);
     }
+    @Override
+    protected int computeScrollDeltaToGetChildRectOnScreen(Rect rect) {
+     
+     return 0;
+    }
     @Override  
     protected void onScrollChanged(int x, int y, int oldx, int oldy) {  
         super.onScrollChanged(x, y, oldx, oldy);  
         if (scrollViewListener != null) {  
-            scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
+            //scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
         }  
     } 
     private boolean isIntercept = false;

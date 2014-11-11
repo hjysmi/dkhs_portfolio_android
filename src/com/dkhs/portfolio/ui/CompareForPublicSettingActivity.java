@@ -60,6 +60,7 @@ public class CompareForPublicSettingActivity extends ModelAcitivity {
             LayoutInflater l = LayoutInflater.from(context);
             View view = l.inflate(R.layout.setting_group_item, null);
             Switch s = (Switch) view.findViewById(R.id.switch1);
+            //s.setSwitchTypeface(tf);
             s.setText(combinationBean.getName());
             if (combinationBean.getIspublic().equals("0")) {
                 s.setChecked(true);
