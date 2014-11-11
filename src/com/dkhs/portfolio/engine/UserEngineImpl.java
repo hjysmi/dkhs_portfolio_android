@@ -163,7 +163,11 @@ public class UserEngineImpl {
     public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.settingMessage, null, listener);
     }
-
+    public void setSettingMessage(String description, ParseHttpListener<UserEntity> listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("description", description);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.settingMessage, params, listener);
+    }
     public void getBaseUserInfo(String userId, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.base_userinfo, userId);
 
