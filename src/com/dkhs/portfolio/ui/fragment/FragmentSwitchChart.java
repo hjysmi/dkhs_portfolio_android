@@ -94,7 +94,7 @@ public class FragmentSwitchChart extends Fragment {
             if (switchButton.isChecked()) {
                 replaceChartView();
             } else {
-                replaceReportView();
+               // replaceReportView();
 
             }
         }
