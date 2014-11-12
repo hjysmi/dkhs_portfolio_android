@@ -39,8 +39,8 @@ public class YanBaoActivity extends ModelAcitivity{
 	}
 	private void initView(){
 		layout = (LinearLayout) findViewById(R.id.yanbao_layout);
-		btn = getRightButton();
-		btn.setBackgroundResource(R.drawable.ic_search_title);
+		//btn = getRightButton();
+		//btn.setBackgroundResource(R.drawable.ic_search_title);
 	}
 	private void initList() {
 		UserEntity user;

@@ -184,13 +184,18 @@ public class KChartsFragment extends Fragment {
      * @param ohlc
      */
     private void refreshChartsView(List<OHLCEntity> ohlc) {
-        mMyChartsView.setOHLCData(ohlc);
-        mMyChartsView.setShowLowerChartTabs(false);
-        mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
-        mMyChartsView.postInvalidate();
+        try {
+			mMyChartsView.setOHLCData(ohlc);
+			mMyChartsView.setShowLowerChartTabs(false);
+			mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
+			mMyChartsView.postInvalidate();
 
-        // 刷新成交量
-        refreshVolumnCharts();
+			// 刷新成交量
+			refreshVolumnCharts();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
     private void refreshVolumnCharts() {
@@ -511,6 +516,7 @@ public class KChartsFragment extends Fragment {
             // TODO Auto-generated method stub
             if (isVisibleToUser) {
                     //fragment可见时加载数据
+            	mQuotesDataEngine = new QuotesEngineImpl();
             	List<OHLCEntity> ohlc = getOHLCDatas();
                 refreshChartsView(ohlc);
     } else {
