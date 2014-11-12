@@ -70,7 +70,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     public void loadData() {
         if (TextUtils.isEmpty(orderType)) {
 
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, this);
+            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional+ "?sort=followed_at" , null, this);
         } else {
             DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
 
@@ -131,7 +131,8 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         params.add(valuePair);
 
         if (TextUtils.isEmpty(orderType)) {
-
+            NameValuePair valuePair2 = new BasicNameValuePair("sort", "followed_at");
+            params.add(valuePair2);
             DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
 
         } else {

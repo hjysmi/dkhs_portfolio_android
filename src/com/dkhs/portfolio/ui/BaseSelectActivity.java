@@ -79,7 +79,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         if (extras != null) {
             handleExtras(extras);
         }
-
+        setupUI(findViewById(R.id.rl_base_add_view));
         initView();
         setupViewData();
 
@@ -264,7 +264,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
                 return;
             }
             if (getLoadByType() == ListViewType.STOCK) {
-//                showTypeDialog();
+                // showTypeDialog();
                 setSelectBack(-1);
             } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
                 Toast.makeText(this, "添加到自选股", Toast.LENGTH_SHORT).show();
