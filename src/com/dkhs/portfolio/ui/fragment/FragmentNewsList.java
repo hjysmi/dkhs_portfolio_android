@@ -49,6 +49,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
     private NewsforImpleEngine vo;
+    private int types;
     //private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,10 +76,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
 		if(null != bundle){
 			vo = (NewsforImpleEngine) bundle.getSerializable(VO);
 			//layouts =  vo.getLayout();
-			mDataList = new ArrayList<OptionNewsBean>();
-			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
-			mLoadDataEngine.loadData();
-			mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+			types = bundle.getInt(NEWS_TYPE);
 		}
 
 	}
@@ -185,7 +183,21 @@ public class FragmentNewsList extends Fragment implements Serializable{
 		// TODO Auto-generated method stub
 		/*if(null != mDataList)
 			layouts.getLayoutParams().height = mDataList.size() * 200;*/
+		
 		super.onResume();
 	}
-	
+	 @Override
+     public void setUserVisibleHint(boolean isVisibleToUser) {
+             // TODO Auto-generated method stub
+             if (isVisibleToUser) {
+                     //fragment可见时加载数据
+            	 mDataList = new ArrayList<OptionNewsBean>();
+         		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
+         		mLoadDataEngine.loadData();
+         		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+     } else {
+         //不可见时不执行操作
+     }
+             super.setUserVisibleHint(isVisibleToUser);
+     }
 }
