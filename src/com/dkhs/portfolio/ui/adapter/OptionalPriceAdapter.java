@@ -63,11 +63,18 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.def_green);
         //
         // }
+        if (item.isStop) {
+            viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(0));
+            viewHolder.tvIncearseValue.setText("已停牌");
+
+        } else {
+            viewHolder.tvIncearseValue.setTextColor(textCsl);
+            viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+
+        }
         viewHolder.tvCurrentValue.setTextColor(textCsl);
         viewHolder.tvPercentValue.setTextColor(textCsl);
-        viewHolder.tvIncearseValue.setTextColor(textCsl);
         viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
-        viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
         viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
 
         return convertView;
