@@ -135,7 +135,7 @@ public class DKHSClient {
         });
     }
     public static void requestLong(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
-        HttpUtils mHttpUtils = new HttpUtils();
+        HttpUtils mHttpUtils = new HttpUtils(30*1000);
 
         if (null == params) {
             params = new RequestParams();

@@ -14,6 +14,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,9 +52,15 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
+    private static final String ARGUMENT_SEARCH_TYPE = "argument_search_type";
+    private static final String SEARCH_TYPE_FUNDS = "search_type_funds";
+    private static final String SEARCH_TYPE_STOCK = "search_type_stock";
+    private static final String SEARCH_TYPE_STOCKANDINDEX = "search_type_stockandindex";
+
     private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
 
     private boolean isItemClickBack;
+    private String mSearchType;
 
     private ListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
@@ -69,7 +76,8 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     public static FragmentSearchStockFund getStockFragment() {
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putBoolean(ARGUMENT_SEARCH_TYPE, false);
+        args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCK);
         // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
@@ -79,6 +87,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, true);
+        args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCK);
         // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;
@@ -89,22 +98,27 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
+        args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCKANDINDEX);
         fragment.setArguments(args);
         return fragment;
     }
 
     public void searchByKey(String key) {
-        mDataList.clear();
+        if (!TextUtils.isEmpty(mSearchType)) {
+            mDataList.clear();
+            if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_FUNDS)) {
 
-        if (isFund) {
+                // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
+                mSearchEngine.searchFunds(key);
+            } else if (mSearchType.equalsIgnoreCase(SEARCH_TYPE_STOCK)) {
 
-            // new SearchStockEngineImpl(mSelectStockBackListener).searchStock(key);
-            mSearchEngine.searchFunds(key);
-        } else {
-
-            mSearchEngine.searchStock(key);
+                mSearchEngine.searchStock(key);
+            } else {
+                mSearchEngine.searchStockAndIndex(key);
+            }
+            mAdapterConbinStock.notifyDataSetChanged();
         }
-        mAdapterConbinStock.notifyDataSetChanged();
+
     }
 
     @Override
@@ -115,6 +129,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         if (null != bundle) {
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
+            mSearchType = bundle.getString(ARGUMENT_SEARCH_TYPE);
 
         }
         if (isFund) {

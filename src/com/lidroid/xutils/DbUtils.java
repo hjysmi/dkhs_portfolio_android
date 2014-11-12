@@ -460,6 +460,7 @@ public class DbUtils {
         if (!tableIsExist(selector.getEntityType())) return null;
 
         String sql = selector.toString();
+        System.out.println("sql:"+sql);
         long seq = CursorUtils.FindCacheSequence.getSeq();
         findTempCache.setSeq(seq);
         Object obj = findTempCache.get(sql);
