@@ -102,11 +102,15 @@ public class FundsOrderAdapter extends BaseAdapter {
         View row = convertView;
         ChampionBean item = mDataList.get(position);
         float increasePercent = 0;
+        String textResId = "";
         if (mOrderType.contains("chng_pct_week")) {
             increasePercent = item.getChng_pct_week();
+            textResId = mContext.getString(R.string.week_income_rate);
         } else if (mOrderType.contains("chng_pct_month")) {
+            textResId = mContext.getString(R.string.month_income_rate);
             increasePercent = item.getChng_pct_month();
         } else if (mOrderType.contains("chng_pct_three_month")) {
+            textResId = mContext.getString(R.string.season_top_increase);
             increasePercent = item.getChng_pct_three_month();
         }
         if (position == 0) {
@@ -117,6 +121,7 @@ public class FundsOrderAdapter extends BaseAdapter {
 
             ((TextView) row.findViewById(R.id.tv_create_user)).setText(mContext.getString(R.string.format_create_name,
                     item.getUser().getUsername()));
+            ((TextView) row.findViewById(R.id.tv_value_text)).setText(textResId);
             ((TextView) row.findViewById(R.id.tv_value)).setText(StringFromatUtils
                     .get2PointPercentPlus(increasePercent));
             ((TextView) row.findViewById(R.id.tv_desc)).setText(mContext.getString(R.string.desc_format,
@@ -132,6 +137,7 @@ public class FundsOrderAdapter extends BaseAdapter {
             viewHolder.tvDesc = (TextView) row.findViewById(R.id.tv_desc);
             viewHolder.tvValue = (TextView) row.findViewById(R.id.tv_value);
             viewHolder.tvIndex = (TextView) row.findViewById(R.id.tv_order_index);
+            viewHolder.tvIncomeText = (TextView) row.findViewById(R.id.tv_income_text);
             viewHolder.ivTrophy = (ImageView) row.findViewById(R.id.iv_gold_award);
             // viewHolder.ivDel = (ImageButton) row.findViewById(R.id.ib_del_conbin);
             row.setTag(viewHolder);
@@ -152,7 +158,7 @@ public class FundsOrderAdapter extends BaseAdapter {
             viewHolder.tvIndex.setVisibility(View.VISIBLE);
             viewHolder.tvIndex.setText((position + 1) + "");
         }
-
+        viewHolder.tvIncomeText.setText(textResId);
         viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
         viewHolder.tvUserName.setText(mContext.getString(R.string.format_create_name, item.getUser().getUsername()));
         viewHolder.tvValue.setText(StringFromatUtils.get2PointPercentPlus(increasePercent));
@@ -166,6 +172,7 @@ public class FundsOrderAdapter extends BaseAdapter {
         TextView tvCombinationName;
         TextView tvDesc;
         TextView tvIndex;
+        TextView tvIncomeText;
 
         ImageView ivTrophy;
 
