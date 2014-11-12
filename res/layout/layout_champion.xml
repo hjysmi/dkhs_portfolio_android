@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="累计:"
+            android:text="@string/week_income_rate"
             android:textColor="@color/darker_gray"
             android:textSize="14sp" />
 

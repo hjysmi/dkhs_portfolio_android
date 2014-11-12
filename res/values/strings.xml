@@ -142,8 +142,8 @@
     <string name="data_deficient">数据不足</string>
     <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
-    <string name="today_in_rote">今日涨幅:</string>
-    <string name="add_up_value">累计涨幅</string>
+    <string name="today_in_rote">今日收益率:</string>
+    <string name="add_up_value">累计收益率</string>
     <string name="dialog_before_createday_title">查询时间早于基金创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">复盘至创建时间前一个月</string>
@@ -232,5 +232,10 @@
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">提交成功</string>
+    <string name="week_income_rate">周收益率:</string>
+    <string name="month_income_rate">月收益率:</string>
+    <string name="season_income_rate">季收益率:</string>
+    <string name="all_income_rate">累计收益率:</string>
+
 
 </resources>
