@@ -46,7 +46,7 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	    }
 	    mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
 		mLoadDataEngine.loadData();
-		mLoadDataEngine.setLoadingDialog(this);
+		mLoadDataEngine.setLoadingDialog(this).beforeRequest();;
 	}
 	public static Intent newIntent(Context context, String id,String name) {
         Intent intent = new Intent(context, NewsActivity.class);
