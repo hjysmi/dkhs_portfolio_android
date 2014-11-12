@@ -75,10 +75,10 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
                         selectBean.change = stockBean.getChange();
                         selectBean.isStop = stockBean.isStop();
 
-                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
-                            selectList.add(selectBean);
-                            // results.add(stockBean);
-                        }
+                        // if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                        selectList.add(selectBean);
+                        // results.add(stockBean);
+                        // }
 
                     }
 
