@@ -375,8 +375,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         super.onStart();
         isDefalutRequest = true;
         QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
         listener.setLoadingDialog(getActivity()).beforeRequest();
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
     }
 
     @Override
