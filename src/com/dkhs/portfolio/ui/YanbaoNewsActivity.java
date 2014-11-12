@@ -30,11 +30,13 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	 private OptionNewsBean mOptionNewsBean;
 	 private String optionNum;
 	 private String optionName;
+	 private Context context;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_yanbao_news);
+		context = this;
 		initView();
 		setTitle("研报正文");
 		Bundle extras = getIntent().getExtras();
@@ -43,6 +45,7 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	    }
 	    mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
 		mLoadDataEngine.loadData();
+		mLoadDataEngine.setLoadingDialog(context).beforeRequest();
 	}
 	public static Intent newIntent(Context context, String id,String num,String name) {
         Intent intent = new Intent(context, YanbaoNewsActivity.class);

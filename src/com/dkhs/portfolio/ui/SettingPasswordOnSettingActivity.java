@@ -1,6 +1,6 @@
 package com.dkhs.portfolio.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -14,14 +14,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 /**
  * 密码设置
  * @author weiting
@@ -35,11 +30,13 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
 	private Button btnSave;
 	private UserEngineImpl mUserEngineImpl;
 	private static final int CHANGE_PASSWORD_MODE = 2002;
+	private Context context;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_settingpassword_onsetting);
+		context = this;
 		initView();
 		setListener();
 	}
@@ -105,6 +102,7 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
 			if(oldPassword.length() > 5 && newPassword.length() > 5){
 				mUserEngineImpl = new UserEngineImpl();
 				mUserEngineImpl.changePassword(oldPassword, newPassword, listener);
+				listener.setLoadingDialog(context).beforeRequest();
 			}else{
 				PromptManager.showToast(R.string.password_setting_more);
 			}

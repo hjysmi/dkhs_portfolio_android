@@ -69,7 +69,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 					vo.setUserid(userId);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSALL,vo);
 					mLoadDataEngine.loadData();
-					mLoadDataEngine.setLoadingDialog(context);
+					mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -139,7 +139,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            //mLoadDataEngine.setLoadingDialog(context);
+            mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
         }
     }
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

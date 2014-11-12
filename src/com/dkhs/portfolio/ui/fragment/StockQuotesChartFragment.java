@@ -618,6 +618,7 @@ public class StockQuotesChartFragment extends Fragment {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
 
             }
+            todayListener.setLoadingDialog(getActivity()).beforeRequest();
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };

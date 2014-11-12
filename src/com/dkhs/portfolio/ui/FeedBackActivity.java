@@ -6,13 +6,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,13 +36,14 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 	private ImageView feedImageLoad;
 	private EditText feedEditCom;
 	private File imageFile;
+	private Context context;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_feed_back);
 		setTitle(R.string.feed_back_title);
-		
+		context = this;
 		initView();
 		initListener();
 	}
@@ -71,6 +72,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 			return;
         }
         engine.setFeedBack("-.-", feedEditText.getText().toString(), feedEditCom.getText().toString(), (null == imageFile)? null : imageFile, listener);
+        listener.setLoadingDialog(context).beforeRequest();
     }
 	private ParseHttpListener<FeedBackBean> listener = new ParseHttpListener<FeedBackBean>() {
 
