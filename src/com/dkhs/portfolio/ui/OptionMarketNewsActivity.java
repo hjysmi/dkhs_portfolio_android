@@ -172,4 +172,5 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
             mListView.removeFooterView(mFootView);
         }
     }
+    
 }

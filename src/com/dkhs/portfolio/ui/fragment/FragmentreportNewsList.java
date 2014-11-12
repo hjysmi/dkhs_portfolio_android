@@ -181,8 +181,18 @@ public class FragmentreportNewsList extends Fragment{
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
-		initDate();
+		
 		super.onResume();
 	}
-	
+	 @Override
+     public void setUserVisibleHint(boolean isVisibleToUser) {
+             // TODO Auto-generated method stub
+             if (isVisibleToUser) {
+                     //fragment可见时加载数据
+            	 initDate();
+     } else {
+         //不可见时不执行操作
+     }
+             super.setUserVisibleHint(isVisibleToUser);
+     }
 }
