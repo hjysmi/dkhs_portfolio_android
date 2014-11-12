@@ -157,7 +157,7 @@ public class FragmentSwitchChart extends Fragment {
         ft.commit();
     }
 
-    /*@Override
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         System.out.println("setUserVisibleHint:" + isVisibleToUser);
@@ -173,8 +173,8 @@ public class FragmentSwitchChart extends Fragment {
             // 相当于Fragment的onPause
             // }
         }
-    }*/
-    @Override
+    }
+    /*@Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
             // TODO Auto-generated method stub
             if (isVisibleToUser) {
@@ -183,7 +183,7 @@ public class FragmentSwitchChart extends Fragment {
         //不可见时不执行操作
     }
             super.setUserVisibleHint(isVisibleToUser);
-    }
+    }*/
 
     private Handler updHandler;
 
