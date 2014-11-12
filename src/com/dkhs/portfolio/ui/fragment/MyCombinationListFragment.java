@@ -142,7 +142,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == dataEngine) {
-            dataEngine = new UserCombinationEngineImpl(this);
+            dataEngine = new UserCombinationEngineImpl(this,"");
         }
         return dataEngine;
     }

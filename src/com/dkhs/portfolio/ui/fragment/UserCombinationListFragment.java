@@ -117,7 +117,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == dataEngine) {
-            dataEngine = new UserCombinationEngineImpl(this);
+            dataEngine = new UserCombinationEngineImpl(this,mUserId);
         }
         return dataEngine;
     }

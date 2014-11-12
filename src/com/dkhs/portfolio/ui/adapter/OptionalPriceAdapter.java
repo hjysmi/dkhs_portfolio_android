@@ -55,20 +55,25 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         final SelectStockBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
-        ColorStateList textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
-        // if (item.percentage >= 0) {
-        // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.def_red);
-        //
-        // } else {
-        // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.def_green);
-        //
-        // }
+        ColorStateList textCsl = null;
+        if (item.isStop) {
+            textCsl = ColorTemplate.getUpOrDrownCSL(0);
+        } else {
+            textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
+        }
+
+        if (item.isStop) {
+            viewHolder.tvIncearseValue.setText("已停牌");
+            viewHolder.tvPercentValue.setVisibility(View.INVISIBLE);
+        } else {
+            viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
+            viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
+        }
+        viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+        viewHolder.tvIncearseValue.setTextColor(textCsl);
         viewHolder.tvCurrentValue.setTextColor(textCsl);
         viewHolder.tvPercentValue.setTextColor(textCsl);
-        viewHolder.tvIncearseValue.setTextColor(textCsl);
-        viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
-        viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
-        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
 
         return convertView;
     }
