@@ -89,9 +89,10 @@ public class TimeUtils {
     public static String getTimeString(String iso8601Time) {
         return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
     }
+
     public static String getHourString(String iso8601Time) {
         return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
-        
+
     }
 
     public static String getTimeString(Calendar calendar) {
@@ -165,6 +166,20 @@ public class TimeUtils {
         return calendar;
     }
 
+    public static Calendar simpleDateToCalendar(final String simpleDate) {
+        Calendar calendar = GregorianCalendar.getInstance();
+
+        try {
+
+            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(simpleDate);
+            calendar.setTime(date);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+        return calendar;
+    }
+
     public static Date toDate(final String iso8601string) {
 
         String s = iso8601string.replace("Z", "+00:00");
@@ -180,18 +195,18 @@ public class TimeUtils {
         return date;
     }
 
-    public static Calendar simpleStringToCalend(String dateString) {
-        Calendar calendar = GregorianCalendar.getInstance();
-        Date date;
-        try {
-            date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(dateString);
-            calendar.setTime(date);
-        } catch (ParseException e) {
-
-            e.printStackTrace();
-        }
-        return calendar;
-    }
+    // public static Calendar simpleStringToCalend(String dateString) {
+    // Calendar calendar = GregorianCalendar.getInstance();
+    // Date date;
+    // try {
+    // date = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).parse(dateString);
+    // calendar.setTime(date);
+    // } catch (ParseException e) {
+    //
+    // e.printStackTrace();
+    // }
+    // return calendar;
+    // }
 
     // public static String formatShortDate(Context context, Date date) {
     // StringBuilder sb = new StringBuilder();
