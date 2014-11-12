@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,10 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -25,12 +23,13 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
 	private Button btnSave;
 	private EditText changeEditName;
 	private UserEngineImpl mUserEngineImpl;
+	private Context context;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_change_username);
-		
+		context = this;
 		initView();
 		setListener();
 		mUserEngineImpl = new UserEngineImpl();
@@ -63,6 +62,7 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
 				return;
 			}
 			mUserEngineImpl.setUserName(userName, listener);
+			listener.setLoadingDialog(context).beforeRequest();
 			break;
 
 		default:

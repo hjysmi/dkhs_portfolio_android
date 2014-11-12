@@ -293,6 +293,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void setupViewData() {
         if (null != mQuotesEngine && mStockBean != null) {
             mQuotesEngine.quotes(mStockBean.code, listener);
+            listener.setLoadingDialog(context).beforeRequest();
         }
     }
 
@@ -601,7 +602,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 } else {
                     mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
                 }
-
+                
                 break;
 
             default:

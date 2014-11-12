@@ -82,6 +82,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initData() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.getSettingMessage(listener);
+        listener.setLoadingDialog(context).beforeRequest();
         if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
 
@@ -226,6 +227,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             case R.id.setting_layout_check_version:
             	UserEngineImpl mUserEngineImpl = new UserEngineImpl();
 				mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+				userInfoListener.setLoadingDialog(context).beforeRequest();
             	break;
             case R.id.setting_layout_sign:
             	intent = new Intent(this,PersonSignSettingActivity.class);

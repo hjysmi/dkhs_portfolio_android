@@ -34,6 +34,7 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
@@ -308,12 +309,14 @@ public class NewsFragment extends Fragment {
                         super.onScaleChanged(view, oldScale, newScale);
                         // view.requestLayout();
                         mAdapter.resetWebView(view);
+                        PromptManager.showProgressDialog(getActivity(), "", true);
                     }
 
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
                         mAdapter.resetWebView(view);
+                        PromptManager.closeProgressDialog();
                     }
                 });
 
@@ -417,5 +420,4 @@ public class NewsFragment extends Fragment {
     // }
     //
     // }
-
 }

@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+import com.dkhs.portfolio.utils.PromptManager;
 
 public class KChartsFragment extends Fragment {
     public static final int TYPE_CHART_DAY = 1;
@@ -253,6 +254,7 @@ public class KChartsFragment extends Fragment {
         try {
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
+            PromptManager.showProgressDialog(getActivity(), "", true);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -294,11 +296,12 @@ public class KChartsFragment extends Fragment {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
+            PromptManager.closeProgressDialog();
         }
 
         public void onFailure(int errCode, String errMsg) {
             // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+        	PromptManager.closeProgressDialog();
         };
     };
 

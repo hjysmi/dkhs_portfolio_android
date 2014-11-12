@@ -377,7 +377,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 TimeUtils.getTimeString(cEnd), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
-
+        compareListener.setLoadingDialog(getActivity()).beforeRequest();
     }
 
     private void reShowGirdItem() {

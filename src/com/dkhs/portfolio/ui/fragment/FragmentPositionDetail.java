@@ -369,7 +369,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+        QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
+        listener.setLoadingDialog(getActivity()).beforeRequest();
     }
 
     @Override
@@ -438,8 +440,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             }
 
             tvCurrentDay.setText(queryDay);
+            QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
             new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay,
-                    new QueryCombinationDetailListener());
+            		listener);
+            listener.setLoadingDialog(getActivity()).beforeRequest();
         }
     };
 
