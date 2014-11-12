@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -27,14 +27,14 @@ public class PersonSignSettingActivity extends ModelAcitivity implements OnClick
 	private EditText signText;
 	private TextView signVlaue;
 	public final static String DESCRIPTION = "Description";
-	
+	private Context context;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.activity_sign_setting);
 		setTitle(R.string.sign_text_title);
-		
+		context = this;
 		initView();
 		initListener();
 	}
@@ -106,6 +106,7 @@ public class PersonSignSettingActivity extends ModelAcitivity implements OnClick
 	public void setSign() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.setSettingMessage(signText.getText().toString(), listener);
+        listener.setLoadingDialog(context).beforeRequest();
     }
 	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 

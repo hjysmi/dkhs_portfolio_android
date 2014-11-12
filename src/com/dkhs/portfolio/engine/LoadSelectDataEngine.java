@@ -10,6 +10,8 @@ package com.dkhs.portfolio.engine;
 
 import java.util.List;
 
+import android.content.Context;
+
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
 
