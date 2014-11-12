@@ -704,12 +704,15 @@ public class TrendChartFragment extends Fragment {
         } else if (trendType.equals(TREND_TYPE_SEVENDAY)) {
 
             mNetValueDataEngine.requerySevenDay(historyNetValueListener);
+            historyNetValueListener.setLoadingDialog(getActivity()).beforeRequest();
         } else if (trendType.equals(TREND_TYPE_MONTH)) {
 
             mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
+            historyNetValueListener.setLoadingDialog(getActivity()).beforeRequest();
         } else if (trendType.equals(TREND_TYPE_HISTORY)) {
 
             mNetValueDataEngine.requeryHistory(historyNetValueListener);
+            historyNetValueListener.setLoadingDialog(getActivity()).beforeRequest();
         }
     };
 
@@ -719,6 +722,7 @@ public class TrendChartFragment extends Fragment {
             dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
                 mNetValueDataEngine.requeryToday(todayListener);
+                todayListener.setLoadingDialog(getActivity()).beforeRequest();
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
@@ -777,11 +781,15 @@ public class TrendChartFragment extends Fragment {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             // TODO Auto-generated method stub
             if (isChecked) {
+            	QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0",
-                        new QueryCombinationDetailListener());
+                		listener);
+                listener.setLoadingDialog(getActivity()).beforeRequest();
             } else {
+            	QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1",
-                        new QueryCombinationDetailListener());
+                		listener);
+                listener.setLoadingDialog(getActivity()).beforeRequest();
             }
         }
 

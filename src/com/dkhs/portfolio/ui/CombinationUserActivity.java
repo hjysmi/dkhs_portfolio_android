@@ -42,6 +42,7 @@ public class CombinationUserActivity extends ModelAcitivity {
     private TextView tvUName;
     private TextView tvCText;
     private TextView tvUCreateTime;
+    private Context context;
 
     public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
         Intent intent = new Intent(context, CombinationUserActivity.class);
@@ -55,6 +56,7 @@ public class CombinationUserActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_user_combination);
+        context = this;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -101,7 +103,7 @@ public class CombinationUserActivity extends ModelAcitivity {
     private void initData() {
 
         new UserEngineImpl().getBaseUserInfo(mUserId, userInfoListener);
-
+        userInfoListener.setLoadingDialog(context).beforeRequest();
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
