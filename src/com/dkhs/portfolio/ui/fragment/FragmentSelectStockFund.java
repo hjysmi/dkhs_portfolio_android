@@ -209,7 +209,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
         } else if (mViewType == ViewType.FUND_STOCK.typeId) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
-            
+
         }
         if (null != mLoadDataEngine) {
             mLoadDataEngine.loadData();
@@ -217,7 +217,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else {
             LogUtils.d("LoadDataEngine is null");
         }
-        
+
     }
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
@@ -268,8 +268,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private void loadDataByStock() {
 
-        if (mViewType == ViewType.STOCK_OPTIONAL.typeId || mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
-            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener);
+        if (mViewType == ViewType.STOCK_OPTIONAL.typeId) {
+            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
+        } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
         } else if (mViewType == ViewType.STOCK_HANDOVER.typeId) {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_TURNOVER);

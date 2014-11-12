@@ -38,10 +38,13 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  */
 public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
-    public OptionalStockEngineImpl(ILoadDataBackListener loadListener) {
+    public OptionalStockEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex) {
         super(loadListener);
+        this.isShowIndex = isShowIndex;
 
     }
+
+    private boolean isShowIndex;
 
     private int totalcount;
 
@@ -105,9 +108,14 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     selectBean.change = stockBean.getChange();
                     selectBean.isStop = stockBean.isStop();
 
-                    if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                    if (!isShowIndex) {
+
+                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                            // results.add(stockBean);
+                            selectList.add(selectBean);
+                        }
+                    } else {
                         selectList.add(selectBean);
-                        // results.add(stockBean);
                     }
 
                 }
