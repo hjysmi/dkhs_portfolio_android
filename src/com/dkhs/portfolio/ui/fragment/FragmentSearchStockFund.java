@@ -133,17 +133,23 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
         }
         if (isFund) {
-            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList);
+            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList,true);
         } else if (isItemClickBack) {
             mAdapterConbinStock = new AddSearchItemAdapter(getActivity(), mDataList);
         } else {
-            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList);
+            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList,true);
         }
         mAdapterConbinStock.setCheckChangeListener(this);
 
         mSearchEngine = new SearchStockEngineImpl(mSelectStockBackListener);
 
+        
+        
+        
     }
+    
+    
+    // private List<SelectStockBean> hasLoadSelect
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 

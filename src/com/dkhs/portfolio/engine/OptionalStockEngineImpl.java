@@ -24,7 +24,10 @@ import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName StockEngineImpl
@@ -45,7 +48,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     private int totalpage;
 
     private int currentpage;
-//    private List<StockPriceBean> results = new ArrayList<StockPriceBean>();
+    // private List<StockPriceBean> results = new ArrayList<StockPriceBean>();
 
     // /**
     // * 查询自选股
@@ -70,7 +73,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     public void loadData() {
         if (TextUtils.isEmpty(orderType)) {
 
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional+ "?sort=followed_at" , null, this);
+            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=followed_at", null, this);
         } else {
             DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
 
@@ -104,7 +107,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
                     if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
                         selectList.add(selectBean);
-//                        results.add(stockBean);
+                        // results.add(stockBean);
                     }
 
                 }
@@ -116,6 +119,14 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         }
 
         return selectList;
+
+    }
+
+    public static void loadAllData(IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
 
     }
 

@@ -14,7 +14,12 @@ import android.content.Context;
 import android.widget.CompoundButton;
 
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 
 /**
  * @ClassName AddSearchItemAdapter
@@ -32,7 +37,7 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
      * @param datas
      */
     public AddSearchItemAdapter(Context context, List<SelectStockBean> datas) {
-        super(context, datas);
+        super(context, datas, false);
         // TODO Auto-generated constructor stub
     }
 
@@ -43,9 +48,9 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
         if (null != csBean) {
 
             if (isChecked) {
-                new QuotesEngineImpl().symbolfollow(csBean.id, null);
+                new QuotesEngineImpl().symbolfollow(csBean.id, followListener);
             } else {
-                new QuotesEngineImpl().delfollow(csBean.id, null);
+                new QuotesEngineImpl().delfollow(csBean.id, delFollowListener);
                 System.out.println("remove optional :" + csBean.name + " id:" + csBean.id);
             }
         }
@@ -53,5 +58,59 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
         // System.out.println("remove mSelectIdList lenght:" + BaseSelectActivity.mSelectList.size());
 
     }
+
+    ParseHttpListener delFollowListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, jsonData);
+            SelectStockBean selectBean = new SelectStockBean();
+            selectBean.id = stockBean.getId();
+            selectBean.name = stockBean.getAbbrname();
+            selectBean.currentValue = stockBean.getCurrent();
+            selectBean.code = stockBean.getSymbol();
+            selectBean.percentage = stockBean.getPercentage();
+            selectBean.percentage = stockBean.getPercentage();
+            selectBean.change = stockBean.getChange();
+            selectBean.isStop = stockBean.isStop();
+            SelectAddOptionalActivity.mFollowList.remove(selectBean);
+            return selectBean;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            // TODO Auto-generated method stub
+
+        }
+
+    };
+    ParseHttpListener followListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            List<StockPriceBean> stockBeanList = DataParse.parseArrayJson(StockPriceBean.class, jsonData);
+            for (StockPriceBean stockBean : stockBeanList) {
+
+                SelectStockBean selectBean = new SelectStockBean();
+                selectBean.id = stockBean.getId();
+                selectBean.name = stockBean.getAbbrname();
+                selectBean.currentValue = stockBean.getCurrent();
+                selectBean.code = stockBean.getSymbol();
+                selectBean.percentage = stockBean.getPercentage();
+                selectBean.percentage = stockBean.getPercentage();
+                selectBean.change = stockBean.getChange();
+                selectBean.isStop = stockBean.isStop();
+                SelectAddOptionalActivity.mFollowList.add(selectBean);
+            }
+            return stockBeanList;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            // TODO Auto-generated method stub
+
+        }
+
+    };
 
 }

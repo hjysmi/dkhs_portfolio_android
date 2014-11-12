@@ -11,14 +11,24 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockPriceBean;
+import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.utils.StockUitls;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -29,13 +39,68 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
  */
 public class SelectAddOptionalActivity extends BaseSelectActivity implements OnClickListener {
 
+    public static List<SelectStockBean> mFollowList = new ArrayList<SelectStockBean>();
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         // findViewById(R.id.rl_search_stock).setVisibility(View.GONE);
         findViewById(R.id.rl_add_stocklist).setVisibility(View.GONE);
         getRightButton().setVisibility(View.GONE);
+        OptionalStockEngineImpl.loadAllData(loadAllListener);
     }
+
+    ParseHttpListener loadAllListener = new ParseHttpListener<List<SelectStockBean>>() {
+
+        @Override
+        protected List<SelectStockBean> parseDateTask(String jsonData) {
+            List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+            try {
+                JSONObject dataObject = new JSONObject(jsonData);
+
+                JSONArray resultsJsonArray = dataObject.optJSONArray("results");
+                if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
+                    int length = resultsJsonArray.length();
+
+                    for (int i = 0; i < length; i++) {
+                        JSONObject stockObject = resultsJsonArray.optJSONObject(i);
+                        StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
+                        SelectStockBean selectBean = new SelectStockBean();
+                        selectBean.id = stockBean.getId();
+                        selectBean.name = stockBean.getAbbrname();
+                        selectBean.currentValue = stockBean.getCurrent();
+                        selectBean.code = stockBean.getSymbol();
+                        selectBean.percentage = stockBean.getPercentage();
+                        selectBean.percentage = stockBean.getPercentage();
+                        selectBean.change = stockBean.getChange();
+                        selectBean.isStop = stockBean.isStop();
+
+                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                            selectList.add(selectBean);
+                            // results.add(stockBean);
+                        }
+
+                    }
+
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return selectList;
+        }
+
+        @Override
+        protected void afterParseData(List<SelectStockBean> object) {
+            if (null != object) {
+                mFollowList.clear();
+                mFollowList.addAll(object);
+            }
+
+        }
+
+    };
 
     @Override
     protected void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList) {
