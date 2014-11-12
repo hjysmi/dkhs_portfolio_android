@@ -35,6 +35,13 @@ public class SearchStockBean extends DBEntityBase {
     @SerializedName("chi_spell")
     @Column(column = "chi_spell")
     private String chiSpell;
+    @Column(column = "symbol_type")
+    private String symbol_type;
+
+    @Column(column = "list_status")
+    private String list_status;
+    @Column(column = "is_stop")
+    private String is_stop;
 
     public String getStockName() {
         return stockName;
@@ -58,5 +65,29 @@ public class SearchStockBean extends DBEntityBase {
 
     public void setChiSpell(String chiSpell) {
         this.chiSpell = chiSpell;
+    }
+
+    public String getSymbol_type() {
+        return symbol_type;
+    }
+
+    public void setSymbol_type(String symbol_type) {
+        this.symbol_type = symbol_type;
+    }
+
+    public String getList_status() {
+        return list_status;
+    }
+
+    public void setList_status(String list_status) {
+        this.list_status = list_status;
+    }
+
+    public String getIs_stop() {
+        return is_stop;
+    }
+
+    public void setIs_stop(String is_stop) {
+        this.is_stop = is_stop;
     }
 }
