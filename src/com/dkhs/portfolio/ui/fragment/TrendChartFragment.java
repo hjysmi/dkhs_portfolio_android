@@ -513,8 +513,8 @@ public class TrendChartFragment extends Fragment {
             pointEntity.setTime("日期:" + todayBean.getDate());
             pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
 
-            if (dashLineSize == 0 && TimeUtils.simpleStringToCalend(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleStringToCalend(todayBean.getDate()).after(mCreateCalender)) {
+            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;
                 }
             }

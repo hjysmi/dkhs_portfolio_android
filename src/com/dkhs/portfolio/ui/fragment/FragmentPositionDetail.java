@@ -89,6 +89,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private PositionDetail mPositionDetail;
 
     private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
+    private Calendar mCurrentCalendar;
+    private boolean isDefalutRequest = true;
 
     public static FragmentPositionDetail newInstance(String combinationId) {
         FragmentPositionDetail fragment = new FragmentPositionDetail();
@@ -218,7 +220,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         @Override
         protected void afterParseData(PositionDetail object) {
             if (null != object) {
-
+                if (isDefalutRequest) {
+                    mCurrentCalendar = TimeUtils.simpleDateToCalendar(object.getCurrentDate());
+                }
                 mPositionDetail = object;
 
                 updateView();
@@ -369,6 +373,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
+        isDefalutRequest = true;
         new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
     }
 
@@ -421,7 +426,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             Calendar calCreate = TimeUtils.toCalendar(createDate);
             Calendar calSelect = GregorianCalendar.getInstance();
-            Calendar calToday = GregorianCalendar.getInstance();
+//            Calendar calToday = GregorianCalendar.getInstance();
             calSelect.set(year, monthOfYear, dayOfMonth);
 
             String queryDay = "";
@@ -430,19 +435,35 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             } else {
                 queryDay = TimeUtils.getTimeString(calSelect);
             }
-            if (calSelect.before(calToday)) {
-                btnAdjust.setVisibility(View.GONE);
-            } else {
+//            if (calSelect.before(calToday)) {
+//                btnAdjust.setVisibility(View.GONE);
+//            } else {
+//                btnAdjust.setVisibility(View.VISIBLE);
+//            }
+            System.out.println("calSelect:"+TimeUtils.getTimeString(calSelect));
+            System.out.println("mCurrentCalendar:"+TimeUtils.getTimeString(mCurrentCalendar));
+            
+            
+            if (null != mCurrentCalendar&&isEqualsCalenderDay(calSelect, mCurrentCalendar) ) {
                 btnAdjust.setVisibility(View.VISIBLE);
-
+                System.out.println("calSelect.equals(mCurrentCalendar)");
+            }else{
+                
+                System.out.println("!!!!calSelect.equals(mCurrentCalendar)");
+                btnAdjust.setVisibility(View.GONE);
             }
 
             tvCurrentDay.setText(queryDay);
+            isDefalutRequest = false;
             new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay,
                     new QueryCombinationDetailListener());
         }
     };
 
+    private boolean isEqualsCalenderDay(Calendar cSelect,Calendar cToday){
+       return (cSelect.get(Calendar.YEAR)==cToday.get(Calendar.YEAR)&&cSelect.get(Calendar.MONTH)==cToday.get(Calendar.MONTH)&&cSelect.get(Calendar.DAY_OF_MONTH)==cToday.get(Calendar.DAY_OF_MONTH));
+    }
+    
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
