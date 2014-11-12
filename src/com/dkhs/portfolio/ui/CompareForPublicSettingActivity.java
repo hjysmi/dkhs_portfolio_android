@@ -141,11 +141,15 @@ public class CompareForPublicSettingActivity extends ModelAcitivity {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             // TODO Auto-generated method stub
             if (isChecked) {
+            	QueryCombinationDetailListener listener = new QueryCombinationDetailListener(position);
                 mMyCombinationEngineImpl.changeCombinationIsPublic(list.get(position).getId(), "0",
-                        new QueryCombinationDetailListener(position));
+                		listener);
+                listener.setLoadingDialog(context).beforeRequest();
             } else {
+            	QueryCombinationDetailListener listener = new QueryCombinationDetailListener(position);
                 mMyCombinationEngineImpl.changeCombinationIsPublic(list.get(position).getId(), "1",
-                        new QueryCombinationDetailListener(position));
+                		listener);
+                listener.setLoadingDialog(context).beforeRequest();
             }
         }
 

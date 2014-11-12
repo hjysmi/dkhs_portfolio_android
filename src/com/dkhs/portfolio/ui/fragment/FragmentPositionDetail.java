@@ -374,7 +374,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         // TODO Auto-generated method stub
         super.onStart();
         isDefalutRequest = true;
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+        QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
+        listener.setLoadingDialog(getActivity()).beforeRequest();
     }
 
     @Override
@@ -440,23 +442,21 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 //            } else {
 //                btnAdjust.setVisibility(View.VISIBLE);
 //            }
-            System.out.println("calSelect:"+TimeUtils.getTimeString(calSelect));
-            System.out.println("mCurrentCalendar:"+TimeUtils.getTimeString(mCurrentCalendar));
-            
+          
             
             if (null != mCurrentCalendar&&isEqualsCalenderDay(calSelect, mCurrentCalendar) ) {
                 btnAdjust.setVisibility(View.VISIBLE);
-                System.out.println("calSelect.equals(mCurrentCalendar)");
-            }else{
+              }else{
                 
-                System.out.println("!!!!calSelect.equals(mCurrentCalendar)");
-                btnAdjust.setVisibility(View.GONE);
+                 btnAdjust.setVisibility(View.GONE);
             }
 
             tvCurrentDay.setText(queryDay);
             isDefalutRequest = false;
+            QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
             new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay,
-                    new QueryCombinationDetailListener());
+            		listener);
+            listener.setLoadingDialog(getActivity()).beforeRequest();
         }
     };
 

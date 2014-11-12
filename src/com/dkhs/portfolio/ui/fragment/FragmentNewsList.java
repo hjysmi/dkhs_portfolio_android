@@ -78,6 +78,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
 			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
 			mLoadDataEngine.loadData();
+			mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
 		}
 
 	}
@@ -145,6 +146,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
             
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
     }
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

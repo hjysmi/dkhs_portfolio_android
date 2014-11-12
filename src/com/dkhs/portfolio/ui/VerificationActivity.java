@@ -40,7 +40,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private TextView tvPhoneNum;
     private EditText etVerifucode;
     private Button btn_get_code;
-
+    private Context context;
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
 
@@ -64,7 +64,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
         setTitle("填写验证码");
-
+        context = this;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -157,25 +157,25 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private static final int GET_CODE_UNABLE = 11;
     private static final int GET_CODE_ABLE = 12;
     private static final int GET_PHONE_NUMBER = 13;
+    ParseHttpListener listener = new ParseHttpListener<Object>() {
 
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            // TODO Auto-generated method stub
+
+        }
+
+    };
     private void getVerifyCode() {
         if (NetUtil.checkNetWork(this)) {
-            engine.getVericode(phoneNum, new ParseHttpListener<Object>() {
-
-                @Override
-                protected Object parseDateTask(String jsonData) {
-                    // TODO Auto-generated method stub
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(Object object) {
-                    // TODO Auto-generated method stub
-
-                }
-
-            });
-
+            engine.getVericode(phoneNum, listener);
+            listener.setLoadingDialog(context).beforeRequest();
             if (mTimer != null) {
                 mTimer = null;
             }

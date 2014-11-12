@@ -209,14 +209,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
         } else if (mViewType == ViewType.FUND_STOCK.typeId) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
-
+            
         }
         if (null != mLoadDataEngine) {
             mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         } else {
             LogUtils.d("LoadDataEngine is null");
         }
-
+        
     }
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
@@ -243,11 +244,13 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             ((FundDataEngine) mLoadDataEngine).setOrderType(orderType);
             // mDataList.clear();
             mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
         if (mLoadDataEngine instanceof MainIndexEngineImple) {
             ((MainIndexEngineImple) mLoadDataEngine).setOrderType(orderType);
             // mDataList.clear();
             mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
     }
 
@@ -259,6 +262,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
             mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
     }
 
@@ -289,7 +293,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
         mLoadDataEngine.loadData();
-
+        mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         // for (int i = 0; i < 20; i++) {
         // SelectStockBean csBean = new SelectStockBean();
         // csBean.name = "个股名" + i;
@@ -304,6 +308,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null) {
             // mDataList.clear();
             mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
     }
 
