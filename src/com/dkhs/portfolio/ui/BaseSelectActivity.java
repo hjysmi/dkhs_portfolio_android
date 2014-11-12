@@ -66,6 +66,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private boolean isAdjustCombination;
 
     public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
+  
 
     @Override
     protected void onCreate(Bundle arg0) {

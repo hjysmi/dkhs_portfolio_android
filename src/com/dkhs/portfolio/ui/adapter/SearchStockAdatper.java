@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 
 /**
  * @ClassName SelectFundAdatper
@@ -29,8 +30,11 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
  */
 public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
-    public SearchStockAdatper(Context context, List<SelectStockBean> datas) {
+    private boolean isCombination;
+
+    public SearchStockAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
+        this.isCombination = isCombination;
     }
 
     @Override
@@ -53,7 +57,11 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+        if (isCombination) {
+            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+        } else {
+            viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+        }
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.name);
