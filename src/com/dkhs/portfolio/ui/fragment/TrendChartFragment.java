@@ -68,7 +68,7 @@ public class TrendChartFragment extends Fragment {
     public static final String TREND_TYPE_MONTH = "trend_month";
     public static final String TREND_TYPE_HISTORY = "trend_history";
 
-    private String trendType;
+    private String trendType = TREND_TYPE_TODAY;
     private boolean isTodayNetValue;
     private TextView tvTimeLeft;
     // private TextView tvNoData;
@@ -225,9 +225,18 @@ public class TrendChartFragment extends Fragment {
         // tvTimeRight.setText(strRight);
 
         if (!isTodayNetValue) {
+            if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
+
+                tvIncreaseText.setText(R.string.month_income_rate);
+            } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
+                tvIncreaseText.setText(R.string.week_income_rate);
+            } else {
+
+                tvIncreaseText.setText(R.string.all_income_rate);
+            }
             tvStartText.setText(R.string.start_netvalue);
             tvEndText.setText(R.string.end_netvalue);
-            tvIncreaseText.setText(R.string.netvalue_up);
+
         } else {
             tvStartText.setVisibility(View.INVISIBLE);
         }
@@ -781,14 +790,12 @@ public class TrendChartFragment extends Fragment {
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             // TODO Auto-generated method stub
             if (isChecked) {
-            	QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0",
-                		listener);
+                QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
                 listener.setLoadingDialog(getActivity()).beforeRequest();
             } else {
-            	QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1",
-                		listener);
+                QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
                 listener.setLoadingDialog(getActivity()).beforeRequest();
             }
         }

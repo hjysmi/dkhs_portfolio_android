@@ -19,9 +19,9 @@
         <item>股票基金 </item>
     </string-array>
     <string-array name="combination_order">
-        <item>7天排行</item>
-        <item>最近一月</item>
-        <item>最近三月</item>
+        <item>周排行</item>
+        <item>月排行</item>
+        <item>季排行</item>
     </string-array>
     <string-array name="select_stock">
         <item>@string/optional_stock</item>

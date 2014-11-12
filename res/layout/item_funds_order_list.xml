@@ -45,6 +45,19 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tv_income_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_create_user"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:text="@string/week_income_rate"
+            android:textColor="@color/darker_gray"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/tv_champion_combination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_below="@+id/tv_income_text"
             android:layout_marginRight="10dp"
             android:text="+19.52%"
             android:textColor="@color/def_red"
