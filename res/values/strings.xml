@@ -229,6 +229,7 @@
     <string name="text_other_manager_combin">他管理的基金一览</string>
     <string name="text_my_manager_combin">我管理的基金一览</string>
     <string name="sign_text_title">个人签名</string>
+    <string name="format_sign_text_title">个人签名:</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">提交成功</string>
