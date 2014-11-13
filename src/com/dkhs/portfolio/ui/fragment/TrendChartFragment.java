@@ -86,8 +86,8 @@ public class TrendChartFragment extends Fragment {
 
     private NetValueEngine mNetValueDataEngine;
     private CombinationBean mCombinationBean;
-    private MyCombinationEngineImpl mMyCombinationEngineImpl;
-    private Switch combinationCheck;
+    
+    
     private Handler updateHandler;
     private Calendar mCreateCalender;
 
@@ -158,7 +158,7 @@ public class TrendChartFragment extends Fragment {
         // TODO private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
-        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
+        
     }
 
     @Override
@@ -189,22 +189,9 @@ public class TrendChartFragment extends Fragment {
         tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
         tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
         // tvNoData = (TextView) view.findViewById(R.id.tv_nodate);
-        combinationCheck = (Switch) view.findViewById(R.id.combination_check);
-        combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
-        if (mCombinationBean.getIspublic().equals("0")) {
-            combinationCheck.setChecked(true);
-        } else {
-            combinationCheck.setChecked(false);
-        }
+        
 
-        if (mCombinationBean.getCreateUser() == null) {
-            view.findViewById(R.id.rl_combination_check).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.combination_layout_check).setVisibility(View.VISIBLE);
-        } else {
-            view.findViewById(R.id.rl_combination_check).setVisibility(View.GONE);
-            view.findViewById(R.id.combination_layout_check).setVisibility(View.INVISIBLE);
-
-        }
+        
 
     }
 
@@ -783,67 +770,5 @@ public class TrendChartFragment extends Fragment {
         // System.out.println("onDetach:");
     }
 
-    class OnComCheckListener implements OnCheckedChangeListener {
-
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            // TODO Auto-generated method stub
-            if (isChecked) {
-                QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
-                listener.setLoadingDialog(getActivity()).beforeRequest();
-            } else {
-                QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
-                listener.setLoadingDialog(getActivity()).beforeRequest();
-            }
-        }
-
-    }
-
-    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
-
-        @Override
-        protected List<CombinationBean> parseDateTask(String jsonData) {
-            JSONArray jsonObject = null;
-            try {
-                jsonObject = new JSONArray(jsonData);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
-            if (object.size() > 0)
-                ((CombinationDetailActivity) getActivity()).getCom().setIspublic(object.get(0).getIspublic());
-            return object;
-        }
-
-        @Override
-        protected void afterParseData(List<CombinationBean> object) {
-            if (null != object) {
-
-            }
-
-        }
-    }
-
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        try {
-
-            mCombinationBean = ((CombinationDetailActivity) getActivity()).getCom();
-            if (null != mCombinationBean) {
-
-                if (mCombinationBean.getIspublic().equals("0")) {
-                    combinationCheck.setChecked(true);
-                } else {
-                    combinationCheck.setChecked(false);
-                }
-            }
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        super.onResume();
-    };
 
 }
