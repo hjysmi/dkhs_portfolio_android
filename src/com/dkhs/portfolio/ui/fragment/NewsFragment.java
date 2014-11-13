@@ -59,7 +59,7 @@ public class NewsFragment extends Fragment {
     private static List<Map<String, String>> titles = new ArrayList<Map<String, String>>();
 
     private SelectStockBean mStockBean;
-
+    private boolean first = true;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -85,7 +85,7 @@ public class NewsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLayoutInflater = inflater;
         View view = inflater.inflate(R.layout.fragment_news, null);
-
+        
         // 初始化数据
         initailDatas();
 
@@ -202,7 +202,7 @@ public class NewsFragment extends Fragment {
 		try {
 			if (isVisibleToUser) {
 				// fragment可见时加载数据
-				((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+				first = false;
 			} else {
 				// 不可见时不执行操作
 			}
@@ -405,6 +405,9 @@ public class NewsFragment extends Fragment {
 
         // 关闭其他的
         collapseGroups(0);*/
+		if(!first){
+        	((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+        }
 		mListView.setSelectedGroup(0);
 		mListView.expandGroup(0);
 		super.onResume();

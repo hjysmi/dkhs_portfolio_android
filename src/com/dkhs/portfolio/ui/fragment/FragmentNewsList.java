@@ -149,6 +149,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
             mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setFromYanbao(false);
         }
     }
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
@@ -196,6 +197,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
       		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
       		mLoadDataEngine.loadData();
       		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+      		mLoadDataEngine.setFromYanbao(false);
 		}
 		super.onResume();
 	}
@@ -208,6 +210,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
          		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
          		mLoadDataEngine.loadData();
          		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+         		mLoadDataEngine.setFromYanbao(false);
      } else {
          //不可见时不执行操作
      }
