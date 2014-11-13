@@ -191,7 +191,12 @@ public class FragmentNewsList extends Fragment implements Serializable{
 		// TODO Auto-generated method stub
 		/*if(null != mDataList)
 			layouts.getLayoutParams().height = mDataList.size() * 200;*/
-		
+		if(!first){
+			 mDataList = new ArrayList<OptionNewsBean>();
+      		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
+      		mLoadDataEngine.loadData();
+      		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+		}
 		super.onResume();
 	}
 	 @Override

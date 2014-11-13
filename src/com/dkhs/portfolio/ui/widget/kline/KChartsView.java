@@ -170,8 +170,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			float bottom = 8.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + 10;
 			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f  + PADDING_LEFT)) {
-					right = width - 12.0f - PADDING_LEFT;
-					left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE;
+					right = width - 12.0f + PADDING_LEFT;
+					left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
 				}
 			}else{
 				if (mStartX < width / 2.0f) {
