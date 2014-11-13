@@ -151,7 +151,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         initTabPage();
 
     }
-
+    public void setLayoutHeight(int position){
+    	DisplayMetrics dm = new DisplayMetrics();
+        WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        m.getDefaultDisplay().getMetrics(dm);
+    	android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+    	if(0== position){
+    		l.height = LayoutParams.MATCH_PARENT;
+    	}
+        l.height = position*getResources().getDimensionPixelOffset(R.dimen.layout_height);
+    }
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -166,7 +175,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         initView();
         processExtraData();
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        l.height = dm.heightPixels * 3 / 2 - getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        l.height = LayoutParams.MATCH_PARENT;//dm.heightPixels * 3 / 2 - getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
     }
 

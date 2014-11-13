@@ -12,12 +12,11 @@
         android:layout_weight="1"
         android:drawSelectorOnTop="false" />
 
-    <ImageView
+    <TextView
         android:id="@android:id/empty"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitCenter"
-        android:visibility="gone" />
+		android:layout_centerInParent="true"
+		android:text="暂无相关数据"/>
 
 </RelativeLayout>
