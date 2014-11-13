@@ -98,11 +98,11 @@ public class MainCombinationoAdapter extends BaseAdapter {
             TextView cAddupText = (TextView) view.findViewById(R.id.tv_addup_value);
             CombinationBean item = dataList.get(position);
             cNameText.setText(item.getName());
-            float currenValue = item.getCurrentValue() * 100;
+            float currenValue = item.getCurrentValue();
             cCurrentText.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
             cCurrentText.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
-            float addValue = item.getAddUpValue() * 100;
+            float addValue = item.getAddUpValue();
             cAddupText.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
             cAddupText.setText(StringFromatUtils.get2PointPercentPlus(addValue));
             // view.findViewById(R.id.ll_item_main).setOnClickListener(new OnClickListener() {

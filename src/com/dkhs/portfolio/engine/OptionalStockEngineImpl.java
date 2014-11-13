@@ -111,7 +111,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
                     if (!isShowIndex) {
 
-                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())&&!stockBean.isStop()) {
                             // results.add(stockBean);
                             // selectList.add(selectBean);
                             selectList.add(SelectStockBean.copy(stockBean));
