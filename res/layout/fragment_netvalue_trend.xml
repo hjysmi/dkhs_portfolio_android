@@ -145,15 +145,21 @@
     <View style="@style/divider_line" />
 
     <com.dkhs.portfolio.ui.widget.HScrollTitleView
-            android:id="@+id/hs_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        android:id="@+id/hs_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <View style="@style/divider_line" />
+
+    <RelativeLayout
+        android:id="@+id/rl_trend_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
     <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-	
+        android:layout_height="fill_parent"
+        android:visibility="gone" />
+
 </LinearLayout>

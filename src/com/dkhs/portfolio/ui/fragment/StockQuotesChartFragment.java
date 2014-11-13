@@ -27,6 +27,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
@@ -35,6 +36,7 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
@@ -81,6 +83,8 @@ public class StockQuotesChartFragment extends Fragment {
     private String mStockCode;
     LineEntity fenshiPiceLine;
 
+    private SelectStockBean mSelectStockBean;
+
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartFragment newInstance(String trendType, String stockCode) {
         StockQuotesChartFragment fragment = new StockQuotesChartFragment();
@@ -109,10 +113,10 @@ public class StockQuotesChartFragment extends Fragment {
         }
 
         // handle intent extras
-        // Bundle extras = getActivity().getIntent().getExtras();
-        // if (extras != null) {
-        // handleExtras(extras);
-        // }
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
 
         fenshiPiceLine = new LineEntity();
         // MA5.setTitle("MA5");
@@ -122,6 +126,11 @@ public class StockQuotesChartFragment extends Fragment {
         mSellAdapter = new FiveRangeAdapter(getActivity(), false);
         // fenshiPiceLine.setLineData(lineDataList);
 
+    }
+
+    private void handleExtras(Bundle extras) {
+        mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+        System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 
     /**
@@ -180,6 +189,9 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         initMaChart(mMaChart);
         initView(view);
+        if (mSelectStockBean != null && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+            viewFiveRange.setVisibility(View.GONE);
+        }
         return view;
     }
 
@@ -301,6 +313,7 @@ public class StockQuotesChartFragment extends Fragment {
 
         mMaChart.setAxisXTitles(xtitle);
         mMaChart.setMaxPointNum(242);
+        mMaChart.setDrawRightYTitle(true);
 
         List<String> rightYtitle = new ArrayList<String>();
 
@@ -505,12 +518,12 @@ public class StockQuotesChartFragment extends Fragment {
 
         float topValue = (float) Math.min(baseNum + offetYvalue * (1 + 0.1), baseNum * 1.1f);
         float bottomValue = (float) Math.max(baseNum - offetYvalue * (1 + 0.1), baseNum * 0.9f);
-        
-        BigDecimal   t   =   new   BigDecimal(topValue);  
-        topValue  =   t.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();  
-        BigDecimal   b   =   new   BigDecimal(bottomValue);  
-        bottomValue  =   b.setScale(2,   BigDecimal.ROUND_HALF_UP).floatValue();  
-        
+
+        BigDecimal t = new BigDecimal(topValue);
+        topValue = t.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        BigDecimal b = new BigDecimal(bottomValue);
+        bottomValue = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+
         // float halfOffetValue = topValue-bottomValue / 2.0f;
 
         if (mStockBean != null && StockUitls.isShangZhengB(mStockBean.getSymbol())) {
@@ -531,17 +544,12 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setMaxValue(topValue);
         mMaChart.setMinValue(bottomValue);
 
-        System.out.println("topValue:" + topValue);
-        System.out.println("bottomValue:" + bottomValue);
-        System.out.println("baseNum:" + baseNum);
-        System.out.println("Max percent:" + ((topValue - baseNum) / baseNum));
         rightYtitle.add(StringFromatUtils.get2PointPercent(((bottomValue - baseNum) / baseNum) * 100f));
         rightYtitle.add(StringFromatUtils.get2PointPercent((((bottomValue + baseNum) / 2 - baseNum) / baseNum) * 100));
         rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
         rightYtitle.add(StringFromatUtils.get2PointPercent((((topValue + baseNum) / 2 - baseNum) / baseNum) * 100));
         rightYtitle.add(StringFromatUtils.get2PointPercent(((topValue - baseNum) / baseNum) * 100f));
 
-        mMaChart.setDrawRightYTitle(true);
         mMaChart.setAxisRightYTitles(rightYtitle);
 
     }
@@ -619,7 +627,7 @@ public class StockQuotesChartFragment extends Fragment {
 
             }
             todayListener.setLoadingDialog(getActivity()).beforeRequest();
-            dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
+            dataHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
         }
     };
 

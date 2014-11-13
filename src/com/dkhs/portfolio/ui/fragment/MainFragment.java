@@ -94,8 +94,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 	private static final int MSG_CHANGE_PAGER = 172;
 
 	// 15s
-	private static final long mPollRequestTime = 1000 * 15;
-	// 1分钟
+	private static final long mPollRequestTime = 1000 * 5;
+	// 30分钟
 	private static final long mCombinationRequestTime = 1000 * 30;
 	private Timer mScollTimer;
 	private Timer mMarketTimer;
