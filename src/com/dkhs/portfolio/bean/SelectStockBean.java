@@ -76,6 +76,7 @@ public class SelectStockBean implements Serializable {
         selectBean.percentage = stockBean.getPercentage();
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
+        selectBean.isStop = stockBean.isStop();
         return selectBean;
     }
 
