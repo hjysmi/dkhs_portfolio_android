@@ -48,7 +48,7 @@ public class KChartsFragment extends Fragment {
     private ImageButton mSmallerButton;
 
     public static final boolean testInterface = false; // 测试，使用本地数据
-
+    private boolean first = true;
     public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
@@ -258,7 +258,10 @@ public class KChartsFragment extends Fragment {
         try {
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
-            PromptManager.showProgressDialog(getActivity(), "", true);
+            if(first){
+            	PromptManager.showProgressDialog(getActivity(), "", true);
+            	first = false;
+            }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -184,7 +184,7 @@ public class NewsFragment extends Fragment {
         public void onGroupExpand(int groupPosition) {
         	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
-
+            ((StockQuotesActivity) getActivity()).setLayoutHeight(10);
             // 关闭其他的
             collapseGroups(groupPosition);
         }
