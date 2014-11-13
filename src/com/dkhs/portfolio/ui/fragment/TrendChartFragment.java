@@ -158,6 +158,7 @@ public class TrendChartFragment extends Fragment {
         // TODO private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
+        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
     }
 
     @Override
@@ -170,7 +171,7 @@ public class TrendChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
+        
         initMaChart(mMaChart);
         initView(view);
         setupViewData();
@@ -300,8 +301,6 @@ public class TrendChartFragment extends Fragment {
         } else {
             // initTrendTitle();
         }
-        // machart.setFill(true);
-        // machart.setFillLineIndex(2);
 
     }
 
@@ -744,15 +743,15 @@ public class TrendChartFragment extends Fragment {
             if (trendType.equals(TREND_TYPE_TODAY)) {
                 System.out.println("setUserVisibleHint:" + isVisibleToUser);
 
-                if (isVisibleToUser) {
-                    // 相当于Fragment的onResume{
-                    dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-                } else {
-                    System.out.println("dataHandler.removeCallbacks");
-                    dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-                    // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-                    // 相当于Fragment的onPause
-                }
+//                if (isVisibleToUser) {
+//                    // 相当于Fragment的onResume{
+//                    dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+//                } else {
+//                    System.out.println("dataHandler.removeCallbacks");
+//                    dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+//                    // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+//                    // 相当于Fragment的onPause
+//                }
             }
         }
     }

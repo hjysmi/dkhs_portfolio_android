@@ -13,16 +13,15 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,15 +29,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.TabPageIndicator;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName FragmentNetValueTrend
@@ -161,12 +156,35 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     private ArrayList<Fragment> fragmentList;
 
-    private void replaceDataList(Fragment fragment) {
-        // view_datalist
-        // if (null == loadDataListFragment) {
-        // loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOCK_OPTIONAL_PRICE);
-        // }
-        getChildFragmentManager().beginTransaction().replace(R.id.rl_trend_layout, fragment).commit();
+    // private void replaceDataList(Fragment fragment) {
+    // // view_datalist
+    // // if (null == loadDataListFragment) {
+    // // loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOCK_OPTIONAL_PRICE);
+    // // }
+    // getChildFragmentManager().beginTransaction().replace(R.id.rl_trend_layout, fragment).commit();
+    // }
+
+    private void replaceFragment(Fragment newFragment) {
+
+        FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
+        if (!newFragment.isAdded()) {
+            try {
+                // FragmentTransaction trasection =
+                getChildFragmentManager().beginTransaction();
+                trasection.replace(R.id.rl_trend_layout, newFragment);
+                trasection.addToBackStack(null);
+                trasection.commit();
+
+            } catch (Exception e) {
+                // TODO: handle exception
+                // AppConstants.printLog(e.getMessage());
+
+            }
+        } else {
+
+            trasection.show(newFragment);
+        }
+
     }
 
     private void initTabPage(View view) {
@@ -175,10 +193,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         FragmentSwitchChart todayFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY);
         todayFragment.setUpdateHandler(updateHandler);
-         fragmentList.add(todayFragment);
-         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
-         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
-         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
+        fragmentList.add(todayFragment);
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
+        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
         // fragmentList.add(TestFragment.getInstance());
         // fragmentList.add(TestFragment.getInstance());
@@ -199,7 +217,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         // TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
         // indicator.setViewPager(mViewPager);
-        replaceDataList(fragmentList.get(0));
+        replaceFragment(fragmentList.get(0));
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
@@ -209,7 +227,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // if (null != mViewPager) {
             // mViewPager.setCurrentItem(position);
             // }
-            replaceDataList(fragmentList.get(position));
+            replaceFragment(fragmentList.get(position));
         }
     };
 

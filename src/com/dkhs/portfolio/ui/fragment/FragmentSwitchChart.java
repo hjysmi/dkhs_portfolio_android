@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.lang.reflect.Field;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -94,11 +96,14 @@ public class FragmentSwitchChart extends Fragment {
             if (switchButton.isChecked()) {
                 replaceChartView();
             } else {
-               // replaceReportView();
+                replaceReportView();
 
             }
         }
     };
+
+    private final Handler handler = new Handler();
+    private Runnable runPager;
 
     private void initView(View view) {
         swChart = (Switch) view.findViewById(R.id.switch_chart);
@@ -106,9 +111,19 @@ public class FragmentSwitchChart extends Fragment {
         if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
             swChart.setVisibility(View.INVISIBLE);
         }
-        replaceChartView();
+
+        runPager = new Runnable() {
+
+            @Override
+            public void run() {
+                replaceChartView();
+                // replaceReportView();
+            }
+        };
+        handler.post(runPager);
+
         swChart.setOnClickListener(switchClickListener);
-      
+
         // swChart.setOnCheckedChangeListener(new OnCheckedChangeListener() {
         //
         // @Override
@@ -126,6 +141,18 @@ public class FragmentSwitchChart extends Fragment {
         //
         // }
         // });
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        handler.removeCallbacks(runPager);
     }
 
     private void replaceChartView() {
@@ -168,22 +195,40 @@ public class FragmentSwitchChart extends Fragment {
             mFragmentChart.setUserVisibleHint(isVisibleToUser);
 
             // } else {
-            mFragmentChart.setUserVisibleHint(isVisibleToUser);
+            // mFragmentChart.setUserVisibleHint(isVisibleToUser);
             // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
             // 相当于Fragment的onPause
             // }
         }
     }
-    /*@Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-            // TODO Auto-generated method stub
-            if (isVisibleToUser) {
-                    //fragment可见时加载数据
-    } else {
-        //不可见时不执行操作
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        try {
+            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
-            super.setUserVisibleHint(isVisibleToUser);
-    }*/
+
+    /*
+     * @Override
+     * public void setUserVisibleHint(boolean isVisibleToUser) {
+     * // TODO Auto-generated method stub
+     * if (isVisibleToUser) {
+     * //fragment可见时加载数据
+     * } else {
+     * //不可见时不执行操作
+     * }
+     * super.setUserVisibleHint(isVisibleToUser);
+     * }
+     */
 
     private Handler updHandler;
 
@@ -192,5 +237,5 @@ public class FragmentSwitchChart extends Fragment {
         this.updHandler = updateHandler;
 
     }
-    
+
 }
