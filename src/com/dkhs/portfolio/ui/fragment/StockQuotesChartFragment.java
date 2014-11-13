@@ -189,7 +189,7 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         initMaChart(mMaChart);
         initView(view);
-        if (mSelectStockBean != null && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+        if (mSelectStockBean != null && null != mSelectStockBean.symbol_type && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
         }
         return view;

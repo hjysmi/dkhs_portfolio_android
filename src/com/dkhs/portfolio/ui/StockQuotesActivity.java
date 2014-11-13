@@ -248,7 +248,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initView() {
         ViewStub viewstub;
-        if (mStockBean != null && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+        if (null != mStockBean && mStockBean.symbol_type != null && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewstub = (ViewStub) findViewById(R.id.layout_index_header);
 
         } else {
