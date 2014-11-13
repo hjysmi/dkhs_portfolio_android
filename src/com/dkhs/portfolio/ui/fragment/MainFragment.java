@@ -158,14 +158,14 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 		dataEngine.getChampionList(championDataListener);
 
-        view.findViewById(R.id.order_layout).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
-                startActivity(intent);
-            }
-        });
+        // view.findViewById(R.id.order_layout).setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
+        // startActivity(intent);
+        // }
+        // });
 
 		tvBottomText.setOnClickListener(new OnClickListener() {
 
