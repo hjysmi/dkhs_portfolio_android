@@ -28,7 +28,9 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -173,6 +175,7 @@ public class NewsFragment extends Fragment {
         mListView.setAdapter(mAdapter);
         mListView.setOnGroupExpandListener(onGroupClickListener);
         mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
+        
         mListView.performItemClick(mListView, 0, 0);
         /*android.view.ViewGroup.LayoutParams lp = mListView.getLayoutParams();
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;*/
@@ -184,7 +187,7 @@ public class NewsFragment extends Fragment {
         public void onGroupExpand(int groupPosition) {
         	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(10);
+            
             // 关闭其他的
             collapseGroups(groupPosition);
         }
@@ -192,6 +195,23 @@ public class NewsFragment extends Fragment {
         
 
     };
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		// TODO Auto-generated method stub
+		try {
+			if (isVisibleToUser) {
+				// fragment可见时加载数据
+				((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+			} else {
+				// 不可见时不执行操作
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
     private void collapseGroups(int groupPosition) {
         int count = mAdapter.getGroupCount();
         for (int i = 0; i < count; i++) {

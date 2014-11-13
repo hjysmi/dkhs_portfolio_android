@@ -811,15 +811,31 @@ public class TrendChartFragment extends Fragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return DataParse.parseArrayJson(CombinationBean.class, jsonObject);
+            List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
+            if(object.size() > 0)
+            	((CombinationDetailActivity) getActivity()).getCom().setIspublic(object.get(0).getIspublic());
+            return object;
         }
 
         @Override
         protected void afterParseData(List<CombinationBean> object) {
             if (null != object) {
-
+            	
             }
 
         }
-    };
+    }
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		mCombinationBean = ((CombinationDetailActivity) getActivity()).getCom();
+		if (mCombinationBean.getIspublic().equals("0")) {
+            combinationCheck.setChecked(true);
+        } else {
+            combinationCheck.setChecked(false);
+        }
+		super.onResume();
+	};
+    
 }
