@@ -311,5 +311,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         MediaStore.Images.Media.insertImage(getContentResolver(), combination, "test_" + timeStamp + ".jpg",
                 timeStamp.toString());
     }
-    
+    public CombinationBean getCom(){
+    	return mCombinationBean;
+    }
 }
