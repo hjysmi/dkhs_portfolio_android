@@ -12,12 +12,19 @@
         android:orientation="vertical"
         android:weightSum="10" >
 
-        <include
-            android:id="@+id/layout_view"
+        <ViewStub
+            android:id="@+id/layout_stock_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            layout="@layout/layout_stock_quotes_header"
-            android:background="@color/white" />
+            android:background="@color/white"
+            android:layout="@layout/layout_stock_quotes_header" />
+
+        <ViewStub
+            android:id="@+id/layout_index_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout="@layout/layout_index_quotes_header" />
 
         <com.dkhs.portfolio.ui.widget.HScrollTitleView
             android:id="@+id/hs_title"

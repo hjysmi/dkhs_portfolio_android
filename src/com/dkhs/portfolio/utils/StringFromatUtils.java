@@ -120,7 +120,7 @@ public class StringFromatUtils {
 
     public static String convertToWan(float value) {
         if (value < 100000) {
-            return String.valueOf(value);
+            return String.valueOf((int)value);
         } else if (value < 10000000) {
 
             return new DecimalFormat("0.00万").format(value / 10000f);
