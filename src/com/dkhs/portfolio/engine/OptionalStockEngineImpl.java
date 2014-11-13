@@ -107,6 +107,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     selectBean.percentage = stockBean.getPercentage();
                     selectBean.change = stockBean.getChange();
                     selectBean.isStop = stockBean.isStop();
+                    selectBean.symbol_type = stockBean.getSymbol_type();
 
                     if (!isShowIndex) {
 

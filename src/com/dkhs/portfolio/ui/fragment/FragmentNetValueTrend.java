@@ -30,6 +30,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
@@ -62,8 +63,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     MyPagerFragmentAdapter mPagerAdapter;
 
-    
-    
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -112,29 +111,23 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
         initTabPage(view);
-        
-        
+
         // if(null!=mCombinationBean&&
         // mCombinationBean.getCreateUser().getId().equalsIgnoreCase(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID))){
         //
         //
         // }
-        
-        
-        // setupViewData();
+
+        setupViewData();
         return view;
     }
 
-    // private void setupViewData() {
-    // if (null != mCombinationBean) {
-    //
-    // tvCombinName.setText(mCombinationBean.getName());
-    // tvCombinDesc.setText(getString(R.string.descrition_format, mCombinationBean.getDescription()));
-    // tvCombinCreateTime.setText(getString(R.string.create_time_format,
-    // TimeUtils.getSimpleFormatTime(mCombinationBean.getCreateTime())));
-    //
-    // }
-    // }
+    private void setupViewData() {
+        if (null != mCombinationBean) {
+            updateIncreaseRatio(mCombinationBean.getNetvalue());
+
+        }
+    }
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -151,33 +144,53 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // ivUpDownIcon.setImageDrawable(null);
             // viewNetvalueHead.setBackgroundResource(R.color.red);
             // }
-            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
-            tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
-            tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
-            tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
+            updateIncreaseRatio(netValue);
         };
     };
+
+    private void updateIncreaseRatio(float netValue) {
+        tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
+        tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
+    }
 
     private HScrollTitleView hsTitle;
     // privaet view
     private ScrollViewPager mViewPager;
 
+    private ArrayList<Fragment> fragmentList;
+
+    private void replaceDataList(Fragment fragment) {
+        // view_datalist
+        // if (null == loadDataListFragment) {
+        // loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOCK_OPTIONAL_PRICE);
+        // }
+        getChildFragmentManager().beginTransaction().replace(R.id.rl_trend_layout, fragment).commit();
+    }
+
     private void initTabPage(View view) {
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
-        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         FragmentSwitchChart todayFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY);
         todayFragment.setUpdateHandler(updateHandler);
-        fragmentList.add(todayFragment);
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
+         fragmentList.add(todayFragment);
+         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
+         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
+         fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
-        mViewPager = (ScrollViewPager) view.findViewById(R.id.pager);
-        mViewPager.setCanScroll(false);
-        mPagerAdapter = new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray);
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOnPageChangeListener(pageChangeListener);
+        // fragmentList.add(TestFragment.getInstance());
+        // fragmentList.add(TestFragment.getInstance());
+        // fragmentList.add(TestFragment.getInstance());
+        // fragmentList.add(TestFragment.getInstance());
+
+        //
+        // mViewPager = (ScrollViewPager) view.findViewById(R.id.pager);
+        // mViewPager.setCanScroll(false);
+        // mPagerAdapter = new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray);
+        // mViewPager.setAdapter(mPagerAdapter);
+        // mViewPager.setOnPageChangeListener(pageChangeListener);
 
         hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
         // String[] titleArray = getResources().getStringArray(R.array.quotes_title);
@@ -186,16 +199,17 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         // TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
         // indicator.setViewPager(mViewPager);
-
+        replaceDataList(fragmentList.get(0));
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
         @Override
         public void onSelectPosition(int position) {
-            if (null != mViewPager) {
-                mViewPager.setCurrentItem(position);
-            }
+            // if (null != mViewPager) {
+            // mViewPager.setCurrentItem(position);
+            // }
+            replaceDataList(fragmentList.get(position));
         }
     };
 
@@ -307,8 +321,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // TODO Auto-generated method stub
 
     }
-    
-    
+
     private ITouchListener mTouchListener;
 
     public void setITouchListener(ITouchListener touchListener) {

@@ -28,6 +28,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
@@ -114,7 +115,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private LinearLayout stockLayout;
     private FragmentSelectAdapter mFragmentSelectAdapter;
     private StockQuotesActivity layouts;
-    private View views;
+    private View viewHeader;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -141,14 +142,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (extras != null) {
             handleExtras(extras);
         }
-        if (null != mStockBean) {
-
-            mStockId = mStockBean.id;
-            mStockCode = mStockBean.code;
-            updateStockInfo();
-        }
-        // setAddOptionalButton();
-        initTabPage();
 
     }
 
@@ -162,12 +155,31 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         mQuotesEngine = new QuotesEngineImpl();
+
         // handle intent extras
-        initView();
         processExtraData();
+        initView();
+        setupViewDatas();
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         l.height = dm.heightPixels * 3 / 2 - getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void setupViewDatas() {
+        if (null != mStockBean) {
+
+            mStockId = mStockBean.id;
+            mStockCode = mStockBean.code;
+            updateStockInfo();
+        }
+        // setAddOptionalButton();
+        initTabPage();
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -226,26 +238,40 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initView() {
-        views = findViewById(R.id.layout_view);
-        tvCurrent = (TextView) findViewById(R.id.tv_current_price);
-        tvHigh = (TextView) findViewById(R.id.tv_highest_value);
-        tvLow = (TextView) findViewById(R.id.tv_lowest_value);
-        tvOpen = (TextView) findViewById(R.id.tv_today_open_value);
-        tvChange = (TextView) findViewById(R.id.tv_up_price);
+        ViewStub viewstub;
+        if (mStockBean != null && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+            viewstub = (ViewStub) findViewById(R.id.layout_index_header);
 
-        tvChengjiaoLiang = (TextView) findViewById(R.id.tv_liang_value);
-        tvChengjiaoE = (TextView) findViewById(R.id.tv_e_value);
-        tvHuanShouLv = (TextView) findViewById(R.id.tv_huan_value);
-        tvLiuzhi = (TextView) findViewById(R.id.tv_liuzhi_value);
-        tvZongzhi = (TextView) findViewById(R.id.tv_zongzhi_value);
-        tvShiying = (TextView) findViewById(R.id.tv_shiying_value);
-        tvShiJing = (TextView) findViewById(R.id.tv_shijing_value);
+        } else {
+            viewstub = (ViewStub) findViewById(R.id.layout_stock_header);
 
-        tvPercentage = (TextView) findViewById(R.id.tv_percentage);
-        btnAddOptional = (Button) findViewById(R.id.btn_add_optional);
-        btnAddOptional.setVisibility(View.GONE);
+        }
+        if (viewstub != null) {
+            viewHeader = viewstub.inflate();
+
+            // views = findViewById(R.id.layout_view);
+            tvCurrent = (TextView) viewHeader.findViewById(R.id.tv_current_price);
+            tvHigh = (TextView) viewHeader.findViewById(R.id.tv_highest_value);
+            tvLow = (TextView) viewHeader.findViewById(R.id.tv_lowest_value);
+            tvOpen = (TextView) viewHeader.findViewById(R.id.tv_today_open_value);
+            tvChange = (TextView) viewHeader.findViewById(R.id.tv_up_price);
+
+            tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
+            tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
+            tvHuanShouLv = (TextView) viewHeader.findViewById(R.id.tv_huan_value);
+            tvLiuzhi = (TextView) viewHeader.findViewById(R.id.tv_liuzhi_value);
+            tvZongzhi = (TextView) viewHeader.findViewById(R.id.tv_zongzhi_value);
+            tvShiying = (TextView) viewHeader.findViewById(R.id.tv_shiying_value);
+            tvShiJing = (TextView) viewHeader.findViewById(R.id.tv_shijing_value);
+
+            tvPercentage = (TextView) viewHeader.findViewById(R.id.tv_percentage);
+            btnAddOptional = (Button) viewHeader.findViewById(R.id.btn_add_optional);
+            btnAddOptional.setVisibility(View.GONE);
+            btnAddOptional.setOnClickListener(this);
+
+        }
+
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
-        btnAddOptional.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -293,7 +319,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void setupViewData() {
         if (null != mQuotesEngine && mStockBean != null) {
             mQuotesEngine.quotes(mStockBean.code, listener);
-            listener.setLoadingDialog(context).beforeRequest();
+            // listener.setLoadingDialog(context);
         }
     }
 
@@ -334,15 +360,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
                 int i = 0;
-                for (String buyPrice : stockQuotesBean.getBuyPrice().getBuyPrice()) {
+                for (; i < 5; i++) {
+                    // String buyPrice : stockQuotesBean.getBuyPrice().getBuyPrice()
                     FiveRangeItem buyItem = new FiveRangeItem();
-                    if (isFloatText(buyPrice)) {
-
-                        buyItem.price = Float.parseFloat(buyPrice);
-                    } else {
-                        buyItem.price = 0;
-                    }
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
+                        String buyPrice = stockQuotesBean.getBuyPrice().getBuyPrice().get(i);
+                        if (isFloatText(buyPrice)) {
+
+                            buyItem.price = Float.parseFloat(buyPrice);
+                        } else {
+                            buyItem.price = 0;
+                        }
                         String volText = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
                         if (isFloatText(volText)) {
                             buyItem.vol = Integer.parseInt(volText);
@@ -352,8 +380,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         }
                     } else {
                         buyItem.vol = 0;
+
                     }
-                    buyItem.tag = "" + (++i);
+                    buyItem.tag = "" + (i + 1);
                     buyList.add(buyItem);
                 }
 
@@ -560,18 +589,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
     };
 
-    Handler dataHandler = new Handler();
+    Handler quoteHandler = new Handler();
+
+    // Handler quoteHandler = new Handler();
 
     public void onStart() {
         super.onStart();
 
-        dataHandler.postDelayed(runnable, 6);// 打开定时器，60ms后执行runnable操作
+        quoteHandler.postDelayed(runnable, 6);// 打开定时器，60ms后执行runnable操作
 
     };
 
     public void onStop() {
         super.onStop();
-        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+        quoteHandler.removeCallbacks(runnable);// 关闭定时器处理
 
     }
 
@@ -581,7 +612,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // dataHandler.sendEmptyMessage(1722);
 
             setupViewData();
-            dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
+            quoteHandler.postDelayed(this, 5 * 1000);// 隔60s再执行一次
+        }
+    };
+    Runnable quoterunnable = new Runnable() {
+        @Override
+        public void run() {
+            // dataHandler.sendEmptyMessage(1722);
+
+            setupViewData();
+            quoteHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
         }
     };
 
@@ -602,7 +642,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 } else {
                     mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
                 }
-                
+
                 break;
 
             default:
