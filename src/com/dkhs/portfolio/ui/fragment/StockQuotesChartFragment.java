@@ -296,7 +296,12 @@ public class StockQuotesChartFragment extends Fragment {
             averageLine.setLineData(averagelineData);
 
             lines.add(0, fenshiPiceLine);
-            lines.add(averageLine);
+            if (null != mStockBean && StockUitls.isIndexStock(mStockBean.getSymbol_type())){
+                
+            }else{
+                
+                lines.add(averageLine);
+            }
             mMaChart.setLineData(lines);
         }
     }
@@ -356,7 +361,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
-    StockQuotesBean mStockBean;
+    private StockQuotesBean mStockBean;
 
     public void setStockQuotesBean(StockQuotesBean bean) {
         if (isAdded()) {
@@ -370,7 +375,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            if (mStockBean.getSymbol_type() == 5) {
+            if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
                 viewFiveRange.setVisibility(View.GONE);
 
             } else {
@@ -382,12 +387,16 @@ public class StockQuotesChartFragment extends Fragment {
 
             }
 
-            if (mSelectStockBean != null && mSelectStockBean.isStop) {
+            if (isStopStock()) {
                 setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
                 mMaChart.invalidate();
             }
         };
     };
+
+    private boolean isStopStock() {
+        return mSelectStockBean != null && mSelectStockBean.isStop;
+    }
 
     private void parseFiveRangeData() {
 
