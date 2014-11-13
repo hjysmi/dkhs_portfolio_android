@@ -70,7 +70,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
         if (mMarketTimer == null) {
             mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), 3*1000, mPollRequestTime);
+            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
 
     }
@@ -91,7 +91,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         @Override
         public void run() {
 
-            loadDataListFragment.refreshAll();
+            loadDataListFragment.refresh();
         }
     }
 
@@ -111,7 +111,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
             @Override
             public void onClick(View v) {
-                loadDataListFragment.refreshAll();
+                loadDataListFragment.refresh();
             }
         });
 
@@ -166,9 +166,9 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     protected void onRestart() {
         // TODO Auto-generated method stub
         super.onRestart();
-        // if (null != loadDataListFragment) {
-        // loadDataListFragment.refresh();
-        // }
+        if (null != loadDataListFragment) {
+            loadDataListFragment.refresh();
+        }
     }
 
     @Override

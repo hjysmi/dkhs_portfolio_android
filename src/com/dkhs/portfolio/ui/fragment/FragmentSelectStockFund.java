@@ -316,20 +316,20 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
     }
 
-    public void refreshAll() {
-        isRefresh = true;
-        if (mLoadDataEngine != null) {
-            // mDataList.clear();
-            if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
-                ((OptionalStockEngineImpl) mLoadDataEngine).loadAllData();
-                mLoadDataEngine.setLoadingDialog(getActivity());
-            } else {
-
-                mLoadDataEngine.loadData();
-                mLoadDataEngine.setLoadingDialog(getActivity());
-            }
-        }
-    }
+    // public void refreshAll() {
+    // isRefresh = true;
+    // if (mLoadDataEngine != null) {
+    // // mDataList.clear();
+    // // if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
+    // // ((OptionalStockEngineImpl) mLoadDataEngine).loadAllData();
+    // // mLoadDataEngine.setLoadingDialog(getActivity());
+    // // } else {
+    //
+    // mLoadDataEngine.loadData();
+    // mLoadDataEngine.setLoadingDialog(getActivity());
+    // // }
+    // }
+    // }
 
     public void setCheckListener(ISelectChangeListener listener) {
         if (null != mAdapterConbinStock)

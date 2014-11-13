@@ -59,7 +59,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    private String orderType;
+    private String orderType = "followed_at";
 
     public void setLoadType(String orderType) {
         this.orderType = orderType;
@@ -74,13 +74,23 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      */
     @Override
     public void loadData() {
-        if (TextUtils.isEmpty(orderType)) {
-
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=followed_at", null, this);
-        } else {
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
-
-        }
+        // if (TextUtils.isEmpty(orderType)) {
+        //
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=followed_at", null, this);
+        // } else {
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
+        //
+        // }
+        // if (TextUtils.isEmpty(orderType)) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        // } else {
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
+        //
+        // }
     }
 
     @Override
@@ -142,13 +152,13 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
     }
 
-    public void loadAllData() {
-        RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", "1");
-        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-
-    }
+    // public void loadAllData() {
+    // RequestParams params = new RequestParams();
+    // params.addQueryStringParameter("page", "1");
+    // params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+    // DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+    //
+    // }
 
     /**
      * @Title
