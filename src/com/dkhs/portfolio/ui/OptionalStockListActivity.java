@@ -8,6 +8,9 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,6 +23,9 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
+import com.dkhs.portfolio.ui.fragment.MainFragment.RequestMarketTask;
+import com.dkhs.portfolio.ui.fragment.MainFragment.ScrollPageTask;
 
 /**
  * @ClassName OptionalStockListActivity
@@ -43,6 +49,10 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     // 涨跌
     private final String typeChangeDown = "-change";
 
+    // 5s
+    private static final long mPollRequestTime = 1000 * 5;
+    private Timer mMarketTimer;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -51,6 +61,38 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         setTitle(R.string.optional_stock);
         replaceDataList();
         initView();
+    }
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        if (mMarketTimer == null) {
+            mMarketTimer = new Timer(true);
+            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
+
+    }
+
+    public class RequestMarketTask extends TimerTask {
+
+        @Override
+        public void run() {
+
+            loadDataListFragment.refresh();
+        }
     }
 
     private void initView() {

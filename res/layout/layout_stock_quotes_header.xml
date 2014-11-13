@@ -204,7 +204,7 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2" >
+            android:layout_weight="2.25" >
 
             <TextView
                 android:id="@+id/tv_shiying"
@@ -221,7 +221,7 @@
         <RelativeLayout
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2.5" >
+            android:layout_weight="2.25" >
 
             <TextView
                 android:id="@+id/tv_shijing"
