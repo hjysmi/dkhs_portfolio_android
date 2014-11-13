@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -66,6 +67,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         viewHolder.mCheckbox.setTag(item);
         if (this instanceof AddStockItemAdapter) {
             viewHolder.mCheckbox.setChecked(item.isFollowed);
+            // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
         } else {
             viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }

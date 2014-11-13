@@ -59,7 +59,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    private String orderType;
+    private String orderType = "followed_at";
 
     public void setLoadType(String orderType) {
         this.orderType = orderType;
@@ -74,13 +74,23 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      */
     @Override
     public void loadData() {
-        if (TextUtils.isEmpty(orderType)) {
-
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=followed_at", null, this);
-        } else {
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
-
-        }
+        // if (TextUtils.isEmpty(orderType)) {
+        //
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=followed_at", null, this);
+        // } else {
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
+        //
+        // }
+        // if (TextUtils.isEmpty(orderType)) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        // } else {
+        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
+        //
+        // }
     }
 
     @Override
@@ -98,25 +108,28 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    SelectStockBean selectBean = new SelectStockBean();
-                    selectBean.id = stockBean.getId();
-                    selectBean.name = stockBean.getAbbrname();
-                    selectBean.currentValue = stockBean.getCurrent();
-                    selectBean.code = stockBean.getSymbol();
-                    selectBean.percentage = stockBean.getPercentage();
-                    selectBean.percentage = stockBean.getPercentage();
-                    selectBean.change = stockBean.getChange();
-                    selectBean.isStop = stockBean.isStop();
-                    selectBean.symbol_type = stockBean.getSymbol_type();
+                    // SelectStockBean selectBean = new SelectStockBean();
+                    // selectBean.id = stockBean.getId();
+                    // selectBean.name = stockBean.getAbbrname();
+                    // selectBean.currentValue = stockBean.getCurrent();
+                    // selectBean.code = stockBean.getSymbol();
+                    // selectBean.percentage = stockBean.getPercentage();
+                    // selectBean.percentage = stockBean.getPercentage();
+                    // selectBean.change = stockBean.getChange();
+                    // selectBean.isStop = stockBean.isStop();
+                    // selectBean.symbol_type = stockBean.getSymbol_type();
 
                     if (!isShowIndex) {
 
-                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())
+                                && !stockBean.isStop()) {
                             // results.add(stockBean);
-                            selectList.add(selectBean);
+                            // selectList.add(selectBean);
+                            selectList.add(SelectStockBean.copy(stockBean));
                         }
                     } else {
-                        selectList.add(selectBean);
+                        // selectList.add(selectBean);
+                        selectList.add(SelectStockBean.copy(stockBean));
                     }
 
                 }
@@ -138,6 +151,14 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
 
     }
+
+    // public void loadAllData() {
+    // RequestParams params = new RequestParams();
+    // params.addQueryStringParameter("page", "1");
+    // params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+    // DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+    //
+    // }
 
     /**
      * @Title

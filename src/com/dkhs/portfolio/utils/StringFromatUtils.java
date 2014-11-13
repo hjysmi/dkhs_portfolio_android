@@ -119,27 +119,43 @@ public class StringFromatUtils {
     }
 
     public static String convertToWan(float value) {
-        if (value < 100000) {
-            return String.valueOf((int)value);
-        } else if (value < 10000000) {
+        value = value / 100;
+        float wan = 10000f;
+        float yi = wan * wan;
+        if (value < wan) {
+            return String.valueOf((int) value);
+        } else if (value < 100 * wan) {
+            return new DecimalFormat("0.00万").format(value / (wan));
+        } else if (value < 1000 * wan) {
+            return new DecimalFormat("0.0万").format(value / (wan));
+        } else if (value < 1 * yi) {
+            return new DecimalFormat("0万").format(value / (wan));
+        } else if (value < 100 * yi) {
+            return new DecimalFormat("0.00亿").format(value / (1 * yi));
 
-            return new DecimalFormat("0.00万").format(value / 10000f);
-        } else {
+        } else if (value < 1000 * yi) {
+            return new DecimalFormat("0.0亿").format(value / (1 * yi));
 
-            return new DecimalFormat("0.00亿").format(value / 100000000f);
+        } else if (value < wan * yi) {
+            return new DecimalFormat("0亿").format(value / (1 * yi));
 
+        } else if (value < 100 * wan * yi) {
+            return new DecimalFormat("0.00万亿").format(value / (wan * yi));
         }
+        return "$$";
+
     }
 
     public static String convertToWanHand(int value) {
-        if (value < 100000) {
-            return String.valueOf(value) + "手";
-        } else if (value < 10000000) {
-
-            return String.format("%.2f万手", value / 10000f);
-        } else {
-            return String.format("%.2f千万手", value / 10000000f);
-        }
+        // if (value < 100000) {
+        // return String.valueOf(value) + "";
+        // } else if (value < 10000000) {
+        //
+        // return String.format("%.2f万", value / 10000f);
+        // } else {
+        // return String.format("%.2f千万", value / 10000000f);
+        // }
+        return convertToWan(value);
     }
 
 }

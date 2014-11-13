@@ -66,6 +66,20 @@ public class SelectStockBean implements Serializable {
         return bean;
     }
 
+    public static SelectStockBean copy(StockPriceBean stockBean) {
+
+        SelectStockBean selectBean = new SelectStockBean();
+        selectBean.id = stockBean.getId();
+        selectBean.name = stockBean.getAbbrname();
+        selectBean.currentValue = stockBean.getCurrent();
+        selectBean.code = stockBean.getSymbol();
+        selectBean.percentage = stockBean.getPercentage();
+        selectBean.isFollowed = stockBean.isFollowed();
+        selectBean.symbol_type = stockBean.getSymbol_type();
+        selectBean.isStop = stockBean.isStop();
+        return selectBean;
+    }
+
     public ConStockBean parseStock() {
 
         ConStockBean bean = new ConStockBean();

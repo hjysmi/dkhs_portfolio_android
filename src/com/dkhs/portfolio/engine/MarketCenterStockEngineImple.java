@@ -16,8 +16,8 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 
-public class MarketCenterStockEngineImple extends LoadSelectDataEngine{
-	private final static String EXCHANGE = "1,2";
+public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
+    private final static String EXCHANGE = "1,2";
 
     public final static String ORDER_INCREASE = "-percentage";
     public final static String ORDER_DOWN = "percentage";
@@ -36,14 +36,14 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine{
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1),
-        		orderType), null, this);
+        DKHSClient.requestByGet(
+                MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1), orderType),
+                null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter,
-        		orderType), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType), null, this);
 
     }
 
@@ -62,14 +62,8 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine{
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    SelectStockBean selectBean = new SelectStockBean();
-                    selectBean.id = stockBean.getId();
-                    selectBean.name = stockBean.getAbbrname();
-                    selectBean.currentValue = stockBean.getCurrent();
-                    selectBean.code = stockBean.getSymbol();
-                    selectBean.percentage = stockBean.getPercentage();
-                    selectBean.isFollowed = stockBean.isFollowed();
-                    selectList.add(selectBean);
+
+                    selectList.add(SelectStockBean.copy(stockBean));
 
                     // results.add(stockBean);
 

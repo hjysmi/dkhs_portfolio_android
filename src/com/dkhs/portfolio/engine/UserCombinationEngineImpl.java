@@ -22,6 +22,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
+import com.dkhs.portfolio.net.IHttpListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -55,6 +56,14 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
         // NameValuePair valuePair2 = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         // params.add(valuePair2);
         DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+    }
+
+    public void loadAllData() {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+
     }
 
     /**

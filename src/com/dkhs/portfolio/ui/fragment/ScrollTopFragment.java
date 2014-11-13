@@ -1,18 +1,20 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
-public class ScrollTopFragment extends Fragment {
+public class ScrollTopFragment extends Fragment implements OnClickListener {
     public static final String ARGUMENT_SCROLL_TYPE = "trend_type";
     public static final String ARGUMENT_VALUE = "argument_value";
     public static final String TYPE_SEASON = "type_season";
@@ -110,6 +112,31 @@ public class ScrollTopFragment extends Fragment {
         }
 
         tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(value));
+        view.findViewById(R.id.rl_content).setOnClickListener(this);
+        tvTitle.setOnClickListener(this);
+        tvIncreaseText.setOnClickListener(this);
+        tvIncreaseValue.setOnClickListener(this);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param v
+     * @return
+     */
+    @Override
+    public void onClick(View v) {
+        // Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
+        int index = 0;
+        if (mType.equalsIgnoreCase(TYPE_WEEK)) {
+            index = 0;
+        } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {
+            index = 2;
+        } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
+            index = 1;
+        }
+        startActivity(FundsOrderActivity.newIntent(getActivity(), index));
+
     }
 
 }

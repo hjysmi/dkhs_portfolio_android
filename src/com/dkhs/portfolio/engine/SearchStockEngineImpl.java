@@ -166,7 +166,7 @@ public class SearchStockEngineImpl {
             // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "3"));
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector
                     .from(SearchStockBean.class)
-                    .where("symbol_type", "=", "3")
+                    .where("symbol_type", "in", new String[] { "3", "5" })
                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                             .or("stock_code", "LIKE", "%" + key + "%").or("chi_spell", "LIKE", "%" + key + "%")));
             if (null != searchStockList) {
@@ -198,7 +198,6 @@ public class SearchStockEngineImpl {
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector
                     .from(SearchStockBean.class)
                     .where("symbol_type", "in", new String[] { "1", "5" })
-                    .and(WhereBuilder.b("is_stop", "!=", "1"))
                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                             .or("stock_code", "LIKE", "%" + key + "%").or("chi_spell", "LIKE", "%" + key + "%")));
 

@@ -520,6 +520,8 @@ public class StockQuotesChartFragment extends Fragment {
         float topValue = (float) Math.min(baseNum + offetYvalue * (1 + 0.1), baseNum * 1.1f);
         float bottomValue = (float) Math.max(baseNum - offetYvalue * (1 + 0.1), baseNum * 0.9f);
 
+        System.out.println("topValue:" + topValue);
+        System.out.println("bottomValue:" + bottomValue);
         BigDecimal t = new BigDecimal(topValue);
         topValue = t.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         BigDecimal b = new BigDecimal(bottomValue);

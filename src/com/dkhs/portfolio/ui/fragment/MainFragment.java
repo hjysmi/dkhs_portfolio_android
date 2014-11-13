@@ -95,7 +95,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 	// 15s
 	private static final long mPollRequestTime = 1000 * 5;
-	// 30分钟
+	// 30s
 	private static final long mCombinationRequestTime = 1000 * 30;
 	private Timer mScollTimer;
 	private Timer mMarketTimer;
@@ -158,14 +158,14 @@ public class MainFragment extends Fragment implements OnClickListener {
 
 		dataEngine.getChampionList(championDataListener);
 
-        view.findViewById(R.id.order_layout).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
-                startActivity(intent);
-            }
-        });
+        // view.findViewById(R.id.order_layout).setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
+        // startActivity(intent);
+        // }
+        // });
 
 		tvBottomText.setOnClickListener(new OnClickListener() {
 
