@@ -25,13 +25,14 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
@@ -78,7 +79,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private int mViewType;
     private boolean fromPosition = false;
     LoadSelectDataEngine mLoadDataEngine;
-
+    private TextView tv;
     /**
      * view视图类型
      */
@@ -327,10 +328,54 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         LinearLayout wrapper = new LinearLayout(getActivity()); // for example
         inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
+        tv = (TextView) wrapper.findViewById(android.R.id.empty);
+        initNotice();
         initView(wrapper);
         return wrapper;
     }
 
+	public void initNotice() {
+		switch (mViewType) {
+		case 1:
+			tv.setText("暂无添加自选股");
+			break;
+		case 2:
+			tv.setText("暂无添加自选股");
+			break;
+		case 3:
+			tv.setText("暂无添加自选股");
+			break;
+		case 4:
+			tv.setText("暂无添加自选股");
+			break;
+		case 5:
+			tv.setText("暂无新建基金");
+			break;
+		case 6:
+			tv.setText("暂无新建基金");
+			break;
+		case 7:
+			tv.setText("暂无新建基金");
+			break;
+		case 8:	
+			tv.setText("暂无添加自选股");
+			break;
+		case 9:
+			tv.setText("暂无国内指数数据");
+			break;
+		case 10:
+			tv.setText("暂无国内指数数据");
+			break;
+		case 11:
+			tv.setText("暂无沪深数据");
+			break;
+		case 12:
+			tv.setText("暂无沪深数据");
+			break;
+		default:
+			break;
+		}
+	}
     public void refreshSelect() {
 
         if (null != mAdapterConbinStock) {

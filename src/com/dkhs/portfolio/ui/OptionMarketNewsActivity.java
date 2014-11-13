@@ -14,6 +14,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
@@ -44,6 +45,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
+    private TextView iv;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -52,6 +54,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 		context = this;
 		mDataList = new ArrayList<OptionNewsBean>();
 		setTitle(R.string.function_notice);
+		iv = (TextView) findViewById(android.R.id.empty);
+        iv.setText("暂无公告");
 		initDate();
 	}
 	private void initDate(){
@@ -80,7 +84,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 	private void initView() {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (ListView) findViewById(android.R.id.list);
-        mListView.setEmptyView(findViewById(android.R.id.empty));
+        
+        mListView.setEmptyView(iv);
         mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);

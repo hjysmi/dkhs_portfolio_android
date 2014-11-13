@@ -4,16 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
-import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.ui.NewsActivity;
-import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,12 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.NewsActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 
 public class FragmentNewsList extends Fragment implements Serializable{
 	/**
@@ -55,10 +55,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-        	initDate();
-        }
+        
     }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,7 +63,10 @@ public class FragmentNewsList extends Fragment implements Serializable{
 		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.activity_option_market_news,null);
 		context = getActivity();
-		
+		Bundle bundle = getArguments();
+        if (bundle != null) {
+        	initDate();
+        }
 		initView(view);
 		return view;
 	}
@@ -82,8 +82,12 @@ public class FragmentNewsList extends Fragment implements Serializable{
 	}
 	private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+        TextView tv = (TextView) view.findViewById(android.R.id.empty);
+        if(null != vo && null != vo.getPageTitle()){
+        	tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+        }
         mListView = (ListView) view.findViewById(android.R.id.list);
-        mListView.setEmptyView(view.findViewById(android.R.id.empty));
+        mListView.setEmptyView(tv);
         mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
@@ -154,6 +158,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
             try {
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
+				    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
 				    if(first){
 				    	initView(view);
 				    	first = false;
@@ -162,6 +167,8 @@ public class FragmentNewsList extends Fragment implements Serializable{
 				    mOptionMarketAdapter.notifyDataSetChanged();
 				    loadFinishUpdateView();
 				    
+				}else{
+					 ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -177,6 +184,7 @@ public class FragmentNewsList extends Fragment implements Serializable{
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
+        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
     }
 	@Override
 	public void onResume() {

@@ -3,37 +3,29 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
-import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.ui.NewsActivity;
-import com.dkhs.portfolio.ui.YanbaoNewsActivity;
-import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.YanbaoNewsActivity;
+import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 
 public class FragmentreportNewsList extends Fragment{
 	private ListView mListView;
@@ -48,14 +40,11 @@ public class FragmentreportNewsList extends Fragment{
     private View view;
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
+    private TextView tv;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        /*if (bundle != null) {
-        	initDate();
-        }*/
     }
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +52,8 @@ public class FragmentreportNewsList extends Fragment{
 		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.activity_option_market_news,null);
 		context = getActivity();
-		
+		tv = (TextView) view.findViewById(android.R.id.empty);
+		tv.setText("暂无研报");
 		initView(view);
 		return view;
 	}
