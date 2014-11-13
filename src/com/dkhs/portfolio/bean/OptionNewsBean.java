@@ -26,6 +26,8 @@ public class OptionNewsBean {
     String favCount;
     @SerializedName("created_at")
     String createdTime;
+    @SerializedName("publish_at")
+    String publish;
     @SerializedName("modified_at")
     String modifiedTime;
     @SerializedName("status_type")
@@ -325,6 +327,12 @@ public class OptionNewsBean {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public String getPublish() {
+		return publish;
+	}
+	public void setPublish(String publish) {
+		this.publish = publish;
 	}
 	
 }

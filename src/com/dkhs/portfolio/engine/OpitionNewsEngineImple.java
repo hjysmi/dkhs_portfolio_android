@@ -138,11 +138,12 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 	@Override
 	protected List<OptionNewsBean> parseDateTask(String jsonData) {
 		Log.e("json", jsonData);
+		/*StringBuffer sb = new StringBuffer(jsonData);
 		jsonData = jsonData.replace("<b style=\"color:red;\">", "")
 				.replace("<script>currentpage=1;</script>", "")
 				.replaceAll("<[^>]*>", "").replaceAll("\\&[a-zA-Z]{1,10};", "")
 				.replaceAll("\\&\\#[0-9]{1,10};", "").replaceAll("　　", "")
-				.trim();
+				.trim();*/
 		List<OptionNewsBean> selectList = new ArrayList<OptionNewsBean>();
 		try {
 			JSONObject dataObject = new JSONObject(jsonData);

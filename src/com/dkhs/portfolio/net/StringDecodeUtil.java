@@ -67,8 +67,8 @@ public class StringDecodeUtil {
     }
 
     public static String fromUnicode(String str) {
-
-        return fromUnicode(str.toCharArray(), 0, str.length(), new char[1024]);
+    	//因为JSON字符串中自带转换字符，被下面方法过虑掉了，故暂时屏蔽此方法，如有问题在行处理，此方法是将unicode转义成中文编码
+        return str;//fromUnicode(str.toCharArray(), 0, str.length(), new char[1024]);
 
     }
 

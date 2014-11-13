@@ -65,6 +65,7 @@ public class FragmentreportNewsList extends Fragment{
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
 			mLoadDataEngine.loadData();
 			mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+			mLoadDataEngine.setFromYanbao(false);
 		}
 
 	}
