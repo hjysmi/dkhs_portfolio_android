@@ -87,17 +87,17 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    SelectStockBean selectBean = new SelectStockBean();
-                    selectBean.id = stockBean.getId();
-                    selectBean.name = stockBean.getAbbrname();
-                    selectBean.currentValue = stockBean.getCurrent();
-                    selectBean.code = stockBean.getSymbol();
-                    selectBean.percentage = stockBean.getPercentage();
-                    selectBean.isFollowed = stockBean.isFollowed();
-                    selectBean.isStop = stockBean.isStop();
-                    selectList.add(selectBean);
-
-                    // results.add(stockBean);
+                    // SelectStockBean selectBean = new SelectStockBean();
+                    // selectBean.id = stockBean.getId();
+                    // selectBean.name = stockBean.getAbbrname();
+                    // selectBean.currentValue = stockBean.getCurrent();
+                    // selectBean.code = stockBean.getSymbol();
+                    // selectBean.percentage = stockBean.getPercentage();
+                    // selectBean.isFollowed = stockBean.isFollowed();
+                    // selectBean.isStop = stockBean.isStop();
+                    // selectBean.symbol_type = stockBean.getSymbol_type();
+                    // selectList.add(selectBean);
+                    selectList.add(SelectStockBean.copy(stockBean));
 
                 }
 

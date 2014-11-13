@@ -74,6 +74,7 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
                         selectBean.percentage = stockBean.getPercentage();
                         selectBean.change = stockBean.getChange();
                         selectBean.isStop = stockBean.isStop();
+                        selectBean.symbol_type = stockBean.getSymbol_type();
 
                         // if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
                         selectList.add(selectBean);
