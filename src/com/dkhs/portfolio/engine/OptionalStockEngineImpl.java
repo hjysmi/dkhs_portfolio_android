@@ -111,7 +111,8 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
                     if (!isShowIndex) {
 
-                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())&&!stockBean.isStop()) {
+                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())
+                                && !stockBean.isStop()) {
                             // results.add(stockBean);
                             // selectList.add(selectBean);
                             selectList.add(SelectStockBean.copy(stockBean));
@@ -138,6 +139,14 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
         DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
+
+    }
+
+    public void loadAllData() {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
 
     }
 

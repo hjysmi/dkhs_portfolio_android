@@ -10,6 +10,8 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -36,6 +38,7 @@ import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -80,7 +83,10 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     // private String mUserId;
     private MyCombinationActivity combinationActivity;
     private ListView mListView;
-
+    // 30s
+    private static final long mCombinationRequestTime = 1000 * 30;
+    private Timer mCombinationTimer;
+    
     public static MyCombinationListFragment getFragment() {
         MyCombinationListFragment fragment = new MyCombinationListFragment();
         Bundle args = new Bundle();
@@ -118,6 +124,43 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         return mAdapter;
     }
 
+    
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        if (mCombinationTimer == null) {
+            mCombinationTimer = new Timer(true);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 200,
+                    mCombinationRequestTime);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+       
+        if (mCombinationTimer != null) {
+            mCombinationTimer.cancel();
+            mCombinationTimer = null;
+        }
+    }
+    public class RequestCombinationTask extends TimerTask {
+
+        @Override
+        public void run() {
+            refresh();
+
+        }
+    }
+
+    
     private boolean isRefresh;
 
     @Override
@@ -142,7 +185,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == dataEngine) {
-            dataEngine = new UserCombinationEngineImpl(this,"");
+            dataEngine = new UserCombinationEngineImpl(this, "");
         }
         return dataEngine;
     }
@@ -176,7 +219,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        refresh();
+        // refresh();
 
     }
 
@@ -184,7 +227,8 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         isRefresh = true;
 
         // mDataList.clear();
-        getLoadEngine().loadData();
+        ((UserCombinationEngineImpl) getLoadEngine()).loadAllData();
+        // UserCombinationEngineImpl.loadAllData(this);
 
     }
 

@@ -35,7 +35,8 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         this.msg = msg;
         return this;
     }
-    public ParseHttpListener setLoadingDialog(Context context, String msg,boolean isCancelable) {
+
+    public ParseHttpListener setLoadingDialog(Context context, String msg, boolean isCancelable) {
         this.mContext = context;
         this.msg = msg;
         this.isHideDialog = isCancelable;
@@ -44,7 +45,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     public ParseHttpListener setLoadingDialog(Context context) {
         this.mContext = context;
-        this.msg = "";//mContext.getString(R.string.loading);
+        this.msg = "";// mContext.getString(R.string.loading);
 
         return this;
     }
@@ -52,14 +53,24 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     @Override
     public void beforeRequest() {
         if (null != mContext) {
-            PromptManager.showProgressDialog(mContext, msg, isHideDialog);
+            if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+                // On UI thread.
+                PromptManager.showProgressDialog(mContext, msg, isHideDialog);
+            } else {
+                // Not on UI thread.
+            }
         }
     }
 
     @Override
     public void requestCallBack() {
         if (null != mContext) {
-            PromptManager.closeProgressDialog();
+            if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+                // On UI thread.
+                PromptManager.closeProgressDialog();
+            } else {
+                // Not on UI thread.
+            }
         }
 
     }
