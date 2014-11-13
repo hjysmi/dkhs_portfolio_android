@@ -87,7 +87,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         FragmentSearchStockFund fragment = new FragmentSearchStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, true);
-        args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_STOCK);
+        args.putString(ARGUMENT_SEARCH_TYPE, SEARCH_TYPE_FUNDS);
         // args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
         fragment.setArguments(args);
         return fragment;

@@ -42,6 +42,7 @@ public class CombinationUserActivity extends ModelAcitivity {
     private TextView tvUName;
     private TextView tvCText;
     private TextView tvUCreateTime;
+    private TextView tvUserDesc;
     private Context context;
 
     public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
@@ -79,6 +80,7 @@ public class CombinationUserActivity extends ModelAcitivity {
         tvUName = (TextView) findViewById(R.id.tv_user_name);
         tvUCreateTime = (TextView) findViewById(R.id.tv_user_create_time);
         tvCText = (TextView) findViewById(R.id.tv_combination_text);
+        tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
 
         if (isMyInfo) {
             setTitle("我的资料");
@@ -128,6 +130,7 @@ public class CombinationUserActivity extends ModelAcitivity {
         bitmapUtils.display(ivHeader, object.getAvatar_md());
         tvUName.setText(object.getUsername());
         tvUCreateTime.setText(TimeUtils.getSimpleDay(object.getDate_joined()) + "   进驻谁牛");
+        tvUserDesc.setText(getString(R.string.format_sign_text_title,object.getDescription()));
 
     }
 

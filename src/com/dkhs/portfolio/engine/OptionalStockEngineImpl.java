@@ -98,25 +98,27 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    SelectStockBean selectBean = new SelectStockBean();
-                    selectBean.id = stockBean.getId();
-                    selectBean.name = stockBean.getAbbrname();
-                    selectBean.currentValue = stockBean.getCurrent();
-                    selectBean.code = stockBean.getSymbol();
-                    selectBean.percentage = stockBean.getPercentage();
-                    selectBean.percentage = stockBean.getPercentage();
-                    selectBean.change = stockBean.getChange();
-                    selectBean.isStop = stockBean.isStop();
-                    selectBean.symbol_type = stockBean.getSymbol_type();
+                    // SelectStockBean selectBean = new SelectStockBean();
+                    // selectBean.id = stockBean.getId();
+                    // selectBean.name = stockBean.getAbbrname();
+                    // selectBean.currentValue = stockBean.getCurrent();
+                    // selectBean.code = stockBean.getSymbol();
+                    // selectBean.percentage = stockBean.getPercentage();
+                    // selectBean.percentage = stockBean.getPercentage();
+                    // selectBean.change = stockBean.getChange();
+                    // selectBean.isStop = stockBean.isStop();
+                    // selectBean.symbol_type = stockBean.getSymbol_type();
 
                     if (!isShowIndex) {
 
-                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())) {
+                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())&&!stockBean.isStop()) {
                             // results.add(stockBean);
-                            selectList.add(selectBean);
+                            // selectList.add(selectBean);
+                            selectList.add(SelectStockBean.copy(stockBean));
                         }
                     } else {
-                        selectList.add(selectBean);
+                        // selectList.add(selectBean);
+                        selectList.add(SelectStockBean.copy(stockBean));
                     }
 
                 }

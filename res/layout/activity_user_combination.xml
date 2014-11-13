@@ -26,10 +26,19 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_user_create_time"
+            android:id="@+id/tv_user_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_user_name"
+            android:layout_toRightOf="@+id/iv_uheader"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_user_create_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_user_desc"
             android:layout_toRightOf="@+id/iv_uheader"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />

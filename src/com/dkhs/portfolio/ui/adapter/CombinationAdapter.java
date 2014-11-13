@@ -88,11 +88,11 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         viewHolder.tvTitle.setText(item.getName());
         viewHolder.tvIndex.setText((position + 1) + "");
 
-        float currenValue = item.getCurrentValue() * 100;
+        float currenValue = item.getCurrentValue();
         viewHolder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
         viewHolder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
-        float addValue = item.getAddUpValue() * 100;
+        float addValue = item.getAddUpValue();
         viewHolder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
         viewHolder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
 

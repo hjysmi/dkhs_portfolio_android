@@ -109,7 +109,7 @@ public class FragmentSwitchChart extends Fragment {
         swChart = (Switch) view.findViewById(R.id.switch_chart);
         // chartView = view.findViewById(id)
         if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
-            swChart.setVisibility(View.INVISIBLE);
+            swChart.setVisibility(View.GONE);
         }
 
         runPager = new Runnable() {
