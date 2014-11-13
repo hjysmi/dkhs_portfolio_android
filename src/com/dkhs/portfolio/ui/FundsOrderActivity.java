@@ -11,6 +11,8 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
@@ -36,10 +39,47 @@ public class FundsOrderActivity extends ModelAcitivity {
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
 
+    public static final String EXTRA_TITLE_INDEX = "extra_title_index";
+
+    private int titleIndex = 0;
+
+    public static Intent newIntent(Context context, int position) {
+        Intent intent = new Intent(context, FundsOrderActivity.class);
+
+        intent.putExtra(EXTRA_TITLE_INDEX, position);
+
+        return intent;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        super.onNewIntent(intent);
+
+        setIntent(intent);// must store the new intent unless getIntent() will return the old one
+
+        processExtraData();
+
+    }
+
+    private void processExtraData() {
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+
+    }
+
+    private void handleExtras(Bundle extras) {
+        titleIndex = extras.getInt(EXTRA_TITLE_INDEX, 0);
+    }
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
+        processExtraData();
         setContentView(R.layout.activity_funds_order);
         setTitle(R.string.fund_order);
         initViews();
@@ -67,6 +107,7 @@ public class FundsOrderActivity extends ModelAcitivity {
         pager.setAdapter(new OrderFragmentAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
         pager.setOffscreenPageLimit(3);
+        pager.setCurrentItem(titleIndex);
 
     }
 

@@ -171,7 +171,7 @@ public class TrendChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-        
+
         initMaChart(mMaChart);
         initView(view);
         setupViewData();
@@ -743,15 +743,15 @@ public class TrendChartFragment extends Fragment {
             if (trendType.equals(TREND_TYPE_TODAY)) {
                 System.out.println("setUserVisibleHint:" + isVisibleToUser);
 
-//                if (isVisibleToUser) {
-//                    // 相当于Fragment的onResume{
-//                    dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-//                } else {
-//                    System.out.println("dataHandler.removeCallbacks");
-//                    dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-//                    // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-//                    // 相当于Fragment的onPause
-//                }
+                // if (isVisibleToUser) {
+                // // 相当于Fragment的onResume{
+                // dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+                // } else {
+                // System.out.println("dataHandler.removeCallbacks");
+                // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+                // // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+                // // 相当于Fragment的onPause
+                // }
             }
         }
     }
@@ -812,30 +812,38 @@ public class TrendChartFragment extends Fragment {
                 e.printStackTrace();
             }
             List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
-            if(object.size() > 0)
-            	((CombinationDetailActivity) getActivity()).getCom().setIspublic(object.get(0).getIspublic());
+            if (object.size() > 0)
+                ((CombinationDetailActivity) getActivity()).getCom().setIspublic(object.get(0).getIspublic());
             return object;
         }
 
         @Override
         protected void afterParseData(List<CombinationBean> object) {
             if (null != object) {
-            	
+
             }
 
         }
     }
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		mCombinationBean = ((CombinationDetailActivity) getActivity()).getCom();
-		if (mCombinationBean.getIspublic().equals("0")) {
-            combinationCheck.setChecked(true);
-        } else {
-            combinationCheck.setChecked(false);
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        try {
+
+            mCombinationBean = ((CombinationDetailActivity) getActivity()).getCom();
+            if (null != mCombinationBean) {
+
+                if (mCombinationBean.getIspublic().equals("0")) {
+                    combinationCheck.setChecked(true);
+                } else {
+                    combinationCheck.setChecked(false);
+                }
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
         }
-		super.onResume();
-	};
-    
+        super.onResume();
+    };
+
 }
