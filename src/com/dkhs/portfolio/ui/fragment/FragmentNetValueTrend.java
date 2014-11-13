@@ -11,6 +11,9 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -22,11 +25,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
@@ -53,9 +62,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // private View viewNetvalueHead;
     private ImageView ivUpDownIcon;
     // private Button btnEditName;
-
+    private Switch combinationCheck;
     private CombinationBean mCombinationBean;
-
+    private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
 
     /**
@@ -96,6 +105,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
         // etCombinName = (EditText) view.findViewById(R.id.et_combination_name);
+        mMyCombinationEngineImpl = new MyCombinationEngineImpl();
         ivUpDownIcon = (ImageView) view.findViewById(R.id.tv_combination_image_uporlow);
         tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
         tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
@@ -105,6 +115,21 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
+        combinationCheck = (Switch) view.findViewById(R.id.combination_check);
+        combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
+        if (mCombinationBean.getIspublic().equals("0")) {
+            combinationCheck.setChecked(true);
+        } else {
+            combinationCheck.setChecked(false);
+        }
+        if (mCombinationBean.getCreateUser() == null) {
+            view.findViewById(R.id.rl_combination_check).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.combination_layout_check).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.rl_combination_check).setVisibility(View.GONE);
+            view.findViewById(R.id.combination_layout_check).setVisibility(View.INVISIBLE);
+
+        }
         initTabPage(view);
 
         // if(null!=mCombinationBean&&
@@ -116,7 +141,46 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         setupViewData();
         return view;
     }
+    class OnComCheckListener implements OnCheckedChangeListener {
 
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            // TODO Auto-generated method stub
+            if (isChecked) {
+                QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
+                listener.setLoadingDialog(getActivity()).beforeRequest();
+            } else {
+                QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+                mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
+                listener.setLoadingDialog(getActivity()).beforeRequest();
+            }
+        }
+
+    }
+
+    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
+
+        @Override
+        protected List<CombinationBean> parseDateTask(String jsonData) {
+            JSONArray jsonObject = null;
+            try {
+                jsonObject = new JSONArray(jsonData);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            List<CombinationBean> object = DataParse.parseArrayJson(CombinationBean.class, jsonObject);
+            return object;
+        }
+
+        @Override
+        protected void afterParseData(List<CombinationBean> object) {
+            if (null != object) {
+
+            }
+
+        }
+    }
     private void setupViewData() {
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
