@@ -144,16 +144,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
-    public void setLayoutHeight(int position){
-    	DisplayMetrics dm = new DisplayMetrics();
+
+    public void setLayoutHeight(int position) {
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
-    	android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-    	if(0== position){
-    		l.height = LayoutParams.MATCH_PARENT;
-    	}
-        l.height = position*getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+        if (0 == position) {
+            l.height = LayoutParams.MATCH_PARENT;
+        }
+        l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
     }
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -170,7 +172,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         initView();
         setupViewDatas();
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        l.height = LayoutParams.MATCH_PARENT;//dm.heightPixels * 3 / 2 - getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        l.height = LayoutParams.MATCH_PARENT;// dm.heightPixels * 3 / 2 -
+                                             // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
     }
 
@@ -481,32 +484,34 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
+            if (mStockBean != null && !mStockBean.isStop) {
 
-            tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
+                tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+                tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+                tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+                tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
 
-            if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
-                tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
-                tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
-                tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
-                tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
-                tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
+                if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
+                    tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
+                    tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
+                    tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
+                    tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
+                    tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
 
-            } else {
+                } else {
 
-                tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
-                tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
-                tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
-                tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
-                tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+                    tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
+                    tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+                    tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
+                    tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
+                    tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+                }
+                tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
+                tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
+                tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
+                tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
             }
-            tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
 
-            tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
-            tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
-            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
             tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
             tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
             tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));

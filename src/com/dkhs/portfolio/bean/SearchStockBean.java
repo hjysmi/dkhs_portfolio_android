@@ -90,4 +90,8 @@ public class SearchStockBean extends DBEntityBase {
     public void setIs_stop(String is_stop) {
         this.is_stop = is_stop;
     }
+
+    public boolean isStop() {
+        return this.is_stop.equalsIgnoreCase("1") ? true : false;
+    }
 }

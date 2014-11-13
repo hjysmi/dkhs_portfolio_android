@@ -415,6 +415,7 @@ public class StockQuotesChartFragment extends Fragment {
                 List<TimeStock> mainList = mFsDataBean.getMainstr();
 
                 // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
+
                 if (mainList != null && mainList.size() > 0) {
                     setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(fsDataBean.getLast_close(), mainList));
                     setTodayPointTitle();

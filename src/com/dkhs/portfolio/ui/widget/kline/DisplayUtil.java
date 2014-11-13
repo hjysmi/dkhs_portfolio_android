@@ -27,10 +27,9 @@ public class DisplayUtil {
 
             Display display = mActivity.getWindowManager().getDefaultDisplay();
             display.getSize(size);
-             int width = size.x;
-             System.out.println("getWindowSizePoint width:"+size.x);
+            int width = size.x;
             // int height = size.y;
-            
+
         }
         return size;
     }
