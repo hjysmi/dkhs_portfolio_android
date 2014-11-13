@@ -189,7 +189,8 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         initMaChart(mMaChart);
         initView(view);
-        if (mSelectStockBean != null && null != mSelectStockBean.symbol_type && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+        if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
+                && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
         }
         return view;
@@ -371,6 +372,7 @@ public class StockQuotesChartFragment extends Fragment {
         public void handleMessage(android.os.Message msg) {
             if (mStockBean.getSymbol_type() == 5) {
                 viewFiveRange.setVisibility(View.GONE);
+
             } else {
 
                 mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
@@ -378,6 +380,11 @@ public class StockQuotesChartFragment extends Fragment {
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
 
+            }
+
+            if (mSelectStockBean != null && mSelectStockBean.isStop) {
+                setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
+                mMaChart.invalidate();
             }
         };
     };
