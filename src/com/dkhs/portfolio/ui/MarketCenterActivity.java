@@ -58,6 +58,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
 		textShangAndShen = (TextView) findViewById(R.id.text2);
 		marketLayoutUpanddown = (LinearLayout) findViewById(R.id.market_layout_upanddown);
 		marketIconUpDown = (ImageView) findViewById(R.id.market_icon_up_down);
+		marketIconUpDown.setVisibility(View.GONE);
 		marketTextIndex = (TextView) findViewById(R.id.market_text_index);
 		marketTextEdition = (TextView) findViewById(R.id.market_text_edition);
 		textInland.setOnClickListener(this);
@@ -72,7 +73,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 		// view_datalist
 		if (null == loadDataListFragment) {
 			loadDataListFragment = loadDataListFragment
-					.getStockFragment(ViewType.STOC_INDEX_MARKET);
+					.getStockFragment(ViewType.STOC_INDEX_MARKET_CURRENT);
+			
 		}
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
@@ -146,8 +148,22 @@ public class MarketCenterActivity extends ModelAcitivity implements
 				animation.setDuration(300);
 				marketIconCursor.startAnimation(animation);
 				loadDataListFragment = loadDataListFragment
-						.getStockFragment(ViewType.STOC_INDEX_MARKET);
+						.getStockFragment(ViewType.STOC_INDEX_MARKET_CURRENT);
 				marketIconUpDown.setImageResource(R.drawable.market_icon_down);
+				marketIconUpDown.setVisibility(View.GONE);
+				getSupportFragmentManager().beginTransaction()
+				.replace(R.id.view_datalist, loadDataListFragment).commit();
+				 ace = false;
+				 marketTextIndex.setText("股指");
+				 marketTextEdition.setText("最新");
+			}else{
+				currIndex = 1;
+				textInland.setTextColor(getResources().getColor(R.color.red));
+				textShangAndShen.setTextColor(getResources().getColor(R.color.black));
+				loadDataListFragment = loadDataListFragment
+						.getStockFragment(ViewType.STOC_INDEX_MARKET_CURRENT);
+				marketIconUpDown.setImageResource(R.drawable.market_icon_down);
+				marketIconUpDown.setVisibility(View.GONE);
 				getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
 				 ace = false;
@@ -157,6 +173,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
 			break;
 		case R.id.text2:
 			if (currIndex == 1) {
+				marketIconUpDown.setVisibility(View.VISIBLE);
 				animation = new TranslateAnimation(offset,offset* 3 + bmpW,0, 0);
 				currIndex = 2;
 				textInland.setTextColor(getResources().getColor(R.color.black));
@@ -175,6 +192,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
 			}
 			break;
 		case R.id.market_layout_upanddown:
+			marketIconUpDown.setVisibility(View.VISIBLE);
 			if(ace){
 				if(currIndex == 1){
 				loadDataListFragment = loadDataListFragment
