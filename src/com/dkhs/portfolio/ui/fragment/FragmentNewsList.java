@@ -67,6 +67,8 @@ public class FragmentNewsList extends Fragment implements Serializable{
         if (bundle != null) {
         	initDate();
         }
+        if(null != getActivity())
+ 			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 		initView(view);
 		return view;
 	}
@@ -211,6 +213,8 @@ public class FragmentNewsList extends Fragment implements Serializable{
          		mLoadDataEngine.loadData();
          		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
          		mLoadDataEngine.setFromYanbao(false);
+         		if(null != getActivity())
+         			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
      } else {
          //不可见时不执行操作
      }

@@ -25,28 +25,30 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String ACE = "";
     public final static String DESC = "-";
     private String orderType;
-
     public MarketCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
     }
-
+    
     @Override
     public void loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
         DKHSClient.requestByGet(
-                MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1), orderType),
+                MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1), orderType,10),
                 null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType,10), null, this);
 
     }
+    public void loadDataFromCurrent(int num) {
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType,num), null, this);
 
+    }
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();

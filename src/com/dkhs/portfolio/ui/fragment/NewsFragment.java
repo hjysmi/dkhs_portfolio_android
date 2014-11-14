@@ -20,6 +20,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -36,6 +37,7 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -60,6 +62,7 @@ public class NewsFragment extends Fragment {
 
     private SelectStockBean mStockBean;
     private boolean first = true;
+    private boolean expand = false;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -102,18 +105,26 @@ public class NewsFragment extends Fragment {
     }
 
     private void intialTitles() {
+    	String url = "";
+    	 if (PortfolioPreferenceManager.isRequestByTestServer()) {
+    		 url =  DKHSUrl.BASE_TEST_URL;
+         } else {
+             url =  DKHSUrl.BASE_DEV_URL;
+
+         }
+    	 
         Map<String, String> title = new HashMap<String, String>();
         title.put(KEY_TITLE, "财报摘要");
 
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/" + mStockBean.id);
+        title.put(KEY_URL, url + "/finance/company/f10/financeindex/" + mStockBean.id);
         titles.add(title);
         title = new HashMap<String, String>();
         title.put(KEY_TITLE, "操盘必读");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/headlines/" + mStockBean.id);
+        title.put(KEY_URL, url + "/finance/company/f10/headlines/" + mStockBean.id);
         titles.add(title);
         title = new HashMap<String, String>();
         title.put(KEY_TITLE, "股东情况");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/shareholders/" + mStockBean.id);
+        title.put(KEY_URL, url + "/finance/company/f10/shareholders/" + mStockBean.id);
         titles.add(title);
         /*title = new HashMap<String, String>();
         title.put(KEY_TITLE, "主营业务");
@@ -175,23 +186,37 @@ public class NewsFragment extends Fragment {
         mListView.setAdapter(mAdapter);
         mListView.setOnGroupExpandListener(onGroupClickListener);
         mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
-        
+        mListView.setOnGroupCollapseListener(onGroupCollapseListener);
         mListView.performItemClick(mListView, 0, 0);
         /*android.view.ViewGroup.LayoutParams lp = mListView.getLayoutParams();
         lp.height = ViewGroup.LayoutParams.MATCH_PARENT;*/
     }
+    private OnGroupCollapseListener onGroupCollapseListener =new OnGroupCollapseListener(){
 
+		@Override
+		public void onGroupCollapse(int groupPosition) {
+			// TODO Auto-generated method stub
+			if(!expand && !first){
+				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+				
+			}
+			
+		}
+    	
+    };
     private OnGroupExpandListener onGroupClickListener = new OnGroupExpandListener() {
-
+    	
         @Override
         public void onGroupExpand(int groupPosition) {
         	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
-            
+            if(!first)
+            ((StockQuotesActivity) getActivity()).setLayoutHeight(9);
             // 关闭其他的
+            expand = true;
             collapseGroups(groupPosition);
         }
-
+        
         
 
     };
@@ -202,6 +227,10 @@ public class NewsFragment extends Fragment {
 		try {
 			if (isVisibleToUser) {
 				// fragment可见时加载数据
+				if(null != getActivity()){
+						((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+				}
+					
 				first = false;
 			} else {
 				// 不可见时不执行操作
@@ -220,6 +249,7 @@ public class NewsFragment extends Fragment {
             }
             mListView.collapseGroup(i);
         }
+        expand = false;
     }
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -405,14 +435,14 @@ public class NewsFragment extends Fragment {
 
         // 关闭其他的
         collapseGroups(0);*/
-		if(!first){
+		/*if(!first){
         	((StockQuotesActivity) getActivity()).setLayoutHeight(9);
-        }
+        }*/
 		mListView.setSelectedGroup(0);
 		mListView.expandGroup(0);
 		super.onResume();
 	}
-
+	
     // class TextLoadListener implements IHttpListener {
     //
     // private WebView mTextView;
