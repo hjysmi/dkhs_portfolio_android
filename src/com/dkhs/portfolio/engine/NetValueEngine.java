@@ -90,6 +90,7 @@ public class NetValueEngine {
         private float begin;
         private float end;
         private List<TodayNetBean> chartlist;
+        private float maxOffetValue;
 
         public float getBegin() {
             return begin;
@@ -113,6 +114,14 @@ public class NetValueEngine {
 
         public void setChartlist(List<TodayNetBean> chartlist) {
             this.chartlist = chartlist;
+        }
+
+        public float getMaxOffetValue() {
+            return maxOffetValue;
+        }
+
+        public void setMaxOffetValue(float maxOffetValue) {
+            this.maxOffetValue = maxOffetValue;
         }
 
     }

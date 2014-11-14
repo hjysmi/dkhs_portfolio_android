@@ -296,10 +296,10 @@ public class StockQuotesChartFragment extends Fragment {
             averageLine.setLineData(averagelineData);
 
             lines.add(0, fenshiPiceLine);
-            if (null != mStockBean && StockUitls.isIndexStock(mStockBean.getSymbol_type())){
-                
-            }else{
-                
+            if (null != mStockBean && StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+
+            } else {
+
                 lines.add(averageLine);
             }
             mMaChart.setLineData(lines);
@@ -387,9 +387,10 @@ public class StockQuotesChartFragment extends Fragment {
 
             }
 
-            if (isStopStock()) {
-                setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
-                mMaChart.invalidate();
+            if (isStopStock() || null == lineDataList || lineDataList.size() < 1) {
+//                setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
+//                mMaChart.invalidate();
+                setStopYTitle(mStockBean.getLastClose());
             }
         };
     };
@@ -563,13 +564,85 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setMaxValue(topValue);
         mMaChart.setMinValue(bottomValue);
 
-        rightYtitle.add(StringFromatUtils.get2PointPercent(((bottomValue - baseNum) / baseNum) * 100f));
-        rightYtitle.add(StringFromatUtils.get2PointPercent((((bottomValue + baseNum) / 2 - baseNum) / baseNum) * 100));
-        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
-        rightYtitle.add(StringFromatUtils.get2PointPercent((((topValue + baseNum) / 2 - baseNum) / baseNum) * 100));
-        rightYtitle.add(StringFromatUtils.get2PointPercent(((topValue - baseNum) / baseNum) * 100f));
+        if (baseNum == 0) {
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        } else {
+
+            rightYtitle.add(StringFromatUtils.get2PointPercent(((bottomValue - baseNum) / baseNum) * 100f));
+            rightYtitle.add(StringFromatUtils
+                    .get2PointPercent((((bottomValue + baseNum) / 2 - baseNum) / baseNum) * 100));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent((((topValue + baseNum) / 2 - baseNum) / baseNum) * 100));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(((topValue - baseNum) / baseNum) * 100f));
+        }
 
         mMaChart.setAxisRightYTitles(rightYtitle);
+
+    }
+
+    /**
+     * 设置纵坐标标题，并设置曲线的最大值和最小值
+     */
+    private void setStopYTitle(float baseNum) {
+        // int baseNum = 1;
+        // offetYvalue = offetYvalue / 0.8f;
+        // if ((offetYvalue / baseNum) > 0.105f) {
+        // offetYvalue = 0.105f * baseNum;
+        // }
+
+        List<String> ytitle = new ArrayList<String>();
+        List<String> rightYtitle = new ArrayList<String>();
+        float topValue = (float) (baseNum * (1 + 0.01));
+        float bottomValue = (float) (baseNum * (1 - 0.01));
+
+        System.out.println("topValue:" + topValue);
+        System.out.println("bottomValue:" + bottomValue);
+        BigDecimal t = new BigDecimal(topValue);
+        topValue = t.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+        BigDecimal b = new BigDecimal(bottomValue);
+        bottomValue = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
+
+        // float halfOffetValue = topValue-bottomValue / 2.0f;
+
+        if (mStockBean != null && StockUitls.isShangZhengB(mStockBean.getSymbol())) {
+            ytitle.add(StringFromatUtils.get3Point(bottomValue));
+            ytitle.add(StringFromatUtils.get3Point((bottomValue + baseNum) / 2));
+            ytitle.add(StringFromatUtils.get3Point(baseNum));
+            ytitle.add(StringFromatUtils.get3Point((topValue + baseNum) / 2));
+            ytitle.add(StringFromatUtils.get3Point(topValue));
+        } else {
+            ytitle.add(StringFromatUtils.get2Point(bottomValue));
+            ytitle.add(StringFromatUtils.get2Point((bottomValue + baseNum) / 2));
+            ytitle.add(StringFromatUtils.get2Point(baseNum));
+            ytitle.add(StringFromatUtils.get2Point((topValue + baseNum) / 2));
+            ytitle.add(StringFromatUtils.get2Point(topValue));
+        }
+
+        mMaChart.setAxisYTitles(ytitle);
+        mMaChart.setMaxValue(topValue);
+        mMaChart.setMinValue(bottomValue);
+
+        if (baseNum == 0) {
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        } else {
+
+            rightYtitle.add(StringFromatUtils.get2PointPercent(1));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+        }
+
+        mMaChart.setAxisRightYTitles(rightYtitle);
+        mMaChart.invalidate();
 
     }
 

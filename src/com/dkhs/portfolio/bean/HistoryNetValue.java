@@ -23,6 +23,7 @@ public class HistoryNetValue {
     private float begin;
     private float end;
     private List<HistoryNetBean> chartlist;
+    private float maxOffetValue;
 
     public class HistoryNetBean {
         private int id;
@@ -66,7 +67,7 @@ public class HistoryNetValue {
         }
 
         public float getPercentageBegin() {
-            return percentageBegin*100;
+            return percentageBegin * 100;
         }
 
         public void setPercentageBegin(float percentageBegin) {
@@ -96,6 +97,14 @@ public class HistoryNetValue {
 
     public void setChartlist(List<HistoryNetBean> chartlist) {
         this.chartlist = chartlist;
+    }
+
+    public float getMaxOffetValue() {
+        return maxOffetValue;
+    }
+
+    public void setMaxOffetValue(float maxOffetValue) {
+        this.maxOffetValue = maxOffetValue;
     }
 
 }
