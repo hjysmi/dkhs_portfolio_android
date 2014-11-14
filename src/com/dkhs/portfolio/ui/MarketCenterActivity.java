@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.Intent;
 import android.graphics.Matrix;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.OptionalStockListActivity.RequestMarketTask;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 /**
@@ -35,6 +39,8 @@ public class MarketCenterActivity extends ModelAcitivity implements
 	private ImageView marketIconUpDown;
 	private TextView marketTextIndex;
 	private TextView marketTextEdition;
+	private Timer mMarketTimer;
+	private static final long mPollRequestTime = 1000 * 5;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -72,7 +78,37 @@ public class MarketCenterActivity extends ModelAcitivity implements
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
 		
 	}
+	@Override
+    public void onResume() {
 
+        super.onResume();
+
+        if (mMarketTimer == null) {
+            mMarketTimer = new Timer(true);
+            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
+
+    }
+
+    public class RequestMarketTask extends TimerTask {
+
+        @Override
+        public void run() {
+
+            loadDataListFragment.refreshForMarker();
+        }
+    }
 	/**
 	 * 初始化动画
 	 */

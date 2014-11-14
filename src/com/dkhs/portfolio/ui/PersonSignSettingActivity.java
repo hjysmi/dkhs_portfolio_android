@@ -20,7 +20,11 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-
+/**
+ * 个人签名
+ * @author weiting
+ *
+ */
 public class PersonSignSettingActivity extends ModelAcitivity implements OnClickListener{
 	private Button btnCancle;
 	private Button btnSave;

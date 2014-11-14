@@ -172,7 +172,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         initView();
         setupViewDatas();
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        l.height = LayoutParams.MATCH_PARENT;// dm.heightPixels * 3 / 2 -
+        l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
                                              // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
     }
@@ -200,10 +200,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initList() {
         String[] name = new String[4];
+        if((null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
+        	name = new String[3];
+        }
         name[0] = "新闻";
         name[1] = "公告";
         name[2] = "研报";
-        name[3] = "F10";
+        if(!(null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
+        	name[3] = "F10";
+        }
         NewsforImpleEngine vo;
         List<Fragment> frag = new ArrayList<Fragment>();
         Fragment f1 = new FragmentNewsList();
@@ -241,8 +246,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f4.setArguments(b4);
         frag.add(f4);
-        Fragment f3 = new NewsFragment();
-        frag.add(f3);
+        if(!(null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
+        	Fragment f3 = new NewsFragment();
+            frag.add(f3);
+        }
         FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
                 getSupportFragmentManager());
         mFragmentSelectAdapter.setOutLaoyout(layouts);

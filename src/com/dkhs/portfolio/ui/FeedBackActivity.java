@@ -8,6 +8,9 @@ import org.json.JSONObject;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,7 +31,11 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
-
+/**
+ * 意见反馈
+ * @author weiting
+ *
+ */
 public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 	private Button btnCancle;
 	private Button btnSave;
@@ -66,13 +73,21 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 		feedImageLoad.setOnClickListener(this);
 	}
 	public void setSign() {
-        UserEngineImpl engine = new UserEngineImpl();
-        if(TextUtils.isEmpty(feedEditText.getText().toString())){
-        	PromptManager.showToast(R.string.sign_text_notice);
-			return;
-        }
-        engine.setFeedBack("-.-", feedEditText.getText().toString(), feedEditCom.getText().toString(), (null == imageFile)? null : imageFile, listener);
-        listener.setLoadingDialog(context).beforeRequest();
+        try {
+			UserEngineImpl engine = new UserEngineImpl();
+			if(TextUtils.isEmpty(feedEditText.getText().toString())){
+				PromptManager.showToast(R.string.sign_text_notice);
+				return;
+			}
+			PackageManager manager = context.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+			String version = info.versionName;
+			engine.setFeedBack("portfolio_android",version, feedEditText.getText().toString(), feedEditCom.getText().toString(), (null == imageFile)? null : imageFile, listener);
+			listener.setLoadingDialog(context).beforeRequest();
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	private ParseHttpListener<FeedBackBean> listener = new ParseHttpListener<FeedBackBean>() {
 

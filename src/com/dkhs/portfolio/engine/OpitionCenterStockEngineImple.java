@@ -37,16 +37,22 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
         DKHSClient.requestByGet(
-                MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page=" + (getCurrentpage() + 1), orderType),
+                MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page=" + (getCurrentpage() + 1), orderType,10),
                 null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType,10), null, this);
 
     }
+    public void loadDataFromCurrent(int num) {
+    	if(num == 0){
+    		num = 10;
+    	}
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType,num), null, this);
 
+    }
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();

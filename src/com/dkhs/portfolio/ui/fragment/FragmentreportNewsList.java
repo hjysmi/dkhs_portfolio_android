@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.YanbaoNewsActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 
@@ -54,6 +56,10 @@ public class FragmentreportNewsList extends Fragment{
 		context = getActivity();
 		tv = (TextView) view.findViewById(android.R.id.empty);
 		tv.setText("暂无研报");
+		Log.e("context", context.getClass().getName()+"");
+		if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+        	((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+	    }
 		initView(view);
 		return view;
 	}
@@ -146,6 +152,9 @@ public class FragmentreportNewsList extends Fragment{
             try {
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
+				    if(context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+				    	((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+				    }
 				    if(first){
 				    	initView(view);
 				    	first = false;
@@ -153,6 +162,10 @@ public class FragmentreportNewsList extends Fragment{
 				    mOptionMarketAdapter.notifyDataSetChanged();
 				    loadFinishUpdateView();
 				    
+				}else{
+					if(context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+				    	((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+				    }
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -168,6 +181,13 @@ public class FragmentreportNewsList extends Fragment{
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
+        if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+        	if(null !=  mDataList && mDataList.size() > 0){
+        		((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+        	}else{
+        		((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+        	}
+	    }
     }
 	@Override
 	public void onResume() {
@@ -175,15 +195,23 @@ public class FragmentreportNewsList extends Fragment{
 		
 		super.onResume();
 	}
-	 @Override
-     public void setUserVisibleHint(boolean isVisibleToUser) {
-             // TODO Auto-generated method stub
-             if (isVisibleToUser) {
-                     //fragment可见时加载数据
-            	 initDate();
-     } else {
-         //不可见时不执行操作
-     }
-             super.setUserVisibleHint(isVisibleToUser);
-     }
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		// TODO Auto-generated method stub
+		if (isVisibleToUser) {
+			// fragment可见时加载数据
+			if (null != context
+					&& context
+							.getClass()
+							.getName()
+							.equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+			}
+			initDate();
+		} else {
+			// 不可见时不执行操作
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
 }
