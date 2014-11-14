@@ -261,7 +261,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initView() {
         ViewStub viewstub;
-        if (null != mStockBean && mStockBean.symbol_type != null && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+        if (null != mStockBean && mStockBean.symbol_type != null
+                && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewstub = (ViewStub) findViewById(R.id.layout_index_header);
 
         } else {
@@ -494,39 +495,39 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
-            if (mStockBean != null && !mStockBean.isStop) {
+            // if (mStockBean != null && !mStockBean.isStop) {
 
-                tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-                tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-                tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-                tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
+            tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+            tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+            tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+            tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
 
-                if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
-                    tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
-                    tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
-                    tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
-                    tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
-                    tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
+            if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
+                tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
+                tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
+                tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
+                tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
+                tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
 
-                } else {
+            } else {
 
-                    tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
-                    tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
-                    tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
-                    tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
-                    tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
-                }
-                tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
-                tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
-                tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
-                tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
+                tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
+                tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+                tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
+                tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
+                tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
             }
-
-            tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
-            tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
-            tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
-            tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
+            tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
+            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
+            tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
+            tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
         }
+
+        tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
+        tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
+        tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
+        tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
+        // }
     }
 
     private ColorStateList getTextColor(float value) {

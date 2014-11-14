@@ -141,6 +141,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         setupViewData();
         return view;
     }
+
     class OnComCheckListener implements OnCheckedChangeListener {
 
         @Override
@@ -181,6 +182,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         }
     }
+
     private void setupViewData() {
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
@@ -228,6 +230,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // getChildFragmentManager().beginTransaction().replace(R.id.rl_trend_layout, fragment).commit();
     // }
 
+    TrendChartFragment mtrendFragment = new TrendChartFragment();
+
     private void replaceFragment(Fragment newFragment) {
 
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
@@ -255,12 +259,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        FragmentSwitchChart todayFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY);
-        todayFragment.setUpdateHandler(updateHandler);
-        fragmentList.add(todayFragment);
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
-        fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
+        // FragmentSwitchChart todayFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY);
+        // todayFragment.setUpdateHandler(updateHandler);
+        // fragmentList.add(todayFragment);
+        // fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
+        // fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
+        // fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
 
         // fragmentList.add(TestFragment.getInstance());
         // fragmentList.add(TestFragment.getInstance());
@@ -281,17 +285,43 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         // TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
         // indicator.setViewPager(mViewPager);
-        replaceFragment(fragmentList.get(0));
+        // replaceFragment(fragmentList.get(0));
+        mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
+        replaceFragment(mtrendFragment);
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
         @Override
         public void onSelectPosition(int position) {
-            // if (null != mViewPager) {
-            // mViewPager.setCurrentItem(position);
-            // }
-            replaceFragment(fragmentList.get(position));
+
+            // replaceFragment(fragmentList.get(position));
+            String type = TrendChartFragment.TREND_TYPE_TODAY;
+            switch (position) {
+                case 0: {
+                    type = TrendChartFragment.TREND_TYPE_TODAY;
+                }
+                    break;
+                case 1: {
+                    type = TrendChartFragment.TREND_TYPE_SEVENDAY;
+
+                }
+                    break;
+                case 2: {
+                    type = TrendChartFragment.TREND_TYPE_MONTH;
+
+                }
+                    break;
+                case 3: {
+
+                    type = TrendChartFragment.TREND_TYPE_HISTORY;
+                }
+                    break;
+
+                default:
+                    break;
+            }
+            mtrendFragment.setSelectType(type);
         }
     };
 
