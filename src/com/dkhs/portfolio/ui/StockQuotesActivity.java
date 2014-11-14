@@ -153,6 +153,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (0 == position) {
             l.height = LayoutParams.MATCH_PARENT;
         }
+        if(position < 2){
+        	position = 2;
+        }
         l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
     }
 
