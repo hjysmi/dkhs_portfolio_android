@@ -79,8 +79,8 @@ public class DKHSUrl {
 
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
         // 行情中心 指数排行
-        String marketcenter = "/api/v1/symbols/?sort={0}percentage&page_size=10&is_midx=1";
-        String opitionmarket = "/api/v1/symbols/?sort={0}percentage&page_size=10&symbol_type=1";
+        String marketcenter = "/api/v1/symbols/?sort={0}percentage&page_size={1}&is_midx=1";
+        String opitionmarket = "/api/v1/symbols/?sort={0}percentage&page_size={1}&symbol_type=1";
     }
 
     public interface NetValue {

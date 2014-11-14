@@ -179,10 +179,12 @@ public class UserEngineImpl {
         //DKHSClient.requestByGet(DKHSUrl.News.newstext +id, null, this);
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_version + appcode, null, listener);
     }
-    public void setFeedBack(String app,String content,String contact,File file, ParseHttpListener<FeedBackBean> listener) {
+    public void setFeedBack(String app,String version,String content,String contact,File file, ParseHttpListener<FeedBackBean> listener) {
         RequestParams params = new RequestParams();
         if(null != app)
-        	params.addBodyParameter("app",app);
+        	params.addBodyParameter("app_code",app);
+        if(null != version)
+        	params.addBodyParameter("version",version);
         if(null != content)
         	params.addBodyParameter("content", content);
         if(null != contact)

@@ -315,7 +315,19 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine.setLoadingDialog(getActivity());
         }
     }
-
+    public void refreshForMarker() {
+        isRefresh = true;
+        if (mLoadDataEngine != null) {
+            // mDataList.clear();
+        	 if ((mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) && null != mDataList){
+        		 ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+        	 }
+        	 if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId) && null != mDataList){
+        		 ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+        	 }
+            mLoadDataEngine.setLoadingDialog(getActivity());
+        }
+    }
     // public void refreshAll() {
     // isRefresh = true;
     // if (mLoadDataEngine != null) {

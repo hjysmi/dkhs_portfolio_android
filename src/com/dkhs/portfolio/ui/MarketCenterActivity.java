@@ -106,7 +106,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
         @Override
         public void run() {
 
-            loadDataListFragment.refresh();
+            loadDataListFragment.refreshForMarker();
         }
     }
 	/**
