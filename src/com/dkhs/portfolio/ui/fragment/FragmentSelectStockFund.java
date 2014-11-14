@@ -102,6 +102,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         STOCK_OPTIONAL_PRICE(8),
         // 行情中心 指数排行榜查询 递减
         STOC_INDEX_MARKET(9),
+        //行情中心 国内指数不排序
+        STOC_INDEX_MARKET_CURRENT(13),
         // 行情中心 指数排行榜查询 递减
         STOC_INDEX_MARKET_ACE(10),
         // 行情中心 个股排行榜查询 递减
@@ -172,6 +174,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
         } else if (mViewType == ViewType.STOC_INDEX_MARKET.typeId) {
+            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
+        }else if (mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId) {
             mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
         } else if (mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) {
             mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
@@ -283,7 +287,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else if (mViewType == ViewType.STOC_INDEX_MARKET.typeId) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.DESC);
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) {
+        } else if (mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId) {
+            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
+                    MarketCenterStockEngineImple.CURRENT);
+        }else if (mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
         } else if (mViewType == ViewType.STOC_INDEX_POSITION.typeId) {
@@ -319,7 +326,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         isRefresh = true;
         if (mLoadDataEngine != null) {
             // mDataList.clear();
-        	 if ((mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) && null != mDataList){
+        	 if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId ||mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) && null != mDataList){
         		 ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
         	 }
         	 if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId) && null != mDataList){
@@ -400,6 +407,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             case 12:
                 tv.setText("暂无沪深数据");
                 break;
+            case 13:
+            	tv.setText("暂无国内指数数据");
+            	break;
             default:
                 break;
         }

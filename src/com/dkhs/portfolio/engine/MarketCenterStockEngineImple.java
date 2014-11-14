@@ -22,8 +22,9 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String ORDER_INCREASE = "-percentage";
     public final static String ORDER_DOWN = "percentage";
     public final static String ORDER_TURNOVER = "-turnover_rate";
-    public final static String ACE = "";
-    public final static String DESC = "-";
+    public final static String ACE = "percentage";
+    public final static String DESC = "-percentage";
+    public final static String CURRENT = "";
     private String orderType;
     public MarketCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
