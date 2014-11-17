@@ -178,6 +178,10 @@ public class PromptManager {
 
         Toast.makeText(PortfolioApplication.getInstance(), msg, Toast.LENGTH_LONG).show();
     }
+    public static void showShortToast(String msg) {
+        
+        Toast.makeText(PortfolioApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+    }
 
     public static void showToast(int msgResId) {
 

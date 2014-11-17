@@ -188,15 +188,15 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     //
     // }
 
-//    @Override
-//    public boolean onTouch(View v, MotionEvent event) {
-//        gvCombination.clearFocus();
-//        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        if (imm != null) {
-//            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-//        }
-//        return super.onTouchEvent(event);
-//    }
+    // @Override
+    // public boolean onTouch(View v, MotionEvent event) {
+    // gvCombination.clearFocus();
+    // InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    // if (imm != null) {
+    // imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+    // }
+    // return super.onTouchEvent(event);
+    // }
 
     @Override
     public void onClick(View v) {
@@ -208,8 +208,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
             clickSecondButton();
         } else if (id == R.id.tv_add_combina) {
-//            mCombinationAdapter.addItem();
-//            mPopMoreWindow.dismiss();
+            // mCombinationAdapter.addItem();
+            // mPopMoreWindow.dismiss();
 
             addNewCombination();
         } else if (id == R.id.tv_delete_combina) {
@@ -219,10 +219,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
             btnRefresh.setTag("del");
             btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
-//            mCombinationAdapter.setDelStatus(true);
-//            mPopMoreWindow.dismiss();
+            // mCombinationAdapter.setDelStatus(true);
+            // mPopMoreWindow.dismiss();
             listFragment.setListDelStatus(true);
-//            gvCombination.setOnItemClickListener(null);
+            // gvCombination.setOnItemClickListener(null);
 
         }
 
@@ -230,19 +230,19 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     private void clickRightButton() {
         if (btnMore.getTag() != null && btnMore.getTag().equals("cancel")) {
-//            mCombinationAdapter.setDelStatus(false);
+            // mCombinationAdapter.setDelStatus(false);
             listFragment.setListDelStatus(false);
             setButtonAdd();
         } else {
-//            mCombinationAdapter.addItem();
             addNewCombination();
         }
 
     }
-    
-    
-    private void addNewCombination(){
-        startActivity(PositionAdjustActivity.newIntent(this, null));
+
+    private void addNewCombination() {
+        // startActivity(PositionAdjustActivity.newIntent(this, null));
+        if (null != listFragment)
+            listFragment.createNewCombination();
 
     }
 
@@ -268,22 +268,22 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     private void clickSecondButton() {
         if (btnRefresh.getTag().equals("refresh")) {
-//            refreshData();
+            // refreshData();
             listFragment.refresh();
         } else {
             // setButtonRefresh();
             // setButtonMore();
-//            gvCombination.setOnItemClickListener(this);
-//            removeSelectDatas();
+            // gvCombination.setOnItemClickListener(this);
+            // removeSelectDatas();
             listFragment.removeSelectCombinations();
         }
 
     }
 
-//    private void refreshData() {
-//        // System.out.println("Second refresh button click");
-//        loadCombinationData();
-//    }
+    // private void refreshData() {
+    // // System.out.println("Second refresh button click");
+    // loadCombinationData();
+    // }
 
     // private void removeSelectDatas() {
     // List<CombinationBean> selectList = mCombinationAdapter.getDelPosition();
@@ -317,15 +317,10 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     //
     // }
 
-    
-
     public void upateDelViewStatus() {
         setButtonRefresh();
         setButtonAdd();
 
-       
     }
-
-   
 
 }

@@ -29,13 +29,13 @@ import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 
-public class FragmentNewsList extends Fragment implements Serializable{
-	/**
+public class FragmentNewsList extends Fragment implements Serializable {
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 6565512311564641L;
+    private static final long serialVersionUID = 6565512311564641L;
 
-	private ListView mListView;
+    private ListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
@@ -50,43 +50,46 @@ public class FragmentNewsList extends Fragment implements Serializable{
     public final static String LAYOUT = "layout";
     private NewsforImpleEngine vo;
     private int types;
-    //private LinearLayout layouts;
+
+    // private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        
-    }
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		view = inflater.inflate(R.layout.activity_option_market_news,null);
-		context = getActivity();
-		Bundle bundle = getArguments();
-        if (bundle != null) {
-        	initDate();
-        }
-        if(null != getActivity())
- 			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-		initView(view);
-		return view;
-	}
-	private void initDate(){
-		Bundle bundle = getArguments();
-		
-		if(null != bundle){
-			vo = (NewsforImpleEngine) bundle.getSerializable(VO);
-			//layouts =  vo.getLayout();
-			types = bundle.getInt(NEWS_TYPE);
-		}
 
-	}
-	private void initView(View view) {
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        view = inflater.inflate(R.layout.activity_option_market_news, null);
+        context = getActivity();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            initDate();
+        }
+        // if(null != getActivity())
+        // ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+        initView(view);
+        return view;
+    }
+
+    private void initDate() {
+        Bundle bundle = getArguments();
+
+        if (null != bundle) {
+            vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+            // layouts = vo.getLayout();
+            types = bundle.getInt(NEWS_TYPE);
+        }
+
+    }
+
+    private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         TextView tv = (TextView) view.findViewById(android.R.id.empty);
-        if(null != vo && null != vo.getPageTitle()){
-        	tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+        if (null != vo && null != vo.getPageTitle()) {
+            tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
         }
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(tv);
@@ -95,9 +98,9 @@ public class FragmentNewsList extends Fragment implements Serializable{
         mListView.setAdapter(mOptionMarketAdapter);
 
         mListView.removeFooterView(mFootView);
-        
+
         mListView.setOnScrollListener(new OnScrollListener() {
-        	
+
             @Override
             public void onScrollStateChanged(AbsListView absListView, int scrollState) {
 
@@ -116,28 +119,28 @@ public class FragmentNewsList extends Fragment implements Serializable{
                 }
 
             }
-            
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
             }
         });
-            mListView.setOnItemClickListener(itemBackClick);
+        mListView.setOnItemClickListener(itemBackClick);
 
     }
+
     OnItemClickListener itemBackClick = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			// TODO Auto-generated method stub
-			try {
-				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(),vo.getPageTitle() );
-				startActivity(intent);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // TODO Auto-generated method stub
+            try {
+                Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle());
+                startActivity(intent);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     };
 
     private void loadMore() {
@@ -147,77 +150,85 @@ public class FragmentNewsList extends Fragment implements Serializable{
                 return;
             }
             mListView.addFooterView(mFootView);
-            
+
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
             mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
             mLoadDataEngine.setFromYanbao(false);
         }
     }
+
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-				if (null != dataList) {
-				    mDataList.addAll(dataList);
-				    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-				    if(first){
-				    	initView(view);
-				    	first = false;
-				    }
-				    //layouts.getLayoutParams().height = dataList.size() * 150;
-				    mOptionMarketAdapter.notifyDataSetChanged();
-				    loadFinishUpdateView();
-				    
-				}else{
-					 ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                if (null != dataList) {
+                    mDataList.addAll(dataList);
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+                    if (first) {
+                        initView(view);
+                        first = false;
+                    }
+                    // layouts.getLayoutParams().height = dataList.size() * 150;
+                    mOptionMarketAdapter.notifyDataSetChanged();
+                    loadFinishUpdateView();
+
+                } else {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         }
 
     };
+
     private void loadFinishUpdateView() {
-    	mOptionMarketAdapter.notifyDataSetChanged();
+        mOptionMarketAdapter.notifyDataSetChanged();
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
         ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
     }
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		/*if(null != mDataList)
-			layouts.getLayoutParams().height = mDataList.size() * 200;*/
-		if(!first){
-			 mDataList = new ArrayList<OptionNewsBean>();
-      		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
-      		mLoadDataEngine.loadData();
-      		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-      		mLoadDataEngine.setFromYanbao(false);
-		}
-		super.onResume();
-	}
-	 @Override
-     public void setUserVisibleHint(boolean isVisibleToUser) {
-             // TODO Auto-generated method stub
-             if (isVisibleToUser) {
-                     //fragment可见时加载数据
-            	 mDataList = new ArrayList<OptionNewsBean>();
-         		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
-         		mLoadDataEngine.loadData();
-         		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-         		mLoadDataEngine.setFromYanbao(false);
-         		if(null != getActivity())
-         			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-     } else {
-         //不可见时不执行操作
-     }
-             super.setUserVisibleHint(isVisibleToUser);
-     }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        /*
+         * if(null != mDataList)
+         * layouts.getLayoutParams().height = mDataList.size() * 200;
+         */
+        if (!first) {
+            mDataList = new ArrayList<OptionNewsBean>();
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setFromYanbao(false);
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        if (isVisibleToUser) {
+            // fragment可见时加载数据
+            mDataList = new ArrayList<OptionNewsBean>();
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setFromYanbao(false);
+            if (null != getActivity()){
+                
+//                ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+            }
+        } else {
+            // 不可见时不执行操作
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 }
