@@ -48,6 +48,8 @@ import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -139,10 +141,17 @@ public class TrendChartFragment extends Fragment {
     public void setSelectType(String type) {
         this.trendType = type;
         if (null != mMaChart) {
-
-            updateView();
+            PromptManager.showProgressDialog(getActivity(), "");
+            drawCharHandler.sendEmptyMessageDelayed(777, 1000);
+            // updateView();
         }
     }
+
+    Handler drawCharHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            updateView();
+        };
+    };
 
     // tab切换时Ui更新为选中的tabUI
     private void updateView() {
@@ -155,6 +164,7 @@ public class TrendChartFragment extends Fragment {
                     dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
                 } else {
                     setTodayViewLoad();
+                    
                     // computeTodayDataThread.start();
                 }
 
@@ -185,6 +195,8 @@ public class TrendChartFragment extends Fragment {
             }
 
         }
+        
+        PromptManager.closeProgressDialog();
 
     }
 
@@ -682,7 +694,7 @@ public class TrendChartFragment extends Fragment {
             dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
                 mNetValueDataEngine.requeryToday(todayListener);
-                todayListener.setLoadingDialog(getActivity()).beforeRequest();
+                // todayListener.setLoadingDialog(getActivity()).beforeRequest();
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
