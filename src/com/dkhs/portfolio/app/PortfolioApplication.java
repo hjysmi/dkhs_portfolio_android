@@ -8,15 +8,21 @@
  */
 package com.dkhs.portfolio.app;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.Application;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.dkhs.portfolio.service.LoadStockToDBService;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.DataBaseUtil;
 
 /**
  * @ClassName PortfolioApplication
@@ -38,7 +44,8 @@ public class PortfolioApplication extends Application {
         super.onCreate();
         mInstance = this;
         // if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
-        LoadStockToDBService.requestDownload(this);
+        // LoadStockToDBService.requestDownload(this);
+        copyDataBaseToPhone();
         // }
 
         // 注册crashHandler
@@ -85,6 +92,33 @@ public class PortfolioApplication extends Application {
             Activity activity = lists.get(lists.size() - 1);
             lists.clear();
             lists.add(activity);
+        }
+    }
+
+    private void copyDataBaseToPhone() {
+
+        final DataBaseUtil util = new DataBaseUtil(this);
+        // 判断数据库是否存在
+        boolean dbExist = util.checkDataBase();
+
+        if (dbExist) {
+            Log.i("tag", "The database is exist.");
+        } else {// 不存在就把raw里的数据库写入手机
+
+            new Thread() {
+                public void run() {
+
+                    try {
+                        util.copyDataBase();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                };
+            }.start();
+            // } catch (IOException e) {
+            // throw new Error("Error copying database");
+            // }
         }
     }
 
