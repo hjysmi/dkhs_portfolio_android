@@ -254,6 +254,28 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
 
     }
+    private void showReportFragment(Fragment newFragment) {
+        
+        FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
+        if (!newFragment.isAdded()) {
+            try {
+                // FragmentTransaction trasection =
+                getChildFragmentManager().beginTransaction();
+                trasection.replace(R.id.rl_trend_layout, newFragment);
+                trasection.addToBackStack(null);
+                trasection.commit();
+                
+            } catch (Exception e) {
+                // TODO: handle exception
+                // AppConstants.printLog(e.getMessage());
+                
+            }
+        } else {
+            
+            trasection.show(newFragment);
+        }
+        
+    }
 
     private void initTabPage(View view) {
 
