@@ -86,7 +86,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     // 30s
     private static final long mCombinationRequestTime = 1000 * 30;
     private Timer mCombinationTimer;
-    
+
     public static MyCombinationListFragment getFragment() {
         MyCombinationListFragment fragment = new MyCombinationListFragment();
         Bundle args = new Bundle();
@@ -109,6 +109,13 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         }
     }
 
+    public void createNewCombination() {
+        if (null != mAdapter) {
+
+            mAdapter.addItem();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -124,8 +131,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         return mAdapter;
     }
 
-    
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -136,8 +142,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         super.onResume();
         if (mCombinationTimer == null) {
             mCombinationTimer = new Timer(true);
-            mCombinationTimer.schedule(new RequestCombinationTask(), 200,
-                    mCombinationRequestTime);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 200, mCombinationRequestTime);
         }
     }
 
@@ -145,12 +150,12 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     public void onStop() {
         super.onStop();
 
-       
         if (mCombinationTimer != null) {
             mCombinationTimer.cancel();
             mCombinationTimer = null;
         }
     }
+
     public class RequestCombinationTask extends TimerTask {
 
         @Override
@@ -160,7 +165,6 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         }
     }
 
-    
     private boolean isRefresh;
 
     @Override

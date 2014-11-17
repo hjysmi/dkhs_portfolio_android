@@ -29,6 +29,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -168,8 +169,12 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     @Override
     public void onClick(View v) {
+        if (mDataList.size() >= 20) {
+            PromptManager.showShortToast("最多只能添加20个基金组合");
+        } else {
 
-        addItem();
+            addItem();
+        }
 
     }
 
