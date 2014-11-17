@@ -67,6 +67,18 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
 
+    public static final String ARGUMENT_ISFROM_ORDER = "argument_isfrom_order";
+
+    public static FragmentNetValueTrend newInstance(boolean isOrder) {
+        FragmentNetValueTrend fragment = new FragmentNetValueTrend();
+
+        Bundle arguments = new Bundle();
+        arguments.putBoolean(ARGUMENT_ISFROM_ORDER, isOrder);
+        fragment.setArguments(arguments);
+
+        return fragment;
+    }
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -96,9 +108,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     }
 
+    private boolean isFromOrder;
+
     private void handleArguments(Bundle arguments) {
         // TODO Auto-generated method stub
-
+        isFromOrder = arguments.getBoolean(ARGUMENT_ISFROM_ORDER, false);
     }
 
     @Override
@@ -230,7 +244,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // getChildFragmentManager().beginTransaction().replace(R.id.rl_trend_layout, fragment).commit();
     // }
 
-    TrendChartFragment mtrendFragment = new TrendChartFragment();
+    // TrendChartFragment mtrendFragment = new TrendChartFragment();
+    FragmentSwitchChart mSwitchFragment = null;
 
     private void replaceFragment(Fragment newFragment) {
 
@@ -254,8 +269,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
 
     }
+
     private void showReportFragment(Fragment newFragment) {
-        
+
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
         if (!newFragment.isAdded()) {
             try {
@@ -264,17 +280,17 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 trasection.replace(R.id.rl_trend_layout, newFragment);
                 trasection.addToBackStack(null);
                 trasection.commit();
-                
+
             } catch (Exception e) {
                 // TODO: handle exception
                 // AppConstants.printLog(e.getMessage());
-                
+
             }
         } else {
-            
+
             trasection.show(newFragment);
         }
-        
+
     }
 
     private void initTabPage(View view) {
@@ -308,8 +324,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
         // indicator.setViewPager(mViewPager);
         // replaceFragment(fragmentList.get(0));
-        mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
-        replaceFragment(mtrendFragment);
+        // mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
+        mSwitchFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY,isFromOrder);
+        replaceFragment(mSwitchFragment);
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
@@ -343,7 +360,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 default:
                     break;
             }
-            mtrendFragment.setSelectType(type);
+            mSwitchFragment.setSelectType(type);
+            // mtrendFragment.setSelectType(type);
         }
     };
 

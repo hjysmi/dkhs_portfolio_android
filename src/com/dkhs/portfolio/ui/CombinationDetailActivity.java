@@ -133,7 +133,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private void initTabPage() {
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        fragmentList.add(new FragmentNetValueTrend());
+        fragmentList.add(FragmentNetValueTrend.newInstance(false));
         fragmentList.add(new FragmentCompare());
         fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
         Fragment f = new FragmentNews();

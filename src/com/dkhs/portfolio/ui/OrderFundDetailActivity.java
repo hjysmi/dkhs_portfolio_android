@@ -108,7 +108,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     private void replaceTrendView() {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, new FragmentNetValueTrend())
+        getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, FragmentNetValueTrend.newInstance(true))
                 .commit();
 
     }

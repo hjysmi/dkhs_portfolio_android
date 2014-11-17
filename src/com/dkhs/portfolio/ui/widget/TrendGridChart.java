@@ -316,21 +316,7 @@ public class TrendGridChart extends View {
             drawRightYtitleText(canvas);
         }
 
-        // System.out.println("isTouch Up:" + isTouch);
-        // 绘制触摸界面
-        // if (displayCrossXOnTouch || displayCrossYOnTouch) {
-        // if (isTouch) {
-        // drawWithFingerClick(canvas);
-        // }
 
-        // if (mDrawBitmap == null || mDrawCanvas == null) {
-        //
-        // // use RGB_565 for best performance
-        // mDrawBitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.RGB_565);
-        // mDrawCanvas = new Canvas(mDrawBitmap);
-        // }
-        // mDrawCanvas.drawColor(backgroudColor);
-        // }
     }
 
     /**
@@ -679,21 +665,7 @@ public class TrendGridChart extends View {
                     canvas.drawLine(mStartLineXpoint, height - i * postOffset, length + mStartLineXpoint, height - i
                             * postOffset, mPaintLine);
                 }
-                // 绘制刻度
-                // if (displayAxisYTitle) {
-                //
-                // if (displayAxisYTitleColor) {
-                // mPaintFont.setColor(getYTitlePaintFont(i, counts));
-                // }
-                //
-                // if (i < counts && i > 0) {
-                // canvas.drawText(axisYTitles.get(i), 0f, offset - i * postOffset + latitudeFontSize / 2f,
-                // mPaintFont);
-                // } else if (0 == i) {
-                // canvas.drawText(axisYTitles.get(i), 0f, super.getHeight() - this.axisMarginBottom - 5f,
-                // mPaintFont);
-                // }
-                // }
+               
             }
         }
 

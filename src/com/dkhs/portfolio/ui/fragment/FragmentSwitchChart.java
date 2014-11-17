@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.Switch;
+import com.dkhs.portfolio.utils.PromptManager;
 
 /**
  * @ClassName FragmentSwitchChart
@@ -52,11 +54,14 @@ public class FragmentSwitchChart extends Fragment {
     // };
     // };
 
-    public static FragmentSwitchChart newInstance(String trendType) {
+    private boolean isFromOrder;
+
+    public static FragmentSwitchChart newInstance(String trendType, boolean isFromOrder) {
         FragmentSwitchChart fragment = new FragmentSwitchChart();
 
         Bundle arguments = new Bundle();
         arguments.putString(TrendChartFragment.ARGUMENT_TREND_TYPE, trendType);
+        arguments.putBoolean("key_isfrom_oder", isFromOrder);
         fragment.setArguments(arguments);
 
         return fragment;
@@ -77,12 +82,13 @@ public class FragmentSwitchChart extends Fragment {
 
     private void handleArguments(Bundle arguments) {
         trendType = arguments.getString(TrendChartFragment.ARGUMENT_TREND_TYPE);
-        mFragmentChart = TrendChartFragment.newInstance(trendType);
+        isFromOrder = arguments.getBoolean("key_isfrom_oder");
+        // mFragmentChart = TrendChartFragment.newInstance(trendType);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_switch_chart, null);
+        View view = inflater.inflate(R.layout.fragment_trend_and_report, null);
         initView(view);
         return view;
     }
@@ -102,25 +108,29 @@ public class FragmentSwitchChart extends Fragment {
         }
     };
 
-    private final Handler handler = new Handler();
+    private final Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            replaceChartView();
+        };
+    };
     private Runnable runPager;
 
     private void initView(View view) {
         swChart = (Switch) view.findViewById(R.id.switch_chart);
         // chartView = view.findViewById(id)
-        if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
-            swChart.setVisibility(View.GONE);
-        }
-
-        runPager = new Runnable() {
-
-            @Override
-            public void run() {
-                replaceChartView();
-                // replaceReportView();
-            }
-        };
-        handler.post(runPager);
+        // if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
+        // swChart.setVisibility(View.GONE);
+        // }
+        //
+        // runPager = new Runnable() {
+        //
+        // @Override
+        // public void run() {
+        // replaceChartView();
+        // // replaceReportView();
+        // }
+        // };
+        handler.sendEmptyMessageDelayed(77, 100);
 
         swChart.setOnClickListener(switchClickListener);
 
@@ -143,6 +153,26 @@ public class FragmentSwitchChart extends Fragment {
         // });
     }
 
+    public void setSelectType(String type) {
+        this.trendType = type;
+        if (!TextUtils.isEmpty(trendType) && !isFromOrder) {
+
+            if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
+                swChart.setVisibility(View.GONE);
+            } else {
+                swChart.setVisibility(View.VISIBLE);
+            }
+
+        }
+        mFragmentChart.setSelectType(type);
+
+        // if (null != mMaChart) {
+        // PromptManager.showProgressDialog(getActivity(), "");
+        // drawCharHandler.sendEmptyMessageDelayed(777, 1000);
+        // // updateView();
+        // }
+    }
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -157,17 +187,24 @@ public class FragmentSwitchChart extends Fragment {
 
     private void replaceChartView() {
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-
         if (mFragmentChart == null) {
-            mFragmentChart = TrendChartFragment.newInstance(trendType);
+
+            if (mFragmentChart == null) {
+                mFragmentChart = TrendChartFragment.newInstance(trendType);
+            }
+
+            mFragmentChart.setUpdateHandler(updHandler);
+            // mFragmentChart.setTipshowHandler(mHandler);
+
+            // replaceContentView(mFragment, R.id.btn_trend + "");
+            // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            ft.replace(R.id.rl_chart, mFragmentChart);
+        } else {
+            ft.show(mFragmentChart);
         }
-
-        mFragmentChart.setUpdateHandler(updHandler);
-        // mFragmentChart.setTipshowHandler(mHandler);
-
-        // replaceContentView(mFragment, R.id.btn_trend + "");
-        // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        ft.replace(R.id.chart_content, mFragmentChart);
+        if (null != mFragmentReport) {
+            ft.hide(mFragmentReport);
+        }
         ft.commit();
     }
 
@@ -176,12 +213,18 @@ public class FragmentSwitchChart extends Fragment {
 
         if (mFragmentReport == null) {
             mFragmentReport = FragmentReportForm.newInstance(trendType);
+            ft.replace(R.id.rl_report, mFragmentReport);
+        } else {
+            ft.show(mFragmentReport);
         }
+        if (null != mFragmentChart) {
+            ft.hide(mFragmentChart);
+        }
+        ft.commit();
 
         // replaceContentView(mFragment, R.id.btn_trend + "");
         // ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
-        ft.replace(R.id.chart_content, mFragmentReport);
-        ft.commit();
+
     }
 
     @Override
@@ -216,19 +259,6 @@ public class FragmentSwitchChart extends Fragment {
             throw new RuntimeException(e);
         }
     }
-
-    /*
-     * @Override
-     * public void setUserVisibleHint(boolean isVisibleToUser) {
-     * // TODO Auto-generated method stub
-     * if (isVisibleToUser) {
-     * //fragment可见时加载数据
-     * } else {
-     * //不可见时不执行操作
-     * }
-     * super.setUserVisibleHint(isVisibleToUser);
-     * }
-     */
 
     private Handler updHandler;
 
