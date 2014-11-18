@@ -99,6 +99,7 @@ public class FundsOrderActivity extends ModelAcitivity {
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
+        fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_DAY));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_WEEK));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_MONTH));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_SEASON));

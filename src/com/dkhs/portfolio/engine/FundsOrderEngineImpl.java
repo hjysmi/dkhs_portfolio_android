@@ -39,6 +39,7 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
         this.mOrderType = orderType;
     }
 
+    public static final String ORDER_DAY = "-chng_pct_day";
     public static final String ORDER_WEEK = "-chng_pct_week";
     public static final String ORDER_MONTH = "-chng_pct_month";
     public static final String ORDER_SEASON = "-chng_pct_three_month";

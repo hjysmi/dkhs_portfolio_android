@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -37,10 +39,12 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
@@ -48,6 +52,7 @@ import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -267,8 +272,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             }
         }
 
-        stockAdapter.setList(stockList);
         mContributeAdapter.setList(stockList);
+        stockAdapter.setList(stockList);
 
     }
 
@@ -330,6 +335,23 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_pos_increase_title, null);
         lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);
+        lvStock.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position -= 1;
+                if (position >= 0 && position < stockList.size()) {
+
+                    ConStockBean selectBean = stockList.get(position);
+                    SelectStockBean sStockBean = SelectStockBean.copy(selectBean);
+                    sStockBean.symbol_type = "1";
+                    startActivity(StockQuotesActivity.newIntent(getActivity(), sStockBean));
+
+                    // PromptManager.showToast(selectBean.getStockName() + ":" + selectBean.getStockCode());
+                }
+
+            }
+        });
 
     }
 
@@ -428,7 +450,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             Calendar calCreate = TimeUtils.toCalendar(createDate);
             Calendar calSelect = GregorianCalendar.getInstance();
-//            Calendar calToday = GregorianCalendar.getInstance();
+            // Calendar calToday = GregorianCalendar.getInstance();
             calSelect.set(year, monthOfYear, dayOfMonth);
 
             String queryDay = "";
@@ -437,33 +459,33 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             } else {
                 queryDay = TimeUtils.getTimeString(calSelect);
             }
-//            if (calSelect.before(calToday)) {
-//                btnAdjust.setVisibility(View.GONE);
-//            } else {
-//                btnAdjust.setVisibility(View.VISIBLE);
-//            }
-          
-            
-            if (null != mCurrentCalendar&&isEqualsCalenderDay(calSelect, mCurrentCalendar) ) {
+            // if (calSelect.before(calToday)) {
+            // btnAdjust.setVisibility(View.GONE);
+            // } else {
+            // btnAdjust.setVisibility(View.VISIBLE);
+            // }
+
+            if (null != mCurrentCalendar && isEqualsCalenderDay(calSelect, mCurrentCalendar)) {
                 btnAdjust.setVisibility(View.VISIBLE);
-              }else{
-                
-                 btnAdjust.setVisibility(View.GONE);
+            } else {
+
+                btnAdjust.setVisibility(View.GONE);
             }
 
             tvCurrentDay.setText(queryDay);
             isDefalutRequest = false;
             QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay,
-            		listener);
+            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay, listener);
             listener.setLoadingDialog(getActivity()).beforeRequest();
         }
     };
 
-    private boolean isEqualsCalenderDay(Calendar cSelect,Calendar cToday){
-       return (cSelect.get(Calendar.YEAR)==cToday.get(Calendar.YEAR)&&cSelect.get(Calendar.MONTH)==cToday.get(Calendar.MONTH)&&cSelect.get(Calendar.DAY_OF_MONTH)==cToday.get(Calendar.DAY_OF_MONTH));
+    private boolean isEqualsCalenderDay(Calendar cSelect, Calendar cToday) {
+        return (cSelect.get(Calendar.YEAR) == cToday.get(Calendar.YEAR)
+                && cSelect.get(Calendar.MONTH) == cToday.get(Calendar.MONTH) && cSelect.get(Calendar.DAY_OF_MONTH) == cToday
+                .get(Calendar.DAY_OF_MONTH));
     }
-    
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)

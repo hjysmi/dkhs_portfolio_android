@@ -55,7 +55,7 @@ public class FragmentreportNewsList extends Fragment{
 		view = inflater.inflate(R.layout.activity_option_market_news,null);
 		context = getActivity();
 		tv = (TextView) view.findViewById(android.R.id.empty);
-		tv.setText("暂无研报");
+		
 		Log.e("context", context.getClass().getName()+"");
 		if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
         	((StockQuotesActivity) getActivity()).setLayoutHeight(2);
@@ -150,7 +150,7 @@ public class FragmentreportNewsList extends Fragment{
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-				if (null != dataList) {
+				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
 				    	((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
@@ -163,6 +163,7 @@ public class FragmentreportNewsList extends Fragment{
 				    loadFinishUpdateView();
 				    
 				}else{
+				    tv.setText("暂无研报");
 					if(context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
 				    	((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 				    }

@@ -17,9 +17,10 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 public class ScrollTopFragment extends Fragment implements OnClickListener {
     public static final String ARGUMENT_SCROLL_TYPE = "trend_type";
     public static final String ARGUMENT_VALUE = "argument_value";
-    public static final String TYPE_SEASON = "type_season";
+    public static final String TYPE_DAY = "type_day";
     public static final String TYPE_WEEK = "type_week";
     public static final String TYPE_MONTH = "type_month";
+    public static final String TYPE_SEASON = "type_season";
 
     private String mType = TYPE_WEEK;
     private float value;
@@ -97,8 +98,10 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         TextView tvIncreaseValue = (TextView) view.findViewById(R.id.tv_top_value);
 
         if (!TextUtils.isEmpty(mType)) {
-
-            if (mType.equalsIgnoreCase(TYPE_WEEK)) {
+            if (mType.equalsIgnoreCase(TYPE_DAY)) {
+                tvTitle.setText(R.string.day_top);
+                tvIncreaseText.setText(R.string.day_top_increase);
+            } else if (mType.equalsIgnoreCase(TYPE_WEEK)) {
                 tvTitle.setText(R.string.week_top);
                 tvIncreaseText.setText(R.string.week_top_increase);
             } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {

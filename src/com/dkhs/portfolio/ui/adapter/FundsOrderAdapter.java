@@ -103,7 +103,10 @@ public class FundsOrderAdapter extends BaseAdapter {
         ChampionBean item = mDataList.get(position);
         float increasePercent = 0;
         String textResId = "";
-        if (mOrderType.contains("chng_pct_week")) {
+        if (mOrderType.contains("chng_pct_day")) {
+            increasePercent = item.getChng_pct_day();
+            textResId = mContext.getString(R.string.day_income_rate);
+        } else if (mOrderType.contains("chng_pct_week")) {
             increasePercent = item.getChng_pct_week();
             textResId = mContext.getString(R.string.week_income_rate);
         } else if (mOrderType.contains("chng_pct_month")) {
