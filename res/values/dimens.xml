@@ -43,9 +43,12 @@
     <dimen name="line_stroke_width">1dp</dimen>
     <dimen name="list_text_size">16sp</dimen>
     <dimen name="news_text_title_size">20sp</dimen>
-	<dimen name="select_offset">10dp</dimen>
-	<dimen name="select_text">15dp</dimen>
-	<dimen name="select_image">20dp</dimen>
+    <dimen name="select_offset">10dp</dimen>
+    <dimen name="select_text">15dp</dimen>
+    <dimen name="select_image">20dp</dimen>
+    <dimen name="single_index_padding">6dp</dimen>
+    <dimen name="two_index_padding">1dp</dimen>
+
     <integer name="select_touch_text">22</integer>
 
     <dimen name="weight">80dp</dimen>

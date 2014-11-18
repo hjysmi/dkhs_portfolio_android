@@ -233,10 +233,13 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                final int columnWidth = (mGridView.getWidth() - (getResources()
-                        .getDimensionPixelSize(R.dimen.compare_horspacing)) * 4) / 5;
+                if (isAdded()) {
 
-                mGridAdapter.setItemHeight((int) (columnWidth));
+                    final int columnWidth = (mGridView.getWidth() - (getResources()
+                            .getDimensionPixelSize(R.dimen.compare_horspacing)) * 4) / 5;
+
+                    mGridAdapter.setItemHeight((int) (columnWidth));
+                }
             }
         });
         mGridView.setOnItemClickListener(compareItemClick);
@@ -377,7 +380,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
                 TimeUtils.getTimeString(cEnd), historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
-        compareListener.setLoadingDialog(getActivity()).beforeRequest();
+        compareListener.setLoadingDialog(getActivity());
     }
 
     private void reShowGirdItem() {

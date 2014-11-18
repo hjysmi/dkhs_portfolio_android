@@ -25,6 +25,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
@@ -45,6 +46,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
+import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 
 /**
@@ -65,8 +67,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private CombinationBean mCombinationBean;
 
     MyPagerFragmentAdapter mPagerAdapter;
-    
-    
+
     // private FragmentNetValueTrend mFragmentTrend;
     // private FragmentCompare mFragmentCompare;
     // private FragmentPositionDetail mFragmentDetail;
@@ -87,7 +88,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         super.onCreate(arg0);
         setContentView(R.layout.activity_combination_detail);
         setTitle(R.string.netvalue_trend);
-        
+
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -113,7 +114,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         findViewById(R.id.btn_comparison).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_detail).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_news).setOnClickListener(bottomClickListner);
-        
+
         // Button btnShare = getSecondRightButton();
         // btnShare.setOnClickListener(new OnClickListener() {
         //
@@ -123,9 +124,39 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         // Toast.makeText(CombinationDetailActivity.this, "保存截图到相册", Toast.LENGTH_SHORT).show();
         // }
         // });
-        
-        initTabPage();
 
+        // initTabPage();
+        replaceTrendView();
+
+    }
+
+    private void replaceTrendView() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
+        ft.commit();
+    }
+
+    private void replaceCompareView() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.rl_content, new FragmentCompare());
+        ft.commit();
+    }
+
+    private void replaceDetailView() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.rl_content, FragmentPositionDetail.newInstance(mCombinationBean.getId()));
+        ft.commit();
+    }
+
+    private void replaceNewsView() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment f = new FragmentNews();
+        // Fragment f = TestFragment.getInstance();
+        Bundle b = new Bundle();
+        b.putSerializable(FragmentNews.DATA, mCombinationBean);
+        f.setArguments(b);
+        ft.replace(R.id.rl_content, f);
+        ft.commit();
     }
 
     ScrollViewPager mViewPager;
@@ -133,14 +164,19 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private void initTabPage() {
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        fragmentList.add(FragmentNetValueTrend.newInstance(false));
+        // fragmentList.add(FragmentNetValueTrend.newInstance(false));
+        fragmentList.add(TestFragment.getInstance());
         fragmentList.add(new FragmentCompare());
+        // fragmentList.add(TestFragment.getInstance());
         fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
-        Fragment f = new FragmentNews();
-        Bundle b = new Bundle();
-        b.putSerializable(FragmentNews.DATA, mCombinationBean);
-        f.setArguments(b);
-        fragmentList.add(f);
+        fragmentList.add(TestFragment.getInstance());
+        // Fragment f = new FragmentNews();
+        // fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
+        // Fragment f = new FragmentNews();
+        // Bundle b = new Bundle();
+        // b.putSerializable(FragmentNews.DATA, mCombinationBean);
+        // f.setArguments(b);
+        // fragmentList.add(f);
 
         mViewPager = (ScrollViewPager) findViewById(R.id.pager);
         mViewPager.setCanScroll(false);
@@ -186,11 +222,11 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         @Override
         public void onPageSelected(int newPosition) {
 
-            FragmentLifecycle fragmentToShow = (FragmentLifecycle) mPagerAdapter.getItem(newPosition);
-            fragmentToShow.onResumeFragment();
-
-            FragmentLifecycle fragmentToHide = (FragmentLifecycle) mPagerAdapter.getItem(currentPosition);
-            fragmentToHide.onPauseFragment();
+            // FragmentLifecycle fragmentToShow = (FragmentLifecycle) mPagerAdapter.getItem(newPosition);
+            // fragmentToShow.onResumeFragment();
+            //
+            // FragmentLifecycle fragmentToHide = (FragmentLifecycle) mPagerAdapter.getItem(currentPosition);
+            // fragmentToHide.onPauseFragment();
 
             currentPosition = newPosition;
         }
@@ -234,6 +270,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
                 mSelectedTabIndex = 0;
                 setTitle(R.string.netvalue_trend);
+                replaceTrendView();
                 // if (null == mFragmentTrend) {
                 // mFragmentTrend = new FragmentNetValueTrend();
                 // }
@@ -246,6 +283,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 mSelectedTabIndex = 1;
 
                 setTitle(R.string.performance_comparison);
+                replaceCompareView();
             }
 
                 break;
@@ -254,7 +292,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 mSelectedTabIndex = 2;
 
                 setTitle(R.string.position_detail);
-
+                replaceDetailView();
             }
 
                 break;
@@ -262,6 +300,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
                 mSelectedTabIndex = 3;
                 setTitle(R.string.related_news);
+                replaceNewsView();
 
             }
 
@@ -270,14 +309,14 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             default:
                 break;
         }
-        PagerAdapter adapter = mViewPager.getAdapter();
-        final int count = adapter.getCount();
-
-        if (mSelectedTabIndex > count) {
-            mSelectedTabIndex = count - 1;
-        }
-
-        mViewPager.setCurrentItem(mSelectedTabIndex, true);
+        // PagerAdapter adapter = mViewPager.getAdapter();
+        // final int count = adapter.getCount();
+        //
+        // if (mSelectedTabIndex > count) {
+        // mSelectedTabIndex = count - 1;
+        // }
+        //
+        // mViewPager.setCurrentItem(mSelectedTabIndex, true);
 
     }
 
