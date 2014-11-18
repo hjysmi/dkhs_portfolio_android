@@ -22,7 +22,7 @@
 		       	android:layout_width="wrap_content"
 		       	android:singleLine="true"
 	            android:id="@+id/adapter_market_from"
-	            android:text="安信证券"
+	            android:text=""
 	            android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/setting_text_phone"
                 android:layout_alignParentRight="true"
@@ -34,7 +34,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:id="@+id/adapter_market_title"
-            android:text="存款余额冲时面临着巨大挑战的问昊与机器的时间过的飞一样的快"
+            android:text=""
             android:textColor="@color/black"
             android:textSize="@dimen/list_text_size" />
 		</RelativeLayout>
@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:singleLine="true"
-                android:text="2014-10-10 18:00"
+                android:text=""
                 android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/setting_text_phone" />
 
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/option_news_text_date"
                 android:singleLine="true"
-                android:text="600015"
+                android:text=""
                 android:id="@+id/adapter_market_title_num"
                 android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/setting_text_phone" />
