@@ -186,6 +186,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
             mAdapterConbinStock.setFromShow(!fromPosition);
+            System.out.println("new SelectStockAdatper");
         }
 
         mAdapterConbinStock.setCheckChangeListener(this);
