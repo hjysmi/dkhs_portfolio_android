@@ -199,10 +199,12 @@
     <string name="function_market">行情</string>
     <string name="function_yanbao">研报</string>
     <string name="month_top">月度收益冠军榜</string>
-    <string name="week_top">7天收益冠军榜</string>
+    <string name="week_top">周收益冠军榜</string>
+    <string name="day_top">日收益冠军榜</string>
     <string name="season_top">季度收益冠军榜</string>
     <string name="month_top_increase">月度累计涨幅</string>
-    <string name="week_top_increase">7天累计涨幅</string>
+    <string name="week_top_increase">周累计涨幅</string>
+    <string name="day_top_increase">日累计涨幅</string>
     <string name="season_top_increase">季度累计涨幅</string>
     <string name="marketcenter_title">行情中心</string>
     <string name="report">研报</string>
@@ -233,10 +235,10 @@
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">提交成功</string>
+    <string name="day_income_rate">日收益率:</string>
     <string name="week_income_rate">周收益率:</string>
     <string name="month_income_rate">月收益率:</string>
     <string name="season_income_rate">季收益率:</string>
     <string name="all_income_rate">累计收益率:</string>
-
 
 </resources>
