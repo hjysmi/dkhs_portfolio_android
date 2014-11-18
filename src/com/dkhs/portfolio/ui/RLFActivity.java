@@ -287,24 +287,22 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // PromptManager.showToast("请同意服务协议");
                 // return;
                 // }
-                if (NetUtil.checkNetWork(this)) {
-                    if (current_type == REGIST_TYPE) {
-                        // // engine.register(telephone, verify_code, listener);
-                        //
-                        // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
-                        // startActivity(intent);
-                        PromptManager.showProgressDialog(this, "正在验证...", false);
-                        engine.checkMobile(telephone, checkListener);
-                    } else if (current_type == FORGET_PSW_TYPE) {
-                        // startActivity(SettingNameActivity.newIntent(RLFActivity.this,
-                        // etPhoneNum.getText().toString(),
-                        // code.getText().toString(), true));
-                        // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-                        // PromptManager.showProgressDialog(this, "正在登录...", false);
-                    }
-                } else {
-                    PromptManager.showNoNetWork(this);
+
+                if (current_type == REGIST_TYPE) {
+                    // // engine.register(telephone, verify_code, listener);
+                    //
+                    // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
+                    // startActivity(intent);
+                    PromptManager.showProgressDialog(this, "正在验证...", false);
+                    engine.checkMobile(telephone, checkListener);
+                } else if (current_type == FORGET_PSW_TYPE) {
+                    // startActivity(SettingNameActivity.newIntent(RLFActivity.this,
+                    // etPhoneNum.getText().toString(),
+                    // code.getText().toString(), true));
+                    // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
+                    // PromptManager.showProgressDialog(this, "正在登录...", false);
                 }
+
                 break;
 
             default:
@@ -478,8 +476,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     // }
     // }, 0, 1000);
     // }
-
-    
 
     @Override
     public void onBackPressed() {

@@ -105,7 +105,7 @@ public class PromptManager {
      * 
      * @param context
      */
-    public static void showNoNetWork(final Context context) {
+    public static void showNoNetWork() {
         /*
          * AlertDialog.Builder builder = new Builder(context);
          * builder.setIcon(R.drawable.ic_launcher)
@@ -129,7 +129,7 @@ public class PromptManager {
          * }
          * }).setNegativeButton("知道了", null).show();
          */
-        showToast(R.string.no_net);
+        showToast(R.string.no_net_connect);
 
     }
 

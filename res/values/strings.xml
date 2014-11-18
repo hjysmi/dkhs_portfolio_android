@@ -150,6 +150,7 @@
     <string name="hint_account">手机号或邮箱</string>
     <string name="logining">登录中...</string>
     <string name="no_net">网络连接不可用，请稍后重试</string>
+    <string name="no_net_connect">网络连接失败，请检查网络</string>
     <string name="mobile">手机号</string>
     <string name="hint_mobile">请输入手机号</string>
     <string name="verify_code">验证码</string>
