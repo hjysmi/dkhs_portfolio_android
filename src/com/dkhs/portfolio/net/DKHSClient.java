@@ -153,8 +153,8 @@ public class DKHSClient {
         } else {
             if (null != listener) {
                 listener.requestCallBack();
+                listener.onHttpFailure(123, "网络未连接");
             }
-            listener.onHttpFailure(123, "网络未连接");
             if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
                 // On UI thread.
                 PromptManager.showNoNetWork();
