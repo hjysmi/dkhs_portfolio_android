@@ -28,10 +28,14 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	private TextView newsTextText;
 	private static final String EXTRA = "newsId";
 	private static final String EXTRA_NAME = "name";
+	private static final String EXTRA_SYMBOL = "symbolname";
+	private static final String EXTRA_SYMBOL_ID = "symbolid";
 	private String textId;
 	 private LoadNewsTextEngine mLoadDataEngine;
 	 private OptionNewsBean mOptionNewsBean;
 	 private String optionName;
+	 private String symbolName;
+	 private String symbolId;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -48,11 +52,13 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 		mLoadDataEngine.loadData();
 		mLoadDataEngine.setLoadingDialog(this).beforeRequest();;
 	}
-	public static Intent newIntent(Context context, String id,String name) {
+	public static Intent newIntent(Context context, String id,String name,String symbolName,String symbolId) {
         Intent intent = new Intent(context, NewsActivity.class);
         Bundle b = new Bundle();
         b.putString(EXTRA, id);
         b.putString(EXTRA_NAME, name);
+        b.putString(EXTRA_SYMBOL, symbolName);
+        b.putString(EXTRA_SYMBOL_ID, symbolId);
          intent.putExtras(b);
         return intent;
     }
@@ -60,6 +66,8 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
     public void getId(Bundle b){
     	textId = b.getString(EXTRA);
     	optionName = b.getString(EXTRA_NAME);
+    	symbolName = b.getString(EXTRA_SYMBOL);
+    	symbolId = b.getString(EXTRA_SYMBOL_ID);
     }
 	public void initView(){
 		newsTitleIcon = (ImageView) findViewById(R.id.news_title_icon);
@@ -88,9 +96,12 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	    };
 	    public void setValue(){
 	    	newsTitleName.setText(mOptionNewsBean.getTitle());
-	    	newsTitleDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
-	    	if(null != mOptionNewsBean.getSource())
+	    	newsTitleDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+	    	if(null != symbolName){
+	    		newsTitleNum.setText(symbolName);
+	    	}else if(null != mOptionNewsBean.getSource()){
 	    		newsTitleNum.setText(mOptionNewsBean.getSource().getTitle());
+	    	}
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());
 	    }

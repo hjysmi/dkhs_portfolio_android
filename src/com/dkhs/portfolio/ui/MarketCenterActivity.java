@@ -35,7 +35,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
 	private TextView textInland;
 	private TextView textShangAndShen;
 	private LinearLayout marketLayoutUpanddown;
-	private boolean ace = false;
+	private boolean ace = true;
 	private ImageView marketIconUpDown;
 	private TextView marketTextIndex;
 	private TextView marketTextEdition;
@@ -153,7 +153,7 @@ public class MarketCenterActivity extends ModelAcitivity implements
 				marketIconUpDown.setVisibility(View.GONE);
 				getSupportFragmentManager().beginTransaction()
 				.replace(R.id.view_datalist, loadDataListFragment).commit();
-				 ace = false;
+				 ace = true;
 				 marketTextIndex.setText("股指");
 				 marketTextEdition.setText("最新");
 			}else{

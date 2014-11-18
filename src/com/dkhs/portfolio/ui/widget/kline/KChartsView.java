@@ -200,7 +200,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			mVolumnChartView.onSet(e,ismove,mDataStartIndext);
 			canvas.drawLine(startX + PADDING_LEFT , 2.0f + DEFAULT_AXIS_TITLE_SIZE, startX+ PADDING_LEFT, UPER_CHART_BOTTOM,
 					paint);
-			canvas.drawLine(0, cl, this.getWidth(), cl, paint);//十字光标横线
+			canvas.drawLine(PADDING_LEFT, cl, this.getWidth(), cl, paint);//十字光标横线
 			/*if(mOHLCData.size() < MIN_CANDLE_NUM){
 				canvas.drawLine((int)(mStartX - addNum * (mCandleWidth + 3)), getHeight() - 2.0f, (int)(mStartX - addNum * (mCandleWidth + 3)), LOWER_CHART_TOP, paint);
 			}else{

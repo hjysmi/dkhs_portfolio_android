@@ -69,12 +69,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
         if (bundle != null) {
         	initDate();
         }
-        try {
-			if(null != getActivity())
-				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+        if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 		}
 		initView(view);
 		return view;
@@ -139,8 +135,13 @@ public class FragmentNewsList extends Fragment implements Serializable {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
             try {
-                Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle());
-                startActivity(intent);
+            	if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
+	                Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),mDataList.get(position).getSymbols().get(0).getAbbrName(),mDataList.get(position).getSymbols().get(0).getId());
+	                startActivity(intent);
+            	}else{
+            		Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),null,null);
+                    startActivity(intent);
+            	}
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -170,7 +171,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
             try {
                 if (null != dataList&&dataList.size()>0) {
                     mDataList.addAll(dataList);
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+                    if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+                    	((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+                    }
                     if (first) {
                         initView(view);
                         first = false;
@@ -183,7 +186,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     if (null != vo && null != vo.getPageTitle()) {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
                     }
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                    if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+                    	((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                    }
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -191,11 +196,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
             }
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
-				    try {
+				    if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
 						((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				    if(first){
 				    	initView(view);
@@ -206,11 +208,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
 				    loadFinishUpdateView();
 				    
 				}else{
-					 try {
+					if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
 						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
 
@@ -224,12 +223,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
-        try {
-			((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+    	if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+    		((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+    	}
     }
 
 	@Override
@@ -256,13 +252,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
          		mLoadDataEngine.loadData();
          		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
          		mLoadDataEngine.setFromYanbao(false);
-         		try {
-					if(null != getActivity())
-						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+     			if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+					((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+     			}
      } else {
          //不可见时不执行操作
      }

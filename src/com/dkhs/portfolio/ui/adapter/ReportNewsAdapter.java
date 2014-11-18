@@ -63,9 +63,9 @@ public class ReportNewsAdapter extends BaseAdapter{
 			}else{
 				viewHolder.tvTextNameNum.setText("");
 			}
-			viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-4));
+			viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
 			if(null != mOptionNewsBean.getSource()){
-				viewHolder.tvTextFrom.setText(mOptionNewsBean.getSource().getTitle());
+				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getTitle());
 			}else{
 				viewHolder.tvTextFrom.setText("");
 			}

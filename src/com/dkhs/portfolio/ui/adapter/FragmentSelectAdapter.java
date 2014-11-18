@@ -82,6 +82,7 @@ public class FragmentSelectAdapter {
 		createView();
 		//changeFrament(0,fragmentList.get(0),bundleList.get(0),fragmentList.get(0).toString());
 		setAnima(offset,offset);
+		pager.setCurrentItem(0);
 	}
 	private void initDate(){
 		dm = new DisplayMetrics();
