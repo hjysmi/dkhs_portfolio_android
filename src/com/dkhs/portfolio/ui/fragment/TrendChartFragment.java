@@ -142,7 +142,7 @@ public class TrendChartFragment extends Fragment {
         this.trendType = type;
         if (null != mMaChart) {
             PromptManager.showProgressDialog(getActivity(), "");
-            drawCharHandler.sendEmptyMessageDelayed(777, 1000);
+            drawCharHandler.sendEmptyMessageDelayed(777, 200);
             // updateView();
         }
     }
@@ -156,7 +156,7 @@ public class TrendChartFragment extends Fragment {
     // tab切换时Ui更新为选中的tabUI
     private void updateView() {
         if (!TextUtils.isEmpty(trendType)) {
-            
+
             if (isTodayShow()) {
 
                 initTodayTrendTitle();
@@ -366,7 +366,8 @@ public class TrendChartFragment extends Fragment {
             if (todayNetvalue != null) {
 
                 mTodayLineData = todayNetvalue;
-                setTodayViewLoad();
+                // setTodayViewLoad();
+                dataHandler.sendEmptyMessage(77);
 
             }
 
@@ -533,7 +534,7 @@ public class TrendChartFragment extends Fragment {
             if (trendType.equals(TREND_TYPE_TODAY)) {
 
                 // setLineData(initMA(new Random().nextInt(240)));
-
+                setTodayViewLoad();
             } else {
 
             }
@@ -709,7 +710,7 @@ public class TrendChartFragment extends Fragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            dataHandler.sendEmptyMessage(1722);
+            // dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
                 mNetValueDataEngine.requeryToday(todayListener);
                 // todayListener.setLoadingDialog(getActivity()).beforeRequest();

@@ -130,7 +130,7 @@ public class FragmentSwitchChart extends Fragment {
         // // replaceReportView();
         // }
         // };
-        handler.sendEmptyMessageDelayed(77, 100);
+        handler.sendEmptyMessageDelayed(77, 300);
 
         swChart.setOnClickListener(switchClickListener);
 
