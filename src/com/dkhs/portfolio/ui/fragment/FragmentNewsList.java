@@ -57,23 +57,29 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-
+        
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        view = inflater.inflate(R.layout.activity_option_market_news, null);
-        context = getActivity();
-        Bundle bundle = getArguments();
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		view = inflater.inflate(R.layout.activity_option_market_news,null);
+		context = getActivity();
+		Bundle bundle = getArguments();
         if (bundle != null) {
-            initDate();
+        	initDate();
         }
-        // if(null != getActivity())
-        // ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-        initView(view);
-        return view;
-    }
+        try {
+			if(null != getActivity())
+				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		initView(view);
+		return view;
+	}
+
 
     private void initDate() {
         Bundle bundle = getArguments();
@@ -183,6 +189,30 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+				if (null != dataList) {
+				    mDataList.addAll(dataList);
+				    try {
+						((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				    if(first){
+				    	initView(view);
+				    	first = false;
+				    }
+				    //layouts.getLayoutParams().height = dataList.size() * 150;
+				    mOptionMarketAdapter.notifyDataSetChanged();
+				    loadFinishUpdateView();
+				    
+				}else{
+					 try {
+						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 
         }
 
@@ -194,43 +224,48 @@ public class FragmentNewsList extends Fragment implements Serializable {
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
-        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+        try {
+			((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        /*
-         * if(null != mDataList)
-         * layouts.getLayoutParams().height = mDataList.size() * 200;
-         */
-        if (!first) {
-            mDataList = new ArrayList<OptionNewsBean>();
-            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-            mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-            mLoadDataEngine.setFromYanbao(false);
-        }
-        super.onResume();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        // TODO Auto-generated method stub
-        if (isVisibleToUser) {
-            // fragment可见时加载数据
-            mDataList = new ArrayList<OptionNewsBean>();
-            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-            mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-            mLoadDataEngine.setFromYanbao(false);
-            if (null != getActivity()){
-                
-//                ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-            }
-        } else {
-            // 不可见时不执行操作
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		/*if(null != mDataList)
+			layouts.getLayoutParams().height = mDataList.size() * 200;*/
+		if(!first){
+			 mDataList = new ArrayList<OptionNewsBean>();
+      		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
+      		mLoadDataEngine.loadData();
+      		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+      		mLoadDataEngine.setFromYanbao(false);
+		}
+		super.onResume();
+	}
+	 @Override
+     public void setUserVisibleHint(boolean isVisibleToUser) {
+             // TODO Auto-generated method stub
+             if (isVisibleToUser) {
+                     //fragment可见时加载数据
+            	 mDataList = new ArrayList<OptionNewsBean>();
+         		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
+         		mLoadDataEngine.loadData();
+         		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+         		mLoadDataEngine.setFromYanbao(false);
+         		try {
+					if(null != getActivity())
+						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+     } else {
+         //不可见时不执行操作
+     }
+             super.setUserVisibleHint(isVisibleToUser);
+     }
 }
