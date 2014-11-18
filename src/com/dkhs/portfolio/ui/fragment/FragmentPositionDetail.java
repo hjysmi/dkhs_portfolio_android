@@ -219,7 +219,32 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+
+            PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+            stockList.clear();
+            stockList.addAll(bean.getPositionList());
+            if (null != stockList && stockList.size() > 0) {
+
+                int listSize = stockList.size();
+
+                for (int i = 0; i < listSize; i++) {
+                    stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
+                }
+            }
+
+            int valueSize = stockList.size();
+
+            for (int i = 0; i < valueSize; i++) {
+                PieSlice slice1 = new PieSlice();
+
+                slice1.setColor(stockList.get(i).getDutyColor());
+                slice1.setValue(stockList.get(i).getDutyValue());
+                pieList.add(slice1);
+
+            }
+            surpulsValue();
+
+            return bean;
         }
 
         @Override
@@ -261,16 +286,6 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void setStockList() {
-        stockList.clear();
-        stockList.addAll(mPositionDetail.getPositionList());
-        if (null != stockList && stockList.size() > 0) {
-
-            int listSize = stockList.size();
-
-            for (int i = 0; i < listSize; i++) {
-                stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
-            }
-        }
 
         mContributeAdapter.setList(stockList);
         stockAdapter.setList(stockList);
@@ -289,8 +304,12 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                // Ready, move up
-                mScrollview.fullScroll(View.FOCUS_UP);
+                if (isAdded()) {
+
+                    // Ready, move up
+                    mScrollview.getLayoutParams().width = getResources().getDisplayMetrics().widthPixels;
+                    mScrollview.fullScroll(View.FOCUS_UP);
+                }
             }
         });
         return view;
@@ -356,17 +375,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void setPieList() {
-        int valueSize = stockList.size();
 
-        for (int i = 0; i < valueSize; i++) {
-            PieSlice slice1 = new PieSlice();
-
-            slice1.setColor(stockList.get(i).getDutyColor());
-            slice1.setValue(stockList.get(i).getDutyValue());
-            pieList.add(slice1);
-
-        }
-        surpulsValue();
         PieSlice emptySlice = new PieSlice();
         emptySlice.setColor(ColorTemplate.DEF_RED);
         emptySlice.setValue(surValue);
