@@ -31,6 +31,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
@@ -66,7 +67,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     private ITitleButtonListener mTitleClickListener;
 
-    private MarqueeText tvBottomText;
+    // private MarqueeText tvBottomText;
+    private TextView tvBottomText;
     //
     private ViewPager viewPager;
     private LinearLayout dotLayout;
@@ -138,7 +140,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         // ((TextView)
         // view.findViewById(R.id.tv_title)).setText(R.string.portfolio_text);
 
-        tvBottomText = (MarqueeText) view.findViewById(R.id.tv_bottom_text);
+        tvBottomText = (TextView) view.findViewById(R.id.tv_bottom_text);
         // setMarqueeText();
 
         gvFunction = (GridView) view.findViewById(R.id.gv_function);
@@ -432,30 +434,33 @@ public class MainFragment extends Fragment implements OnClickListener {
         // 深证成指：SZ399001
         StockQuotesBean bean1 = stockList.get(0);
         StockQuotesBean bean2 = stockList.get(1);
-        String szTilte = bean1.getName();
+        String szTilte = "沪指";
         String szCurrentValue = StringFromatUtils.get2Point(bean1.getCurrent());
-        String szIncrease = StringFromatUtils.get2Point(bean1.getChange());
+//         String szIncrease = StringFromatUtils.get2Point(bean1.getChange());
+         String szIncrease ="";
         String szPercentage = StringFromatUtils.get2PointPercent(bean1.getPercentage());
 
-        String scTilte = bean2.getName();
+        // String scTilte = bean2.getName();
+        String scTilte = "深指";
         String scCurrentValue = StringFromatUtils.get2Point(bean2.getCurrent());
-        String scIncrease = StringFromatUtils.get2Point(bean2.getChange());
+//         String scIncrease = StringFromatUtils.get2Point(bean2.getChange());
+         String scIncrease = "";
         String scPercentage = StringFromatUtils.get2PointPercent(bean2.getPercentage());
 
         SpannableStringBuilder sp = new SpannableStringBuilder();
         sp.append(szTilte);
         sp.append(" ");
         sp.append(szCurrentValue);
-        sp.append(" ");
-        sp.append(szIncrease);
+        // sp.append(" ");
+         sp.append(szIncrease);
         sp.append(" ");
         sp.append(szPercentage);
         sp.append(" ");
         sp.append(scTilte);
         sp.append(" ");
         sp.append(scCurrentValue);
-        sp.append(" ");
-        sp.append(scIncrease);
+        // sp.append(" ");
+         sp.append(scIncrease);
         sp.append(" ");
         sp.append(scPercentage);
         sp.append(" ");
@@ -476,7 +481,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         // szIncrease.length(),
         // Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        startTextIndex += 1 + szIncrease.length();
+        startTextIndex += szIncrease.length();
         sp.setSpan(new RelativeSizeSpan(0.6f), startTextIndex, startTextIndex + szPercentage.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ForegroundColorSpan bean1CSpan;
@@ -502,11 +507,11 @@ public class MainFragment extends Fragment implements OnClickListener {
         } else {
             bean2CSpan = new ForegroundColorSpan(Color.GREEN);
         }
-        sp.setSpan(bean2CSpan, startTextIndex, startTextIndex + scCurrentValue.length() + 1 + scIncrease.length() + 1
+        sp.setSpan(bean2CSpan, startTextIndex, startTextIndex + scCurrentValue.length() + 1 + scIncrease.length() 
                 + scPercentage.length() + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         sp.setSpan(new RelativeSizeSpan(0.6f), startTextIndex + 1 + scCurrentValue.length(), startTextIndex
-                + scCurrentValue.length() + 1 + scIncrease.length() + 1 + scPercentage.length() + 1,
+                + scCurrentValue.length() + 1 + scIncrease.length()  + scPercentage.length() + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvBottomText.setText(sp);
 
