@@ -55,7 +55,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 		mDataList = new ArrayList<OptionNewsBean>();
 		setTitle(R.string.function_notice);
 		iv = (TextView) findViewById(android.R.id.empty);
-        iv.setText("暂无公告");
+        // iv.setText("暂无公告");
 		initDate();
 	}
 	private void initDate(){
@@ -153,7 +153,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-				if (null != dataList) {
+				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(first){
 				    	initView();
@@ -162,6 +162,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 				    mOptionMarketAdapter.notifyDataSetChanged();
 				    loadFinishUpdateView();
 				    
+				}else{
+				    iv.setText("暂无公告");
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

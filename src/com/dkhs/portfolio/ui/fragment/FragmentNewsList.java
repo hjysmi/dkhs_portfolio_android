@@ -50,6 +50,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public final static String LAYOUT = "layout";
     private NewsforImpleEngine vo;
     private int types;
+    private TextView tv;
 
     // private LinearLayout layouts;
     @Override
@@ -87,10 +88,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        TextView tv = (TextView) view.findViewById(android.R.id.empty);
-        if (null != vo && null != vo.getPageTitle()) {
-            tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
-        }
+        tv = (TextView) view.findViewById(android.R.id.empty);
+
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(tv);
         mListView.addFooterView(mFootView);
@@ -163,7 +162,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-                if (null != dataList) {
+                if (null != dataList&&dataList.size()>0) {
                     mDataList.addAll(dataList);
                     ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
                     if (first) {
@@ -175,6 +174,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     loadFinishUpdateView();
 
                 } else {
+                    if (null != vo && null != vo.getPageTitle()) {
+                        tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+                    }
                     ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                 }
             } catch (Exception e) {
