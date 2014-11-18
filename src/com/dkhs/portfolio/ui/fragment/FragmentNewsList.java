@@ -67,8 +67,13 @@ public class FragmentNewsList extends Fragment implements Serializable{
         if (bundle != null) {
         	initDate();
         }
-        if(null != getActivity())
- 			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+        try {
+			if(null != getActivity())
+				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		initView(view);
 		return view;
 	}
@@ -161,7 +166,12 @@ public class FragmentNewsList extends Fragment implements Serializable{
             try {
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
-				    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+				    try {
+						((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				    if(first){
 				    	initView(view);
 				    	first = false;
@@ -171,7 +181,12 @@ public class FragmentNewsList extends Fragment implements Serializable{
 				    loadFinishUpdateView();
 				    
 				}else{
-					 ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+					 try {
+						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -187,7 +202,12 @@ public class FragmentNewsList extends Fragment implements Serializable{
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
-        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+        try {
+			((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 	@Override
 	public void onResume() {
@@ -213,8 +233,13 @@ public class FragmentNewsList extends Fragment implements Serializable{
          		mLoadDataEngine.loadData();
          		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
          		mLoadDataEngine.setFromYanbao(false);
-         		if(null != getActivity())
-         			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+         		try {
+					if(null != getActivity())
+						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
      } else {
          //不可见时不执行操作
      }
