@@ -156,7 +156,7 @@ public class TrendChartFragment extends Fragment {
     // tab切换时Ui更新为选中的tabUI
     private void updateView() {
         if (!TextUtils.isEmpty(trendType)) {
-
+            
             if (isTodayShow()) {
 
                 initTodayTrendTitle();
@@ -164,7 +164,7 @@ public class TrendChartFragment extends Fragment {
                     dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
                 } else {
                     setTodayViewLoad();
-                    
+
                     // computeTodayDataThread.start();
                 }
 
@@ -193,9 +193,9 @@ public class TrendChartFragment extends Fragment {
                     setHistoryViewload(mWeekLineData);
                 }
             }
-
+            setupBottomTextViewData();
         }
-        
+
         PromptManager.closeProgressDialog();
 
     }
@@ -441,7 +441,7 @@ public class TrendChartFragment extends Fragment {
     private float getMaxOffetValue(DrawLineDataEntity lineData, TodayNetValue todayNetvalue) {
         List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
         lineData.dataList.clear();
-        lineData.begin = todayNetvalue.getBegin();
+        // lineData.begin = todayNetvalue.getBegin();
         lineData.end = todayNetvalue.getEnd();
         lineData.endDay = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
         lineData.addupvalue = dayNetValueList.get(dayNetValueList.size() - 1).getChange();
@@ -475,6 +475,14 @@ public class TrendChartFragment extends Fragment {
         }
         if (dashLineSize == 0) {
             dashLineSize = todayNetvalue.getChartlist().size();
+        }
+
+        if (dashLineSize > 1) {
+            lineData.begin = 1;
+
+        } else {
+
+            lineData.begin = todayNetvalue.getBegin();
         }
 
         // mMaChart.setDashLinePointSize(dashLineSize);
@@ -566,7 +574,7 @@ public class TrendChartFragment extends Fragment {
     private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
         List<HistoryNetBean> dayNetValueList = historyNetValue.getChartlist();
         lineData.dataList.clear();
-        lineData.begin = historyNetValue.getBegin();
+
         lineData.end = historyNetValue.getEnd();
         lineData.startDay = dayNetValueList.get(0).getDate();
         lineData.endDay = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
@@ -609,6 +617,14 @@ public class TrendChartFragment extends Fragment {
             dashLineSize = dataLenght;
         }
 
+        if (dashLineSize > 1) {
+            lineData.begin = 1;
+
+        } else {
+
+            lineData.begin = historyNetValue.getBegin();
+        }
+
         // mMaChart.setDashLinePointSize(dashLineSize);
         lineData.dashLineSize = dashLineSize;
         lineData.maxOffetvalue = offetValue;
@@ -624,14 +640,15 @@ public class TrendChartFragment extends Fragment {
             if (historyNetvalue.dataList != null) {
 
                 // int sizeLength = dayNetValueList.size();
-                setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
                 mMaChart.setDashLinePointSize(historyNetvalue.dashLineSize);
                 if (mMaChart.getDashLinePointSize() > 2) {
 
                     setTipVisible(true);
+                    setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
 
                 } else {
                     setTipVisible(false);
+                    setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
 
                 }
                 // setHistoryPointTitle();
@@ -645,6 +662,7 @@ public class TrendChartFragment extends Fragment {
                 setXTitle(historyNetvalue);
 
             }
+            tvNetValue.setVisibility(View.VISIBLE);
             tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
             tvNetValue.setText(StringFromatUtils.get4Point(historyNetvalue.begin));
             float addupValue = (historyNetvalue.end - historyNetvalue.begin) / historyNetvalue.begin * 100;
