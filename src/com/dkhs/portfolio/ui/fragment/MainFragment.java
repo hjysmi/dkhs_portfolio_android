@@ -260,30 +260,31 @@ public class MainFragment extends Fragment implements OnClickListener {
             Intent intent = null;
             switch (position) {
                 case 0: {
-                    intent = new Intent(getActivity(), FundsOrderActivity.class);
+                    goCombination();
                 }
                     break;
                 case 1: {
-                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
+                    intent = new Intent(getActivity(), FundsOrderActivity.class);
                 }
                     break;
                 case 2: {
-                    intent = new Intent(getActivity(), MarketCenterActivity.class);
+                    intent = new Intent(getActivity(), OptionalStockListActivity.class);
                 }
                     break;
                 case 3: {
+                    intent = new Intent(getActivity(), MarketCenterActivity.class);
+                }
+                    break;
+                case 4: {
                     intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
 
                 }
                     break;
-                case 4: {
+                case 5: {
                     intent = new Intent(getActivity(), YanBaoActivity.class);
                 }
                     break;
-                case 5: {
 
-                }
-                    break;
                 default:
                     break;
             }
@@ -436,15 +437,15 @@ public class MainFragment extends Fragment implements OnClickListener {
         StockQuotesBean bean2 = stockList.get(1);
         String szTilte = "沪指";
         String szCurrentValue = StringFromatUtils.get2Point(bean1.getCurrent());
-//         String szIncrease = StringFromatUtils.get2Point(bean1.getChange());
-         String szIncrease ="";
+        // String szIncrease = StringFromatUtils.get2Point(bean1.getChange());
+        String szIncrease = "";
         String szPercentage = StringFromatUtils.get2PointPercent(bean1.getPercentage());
 
         // String scTilte = bean2.getName();
         String scTilte = "深指";
         String scCurrentValue = StringFromatUtils.get2Point(bean2.getCurrent());
-//         String scIncrease = StringFromatUtils.get2Point(bean2.getChange());
-         String scIncrease = "";
+        // String scIncrease = StringFromatUtils.get2Point(bean2.getChange());
+        String scIncrease = "";
         String scPercentage = StringFromatUtils.get2PointPercent(bean2.getPercentage());
 
         SpannableStringBuilder sp = new SpannableStringBuilder();
@@ -452,7 +453,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         sp.append(" ");
         sp.append(szCurrentValue);
         // sp.append(" ");
-         sp.append(szIncrease);
+        sp.append(szIncrease);
         sp.append(" ");
         sp.append(szPercentage);
         sp.append(" ");
@@ -460,7 +461,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         sp.append(" ");
         sp.append(scCurrentValue);
         // sp.append(" ");
-         sp.append(scIncrease);
+        sp.append(scIncrease);
         sp.append(" ");
         sp.append(scPercentage);
         sp.append(" ");
@@ -507,11 +508,11 @@ public class MainFragment extends Fragment implements OnClickListener {
         } else {
             bean2CSpan = new ForegroundColorSpan(Color.GREEN);
         }
-        sp.setSpan(bean2CSpan, startTextIndex, startTextIndex + scCurrentValue.length() + 1 + scIncrease.length() 
+        sp.setSpan(bean2CSpan, startTextIndex, startTextIndex + scCurrentValue.length() + 1 + scIncrease.length()
                 + scPercentage.length() + 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         sp.setSpan(new RelativeSizeSpan(0.6f), startTextIndex + 1 + scCurrentValue.length(), startTextIndex
-                + scCurrentValue.length() + 1 + scIncrease.length()  + scPercentage.length() + 1,
+                + scCurrentValue.length() + 1 + scIncrease.length() + scPercentage.length() + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tvBottomText.setText(sp);
 
@@ -621,7 +622,8 @@ public class MainFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.btn_combination_more:
             case R.id.title_main_combination: {
-                intent = new Intent(getActivity(), MyCombinationActivity.class);
+                // intent = new Intent(getActivity(), MyCombinationActivity.class);
+                goCombination();
 
             }
                 break;
@@ -632,6 +634,11 @@ public class MainFragment extends Fragment implements OnClickListener {
             getActivity().startActivity(intent);
         }
 
+    }
+
+    private void goCombination() {
+        Intent intent = new Intent(getActivity(), MyCombinationActivity.class);
+        getActivity().startActivity(intent);
     }
 
     public void setTitleClickListener(ITitleButtonListener listener) {

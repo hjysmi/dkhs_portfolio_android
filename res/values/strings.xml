@@ -193,8 +193,9 @@
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外</string>
-    <string name="function_combination">我的基金</string>
+    <string name="function_combination">基金</string>
     <string name="fund_order">基金排行</string>
+    <string name="function_f">排行</string>
     <string name="function_fund_order">排行</string>
     <string name="function_market">行情</string>
     <string name="function_yanbao">研报</string>

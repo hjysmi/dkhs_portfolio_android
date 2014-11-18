@@ -81,7 +81,6 @@
         <item>行情</item>
         <item>公告</item>
         <item>研报</item>
-        <item>海外</item>
     </string-array>
     <string-array name="left_menu_img">
         <item>menu_icon_myteam</item>
@@ -90,7 +89,6 @@
         <item>menu_icon_market</item>
         <item>menu_icon_notice</item>
         <item>menu_icon_study</item>
-        <item>menu_icon_news</item>
     </string-array>
     <string-array name="yanbao_items">
         <item>公司</item>

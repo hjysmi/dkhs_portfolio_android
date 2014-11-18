@@ -30,11 +30,11 @@ import com.dkhs.portfolio.ui.FundsOrderActivity;
 public class MainFunctionAdapter extends BaseAdapter {
 
     private Context mContext;
-    private int[] titleRes = { R.string.function_fund_order, R.string.function_optional, R.string.function_market,
-            R.string.function_notice, R.string.function_yanbao, R.string.function_news };
-    private int[] iconRes = { R.drawable.bg_f_fundsorder_selector, R.drawable.bg_f_optinal_selector,
-            R.drawable.bg_f_market_selector, R.drawable.bg_f_notice_selector, R.drawable.bg_f_report_selector,
-            R.drawable.bg_f_news_selector };
+    private int[] titleRes = { R.string.function_combination, R.string.function_fund_order, R.string.function_optional,
+            R.string.function_market, R.string.function_notice, R.string.function_yanbao };
+    private int[] iconRes = { R.drawable.bg_f_combination_selector, R.drawable.bg_f_fundsorder_selector,
+            R.drawable.bg_f_optinal_selector, R.drawable.bg_f_market_selector, R.drawable.bg_f_notice_selector,
+            R.drawable.bg_f_report_selector };
 
     public MainFunctionAdapter(Context context) {
         this.mContext = context;
