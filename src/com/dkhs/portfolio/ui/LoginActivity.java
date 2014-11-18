@@ -111,7 +111,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
             BitmapUtils bitmapUtils = new BitmapUtils(this);
-            //url = DKHSUrl.BASE_DEV_URL + url;
+            // url = DKHSUrl.BASE_DEV_URL + url;
             bitmapUtils.display(ivHeader, url);
         }
     }
@@ -247,11 +247,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private void login() {
         userName = etUserName.getText().toString();
         String passWord = etPassword.getText().toString();
-        if (NetUtil.checkNetWork(this)) {
-            checkAndLogin(userName, passWord);
-        } else {
-            PromptManager.showNoNetWork(this);
-        }
+
+        checkAndLogin(userName, passWord);
 
     }
 
@@ -348,8 +345,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         return flag;
     }
-
-    
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

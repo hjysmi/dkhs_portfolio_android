@@ -172,8 +172,9 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         }
 
     };
+
     private void getVerifyCode() {
-        if (NetUtil.checkNetWork(this)) {
+        if (NetUtil.checkNetWork()) {
             engine.getVericode(phoneNum, listener);
             listener.setLoadingDialog(context).beforeRequest();
             if (mTimer != null) {
@@ -183,7 +184,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             timerTask();
 
         } else {
-            PromptManager.showNoNetWork(this);
+            PromptManager.showNoNetWork();
         }
     }
 

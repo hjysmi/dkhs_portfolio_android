@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.utils;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -21,11 +23,11 @@ public class NetUtil {
 	 * @param context
 	 * @return
 	 */
-	public static boolean checkNetWork(Context context) {
+	public static boolean checkNetWork() {
 		// ①判断WIFI是否处于链接状态
-		boolean isWIFI = isWIFIConnectivity(context);
+		boolean isWIFI = isWIFIConnectivity(PortfolioApplication.getInstance());
 		// ②判断MOBILE是否处于链接状态
-		boolean isMOBILE = isMOBILEConnectivity(context);
+		boolean isMOBILE = isMOBILEConnectivity(PortfolioApplication.getInstance());
 		// ③判断是否有可以利用的通信渠道
 		if (!isWIFI && !isMOBILE) {
 			// 提示用户

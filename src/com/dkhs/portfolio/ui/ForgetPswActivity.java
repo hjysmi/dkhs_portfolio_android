@@ -191,7 +191,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
     }
 
     private void getVerifyCode() {
-        if (NetUtil.checkNetWork(this)) {
+        if (NetUtil.checkNetWork()) {
             engine.getVericode(etPhoneNum.getText().toString(), new ParseHttpListener<Object>() {
 
                 @Override
@@ -215,7 +215,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
             timerTask();
 
         } else {
-            PromptManager.showNoNetWork(this);
+            PromptManager.showNoNetWork();
         }
     }
 
@@ -299,8 +299,6 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
         }
         return true;
     }
-
-    
 
     @Override
     protected void onDestroy() {
