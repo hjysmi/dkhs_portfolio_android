@@ -126,8 +126,13 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 				long id) {
 			// TODO Auto-generated method stub
 			try {
-				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文");
+				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
+				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",mDataList.get(position).getSymbols().get(0).getAbbrName(),mDataList.get(position).getSymbols().get(0).getId());
 				startActivity(intent);
+				}else{
+					Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",null,null);
+					startActivity(intent);
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

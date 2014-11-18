@@ -52,7 +52,7 @@
         <item>删除基金</item>
     </string-array>
     <string-array name="detail_news_titles">
-        <item>新闻资讯</item>
+        <!-- <item>新闻资讯</item> -->
         <item>个股公告</item>
         <item>相关研报</item>
     </string-array>
