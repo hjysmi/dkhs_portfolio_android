@@ -49,7 +49,7 @@
     </string-array>
     <string-array name="long_click_type">
         <item>置于页首</item>
-        <item>删除组合</item>
+        <item>删除基金</item>
     </string-array>
     <string-array name="detail_news_titles">
         <item>新闻资讯</item>

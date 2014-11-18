@@ -169,19 +169,18 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     @Override
     public void onClick(View v) {
+        addItem();
+    }
+
+    public void addItem() {
         if (mDataList.size() >= 20) {
             PromptManager.showShortToast("最多只能添加20个基金组合");
         } else {
 
-            addItem();
+            // addItem();
+            mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
         }
 
-    }
-
-    public void addItem() {
-        // Intent intent = new Intent(mContext, PositionAdjustActivity.class);
-        // intent.putExtra(PositionAdjustActivity.KEY_VIEW_TYPE, PositionAdjustActivity.VALUE_CREATE_CONBINA);
-        mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
     }
 
     public ArrayList<CombinationBean> getDelPosition() {

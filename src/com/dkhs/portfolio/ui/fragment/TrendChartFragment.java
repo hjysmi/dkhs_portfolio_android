@@ -394,7 +394,7 @@ public class TrendChartFragment extends Fragment {
         // mTodayLineData.dataList;
         if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
-            mMaChart.setDashLineLenght(mTodayLineData.dashLineSize);
+            mMaChart.setDashLinePointSize(mTodayLineData.dashLineSize);
             if (mMaChart.getDashLinePointSize() > 2) {
 
                 setTipVisible(true);

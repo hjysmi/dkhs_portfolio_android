@@ -73,7 +73,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 					vo.setUserid(userId);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSALL,vo);
 					mLoadDataEngine.loadData();
-					mLoadDataEngine.setLoadingDialog(context).beforeRequest();
+					mLoadDataEngine.setLoadingDialog(context);
 					mLoadDataEngine.setFromYanbao(false);
 				}
 			} catch (Exception e) {
