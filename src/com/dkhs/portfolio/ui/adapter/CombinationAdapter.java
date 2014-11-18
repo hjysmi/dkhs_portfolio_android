@@ -87,6 +87,14 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         CombinationBean item = mDataList.get(position);
         final ViewHolder viewhold = viewHolder;
         viewHolder.tvTitle.setText(item.getName());
+        if (position >= 9) {
+            viewHolder.tvIndex.setPadding(mContext.getResources().getDimensionPixelSize(R.dimen.two_index_padding), 0,
+                    0, 0);
+        } else {
+            viewHolder.tvIndex.setPadding(mContext.getResources().getDimensionPixelSize(R.dimen.single_index_padding),
+                    0, 0, 0);
+
+        }
         viewHolder.tvIndex.setText((position + 1) + "");
 
         float currenValue = item.getCurrentValue();
