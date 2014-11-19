@@ -81,7 +81,7 @@ public class FragmentNews extends Fragment implements FragmentLifecycle {
         vo.setPageTitle("新闻正文");
         b1.putSerializable(FragmentNewsList.VO, vo);
         f1.setArguments(b1);
-        fragmentList.add(f1);
+        //fragmentList.add(f1);
         Fragment f2 = new FragmentNewsList();
         Bundle b2 = new Bundle();
         b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
