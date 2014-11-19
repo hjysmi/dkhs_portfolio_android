@@ -4,113 +4,11 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical" >
-    <LinearLayout
-        android:id="@+id/linearLayout1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/activity_bg_color" >
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="国内指数"
-            android:textColor="#000000"
-            android:textSize="@dimen/list_text_size" />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="沪深行情"
-            android:textColor="#000000"
-            android:textSize="@dimen/list_text_size" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/activity_bg_color"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/market_icon_cursor"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:scaleType="fitXY"
-            android:src="@drawable/vpi__tab_selected_holo" />
-    </LinearLayout>
-
-    <include layout="@layout/layout_line" />
-
-    <LinearLayout
-        android:id="@+id/market_layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout1"
-        android:background="@color/activity_bg_color"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp" >
-
-        <TextView
-            android:id="@+id/market_text_index"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="股指"
-            android:textColor="#000000"
-            android:textSize="@dimen/list_text_size" />
-
-        <TextView
-            android:id="@+id/market_text_edition"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="最新"
-            android:textColor="#000000"
-            android:textSize="@dimen/list_text_size" />
-
-        <LinearLayout
-            android:id="@+id/market_layout_upanddown"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/market_text_change"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="涨幅"
-                android:textColor="#000000"
-                android:textSize="@dimen/list_text_size" />
-
-            <ImageView
-                android:id="@+id/market_icon_up_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:src="@drawable/market_icon_down" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/view_datalist"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/market_layout_title" />
+        <LinearLayout 
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/layout_marker_parenst"
+            ></LinearLayout>
 
 </LinearLayout>

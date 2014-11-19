@@ -52,7 +52,7 @@
         <View
             android:id="@+id/divider_line"
             style="@style/divider_line"
-            android:layout_width="0.5px"
+            android:layout_width="0.0px"
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true" />
 
@@ -60,20 +60,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/divider_line" >
+            android:layout_toRightOf="@+id/divider_line"
+             >
 
             <ImageView
                 android:id="@+id/tv_combination_image_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
+                android:visibility="gone"
                 android:src="@drawable/tv_combination_currentnet" />
 
             <TextView
                 android:id="@+id/tv_history"
                 style="@style/hw_wrap"
-                android:layout_centerHorizontal="true"
-                android:layout_toRightOf="@id/tv_combination_image_value"
                 android:paddingLeft="5dp"
                 android:text="当前净值"
                 android:textColor="#979797"
@@ -81,12 +81,20 @@
 
             <TextView
                 android:id="@+id/tv_history_netvalue"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/tv_history"
+                android:paddingLeft="5dp"
+                android:text="-"
+                android:textColor="#979797"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_history"
-                android:paddingLeft="15dp"
-                android:text="-"
-                android:textColor="@color/white"
+                android:paddingLeft="5dp"
+                android:text=" "
+                android:textColor="#979797"
                 android:textSize="35sp" />
         </RelativeLayout>
 
@@ -94,7 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/divider_line" >
+            android:layout_toLeftOf="@+id/divider_line"
+             >
 
             <ImageView
                 android:id="@+id/tv_combination_image_uporlow"
