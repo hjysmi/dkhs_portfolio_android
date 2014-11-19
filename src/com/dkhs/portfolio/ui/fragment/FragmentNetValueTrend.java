@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -62,7 +63,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // private View viewNetvalueHead;
     private ImageView ivUpDownIcon;
     // private Button btnEditName;
-    private Switch combinationCheck;
+    private CheckBox combinationCheck;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
@@ -129,7 +130,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
-        combinationCheck = (Switch) view.findViewById(R.id.combination_check);
+        combinationCheck = (CheckBox) view.findViewById(R.id.combination_check);
         combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
         if (mCombinationBean.getIspublic().equals("0")) {
             combinationCheck.setChecked(true);
@@ -224,7 +225,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     };
 
     private void updateIncreaseRatio(float netValue) {
-        //tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        // tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
         tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
@@ -325,7 +326,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // indicator.setViewPager(mViewPager);
         // replaceFragment(fragmentList.get(0));
         // mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
-        mSwitchFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY,isFromOrder);
+        mSwitchFragment = FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY, isFromOrder);
         replaceFragment(mSwitchFragment);
     }
 

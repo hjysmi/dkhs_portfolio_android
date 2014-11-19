@@ -60,6 +60,11 @@ public class FragmentReportForm extends Fragment {
         return fragment;
     }
 
+    public void setTrendType(String type) {
+        this.trendType = type;
+        loadData();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub

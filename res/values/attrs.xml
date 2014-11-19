@@ -3,7 +3,7 @@
 
     <attr name="switchStyle" format="reference" />
 
-    <declare-styleable name="Switch">
+    <declare-styleable name="DKHSSwitch">
         <attr name="textLeft" format="string" />
         <attr name="textRight" format="string" />
         <attr name="switchMinWidth" format="dimension" />
