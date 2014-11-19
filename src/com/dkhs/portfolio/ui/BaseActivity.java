@@ -90,6 +90,7 @@ public class BaseActivity extends FragmentActivity {
                 // 点击EditText的事件，忽略它。  
                 return false;  
             } else {  
+                v.clearFocus();
                 return true;  
             }  
         }  
