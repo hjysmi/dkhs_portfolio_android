@@ -33,8 +33,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/nav_right_main_selector"
-            android:visibility="gone" />
+            android:background="@drawable/nav_right_main_selector" />
     </RelativeLayout>
 
     <TextView
@@ -64,7 +63,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:padding="6dp"
         android:singleLine="true"
-        android:textSize="26sp" />
+        android:textSize="26sp" />
     -->
 
     <GridView
@@ -111,7 +110,7 @@
              <View
             android:id="@+id/order_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" />
         -->
     </RelativeLayout>
 
