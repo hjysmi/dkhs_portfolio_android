@@ -260,6 +260,9 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
         btnRefresh.setVisibility(View.GONE);
     }
+    public void setButtonFinish() {
+        btnMore.setText("完成");
+    }
 
     private void setButtonRefresh() {
         btnRefresh.setTag("refresh");
