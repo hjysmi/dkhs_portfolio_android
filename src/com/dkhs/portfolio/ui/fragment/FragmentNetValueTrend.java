@@ -224,7 +224,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     };
 
     private void updateIncreaseRatio(float netValue) {
-        tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        //tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
         tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
