@@ -349,6 +349,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
                         // mCombinationAdapter.getDelPosition().clear();
                         mDataList.remove(mCombination);
                         mAdapter.notifyDataSetChanged();
+                        combinationActivity.setButtonFinish();
                         // upateDelViewStatus();
                     }
 
