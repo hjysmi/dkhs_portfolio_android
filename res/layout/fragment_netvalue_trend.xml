@@ -60,15 +60,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/divider_line" >
+            android:layout_toRightOf="@+id/divider_line"
+             >
 
             <ImageView
                 android:id="@+id/tv_combination_image_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
-                android:src="@drawable/tv_combination_currentnet"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:src="@drawable/tv_combination_currentnet" />
 
             <TextView
                 android:id="@+id/tv_history"
@@ -87,7 +88,6 @@
                 android:text="-"
                 android:textColor="#979797"
                 android:textSize="14sp" />
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,7 +102,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/divider_line" >
+            android:layout_toLeftOf="@+id/divider_line"
+             >
 
             <ImageView
                 android:id="@+id/tv_combination_image_uporlow"
@@ -158,28 +159,28 @@
         android:layout_height="wrap_content" />
 
     <View style="@style/divider_line" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
+	<RelativeLayout 
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+	    >
         <LinearLayout
-            android:id="@+id/combination_layout_check"
+        android:id="@+id/combination_layout_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:orientation="vertical" >
-
-            <include layout="@layout/layout_line" />
-
-            <RelativeLayout
-                android:id="@+id/rl_combination_check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp" >
+            android:layout_marginBottom="10dp"
+            android:id="@+id/rl_combination_check"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp" >
+			
 
                 <CheckBox
                     android:id="@+id/combination_check"
@@ -223,7 +224,6 @@
             android:layout_height="fill_parent"
             android:layout_above="@id/combination_layout_check" />
     </RelativeLayout>
-
     <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
