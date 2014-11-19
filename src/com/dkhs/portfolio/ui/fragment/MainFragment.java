@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -25,16 +24,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewStub;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Interpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.ChampionCollectionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -42,7 +39,6 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.MainpageEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
@@ -56,7 +52,6 @@ import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
 import com.dkhs.portfolio.ui.widget.FixedSpeedScroller;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
-import com.dkhs.portfolio.ui.widget.MarqueeText;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
@@ -133,7 +128,10 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         view.findViewById(R.id.btn_back).setOnClickListener(this);
 
-        view.findViewById(R.id.btn_right).setOnClickListener(this);
+        ImageButton btnRight = (ImageButton) view.findViewById(R.id.btn_right);
+        btnRight.setBackgroundResource(R.drawable.ic_title_add);
+        btnRight.setOnClickListener(this);
+        btnRight.setVisibility(View.VISIBLE);
         // view.findViewById(R.id.iv_plus).setOnClickListener(this);
         // view.findViewById(R.id.btn_combination_more).setOnClickListener(this);
 
@@ -321,6 +319,7 @@ public class MainFragment extends Fragment implements OnClickListener {
             protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
                 // LogUtils.d("List<CombinationBean> size:" +
                 // dataList.size());
+                mMoreCombination = moreBean;
                 if (null != moreBean) {
                     List<CombinationBean> dataList = moreBean.getResults();
 
@@ -340,6 +339,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         });
     }
+
+    private MoreDataBean mMoreCombination;
 
     ParseHttpListener scrollDataListener = new ParseHttpListener<List<StockQuotesBean>>() {
 
@@ -588,6 +589,11 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
     }
 
+    private void createCombination() {
+        Intent intent = PositionAdjustActivity.newIntent(getActivity(), null);
+        getActivity().startActivity(intent);
+    }
+
     @Override
     public void onClick(View v) {
         Intent intent = null;
@@ -598,12 +604,17 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
             }
                 break;
-            // case R.id.btn_right: {
-            // if (null != mTitleClickListener) {
-            // mTitleClickListener.rightButtonClick();
-            // }
-            // }
-            // break;
+            case R.id.btn_right: {
+                // if (null != mTitleClickListener) {
+                // mTitleClickListener.rightButtonClick();
+                // }
+                if (null != mMoreCombination && mMoreCombination.getTotalCount() >= 20) {
+                    PromptManager.showShortToast(R.string.more_combination_tip);
+                } else {
+                    createCombination();
+                }
+            }
+                break;
             case R.id.layout_add_combination:
             case R.id.iv_plus: {
 

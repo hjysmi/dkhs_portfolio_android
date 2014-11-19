@@ -242,5 +242,6 @@
     <string name="month_income_rate">月收益率:</string>
     <string name="season_income_rate">季收益率:</string>
     <string name="all_income_rate">累计收益率:</string>
+    <string name="more_combination_tip">最多只能添加20个基金组合</string>
 
 </resources>

@@ -182,7 +182,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
     public void addItem() {
         if (mDataList.size() >= 20) {
-            PromptManager.showShortToast("最多只能添加20个基金组合");
+            PromptManager.showShortToast(R.string.more_combination_tip);
         } else {
 
             // addItem();

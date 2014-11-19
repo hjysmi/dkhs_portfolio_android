@@ -18,6 +18,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
@@ -42,6 +43,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
 
     private boolean isLoadingMore;
     private View mFootView;
+    private TextView tvEmptyText;
 
     // LoadMoreDataEngine mLoadDataEngine;
 
@@ -67,10 +69,17 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     // mListView.setAdapter(mAdapter);
     // }
 
+    public void setEmptyText(String text) {
+        tvEmptyText.setText(text);
+        tvEmptyText.setVisibility(View.VISIBLE);
+    }
+
     private void initLoadMoreList(View view) {
+
         mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(android.R.id.list);
-        mListView.setEmptyView(view.findViewById(android.R.id.empty));
+        tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        mListView.setEmptyView(tvEmptyText);
         mListView.addFooterView(mFootView);
         mListView.setAdapter(getListAdapter());
 
@@ -130,9 +139,9 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     public void setListViewInit(ListView listview) {
 
     }
-    
-    public void loadData(){
-        
+
+    public void loadData() {
+
     }
 
     // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

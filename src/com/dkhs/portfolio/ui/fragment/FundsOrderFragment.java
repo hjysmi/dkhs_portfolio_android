@@ -55,6 +55,10 @@ import android.widget.AbsListView.OnScrollListener;
 public class FundsOrderFragment extends LoadMoreListFragment {
 
     private static final String ARGUMENT_ORDER_TYPE = "order_type";
+    public static final String ORDER_TYPE_DAY = "chng_pct_day";
+    public static final String ORDER_TYPE_WEEK = "chng_pct_week";
+    public static final String ORDER_TYPE_MONTH = "chng_pct_month";
+    public static final String ORDER_TYPE_SEASON = "chng_pct_three_month";
     private String mOrderType;
     private FundsOrderAdapter mAdapter;
     private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
@@ -98,12 +102,12 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
-            mAdapter = new FundsOrderAdapter(getActivity(), mDataList,mOrderType);
+            mAdapter = new FundsOrderAdapter(getActivity(), mDataList, mOrderType);
         }
         return mAdapter;
     }
-    
-    /**  
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -117,12 +121,26 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        if (null != object.getResults()) {
+        if (null != object.getResults() && object.getResults().size() > 0) {
 
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
+        } else {
+            if (mOrderType.contains(ORDER_TYPE_DAY)) {
+                setEmptyText("日排行暂无数据");
+            } else if (mOrderType.contains(ORDER_TYPE_WEEK)) {
+
+                setEmptyText("周排行暂无数据");
+            } else if (mOrderType.contains(ORDER_TYPE_MONTH)) {
+
+                setEmptyText("月排行暂无数据");
+
+            } else if (mOrderType.contains(ORDER_TYPE_SEASON)) {
+
+                setEmptyText("季排行暂无数据");
+            }
         }
 
     }
