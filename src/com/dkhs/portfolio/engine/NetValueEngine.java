@@ -57,7 +57,7 @@ public class NetValueEngine {
      * 查询至今的净值数据
      */
     public void requeryHistory(IHttpListener listener) {
-        requeryNetValue(mConbinationId, "2", listener);
+        requeryNetValue(mConbinationId, "4", listener);
     }
 
     public void requeryDay(String fromDate, String toDate, IHttpListener listener) {
