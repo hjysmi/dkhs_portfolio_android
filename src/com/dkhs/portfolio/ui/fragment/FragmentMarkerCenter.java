@@ -81,7 +81,7 @@ public class FragmentMarkerCenter extends Fragment implements OnClickListener {
 		case 1:
 			if (null == loadDataListFragment) {
 				loadDataListFragment = loadDataListFragment
-						.getStockFragment(ViewType.STOC_INDEX_MARKET);
+						.getStockFragment(ViewType.STOC_INDEX_POSITION);
 				ace = false;
 			}
 			break;
@@ -98,7 +98,7 @@ public class FragmentMarkerCenter extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.market_layout_upanddown:
 			marketIconUpDown.setVisibility(View.VISIBLE);
-			if (type == 1) {
+			if (type == 0) {
 				if (ace) {
 					loadDataListFragment = loadDataListFragment
 							.getStockFragment(ViewType.STOC_INDEX_MARKET);
