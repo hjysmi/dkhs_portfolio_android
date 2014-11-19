@@ -14,6 +14,7 @@ import java.util.zip.Inflater;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import android.content.Context;
@@ -103,16 +104,16 @@ public class FundsOrderAdapter extends BaseAdapter {
         ChampionBean item = mDataList.get(position);
         float increasePercent = 0;
         String textResId = "";
-        if (mOrderType.contains("chng_pct_day")) {
+        if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_DAY)) {
             increasePercent = item.getChng_pct_day();
             textResId = mContext.getString(R.string.day_income_rate);
-        } else if (mOrderType.contains("chng_pct_week")) {
+        } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_WEEK)) {
             increasePercent = item.getChng_pct_week();
             textResId = mContext.getString(R.string.week_income_rate);
-        } else if (mOrderType.contains("chng_pct_month")) {
+        } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_MONTH)) {
             textResId = mContext.getString(R.string.month_income_rate);
             increasePercent = item.getChng_pct_month();
-        } else if (mOrderType.contains("chng_pct_three_month")) {
+        } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_SEASON)) {
             textResId = mContext.getString(R.string.season_top_increase);
             increasePercent = item.getChng_pct_three_month();
         }

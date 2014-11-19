@@ -202,39 +202,43 @@ public class Switch extends CompoundButton {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        try {
 
-        // calculate the left and right values
-        int right = this.getWidth() - this.getPaddingRight();
-        int left = right - this.width;
+            // calculate the left and right values
+            int right = this.getWidth() - this.getPaddingRight();
+            int left = right - this.width;
 
-        // draw background
-        this.drawableBackground.setBounds(left, 0, right, this.height);
-        this.drawableBackground.draw(canvas);
+            // draw background
+            this.drawableBackground.setBounds(left, 0, right, this.height);
+            this.drawableBackground.draw(canvas);
 
-        // draw switch
-        if (this.isChecked())
-            this.drawableSwitch.setBounds(left, 0, left + (this.width / 2), this.height);
-        else
-            this.drawableSwitch.setBounds(left + this.width / 2, 0, right, this.height);
+            // draw switch
+            if (this.isChecked())
+                this.drawableSwitch.setBounds(left, 0, left + (this.width / 2), this.height);
+            else
+                this.drawableSwitch.setBounds(left + this.width / 2, 0, right, this.height);
 
-        this.drawableSwitch.draw(canvas);
+            this.drawableSwitch.draw(canvas);
 
-        // save canvas before translation (0x0)
-        canvas.save();
+            // save canvas before translation (0x0)
+            canvas.save();
 
-        // draw left text
-        this.getPaint().setColor(this.isChecked() ? this.textColorChecked : this.textColorUnChecked);
-        canvas.translate(left + (this.width / 2 - this.layoutLeft.getWidth()) / 2,
-                (this.height - this.layoutLeft.getHeight()) / 2);
-        this.layoutLeft.draw(canvas);
-        canvas.restore();
+            // draw left text
+            this.getPaint().setColor(this.isChecked() ? this.textColorChecked : this.textColorUnChecked);
+            canvas.translate(left + (this.width / 2 - this.layoutLeft.getWidth()) / 2,
+                    (this.height - this.layoutLeft.getHeight()) / 2);
+            this.layoutLeft.draw(canvas);
+            canvas.restore();
 
-        // draw right text
-        this.getPaint().setColor(!this.isChecked() ? this.textColorChecked : this.textColorUnChecked);
-        canvas.translate(left + (this.width / 2 - this.layoutRight.getWidth()) / 2 + this.width / 2,
-                (this.height - this.layoutRight.getHeight()) / 2);
-        this.layoutRight.draw(canvas);
-        canvas.restore();
+            // draw right text
+            this.getPaint().setColor(!this.isChecked() ? this.textColorChecked : this.textColorUnChecked);
+            canvas.translate(left + (this.width / 2 - this.layoutRight.getWidth()) / 2 + this.width / 2,
+                    (this.height - this.layoutRight.getHeight()) / 2);
+            this.layoutRight.draw(canvas);
+            canvas.restore();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     @Override
