@@ -202,15 +202,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initList() {
-        String[] name = new String[4];
+        String[] name = new String[3];
         if((null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
-        	name = new String[3];
+        	name = new String[2];
         }
-        name[0] = "新闻";
-        name[1] = "公告";
-        name[2] = "研报";
+        //name[0] = "新闻";
+        name[0] = "公告";
+        name[1] = "研报";
         if(!(null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
-        	name[3] = "F10";
+        	name[2] = "F10";
         }
         NewsforImpleEngine vo;
         List<Fragment> frag = new ArrayList<Fragment>();
@@ -225,7 +225,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         b1.putSerializable(FragmentNewsList.VO, vo);
         // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f1.setArguments(b1);
-        frag.add(f1);
+        //frag.add(f1);
         Fragment f2 = new FragmentNewsList();
         Bundle b2 = new Bundle();
         b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
