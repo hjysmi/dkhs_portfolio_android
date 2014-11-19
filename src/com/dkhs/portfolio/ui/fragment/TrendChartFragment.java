@@ -142,8 +142,13 @@ public class TrendChartFragment extends Fragment {
         this.trendType = type;
         if (null != mMaChart) {
             PromptManager.showProgressDialog(getActivity(), "");
-            drawCharHandler.sendEmptyMessageDelayed(777, 200);
+            drawCharHandler.sendEmptyMessageDelayed(777, 1000);
             // updateView();
+            if (isTodayShow()) {
+                dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+            } else {
+                dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+            }
         }
     }
 
@@ -160,9 +165,8 @@ public class TrendChartFragment extends Fragment {
             if (isTodayShow()) {
 
                 initTodayTrendTitle();
-                if (null == mTodayLineData) {
-                    dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-                } else {
+                if (null != mTodayLineData) {
+
                     setTodayViewLoad();
 
                     // computeTodayDataThread.start();

@@ -23,7 +23,7 @@ import android.widget.CompoundButton;
  * 
  * 
  */
-public class Switch extends CompoundButton {
+public class DKHSSwitch extends CompoundButton {
     // left and right text
     private CharSequence textLeft;
     private CharSequence textRight;
@@ -62,7 +62,7 @@ public class Switch extends CompoundButton {
      * @param context
      * The Context that will determine this widget's theming
      */
-    public Switch(Context context) {
+    public DKHSSwitch(Context context) {
         this(context, null);
     }
 
@@ -74,7 +74,7 @@ public class Switch extends CompoundButton {
      * @param attrs
      * Specification of attributes that should deviate from default styling.
      */
-    public Switch(Context context, AttributeSet attrs) {
+    public DKHSSwitch(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.switchStyle);
     }
 
@@ -91,23 +91,23 @@ public class Switch extends CompoundButton {
      * android.R.attr.switchStyle.
      */
 
-    public Switch(Context context, AttributeSet attrs, int defStyle) {
+    public DKHSSwitch(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
         this.getPaint().setAntiAlias(true);
 
         // load the default values
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Switch, defStyle, 0);
-        this.textLeft = a.getText(R.styleable.Switch_textLeft);
-        this.textRight = a.getText(R.styleable.Switch_textRight);
-        this.switchMinWidth = a.getDimensionPixelSize(R.styleable.Switch_switchMinWidth, 250);
-        this.textColorUnChecked = a.getColor(R.styleable.Switch_colorUnChecked, Color.WHITE);
-        this.textColorChecked = a.getColor(R.styleable.Switch_colorChecked, Color.WHITE);
-        this.drawableBackground = a.getDrawable(R.styleable.Switch_backgroundDrawable);
-        this.drawableSwitch = a.getDrawable(R.styleable.Switch_switchDrawable);
-        this.switchPadding = a.getDimensionPixelSize(R.styleable.Switch_switchPadding, 32);
-        this.innerPadding = a.getDimensionPixelSize(R.styleable.Switch_innerPadding, 20);
-        this.setChecked(a.getBoolean(R.styleable.Switch_isChecked, false));
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.DKHSSwitch, defStyle, 0);
+        this.textLeft = a.getText(R.styleable.DKHSSwitch_textLeft);
+        this.textRight = a.getText(R.styleable.DKHSSwitch_textRight);
+        this.switchMinWidth = a.getDimensionPixelSize(R.styleable.DKHSSwitch_switchMinWidth, 250);
+        this.textColorUnChecked = a.getColor(R.styleable.DKHSSwitch_colorUnChecked, Color.WHITE);
+        this.textColorChecked = a.getColor(R.styleable.DKHSSwitch_colorChecked, Color.WHITE);
+        this.drawableBackground = a.getDrawable(R.styleable.DKHSSwitch_backgroundDrawable);
+        this.drawableSwitch = a.getDrawable(R.styleable.DKHSSwitch_switchDrawable);
+        this.switchPadding = a.getDimensionPixelSize(R.styleable.DKHSSwitch_switchPadding, 32);
+        this.innerPadding = a.getDimensionPixelSize(R.styleable.DKHSSwitch_innerPadding, 20);
+        this.setChecked(a.getBoolean(R.styleable.DKHSSwitch_isChecked, false));
         a.recycle();
 
         // throw an error if the texts have not been set

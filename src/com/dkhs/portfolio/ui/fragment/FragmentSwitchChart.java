@@ -23,7 +23,7 @@ import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.Switch;
+import com.dkhs.portfolio.ui.widget.DKHSSwitch;
 import com.dkhs.portfolio.utils.PromptManager;
 
 /**
@@ -36,12 +36,12 @@ import com.dkhs.portfolio.utils.PromptManager;
 public class FragmentSwitchChart extends Fragment {
 
     private String trendType;
-    private Switch swChart;
+    private DKHSSwitch swChart;
     private View chartView;
     // private View viewDashLineTip;
 
     private TrendChartFragment mFragmentChart;
-    private Fragment mFragmentReport;
+    private FragmentReportForm mFragmentReport;
 
     // private Handler mHandler = new Handler() {
     // public void handleMessage(android.os.Message msg) {
@@ -98,7 +98,7 @@ public class FragmentSwitchChart extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Switch switchButton = (Switch) v;
+            DKHSSwitch switchButton = (DKHSSwitch) v;
             if (switchButton.isChecked()) {
                 replaceChartView();
             } else {
@@ -116,7 +116,7 @@ public class FragmentSwitchChart extends Fragment {
     private Runnable runPager;
 
     private void initView(View view) {
-        swChart = (Switch) view.findViewById(R.id.switch_chart);
+        swChart = (DKHSSwitch) view.findViewById(R.id.switch_chart);
         // chartView = view.findViewById(id)
         // if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
         // swChart.setVisibility(View.GONE);
@@ -155,16 +155,23 @@ public class FragmentSwitchChart extends Fragment {
 
     public void setSelectType(String type) {
         this.trendType = type;
+        mFragmentChart.setSelectType(type);
         if (!TextUtils.isEmpty(trendType) && !isFromOrder) {
 
             if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
                 swChart.setVisibility(View.GONE);
+                if(mFragmentReport!=null){
+                    replaceChartView();
+                }
             } else {
                 swChart.setVisibility(View.VISIBLE);
+                if(mFragmentReport!=null){
+                    mFragmentReport.setTrendType(type);
+                }
             }
 
         }
-        mFragmentChart.setSelectType(type);
+        
 
         // if (null != mMaChart) {
         // PromptManager.showProgressDialog(getActivity(), "");
@@ -215,6 +222,7 @@ public class FragmentSwitchChart extends Fragment {
             mFragmentReport = FragmentReportForm.newInstance(trendType);
             ft.replace(R.id.rl_report, mFragmentReport);
         } else {
+            mFragmentReport.setTrendType(trendType);
             ft.show(mFragmentReport);
         }
         if (null != mFragmentChart) {

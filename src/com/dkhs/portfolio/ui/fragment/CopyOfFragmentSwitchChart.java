@@ -22,7 +22,7 @@ import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.Switch;
+import com.dkhs.portfolio.ui.widget.DKHSSwitch;
 
 /**
  * @ClassName FragmentSwitchChart
@@ -34,7 +34,7 @@ import com.dkhs.portfolio.ui.widget.Switch;
 public class CopyOfFragmentSwitchChart extends Fragment {
 
     private String trendType;
-    private Switch swChart;
+    private DKHSSwitch swChart;
     private View chartView;
     // private View viewDashLineTip;
 
@@ -92,7 +92,7 @@ public class CopyOfFragmentSwitchChart extends Fragment {
 
         @Override
         public void onClick(View v) {
-            Switch switchButton = (Switch) v;
+            DKHSSwitch switchButton = (DKHSSwitch) v;
             if (switchButton.isChecked()) {
                 replaceChartView();
             } else {
@@ -106,7 +106,7 @@ public class CopyOfFragmentSwitchChart extends Fragment {
     private Runnable runPager;
 
     private void initView(View view) {
-        swChart = (Switch) view.findViewById(R.id.switch_chart);
+        swChart = (DKHSSwitch) view.findViewById(R.id.switch_chart);
         // chartView = view.findViewById(id)
         if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
             swChart.setVisibility(View.GONE);
