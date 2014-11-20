@@ -46,6 +46,7 @@ public class SearchStockEngineImpl {
      */
     public static void loadStockList() {
         StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5");
+        // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1");
         // "last_datetime"
         String lastLoadTime = PortfolioPreferenceManager
                 .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
@@ -167,6 +168,7 @@ public class SearchStockEngineImpl {
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector
                     .from(SearchStockBean.class)
                     .where("symbol_type", "in", new String[] { "3", "5" })
+                    .and("symbol_stype", "in", new String[] { "300,303" })
                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                             .or("stock_code", "LIKE", "%" + key + "%").or("chi_spell", "LIKE", "%" + key + "%")));
             if (null != searchStockList) {
