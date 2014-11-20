@@ -291,7 +291,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         plat.setPlatformActionListener(platFormActionListener);
 
         ShareSDK.removeCookieOnAuthorize(true);
-
+        plat.showUser(null);
         plat.authorize();
     }
 
@@ -439,11 +439,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             System.out.println("platform  name:" + plat.getName());
             System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
             System.out.println("platform  getToken:" + plat.getDb().getToken());
-
+            res.put("plat", plat);
             Message msg = new Message();
             msg.arg1 = 1;
             msg.arg2 = action;
-            msg.obj = plat;
+            msg.obj = res;
+
             platFormAction.sendMessage(msg);
 
         }
@@ -463,22 +464,33 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         public void handleMessage(Message msg) {
             switch (msg.arg1) {
                 case 1: {
-                    Platform plat = (Platform) msg.obj;
-                    String platname = plat.getName();
-                    if (platname.contains(SinaWeibo.NAME)) {
-                        platname = "weibo";
-                    } else if (platname.contains(Wechat.NAME)) {
-                        platname = "weixin";
-                    } else {
-                        platname = "qq";
+                    HashMap<String, Object> res = (HashMap<String, Object>) msg.obj;
+                    // Platform plat = (Platform) msg.obj;
+                    Platform plat = (Platform) (res.containsKey("plat") ? res.get("plat") : null);
+
+                    if (null != plat) {
+
+                        String platname = plat.getName();
+                        String imageUrl = "";
+                        if (platname.contains(SinaWeibo.NAME)) {
+                            platname = "weibo";
+                            imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
+                            System.out.println("avatar_large:" + imageUrl);
+                        } else if (platname.contains(Wechat.NAME)) {
+                            platname = "weixin";
+                        } else {
+                            platname = "qq";
+                            imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
+                            System.out.println("avatar_large:" + imageUrl);
+                        }
+                        ThreePlatform platData = new ThreePlatform();
+                        platData.setAccess_token(plat.getDb().getToken());
+                        platData.setOpenid(plat.getDb().getUserId());
+                        platData.setAvatar(imageUrl);
+                        platData.setRefresh_token("");
+                        engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
+                                platData, registerListener.setLoadingDialog(LoginActivity.this));
                     }
-                    ThreePlatform platData = new ThreePlatform();
-                    platData.setAccess_token(plat.getDb().getToken());
-                    platData.setOpenid(plat.getDb().getUserId());
-                    platData.setAvatar("");
-                    platData.setRefresh_token("");
-                    engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
-                            platData, registerListener.setLoadingDialog(LoginActivity.this));
                 }
                     break;
                 case 2: {
