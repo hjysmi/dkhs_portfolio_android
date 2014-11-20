@@ -41,7 +41,12 @@ public class LoadStockToDBService extends IntentService {
         // if( new SearchStockEngineImpl().saveStockList()){
         // PortfolioPreferenceManager.setLoadSearchStock();
         // }
-        SearchStockEngineImpl.loadStockList();
+        new Thread(){
+            public void run() {
+                
+                SearchStockEngineImpl.loadStockList();
+            };
+        }.start();
 
     }
 

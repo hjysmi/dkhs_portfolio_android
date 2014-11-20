@@ -326,8 +326,10 @@ public class TrendChartFragment extends Fragment {
     }
 
     private void clearViewData() {
-        mMaChart.getLineData().clear();
-        mMaChart.invalidate();
+        if (null != mMaChart && null != mMaChart.getLineData()) {
+            mMaChart.getLineData().clear();
+            mMaChart.invalidate();
+        }
     }
 
     private void initTodayTrendTitle() {
@@ -617,7 +619,8 @@ public class TrendChartFragment extends Fragment {
             // pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(value);
             pointEntity.setTime("日期:" + todayBean.getDate());
-            pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+            pointEntity.setIncreaseRange(todayBean.getPercentage());
+            // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
 
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {

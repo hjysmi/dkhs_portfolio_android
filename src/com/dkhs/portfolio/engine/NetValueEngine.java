@@ -74,7 +74,9 @@ public class NetValueEngine {
     public void requeryNetValue(String combinationId, String type, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("types", type);
+        NameValuePair valuePair2 = new BasicNameValuePair("funcid", "1");
         params.add(valuePair);
+        params.add(valuePair2);
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, combinationId), null, params,
                 listener);
     }
