@@ -11,7 +11,9 @@ package com.dkhs.portfolio.ui;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -23,9 +25,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
-import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
-import com.dkhs.portfolio.ui.fragment.MainFragment.RequestMarketTask;
-import com.dkhs.portfolio.ui.fragment.MainFragment.ScrollPageTask;
 
 /**
  * @ClassName OptionalStockListActivity
@@ -52,12 +51,13 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     // 5s
     private static final long mPollRequestTime = 1000 * 5;
     private Timer mMarketTimer;
-
+    private Context context;
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.activity_optionalstock_list);
+        context = this;
         setTitle(R.string.optional_stock);
         replaceDataList();
         initView();
@@ -98,7 +98,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private void initView() {
 
         Button addButton = getRightButton();
-        addButton.setBackgroundResource(R.drawable.ic_title_add);
+        addButton.setBackgroundResource(R.drawable.ic_search_title);
         addButton.setOnClickListener(mAddButtonClickListener);
 
         Button bottomButton = (Button) findViewById(R.id.btn_add_optional_stock);
@@ -106,12 +106,17 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
         Button btnRefresh = getSecondRightButton();
         // btnRefresh.setOnClickListener(this);
-        btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
+        btnRefresh.setBackgroundDrawable(null);
+        btnRefresh.setText("编辑");
+        btnRefresh.setTextColor(Color.WHITE);
+        btnRefresh.setBackgroundResource(R.drawable.white_black_selector);
         btnRefresh.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                loadDataListFragment.refresh();
+                //loadDataListFragment.refresh();
+            	Intent intent = new Intent(context,OptionEditActivity.class);
+            	startActivity(intent);
             }
         });
 

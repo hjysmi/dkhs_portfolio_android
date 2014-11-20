@@ -61,6 +61,10 @@ public class FragmentreportNewsList extends Fragment{
         	((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 	    }
 		initView(view);
+		if(null != mLoadDataEngine){
+			
+		}
+		initDate();
 		return view;
 	}
 	private void initDate(){
@@ -70,7 +74,7 @@ public class FragmentreportNewsList extends Fragment{
 			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
 			mLoadDataEngine.loadData();
-			mLoadDataEngine.setLoadingDialog(getActivity());
+			mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
 			mLoadDataEngine.setFromYanbao(false);
 		}
 
@@ -119,7 +123,7 @@ public class FragmentreportNewsList extends Fragment{
 			// TODO Auto-generated method stub
 			try {
 				Intent intent;
-				if(mDataList.get(position).getSymbols().size() >0){
+				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() >0){
 					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
 				}else{
 					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
@@ -209,7 +213,7 @@ public class FragmentreportNewsList extends Fragment{
 							.equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
 				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 			}
-			initDate();
+			
 		} else {
 			// 不可见时不执行操作
 		}

@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,12 @@ import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
@@ -139,11 +142,38 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        if(orderType.equals("followed_at")){
+        	selectList = forIndex(selectList);
+        }
         return selectList;
 
     }
-
+    public List<SelectStockBean> forIndex(List<SelectStockBean> datalist){
+    	List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
+    	SelectStockBean sb;
+    	int position;
+    	while(datalist.size() > 0){
+	    	for(int i = 0; i < datalist.size(); i++){
+	    		sb = datalist.get(i);
+	    		position = i;
+	    		for(int j = i; j < datalist.size(); j++){
+	    			if(sb.index < datalist.get(j).index){
+	    				sb = datalist.get(j);
+	    				position = j;
+	    			}
+	    		}
+	    		datalist.remove(position);
+	    		tmp.add(sb);
+	    		break;
+	    	}
+    	}
+    	return tmp;
+    }
+    public static void setIndex(ParseHttpListener<List<SelectStockBean>> listener,String json){
+    	RequestParams params = new RequestParams();
+        params.addBodyParameter("symbols_position", json);
+    	DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
+    }
     public static void loadAllData(IHttpListener listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");

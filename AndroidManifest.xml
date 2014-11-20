@@ -84,6 +84,7 @@
         <activity android:name="com.dkhs.portfolio.ui.FeedBackActivity" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.OptionEditActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.CopyMessageDialog"
             android:theme="@style/MyDialogStyleBottom" />
