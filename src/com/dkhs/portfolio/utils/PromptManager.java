@@ -29,18 +29,23 @@ public class PromptManager {
      * @param msg
      */
     public static void showProgressDialog(Context context, String msg) {
-        if (null != dialog && dialog.isShowing()) {
-            dialog.dismiss();
+        try {
+
+            if (null != dialog && dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            View v = View.inflate(context, R.layout.progressbar, null);
+            TextView tv = (TextView) v.findViewById(R.id.tv_desc);
+            tv.setText(msg);
+            dialog = new Dialog(context, R.style.dialog);
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+            dialog.setContentView(v, params);
+            // dialog.setCancelable(false);
+            dialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        View v = View.inflate(context, R.layout.progressbar, null);
-        TextView tv = (TextView) v.findViewById(R.id.tv_desc);
-        tv.setText(msg);
-        dialog = new Dialog(context, R.style.dialog);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT);
-        dialog.setContentView(v, params);
-        // dialog.setCancelable(false);
-        dialog.show();
     }
 
     /**
@@ -50,18 +55,7 @@ public class PromptManager {
      * @param msgid
      */
     public static void showProgressDialog(Context context, int msgid) {
-        if (null != dialog && dialog.isShowing()) {
-            dialog.dismiss();
-        }
-        View v = View.inflate(context, R.layout.progressbar, null);
-        TextView tv = (TextView) v.findViewById(R.id.tv_desc);
-        tv.setText(msgid);
-        dialog = new Dialog(context, R.style.dialog);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
-                RelativeLayout.LayoutParams.MATCH_PARENT);
-        dialog.setContentView(v, params);
-        // dialog.setCancelable(false);
-        dialog.show();
+        showProgressDialog(context, context.getString(msgid));
     }
 
     /**
