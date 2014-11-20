@@ -27,7 +27,8 @@ public class StockPriceBean {
     @SerializedName("current")
     private float current;
     private float change;
-
+    @SerializedName("sort_index")
+    public long index;
     // 涨跌幅
     @SerializedName("percentage")
     private float percentage;
@@ -56,7 +57,15 @@ public class StockPriceBean {
         this.id = id;
     }
 
-    public String getAbbrname() {
+    public long getIndex() {
+		return index;
+	}
+
+	public void setIndex(long index) {
+		this.index = index;
+	}
+
+	public String getAbbrname() {
         return abbrname;
     }
 

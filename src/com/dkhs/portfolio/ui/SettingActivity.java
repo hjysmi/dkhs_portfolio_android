@@ -282,7 +282,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 								            	 //不显示下载界面 
 								            	 request.setVisibleInDownloadsUi(true);
 								            	       
-								            	//request.setDestinationInExternalFilesDir(this, null, "tar.apk");
+								            	request.setDestinationInExternalFilesDir(context, null, "dkhs.apk");
 								            	long id = downloadManager.enqueue(request);
 								            	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_ID,id +"");
 								            	PromptManager.showToast("开始下载");

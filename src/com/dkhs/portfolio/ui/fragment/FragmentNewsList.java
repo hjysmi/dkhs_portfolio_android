@@ -73,6 +73,16 @@ public class FragmentNewsList extends Fragment implements Serializable {
 			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 		}
 		initView(view);
+		if(null != vo && vo.getContentType().equals("20")){
+			mDataList = new ArrayList<OptionNewsBean>();
+	 		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
+	 		mLoadDataEngine.loadData();
+	 		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+	 		mLoadDataEngine.setFromYanbao(false);
+				if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+				}
+		}
 		return view;
 	}
 
@@ -174,7 +184,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
                     	((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
                     }
-                    if (first) {
+                    if (first || vo.getContentType().equals("20")) {
                         initView(view);
                         first = false;
                     }
