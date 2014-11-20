@@ -239,7 +239,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             	startActivity(intent);
             	break;
             case R.id.setting_image_bound:
-            	
+            	intent = new Intent(this,BoundAccountActivity.class);
+            	startActivity(intent);
             	break;
             default:
                 break;
