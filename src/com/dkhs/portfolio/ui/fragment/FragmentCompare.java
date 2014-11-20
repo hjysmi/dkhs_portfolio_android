@@ -510,7 +510,7 @@ public class FragmentCompare extends Fragment implements OnClickListener, Fragme
         for (int i = 0; i < dataLenght; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
-            float pointValue = todayBean.getPercentageBegin();
+            float pointValue = todayBean.getPercentage();
             pointEntity.setDesc(todayBean.getDate());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {

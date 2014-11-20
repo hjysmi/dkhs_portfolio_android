@@ -75,7 +75,7 @@
                 android:id="@+id/tv_history"
                 style="@style/hw_wrap"
                 android:paddingLeft="5dp"
-                android:text="当前净值"
+                android:text="净值"
                 android:textColor="#979797"
                 android:textSize="14sp" />
 
