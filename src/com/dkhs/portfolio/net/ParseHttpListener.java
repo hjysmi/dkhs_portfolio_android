@@ -4,6 +4,7 @@ import org.json.JSONObject;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.util.LogUtils;
 
 import android.content.Context;
 import android.os.Handler;
@@ -55,9 +56,11 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         if (null != mContext) {
             if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
                 // On UI thread.
+                LogUtils.d("PromptManager.showProgressDialog");
                 PromptManager.showProgressDialog(mContext, msg, isHideDialog);
             } else {
                 // Not on UI thread.
+                LogUtils.d("Not on UI thread");
             }
         }
     }
@@ -69,7 +72,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
                 // On UI thread.
                 PromptManager.closeProgressDialog();
             } else {
-                // Not on UI thread.
+                LogUtils.d("Not on UI thread");
             }
         }
 

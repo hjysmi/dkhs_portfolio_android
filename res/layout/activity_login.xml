@@ -15,8 +15,8 @@
 
         <ImageView
             android:id="@+id/iv_header"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_user_head" />
@@ -96,34 +96,20 @@
         android:layout_marginTop="20dip"
         android:text="@string/login" />
 
-    <CheckBox
-        android:id="@+id/cb_is_request_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/login"
-        android:text="是否使用测试服务器" />
-
     <RelativeLayout
+        android:id="@+id/rl_rigster_forget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp" >
-
-        <View
-            android:id="@+id/divder"
-            style="@style/divider_line"
-            android:layout_width="1dp"
-            android:layout_height="20dp"
-            android:layout_centerInParent="true" />
+        android:layout_below="@+id/login"
+        android:layout_marginTop="12dp" >
 
         <TextView
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="30dp"
-            android:layout_toLeftOf="@+id/divder"
-            android:text="立即注册"
+            android:text="@string/tv_register_now"
             android:textColor="@drawable/text_color_selector"
             android:textSize="16sp" />
 
@@ -131,12 +117,78 @@
             android:id="@+id/tv_forget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@+id/divder"
             android:text="@string/tv_forget_password"
             android:textColor="@drawable/text_color_selector"
             android:textSize="16sp" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/cb_is_request_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_rigster_forget"
+        android:text="是否使用测试服务器" />
+
+    <RelativeLayout
+        android:id="@+id/ll_three_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/iv_weibo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_weibo"
+            android:scaleType="centerInside" />
+
+        <ImageButton
+            android:id="@+id/iv_qq"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_qq" />
+
+        <ImageButton
+            android:id="@+id/iv_weixin"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_weixin" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ll_three_login"
+        android:layout_marginBottom="10dp" >
+
+        <TextView
+            android:id="@+id/tv_three_login_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/three_login"
+            android:textColor="@drawable/text_color_selector"
+            android:textSize="16sp" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_three_login_text" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tv_three_login_text" />
     </RelativeLayout>
 
 </RelativeLayout>

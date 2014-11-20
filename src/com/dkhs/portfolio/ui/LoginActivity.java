@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +10,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -25,9 +28,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.framework.utils.UIHandler;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qzone.QZone;
+import cn.sharesdk.wechat.friends.Wechat;
+
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -57,6 +69,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private ImageView ivHeader;
     private String phoneNum;
     private CheckBox cbRequestTestServer;
+    private View ivWeibo, ivQQ, ivWeixin;
 
     private String mUserAccout;
     private UserEngineImpl engine;
@@ -88,6 +101,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         initDatas();
         setListener();
         LogUtils.customTagPrefix = "LoginActivity";
+
+        ShareSDK.initSDK(this);
+        // ShareSDK.registerPlatform(Laiwang.class);
+        ShareSDK.setConnTimeout(5000);
+        ShareSDK.setReadTimeout(10000);
+
     }
 
     /**
@@ -141,6 +160,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         tvRegister = (TextView) findViewById(R.id.tv_register);
         tvUsername = (TextView) findViewById(R.id.tv_username);
         rlfbutton = (Button) findViewById(R.id.login);
+
+        ivWeibo = findViewById(R.id.iv_weibo);
+        ivQQ = findViewById(R.id.iv_qq);
+        ivWeixin = findViewById(R.id.iv_weixin);
+        ivWeibo.setOnClickListener(this);
+        ivQQ.setOnClickListener(this);
+        ivWeixin.setOnClickListener(this);
 
         tvRegister.setOnClickListener(this);
         cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
@@ -239,9 +265,34 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 startActivity(intent2);
             }
                 break;
+            case R.id.iv_weibo: {
+                authPlatform(SinaWeibo.NAME);
+            }
+                break;
+            case R.id.iv_qq: {
+                authPlatform(QZone.NAME);
+
+            }
+                break;
+            case R.id.iv_weixin: {
+                authPlatform(Wechat.NAME);
+
+            }
+                break;
             default:
                 break;
         }
+    }
+
+    private void authPlatform(String platformName) {
+        Platform plat = ShareSDK.getPlatform(platformName);
+        // 这里开启一下SSO，防止OneKeyShare分享时调用了oks.disableSSOWhenAuthorize();把SSO关闭了
+        // plat.SSOSetting(!CustomShareFieldsPage.getBoolean("enableSSO", true));
+        plat.setPlatformActionListener(platFormActionListener);
+
+        ShareSDK.removeCookieOnAuthorize(true);
+
+        plat.authorize();
     }
 
     private void login() {
@@ -363,4 +414,120 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
     }
+
+    PlatformActionListener platFormActionListener = new PlatformActionListener() {
+
+        @Override
+        public void onError(Platform plat, int action, Throwable t) {
+            System.out.println("PlatformActionListener onComplete()");
+            t.printStackTrace();
+
+            Message msg = new Message();
+            msg.arg1 = 2;
+            msg.arg2 = action;
+            msg.obj = plat;
+            platFormAction.sendMessage(msg);
+        }
+
+        @Override
+        public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
+
+            System.out.println("PlatformActionListener onComplete()");
+            System.out.println("action:" + action);
+            System.out.println("platform user id:" + plat.getDb().getUserId());
+            System.out.println("platform user name:" + plat.getDb().getUserName());
+            System.out.println("platform  name:" + plat.getName());
+            System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
+            System.out.println("platform  getToken:" + plat.getDb().getToken());
+
+            Message msg = new Message();
+            msg.arg1 = 1;
+            msg.arg2 = action;
+            msg.obj = plat;
+            platFormAction.sendMessage(msg);
+
+        }
+
+        @Override
+        public void onCancel(Platform plat, int action) {
+            System.out.println("PlatformActionListener onCancel()");
+            Message msg = new Message();
+            msg.arg1 = 3;
+            msg.arg2 = action;
+            msg.obj = plat;
+            platFormAction.sendMessage(msg);
+
+        }
+    };
+    Handler platFormAction = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.arg1) {
+                case 1: {
+                    Platform plat = (Platform) msg.obj;
+                    String platname = plat.getName();
+                    if (platname.contains(SinaWeibo.NAME)) {
+                        platname = "weibo";
+                    } else if (platname.contains(Wechat.NAME)) {
+                        platname = "weixin";
+                    } else {
+                        platname = "qq";
+                    }
+                    ThreePlatform platData = new ThreePlatform();
+                    platData.setAccess_token(plat.getDb().getToken());
+                    platData.setOpenid(plat.getDb().getUserId());
+                    platData.setAvatar("");
+                    platData.setRefresh_token("");
+                    engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
+                            platData, registerListener.setLoadingDialog(LoginActivity.this));
+                }
+                    break;
+                case 2: {
+                }
+                    break;
+                case 3: {
+                }
+                    break;
+
+                default:
+                    break;
+            }
+        };
+    };
+
+    private ParseHttpListener<UserEntity> registerListener = new ParseHttpListener<UserEntity>() {
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+        };
+
+        @Override
+        protected UserEntity parseDateTask(String jsonData) {
+            try {
+                JSONObject json = new JSONObject(jsonData);
+                UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
+                String token = (String) json.getJSONObject("token").get("access_token");
+                entity.setAccess_token(token);
+                entity.setMobile(phoneNum);
+                engine.saveLoginUserInfo(entity);
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
+                return entity;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(UserEntity entity) {
+
+            // PromptManager.closeProgressDialog();
+            if (null != entity) {
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        }
+    };
+
 }

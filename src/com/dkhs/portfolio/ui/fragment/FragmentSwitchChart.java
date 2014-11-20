@@ -198,6 +198,7 @@ public class FragmentSwitchChart extends Fragment {
 
             if (mFragmentChart == null) {
                 mFragmentChart = TrendChartFragment.newInstance(trendType);
+                mFragmentChart.setSelectType(trendType);
             }
 
             mFragmentChart.setUpdateHandler(updHandler);

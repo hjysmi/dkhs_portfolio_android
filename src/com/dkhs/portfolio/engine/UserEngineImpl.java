@@ -4,6 +4,7 @@ import java.io.File;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FeedBackBean;
+import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -13,6 +14,7 @@ import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.google.gson.Gson;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.RequestParams;
@@ -113,6 +115,17 @@ public class UserEngineImpl {
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
     }
 
+    public void registerThreePlatform(String username, String openid, String provider, ThreePlatform extraData,
+            ParseHttpListener<UserEntity> listener) {
+        RequestParams params = new RequestParams();
+
+        params.addBodyParameter("provider", provider);
+        params.addBodyParameter("openid", openid);
+        params.addBodyParameter("username", username);
+        params.addBodyParameter("extra_data", new Gson().toJson(extraData));
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
+    }
+
     public void checkMobile(String mobile, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.checkMobile, mobile);
     }
@@ -127,7 +140,7 @@ public class UserEngineImpl {
         GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
 
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
-        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId()+"");
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL, entity.getAvatar_md());
 
         saveUser(entity);
@@ -160,37 +173,42 @@ public class UserEngineImpl {
         params.addBodyParameter("avatar", file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
-    
+
     public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.settingMessage, null, listener);
     }
+
     public void setSettingMessage(String description, ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("description", description);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.settingMessage, params, listener);
     }
+
     public void getBaseUserInfo(String userId, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.base_userinfo, userId);
 
     }
+
     public void getAppVersion(String appcode, ParseHttpListener<Object> listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("app_code", appcode);
-        //DKHSClient.requestByGet(DKHSUrl.News.newstext +id, null, this);
+        // DKHSClient.requestByGet(DKHSUrl.News.newstext +id, null, this);
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_version + appcode, null, listener);
     }
-    public void setFeedBack(String app,String version,String content,String contact,File file, ParseHttpListener<FeedBackBean> listener) {
+
+    public void setFeedBack(String app, String version, String content, String contact, File file,
+            ParseHttpListener<FeedBackBean> listener) {
         RequestParams params = new RequestParams();
-        if(null != app)
-        	params.addBodyParameter("app_code",app);
-        if(null != version)
-        	params.addBodyParameter("version",version);
-        if(null != content)
-        	params.addBodyParameter("content", content);
-        if(null != contact)
-        	params.addBodyParameter("contact",contact);
-        if(null != file)
-        	params.addBodyParameter("image",  file);
+        if (null != app)
+            params.addBodyParameter("app_code", app);
+        if (null != version)
+            params.addBodyParameter("version", version);
+        if (null != content)
+            params.addBodyParameter("content", content);
+        if (null != contact)
+            params.addBodyParameter("contact", contact);
+        if (null != file)
+            params.addBodyParameter("image", file);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
     }
 }
