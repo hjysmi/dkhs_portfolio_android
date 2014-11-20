@@ -120,6 +120,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.rl_aboutus).setOnClickListener(this);
         findViewById(R.id.setting_layout_check_version).setOnClickListener(this);
         findViewById(R.id.setting_layout_sign).setOnClickListener(this);
+        findViewById(R.id.setting_image_bound).setOnClickListener(this);
         settingSingText = (TextView) findViewById(R.id.setting_sing_text);
     }
 
@@ -236,6 +237,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             		b.putString(PersonSignSettingActivity.DESCRIPTION,ue.getDescription() );
             	intent.putExtras(b);
             	startActivity(intent);
+            	break;
+            case R.id.setting_image_bound:
+            	
             	break;
             default:
                 break;

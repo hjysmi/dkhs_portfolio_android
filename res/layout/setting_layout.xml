@@ -206,7 +206,37 @@
 					    android:layout_toRightOf="@id/setting_sign_title"
 					    />
                 </RelativeLayout>
+				<include layout="@layout/layout_line" />
+				<RelativeLayout
+                    android:id="@+id/setting_layout_bound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_white_selector" >
 
+                    <Button
+                        android:id="@+id/setting_image_bound"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:text="去绑定"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginRight="30dp"
+                        android:textColor="@color/white"
+                        android:background="@drawable/button_bound"/>
+					
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingLeft="20dp"
+                        android:paddingTop="10dp"
+                        android:text="绑定账号"
+                        android:textColor="@color/black"
+                        android:id="@+id/setting_sign_bound"
+                        android:textSize="@dimen/setting_text_name" />
+                </RelativeLayout>
                 <include layout="@layout/layout_line" />
                 <include layout="@layout/layout_line_text" />
 
