@@ -34,6 +34,9 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
 
     private String mConbinationId;
 
+    // 类型（0->1周，1->1个月(30 day)，2->3个月(90 day)，3->6个月(180 day)，4->至今，即查询所有）
+    private String type;
+
     public NetValueReportEngine(String id, ILoadDataBackListener loadListener) {
         super(loadListener);
         this.mConbinationId = id;
@@ -43,21 +46,22 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
      * 查询7天的报表
      */
     public void requerySevenDayReport() {
-        requeryReport(1, 7);
+        // requeryReport(1, 7);
+        requeryReport("0");
     }
 
     /**
      * 查询一个月的报表
      */
     public void requeryMonthReport() {
-        requeryReport(1, 30);
+        requeryReport("1");
     }
 
     /**
      * 查询至今的报表
      */
     public void requeryHistoryReport(int page) {
-        requeryReport(page, 20);
+        requeryReport("4");
     }
 
     public void requeryReport(int page, int pageSize) {
@@ -71,6 +75,15 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
         params.add(valuePair3);
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params, this);
 
+    }
+
+    public void requeryReport(String type) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        NameValuePair valuePair = new BasicNameValuePair("types", type);
+
+        params.add(valuePair);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params, this);
     }
 
     @Override

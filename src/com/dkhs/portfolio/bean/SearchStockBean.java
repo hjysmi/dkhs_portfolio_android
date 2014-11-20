@@ -38,6 +38,11 @@ public class SearchStockBean extends DBEntityBase {
     @Column(column = "symbol_type")
     private String symbol_type;
 
+    // "symbol_stype": symbol子类型（300, '股票'),(301, '混合型基金'),(302, '债卷型基金'),(303, '指数型基金'),(304, '保本型基金'),(305,
+    // 'qdii'),(306, 'etf'),(307, 'lof'),(308, 'other')
+    @Column(column = "symbol_stype")
+    private String symbol_stype;
+
     @Column(column = "list_status")
     private String list_status;
     @Column(column = "is_stop")

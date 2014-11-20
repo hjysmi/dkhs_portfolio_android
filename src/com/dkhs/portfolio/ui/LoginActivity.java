@@ -289,9 +289,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // 这里开启一下SSO，防止OneKeyShare分享时调用了oks.disableSSOWhenAuthorize();把SSO关闭了
         // plat.SSOSetting(!CustomShareFieldsPage.getBoolean("enableSSO", true));
         plat.setPlatformActionListener(platFormActionListener);
-
-        ShareSDK.removeCookieOnAuthorize(true);
         plat.showUser(null);
+        // ShareSDK.removeCookieOnAuthorize(true);
         plat.authorize();
     }
 
@@ -439,6 +438,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             System.out.println("platform  name:" + plat.getName());
             System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
             System.out.println("platform  getToken:" + plat.getDb().getToken());
+            
             res.put("plat", plat);
             Message msg = new Message();
             msg.arg1 = 1;

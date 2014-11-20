@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.dkhs.portfolio.service.LoadStockToDBService;
 import com.dkhs.portfolio.utils.DataBaseUtil;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 
 /**
  * @ClassName PortfolioApplication
@@ -44,8 +45,8 @@ public class PortfolioApplication extends Application {
         super.onCreate();
         mInstance = this;
         // if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
-        // LoadStockToDBService.requestDownload(this);
-        copyDataBaseToPhone();
+        LoadStockToDBService.requestDownload(this);
+        // copyDataBaseToPhone();
         // }
 
         // 注册crashHandler
