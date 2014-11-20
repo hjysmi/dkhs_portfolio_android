@@ -237,7 +237,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             }
             loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
-
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
 
@@ -248,7 +247,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
 
     };
-
+    
     public void setOrderType(OrderType orderType) {
         isRefresh = true;
         if (mLoadDataEngine instanceof FundDataEngine) {

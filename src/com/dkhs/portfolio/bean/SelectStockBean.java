@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import java.io.Serializable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * @ClassName SelectStockBean
  * @Description 添加自选股，用于UI显示的Bean
@@ -27,6 +29,7 @@ public class SelectStockBean implements Serializable {
     public float change;
     public boolean isFollowed;
     public boolean isStop;
+    public long index;
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
 
@@ -77,6 +80,7 @@ public class SelectStockBean implements Serializable {
         selectBean.isFollowed = stockBean.isFollowed();
         selectBean.symbol_type = stockBean.getSymbol_type();
         selectBean.isStop = stockBean.isStop();
+        selectBean.index = stockBean.getIndex();
         return selectBean;
     }
 
@@ -100,4 +104,12 @@ public class SelectStockBean implements Serializable {
         }
     }
 
+	public long getIndex() {
+		return index;
+	}
+
+	public void setIndex(long index) {
+		this.index = index;
+	}
+    
 }

@@ -58,13 +58,13 @@ public class ReportNewsAdapter extends BaseAdapter{
 			    viewHolder = (ViewHodler) convertView.getTag();
 			}
 			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
-			if(mOptionNewsBean.getSymbols().size() > 0){
-				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName() + " " +mOptionNewsBean.getSymbols().get(0).getId());
+			if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
+				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName() + " " +mOptionNewsBean.getSymbols().get(0).getSymbol());
 			}else{
 				viewHolder.tvTextNameNum.setText("");
 			}
-			viewHolder.tvTextDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
-			if(null != mOptionNewsBean.getSource()){
+			viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+			if(null != mOptionNewsBean.getSource() && !(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0)){
 				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getTitle());
 			}else{
 				viewHolder.tvTextFrom.setText("");

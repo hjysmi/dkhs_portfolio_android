@@ -87,12 +87,15 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	    };
 	    public void setValue(){
 	    	newsTitleName.setText(mOptionNewsBean.getTitle());
-	    	newsTitleDate.setText(mOptionNewsBean.getCreatedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+	    	newsTitleDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
 	    	if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
 	    		newsTitleNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
-	    	}
-	    	if(null != mOptionNewsBean.getSource())
+	    	}else if(null != mOptionNewsBean.getSource()){
 	    		newsTitleNum.setText(mOptionNewsBean.getSource().getTitle());
+	    	}
+	    	if(null != optionName){
+	    		newsTitleNum.setText(optionName);
+	    	}
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());
 	    	/*BitmapUtils bitmapUtils = new BitmapUtils(this);
