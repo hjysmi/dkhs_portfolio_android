@@ -436,14 +436,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         // 深证成指：SZ399001
         StockQuotesBean bean1 = stockList.get(0);
         StockQuotesBean bean2 = stockList.get(1);
-        String szTilte = "沪指";
+        String szTilte = "沪";
         String szCurrentValue = StringFromatUtils.get2Point(bean1.getCurrent());
         // String szIncrease = StringFromatUtils.get2Point(bean1.getChange());
         String szIncrease = "";
         String szPercentage = StringFromatUtils.get2PointPercent(bean1.getPercentage());
 
         // String scTilte = bean2.getName();
-        String scTilte = "深指";
+        String scTilte = "深";
         String scCurrentValue = StringFromatUtils.get2Point(bean2.getCurrent());
         // String scIncrease = StringFromatUtils.get2Point(bean2.getChange());
         String scIncrease = "";
