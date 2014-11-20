@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_pressed="true"> 
+        <shape> 
+            <stroke
+		        android:width="3px"	android:color="#b56400" />
+	    	<gradient
+		        android:angle="0" android:endColor="#b56400"
+		        android:startColor="#b56400" />
+    		<corners
+		        android:bottomLeftRadius="6dip" android:bottomRightRadius="6dip"
+		        android:topLeftRadius="6dip" android:topRightRadius="6dip" />
+
+    		<padding
+		        android:bottom="5dp" android:left="10dp"
+		        android:right="10dp" android:top="5dp" />
+        </shape> 
+    </item> 
+  
+    <item android:state_focused="true"> 
+        <shape> 
+            <stroke
+		        android:width="3px"	android:color="#b56400" />
+	    	<gradient
+		        android:angle="0" android:endColor="#b56400"
+		        android:startColor="#b56400" />
+    		<corners
+		        android:bottomLeftRadius="6dip" android:bottomRightRadius="6dip"
+		        android:topLeftRadius="6dip" android:topRightRadius="6dip" />
+
+    		<padding
+		        android:bottom="5dp" android:left="10dp"
+		        android:right="10dp" android:top="5dp" />
+        </shape> 
+    </item> 
+  
+    <item> 
+        <shape> 
+            <stroke
+		        android:width="3px"	android:color="#e88f22" />
+	    	<gradient
+		        android:angle="0" android:endColor="#e88f22"
+		        android:startColor="#e88f22" />
+    		<corners
+		        android:bottomLeftRadius="6dip" android:bottomRightRadius="6dip"
+		        android:topLeftRadius="6dip" android:topRightRadius="6dip" />
+
+    		<padding
+		        android:bottom="5dp" android:left="10dp"
+		        android:right="10dp" android:top="5dp" />
+        </shape> 
+    </item> 
+</selector>
