@@ -10,7 +10,7 @@
     <string name="none">无</string>
     <string name="loading">正在加载···</string>
     <string name="login">登录</string>
-    <string name="three_login">第三方登录</string>
+    <string name="three_login">其他账号登录</string>
     <string name="register">注册</string>
     <string name="register_success">注册成功</string>
     <string name="start">开始体验</string>

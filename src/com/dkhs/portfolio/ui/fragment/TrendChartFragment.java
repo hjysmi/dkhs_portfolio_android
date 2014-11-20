@@ -140,11 +140,13 @@ public class TrendChartFragment extends Fragment {
 
     public void setSelectType(String type) {
         this.trendType = type;
+
         if (null != mMaChart) {
             PromptManager.showProgressDialog(getActivity(), "");
             drawCharHandler.sendEmptyMessageDelayed(777, 500);
             // updateView();
-           
+            clearViewData();
+
         }
         if (isTodayShow()) {
             dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
@@ -323,6 +325,11 @@ public class TrendChartFragment extends Fragment {
         }
     }
 
+    private void clearViewData() {
+        mMaChart.getLineData().clear();
+        mMaChart.invalidate();
+    }
+
     private void initTodayTrendTitle() {
 
         List<String> xtitle = new ArrayList<String>();
@@ -359,9 +366,15 @@ public class TrendChartFragment extends Fragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
-            DrawLineDataEntity todayLine = new DrawLineDataEntity();
 
-            getMaxOffetValue(todayLine, todayNetvalue);
+            DrawLineDataEntity todayLine = null;
+            if (null != todayNetvalue && todayNetvalue.getChartlist() != null
+                    && todayNetvalue.getChartlist().size() > 0) {
+                todayLine = new DrawLineDataEntity();
+                // getMaxOffetValue(lineData, histroyValue);
+                getMaxOffetValue(todayLine, todayNetvalue);
+            }
+
             return todayLine;
         }
 
@@ -551,8 +564,11 @@ public class TrendChartFragment extends Fragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            DrawLineDataEntity lineData = new DrawLineDataEntity();
-            getMaxOffetValue(lineData, histroyValue);
+            DrawLineDataEntity lineData = null;
+            if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
+                lineData = new DrawLineDataEntity();
+                getMaxOffetValue(lineData, histroyValue);
+            }
             return lineData;
         }
 
@@ -578,16 +594,20 @@ public class TrendChartFragment extends Fragment {
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
     private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
-        List<HistoryNetBean> dayNetValueList = historyNetValue.getChartlist();
+        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+
         lineData.dataList.clear();
 
         lineData.end = historyNetValue.getEnd();
-        lineData.startDay = dayNetValueList.get(0).getDate();
-        lineData.endDay = dayNetValueList.get(dayNetValueList.size() - 1).getDate();
+        if (null != historyNetList && historyNetList.size() > 0) {
+
+            lineData.startDay = historyNetList.get(0).getDate();
+            lineData.endDay = historyNetList.get(historyNetList.size() - 1).getDate();
+        }
         int dashLineSize = 0;
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
-        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+        // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();
         for (int i = 0; i < dataLenght; i++) {
 
