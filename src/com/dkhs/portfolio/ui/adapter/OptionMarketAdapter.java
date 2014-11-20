@@ -58,7 +58,7 @@ public class OptionMarketAdapter extends BaseAdapter{
 			}
 			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
 			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName() + " " + mOptionNewsBean.getSymbols().get(0).getSymbol());
-			viewHolder.tvTextDate.setText(mOptionNewsBean.getModifiedTime().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+			viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

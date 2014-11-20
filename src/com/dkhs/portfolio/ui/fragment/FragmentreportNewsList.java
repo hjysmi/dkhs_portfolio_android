@@ -64,7 +64,11 @@ public class FragmentreportNewsList extends Fragment{
 		if(null != mLoadDataEngine){
 			
 		}
-		initDate();
+		Bundle bundle = getArguments();
+		NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+		if(null != vo && null != vo.getContentSubType() && vo.getContentSubType().equals("304")){
+			initDate();
+		}
 		return view;
 	}
 	private void initDate(){
@@ -213,7 +217,7 @@ public class FragmentreportNewsList extends Fragment{
 							.equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
 				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 			}
-			
+			initDate();
 		} else {
 			// 不可见时不执行操作
 		}
