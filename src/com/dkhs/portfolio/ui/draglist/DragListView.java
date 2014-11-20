@@ -131,7 +131,23 @@ public class DragListView extends ListView {
 			return;
 		}
 	}
-	
+	public void review(int position){
+		DragListAdapter adapter = (DragListAdapter) getAdapter();
+		List<SelectStockBean> list = adapter.getList();
+		for(int i = 0; i < list.size(); i++){
+			if(i != position){
+				ViewGroup dragger = (ViewGroup) getChildAt(i);
+				if(null != dragger){
+					View delete = dragger.findViewById(R.id.image);
+					View btn = dragger.findViewById(R.id.button_delete);
+					View tv = dragger.findViewById(R.id.drag_text_delet_pad);
+					btn.setVisibility(View.GONE);
+					delete.setVisibility(View.VISIBLE);
+					tv.setVisibility(View.VISIBLE);
+				}
+			}
+		}
+	}
 	/***
 	 * touch事件拦截 在这里我进行相应拦截，
 	 */
@@ -149,7 +165,7 @@ public class DragListView extends ListView {
 			if(false == bHasGetSapcing){
 				getSpacing();
 			}
-			
+			review(dragPosition);
 			// 获取当前位置的视图(可见状态)
 			ViewGroup dragger = (ViewGroup) getChildAt(dragPosition
 					- getFirstVisiblePosition());
