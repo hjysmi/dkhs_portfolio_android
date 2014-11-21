@@ -45,7 +45,7 @@ public class SearchStockEngineImpl {
      * 请服务器获取到3348条数据，包括解析数据，插入数据到数据库一共耗时42秒
      */
     public static void loadStockList() {
-        StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5");
+        StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1");
         // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1");
         // "last_datetime"
         String lastLoadTime = PortfolioPreferenceManager
@@ -71,10 +71,11 @@ public class SearchStockEngineImpl {
                         List<SearchStockBean> dataList = dataBean.getResults();
                         DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
                         // dbUtils.configAllowTransaction(true);
-                        dbUtils.replaceAll(dataList);
+//                        dbUtils.replaceAll(dataList);
+                        dbUtils.saveAll(dataList);
+                        LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
                     }
 
-                    // LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
                     return dataBean.getLast_datetime();
                 } catch (Exception e) {
                     e.printStackTrace();

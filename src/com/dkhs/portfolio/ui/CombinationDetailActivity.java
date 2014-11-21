@@ -11,9 +11,6 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,23 +23,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Switch;
+import android.widget.Button;
 import android.widget.TextView;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CompareForPublicSettingActivity.QueryCombinationDetailListener;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
-import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
@@ -59,7 +50,7 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 public class CombinationDetailActivity extends ModelAcitivity implements OnClickListener {
 
     private static final float DOWN_SCALE = 1.0f;
-    // private Button btnMore;
+    private Button btnMore;
     private View btnPreBottom;
     private Fragment mPreFragment;
     private TextView tvTitleView;
@@ -104,8 +95,20 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     }
 
+    private void showShareButton() {
+        btnMore.setBackgroundResource(R.drawable.ic_share);
+        btnMore.setVisibility(View.VISIBLE);
+
+    }
+
+    private void hideMoreButton() {
+        btnMore.setVisibility(View.GONE);
+    }
+
     private void initView() {
-        // btnMore = getRightButton();
+        btnMore = getRightButton();
+        btnMore.setOnClickListener(this);
+        btnMore.setBackgroundResource(R.drawable.ic_share);
         // btnMore.setBackgroundResource(R.drawable.nav_more_selector);
 
         btnPreBottom = findViewById(R.id.btn_trend);
@@ -227,6 +230,11 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             //
             // FragmentLifecycle fragmentToHide = (FragmentLifecycle) mPagerAdapter.getItem(currentPosition);
             // fragmentToHide.onPauseFragment();
+            if (newPosition == 0) {
+                showShareButton();
+            } else {
+                hideMoreButton();
+            }
 
             currentPosition = newPosition;
         }
@@ -260,7 +268,98 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        switch (id) {
+            case R.id.btn_right:
+                // 直接分享
+                showShare(true, null, false);
 
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    private void showShare(boolean silent, String platform, boolean captureView) {
+        Context context = this;
+        final OnekeyShare oks = new OnekeyShare();
+
+        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // oks.setAddress("12345678901");
+        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+        // String customText = CustomShareFieldsPage.getString( "text", null);
+        oks.setTitle("谁牛");
+        oks.setTitleUrl("http://dev.dkhs.com");
+        String customText = "分享内容定制";
+        oks.setText(customText);
+        // if (customText != null) {
+        // oks.setText(customText);
+        // } {
+        // oks.setText(context.getString(R.string.share_content));
+        // }
+
+        // if (captureView) {
+        // // oks.setViewToShare(getPage());
+        // } else {
+        // oks.setImagePath(CustomShareFieldsPage.getString("imagePath", MainActivity.TEST_IMAGE));
+        // oks.setImageUrl(CustomShareFieldsPage.getString("imageUrl", MainActivity.TEST_IMAGE_URL));
+        // oks.setImageArray(new String[] { MainActivity.TEST_IMAGE, MainActivity.TEST_IMAGE_URL });
+        // }
+        // oks.setUrl("http://dev.dkhs.com");
+        // oks.setFilePath(CustomShareFieldsPage.getString("filePath", MainActivity.TEST_IMAGE));
+        // oks.setComment("share");
+        // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
+        // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
+        // oks.setVenueName(CustomShareFieldsPage.getString("venueName", "ShareSDK"));
+        // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription", "This is a beautiful place!"));
+        // oks.setLatitude(23.056081f);
+        // oks.setLongitude(113.385708f);
+        oks.setSilent(silent);
+        oks.setShareFromQQAuthSupport(true);
+        if (platform != null) {
+            oks.setPlatform(platform);
+        }
+
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+
+        // 在自动授权时可以禁用SSO方式
+        // if (!CustomShareFieldsPage.getBoolean("enableSSO", true))
+        // oks.disableSSOWhenAuthorize();
+
+        // 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
+        // oks.setCallback(new OneKeyShareCallback());
+
+        // 去自定义不同平台的字段内容
+        // oks.setShareContentCustomizeCallback(new ShareContentCustomizeDemo());
+
+        // 去除注释，演示在九宫格设置自定义的图标
+        // Bitmap logo = BitmapFactory.decodeResource(menu.getResources(), R.drawable.ic_launcher);
+        // String label = menu.getResources().getString(R.string.app_name);
+        // OnClickListener listener = new OnClickListener() {
+        // public void onClick(View v) {
+        // String text = "Customer Logo -- ShareSDK " + ShareSDK.getSDKVersionName();
+        // Toast.makeText(menu.getContext(), text, Toast.LENGTH_SHORT).show();
+        // oks.finish();
+        // }
+        // };
+        // oks.setCustomerLogo(logo, label, listener);
+
+        // 去除注释，则快捷分享九宫格中将隐藏新浪微博和腾讯微博
+        // oks.addHiddenPlatform(SinaWeibo.NAME);
+        // oks.addHiddenPlatform(TencentWeibo.NAME);
+
+        // 为EditPage设置一个背景的View
+        // oks.setEditPageBackground(getPage());
+
+        // 设置kakaoTalk分享链接时，点击分享信息时，如果应用不存在，跳转到应用的下载地址
+        // oks.setInstallUrl("http://www.mob.com");
+        // 设置kakaoTalk分享链接时，点击分享信息时，如果应用存在，打开相应的app
+        // oks.setExecuteUrl("kakaoTalkTest://starActivity");
+
+        oks.show(context);
     }
 
     protected void showFragmentByButtonId(int id) {
@@ -308,6 +407,12 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
             default:
                 break;
+        }
+        
+        if (mSelectedTabIndex == 0) {
+            showShareButton();
+        } else {
+            hideMoreButton();
         }
         // PagerAdapter adapter = mViewPager.getAdapter();
         // final int count = adapter.getCount();
