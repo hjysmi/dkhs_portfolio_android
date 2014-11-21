@@ -33,7 +33,7 @@ import com.dkhs.portfolio.utils.PromptManager;
  * @date 2014-9-11 上午9:52:31
  * @version 1.0
  */
-public class FragmentSwitchChart extends Fragment {
+public class FragmentSwitchChart extends BaseFragment {
 
     private String trendType;
     private DKHSSwitch swChart;
@@ -70,6 +70,11 @@ public class FragmentSwitchChart extends Fragment {
     public FragmentSwitchChart() {
     }
 
+    public void showShare(boolean silent, String platform, boolean captureView) {
+        if(null!=mFragmentChart)
+//        mFragmentChart.showShare(silent, platform, captureView);
+        mFragmentChart.showShareImage();
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getActivity().setTheme(R.style.AppThemeLight);
@@ -254,20 +259,7 @@ public class FragmentSwitchChart extends Fragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
+  
 
     private Handler updHandler;
 

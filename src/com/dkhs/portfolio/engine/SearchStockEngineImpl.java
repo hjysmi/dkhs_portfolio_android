@@ -45,16 +45,18 @@ public class SearchStockEngineImpl {
      * 请服务器获取到3348条数据，包括解析数据，插入数据到数据库一共耗时42秒
      */
     public static void loadStockList() {
-        StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5");
+        StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5&exchange=1,2");
         // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1");
         // "last_datetime"
+        // lastLoadTime = 2014-11-21T07:15:53Z
         String lastLoadTime = PortfolioPreferenceManager
                 .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
-        if (!TextUtils.isEmpty(lastLoadTime)) {
-            loadUrl.append("&last_datetime=");
-            loadUrl.append(lastLoadTime);
-        }
+        if (TextUtils.isEmpty(lastLoadTime)) {
 
+            lastLoadTime = "2014-11-21T07:15:53Z";
+        }
+        loadUrl.append("&last_datetime=");
+        loadUrl.append(lastLoadTime);
         DKHSClient.requestLong(HttpMethod.GET, loadUrl.toString(), null, new ParseHttpListener<String>() {
 
             @Override
@@ -72,14 +74,14 @@ public class SearchStockEngineImpl {
                         DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
                         // dbUtils.configAllowTransaction(true);
                         try {
-							dbUtils.replaceAll(dataList);
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+                            dbUtils.replaceAll(dataList);
+                            LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
                     }
 
-                    // LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
                     return dataBean.getLast_datetime();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -91,7 +93,7 @@ public class SearchStockEngineImpl {
             protected void afterParseData(String object) {
                 if (!TextUtils.isEmpty(object)) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME, object);
-                    // PortfolioPreferenceManager.setLoadSearchStock();
+                   
                 }
 
             }

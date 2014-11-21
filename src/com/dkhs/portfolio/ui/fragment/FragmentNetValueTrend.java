@@ -248,6 +248,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // TrendChartFragment mtrendFragment = new TrendChartFragment();
     FragmentSwitchChart mSwitchFragment = null;
 
+    public void showShare(boolean silent, String platform, boolean captureView) {
+        if (null != mSwitchFragment)
+            mSwitchFragment.showShare(silent, platform, captureView);
+    }
+
     private void replaceFragment(Fragment newFragment) {
 
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();

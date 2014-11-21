@@ -59,10 +59,10 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     MyPagerFragmentAdapter mPagerAdapter;
 
-    // private FragmentNetValueTrend mFragmentTrend;
-    // private FragmentCompare mFragmentCompare;
-    // private FragmentPositionDetail mFragmentDetail;
-    // private FragmentNews mFragmentNews;
+    private FragmentNetValueTrend mFragmentTrend;
+    private FragmentCompare mFragmentCompare;
+    private FragmentPositionDetail mFragmentDetail;
+    private FragmentNews mFragmentNews;
 
     public static final String EXTRA_COMBINATION = "extra_combination";
 
@@ -134,8 +134,12 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void replaceTrendView() {
+        // if (null == mFragmentTrend) {
+        mFragmentTrend = FragmentNetValueTrend.newInstance(false);
+        // }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
+        // ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
+        ft.replace(R.id.rl_content, mFragmentTrend);
         ft.commit();
     }
 
@@ -270,8 +274,12 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int id = v.getId();
         switch (id) {
             case R.id.btn_right:
+                if (mFragmentTrend != null) {
+                    // 直接分享
+                    mFragmentTrend.showShare(true, null, false);
+                }
                 // 直接分享
-                showShare(true, null, false);
+                // showShare(true, null, false);
 
                 break;
 
@@ -279,87 +287,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 break;
         }
 
-    }
-
-    private void showShare(boolean silent, String platform, boolean captureView) {
-        Context context = this;
-        final OnekeyShare oks = new OnekeyShare();
-
-        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        // oks.setAddress("12345678901");
-        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
-        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
-        // String customText = CustomShareFieldsPage.getString( "text", null);
-        oks.setTitle("谁牛");
-        oks.setTitleUrl("http://dev.dkhs.com");
-        String customText = "分享内容定制";
-        oks.setText(customText);
-        // if (customText != null) {
-        // oks.setText(customText);
-        // } {
-        // oks.setText(context.getString(R.string.share_content));
-        // }
-
-        // if (captureView) {
-        // // oks.setViewToShare(getPage());
-        // } else {
-        // oks.setImagePath(CustomShareFieldsPage.getString("imagePath", MainActivity.TEST_IMAGE));
-        // oks.setImageUrl(CustomShareFieldsPage.getString("imageUrl", MainActivity.TEST_IMAGE_URL));
-        // oks.setImageArray(new String[] { MainActivity.TEST_IMAGE, MainActivity.TEST_IMAGE_URL });
-        // }
-        // oks.setUrl("http://dev.dkhs.com");
-        // oks.setFilePath(CustomShareFieldsPage.getString("filePath", MainActivity.TEST_IMAGE));
-        // oks.setComment("share");
-        // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
-        // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
-        // oks.setVenueName(CustomShareFieldsPage.getString("venueName", "ShareSDK"));
-        // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription", "This is a beautiful place!"));
-        // oks.setLatitude(23.056081f);
-        // oks.setLongitude(113.385708f);
-        oks.setSilent(silent);
-        oks.setShareFromQQAuthSupport(true);
-        if (platform != null) {
-            oks.setPlatform(platform);
-        }
-
-        // 令编辑页面显示为Dialog模式
-        oks.setDialogMode();
-
-        // 在自动授权时可以禁用SSO方式
-        // if (!CustomShareFieldsPage.getBoolean("enableSSO", true))
-        // oks.disableSSOWhenAuthorize();
-
-        // 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
-        // oks.setCallback(new OneKeyShareCallback());
-
-        // 去自定义不同平台的字段内容
-        // oks.setShareContentCustomizeCallback(new ShareContentCustomizeDemo());
-
-        // 去除注释，演示在九宫格设置自定义的图标
-        // Bitmap logo = BitmapFactory.decodeResource(menu.getResources(), R.drawable.ic_launcher);
-        // String label = menu.getResources().getString(R.string.app_name);
-        // OnClickListener listener = new OnClickListener() {
-        // public void onClick(View v) {
-        // String text = "Customer Logo -- ShareSDK " + ShareSDK.getSDKVersionName();
-        // Toast.makeText(menu.getContext(), text, Toast.LENGTH_SHORT).show();
-        // oks.finish();
-        // }
-        // };
-        // oks.setCustomerLogo(logo, label, listener);
-
-        // 去除注释，则快捷分享九宫格中将隐藏新浪微博和腾讯微博
-        // oks.addHiddenPlatform(SinaWeibo.NAME);
-        // oks.addHiddenPlatform(TencentWeibo.NAME);
-
-        // 为EditPage设置一个背景的View
-        // oks.setEditPageBackground(getPage());
-
-        // 设置kakaoTalk分享链接时，点击分享信息时，如果应用不存在，跳转到应用的下载地址
-        // oks.setInstallUrl("http://www.mob.com");
-        // 设置kakaoTalk分享链接时，点击分享信息时，如果应用存在，打开相应的app
-        // oks.setExecuteUrl("kakaoTalkTest://starActivity");
-
-        oks.show(context);
     }
 
     protected void showFragmentByButtonId(int id) {
@@ -408,7 +335,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             default:
                 break;
         }
-        
+
         if (mSelectedTabIndex == 0) {
             showShareButton();
         } else {

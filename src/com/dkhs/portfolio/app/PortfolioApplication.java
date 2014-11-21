@@ -44,10 +44,10 @@ public class PortfolioApplication extends Application {
         // TODO Auto-generated method stub
         super.onCreate();
         mInstance = this;
-        // if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
+        if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
+            copyDataBaseToPhone();
+        }
         LoadStockToDBService.requestDownload(this);
-        // copyDataBaseToPhone();
-        // }
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
@@ -111,6 +111,7 @@ public class PortfolioApplication extends Application {
 
                     try {
                         util.copyDataBase();
+                        PortfolioPreferenceManager.setLoadSearchStock();
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
