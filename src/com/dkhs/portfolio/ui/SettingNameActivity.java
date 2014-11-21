@@ -308,7 +308,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             isValid = false;
             etUserName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
             etUserName.requestFocus();
-        } else if (StringFromatUtils.getStringRealLength(text) < 6) {
+        } else if (StringFromatUtils.getStringRealLength(text) < 4) {
             isValid = false;
             etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于4个字符</font>"));
             etUserName.requestFocus();
