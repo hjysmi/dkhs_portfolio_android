@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,6 +18,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class UserNameChangeActivity extends ModelAcitivity implements OnClickListener{
 	private Button btnCancle;
@@ -56,19 +58,37 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_right:
-			String userName = changeEditName.getText().toString();
+			/*String userName = changeEditName.getText().toString();
 			if(TextUtils.isEmpty(userName)){
 				PromptManager.showToast(R.string.password_setting_name_null);
 				return;
+			}*/
+			String userName = changeEditName.getText().toString();
+			if(checkUserName()){
+				mUserEngineImpl.setUserName(userName, listener);
+				listener.setLoadingDialog(context).beforeRequest();
 			}
-			mUserEngineImpl.setUserName(userName, listener);
-			listener.setLoadingDialog(context).beforeRequest();
 			break;
 
 		default:
 			break;
 		}
 	}
+	private boolean checkUserName() {
+        boolean isValid = true;
+        // etUserName.
+        String text = changeEditName.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            isValid = false;
+            changeEditName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
+            changeEditName.requestFocus();
+        } else if (StringFromatUtils.getStringRealLength(text) < 4) {
+            isValid = false;
+            changeEditName.setError(Html.fromHtml("<font color='red'>用户名不能小于4个字符</font>"));
+            changeEditName.requestFocus();
+        }
+        return isValid;
+    }
 	private ParseHttpListener<String> listener = new ParseHttpListener<String>() {
 
         public void onFailure(int errCode, String errMsg) {
