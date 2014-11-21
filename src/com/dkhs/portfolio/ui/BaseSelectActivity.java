@@ -64,9 +64,9 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private Button btnOrder;
     private boolean isAdjustCombination;
-
+    private Button btnBack;
     public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
-  
+    public String fromCreate;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -83,7 +83,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         setupUI(findViewById(R.id.rl_base_add_view));
         initView();
         setupViewData();
-
+        btnBack.setOnClickListener(new OnBackListener());
     }
 
     private void handleExtras(Bundle extras) {
@@ -91,6 +91,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
                 .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
         isAdjustCombination = extras.getBoolean(KEY_ISADJUST_COMBINATION, false);
+        fromCreate = extras.getString(FROM_CREATE_TITLE);
         if (null != listStock) {
             // for (ConStockBean stockBean : listStock) {
             //
@@ -145,7 +146,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         mSelctStockView = (GridView) findViewById(R.id.rl_add_stocklist);
         btnAdd = getRightButton();
-
+        btnBack = getBtnBack();
         etSearchKey = (EditText) findViewById(R.id.et_search_key);
 
         mStockPageView = findViewById(R.id.rl_stock_rowview);
@@ -275,7 +276,22 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             }
         }
     }
+    class OnBackListener implements OnClickListener{
 
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			if(null != fromCreate){
+				Intent intent = new Intent();
+		        setResult(999, intent);
+
+		        finish();
+			}else{
+				finish();
+			}
+		}
+    	
+    }
     public void notifySelectDataChange(boolean isUpdataFragment) {
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
@@ -314,7 +330,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public static final String ARGUMENT_CRATE_TYPE = "type";
     public static final int CRATE_TYPE_FAST = 0;
     public static final int CRATE_TYPE_CUSTOM = 1;
-
+    public static final int FROM_CREATE = 999;
+    public static final String FROM_CREATE_TITLE = "first_create";
     private void setSelectBack(int type) {
         Intent intent = new Intent();
         intent.putExtra(ARGUMENT_SELECT_LIST, (Serializable) mSelectList);

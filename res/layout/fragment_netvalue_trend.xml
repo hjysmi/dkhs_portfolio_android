@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-
+	
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -181,13 +181,26 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp" >
 			
-
-                <CheckBox
+				<ToggleButton
+			android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        android:button="@drawable/ios7_btn"
+        android:checked="false"
+        android:text=""
+        android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+        android:textOff=""
+        android:textOn=""
+        android:id="@+id/combination_checks"
+				    />
+                <!-- <CheckBox
                     android:id="@+id/combination_check"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" />
+                    android:layout_centerVertical="true" /> -->
 
                 <ImageView
                     android:id="@+id/combination_img"
@@ -199,7 +212,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/combination_check"
+                    android:layout_toLeftOf="@id/combination_checks"
                     android:layout_toRightOf="@id/combination_img"
                     android:paddingLeft="3dp"
                     android:text="@string/combination_wornning_name"
@@ -211,10 +224,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/combination_img"
-                    android:layout_toLeftOf="@id/combination_check"
+                    android:layout_toLeftOf="@id/combination_checks"
                     android:text="@string/combination_wornning_text"
                     android:textColor="@color/light_gray"
                     android:textSize="@dimen/setting_text_phone" />
+                
             </RelativeLayout>
         </LinearLayout>
 

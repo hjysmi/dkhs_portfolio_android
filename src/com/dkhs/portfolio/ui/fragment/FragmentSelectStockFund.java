@@ -323,7 +323,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null) {
             // mDataList.clear();
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();;
         }
     }
 
