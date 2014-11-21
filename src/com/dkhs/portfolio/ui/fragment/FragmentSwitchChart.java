@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -159,6 +160,7 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     public void setSelectType(String type) {
+    	long time = System.currentTimeMillis();
         this.trendType = type;
         mFragmentChart.setSelectType(type);
         if (!TextUtils.isEmpty(trendType) && !isFromOrder) {
@@ -176,7 +178,7 @@ public class FragmentSwitchChart extends BaseFragment {
             }
 
         }
-        
+        Log.e("timemillis", (System.currentTimeMillis() - time) + "");
 
         // if (null != mMaChart) {
         // PromptManager.showProgressDialog(getActivity(), "");

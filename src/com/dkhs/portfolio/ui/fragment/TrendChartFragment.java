@@ -337,7 +337,8 @@ public class TrendChartFragment extends BaseFragment {
         if (!TextUtils.isEmpty(trendType)) {
 
             if (isTodayShow()) {
-
+            	long time = System.currentTimeMillis();
+                
                 initTodayTrendTitle();
                 if (null != mTodayLineData) {
 
@@ -345,7 +346,7 @@ public class TrendChartFragment extends BaseFragment {
 
                     // computeTodayDataThread.start();
                 }
-
+                Log.e("timemillis", (time - System.currentTimeMillis() + ""));
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
                 if (null == mAllLineData) {
                     mNetValueDataEngine.requeryHistory(historyNetValueListener);
@@ -584,6 +585,8 @@ public class TrendChartFragment extends BaseFragment {
 
         // List<TodayNetBean> dayNetValueList = mTodayNetvalue.getChartlist();
         // mTodayLineData.dataList;
+    	long time = System.currentTimeMillis();
+        
         if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
             mMaChart.setDashLinePointSize(mTodayLineData.dashLineSize);
@@ -624,7 +627,7 @@ public class TrendChartFragment extends BaseFragment {
         float increase = mTodayLineData.netvalue;
         tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
         tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
-
+        Log.e("timemillis", (System.currentTimeMillis() - time+ ""));
     }
 
     /**
