@@ -57,7 +57,7 @@ public class DKHSClient {
 
     public static void requestLong(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
-        requestServer(new HttpUtils(60 * 1000), method, url, params, listener);
+        requestServer(new HttpUtils(10*60 * 1000), method, url, params, listener);
 
     }
 

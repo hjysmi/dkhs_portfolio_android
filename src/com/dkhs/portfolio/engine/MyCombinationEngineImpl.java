@@ -10,7 +10,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.dkhs.portfolio.R;
+
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;

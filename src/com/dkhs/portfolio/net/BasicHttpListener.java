@@ -13,6 +13,7 @@ public abstract class BasicHttpListener implements IHttpListener {
 
     private boolean isStop;
     private boolean fromYanbao = true;
+
     @Override
     public void beforeRequest() {
 
@@ -132,7 +133,7 @@ public abstract class BasicHttpListener implements IHttpListener {
                     String errorTExt = eJArray.getString(0);
                     LogUtils.e("setErrorMessage : " + errorTExt);
                     errorBundle.setErrorMessage(eJArray.getString(0));
-                    PromptManager.showToast(errorTExt);
+                    // PromptManager.showToast(errorTExt);
                 }
             }
 
@@ -154,12 +155,12 @@ public abstract class BasicHttpListener implements IHttpListener {
         return false;
     }
 
-	public boolean isFromYanbao() {
-		return fromYanbao;
-	}
+    public boolean isFromYanbao() {
+        return fromYanbao;
+    }
 
-	public void setFromYanbao(boolean fromYanbao) {
-		this.fromYanbao = fromYanbao;
-	}
-    
+    public void setFromYanbao(boolean fromYanbao) {
+        this.fromYanbao = fromYanbao;
+    }
+
 }
