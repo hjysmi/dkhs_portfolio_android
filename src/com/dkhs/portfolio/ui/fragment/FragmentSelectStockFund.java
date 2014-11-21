@@ -308,7 +308,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
         mLoadDataEngine.loadData();
-        mLoadDataEngine.setLoadingDialog(getActivity());
+        mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         // for (int i = 0; i < 20; i++) {
         // SelectStockBean csBean = new SelectStockBean();
         // csBean.name = "个股名" + i;
@@ -441,10 +441,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
-        mListView.addFooterView(mFootView);
+        //mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);
 
-        mListView.removeFooterView(mFootView);
+        //mListView.removeFooterView(mFootView);
         mListView.setOnScrollListener(new OnScrollListener() {
 
             @Override
@@ -512,7 +512,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mListView.addFooterView(mFootView);
+            //mListView.addFooterView(mFootView);
             // Thread thread = new Thread(null, loadMoreListItems);
             // thread.start();
 
@@ -554,11 +554,11 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     // };
 
     private void loadFinishUpdateView() {
-        mAdapterConbinStock.notifyDataSetChanged();
+        //mAdapterConbinStock.notifyDataSetChanged();
         isLoadingMore = false;
-        if (mListView != null) {
+        /*if (mListView != null) {
             mListView.removeFooterView(mFootView);
-        }
+        }*/
     }
 
     @Override
