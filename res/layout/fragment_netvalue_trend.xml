@@ -181,7 +181,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp" >
 			
-				<ToggleButton
+				<!-- <ToggleButton
 			android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -194,13 +194,13 @@
         android:textOff=""
         android:textOn=""
         android:id="@+id/combination_checks"
-				    />
-                <!-- <CheckBox
-                    android:id="@+id/combination_check"
+				    /> -->
+                <CheckBox
+                    android:id="@+id/combination_checks"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true" /> -->
+                    android:layout_centerVertical="true" />
 
                 <ImageView
                     android:id="@+id/combination_img"

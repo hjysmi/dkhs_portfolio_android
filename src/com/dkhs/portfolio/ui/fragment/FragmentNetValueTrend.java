@@ -63,7 +63,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // private View viewNetvalueHead;
     private ImageView ivUpDownIcon;
     // private Button btnEditName;
-    private ToggleButton combinationCheck;
+    private CheckBox combinationCheck;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
@@ -130,7 +130,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
-        combinationCheck = (ToggleButton) view.findViewById(R.id.combination_checks);
+        combinationCheck = (CheckBox) view.findViewById(R.id.combination_checks);
         combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
         if (mCombinationBean.getIspublic().equals("0")) {
             combinationCheck.setChecked(true);

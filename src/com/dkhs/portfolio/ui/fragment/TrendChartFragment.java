@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -166,7 +167,8 @@ public class TrendChartFragment extends Fragment {
         if (!TextUtils.isEmpty(trendType)) {
 
             if (isTodayShow()) {
-
+            	long time = System.currentTimeMillis();
+                
                 initTodayTrendTitle();
                 if (null != mTodayLineData) {
 
@@ -174,7 +176,7 @@ public class TrendChartFragment extends Fragment {
 
                     // computeTodayDataThread.start();
                 }
-
+                Log.e("timemillis", (time - System.currentTimeMillis() + ""));
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
                 if (null == mAllLineData) {
                     mNetValueDataEngine.requeryHistory(historyNetValueListener);
@@ -413,6 +415,8 @@ public class TrendChartFragment extends Fragment {
 
         // List<TodayNetBean> dayNetValueList = mTodayNetvalue.getChartlist();
         // mTodayLineData.dataList;
+    	long time = System.currentTimeMillis();
+        
         if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
             mMaChart.setDashLinePointSize(mTodayLineData.dashLineSize);
@@ -453,7 +457,7 @@ public class TrendChartFragment extends Fragment {
         float increase = mTodayLineData.netvalue;
         tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
         tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
-
+        Log.e("timemillis", (System.currentTimeMillis() - time+ ""));
     }
 
     /**
