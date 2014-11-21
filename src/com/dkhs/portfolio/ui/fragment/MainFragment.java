@@ -591,6 +591,8 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     private void createCombination() {
         Intent intent = PositionAdjustActivity.newIntent(getActivity(), null);
+        Bundle bun = new Bundle();
+        //bun.put
         getActivity().startActivity(intent);
     }
 

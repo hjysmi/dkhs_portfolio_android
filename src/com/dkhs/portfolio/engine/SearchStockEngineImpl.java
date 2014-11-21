@@ -71,7 +71,12 @@ public class SearchStockEngineImpl {
                         List<SearchStockBean> dataList = dataBean.getResults();
                         DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
                         // dbUtils.configAllowTransaction(true);
-                        dbUtils.replaceAll(dataList);
+                        try {
+							dbUtils.replaceAll(dataList);
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                     }
 
                     // LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
