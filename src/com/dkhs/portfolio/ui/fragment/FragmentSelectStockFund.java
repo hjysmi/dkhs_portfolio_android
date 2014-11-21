@@ -219,8 +219,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         }
         if (null != mLoadDataEngine) {
+        	mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            
         } else {
             LogUtils.d("LoadDataEngine is null");
         }
@@ -253,14 +254,16 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine instanceof FundDataEngine) {
             ((FundDataEngine) mLoadDataEngine).setOrderType(orderType);
             // mDataList.clear();
+
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
         if (mLoadDataEngine instanceof MainIndexEngineImple) {
             ((MainIndexEngineImple) mLoadDataEngine).setOrderType(orderType);
             // mDataList.clear();
+
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
         }
     }
 
@@ -271,8 +274,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            
         }
     }
 
@@ -307,8 +311,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
-        mLoadDataEngine.loadData();
+
         mLoadDataEngine.setLoadingDialog(getActivity());
+        mLoadDataEngine.loadData();
         // for (int i = 0; i < 20; i++) {
         // SelectStockBean csBean = new SelectStockBean();
         // csBean.name = "个股名" + i;
@@ -322,8 +327,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         isRefresh = true;
         if (mLoadDataEngine != null) {
             // mDataList.clear();
+
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();;
         }
     }
 
@@ -441,10 +446,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
-        mListView.addFooterView(mFootView);
+        //mListView.addFooterView(mFootView);
         mListView.setAdapter(mAdapterConbinStock);
 
-        mListView.removeFooterView(mFootView);
+        //mListView.removeFooterView(mFootView);
         mListView.setOnScrollListener(new OnScrollListener() {
 
             @Override
@@ -512,7 +517,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mListView.addFooterView(mFootView);
+            //mListView.addFooterView(mFootView);
             // Thread thread = new Thread(null, loadMoreListItems);
             // thread.start();
 
@@ -554,11 +559,11 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     // };
 
     private void loadFinishUpdateView() {
-        mAdapterConbinStock.notifyDataSetChanged();
+        //mAdapterConbinStock.notifyDataSetChanged();
         isLoadingMore = false;
-        if (mListView != null) {
+        /*if (mListView != null) {
             mListView.removeFooterView(mFootView);
-        }
+        }*/
     }
 
     @Override
