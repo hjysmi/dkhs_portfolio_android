@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ToggleButton;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -53,7 +54,6 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @version 1.0
  */
 public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
-
     // private EditText etCombinName;
     private TextView tvCombinName;
     private TextView tvCombinDesc;
@@ -63,7 +63,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // private View viewNetvalueHead;
     private ImageView ivUpDownIcon;
     // private Button btnEditName;
-    private CheckBox combinationCheck;
+    private ToggleButton combinationCheck;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
@@ -130,7 +130,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
-        combinationCheck = (CheckBox) view.findViewById(R.id.combination_check);
+        combinationCheck = (ToggleButton) view.findViewById(R.id.combination_checks);
         combinationCheck.setOnCheckedChangeListener(new OnComCheckListener());
         if (mCombinationBean.getIspublic().equals("0")) {
             combinationCheck.setChecked(true);
