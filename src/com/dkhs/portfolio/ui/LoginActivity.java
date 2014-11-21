@@ -288,6 +288,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         System.out.println("authPlatform:" + platformName);
         ShareSDK.removeCookieOnAuthorize(true);
         Platform plat = ShareSDK.getPlatform(platformName);
+        if (plat.isValid()) {
+            plat.removeAccount();
+        }
         // 这里开启一下SSO，防止OneKeyShare分享时调用了oks.disableSSOWhenAuthorize();把SSO关闭了
         // plat.SSOSetting(false);
         plat.setPlatformActionListener(platFormActionListener);
