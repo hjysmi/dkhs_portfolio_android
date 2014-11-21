@@ -33,9 +33,9 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
  * @version 1.0
  */
 public class BaseAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
-    protected Context mContext;
-    protected List<SelectStockBean> mDataList;
-    private boolean fromShow = true;
+	public Context mContext;
+    public List<SelectStockBean> mDataList;
+    public boolean fromShow = true;
 
     public BaseAdatperSelectStockFund(Context context, List<SelectStockBean> datas) {
         this.mContext = context;
@@ -105,7 +105,7 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
 
     }
 
-    private ISelectChangeListener mSelectLisenter;
+    public ISelectChangeListener mSelectLisenter;
 
     public interface ISelectChangeListener {
         void onCheckedChanged(CompoundButton buttonView, boolean isChecked);
