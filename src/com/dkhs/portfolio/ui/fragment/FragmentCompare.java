@@ -74,7 +74,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-9-3 上午9:32:29
  * @version 1.0
  */
-public class FragmentCompare extends Fragment implements OnClickListener, FragmentLifecycle {
+public class FragmentCompare extends BaseFragment implements OnClickListener, FragmentLifecycle {
 
     private final int REQUESTCODE_SELECT_FUND = 900;
 

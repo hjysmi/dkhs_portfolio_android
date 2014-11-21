@@ -8,35 +8,36 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.Toast;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetBean;
 import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
@@ -44,11 +45,9 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -60,7 +59,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  * @date 2014-9-3 上午10:32:39
  * @version 1.0
  */
-public class TrendChartFragment extends Fragment {
+public class TrendChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String TREND_TYPE_TODAY = "trend_today";
     public static final String TREND_TYPE_SEVENDAY = "trend_seven_day";
@@ -160,6 +159,178 @@ public class TrendChartFragment extends Fragment {
             updateView();
         };
     };
+
+    public void showShareImage() {
+        if (null != mMaChart) {
+            // initImagePath();
+            new Thread() {
+                public void run() {
+
+                    // initImagePath();
+                    save();
+                    shareHandler.sendEmptyMessage(999);
+                }
+            }.start();
+        }
+    }
+
+    Handler shareHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            showShare();
+        };
+    };
+
+    public void showShare() {
+        Context context = getActivity();
+        final OnekeyShare oks = new OnekeyShare();
+
+        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // oks.setAddress("12345678901");
+        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+        // String customText = CustomShareFieldsPage.getString( "text", null);
+        oks.setTitle("谁牛");
+        oks.setTitleUrl("http://dev.dkhs.com");
+        String customText = "";
+        if (TextUtils.isEmpty(trendType)) {
+            return;
+        }
+
+        if (isTodayShow() && null != mTodayLineData) {
+            customText = "当前涨幅:" + StringFromatUtils.getPercentValue(mTodayLineData.netvalue);
+
+        } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY) && null != mAllLineData) {
+            float addupValue = (mAllLineData.end - mAllLineData.begin) / mAllLineData.begin * 100;
+            customText = "历史收益率:" + StringFromatUtils.getPercentValue(addupValue);
+
+        } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH) && null != mMonthLineData) {
+            float addupValue = (mMonthLineData.end - mMonthLineData.begin) / mMonthLineData.begin * 100;
+            customText = "月收益率:" + StringFromatUtils.getPercentValue(addupValue);
+
+        } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY) && null != mWeekLineData) {
+            float addupValue = (mWeekLineData.end - mWeekLineData.begin) / mWeekLineData.begin * 100;
+            customText = "周收益率:" + StringFromatUtils.getPercentValue(addupValue);
+        }
+
+        oks.setText(customText);
+
+        // if (customText != null) {
+        // oks.setText(customText);
+        // } {
+        // oks.setText(context.getString(R.string.share_content));
+        // }
+
+        // if (captureView) {
+        // // oks.setViewToShare(getPage());
+        // } else {
+        oks.setImagePath(TEST_IMAGE);
+        // oks.setImageUrl(CustomShareFieldsPage.getString("imageUrl", MainActivity.TEST_IMAGE_URL));
+        // oks.setImageArray(new String[] { MainActivity.TEST_IMAGE, MainActivity.TEST_IMAGE_URL });
+        // }
+        // oks.setUrl("http://dev.dkhs.com");
+        oks.setFilePath(TEST_IMAGE);
+        // oks.setComment("share");
+        // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
+        // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
+        // oks.setVenueName(CustomShareFieldsPage.getString("venueName", "ShareSDK"));
+        // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription", "This is a beautiful place!"));
+        // oks.setLatitude(23.056081f);
+        // oks.setLongitude(113.385708f);
+        oks.setSilent(true);
+        oks.setShareFromQQAuthSupport(true);
+        // if (platform != null) {
+        // oks.setPlatform(platform);
+        // }
+
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+
+        // 在自动授权时可以禁用SSO方式
+        // if (!CustomShareFieldsPage.getBoolean("enableSSO", true))
+        // oks.disableSSOWhenAuthorize();
+
+        // 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
+        // oks.setCallback(new OneKeyShareCallback());
+
+        oks.show(context);
+    }
+
+    public Bitmap convertViewToBitmap(View view) {
+        view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
+                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+
+        return bitmap;
+    }
+
+    private static final String FILE_NAME = "share_image.jpg";
+    public static String TEST_IMAGE;
+
+    private void initImagePath() {
+        File file = new File("/sdcard/portfolio/", FILE_NAME);
+        TEST_IMAGE = file.getAbsolutePath();
+        try {
+
+            if (!file.exists()) {
+                file.createNewFile();
+                // Bitmap pic = BitmapFactory.decodeResource(getResources(), R.drawable.pic);
+                Bitmap pic = convertViewToBitmap(mMaChart);
+                FileOutputStream fos = new FileOutputStream(file);
+                pic.compress(CompressFormat.JPEG, 100, fos);
+                fos.flush();
+                fos.close();
+            }
+        } catch (Throwable t) {
+            t.printStackTrace();
+
+        }
+        Log.i("TEST_IMAGE path ==>>>", TEST_IMAGE);
+    }
+
+    private void save() {
+        try {
+
+            View content = mMaChart;
+            content.setDrawingCacheEnabled(true);
+            content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            Bitmap bitmap = content.getDrawingCache();
+           
+
+            /* 方法一，可以recycle */
+            // content.buildDrawingCache(true);
+            // Bitmap bitmap = content.getDrawingCache(true).copy(Config.RGB_565, false);
+            // content.destroyDrawingCache();
+
+            // Bitmap bitmap = convertViewToBitmap(mMaChart);
+
+            String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
+            // File mFolder = new File(extr + "/capture/image");
+            // if (!mFolder.exists()) {
+            // mFolder.mkdir();
+            // }
+
+            String s = "tmp.png";
+
+            File f = new File(extr, s);
+            TEST_IMAGE = f.getAbsolutePath();
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(f);
+            bitmap.compress(CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            mMaChart.destroyDrawingCache();
+            // bitmap.recycle();
+            System.out.println("image saved:" + TEST_IMAGE);
+            // Toast.makeText(getActivity(), "image saved", 5000).show();
+        } catch (Exception e) {
+            System.out.println("Failed To Save");
+            e.printStackTrace();
+            // Toast.makeText(getActivity(), "Failed To Save", 5000).show();
+        }
+    }
 
     // tab切换时Ui更新为选中的tabUI
     private void updateView() {

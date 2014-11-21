@@ -5,8 +5,6 @@
     android:orientation="vertical"
     android:padding="5dp" >
 
-    
-
     <RelativeLayout
         android:id="@+id/rl_trend_bottom"
         android:layout_width="wrap_content"
@@ -127,7 +125,8 @@
         <com.dkhs.portfolio.ui.widget.TrendChart
             android:id="@+id/machart"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            android:background="@color/white" />
 
         <TextView
             android:id="@+id/tv_nodate"

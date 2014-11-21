@@ -35,7 +35,7 @@ import com.dkhs.portfolio.ui.widget.TabPageIndicator;
  * @date 2014-9-3 上午9:33:40
  * @version 1.0
  */
-public class FragmentNews extends Fragment implements FragmentLifecycle {
+public class FragmentNews extends BaseFragment implements FragmentLifecycle {
 	public static final String DATA = "mCombinationBean";
 	private CombinationBean mCombinationBean;
 	private LinearLayout comLayout;
