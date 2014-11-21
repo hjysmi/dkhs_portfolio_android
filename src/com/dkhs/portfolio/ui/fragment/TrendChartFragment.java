@@ -237,7 +237,8 @@ public class TrendChartFragment extends BaseFragment {
         // oks.setLatitude(23.056081f);
         // oks.setLongitude(113.385708f);
         oks.setSilent(true);
-        oks.setShareFromQQAuthSupport(true);
+        // oks.setShareFromQQAuthSupport(true);
+        oks.setShareFromQQAuthSupport(false);
         // if (platform != null) {
         // oks.setPlatform(platform);
         // }
@@ -296,7 +297,6 @@ public class TrendChartFragment extends BaseFragment {
             content.setDrawingCacheEnabled(true);
             content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             Bitmap bitmap = content.getDrawingCache();
-           
 
             /* 方法一，可以recycle */
             // content.buildDrawingCache(true);
