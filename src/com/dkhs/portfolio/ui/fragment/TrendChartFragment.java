@@ -425,6 +425,7 @@ public class TrendChartFragment extends BaseFragment {
         if (isTodayShow()) {
 
             tvStartText.setVisibility(View.INVISIBLE);
+            tvIncreaseText.setText(R.string.today_in_rote);
         } else {
             if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
 
@@ -450,6 +451,8 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private void initMaChart(final TrendChart machart) {
+
+        machart.setBoldLine();
 
         machart.setAxisXColor(Color.LTGRAY);
         machart.setAxisYColor(Color.LTGRAY);
