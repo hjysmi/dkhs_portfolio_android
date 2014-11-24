@@ -201,6 +201,8 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     private void replaceChartView() {
+        if(isAdded()){
+            
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         if (mFragmentChart == null) {
 
@@ -222,6 +224,7 @@ public class FragmentSwitchChart extends BaseFragment {
             ft.hide(mFragmentReport);
         }
         ft.commit();
+        }
     }
 
     private void replaceReportView() {
