@@ -133,7 +133,7 @@ public abstract class BasicHttpListener implements IHttpListener {
                     String errorTExt = eJArray.getString(0);
                     LogUtils.e("setErrorMessage : " + errorTExt);
                     errorBundle.setErrorMessage(eJArray.getString(0));
-                    // PromptManager.showToast(errorTExt);
+                    PromptManager.showToast(errorTExt);
                 }
             }
 

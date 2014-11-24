@@ -413,7 +413,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     setXTitle(dayNetValueList);
 
                     LineEntity mCombinationLine = new LineEntity();
-                    mCombinationLine.setTitle("我的组合");
+                    mCombinationLine.setTitle("我的基金");
                     mCombinationLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                     mCombinationLine.setLineData(lineDataList);
                     lineEntityList.remove(combinationLineEntity);

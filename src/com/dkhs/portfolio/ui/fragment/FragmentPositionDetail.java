@@ -222,6 +222,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
             stockList.clear();
+            System.out.println("getPositionList size:" + bean.getPositionList().size());
             stockList.addAll(bean.getPositionList());
             if (null != stockList && stockList.size() > 0) {
 
