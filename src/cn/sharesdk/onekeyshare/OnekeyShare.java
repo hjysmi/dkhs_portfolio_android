@@ -344,7 +344,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         flPage.startAnimation(animShow);
 
         // 打开分享菜单的统计
-        ShareSDK.logDemoEvent(1, null);
+        // ShareSDK.logDemoEvent(1, null);
     }
 
     private void initPageView() {
@@ -403,7 +403,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         animShow.setDuration(300);
 
         animHide = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF,0);
+                Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0);
         animHide.setDuration(300);
     }
 
