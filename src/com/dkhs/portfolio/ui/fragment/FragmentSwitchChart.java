@@ -72,10 +72,11 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     public void showShare(boolean silent, String platform, boolean captureView) {
-        if(null!=mFragmentChart)
-//        mFragmentChart.showShare(silent, platform, captureView);
-        mFragmentChart.showShareImage();
+        if (null != mFragmentChart)
+            // mFragmentChart.showShare(silent, platform, captureView);
+            mFragmentChart.showShareImage();
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         getActivity().setTheme(R.style.AppThemeLight);
@@ -160,19 +161,19 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     public void setSelectType(String type) {
-    	long time = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         this.trendType = type;
         mFragmentChart.setSelectType(type);
         if (!TextUtils.isEmpty(trendType) && !isFromOrder) {
 
             if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
                 swChart.setVisibility(View.GONE);
-                if(mFragmentReport!=null){
+                if (mFragmentReport != null) {
                     replaceChartView();
                 }
             } else {
                 swChart.setVisibility(View.VISIBLE);
-                if(mFragmentReport!=null){
+                if (mFragmentReport != null) {
                     mFragmentReport.setTrendType(type);
                 }
             }
@@ -224,19 +225,22 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     private void replaceReportView() {
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        if (isAdded()) {
 
-        if (mFragmentReport == null) {
-            mFragmentReport = FragmentReportForm.newInstance(trendType);
-            ft.replace(R.id.rl_report, mFragmentReport);
-        } else {
-            mFragmentReport.setTrendType(trendType);
-            ft.show(mFragmentReport);
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+
+            if (mFragmentReport == null) {
+                mFragmentReport = FragmentReportForm.newInstance(trendType);
+                ft.replace(R.id.rl_report, mFragmentReport);
+            } else {
+                mFragmentReport.setTrendType(trendType);
+                ft.show(mFragmentReport);
+            }
+            if (null != mFragmentChart) {
+                ft.hide(mFragmentChart);
+            }
+            ft.commit();
         }
-        if (null != mFragmentChart) {
-            ft.hide(mFragmentChart);
-        }
-        ft.commit();
 
         // replaceContentView(mFragment, R.id.btn_trend + "");
         // ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -260,8 +264,6 @@ public class FragmentSwitchChart extends BaseFragment {
             // }
         }
     }
-
-  
 
     private Handler updHandler;
 
