@@ -41,6 +41,7 @@ import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.moments.WechatMoments;
 
 /** 平台宫格列表显示工具。 */
 public class PlatformGridView extends LinearLayout implements OnClickListener, Callback {
@@ -93,11 +94,11 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
         new Thread() {
             public void run() {
                 Platform platSina = ShareSDK.getPlatform(SinaWeibo.NAME);
-                Platform platQQ = ShareSDK.getPlatform(QZone.NAME);
+                Platform platWechatMoments = ShareSDK.getPlatform(WechatMoments.NAME);
                 Platform platWechat = ShareSDK.getPlatform(Wechat.NAME);
 
                 platformList[0] = platSina;
-                platformList[1] = platQQ;
+                platformList[1] = platWechatMoments;
                 platformList[2] = platWechat;
                 if (platformList == null) {
                     platformList = new Platform[0];
@@ -447,8 +448,10 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             String label;
             OnClickListener listener;
             if (beans[position] instanceof Platform) {
-                logo = getIcon((Platform) beans[position]);
-                label = getName((Platform) beans[position]);
+                Platform plat = (Platform) beans[position];
+                
+                logo = getIcon(plat);
+                label = getName(plat);
                 listener = ocL;
             } else {
                 logo = ((CustomerLogo) beans[position]).logo;
@@ -499,7 +502,13 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
                 return null;
             }
 
-            String resName = "logo_" + plat.getName();
+            String resName ="";
+            if (plat.isValid()) {
+                resName = "logo_" + plat.getName();
+                
+            }else{
+                resName = "logo_" + plat.getName()+"_gray";
+            }
             int resId = getBitmapRes(getContext(), resName);
             return BitmapFactory.decodeResource(getResources(), resId);
         }

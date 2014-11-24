@@ -337,8 +337,8 @@ public class TrendChartFragment extends BaseFragment {
         if (!TextUtils.isEmpty(trendType)) {
 
             if (isTodayShow()) {
-            	long time = System.currentTimeMillis();
-                
+                long time = System.currentTimeMillis();
+
                 initTodayTrendTitle();
                 if (null != mTodayLineData) {
 
@@ -585,8 +585,8 @@ public class TrendChartFragment extends BaseFragment {
 
         // List<TodayNetBean> dayNetValueList = mTodayNetvalue.getChartlist();
         // mTodayLineData.dataList;
-    	long time = System.currentTimeMillis();
-        
+        long time = System.currentTimeMillis();
+
         if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
             mMaChart.setDashLinePointSize(mTodayLineData.dashLineSize);
@@ -627,7 +627,7 @@ public class TrendChartFragment extends BaseFragment {
         float increase = mTodayLineData.netvalue;
         tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
         tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
-        Log.e("timemillis", (System.currentTimeMillis() - time+ ""));
+        Log.e("timemillis", (System.currentTimeMillis() - time + ""));
     }
 
     /**
@@ -695,8 +695,14 @@ public class TrendChartFragment extends BaseFragment {
      * 设置纵坐标标题，并设置曲线的最大值和最小值
      */
     private void setYTitle(float baseNum, float offetYvalue) {
+
         // 增加20的空白区域
-        offetYvalue = offetYvalue / 0.8f;
+        if (offetYvalue != 0) {
+
+            offetYvalue = offetYvalue / 0.8f;
+        } else {
+            offetYvalue = baseNum * 0.01f;
+        }
         List<String> ytitle = new ArrayList<String>();
         float halfOffetValue = offetYvalue / 2.0f;
 

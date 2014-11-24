@@ -175,7 +175,7 @@ public class SearchStockEngineImpl {
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector
                     .from(SearchStockBean.class)
                     .where("symbol_type", "in", new String[] { "3", "5" })
-                    .and("symbol_stype", "in", new String[] { "300,303" })
+                    .and("symbol_stype", "in", new String[] { "300","303" })
                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                             .or("stock_code", "LIKE", "%" + key + "%").or("chi_spell", "LIKE", "%" + key + "%")));
             if (null != searchStockList) {

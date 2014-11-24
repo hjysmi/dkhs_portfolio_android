@@ -61,7 +61,7 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
      * 查询至今的报表
      */
     public void requeryHistoryReport(int page) {
-        requeryReport("4");
+        requeryReport("5");
     }
 
     public void requeryReport(int page, int pageSize) {
