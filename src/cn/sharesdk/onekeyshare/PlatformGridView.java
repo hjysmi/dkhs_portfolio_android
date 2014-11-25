@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import com.dkhs.portfolio.utils.PhoneInfo;
+
 import m.framework.ui.widget.viewpager.ViewPagerAdapter;
 import m.framework.ui.widget.viewpager.ViewPagerClassic;
 import android.content.Context;
@@ -449,7 +451,7 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             OnClickListener listener;
             if (beans[position] instanceof Platform) {
                 Platform plat = (Platform) beans[position];
-                
+
                 logo = getIcon(plat);
                 label = getName(plat);
                 listener = ocL;
@@ -502,13 +504,20 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
                 return null;
             }
 
-            String resName ="";
-            if (plat.isValid()) {
-                resName = "logo_" + plat.getName();
-                
-            }else{
-                resName = "logo_" + plat.getName()+"_gray";
+            String resName = "";
+            // if (plat.isValid()) {
+            resName = "logo_" + plat.getName();
+
+            if (plat.getName().equalsIgnoreCase(Wechat.NAME) || plat.getName().equalsIgnoreCase(WechatMoments.NAME)) {
+                if (PhoneInfo.hasInstallWechat()) {
+                    resName = "logo_" + plat.getName();
+                } else {
+                    resName = "logo_" + plat.getName() + "_gray";
+                }
             }
+            // }else{
+            // resName = "logo_" + plat.getName()+"_gray";
+            // }
             int resId = getBitmapRes(getContext(), resName);
             return BitmapFactory.decodeResource(getResources(), resId);
         }

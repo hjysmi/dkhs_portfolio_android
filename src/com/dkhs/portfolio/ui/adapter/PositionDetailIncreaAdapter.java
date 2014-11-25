@@ -46,6 +46,12 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
+    private float surpusValu = -1;
+
+    public void setFundpercent(float fundpercent) {
+        this.surpusValu = fundpercent;
+    }
+
     @Override
     public int getCount() {
         return this.stockList.size() + 1;
@@ -84,14 +90,14 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
         if (position == stockList.size()) {// 剩余占比图
 
             viewHolder.colorView.setBackgroundColor(ColorTemplate.DEF_RED);
-            viewHolder.tvCenterValue.setText(getSurpusValue() + "%");
+            viewHolder.tvCenterValue.setText((surpusValu == -1 ? getSurpusValue() : surpusValu) + "%");
             viewHolder.tvRightValue.setVisibility(View.INVISIBLE);
             viewHolder.tvStockCode.setVisibility(View.GONE);
             viewHolder.tvStockName.setText("剩余资金");
         } else {
             ConStockBean item = stockList.get(position);
 
-            viewHolder.tvCenterValue.setText(item.getDutyValue() + "%");
+            viewHolder.tvCenterValue.setText(item.getPercent() + "%");
             viewHolder.colorView.setBackgroundColor(item.getDutyColor());
             viewHolder.tvRightValue.setVisibility(View.VISIBLE);
             viewHolder.tvStockCode.setText(item.getStockCode());
@@ -109,7 +115,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
 
         int surpusValu = 100;
         for (int i = 0; i < stockList.size(); i++) {
-            surpusValu -= stockList.get(i).getDutyValue();
+            surpusValu -= stockList.get(i).getPercent();
         }
         return surpusValu;
         // maxValue = surpusValu;
@@ -118,7 +124,7 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
 
     private void notifySurpusValue(int value) {
         ConStockBean sur = stockList.get(stockList.size() - 1);
-        stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);
+        stockList.get(stockList.size() - 1).setPercent(sur.getPercent() + value);
         notifyDataSetChanged();
     }
 

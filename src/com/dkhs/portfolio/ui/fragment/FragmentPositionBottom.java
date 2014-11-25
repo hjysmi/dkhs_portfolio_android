@@ -281,7 +281,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
             PieSlice slice1 = new PieSlice();
 
             slice1.setColor(stockList.get(i).getDutyColor());
-            slice1.setValue(stockList.get(i).getDutyValue());
+            slice1.setValue(stockList.get(i).getPercent());
             pieList.add(slice1);
 
         }
@@ -298,7 +298,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     private float surpulsValue() {
         float total = 100;
         for (int i = 0; i < stockList.size(); i++) {
-            total -= stockList.get(i).getDutyValue();
+            total -= stockList.get(i).getPercent();
         }
         surValue = total;
 
