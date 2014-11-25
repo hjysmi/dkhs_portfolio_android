@@ -570,6 +570,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             PromptManager.showToast("基金名称不能为空");
             return;
         }
+        if(combinationName.length() < 3 || combinationName.length() > 10){
+        	PromptManager.showToast("3-10位字符:支持中英文、数字。");
+        	return;
+        }
 
         String combinationDesc = "";
         if (null != etConbinationDesc) {

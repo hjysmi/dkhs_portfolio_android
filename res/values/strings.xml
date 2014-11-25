@@ -246,6 +246,9 @@
     <string name="all_income_rate">累计收益率:</string>
     <string name="more_combination_tip">最多只能添加20个基金组合</string>
     <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛</string>
+    <string name="change_fund_name">修改基金名称</string>
+    <string name="change_position">调整仓位</string>
+    <string name="privacy_setting">隐私设置</string>
     
     <string name="share_content">ShareSDK for Android不仅集成简单、支持如QQ好友、微信、新浪微博、腾讯微博等所有社交平台，而且还有强大的统计分析管理后台，实时了解用户、信息流、回流率、传播效应等数据，详情见官网http://mob.com @Mob移动开发者服务平台</string>
     <string name="share_content_short">ShareSDK不仅集成简单、支持如微信、新浪微博、腾讯微博等平台，还有强大的统计分析管理后台，实时了解用户、信息流、回流率、传播效应等数据，详情见官网http://mob.com @Mob移动开发者服务平台</string>
