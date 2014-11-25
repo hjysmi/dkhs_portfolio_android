@@ -92,7 +92,8 @@ public class TrendChart extends TrendGridChart {
     private int textMargin;
 
     private void init() {
-        lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_stroke_width);
+        // lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_stroke_width);
+        lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_weight_stroke_width);
 
         textMargin = getResources().getDimensionPixelSize(R.dimen.float_text_margin);
 
@@ -124,7 +125,8 @@ public class TrendChart extends TrendGridChart {
     }
 
     public void setSmallLine() {
-        mLinePaint.setStrokeWidth(lineStrokeWidth);
+        // mLinePaint.setStrokeWidth(lineStrokeWidth);
+        lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_stroke_width);
     }
 
     public void setBoldLine() {

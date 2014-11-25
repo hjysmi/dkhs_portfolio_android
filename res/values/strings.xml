@@ -106,6 +106,7 @@
     <string name="descrition_format">简介:%1$s</string>
     <string name="select_fund">选择参照基金 </string>
     <string name="select_stock">添加个股 </string>
+    <string name="create_funds">创建基金 </string>
     <string name="search_fund_hint">代码或简拼 </string>
     <string name="add_postional_format">添加(%1$d)</string>
     <string name="add_text">添加</string>
@@ -113,7 +114,7 @@
     <string name="netvalue_trend">净值走势</string>
     <string name="performance_comparison">业绩比较</string>
     <string name="position_detail">持仓明细</string>
-    <string name="related_news">相关新闻</string>
+    <string name="related_news">相关信息</string>
     <string name="from"> 由</string>
     <string name="to">至</string>
     <string name="to_now">至今</string>
@@ -191,17 +192,18 @@
     <string name="sell">卖</string>
     <string name="buy">买</string>
     <string name="function_ace">牛人</string>
-    <string name="function_optional">自选</string>
+    <string name="function_optional">自选股</string>
     <string name="function_notice">公告</string>
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外</string>
-    <string name="function_combination">基金</string>
+    <string name="function_combination">自建基金</string>
     <string name="fund_order">基金排行</string>
     <string name="function_f">排行</string>
     <string name="function_fund_order">排行</string>
     <string name="function_market">行情</string>
     <string name="function_yanbao">研报</string>
+    <string name="function_qidai">敬请期待</string>
     <string name="month_top">月度收益冠军榜</string>
     <string name="week_top">周收益冠军榜</string>
     <string name="day_top">日收益冠军榜</string>
@@ -238,7 +240,7 @@
     <string name="format_sign_text_title">个人签名:</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
-    <string name="feed_text_success">提交成功</string>
+    <string name="feed_text_success">感谢您的反馈意见</string>
     <string name="day_income_rate">日收益率:</string>
     <string name="week_income_rate">周收益率:</string>
     <string name="month_income_rate">月收益率:</string>
@@ -249,9 +251,6 @@
     <string name="change_fund_name">修改基金名称</string>
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
-    
-    <string name="share_content">ShareSDK for Android不仅集成简单、支持如QQ好友、微信、新浪微博、腾讯微博等所有社交平台，而且还有强大的统计分析管理后台，实时了解用户、信息流、回流率、传播效应等数据，详情见官网http://mob.com @Mob移动开发者服务平台</string>
-    <string name="share_content_short">ShareSDK不仅集成简单、支持如微信、新浪微博、腾讯微博等平台，还有强大的统计分析管理后台，实时了解用户、信息流、回流率、传播效应等数据，详情见官网http://mob.com @Mob移动开发者服务平台</string>
-    <string name="evenote_title">ShareSDK是一个神奇的SDK</string>
+    <string name="adjust_back_message">持仓调整尚未提交，确定放弃本次调仓</string>
 
 </resources>

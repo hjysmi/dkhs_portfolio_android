@@ -80,14 +80,14 @@ public class PositionContributedapter extends BaseAdapter {
         }
         ConStockBean item = stockList.get(position);
         viewHolder.colorView.setBackgroundColor(item.getDutyColor());
-        viewHolder.tvCenterValue.setText(item.getDutyValue()+ "");
+        viewHolder.tvCenterValue.setText(item.getPercent() + "");
         return convertView;
     }
 
     public void setSurpusValue() {
         int surpusValu = 1;
         for (int i = 0; i < stockList.size(); i++) {
-            surpusValu -= stockList.get(i).getDutyValue();
+            surpusValu -= stockList.get(i).getPercent();
         }
         maxValue = surpusValu;
 
@@ -95,7 +95,7 @@ public class PositionContributedapter extends BaseAdapter {
 
     private void notifySurpusValue(int value) {
         ConStockBean sur = stockList.get(stockList.size() - 1);
-        stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);
+        stockList.get(stockList.size() - 1).setPercent(sur.getPercent() + value);
         notifyDataSetChanged();
     }
 

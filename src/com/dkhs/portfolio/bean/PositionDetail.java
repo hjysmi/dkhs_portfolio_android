@@ -30,6 +30,7 @@ public class PositionDetail implements Serializable {
     private List<PositionAdjustBean> adjustList;
     @SerializedName("positions")
     private List<ConStockBean> positionList;
+    private float fund_percent;
 
     public class PositionAdjustBean extends StockBean {
 
@@ -96,6 +97,14 @@ public class PositionDetail implements Serializable {
 
     public void setPositionList(List<ConStockBean> positionList) {
         this.positionList = positionList;
+    }
+
+    public float getFund_percent() {
+        return fund_percent;
+    }
+
+    public void setFund_percent(float fund_percent) {
+        this.fund_percent = fund_percent;
     }
 
 }

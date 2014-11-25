@@ -8,6 +8,7 @@ import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -124,6 +125,20 @@ public class UserEngineImpl {
         params.addBodyParameter("username", username);
         params.addBodyParameter("extra_data", new Gson().toJson(extraData));
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.register, params, listener);
+    }
+
+    public static void bindThreePlatform(String openid, String provider, ThreePlatform extraData,
+            BasicHttpListener listener) {
+        RequestParams params = new RequestParams();
+
+        params.addBodyParameter("provider", provider);
+        params.addBodyParameter("openid", openid);
+        params.addBodyParameter("extra_data", new Gson().toJson(extraData));
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.bingdings, params, listener);
+    }
+
+    public static void queryThreePlatBind(BasicHttpListener listener) {
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.bingdings, null, listener);
     }
 
     public void checkMobile(String mobile, IHttpListener listener) {

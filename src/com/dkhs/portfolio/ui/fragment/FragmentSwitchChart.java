@@ -164,7 +164,10 @@ public class FragmentSwitchChart extends BaseFragment {
         long time = System.currentTimeMillis();
         this.trendType = type;
         PromptManager.showProgressDialog(getActivity(), "");
-        mFragmentChart.setSelectType(type);
+        if (null != mFragmentChart) {
+
+            mFragmentChart.setSelectType(type);
+        }
         if (!TextUtils.isEmpty(trendType) && !isFromOrder) {
 
             if (trendType.equalsIgnoreCase(TrendChartFragment.TREND_TYPE_TODAY)) {
@@ -202,37 +205,37 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     private void replaceChartView() {
-    	long startTime = System.currentTimeMillis();
-    	long endTime = 0;
-        if(isAdded()){
-            
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (mFragmentChart == null) {
+        long startTime = System.currentTimeMillis();
+        long endTime = 0;
+        if (isAdded()) {
 
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             if (mFragmentChart == null) {
-                mFragmentChart = TrendChartFragment.newInstance(trendType);
-                mFragmentChart.setSelectType(trendType);
+
+                if (mFragmentChart == null) {
+                    mFragmentChart = TrendChartFragment.newInstance(trendType);
+                    mFragmentChart.setSelectType(trendType);
+                }
+
+                mFragmentChart.setUpdateHandler(updHandler);
+                // mFragmentChart.setTipshowHandler(mHandler);
+
+                // replaceContentView(mFragment, R.id.btn_trend + "");
+                // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                ft.replace(R.id.rl_chart, mFragmentChart);
+                endTime = System.currentTimeMillis();
+                Log.i("timemillis", (endTime - startTime) + "");
+            } else {
+                ft.show(mFragmentChart);
+                endTime = System.currentTimeMillis();
+                Log.i("timemillis", (endTime - startTime) + "");
             }
-
-            mFragmentChart.setUpdateHandler(updHandler);
-            // mFragmentChart.setTipshowHandler(mHandler);
-
-            // replaceContentView(mFragment, R.id.btn_trend + "");
-            // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-            ft.replace(R.id.rl_chart, mFragmentChart);
-            endTime = System.currentTimeMillis(); 
-            Log.i("timemillis",(endTime - startTime)+"");
-        } else {
-            ft.show(mFragmentChart);
-        	endTime = System.currentTimeMillis(); 
-        	Log.i("timemillis",(endTime - startTime)+"");
-        }
-        if (null != mFragmentReport) {
-            ft.hide(mFragmentReport);
-        }
-        ft.commit();
-        endTime = System.currentTimeMillis(); 
-        Log.i("timemillis",(endTime - startTime)+"");
+            if (null != mFragmentReport) {
+                ft.hide(mFragmentReport);
+            }
+            ft.commit();
+            endTime = System.currentTimeMillis();
+            Log.i("timemillis", (endTime - startTime) + "");
         }
     }
 
