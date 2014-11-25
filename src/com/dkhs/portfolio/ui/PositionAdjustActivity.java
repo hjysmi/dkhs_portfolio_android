@@ -419,6 +419,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
         Bundle b = new Bundle();
         b.putBoolean("fromPosition", true);
+        b.putBoolean("isFrist", firse);
         b.putString(BaseSelectActivity.FROM_CREATE_TITLE, "yes");
         intent.putExtras(b);
         if (isAdjustCombination) {
@@ -437,6 +438,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
         Bundle b = new Bundle();
         b.putBoolean("fromPosition", true);
+        b.putBoolean("isFrist", firse);
         intent.putExtras(b);
         if (isAdjustCombination) {
             intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);

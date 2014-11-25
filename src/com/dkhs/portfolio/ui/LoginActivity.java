@@ -285,7 +285,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private void authPlatform(String platformName) {
-        System.out.println("authPlatform:" + platformName);
+        // System.out.println("authPlatform:" + platformName);
         ShareSDK.removeCookieOnAuthorize(true);
         Platform plat = ShareSDK.getPlatform(platformName);
         if (plat.isValid()) {

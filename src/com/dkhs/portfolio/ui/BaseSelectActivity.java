@@ -67,6 +67,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private Button btnBack;
     public static List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
     public String fromCreate;
+    private boolean isFrist;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -92,6 +93,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
                 .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
         isAdjustCombination = extras.getBoolean(KEY_ISADJUST_COMBINATION, false);
         fromCreate = extras.getString(FROM_CREATE_TITLE);
+        isFrist = extras.getBoolean("isFrist");
         if (null != listStock) {
             // for (ConStockBean stockBean : listStock) {
             //
@@ -114,7 +116,13 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnOrder.setVisibility(View.VISIBLE);
         } else if (getLoadByType() == ListViewType.STOCK) {
             btnOrder.setVisibility(View.GONE);
-            setTitle(R.string.select_stock);
+            if (isFrist) {
+                setTitle(R.string.create_funds);
+
+            } else {
+
+                setTitle(R.string.select_stock);
+            }
             mSelctStockView.setNumColumns(3);
 
         } else if (getLoadByType() == ListViewType.ADD_OPTIONAL) {
@@ -276,22 +284,24 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             }
         }
     }
-    class OnBackListener implements OnClickListener{
 
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			if(null != fromCreate){
-				Intent intent = new Intent();
-		        setResult(999, intent);
+    class OnBackListener implements OnClickListener {
 
-		        finish();
-			}else{
-				finish();
-			}
-		}
-    	
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            if (null != fromCreate) {
+                Intent intent = new Intent();
+                setResult(999, intent);
+
+                finish();
+            } else {
+                finish();
+            }
+        }
+
     }
+
     public void notifySelectDataChange(boolean isUpdataFragment) {
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
@@ -332,6 +342,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public static final int CRATE_TYPE_CUSTOM = 1;
     public static final int FROM_CREATE = 999;
     public static final String FROM_CREATE_TITLE = "first_create";
+
     private void setSelectBack(int type) {
         Intent intent = new Intent();
         intent.putExtra(ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
