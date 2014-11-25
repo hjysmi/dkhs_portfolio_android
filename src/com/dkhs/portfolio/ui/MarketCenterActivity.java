@@ -31,7 +31,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
  * @author weiting
  *
  */
-public class MarketCenterActivity extends ModelAcitivity{
+public class MarketCenterActivity extends ModelAcitivity implements OnClickListener{
 	private LinearLayout layoutMarkerParent;
 	private Context context;
 	@Override
@@ -42,10 +42,25 @@ public class MarketCenterActivity extends ModelAcitivity{
 		setTitle(R.string.marketcenter_title);
 		layoutMarkerParent = (LinearLayout) findViewById(R.id.layout_marker_parenst);
 		context = this;
-		String[] name = new String[]{"国内指数","沪深行情"};
+		Button btn = getRightButton();
+		btn.setBackgroundResource(R.drawable.btn_search_select);
+		btn.setOnClickListener(this);
+		String[] name = new String[]{"沪深行情","国内指数"};
 		List<Fragment> frag = new ArrayList<Fragment>();
-		frag.add(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.INSIDE_COUNT));
 		frag.add(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.SHEN_HU));
+		frag.add(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.INSIDE_COUNT));
 		new FragmentSelectAdapter(context, name, frag, layoutMarkerParent, getSupportFragmentManager());
+	}
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.btn_right:
+			Intent intent = new Intent(this, SelectAddOptionalActivity.class);
+            startActivity(intent);
+			break;
+		default:
+			break;
+		}
 	}
 }
