@@ -92,19 +92,19 @@ public class OptionalStockAdapter extends BaseAdapter {
         ConStockBean item = stockList.get(position);
         tvStockName.setText(item.getName());
         colorView.setBackgroundColor(item.getDutyColor());
-        seekbar.setProgress((int) (item.getDutyValue()));
+        seekbar.setProgress((int) (item.getPercent()));
 
         ScaleDrawable sd = (ScaleDrawable) ((LayerDrawable) seekbar.getProgressDrawable())
                 .findDrawableByLayerId(android.R.id.progress);
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(item.getDutyColor());
-        tvPercent.setText(StringFromatUtils.getPercentValue((int) (item.getDutyValue())));
+        tvPercent.setText(StringFromatUtils.getPercentValue((int) (item.getPercent())));
 
         seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                stockList.get(position).setDutyValue(seekBar.getProgress());
+                stockList.get(position).setPercent(seekBar.getProgress());
 
                 if (null != mDutyNotify) {
 
@@ -122,7 +122,7 @@ public class OptionalStockAdapter extends BaseAdapter {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int p = progress;
-                int maxScoll = (int) (maxValue + stockList.get(position).getDutyValue());
+                int maxScoll = (int) (maxValue + stockList.get(position).getPercent());
                 if (progress >= maxScoll) {
                     p = maxScoll;
                     seekbar.setProgress(maxScoll);
@@ -146,7 +146,7 @@ public class OptionalStockAdapter extends BaseAdapter {
     public void setSurpusValue() {
         int surpusValu = 100;
         for (int i = 0; i < stockList.size(); i++) {
-            surpusValu -= stockList.get(i).getDutyValue();
+            surpusValu -= stockList.get(i).getPercent();
         }
         maxValue = surpusValu;
 
@@ -154,7 +154,7 @@ public class OptionalStockAdapter extends BaseAdapter {
 
     private void notifySurpusValue(int value) {
         ConStockBean sur = stockList.get(stockList.size() - 1);
-        stockList.get(stockList.size() - 1).setDutyValue(sur.getDutyValue() + value);
+        stockList.get(stockList.size() - 1).setPercent(sur.getPercent() + value);
         notifyDataSetChanged();
     }
 

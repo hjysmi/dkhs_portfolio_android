@@ -28,6 +28,8 @@ public class ConStockBean extends StockBean implements Serializable {
     protected int dutyColor;
     protected float currentValue;
     protected float increaseValue;
+//    // 涨幅(不需要再*100，5.71代表5.71%), float
+//    private float increase_percent;
     // 是否停牌 1是 0否
     @SerializedName("is_stop")
     private int isStop;
@@ -56,16 +58,16 @@ public class ConStockBean extends StockBean implements Serializable {
     public ConStockBean() {
     }
 
-    public int getDutyValue() {
-        if (dutyValue == -1) {
-            dutyValue = (int) (percent * 100);
-        }
-        return dutyValue;
-    }
+//    public int getDutyValue() {
+//        if (dutyValue == -1) {
+//            dutyValue = (int) (percent * 100);
+//        }
+//        return dutyValue;
+//    }
 
-    public void setDutyValue(int dutyValue) {
-        this.dutyValue = dutyValue;
-    }
+//    public void setDutyValue(int dutyValue) {
+//        this.dutyValue = dutyValue;
+//    }
 
     public String getName() {
         return stockName;
@@ -152,5 +154,14 @@ public class ConStockBean extends StockBean implements Serializable {
     public void setIsStop(int isStop) {
         this.isStop = isStop;
     }
+
+    public float getPercent() {
+        return percent;
+    }
+
+    public void setPercent(float percent) {
+        this.percent = percent;
+    }
+
 
 }

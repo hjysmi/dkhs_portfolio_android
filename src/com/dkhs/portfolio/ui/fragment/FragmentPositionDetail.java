@@ -224,6 +224,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             stockList.clear();
             System.out.println("getPositionList size:" + bean.getPositionList().size());
             stockList.addAll(bean.getPositionList());
+            
             if (null != stockList && stockList.size() > 0) {
 
                 int listSize = stockList.size();
@@ -239,11 +240,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
                 PieSlice slice1 = new PieSlice();
 
                 slice1.setColor(stockList.get(i).getDutyColor());
-                slice1.setValue(stockList.get(i).getDutyValue());
+                slice1.setValue(stockList.get(i).getPercent());
                 pieList.add(slice1);
 
             }
-            surpulsValue();
+            // surpulsValue();
 
             return bean;
         }
@@ -289,6 +290,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private void setStockList() {
 
         mContributeAdapter.setList(stockList);
+        stockAdapter.setFundpercent(mPositionDetail.getFund_percent());
         stockAdapter.setList(stockList);
 
     }
@@ -379,7 +381,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
         PieSlice emptySlice = new PieSlice();
         emptySlice.setColor(ColorTemplate.DEF_RED);
-        emptySlice.setValue(surValue);
+        emptySlice.setValue(mPositionDetail.getFund_percent());
         pieList.add(emptySlice);
 
         pgView.setSlices(pieList);
@@ -389,7 +391,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private float surpulsValue() {
         float total = 100;
         for (int i = 0; i < stockList.size(); i++) {
-            total -= stockList.get(i).getDutyValue();
+            total -= stockList.get(i).getPercent();
         }
         surValue = total;
 
