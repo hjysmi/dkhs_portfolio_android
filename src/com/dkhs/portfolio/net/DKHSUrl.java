@@ -126,6 +126,9 @@ public class DKHSUrl {
         String login = "/api/v1/accounts/login/";
         // 注册
         String register = "/api/v1/accounts/signup/";
+        // 绑定第三方
+        String bingdings = "/api/v1/accounts/social_bindings/";
+   
         // 获取验证码
         String get_vericode = "/api/v1/accounts/new_mobile_captcha/";
         // 是否设置过密码
@@ -144,7 +147,7 @@ public class DKHSUrl {
         String base_userinfo = "/api/v1/users/{0}/";
         // 获取服务器版本信息
         String get_version = "/api/v1/apps/";
-        //添加用户反馈
+        // 添加用户反馈
         String add_feed = "/api/v1/apps/";
     }
 

@@ -20,6 +20,7 @@ public class ThreePlatform {
     private String openid;
     private String refresh_token;
     private String avatar;
+    private String username;
 
     public String getAccess_token() {
         return access_token;
@@ -51,6 +52,14 @@ public class ThreePlatform {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }
