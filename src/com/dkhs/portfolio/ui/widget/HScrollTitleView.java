@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -40,7 +41,7 @@ import android.widget.TextView;
  * @date 2014-10-29 下午1:13:32
  * @version 1.0
  */
-public class HScrollTitleView extends FrameLayout {
+public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     // private Context context;
     private String[] nameList;
@@ -167,6 +168,7 @@ public class HScrollTitleView extends FrameLayout {
         addView(view);
         setAnima(offset, offset);
     }
+    private int currentPosition = 0;
 
     class OnItemListener implements OnClickListener {
         private int position;
@@ -183,14 +185,15 @@ public class HScrollTitleView extends FrameLayout {
             // TODO Auto-generated method stub
             // Fragment f = fragmentList.get(position);
             // changeFrament(0,f,null,fragmentList.get(position).toString());
-            tvList[position].setTextColor(getContext().getResources().getColor(R.color.red));
-            tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+//            tvList[position].setTextColor(getContext().getResources().getColor(R.color.red));
+//            tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+            currentPosition = position;
+//        	hisPosition = position;
             setAnima(hisPosition * indiatorWidth + offset * (2 * hisPosition + 1), position * indiatorWidth + offset
                     * (2 * position + 1));
-            hisPosition = position;
-            if (null != mSelectListener) {
-                mSelectListener.onSelectPosition(position);
-            }
+//            if (null != mSelectListener) {
+//                mSelectListener.onSelectPosition(position);
+//            }
         }
 
     }
@@ -200,6 +203,7 @@ public class HScrollTitleView extends FrameLayout {
         animation = new TranslateAnimation(startX, endX, 0, 0);
         animation.setFillAfter(true);// True:图片停在动画结束位置
         animation.setDuration(300);
+        animation.setAnimationListener(this);
         iv.startAnimation(animation);
     }
 
@@ -235,6 +239,28 @@ public class HScrollTitleView extends FrameLayout {
     public interface ISelectPostionListener {
         public void onSelectPosition(int position);
     }
+
+	@Override
+	public void onAnimationEnd(Animation arg0) {
+		if (null != mSelectListener) {
+            mSelectListener.onSelectPosition(currentPosition);
+        }
+	}
+
+	@Override
+	public void onAnimationRepeat(Animation arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAnimationStart(Animation arg0) {
+		// TODO Auto-generated method stub
+		tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.red));
+        tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+        hisPosition = currentPosition;
+		
+	}
 
     // @Override
     // protected void onLayout(boolean changed, int l, int t, int r, int b) {
