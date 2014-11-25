@@ -180,11 +180,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             }
         });
 
-        if (BuildConfig.DEBUG) {
-            cbRequestTestServer.setVisibility(View.VISIBLE);
-        } else {
-            cbRequestTestServer.setVisibility(View.GONE);
-        }
+        // if (BuildConfig.DEBUG) {
+        // cbRequestTestServer.setVisibility(View.VISIBLE);
+        // } else {
+        // cbRequestTestServer.setVisibility(View.GONE);
+        // }
 
         etUserName.addTextChangedListener(new TextWatcher() {
 
