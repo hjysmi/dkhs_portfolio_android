@@ -558,7 +558,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         for (ConStockBean stock : tempList) {
             SubmitSymbol symbol = new SubmitSymbol();
             symbol.setSymbol(stock.getStockId());
-            symbol.setPercent(stock.getPercent()/100);
+            symbol.setPercent(stock.getPercent() / 100);
             // System.out.println("symbols stock id:" + symbol.getSymbol() + " value:" + symbol.getPercent());
             symbols.add(symbol);
         }
@@ -773,22 +773,23 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
 
-        builder.setMessage("持仓调整尚未提交，确定放弃本次调仓").setNegativeButton("确定", new DialogInterface.OnClickListener() {
+        builder.setMessage(R.string.adjust_back_message)
+                .setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                finish();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
 
-            }
-        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    }
+                }).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
 
-            }
-        });
+                    }
+                });
         builder.show();
 
     }
