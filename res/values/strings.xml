@@ -252,5 +252,6 @@
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
     <string name="adjust_back_message">持仓调整尚未提交，确定放弃本次调仓</string>
+    <string name="title_binds">绑定账号</string>
 
 </resources>
