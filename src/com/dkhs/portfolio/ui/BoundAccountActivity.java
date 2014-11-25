@@ -33,13 +33,14 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
     private TextView boundTextEmail;
     private TextView boundTextQq;
     private TextView boundTextWeibo;
+    private TextView boundTextPhone;
 
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.activity_bound_account);
-        setTitle("绑定账号");
+        setTitle(R.string.title_binds);
         initView();
         initListener();
         UserEngineImpl.queryThreePlatBind(bindsListener);
@@ -53,12 +54,14 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         boundTextEmail = (TextView) findViewById(R.id.bound_text_email);
         boundTextQq = (TextView) findViewById(R.id.bound_text_qq);
         boundTextWeibo = (TextView) findViewById(R.id.bound_text_weibo);
+        boundTextPhone = (TextView) findViewById(R.id.bound_text_phone);
     }
 
     private void initListener() {
         boundTextEmail.setOnClickListener(this);
         boundTextQq.setOnClickListener(this);
         boundTextWeibo.setOnClickListener(this);
+        boundTextPhone.setOnClickListener(this);
     }
 
     @Override
@@ -224,6 +227,9 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                     } else if (plat.getProvider().contains("qq")) {
                         boundTextQq.setText(plat.getUsername());
                         boundTextQq.setEnabled(false);
+                    } else if (plat.getProvider().contains("mobile")) {
+                        boundTextPhone.setText(plat.getUsername());
+                        boundTextPhone.setEnabled(false);
                     }
                 }
             }

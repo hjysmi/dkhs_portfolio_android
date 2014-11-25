@@ -249,5 +249,6 @@
     <string name="more_combination_tip">最多只能添加20个基金组合</string>
     <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛</string>
     <string name="adjust_back_message">持仓调整尚未提交，确定放弃本次调仓</string>
+    <string name="title_binds">绑定账号</string>
 
 </resources>
