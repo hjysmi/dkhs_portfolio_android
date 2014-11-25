@@ -99,7 +99,7 @@ public class OptionalStockAdapter extends BaseAdapter {
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(item.getDutyColor());
-        tvPercent.setText(StringFromatUtils.getPercentValue((int) (item.getPercent())));
+        tvPercent.setText(StringFromatUtils.getPercentValue((item.getPercent())));
 
         seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
