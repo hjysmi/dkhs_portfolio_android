@@ -12,14 +12,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,9 +39,7 @@ import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
@@ -93,6 +93,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private TextView positionTextValue;
     private TextView positionTextCreatedate;
     private boolean firse = false;
+
     public static Intent newIntent(Context context, PositionDetail positionBean) {
         Intent intent = new Intent(context, PositionAdjustActivity.class);
 
@@ -143,8 +144,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
             mCombinationId = mPositionDetailBean.getPortfolio().getId();
         }
-        if(!isAdjustCombination){
-        	startSelectStockActivitys();
+        if (!isAdjustCombination) {
+            startSelectStockActivitys();
         }
 
     }
@@ -408,8 +409,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 break;
         }
     }
+
     private void startSelectStockActivitys() {
-    	firse = true;
+        firse = true;
         List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
         for (ConStockBean stockBean : stockList) {
             SelectStockBean bean = SelectStockBean.copy(stockBean);
@@ -427,8 +429,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
         startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
     }
+
     private void startSelectStockActivity() {
-    	firse = false;
+        firse = false;
         List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
         for (ConStockBean stockBean : stockList) {
             SelectStockBean bean = SelectStockBean.copy(stockBean);
@@ -476,9 +479,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         String nameText = etConbinationName.getText().toString().trim();
         String descText = etConbinationDesc.getText().toString();
         List<SubmitSymbol> submitList = generateSymbols();
+        isModifyPosition = submitList.size() > 0;
         isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
                 || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDescription());
-        isModifyPosition = submitList.size() > 0;
         if (!isModifyPosition && !isModiyName) {
 
             PromptManager.showToast("持仓信息没有修改");
@@ -643,7 +646,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-        	
+
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
@@ -672,16 +675,16 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
                     break;
             }
-        }else if(resultCode == 999){
-        	finish();
-        }else if (resultCode == RESULT_CANCELED){
-        	if(firse){
-        		finish();
-        	}
+        } else if (resultCode == 999) {
+            finish();
+        } else if (resultCode == RESULT_CANCELED) {
+            if (firse) {
+                finish();
+            }
         }
     }
 
-	private void updatePieView() {
+    private void updatePieView() {
         setPieList();
         // lvStock.removeFooterView(mFooterView);
         stockAdapter.setList(stockList);
@@ -746,4 +749,47 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         stockList.addAll(tempList);
 
     }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        // super.onBackPressed();
+        List<SubmitSymbol> submitList = generateSymbols();
+        isModifyPosition = submitList.size() > 0;
+        if (isModifyPosition) {
+            showAlertDialog();
+        } else {
+            finish();
+        }
+    }
+
+    private void showAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+
+        builder.setMessage("持仓调整尚未提交，确定放弃本次调仓").setNegativeButton("确定", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                finish();
+
+            }
+        }).setPositiveButton("取消", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+
+    }
+
 }
