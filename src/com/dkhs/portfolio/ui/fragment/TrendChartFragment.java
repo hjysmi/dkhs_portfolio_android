@@ -141,9 +141,8 @@ public class TrendChartFragment extends BaseFragment {
         this.trendType = type;
 
         if (null != mMaChart) {
-            PromptManager.showProgressDialog(getActivity(), "");
             drawCharHandler.sendEmptyMessageDelayed(777, 500);
-            // updateView();
+//             updateView();
             clearViewData();
 
         }
@@ -630,7 +629,7 @@ public class TrendChartFragment extends BaseFragment {
         float increase = mTodayLineData.netvalue;
         tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
         tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
-        Log.e("timemillis", (System.currentTimeMillis() - time + ""));
+        Log.e("time", (System.currentTimeMillis() - time + ""));
     }
 
     /**
@@ -883,6 +882,7 @@ public class TrendChartFragment extends BaseFragment {
             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
+            PromptManager.closeProgressDialog();
         } catch (Exception e) {
             // TODO: handle exception
         }

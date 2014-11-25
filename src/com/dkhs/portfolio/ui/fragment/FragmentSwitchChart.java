@@ -163,6 +163,7 @@ public class FragmentSwitchChart extends BaseFragment {
     public void setSelectType(String type) {
         long time = System.currentTimeMillis();
         this.trendType = type;
+        PromptManager.showProgressDialog(getActivity(), "");
         mFragmentChart.setSelectType(type);
         if (!TextUtils.isEmpty(trendType) && !isFromOrder) {
 
@@ -201,6 +202,8 @@ public class FragmentSwitchChart extends BaseFragment {
     }
 
     private void replaceChartView() {
+    	long startTime = System.currentTimeMillis();
+    	long endTime = 0;
         if(isAdded()){
             
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -217,13 +220,19 @@ public class FragmentSwitchChart extends BaseFragment {
             // replaceContentView(mFragment, R.id.btn_trend + "");
             // ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
             ft.replace(R.id.rl_chart, mFragmentChart);
+            endTime = System.currentTimeMillis(); 
+            Log.i("timemillis",(endTime - startTime)+"");
         } else {
             ft.show(mFragmentChart);
+        	endTime = System.currentTimeMillis(); 
+        	Log.i("timemillis",(endTime - startTime)+"");
         }
         if (null != mFragmentReport) {
             ft.hide(mFragmentReport);
         }
         ft.commit();
+        endTime = System.currentTimeMillis(); 
+        Log.i("timemillis",(endTime - startTime)+"");
         }
     }
 
