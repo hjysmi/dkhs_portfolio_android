@@ -44,6 +44,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 	private EditText feedEditCom;
 	private File imageFile;
 	private Context context;
+	private boolean having = false;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -125,14 +126,10 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 			setSign();
 			break;
 		case R.id.feed_image_load:
-			Intent intent  = new Intent(
-                    Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-			/* 开启Pictures画面Type设定为image */
-			/*intent.setType("image/*");
-			 使用Intent.ACTION_GET_CONTENT这个Action 
-			intent.setAction(Intent.ACTION_GET_CONTENT);*/
-			/* 取得相片后返回本画面 */
+			Intent intent = new Intent(this,FeedBackDialog.class);
+			Bundle b = new Bundle();
+			b.putBoolean(FeedBackDialog.HAVING, having);
+			intent.putExtras(b);
 			startActivityForResult(intent, 5);
 			break;
 		default:
@@ -157,9 +154,14 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 					ContentResolver cr = this.getContentResolver();
 					Bitmap bitmap = BitmapFactory.decodeFile(path);
 					feedImageLoad.setImageBitmap(bitmap);
+					having = true;
 				} catch (Exception e) {
 					Log.e("Exception", e.getMessage(), e);
 				}
+			}else if(requestCode == 5 && resultCode == RESULT_FIRST_USER){
+				feedImageLoad.setImageResource(R.drawable.feed_image_photo);
+				imageFile = null;
+				having = false;
 			}
 			super.onActivityResult(requestCode, resultCode, data);
 		}
