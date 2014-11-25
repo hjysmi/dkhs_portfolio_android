@@ -113,7 +113,7 @@
     <string name="netvalue_trend">净值走势</string>
     <string name="performance_comparison">业绩比较</string>
     <string name="position_detail">持仓明细</string>
-    <string name="related_news">相关新闻</string>
+    <string name="related_news">相关信息</string>
     <string name="from"> 由</string>
     <string name="to">至</string>
     <string name="to_now">至今</string>
@@ -238,7 +238,7 @@
     <string name="format_sign_text_title">个人签名:</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
-    <string name="feed_text_success">提交成功</string>
+    <string name="feed_text_success">感谢您的反馈意见</string>
     <string name="day_income_rate">日收益率:</string>
     <string name="week_income_rate">周收益率:</string>
     <string name="month_income_rate">月收益率:</string>
