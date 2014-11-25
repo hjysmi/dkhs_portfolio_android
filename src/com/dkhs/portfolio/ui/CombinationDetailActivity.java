@@ -13,10 +13,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -24,11 +27,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-
+import android.widget.AdapterView.OnItemClickListener;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
@@ -50,6 +60,7 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 public class CombinationDetailActivity extends ModelAcitivity implements OnClickListener {
 
     private static final float DOWN_SCALE = 1.0f;
+    private Button btnShare;
     private Button btnMore;
     private View btnPreBottom;
     private Fragment mPreFragment;
@@ -96,37 +107,33 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void showShareButton() {
-        btnMore.setBackgroundResource(R.drawable.ic_share);
+        btnShare.setBackgroundResource(R.drawable.ic_share);
+        btnShare.setVisibility(View.VISIBLE);
         btnMore.setVisibility(View.VISIBLE);
 
     }
 
     private void hideMoreButton() {
+        btnShare.setVisibility(View.GONE);
         btnMore.setVisibility(View.GONE);
     }
 
     private void initView() {
+    	
+        btnShare = getSecondRightButton();
+        btnShare.setOnClickListener(this);
+        btnShare.setBackgroundResource(R.drawable.ic_share);
         btnMore = getRightButton();
         btnMore.setOnClickListener(this);
-        btnMore.setBackgroundResource(R.drawable.ic_share);
-        // btnMore.setBackgroundResource(R.drawable.nav_more_selector);
-
+        btnMore.setBackgroundResource(R.drawable.nav_more);
         btnPreBottom = findViewById(R.id.btn_trend);
         btnPreBottom.setEnabled(false);
         btnPreBottom.setOnClickListener(bottomClickListner);
+        head = findViewById(R.id.includeHead);
         findViewById(R.id.btn_comparison).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_detail).setOnClickListener(bottomClickListner);
         findViewById(R.id.btn_news).setOnClickListener(bottomClickListner);
-
-        // Button btnShare = getSecondRightButton();
-        // btnShare.setOnClickListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // saveBitmapToGallery();
-        // Toast.makeText(CombinationDetailActivity.this, "保存截图到相册", Toast.LENGTH_SHORT).show();
-        // }
-        // });
+        btn_more_categorys = getResources().getStringArray(R.array.fund_detail_more);
 
         // initTabPage();
         replaceTrendView();
@@ -274,20 +281,68 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int id = v.getId();
         switch (id) {
             case R.id.btn_right:
-                if (mFragmentTrend != null) {
-                    // 直接分享
-                    mFragmentTrend.showShare(true, null, false);
-                }
-                // 直接分享
-                // showShare(true, null, false);
-
+            	//下拉列表
+            	showMoreDialog(btn_more_categorys);
                 break;
+            case R.id.btn_right_second:
+            	if (mFragmentTrend != null) {
+            		// 直接分享
+            		mFragmentTrend.showShare(true, null, false);
+            	}
+            	// 直接分享
+            	// showShare(true, null, false);
+            	
+            	break;
 
             default:
                 break;
         }
 
     }
+    
+    private PopupWindow pw;
+	private String[] btn_more_categorys;
+	private View head;
+    
+    protected void showMoreDialog(String[] category) {
+		LayoutInflater inflater = LayoutInflater.from(this);
+		View view = inflater.inflate(R.layout.layout_btn_more, null);
+		ListView lv_profit_loss = (ListView) view
+				.findViewById(R.id.lv_more);
+		lv_profit_loss.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				if(position == 0){
+					//修改基金名称
+				}else if(position == 1){
+					//调整仓位
+					
+				}else{
+					//隐私设置
+				}
+				pw.dismiss();
+			}
+		});
+		lv_profit_loss.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.item_btn_more, category));
+		pw = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT);
+		pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+		pw.setOutsideTouchable(true);
+		pw.setFocusable(true);
+		pw.getContentView().measure(0, 0);
+		int width = pw.getContentView().getMeasuredWidth();
+		// pw.setAnimationStyle(R.style.profit_loss_style);
+		// 保存anchor在屏幕中的位置
+		int[] location = new int[2];
+		// 读取位置anchor座标
+		head.getLocationOnScreen(location);
+		int desX = head.getWidth() - width;
+		pw.showAtLocation(head, Gravity.NO_GRAVITY, location[0] + desX,
+				location[1] + head.getHeight());
+	}
 
     protected void showFragmentByButtonId(int id) {
         int mSelectedTabIndex = 0;

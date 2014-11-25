@@ -54,7 +54,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     // 移动的Icon
     private ImageView iv;
     // 历史选中项
-    private int hisPosition;
+    private int hisPosition = -1;
     // 用于存储所有标题栏的textview,功能用于变换颜色
     private TextView[] tvList;
     // 左边两边下移ICON的边距,仅当当标题栏长度小于当前屏幕宽度会自动计算多于宽度
@@ -257,7 +257,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 	public void onAnimationStart(Animation arg0) {
 		// TODO Auto-generated method stub
 		tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.red));
-        tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+		if(hisPosition != -1){
+			tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+		}
         hisPosition = currentPosition;
 		
 	}
