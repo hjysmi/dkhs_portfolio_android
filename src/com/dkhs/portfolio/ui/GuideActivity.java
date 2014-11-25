@@ -52,6 +52,7 @@ public class GuideActivity extends ModelAcitivity implements OnPageChangeListene
         views.add(inflater.inflate(R.layout.guide_second, null));
         views.add(inflater.inflate(R.layout.guide_third, null));
         views.add(inflater.inflate(R.layout.guide_fourth, null));
+        views.add(inflater.inflate(R.layout.guide_five, null));
 
         // 初始化Adapter
         vpAdapter = new GuideViewPagerAdapter(views, this);
