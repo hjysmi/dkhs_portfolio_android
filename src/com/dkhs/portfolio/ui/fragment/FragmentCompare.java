@@ -424,7 +424,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 }
 
                 float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
-                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent((long) (increaseValue * 100)));
+                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent((long) (increaseValue)));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
                 } else {
@@ -589,7 +589,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
                     float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
 
-                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value * 100);
+                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value );
                     i++;
                 }
                 maxNum = maxNum - baseNum;
