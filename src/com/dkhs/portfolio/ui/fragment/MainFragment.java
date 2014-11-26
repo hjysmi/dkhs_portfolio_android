@@ -376,28 +376,25 @@ public class MainFragment extends Fragment implements OnClickListener {
         protected void afterParseData(ChampionCollectionBean object) {
             // = new ArrayList<Fragment>();
 
-                fList.clear();
-                //season数据为空，暂时屏蔽
-                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                        .getIncreasePercent()));*/
-                float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
-                        .getIncreasePercent()));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
-                        .getIncreasePercent()));
-                //season数据为空，暂时屏蔽
-                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                        .getIncreasePercent()));*/
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
-                        .getIncreasePercent()));
+            fList.clear();
 
-                viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
-                viewPager.setOnPageChangeListener(scrollPageChangeListener);
-                viewPager.setOffscreenPageLimit(6);
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
+                    .getIncreasePercent()));
+            float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
+                    .getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
+                    .getIncreasePercent()));
+            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek().getIncreasePercent()));
 
-                viewPager.setCurrentItem(1);
-                // viewPager.setCurrentItem(0);
+            viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
+            viewPager.setOnPageChangeListener(scrollPageChangeListener);
+            viewPager.setOffscreenPageLimit(6);
+
+            viewPager.setCurrentItem(1);
+            // viewPager.setCurrentItem(0);
 
         }
     };

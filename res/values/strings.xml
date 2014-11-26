@@ -208,11 +208,12 @@
     <string name="week_top">周收益冠军榜</string>
     <string name="day_top">日收益冠军榜</string>
     <string name="season_top">季度收益冠军榜</string>
+    <string name="all_top">总收益冠军榜</string>
     <string name="month_top_increase">月度累计涨幅</string>
     <string name="week_top_increase">周累计涨幅</string>
     <string name="day_top_increase">日累计涨幅</string>
     <string name="season_top_increase">季度累计涨幅</string>
-    <string name="all_top_increase">累计涨幅</string>
+    <string name="all_top_increase">总累计涨幅</string>
     <string name="marketcenter_title">行情中心</string>
     <string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
