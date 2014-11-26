@@ -424,7 +424,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 }
 
                 float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
-                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent( (increaseValue)));
+                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent( (increaseValue)*100));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
                 } else {
