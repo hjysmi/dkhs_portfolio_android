@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 public class ReportNewsAdapter extends BaseAdapter{
 	private Context mContext;
@@ -64,13 +65,8 @@ public class ReportNewsAdapter extends BaseAdapter{
 			if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
 				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
 			}
-			SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
-			String d = mOptionNewsBean.getPublish().replaceAll("T", " ").replaceAll("Z", "");
-			Date date = sdf.parse(d);
-			Calendar old = Calendar.getInstance();
-			old.setTime(date);
-			Calendar c = Calendar.getInstance();
-			if(old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH) && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)){
+			Calendar old = TimeUtils.toCalendar(mOptionNewsBean.getPublish());
+			if(TimeUtils.compareTime(old)){
 				viewHolder.tvTextDate.setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old.get(Calendar.HOUR_OF_DAY) ) + ":" + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old.get(Calendar.MINUTE)));
 			}else{
 				int t = old.get(Calendar.MONTH) + 1;

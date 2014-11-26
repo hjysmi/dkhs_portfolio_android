@@ -377,16 +377,16 @@ public class MainFragment extends Fragment implements OnClickListener {
             // = new ArrayList<Fragment>();
 
                 fList.clear();
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                        .getIncreasePercent()));
+                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                        .getIncreasePercent()));*/
                 float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
                         .getIncreasePercent()));
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
                         .getIncreasePercent()));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                        .getIncreasePercent()));
+                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                        .getIncreasePercent()));*/
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
                         .getIncreasePercent()));
 
