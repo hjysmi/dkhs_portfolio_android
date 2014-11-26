@@ -24,11 +24,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.TextView;
-
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
@@ -63,7 +65,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private FragmentCompare mFragmentCompare;
     private FragmentPositionDetail mFragmentDetail;
     private FragmentNews mFragmentNews;
-
     public static final String EXTRA_COMBINATION = "extra_combination";
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
@@ -135,7 +136,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void replaceTrendView() {
         // if (null == mFragmentTrend) {
-        mFragmentTrend = FragmentNetValueTrend.newInstance(false);
+        mFragmentTrend = FragmentNetValueTrend.newInstance(false,null);
         // }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
@@ -274,15 +275,13 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int id = v.getId();
         switch (id) {
             case R.id.btn_right:
-                if (mFragmentTrend != null) {
+            	if (mFragmentTrend != null) {
                     // 直接分享
                     mFragmentTrend.showShare(true, null, false);
                 }
                 // 直接分享
                 // showShare(true, null, false);
-
-                break;
-
+            	break;
             default:
                 break;
         }

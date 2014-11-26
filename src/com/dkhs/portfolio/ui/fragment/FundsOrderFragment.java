@@ -163,7 +163,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
                 getActivity().startActivity(
                         OrderFundDetailActivity.getIntent(getActivity(),
-                                CombinationBean.parse(mDataList.get(position)), true));
+                                CombinationBean.parse(mDataList.get(position)), true,mOrderType));
             }
         };
     }
