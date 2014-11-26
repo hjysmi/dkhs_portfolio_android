@@ -420,7 +420,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             case R.id.btn_adjust_position: {
 
                 // todo :持仓调整
-                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), mPositionDetail));
+                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), mPositionDetail.getPortfolio().getId()));
 
             }
 
