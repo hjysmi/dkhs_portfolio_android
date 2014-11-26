@@ -94,7 +94,13 @@ public class TimeUtils {
         return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
 
     }
-
+    public static boolean compareTime(Calendar old){
+    	Calendar c = Calendar.getInstance();
+    	if(old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH) && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)){
+    		return true;
+    	}
+    	return false;
+    }
     public static String getTimeString(Calendar calendar) {
         return ACCEPTED_TIMESTAMP_FORMATS[7].format(calendar.getTime());
     }

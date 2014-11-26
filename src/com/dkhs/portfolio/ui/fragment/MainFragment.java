@@ -375,19 +375,20 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         protected void afterParseData(ChampionCollectionBean object) {
             // = new ArrayList<Fragment>();
-            if (null != object) {
 
                 fList.clear();
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                        .getIncreasePercent()));
+                //season数据为空，暂时屏蔽
+                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                        .getIncreasePercent()));*/
                 float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
                         .getIncreasePercent()));
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
                         .getIncreasePercent()));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                        .getIncreasePercent()));
+                //season数据为空，暂时屏蔽
+                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                        .getIncreasePercent()));*/
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
                         .getIncreasePercent()));
 
@@ -397,7 +398,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
                 viewPager.setCurrentItem(1);
                 // viewPager.setCurrentItem(0);
-            }
 
         }
     };
