@@ -77,7 +77,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
         try {
 			UserEngineImpl engine = new UserEngineImpl();
 			if(TextUtils.isEmpty(feedEditText.getText().toString())){
-				PromptManager.showToast(R.string.sign_text_notice);
+				PromptManager.showToast(R.string.feed_text_notice);
 				return;
 			}
 			PackageManager manager = context.getPackageManager();

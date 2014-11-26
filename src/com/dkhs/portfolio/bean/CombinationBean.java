@@ -37,7 +37,10 @@ public class CombinationBean implements Serializable {
     @SerializedName("is_public")
     private String ispublic;
     private boolean ispublics;
-
+    private float chng_pct_day;
+    private float chng_pct_month;
+    private float chng_pct_week;
+    private float chng_pct_three_month;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -151,7 +154,47 @@ public class CombinationBean implements Serializable {
         bean.name = cBean.getName();
         bean.netvalue = cBean.getNet_value();
         bean.setIspublic(cBean.getIs_public());
+        bean.chng_pct_day = cBean.getChng_pct_day();
+        bean.chng_pct_week = cBean.getChng_pct_week();
+        bean.chng_pct_month = cBean.getChng_pct_month();
+        bean.chng_pct_three_month = cBean.getChng_pct_three_month();
         return bean;
     }
 
+	public float getChng_pct_day() {
+		return chng_pct_day;
+	}
+
+	public void setChng_pct_day(float chng_pct_day) {
+		this.chng_pct_day = chng_pct_day;
+	}
+
+	public float getChng_pct_month() {
+		return chng_pct_month;
+	}
+
+	public void setChng_pct_month(float chng_pct_month) {
+		this.chng_pct_month = chng_pct_month;
+	}
+
+	public float getChng_pct_week() {
+		return chng_pct_week;
+	}
+
+	public void setChng_pct_week(float chng_pct_week) {
+		this.chng_pct_week = chng_pct_week;
+	}
+
+	public float getChng_pct_three_month() {
+		return chng_pct_three_month;
+	}
+
+	public void setChng_pct_three_month(float chng_pct_three_month) {
+		this.chng_pct_three_month = chng_pct_three_month;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+    
 }

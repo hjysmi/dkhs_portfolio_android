@@ -5,10 +5,6 @@
     android:orientation="vertical" >
 
     <RelativeLayout
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 		<ImageView 
@@ -34,29 +30,7 @@
                 android:visibility="gone"
                 android:textSize="@dimen/list_text_size" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="5dp" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:singleLine="true"
-                    android:id="@+id/news_title_date"
-                    android:textColor="@color/position_text_lgray"
-                    android:textSize="@dimen/setting_text_phone" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/news_title_date"
-                    android:singleLine="true"
-                    android:id="@+id/news_title_num"
-                    android:textColor="@color/position_text_lgray"
-                    android:textSize="@dimen/setting_text_phone" />
-            </RelativeLayout>
+            
         </LinearLayout>
     </RelativeLayout>
 	<LinearLayout 
@@ -76,6 +50,29 @@
 	        android:textSize="@dimen/news_text_title_size"
 	        android:textColor="@color/black"
 	        />
+	    <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:id="@+id/news_title_date"
+                    android:textColor="@color/position_text_lgray"
+                    android:textSize="@dimen/setting_text_phone" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/news_title_date"
+                    android:singleLine="true"
+                    android:layout_marginLeft="15dp"
+                    android:id="@+id/news_title_num"
+                    android:textColor="@color/position_text_lgray"
+                    android:textSize="@dimen/setting_text_phone" />
+            </RelativeLayout>
 	    <include layout="@layout/layout_line"/>
 	    <ScrollView 
 	        android:layout_height="match_parent"

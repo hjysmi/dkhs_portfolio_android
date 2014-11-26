@@ -375,7 +375,6 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         protected void afterParseData(ChampionCollectionBean object) {
             // = new ArrayList<Fragment>();
-            if (null != object) {
 
                 fList.clear();
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
@@ -397,7 +396,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
                 viewPager.setCurrentItem(1);
                 // viewPager.setCurrentItem(0);
-            }
 
         }
     };

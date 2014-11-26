@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.adapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -59,15 +62,22 @@ public class ReportNewsAdapter extends BaseAdapter{
 			}
 			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
 			if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
-				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName() + " " +mOptionNewsBean.getSymbols().get(0).getSymbol());
-			}else{
-				viewHolder.tvTextNameNum.setText("");
+				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
 			}
-			viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+			SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" );
+			String d = mOptionNewsBean.getPublish().replaceAll("T", " ").replaceAll("Z", "");
+			Date date = sdf.parse(d);
+			Calendar old = Calendar.getInstance();
+			old.setTime(date);
+			Calendar c = Calendar.getInstance();
+			if(old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH) && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)){
+				viewHolder.tvTextDate.setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old.get(Calendar.HOUR_OF_DAY) ) + ":" + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old.get(Calendar.MINUTE)));
+			}else{
+				int t = old.get(Calendar.MONTH) + 1;
+				viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t) +"-" + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) :old.get(Calendar.DAY_OF_MONTH)));
+			}
 			if(null != mOptionNewsBean.getSource() && !(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0)){
 				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getTitle());
-			}else{
-				viewHolder.tvTextFrom.setText("");
 			}
 			
 		} catch (Exception e) {
