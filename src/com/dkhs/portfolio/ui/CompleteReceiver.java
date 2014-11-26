@@ -43,7 +43,7 @@ public class CompleteReceiver extends BroadcastReceiver {
 							path = string;
 							Intent i = new Intent(Intent.ACTION_VIEW);
 					        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					        i.setDataAndType(Uri.fromFile(new File(path)),
+					        i.setDataAndType(Uri.parse(path),
 					                "application/vnd.android.package-archive");
 					        context.startActivity(i);
 						}
