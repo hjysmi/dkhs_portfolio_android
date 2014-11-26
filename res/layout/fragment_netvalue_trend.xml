@@ -64,8 +64,8 @@
 			        android:layout_alignParentLeft="true"
 			        >
 			        <Button
-			            android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
+			            android:layout_height="30dp"
+			            android:layout_width="30dp"
 			            android:background="@drawable/netvalue_gray"
 			            android:text="日"
 			            android:textSize="14sp"
@@ -88,8 +88,8 @@
 			        android:orientation="horizontal"
 			        >
 			        <Button
-			            android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
+			            android:layout_height="30dp"
+			            android:layout_width="30dp"
 			            android:background="@drawable/netvalue_gray"
 			            android:text="月"
 			            android:textSize="14sp"
@@ -111,8 +111,8 @@
 			        android:layout_centerHorizontal="true"
 			        >
 			        <Button
-			            android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
+			            android:layout_height="30dp"
+			            android:layout_width="30dp"
 			            android:background="@drawable/netvalue_gray"
 			            android:text="周"
 			            android:textSize="14sp"
