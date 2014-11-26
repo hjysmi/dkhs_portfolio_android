@@ -20,7 +20,8 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
     public static final String TYPE_DAY = "type_day";
     public static final String TYPE_WEEK = "type_week";
     public static final String TYPE_MONTH = "type_month";
-    public static final String TYPE_SEASON = "type_season";
+    // public static final String TYPE_SEASON = "type_season";
+    public static final String TYPE_All = "type_all";
 
     private String mType = TYPE_WEEK;
     private float value;
@@ -104,9 +105,9 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
             } else if (mType.equalsIgnoreCase(TYPE_WEEK)) {
                 tvTitle.setText(R.string.week_top);
                 tvIncreaseText.setText(R.string.week_top_increase);
-            } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {
-                tvTitle.setText(R.string.season_top);
-                tvIncreaseText.setText(R.string.season_top_increase);
+            } else if (mType.equalsIgnoreCase(TYPE_All)) {
+                tvTitle.setText(R.string.all_top);
+                tvIncreaseText.setText(R.string.all_top_increase);
             } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
                 tvTitle.setText(R.string.month_top);
                 tvIncreaseText.setText(R.string.month_top_increase);
@@ -133,7 +134,7 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         int index = 0;
         if (mType.equalsIgnoreCase(TYPE_WEEK)) {
             index = 0;
-        } else if (mType.equalsIgnoreCase(TYPE_SEASON)) {
+        } else if (mType.equalsIgnoreCase(TYPE_All)) {
             index = 2;
         } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
             index = 1;

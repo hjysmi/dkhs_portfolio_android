@@ -24,8 +24,10 @@ public class ChampionCollectionBean {
     private ChampionBean day;
     @SerializedName("month")
     private ChampionBean month;
-    @SerializedName("three_month")
-    private ChampionBean season;
+//    @SerializedName("three_month")
+//    private ChampionBean season;
+    @SerializedName("cumulative")
+    private ChampionBean cumulative;
 
     public ChampionBean getWeek() {
         return week;
@@ -43,13 +45,13 @@ public class ChampionCollectionBean {
         this.month = month;
     }
 
-    public ChampionBean getSeason() {
-        return season;
-    }
-
-    public void setSeason(ChampionBean season) {
-        this.season = season;
-    }
+//    public ChampionBean getSeason() {
+//        return season;
+//    }
+//
+//    public void setSeason(ChampionBean season) {
+//        this.season = season;
+//    }
 
     public ChampionBean getDay() {
         return day;
@@ -57,5 +59,13 @@ public class ChampionCollectionBean {
 
     public void setDay(ChampionBean day) {
         this.day = day;
+    }
+
+    public ChampionBean getCumulative() {
+        return cumulative;
+    }
+
+    public void setCumulative(ChampionBean cumulative) {
+        this.cumulative = cumulative;
     }
 }
