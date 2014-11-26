@@ -142,7 +142,7 @@ public class TrendChartFragment extends BaseFragment {
 
         if (null != mMaChart) {
             drawCharHandler.sendEmptyMessageDelayed(777, 500);
-//             updateView();
+            // updateView();
             clearViewData();
 
         }
@@ -389,9 +389,13 @@ public class TrendChartFragment extends BaseFragment {
 
     }
 
+    // This event fires 1st, before creation of fragment or any views
+    // The onAttach method is called when the Fragment instance is associated with an Activity.
+    // This does not mean the Activity is fully initialized.
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        // this.listener = (FragmentActivity) activity;
     }
 
     @Override
