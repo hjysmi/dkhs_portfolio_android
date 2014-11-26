@@ -37,6 +37,7 @@ public class ChampionBean implements Serializable {
     private float chng_pct_week;
     private float chng_pct_three_month;
 
+
     private float net_value;
 
     // "chng_pct_day": 100805.451612477,

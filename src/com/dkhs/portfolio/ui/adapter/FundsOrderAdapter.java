@@ -113,9 +113,9 @@ public class FundsOrderAdapter extends BaseAdapter {
         } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_MONTH)) {
             textResId = mContext.getString(R.string.month_income_rate);
             increasePercent = item.getChng_pct_month();
-        } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_SEASON)) {
-            textResId = mContext.getString(R.string.season_top_increase);
-            increasePercent = item.getChng_pct_three_month();
+        } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_ALL)) {
+            textResId = mContext.getString(R.string.all_income_rate);
+            increasePercent = item.getNet_value();
         }
         if (position == 0) {
             row = View.inflate(mContext, R.layout.layout_champion, null);

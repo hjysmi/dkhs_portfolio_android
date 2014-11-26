@@ -102,7 +102,7 @@ public class FundsOrderActivity extends ModelAcitivity {
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_DAY));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_WEEK));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_MONTH));
-        fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_SEASON));
+        fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_ALL));
 
         pager = (ScrollViewPager) findViewById(R.id.pager);
         pager.setAdapter(new OrderFragmentAdapter(getSupportFragmentManager(), fragmentList));
