@@ -316,11 +316,16 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 					int position, long id) {
 				if(position == 0){
 					//修改基金名称
+					startActivity(ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
 				}else if(position == 1){
 					//调整仓位
-					
+					Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
+					intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
+					intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
+					startActivity(intent);
 				}else{
 					//隐私设置
+					startActivity(PrivacySettingActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
 				}
 				pw.dismiss();
 			}
