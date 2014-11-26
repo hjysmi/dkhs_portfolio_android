@@ -377,6 +377,7 @@ public class MainFragment extends Fragment implements OnClickListener {
             // = new ArrayList<Fragment>();
 
                 fList.clear();
+                //season数据为空，暂时屏蔽
                 /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
                         .getIncreasePercent()));*/
                 float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
@@ -385,6 +386,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                         .getIncreasePercent()));
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
                         .getIncreasePercent()));
+                //season数据为空，暂时屏蔽
                 /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
                         .getIncreasePercent()));*/
                 fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
