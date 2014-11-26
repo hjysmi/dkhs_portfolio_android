@@ -424,7 +424,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 }
 
                 float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
-                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent((long) (increaseValue * 100)));
+                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent( (increaseValue)));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
                 } else {
@@ -510,7 +510,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         for (int i = 0; i < dataLenght; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
-            float pointValue = todayBean.getPercentage();
+//            float pointValue = todayBean.getPercentage();
+            float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
@@ -572,6 +573,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         LinePointEntity pointEntity = new LinePointEntity();
+//                        float value = cPoint.getPercentage();
                         float value = cPoint.getPercentage();
                         pointEntity.setDesc(cPoint.getDate());
                         pointEntity.setValue(value);
@@ -589,7 +591,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
                     float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
 
-                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value * 100);
+                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value );
                     i++;
                 }
                 maxNum = maxNum - baseNum;

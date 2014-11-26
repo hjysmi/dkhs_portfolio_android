@@ -58,7 +58,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public static final String ORDER_TYPE_DAY = "chng_pct_day";
     public static final String ORDER_TYPE_WEEK = "chng_pct_week";
     public static final String ORDER_TYPE_MONTH = "chng_pct_month";
-    public static final String ORDER_TYPE_SEASON = "chng_pct_three_month";
+    // public static final String ORDER_TYPE_SEASON = "chng_pct_three_month";
+    public static final String ORDER_TYPE_ALL = "net_value";
     private String mOrderType;
     private FundsOrderAdapter mAdapter;
     private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
@@ -137,9 +138,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
                 setEmptyText("月排行暂无数据");
 
-            } else if (mOrderType.contains(ORDER_TYPE_SEASON)) {
+            } else if (mOrderType.contains(ORDER_TYPE_ALL)) {
 
-                setEmptyText("季排行暂无数据");
+                setEmptyText("总排行暂无数据");
             }
         }
 
@@ -163,7 +164,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
                 getActivity().startActivity(
                         OrderFundDetailActivity.getIntent(getActivity(),
-                                CombinationBean.parse(mDataList.get(position)), true));
+                                CombinationBean.parse(mDataList.get(position)), true,mOrderType));
             }
         };
     }

@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.adapter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 public class OptionMarketAdapter extends BaseAdapter{
 	private Context mContext;
@@ -57,8 +61,15 @@ public class OptionMarketAdapter extends BaseAdapter{
 			    viewHolder = (ViewHodler) convertView.getTag();
 			}
 			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
-			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName() + " " + mOptionNewsBean.getSymbols().get(0).getSymbol());
-			viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
+			Calendar old = TimeUtils.toCalendar(mOptionNewsBean.getPublish());
+			if(TimeUtils.compareTime(old)){
+				viewHolder.tvTextDate.setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old.get(Calendar.HOUR_OF_DAY) ) + ":" + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old.get(Calendar.MINUTE)));
+			}else{
+				int t = old.get(Calendar.MONTH) + 1;
+				viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t) +"-" + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) :old.get(Calendar.DAY_OF_MONTH)));
+			}
+			//viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

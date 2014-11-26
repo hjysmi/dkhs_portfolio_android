@@ -29,11 +29,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -74,7 +76,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private FragmentCompare mFragmentCompare;
     private FragmentPositionDetail mFragmentDetail;
     private FragmentNews mFragmentNews;
-
     public static final String EXTRA_COMBINATION = "extra_combination";
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
@@ -142,7 +143,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void replaceTrendView() {
         // if (null == mFragmentTrend) {
-        mFragmentTrend = FragmentNetValueTrend.newInstance(false);
+        mFragmentTrend = FragmentNetValueTrend.newInstance(false,null);
         // }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
@@ -293,7 +294,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             	// showShare(true, null, false);
             	
             	break;
-
             default:
                 break;
         }

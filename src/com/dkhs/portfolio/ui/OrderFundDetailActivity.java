@@ -46,15 +46,16 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     private TextView tvConDesc;
     private TextView tvBottomTip;
     private boolean isClickable;
-
+    String type;
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
 
     public static final String EXTRA_COMBINATION = "extra_combination";
 
-    public static Intent getIntent(Context context, CombinationBean bean, boolean isClickable) {
+    public static Intent getIntent(Context context, CombinationBean bean, boolean isClickable,String orderType) {
         Intent intent = new Intent(context, OrderFundDetailActivity.class);
         intent.putExtra(EXTRA_COMBINATION, bean);
         intent.putExtra("isClickable", isClickable);
+        intent.putExtra("type", orderType);
         return intent;
     }
 
@@ -74,6 +75,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     private void handleExtras(Bundle extras) {
         mChampionBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
         isClickable = extras.getBoolean("isClickable");
+        type = extras.getString("type");
     }
 
     private void initViews() {
@@ -108,7 +110,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     private void replaceTrendView() {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, FragmentNetValueTrend.newInstance(true))
+        getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, FragmentNetValueTrend.newInstance(true,type))
                 .commit();
 
     }

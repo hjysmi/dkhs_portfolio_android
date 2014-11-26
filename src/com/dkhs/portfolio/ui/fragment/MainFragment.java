@@ -375,24 +375,29 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         protected void afterParseData(ChampionCollectionBean object) {
             // = new ArrayList<Fragment>();
-            fList.clear();
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                    .getIncreasePercent()));
-            float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
-                    .getIncreasePercent()));
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
-                    .getIncreasePercent()));
-            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek().getIncreasePercent()));
 
-            viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
-            viewPager.setOnPageChangeListener(scrollPageChangeListener);
-            viewPager.setOffscreenPageLimit(6);
+                fList.clear();
+                //season数据为空，暂时屏蔽
+                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                        .getIncreasePercent()));*/
+                float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
+                        .getIncreasePercent()));
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
+                        .getIncreasePercent()));
+                //season数据为空，暂时屏蔽
+                /*fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_SEASON, object.getSeason()
+                        .getIncreasePercent()));*/
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
+                        .getIncreasePercent()));
 
-            viewPager.setCurrentItem(1);
-            // viewPager.setCurrentItem(0);
+                viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
+                viewPager.setOnPageChangeListener(scrollPageChangeListener);
+                viewPager.setOffscreenPageLimit(6);
+
+                viewPager.setCurrentItem(1);
+                // viewPager.setCurrentItem(0);
 
         }
     };
@@ -491,7 +496,9 @@ public class MainFragment extends Fragment implements OnClickListener {
         sp.setSpan(new RelativeSizeSpan(0.6f), startTextIndex, startTextIndex + szPercentage.length(),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         ForegroundColorSpan bean1CSpan;
-        if (bean1.getPercentage() > 0) {
+        if (bean1.getPercentage() == 0) {
+            bean1CSpan = new ForegroundColorSpan(getResources().getColor(R.color.def_gray));
+        } else if (bean1.getPercentage() > 0) {
             bean1CSpan = new ForegroundColorSpan(Color.RED);
         } else {
             bean1CSpan = new ForegroundColorSpan(Color.GREEN);
@@ -508,7 +515,9 @@ public class MainFragment extends Fragment implements OnClickListener {
         startTextIndex += scTilte.length() + 1;
 
         ForegroundColorSpan bean2CSpan;
-        if (bean2.getPercentage() > 0) {
+        if (bean2.getPercentage() == 0) {
+            bean2CSpan = new ForegroundColorSpan(getResources().getColor(R.color.def_gray));
+        } else if (bean2.getPercentage() > 0) {
             bean2CSpan = new ForegroundColorSpan(Color.RED);
         } else {
             bean2CSpan = new ForegroundColorSpan(Color.GREEN);

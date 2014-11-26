@@ -145,7 +145,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
                 user.setUsername(mUserName);
                 cBean.setCreateUser(user);
 
-                getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false));
+                getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false,null));
             }
         };
     }
