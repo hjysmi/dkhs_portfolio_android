@@ -256,15 +256,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     		netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mCombinationBean.getChng_pct_day()));
             netvalueDay.setText(mCombinationBean.getChng_pct_day()+"%");
             netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-            .getColorStateList(R.color.theme_color));
+            .getColorStateList(R.color.gray_textcolor));
             netvalueWeek.setText(mCombinationBean.getChng_pct_week()+"%");
             netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.theme_color));
+                    .getColorStateList(R.color.gray_textcolor));
             netvalueMonth.setText(mCombinationBean.getChng_pct_month()+"%");
             netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             if(mCombinationBean.getChng_pct_day() > 0){
             	netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_red);
             	netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
@@ -276,22 +276,22 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }else{
             	netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
             	netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-        	            .getColorStateList(R.color.theme_color));
+        	            .getColorStateList(R.color.gray_textcolor));
             }
             netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
             netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
     	}else if(type.equals(TrendChartFragment.TREND_TYPE_SEVENDAY)){
     		netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
     		netvalueDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueDay.setText(mCombinationBean.getChng_pct_day()+"%");
             netvalueWeek.setTextColor(ColorTemplate.getUpOrDrownCSL(mCombinationBean.getChng_pct_week()));
             netvalueWeek.setText(mCombinationBean.getChng_pct_week()+"%");
             netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.theme_color));
+                    .getColorStateList(R.color.gray_textcolor));
             netvalueMonth.setText(mCombinationBean.getChng_pct_month()+"%");
             if(mCombinationBean.getChng_pct_week() > 0){
             	netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_red);
@@ -303,21 +303,21 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         	            .getColorStateList(R.color.white));
             }else{
             	netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-        	            .getColorStateList(R.color.theme_color));
+        	            .getColorStateList(R.color.gray_textcolor));
             	netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
             }
             netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
             netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
     	}else if(type.equals(TrendChartFragment.TREND_TYPE_MONTH)){
     		netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
     		netvalueDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueDay.setText(mCombinationBean.getChng_pct_day()+"%");
             netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.theme_color));
+                    .getColorStateList(R.color.gray_textcolor));
             netvalueWeek.setText(mCombinationBean.getChng_pct_week()+"%");
             netvalueMonth.setTextColor(ColorTemplate.getUpOrDrownCSL(mCombinationBean.getChng_pct_month()));
             netvalueMonth.setText(mCombinationBean.getChng_pct_month()+"%");
@@ -332,29 +332,29 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }else{
             	netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
             	netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-        	            .getColorStateList(R.color.theme_color));
+        	            .getColorStateList(R.color.gray_textcolor));
             }
             netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
             netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
     	}else{
     		netvalueDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueDay.setText(mCombinationBean.getChng_pct_day()+"%");
             netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.theme_color));
+                    .getColorStateList(R.color.gray_textcolor));
             netvalueWeek.setText(mCombinationBean.getChng_pct_week()+"%");
             netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.theme_color));
+                    .getColorStateList(R.color.gray_textcolor));
             netvalueMonth.setText(mCombinationBean.getChng_pct_month()+"%");
             netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
             netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
             netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
             netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
             netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-    	            .getColorStateList(R.color.theme_color));
+    	            .getColorStateList(R.color.gray_textcolor));
     	}
     	
     }
