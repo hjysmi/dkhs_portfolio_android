@@ -93,6 +93,8 @@
         <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionEditActivity" />
         <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.ChangeCombinationNameActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FeedBackDialog" 
             android:theme="@style/MyDialogStyleBottom"/>
         <activity
