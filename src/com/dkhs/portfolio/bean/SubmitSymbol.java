@@ -18,7 +18,7 @@ package com.dkhs.portfolio.bean;
 public class SubmitSymbol {
     // symbol: 股票ID(int)
     private long symbol;
-    private float percent;
+    private int percent;
 
     public long getSymbol() {
         return symbol;
@@ -28,11 +28,11 @@ public class SubmitSymbol {
         this.symbol = symbol;
     }
 
-    public float getPercent() {
+    public int getPercent() {
         return percent;
     }
 
-    public void setPercent(float percent) {
+    public void setPercent(int percent) {
         this.percent = percent;
     }
 }

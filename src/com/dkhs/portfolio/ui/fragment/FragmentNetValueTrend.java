@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -17,10 +19,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources.NotFoundException;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -38,6 +45,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -391,11 +400,106 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // FragmentSwitchChart mSwitchFragment = null;
 
     public void showShare(boolean silent, String platform, boolean captureView) {
-        if (null != mtrendFragment)
-            // mtrendFragment.showShare(silent, platform, captureView);
-            mtrendFragment.showShareImage();
+//        if (null != mtrendFragment)
+//            // mtrendFragment.showShare(silent, platform, captureView);
+//            mtrendFragment.showShareImage();
     }
 
+    
+    private String SHARE_IMAGE;
+
+    public void showShareImage() {
+
+        // initImagePath();
+        new Thread() {
+            public void run() {
+
+                // initImagePath();
+                saveShareBitmap();
+                shareHandler.sendEmptyMessage(999);
+            }
+        }.start();
+
+    }
+
+    Handler shareHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            showShare();
+        };
+    };
+
+    private void showShare() {
+        Context context = getActivity();
+        final OnekeyShare oks = new OnekeyShare();
+
+        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // oks.setAddress("12345678901");
+        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+        // String customText = CustomShareFieldsPage.getString( "text", null);
+        oks.setTitle("谁牛");
+        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+        String customText = "这是我的基金「"+mPositionDetail.getPortfolio().getName()+"」的收益率走势曲线。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
+
+        oks.setText(customText);
+
+        oks.setImagePath(SHARE_IMAGE);
+
+        oks.setFilePath(SHARE_IMAGE);
+
+        oks.setSilent(false);
+
+        oks.setShareFromQQAuthSupport(false);
+
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+
+        oks.show(context);
+    }
+
+    private void saveShareBitmap() {
+        try {
+
+            View content = this.getView();
+            content.setDrawingCacheEnabled(true);
+            content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            Bitmap bitmap = content.getDrawingCache();
+
+            /* 方法一，可以recycle */
+            // content.buildDrawingCache(true);
+            // Bitmap bitmap = content.getDrawingCache(true).copy(Config.RGB_565, false);
+            // content.destroyDrawingCache();
+
+            // Bitmap bitmap = convertViewToBitmap(mMaChart);
+
+            String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
+            // File mFolder = new File(extr + "/capture/image");
+            // if (!mFolder.exists()) {
+            // mFolder.mkdir();
+            // }
+
+            String s = "tmp.png";
+
+            File f = new File(extr, s);
+            SHARE_IMAGE = f.getAbsolutePath();
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(f);
+            bitmap.compress(CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            content.destroyDrawingCache();
+            // bitmap.recycle();
+            System.out.println("image saved:" + SHARE_IMAGE);
+            // Toast.makeText(getActivity(), "image saved", 5000).show();
+        } catch (Exception e) {
+            System.out.println("Failed To Save");
+            e.printStackTrace();
+            // Toast.makeText(getActivity(), "Failed To Save", 5000).show();
+        }
+    }
+    
+    
     private void replaceFragment(Fragment newFragment) {
 
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
