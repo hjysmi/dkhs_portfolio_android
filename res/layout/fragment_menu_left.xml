@@ -132,7 +132,7 @@
             android:layout_toRightOf="@id/btn_setting"
             android:paddingLeft="14dip"
             android:text="设置"
-            android:textColor="@color/white"
+            android:textColor="@color/light_gray"
             android:textSize="16sp" />
     </RelativeLayout>
 
