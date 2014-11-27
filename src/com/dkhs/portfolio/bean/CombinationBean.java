@@ -36,11 +36,14 @@ public class CombinationBean implements Serializable {
     private String createTime;
     @SerializedName("is_public")
     private String ispublic;
-    private boolean ispublics;
+    @SerializedName("is_rank")
+    private String is_rank;//
+    private boolean ispublics;// 0参与排行/1不排行
     private float chng_pct_day;
     private float chng_pct_month;
     private float chng_pct_week;
     private float chng_pct_three_month;
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -161,40 +164,56 @@ public class CombinationBean implements Serializable {
         return bean;
     }
 
-	public float getChng_pct_day() {
-		return chng_pct_day;
-	}
+    public float getChng_pct_day() {
+        return chng_pct_day;
+    }
 
-	public void setChng_pct_day(float chng_pct_day) {
-		this.chng_pct_day = chng_pct_day;
-	}
+    public void setChng_pct_day(float chng_pct_day) {
+        this.chng_pct_day = chng_pct_day;
+    }
 
-	public float getChng_pct_month() {
-		return chng_pct_month;
-	}
+    public float getChng_pct_month() {
+        return chng_pct_month;
+    }
 
-	public void setChng_pct_month(float chng_pct_month) {
-		this.chng_pct_month = chng_pct_month;
-	}
+    public void setChng_pct_month(float chng_pct_month) {
+        this.chng_pct_month = chng_pct_month;
+    }
 
-	public float getChng_pct_week() {
-		return chng_pct_week;
-	}
+    public float getChng_pct_week() {
+        return chng_pct_week;
+    }
 
-	public void setChng_pct_week(float chng_pct_week) {
-		this.chng_pct_week = chng_pct_week;
-	}
+    public void setChng_pct_week(float chng_pct_week) {
+        this.chng_pct_week = chng_pct_week;
+    }
 
-	public float getChng_pct_three_month() {
-		return chng_pct_three_month;
-	}
+    public float getChng_pct_three_month() {
+        return chng_pct_three_month;
+    }
 
-	public void setChng_pct_three_month(float chng_pct_three_month) {
-		this.chng_pct_three_month = chng_pct_three_month;
-	}
+    public void setChng_pct_three_month(float chng_pct_three_month) {
+        this.chng_pct_three_month = chng_pct_three_month;
+    }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-    
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
+    public boolean isPubilc() {
+        if (ispublic.equals("0")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isRank() {
+        if (is_rank.equals("0")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

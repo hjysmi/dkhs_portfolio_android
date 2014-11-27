@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.Switch;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -39,6 +41,10 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
         }
         initView();
         mMyCombinationEngineImpl = new MyCombinationEngineImpl();
+        if (mCombinationBean != null)
+            mMyCombinationEngineImpl.getCombinationPortfolio(mCombinationBean.getId(),
+                    new QueryCombinationDetailListener().setLoadingDialog(this));
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -46,62 +52,91 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
 
     }
 
+    class QueryCombinationDetailListener extends ParseHttpListener<CombinationBean> {
+
+        @Override
+        protected CombinationBean parseDateTask(String jsonData) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = new JSONObject(jsonData);
+                jsonData = jsonObject.optString("portfolio");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return DataParse.parseObjectJson(CombinationBean.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(CombinationBean object) {
+            if (null != object) {
+                combination_ranking.setEnabled(true);
+                open_position.setEnabled(true);
+                open_position.setChecked(object.isPubilc());
+                combination_ranking.setChecked(object.isRank());
+                combination_ranking.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if (isChecked) {
+                            ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
+
+                            listener.setLoadingDialog(PrivacySettingActivity.this);
+
+                            mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "0", listener);
+
+                            open_position.setClickable(true);
+                        } else {
+                            ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
+
+                            listener.setLoadingDialog(PrivacySettingActivity.this);
+                            mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "1", listener);
+                            open_position.setChecked(false);
+                            open_position.setClickable(false);
+                        }
+                    }
+                });
+                open_position.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        // if (is_passive) {
+                        if (isChecked) {
+                            ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
+
+                            listener.setLoadingDialog(PrivacySettingActivity.this);
+
+                            mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
+                        } else {
+                            ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
+
+                            listener.setLoadingDialog(PrivacySettingActivity.this);
+                            mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
+                        }
+                    }
+
+                    // }
+                });
+            }
+
+        }
+    };
+
     private void initView() {
         combination_ranking = (Switch) findViewById(R.id.combination_ranking);
         open_position = (Switch) findViewById(R.id.open_position);
-        if (mCombinationBean.getIspublic().equals("0")) {
-            combination_ranking.setChecked(true);
-            open_position.setClickable(true);
-        } else {
-            combination_ranking.setChecked(false);
-            open_position.setClickable(false);
-        }
-        combination_ranking.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        combination_ranking.setEnabled(false);
+        open_position.setEnabled(false);
+        // if (mCombinationBean.getIspublic().equals("0")) {
+        // combination_ranking.setChecked(true);
+        // open_position.setClickable(true);
+        // } else {
+        // combination_ranking.setChecked(false);
+        // open_position.setClickable(false);
+        // }
 
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-
-                    listener.setLoadingDialog(PrivacySettingActivity.this);
-
-                    mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "0", listener);
-
-                    open_position.setClickable(true);
-                } else {
-                    QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-
-                    listener.setLoadingDialog(PrivacySettingActivity.this);
-                    mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "1", listener);
-                    open_position.setChecked(false);
-                    open_position.setClickable(false);
-                }
-            }
-        });
-        open_position.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // if (is_passive) {
-                if (isChecked) {
-                    QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-
-                    listener.setLoadingDialog(PrivacySettingActivity.this);
-
-                    mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
-                } else {
-                    QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-
-                    listener.setLoadingDialog(PrivacySettingActivity.this);
-                    mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
-                }
-            }
-
-            // }
-        });
     }
 
-    class QueryCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
+    class ModifCombinationDetailListener extends ParseHttpListener<List<CombinationBean>> {
 
         @Override
         public void onFailure(int errCode, String errMsg) {
@@ -132,14 +167,14 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
         protected void afterParseData(List<CombinationBean> object) {
             if (null != object) {
                 mCombinationBean = object.get(0);
-                if (mCombinationBean.getIspublic().equals("0")) {
-                    // PromptManager.showToast("已开启参与基金排行");
-                    open_position.setClickable(true);
-                } else {
-                    // PromptManager.showToast("已关闭参与基金排行");
-                    open_position.setClickable(false);
-                    open_position.setChecked(false);
-                }
+//                if (mCombinationBean.getIspublic().equals("0")) {
+//                    // PromptManager.showToast("已开启参与基金排行");
+//                    open_position.setClickable(true);
+//                } else {
+//                    // PromptManager.showToast("已关闭参与基金排行");
+//                    // open_position.setClickable(false);
+//                    open_position.setChecked(false);
+//                }
                 is_passive = true;
             }
 
