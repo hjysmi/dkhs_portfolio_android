@@ -4,15 +4,24 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:paddingBottom="6dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
-
+     >
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:orientation="vertical"
+	    android:id="@+id/line"
+	    >
+	    <include layout="@layout/layout_text_5dp"/>
+	</LinearLayout>
     <RelativeLayout
+        android:layout_below="@id/line"
         android:id="@+id/ll_timelayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:gravity="center"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/theme_gray"
         android:orientation="horizontal" >
 
         <TextView
@@ -38,51 +47,60 @@
 
             <Button
                 android:id="@+id/tv_compare_ftime"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_toLeftOf="@+id/tv_totime"
-                android:background="@drawable/btn_grayborder_selector"
-                android:drawableLeft="@drawable/ic_calender"
+                android:background="@null"
+                android:drawableRight="@drawable/compare_up_down"
                 android:drawablePadding="10dp"
                 android:paddingBottom="5dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="15dp"
                 android:paddingTop="5dp"
-                android:textSize="14sp" />
+                android:textSize="@dimen/list_text_size" />
 
             <Button
                 android:id="@+id/tv_compare_ttime"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/tv_totime"
-                android:background="@drawable/btn_grayborder_selector"
-                android:drawableLeft="@drawable/ic_calender"
+                android:background="@null"
+                android:drawableRight="@drawable/compare_up_down"
                 android:drawablePadding="10dp"
                 android:paddingBottom="5dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="15dp"
                 android:paddingTop="5dp"
-                android:textSize="14sp" />
+                android:textSize="@dimen/list_text_size" />
         </RelativeLayout>
     </RelativeLayout>
-
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:orientation="vertical"
+	    android:id="@+id/lines"
+	    android:layout_below="@id/ll_timelayout"
+	    >
+        <include layout="@layout/layout_line"/>
+	    <include layout="@layout/layout_text_5dp"/>
+	</LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_select"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ll_timelayout"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_below="@+id/lines"
+        android:background="@color/theme_gray"
         android:gravity="center" >
 
         <TextView
             android:id="@+id/tv_referto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_alignParentLeft="true"
             android:text="@string/referto" />
 
@@ -95,32 +113,41 @@
             android:layout_marginLeft="8dp"
             android:background="@drawable/btn_blue_selector"
             android:padding="5dp"
+            android:visibility="gone"
             android:text="@string/confirm"
             android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btn_select_fund"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/btn_compare_fund"
-            android:layout_toRightOf="@+id/tv_referto"
-            android:background="@drawable/btn_grayborder_selector"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
+            android:background="@null"
+            android:gravity="center"
             android:maxLines="2"
+            android:layout_marginRight="20dp"
+            android:drawableRight="@drawable/setting_image_right"
             android:paddingLeft="5dp"
-            android:text="沪深300 上证指数"
-            android:textSize="14sp" />
+            android:text="选择参照基金"
+            android:textSize="@dimen/list_text_size" />
     </RelativeLayout>
-
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:orientation="vertical"
+	    android:id="@+id/liness"
+	    android:layout_below="@id/rl_select"
+	    >
+        <include layout="@layout/layout_line"/>
+	</LinearLayout>
     <RelativeLayout
         android:id="@+id/rl_addup_history"
         android:layout_width="match_parent"
         android:layout_height="@dimen/addup_height"
         android:layout_alignParentBottom="true"
         android:background="#e73535"
+        android:visibility="gone"
         android:gravity="center" >
 
         <TextView
@@ -154,24 +181,30 @@
     </RelativeLayout>
 
     <GridView
+        android:paddingLeft="10dp"
+    	android:paddingRight="10dp"
         android:id="@+id/gv_comparison"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rl_addup_history"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="6dp"
         android:layout_marginTop="5dp"
         android:clickable="true"
+        
         android:horizontalSpacing="@dimen/compare_horspacing"
         android:listSelector="#00000000"
-        android:numColumns="5"
+        android:numColumns="3"
+        
         android:scrollbars="none"
         android:verticalSpacing="8dp" />
 
     <RelativeLayout
+        android:paddingLeft="10dp"
+    	android:paddingRight="10dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/gv_comparison"
-        android:layout_below="@+id/rl_select"
+        android:layout_below="@+id/liness"
         android:layout_marginTop="2dp" >
 
         <com.dkhs.portfolio.ui.widget.TrendChart

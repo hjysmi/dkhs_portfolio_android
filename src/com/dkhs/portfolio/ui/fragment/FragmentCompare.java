@@ -48,7 +48,6 @@ import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
@@ -184,9 +183,12 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         selectStockList.add(sBean1);
         selectStockList.add(sBean2);
-
+        
         mCompareItemList.add(defalutItem1);
         mCompareItemList.add(defalutItem2);
+        CompareFundItem item = mGridAdapter.new CompareFundItem();
+        item.name = mCombinationBean.getName();
+        mCompareItemList.add(item);
         mGridAdapter.notifyDataSetChanged();
     }
 
@@ -366,13 +368,18 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // String name = mCompareItemList.get(position).name;
             // Toast.makeText(getActivity(), "选择" + name, Toast.LENGTH_SHORT).show();
-            if (lineEntityList.size() >= position + 1) {
-                boolean isHide = !(mCompareItemList.get(position).iSelect);
-                mCompareItemList.get(position).iSelect = isHide;
-                lineEntityList.get(position + 1).setDisplay(!isHide);
-                mGridAdapter.notifyDataSetChanged();
-                maChartView.invalidate();
-            }
+            try {
+				if (lineEntityList.size() >= position + 1) {
+				    boolean isHide = !(mCompareItemList.get(position).iSelect);
+				    mCompareItemList.get(position).iSelect = isHide;
+				    lineEntityList.get(position + 1).setDisplay(!isHide);
+				    mGridAdapter.notifyDataSetChanged();
+				    maChartView.invalidate();
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
         }
     };
 
@@ -856,10 +863,19 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             sbCompareIds.append(",");
 
         }
+        CompareFundItem item = mGridAdapter.new CompareFundItem();
+        item.name = mCombinationBean.getName();
+        mCompareItemList.add(item);
         int lenght = sbCompareIds.length();
         mCompareIds = sbCompareIds.substring(0, lenght - 1);
 
-        btnSelectFund.setText(sb);
+        //btnSelectFund.setText(sb);
+        if (isBetween7day()) {
+            Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
+        } else {
+            btnCompare.setEnabled(false);
+            requestCompare();
+        }
         mGridAdapter.notifyDataSetChanged();
     }
 

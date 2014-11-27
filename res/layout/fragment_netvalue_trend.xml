@@ -46,7 +46,7 @@
     <RelativeLayout
         android:id="@+id/tv_combination_layout"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="110dp"
         android:background="@color/white" >
 		<RelativeLayout 
 			    android:layout_height="wrap_content"
@@ -55,6 +55,7 @@
 			    android:paddingBottom="5dp"
 			    android:paddingLeft="15dp"
 			    android:paddingRight="15dp"
+			    android:paddingTop="5dp"
 			    android:layout_alignParentBottom="true"
 			    >
 			    <LinearLayout 
@@ -137,6 +138,7 @@
             android:layout_centerHorizontal="true" />
 
         <RelativeLayout
+            android:paddingTop="5dp"
             android:layout_above="@id/netvalue_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -204,6 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+            	android:paddingTop="5dp"
                 android:layout_toLeftOf="@id/tv_combination_image_uporlow" >
 
                 <ImageView
