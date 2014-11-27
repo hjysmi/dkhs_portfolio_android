@@ -7,20 +7,20 @@
     <TextView
         android:id="@+id/tv_day_order"
         style="@style/popwindow_item"
-        android:text="日排行" />
+        android:text="月排行" />
 
     <View style="@style/divider_line" />
 
     <TextView
         android:id="@+id/tv_month_order"
         style="@style/popwindow_item"
-        android:text="月排行" />
+        android:text="年排行" />
 
     <View style="@style/divider_line" />
 
     <TextView
         android:id="@+id/tv_quarter_order"
         style="@style/popwindow_item"
-        android:text="季排行" />
+        android:text="今年以来" />
 
 </LinearLayout>
