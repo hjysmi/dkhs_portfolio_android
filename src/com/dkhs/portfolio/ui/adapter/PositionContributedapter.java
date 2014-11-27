@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName OptionalStockAdapter
@@ -80,7 +81,7 @@ public class PositionContributedapter extends BaseAdapter {
         }
         ConStockBean item = stockList.get(position);
         viewHolder.colorView.setBackgroundColor(item.getDutyColor());
-        viewHolder.tvCenterValue.setText(item.getPercent() + "");
+        viewHolder.tvCenterValue.setText(StringFromatUtils.get2PointPercent(item.getPercent()));
         return convertView;
     }
 
