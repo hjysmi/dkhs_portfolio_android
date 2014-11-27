@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
-	
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,88 +49,90 @@
         android:layout_width="match_parent"
         android:layout_height="110dp"
         android:background="@color/white" >
-		<RelativeLayout 
-			    android:layout_height="wrap_content"
-			    android:layout_width="match_parent"
-			    android:id="@+id/netvalue_layout"
-			    android:paddingBottom="5dp"
-			    android:paddingLeft="15dp"
-			    android:paddingRight="15dp"
-			    android:paddingTop="5dp"
-			    android:layout_alignParentBottom="true"
-			    >
-			    <LinearLayout 
-			        android:layout_height="wrap_content"
-			        android:layout_width="wrap_content"
-			        android:orientation="horizontal"
-			        android:layout_alignParentLeft="true"
-			        >
-			        <Button
-			            android:layout_height="30dp"
-			            android:layout_width="30dp"
-			            android:background="@drawable/netvalue_gray"
-			            android:text="日"
-			            android:textSize="14sp"
-			            android:id="@+id/netvalue_button_day"
-			            android:textColor="@color/gray_textcolor"
-			            />
-			        <TextView android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
-			            android:textSize="14sp"
-			            android:layout_marginLeft="5dp"
-			            android:id="@+id/netvalue_day"
-			            android:textColor="@color/gray_textcolor"
-			            />
-			    </LinearLayout>
-			    
-			    <LinearLayout 
-			        android:layout_alignParentRight="true"
-			        android:layout_height="wrap_content"
-			        android:layout_width="wrap_content"
-			        android:orientation="horizontal"
-			        >
-			        <Button
-			            android:layout_height="30dp"
-			            android:layout_width="30dp"
-			            android:background="@drawable/netvalue_gray"
-			            android:text="月"
-			            android:textSize="14sp"
-			            android:id="@+id/netvalue_button_month"
-			            android:textColor="@color/gray_textcolor"
-			            />
-			        <TextView android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
-			            android:textSize="14sp"
-			            android:layout_marginLeft="5dp"
-			            android:id="@+id/netvalue_month"
-			            android:textColor="@color/gray_textcolor"
-			            />
-			    </LinearLayout>
-			    <LinearLayout 
-			        android:layout_height="wrap_content"
-			        android:layout_width="wrap_content"
-			        android:orientation="horizontal"
-			        android:layout_centerHorizontal="true"
-			        >
-			        <Button
-			            android:layout_height="30dp"
-			            android:layout_width="30dp"
-			            android:background="@drawable/netvalue_gray"
-			            android:text="周"
-			            android:textSize="14sp"
-			            
-			            android:id="@+id/netvalue_button_week"
-			            android:textColor="@color/gray_textcolor"
-			            />
-			        <TextView android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
-			            android:textSize="14sp"
-			            android:layout_marginLeft="5dp"
-			            android:id="@+id/netvalue_week"
-			            android:textColor="@color/gray_textcolor"
-			            />
-			    </LinearLayout>
-			</RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/netvalue_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="5dp" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/netvalue_button_day"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/netvalue_gray"
+                    android:text="日"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/netvalue_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/netvalue_button_month"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/netvalue_gray"
+                    android:text="月"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/netvalue_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/netvalue_button_week"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/netvalue_gray"
+                    android:text="周"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/netvalue_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/gray_textcolor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
         <View
             android:id="@+id/divider_line"
             style="@style/divider_line"
@@ -138,24 +141,21 @@
             android:layout_centerHorizontal="true" />
 
         <RelativeLayout
-            android:paddingTop="5dp"
-            android:layout_above="@id/netvalue_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/netvalue_layout"
             android:layout_centerVertical="true"
-            android:paddingRight="15dp"
             android:layout_toRightOf="@+id/divider_line"
-             >
+            android:paddingRight="15dp"
+            android:paddingTop="5dp" >
 
             <ImageView
                 android:id="@+id/tv_combination_image_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="15dp"
-                android:visibility="gone"
-                android:src="@drawable/tv_combination_currentnet" />
-
-            
+                android:src="@drawable/tv_combination_currentnet"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/tv_history_netvalue"
@@ -166,14 +166,16 @@
                 android:text="-"
                 android:textColor="#979797"
                 android:textSize="14sp" />
+
             <TextView
-                android:layout_toLeftOf="@id/tv_history_netvalue"
                 android:id="@+id/tv_history"
                 style="@style/hw_wrap"
+                android:layout_toLeftOf="@id/tv_history_netvalue"
                 android:paddingLeft="5dp"
                 android:text="净值"
                 android:textColor="#979797"
                 android:textSize="14sp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -185,13 +187,12 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_above="@id/netvalue_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/netvalue_layout"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/divider_line"
-             >
-			
+            android:layout_toLeftOf="@+id/divider_line" >
+
             <ImageView
                 android:id="@+id/tv_combination_image_uporlow"
                 android:layout_width="wrap_content"
@@ -206,8 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-            	android:paddingTop="5dp"
-                android:layout_toLeftOf="@id/tv_combination_image_uporlow" >
+                android:layout_toLeftOf="@id/tv_combination_image_uporlow"
+                android:paddingTop="5dp" >
 
                 <ImageView
                     android:id="@+id/tv_combination_image_totalnet"
@@ -247,18 +248,17 @@
         android:layout_height="wrap_content" />
 
     <View style="@style/divider_line" />
-	<RelativeLayout 
-	    android:layout_height="match_parent"
-	    android:layout_width="match_parent"
-	    >
 
-        
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
         <RelativeLayout
             android:id="@+id/rl_trend_layout"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
     </RelativeLayout>
+
     <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"

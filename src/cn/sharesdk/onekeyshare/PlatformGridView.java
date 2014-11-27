@@ -98,6 +98,7 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
                 Platform platSina = ShareSDK.getPlatform(SinaWeibo.NAME);
                 Platform platWechatMoments = ShareSDK.getPlatform(WechatMoments.NAME);
                 Platform platWechat = ShareSDK.getPlatform(Wechat.NAME);
+                // Platform platWechat = ShareSDK.getPlatform(QZone.NAME);
 
                 platformList[0] = platSina;
                 platformList[1] = platWechatMoments;

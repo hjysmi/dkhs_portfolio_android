@@ -8,11 +8,10 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -21,7 +20,15 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -34,6 +41,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
@@ -52,7 +60,6 @@ import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 
@@ -72,6 +79,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private TextView tvCombinationName;
     private TextView tvNetValue;
     private ScrollView mScrollview;
+    private View shareView;
+
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
     private float surValue;
 
@@ -224,7 +233,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             stockList.clear();
             System.out.println("getPositionList size:" + bean.getPositionList().size());
             stockList.addAll(bean.getPositionList());
-            
+
             if (null != stockList && stockList.size() > 0) {
 
                 int listSize = stockList.size();
@@ -343,6 +352,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         tvCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);
         tvCombinationName = (TextView) view.findViewById(R.id.tv_conbination_name);
         tvNetValue = (TextView) view.findViewById(R.id.tv_today_netvalue);
+        shareView = view.findViewById(R.id.ll_shareview);
 
     }
 
@@ -420,7 +430,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             case R.id.btn_adjust_position: {
 
                 // todo :持仓调整
-                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), mPositionDetail.getPortfolio().getId()));
+                getActivity().startActivity(
+                        PositionAdjustActivity.newIntent(getActivity(), mPositionDetail.getPortfolio().getId()));
 
             }
 
@@ -441,6 +452,122 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
                 break;
         }
 
+    }
+
+    private String SHARE_IMAGE;
+
+    public void showShareImage() {
+
+        // initImagePath();
+//        new Thread() {
+//            public void run() {
+
+                // initImagePath();
+                saveShareBitmap();
+                shareHandler.sendEmptyMessage(999);
+//            }
+//        }.start();
+
+    }
+
+    Handler shareHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            showShare();
+        };
+    };
+
+    private void showShare() {
+        Context context = getActivity();
+        final OnekeyShare oks = new OnekeyShare();
+
+        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // oks.setAddress("12345678901");
+        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+        // String customText = CustomShareFieldsPage.getString( "text", null);
+        oks.setTitle("谁牛");
+        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+        String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于" + mPositionDetail.getCurrentDate()
+                + "的持仓明细。你也来创建属于你的基金吧.https://dkhs.com/portfolio/wap/";
+
+        oks.setText(customText);
+
+        oks.setImagePath(SHARE_IMAGE);
+
+        oks.setFilePath(SHARE_IMAGE);
+
+        oks.setSilent(false);
+
+        oks.setShareFromQQAuthSupport(false);
+
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+
+        oks.show(context);
+    }
+
+    private void saveShareBitmap() {
+        try {
+
+            View v = shareView;
+            // content.setDrawingCacheEnabled(true);
+            // content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            // Bitmap bitmap = content.getDrawingCache();
+            //
+            // /* 方法一，可以recycle */
+            // // content.buildDrawingCache(true);
+            // // Bitmap bitmap = content.getDrawingCache(true).copy(Config.RGB_565, false);
+            // // content.destroyDrawingCache();
+            //
+            // // Bitmap bitmap = convertViewToBitmap(mMaChart);
+            //
+            // String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
+            // // File mFolder = new File(extr + "/capture/image");
+            // // if (!mFolder.exists()) {
+            // // mFolder.mkdir();
+            // // }
+            //
+            // String s = "tmp.png";
+            //
+            // File f = new File(extr, s);
+            // SHARE_IMAGE = f.getAbsolutePath();
+            //
+            // FileOutputStream fos = null;
+            // fos = new FileOutputStream(f);
+            // bitmap.compress(CompressFormat.JPEG, 100, fos);
+            // fos.flush();
+            // fos.close();
+            // content.destroyDrawingCache();
+            // // bitmap.recycle();
+
+            Bitmap b = Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.ARGB_8888);
+
+            Canvas c = new Canvas(b);
+            c.drawColor(Color.WHITE);
+            
+            v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
+            v.draw(c);
+
+            String s = "tmp.png";
+            String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
+            File f = new File(extr, s);
+            SHARE_IMAGE = f.getAbsolutePath();
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(f);
+            b.compress(CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            // content.destroyDrawingCache();
+            b.recycle();
+
+            System.out.println("image saved:" + SHARE_IMAGE);
+            // Toast.makeText(getActivity(), "image saved", 5000).show();
+        } catch (Exception e) {
+            System.out.println("Failed To Save");
+            e.printStackTrace();
+            // Toast.makeText(getActivity(), "Failed To Save", 5000).show();
+        }
     }
 
     private int mYear;

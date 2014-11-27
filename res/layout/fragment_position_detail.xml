@@ -11,148 +11,156 @@
         android:orientation="vertical"
         android:paddingBottom="20dp" >
 
-        <!-- 明细日期 -->
-
-        <RelativeLayout
-            android:id="@+id/btn_detail_date"
+        <LinearLayout
+            android:id="@+id/ll_shareview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/btn_grayborder_selector"
-            android:paddingBottom="6dp"
-            android:paddingTop="6dp" >
+            android:background="@color/white"
+            android:orientation="vertical" >
 
-            <ImageView
+            <!-- 明细日期 -->
+
+            <RelativeLayout
+                android:id="@+id/btn_detail_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/btn_grayborder_selector"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:src="@drawable/ic_calender" />
+
+                <TextView
+                    android:id="@+id/tv_current_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+
+            <!-- 组合信息 -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/border_gray" >
+
+                <TextView
+                    android:id="@+id/tv_conbination_name"
+                    style="@style/hw_wrap"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:padding="8dp"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_today_netvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="15dp"
+                    android:text="-"
+                    android:textColor="@color/red"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tv_netvalue_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="3dp"
+                    android:layout_toLeftOf="@+id/tv_today_netvalue"
+                    android:text="@string/today_netvalue"
+                    android:textColor="@color/theme_color" />
+            </RelativeLayout>
+
+            <!-- 持仓配置 -->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:background="@color/theme_color"
+                    android:paddingBottom="3dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="3dp"
+                    android:text="@string/my_config"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/btn_adjust_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_grayborder_selector"
+                    android:drawableLeft="@drawable/icon_adjust"
+                    android:drawablePadding="4dp"
+                    android:padding="5dp"
+                    android:text="@string/adjust_position"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <!-- 净值占比饼图 -->
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                layout="@layout/layout_pieview" />
+
+            <!-- 涨幅比列表 -->
+
+            <com.dkhs.portfolio.ui.widget.ListViewEx
+                android:id="@+id/lv_optional_layout"
+                style="@style/listViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <View style="@style/divider_line" />
+            <!-- 净值贡献 -->
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:src="@drawable/ic_calender" />
-
-            <TextView
-                android:id="@+id/tv_current_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textSize="18sp" />
-        </RelativeLayout>
-
-        <!-- 组合信息 -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/border_gray" >
-
-            <TextView
-                android:id="@+id/tv_conbination_name"
-                style="@style/hw_wrap"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:padding="8dp"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_today_netvalue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="15dp"
-                android:text="-"
-                android:textColor="@color/red"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tv_netvalue_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="3dp"
-                android:layout_toLeftOf="@+id/tv_today_netvalue"
-                android:text="@string/today_netvalue"
-                android:textColor="@color/theme_color" />
-        </RelativeLayout>
-
-        <!-- 持仓配置 -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="15dp"
                 android:background="@color/theme_color"
                 android:paddingBottom="3dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="3dp"
-                android:text="@string/my_config"
-                android:textColor="@color/white" />
+                android:text="@string/netvalue_comtribute"
+                android:textColor="@color/white"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/btn_adjust_position"
-                android:layout_width="wrap_content"
+            <com.dkhs.portfolio.ui.widget.ListViewEx
+                android:id="@+id/lv_contribute_layout"
+                style="@style/listViewStyle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/btn_grayborder_selector"
-                android:drawableLeft="@drawable/icon_adjust"
-                android:drawablePadding="4dp"
-                android:padding="5dp"
-                android:text="@string/adjust_position"
-                android:textSize="14sp" />
-        </RelativeLayout>
-        <!-- 净值占比饼图 -->
-
-        <include
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            layout="@layout/layout_pieview" />
-
-        <!-- 涨幅比列表 -->
-
-        <com.dkhs.portfolio.ui.widget.ListViewEx
-            android:id="@+id/lv_optional_layout"
-            style="@style/listViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-
-        <View style="@style/divider_line" />
-        <!-- 净值贡献 -->
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="15dp"
-            android:background="@color/theme_color"
-            android:paddingBottom="3dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="3dp"
-            android:text="@string/netvalue_comtribute"
-            android:textColor="@color/white"
-            android:visibility="gone" />
-
-        <com.dkhs.portfolio.ui.widget.ListViewEx
-            android:id="@+id/lv_contribute_layout"
-            style="@style/listViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone" />
+                android:orientation="vertical"
+                android:visibility="gone" />
+        </LinearLayout>
 
         <View style="@style/divider_line" />
         <!-- 调仓记录 -->

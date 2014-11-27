@@ -115,7 +115,7 @@ public class FundsOrderAdapter extends BaseAdapter {
             increasePercent = item.getChng_pct_month();
         } else if (mOrderType.contains(FundsOrderFragment.ORDER_TYPE_ALL)) {
             textResId = mContext.getString(R.string.all_income_rate);
-            increasePercent = item.getNet_value();
+            increasePercent = item.getCumulative();
         }
         if (position == 0) {
             row = View.inflate(mContext, R.layout.layout_champion, null);
