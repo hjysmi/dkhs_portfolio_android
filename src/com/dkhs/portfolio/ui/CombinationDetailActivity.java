@@ -91,14 +91,14 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_combination_detail);
-        
+
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
         }
-        if(null != mCombinationBean){
-        	setTitle(mCombinationBean.getName());
+        if (null != mCombinationBean) {
+            setTitle(mCombinationBean.getName());
             setTitleTipString("创建于" + TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
         }
         initView();
@@ -107,7 +107,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
-        
+
     }
 
     private void showShareButton() {
@@ -156,7 +156,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void replaceCompareView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.rl_content, new FragmentCompare());
+        mFragmentCompare = new FragmentCompare();
+        ft.replace(R.id.rl_content, mFragmentCompare);
         ft.commit();
     }
 
@@ -292,8 +293,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 if (0 == mSelectedTabIndex && mFragmentTrend != null) {
                     // 直接分享
                     mFragmentTrend.showShare(false, null, false);
+                }else if(1==mSelectedTabIndex&&mFragmentCompare!=null){
+                    mFragmentCompare.showShareImage();
                 }
-                
 
                 break;
             default:
@@ -343,7 +345,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int[] location = new int[2];
         // 读取位置anchor座标
         head.getLocationOnScreen(location);
-        int desX = head.getWidth() - width-getResources().getDimensionPixelSize(R.dimen.line_weight_stroke_width);
+        int desX = head.getWidth() - width - getResources().getDimensionPixelSize(R.dimen.line_weight_stroke_width);
         pw.showAtLocation(head, Gravity.NO_GRAVITY, location[0] + desX, location[1] + head.getHeight());
     }
 
@@ -355,7 +357,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_trend: {
 
                 mSelectedTabIndex = 0;
-                //setTitle(R.string.netvalue_trend);
+                // setTitle(R.string.netvalue_trend);
                 replaceTrendView();
                 // if (null == mFragmentTrend) {
                 // mFragmentTrend = new FragmentNetValueTrend();
@@ -368,7 +370,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
                 mSelectedTabIndex = 1;
 
-                //setTitle(R.string.performance_comparison);
+                // setTitle(R.string.performance_comparison);
                 replaceCompareView();
             }
 
@@ -377,7 +379,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
                 mSelectedTabIndex = 2;
 
-                //setTitle(R.string.position_detail);
+                // setTitle(R.string.position_detail);
                 replaceDetailView();
             }
 
@@ -385,7 +387,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_news: {
 
                 mSelectedTabIndex = 3;
-                //setTitle(R.string.related_news);
+                // setTitle(R.string.related_news);
                 replaceNewsView();
 
             }

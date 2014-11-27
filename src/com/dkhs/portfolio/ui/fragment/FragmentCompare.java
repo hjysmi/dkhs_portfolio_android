@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,10 +22,16 @@ import org.json.JSONException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -40,6 +48,8 @@ import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -195,6 +205,99 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         requestCompare();
         return view;
+    }
+
+    private String SHARE_IMAGE;
+
+    public void showShareImage() {
+
+        // initImagePath();
+        new Thread() {
+            public void run() {
+
+                // initImagePath();
+                saveShareBitmap();
+                shareHandler.sendEmptyMessage(999);
+            }
+        }.start();
+
+    }
+
+    Handler shareHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            showShare();
+        };
+    };
+
+    private void showShare() {
+        Context context = getActivity();
+        final OnekeyShare oks = new OnekeyShare();
+
+        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // oks.setAddress("12345678901");
+        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+        // String customText = CustomShareFieldsPage.getString( "text", null);
+        oks.setTitle("谁牛");
+        oks.setTitleUrl("http://dev.dkhs.com");
+        String customText = "业绩比较";
+
+        oks.setText(customText);
+
+        oks.setImagePath(SHARE_IMAGE);
+
+        oks.setFilePath(SHARE_IMAGE);
+
+        oks.setSilent(false);
+
+        oks.setShareFromQQAuthSupport(false);
+
+        // 令编辑页面显示为Dialog模式
+        oks.setDialogMode();
+
+        oks.show(context);
+    }
+
+    private void saveShareBitmap() {
+        try {
+
+            View content = this.getView();
+            content.setDrawingCacheEnabled(true);
+            content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+            Bitmap bitmap = content.getDrawingCache();
+
+            /* 方法一，可以recycle */
+            // content.buildDrawingCache(true);
+            // Bitmap bitmap = content.getDrawingCache(true).copy(Config.RGB_565, false);
+            // content.destroyDrawingCache();
+
+            // Bitmap bitmap = convertViewToBitmap(mMaChart);
+
+            String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
+            // File mFolder = new File(extr + "/capture/image");
+            // if (!mFolder.exists()) {
+            // mFolder.mkdir();
+            // }
+
+            String s = "tmp.png";
+
+            File f = new File(extr, s);
+            SHARE_IMAGE = f.getAbsolutePath();
+
+            FileOutputStream fos = null;
+            fos = new FileOutputStream(f);
+            bitmap.compress(CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+            content.destroyDrawingCache();
+            // bitmap.recycle();
+            System.out.println("image saved:" + SHARE_IMAGE);
+            // Toast.makeText(getActivity(), "image saved", 5000).show();
+        } catch (Exception e) {
+            System.out.println("Failed To Save");
+            e.printStackTrace();
+            // Toast.makeText(getActivity(), "Failed To Save", 5000).show();
+        }
     }
 
     private void initView(View view) {
@@ -424,7 +527,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 }
 
                 float increaseValue = (object.getEnd() - object.getBegin()) / object.getBegin();
-                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent( (increaseValue)*100));
+                tvIncreaseValue.setText(StringFromatUtils.get2PointPercent((increaseValue) * 100));
                 if (increaseValue > 0) {
                     increaseView.setBackgroundColor(ColorTemplate.DEF_RED);
                 } else {
@@ -510,7 +613,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         for (int i = 0; i < dataLenght; i++) {
             LinePointEntity pointEntity = new LinePointEntity();
             HistoryNetBean todayBean = historyNetList.get(i);
-//            float pointValue = todayBean.getPercentage();
+            // float pointValue = todayBean.getPercentage();
             float pointValue = todayBean.getPercentageBegin();
             pointEntity.setDesc(todayBean.getDate());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
@@ -573,7 +676,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     for (ComparePoint cPoint : bean.getChartlist()) {
                         LinePointEntity pointEntity = new LinePointEntity();
-//                        float value = cPoint.getPercentage();
+                        // float value = cPoint.getPercentage();
                         float value = cPoint.getPercentage();
                         pointEntity.setDesc(cPoint.getDate());
                         pointEntity.setValue(value);
@@ -591,7 +694,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
                     float value = (bean.getEnd() - bean.getBegin()) / bean.getBegin();
 
-                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value );
+                    mCompareItemList.get(i).value = StringFromatUtils.get2PointPercent(value);
                     i++;
                 }
                 maxNum = maxNum - baseNum;

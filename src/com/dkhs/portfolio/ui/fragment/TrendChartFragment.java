@@ -179,6 +179,7 @@ public class TrendChartFragment extends BaseFragment {
         };
     };
 
+    private String SHARE_IMAGE;
     public void showShare() {
         Context context = getActivity();
         final OnekeyShare oks = new OnekeyShare();
@@ -222,12 +223,12 @@ public class TrendChartFragment extends BaseFragment {
         // if (captureView) {
         // // oks.setViewToShare(getPage());
         // } else {
-        oks.setImagePath(TEST_IMAGE);
+        oks.setImagePath(SHARE_IMAGE);
         // oks.setImageUrl(CustomShareFieldsPage.getString("imageUrl", MainActivity.TEST_IMAGE_URL));
         // oks.setImageArray(new String[] { MainActivity.TEST_IMAGE, MainActivity.TEST_IMAGE_URL });
         // }
         // oks.setUrl("http://dev.dkhs.com");
-        oks.setFilePath(TEST_IMAGE);
+        oks.setFilePath(SHARE_IMAGE);
         // oks.setComment("share");
         // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
         // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
@@ -266,11 +267,10 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private static final String FILE_NAME = "share_image.jpg";
-    public static String TEST_IMAGE;
 
     private void initImagePath() {
         File file = new File("/sdcard/portfolio/", FILE_NAME);
-        TEST_IMAGE = file.getAbsolutePath();
+        SHARE_IMAGE = file.getAbsolutePath();
         try {
 
             if (!file.exists()) {
@@ -286,7 +286,7 @@ public class TrendChartFragment extends BaseFragment {
             t.printStackTrace();
 
         }
-        Log.i("TEST_IMAGE path ==>>>", TEST_IMAGE);
+        Log.i("TEST_IMAGE path ==>>>", SHARE_IMAGE);
     }
 
     private void save() {
@@ -313,7 +313,7 @@ public class TrendChartFragment extends BaseFragment {
             String s = "tmp.png";
 
             File f = new File(extr, s);
-            TEST_IMAGE = f.getAbsolutePath();
+            SHARE_IMAGE = f.getAbsolutePath();
 
             FileOutputStream fos = null;
             fos = new FileOutputStream(f);
@@ -322,7 +322,7 @@ public class TrendChartFragment extends BaseFragment {
             fos.close();
             mMaChart.destroyDrawingCache();
             // bitmap.recycle();
-            System.out.println("image saved:" + TEST_IMAGE);
+            System.out.println("image saved:" + SHARE_IMAGE);
             // Toast.makeText(getActivity(), "image saved", 5000).show();
         } catch (Exception e) {
             System.out.println("Failed To Save");

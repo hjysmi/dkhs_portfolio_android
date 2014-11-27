@@ -91,6 +91,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
         mDefaultHandler = Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(this);
         crashinfo = new StringBuffer();
+        makeRootDirectory(errorLogFile);
     }
 
     @Override
