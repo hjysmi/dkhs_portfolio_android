@@ -51,7 +51,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     public static final String EXTRA_COMBINATION = "extra_combination";
 
-    public static Intent getIntent(Context context, CombinationBean bean, boolean isClickable,String orderType) {
+    public static Intent getIntent(Context context, CombinationBean bean, boolean isClickable, String orderType) {
         Intent intent = new Intent(context, OrderFundDetailActivity.class);
         intent.putExtra(EXTRA_COMBINATION, bean);
         intent.putExtra("isClickable", isClickable);
@@ -110,8 +110,8 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     private void replaceTrendView() {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.combination_layout, FragmentNetValueTrend.newInstance(true,type))
-                .commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.combination_layout, FragmentNetValueTrend.newInstance(true, type)).commit();
 
     }
 
@@ -130,9 +130,15 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
             tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDescription()));
             tvCreateDay.setText(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
-            if (mChampionBean.isIspublics()) {
-                tvBottomTip.setText(R.string.text_combin_open);
-                mViewBottom.setOnClickListener(this);
+            if (mChampionBean.isPubilc()) {
+                // tvBottomTip.setText(R.string.text_combin_open);
+                // mViewBottom.setOnClickListener(this);
+
+                // if (tvBottomTip.getVisibility() == View.VISIBLE) {
+                tvBottomTip.setVisibility(View.GONE);
+                replaceBottomView();
+                // }
+
             } else {
                 tvBottomTip.setText(R.string.text_no_open);
             }

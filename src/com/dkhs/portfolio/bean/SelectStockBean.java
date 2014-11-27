@@ -81,6 +81,7 @@ public class SelectStockBean implements Serializable {
         selectBean.symbol_type = stockBean.getSymbol_type();
         selectBean.isStop = stockBean.isStop();
         selectBean.index = stockBean.getIndex();
+        selectBean.change = stockBean.getChange();
         return selectBean;
     }
 

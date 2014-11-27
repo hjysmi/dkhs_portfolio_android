@@ -67,7 +67,7 @@ public class HistoryNetValue {
         }
 
         public float getPercentageBegin() {
-            return percentageBegin * 100;
+            return percentageBegin;
         }
 
         public void setPercentageBegin(float percentageBegin) {

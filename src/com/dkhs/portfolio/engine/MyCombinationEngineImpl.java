@@ -10,7 +10,6 @@ import org.apache.http.message.BasicNameValuePair;
 import android.text.TextUtils;
 import android.view.View;
 
-
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
@@ -190,6 +189,7 @@ public class MyCombinationEngineImpl {
         params.addBodyParameter("is_public", sb.toString());
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id), params, listener);
     }
+
     public void setCombinationRank(String id, String isRank, IHttpListener listener) {
         RequestParams params = new RequestParams();
         StringBuilder sb = new StringBuilder();
@@ -203,6 +203,20 @@ public class MyCombinationEngineImpl {
     public void setCombinationTOp(String id, IHttpListener listener) {
 
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.set_top, id), null, listener);
+    }
+
+    /**
+     * 查询持仓信息
+     * 
+     * @param listener :服务器响应监听
+     */
+    public void getCombinationPortfolio(String id, IHttpListener listener) {
+        // 0
+        RequestParams params = new RequestParams();
+
+        params.addQueryStringParameter("part", "0");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.create + "/" + id + "/", params, listener);
+
     }
 
 }
