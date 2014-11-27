@@ -119,7 +119,7 @@ public class StringFromatUtils {
     }
 
     public static String convertToWan(float value) {
-        value = value / 100;
+//        value = value / 100;
         float wan = 10000f;
         float yi = wan * wan;
         if (value < wan) {
@@ -155,7 +155,7 @@ public class StringFromatUtils {
         // } else {
         // return String.format("%.2f千万", value / 10000000f);
         // }
-        return convertToWan(value);
+        return convertToWan(value/100);
     }
 
 }

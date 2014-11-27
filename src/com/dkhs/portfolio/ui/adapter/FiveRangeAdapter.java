@@ -131,7 +131,7 @@ public class FiveRangeAdapter extends BaseAdapter {
                 }
             }
 
-            viewHolder.tvVol.setText(StringFromatUtils.convertToWan(item.vol));
+            viewHolder.tvVol.setText(StringFromatUtils.convertToWanHand(item.vol));
 
             viewHolder.tvTag.setText(item.tag);
             // convertView.setLayoutParams(mItemViewLayoutParams);

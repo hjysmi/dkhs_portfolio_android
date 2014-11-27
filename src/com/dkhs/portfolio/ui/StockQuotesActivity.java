@@ -153,8 +153,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (0 == position) {
             l.height = LayoutParams.MATCH_PARENT;
         }
-        if(position < 2){
-        	position = 2;
+        if (position < 2) {
+            position = 2;
         }
         l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
     }
@@ -176,7 +176,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         setupViewDatas();
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
-                                             // getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
     }
 
@@ -203,14 +203,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initList() {
         String[] name = new String[3];
-        if((null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
-        	name = new String[2];
+        if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            name = new String[2];
         }
-        //name[0] = "新闻";
+        // name[0] = "新闻";
         name[0] = "公告";
         name[1] = "研报";
-        if(!(null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
-        	name[2] = "F10";
+        if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            name[2] = "F10";
         }
         NewsforImpleEngine vo;
         List<Fragment> frag = new ArrayList<Fragment>();
@@ -225,7 +225,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         b1.putSerializable(FragmentNewsList.VO, vo);
         // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f1.setArguments(b1);
-        //frag.add(f1);
+        // frag.add(f1);
         Fragment f2 = new FragmentNewsList();
         Bundle b2 = new Bundle();
         b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
@@ -249,8 +249,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f4.setArguments(b4);
         frag.add(f4);
-        if(!(null != mStockBean.symbol_type &&mStockBean.symbol_type.equals("5"))){
-        	Fragment f3 = new NewsFragment();
+        if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            Fragment f3 = new NewsFragment();
             frag.add(f3);
         }
         FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
@@ -519,7 +519,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
             tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
             tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
-            tvChengjiaoLiang.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getVolume()));
+            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand((int) mStockQuotesBean.getVolume()));
             tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
         }
 
