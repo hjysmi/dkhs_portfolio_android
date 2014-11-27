@@ -32,6 +32,7 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,8 +146,40 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         }
 
     }
-
+    Handler dataHandler = new Handler() {
+    	
+    };
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+        	loadData();
+        	dataHandler.postDelayed(this, 60 * 1000);
+        }
+    };
     @Override
+    public void onPause() {
+
+        super.onPause();
+
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
+    
+    @Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+    
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		// TODO Auto-generated method stub
+		if(isVisibleToUser){
+			dataHandler.postDelayed(runnable, 60 * 1000);
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
+
+	@Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
             orderEngine = new FundsOrderEngineImpl(this, mOrderType);
