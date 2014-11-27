@@ -211,7 +211,7 @@ public class NewsFragment extends Fragment {
         	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
             if(!first)
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+            ((StockQuotesActivity) getActivity()).setLayoutHeight(11);
             // 关闭其他的
             expand = true;
             collapseGroups(groupPosition);
@@ -228,7 +228,7 @@ public class NewsFragment extends Fragment {
 			if (isVisibleToUser) {
 				// fragment可见时加载数据
 				if(null != getActivity()){
-						((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+						((StockQuotesActivity) getActivity()).setLayoutHeight(11);
 				}
 					
 				first = false;
