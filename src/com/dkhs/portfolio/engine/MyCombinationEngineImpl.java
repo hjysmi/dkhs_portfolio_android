@@ -190,6 +190,15 @@ public class MyCombinationEngineImpl {
         params.addBodyParameter("is_public", sb.toString());
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.ispublic, id), params, listener);
     }
+    public void setCombinationRank(String id, String isRank, IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        StringBuilder sb = new StringBuilder();
+        // sb.append("[");
+        sb.append(isRank);
+        // sb.append("]");
+        params.addBodyParameter("is_rank", sb.toString());
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.Portfolio.setrank, id), params, listener);
+    }
 
     public void setCombinationTOp(String id, IHttpListener listener) {
 

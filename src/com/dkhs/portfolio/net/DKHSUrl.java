@@ -40,6 +40,8 @@ public class DKHSUrl {
         String adjust = "/api/v1/portfolio/{0}/adjust_positions/";
         // 设置组合是否公开
         String ispublic = "/api/v1/portfolio/{0}/set_public/";
+        // 设置组合是否参与排行
+        String setrank = "/api/v1/portfolio/{0}/set_rank/";
         String champion = "/api/v1/portfolio/champion/";
 
         // 组合排行榜

@@ -90,14 +90,15 @@ public class PositionDetailIncreaAdapter extends BaseAdapter {
         if (position == stockList.size()) {// 剩余占比图
 
             viewHolder.colorView.setBackgroundColor(ColorTemplate.DEF_RED);
-            viewHolder.tvCenterValue.setText((surpusValu == -1 ? getSurpusValue() : surpusValu) + "%");
+            viewHolder.tvCenterValue.setText(StringFromatUtils.get2PointPercent((surpusValu == -1 ? getSurpusValue()
+                    : surpusValu)));
             viewHolder.tvRightValue.setVisibility(View.INVISIBLE);
             viewHolder.tvStockCode.setVisibility(View.GONE);
             viewHolder.tvStockName.setText("剩余资金");
         } else {
             ConStockBean item = stockList.get(position);
 
-            viewHolder.tvCenterValue.setText(item.getPercent() + "%");
+            viewHolder.tvCenterValue.setText(StringFromatUtils.get2PointPercent(item.getPercent()));
             viewHolder.colorView.setBackgroundColor(item.getDutyColor());
             viewHolder.tvRightValue.setVisibility(View.VISIBLE);
             viewHolder.tvStockCode.setText(item.getStockCode());
