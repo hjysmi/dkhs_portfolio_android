@@ -343,7 +343,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int[] location = new int[2];
         // 读取位置anchor座标
         head.getLocationOnScreen(location);
-        int desX = head.getWidth() - width;
+        int desX = head.getWidth() - width-getResources().getDimensionPixelSize(R.dimen.line_weight_stroke_width);
         pw.showAtLocation(head, Gravity.NO_GRAVITY, location[0] + desX, location[1] + head.getHeight());
     }
 
