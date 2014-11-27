@@ -48,7 +48,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:text="123456789123"
+            android:text="点击绑定"
             android:textColor="@color/position_text_lgray"
             android:textSize="@dimen/list_text_size" />
     </RelativeLayout>
