@@ -70,8 +70,9 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
         protected void afterParseData(CombinationBean object) {
             if (null != object) {
                 combination_ranking.setEnabled(true);
-                open_position.setEnabled(true);
+                // open_position.setEnabled(true);
                 open_position.setChecked(object.isPubilc());
+                open_position.setEnabled(object.isRank());
                 combination_ranking.setChecked(object.isRank());
                 combination_ranking.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
@@ -167,14 +168,14 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
         protected void afterParseData(List<CombinationBean> object) {
             if (null != object) {
                 mCombinationBean = object.get(0);
-//                if (mCombinationBean.getIspublic().equals("0")) {
-//                    // PromptManager.showToast("已开启参与基金排行");
-//                    open_position.setClickable(true);
-//                } else {
-//                    // PromptManager.showToast("已关闭参与基金排行");
-//                    // open_position.setClickable(false);
-//                    open_position.setChecked(false);
-//                }
+                // if (mCombinationBean.getIspublic().equals("0")) {
+                // // PromptManager.showToast("已开启参与基金排行");
+                // open_position.setClickable(true);
+                // } else {
+                // // PromptManager.showToast("已关闭参与基金排行");
+                // // open_position.setClickable(false);
+                // open_position.setChecked(false);
+                // }
                 is_passive = true;
             }
 

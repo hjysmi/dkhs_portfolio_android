@@ -632,7 +632,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             SubmitSymbol symbol = new SubmitSymbol();
             symbol.setSymbol(stock.getStockId());
             // symbol.setPercent(stock.getPercent() / 100);
-            symbol.setPercent(stock.getPercent());
+            symbol.setPercent((int)stock.getPercent());
             // System.out.println("symbols stock id:" + symbol.getSymbol() + " value:" + symbol.getPercent());
             symbols.add(symbol);
         }

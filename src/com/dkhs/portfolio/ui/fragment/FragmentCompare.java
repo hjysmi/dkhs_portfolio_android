@@ -241,8 +241,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
         // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
-        oks.setTitleUrl("http://dev.dkhs.com");
-        String customText = "业绩比较";
+        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+   
+        String customText = "这是我的基金「"+mCombinationBean.getName()+"」从"+btnStartTime.getText()+"至"+btnEndTime.getText()+"与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
 
         oks.setText(customText);
 

@@ -162,8 +162,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void replaceDetailView() {
+        mFragmentDetail = FragmentPositionDetail.newInstance(mCombinationBean.getId());
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.rl_content, FragmentPositionDetail.newInstance(mCombinationBean.getId()));
+        ft.replace(R.id.rl_content, mFragmentDetail);
         ft.commit();
     }
 
@@ -292,9 +293,12 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_right_second:
                 if (0 == mSelectedTabIndex && mFragmentTrend != null) {
                     // 直接分享
-                    mFragmentTrend.showShare(false, null, false);
-                }else if(1==mSelectedTabIndex&&mFragmentCompare!=null){
+//                    mFragmentTrend.showShare(false, null, false);
+                    mFragmentTrend.showShareImage();
+                } else if (1 == mSelectedTabIndex && mFragmentCompare != null) {
                     mFragmentCompare.showShareImage();
+                } else if (2 == mSelectedTabIndex && mFragmentDetail != null) {
+                    mFragmentDetail.showShareImage();
                 }
 
                 break;
