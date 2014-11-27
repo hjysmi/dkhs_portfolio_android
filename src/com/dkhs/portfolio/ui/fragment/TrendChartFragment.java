@@ -235,7 +235,7 @@ public class TrendChartFragment extends BaseFragment {
         // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription", "This is a beautiful place!"));
         // oks.setLatitude(23.056081f);
         // oks.setLongitude(113.385708f);
-        oks.setSilent(true);
+        oks.setSilent(false);
         // oks.setShareFromQQAuthSupport(true);
         oks.setShareFromQQAuthSupport(false);
         // if (platform != null) {

@@ -288,7 +288,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_right_second:
             	if (mFragmentTrend != null) {
             		// 直接分享
-            		mFragmentTrend.showShare(true, null, false);
+            		mFragmentTrend.showShare(false, null, false);
             	}
             	// 直接分享
             	// showShare(true, null, false);
