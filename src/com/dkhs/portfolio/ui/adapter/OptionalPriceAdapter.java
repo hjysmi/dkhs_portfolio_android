@@ -62,6 +62,9 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
         }
 
+        System.out.println("item.change:"+item.change);
+        
+        
         if (item.isStop) {
             viewHolder.tvIncearseValue.setText("已停牌");
             viewHolder.tvPercentValue.setVisibility(View.INVISIBLE);
