@@ -120,7 +120,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void initView() {
-    	
+
         btnShare = getSecondRightButton();
         btnShare.setOnClickListener(this);
         btnShare.setBackgroundResource(R.drawable.ic_share);
@@ -143,7 +143,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void replaceTrendView() {
         // if (null == mFragmentTrend) {
-        mFragmentTrend = FragmentNetValueTrend.newInstance(false,null);
+        mFragmentTrend = FragmentNetValueTrend.newInstance(false, null);
         // }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
@@ -282,75 +282,72 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         int id = v.getId();
         switch (id) {
             case R.id.btn_right:
-            	//下拉列表
-            	showMoreDialog(btn_more_categorys);
+                // 下拉列表
+                showMoreDialog(btn_more_categorys);
                 break;
             case R.id.btn_right_second:
-            	if (mFragmentTrend != null) {
-            		// 直接分享
-            		mFragmentTrend.showShare(false, null, false);
-            	}
-            	// 直接分享
-            	// showShare(true, null, false);
-            	
-            	break;
+                if (0 == mSelectedTabIndex && mFragmentTrend != null) {
+                    // 直接分享
+                    mFragmentTrend.showShare(false, null, false);
+                }
+                
+
+                break;
             default:
                 break;
         }
 
     }
-    
-    private PopupWindow pw;
-	private String[] btn_more_categorys;
-	private View head;
-    
-    protected void showMoreDialog(String[] category) {
-		LayoutInflater inflater = LayoutInflater.from(this);
-		View view = inflater.inflate(R.layout.layout_btn_more, null);
-		ListView lv_profit_loss = (ListView) view
-				.findViewById(R.id.lv_more);
-		lv_profit_loss.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				if(position == 0){
-					//修改基金名称
-					startActivity(ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
-				}else if(position == 1){
-					//调整仓位
-					Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
-					intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
-					intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
-					startActivity(intent);
-				}else{
-					//隐私设置
-					startActivity(PrivacySettingActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
-				}
-				pw.dismiss();
-			}
-		});
-		lv_profit_loss.setAdapter(new ArrayAdapter<String>(this,
-				R.layout.item_btn_more, category));
-		pw = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
-				LayoutParams.WRAP_CONTENT);
-		pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-		pw.setOutsideTouchable(true);
-		pw.setFocusable(true);
-		pw.getContentView().measure(0, 0);
-		int width = pw.getContentView().getMeasuredWidth();
-		// pw.setAnimationStyle(R.style.profit_loss_style);
-		// 保存anchor在屏幕中的位置
-		int[] location = new int[2];
-		// 读取位置anchor座标
-		head.getLocationOnScreen(location);
-		int desX = head.getWidth() - width;
-		pw.showAtLocation(head, Gravity.NO_GRAVITY, location[0] + desX,
-				location[1] + head.getHeight());
-	}
+    private PopupWindow pw;
+    private String[] btn_more_categorys;
+    private View head;
+
+    protected void showMoreDialog(String[] category) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.layout_btn_more, null);
+        ListView lv_profit_loss = (ListView) view.findViewById(R.id.lv_more);
+        lv_profit_loss.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    // 修改基金名称
+                    startActivity(ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this,
+                            mCombinationBean));
+                } else if (position == 1) {
+                    // 调整仓位
+                    Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
+                    intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
+                    intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
+                    startActivity(intent);
+                } else {
+                    // 隐私设置
+                    startActivity(PrivacySettingActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
+                }
+                pw.dismiss();
+            }
+        });
+        lv_profit_loss.setAdapter(new ArrayAdapter<String>(this, R.layout.item_btn_more, category));
+        pw = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pw.setOutsideTouchable(true);
+        pw.setFocusable(true);
+        pw.getContentView().measure(0, 0);
+        int width = pw.getContentView().getMeasuredWidth();
+        // pw.setAnimationStyle(R.style.profit_loss_style);
+        // 保存anchor在屏幕中的位置
+        int[] location = new int[2];
+        // 读取位置anchor座标
+        head.getLocationOnScreen(location);
+        int desX = head.getWidth() - width;
+        pw.showAtLocation(head, Gravity.NO_GRAVITY, location[0] + desX, location[1] + head.getHeight());
+    }
+
+    private int mSelectedTabIndex = 0;
 
     protected void showFragmentByButtonId(int id) {
-        int mSelectedTabIndex = 0;
+        // int mSelectedTabIndex = 0;
         switch (id) {
             case R.id.btn_trend: {
 
@@ -396,7 +393,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 break;
         }
 
-        if (mSelectedTabIndex == 0) {
+        if (mSelectedTabIndex == 0 || mSelectedTabIndex == 1 || mSelectedTabIndex == 2) {
             showShareButton();
         } else {
             hideMoreButton();
