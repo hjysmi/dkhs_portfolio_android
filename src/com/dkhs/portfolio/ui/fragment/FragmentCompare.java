@@ -239,7 +239,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
         // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
-        oks.setTitleUrl("http://dev.dkhs.com");
+        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
         String customText = "业绩比较";
 
         oks.setText(customText);

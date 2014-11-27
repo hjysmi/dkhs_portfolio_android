@@ -190,7 +190,7 @@ public class TrendChartFragment extends BaseFragment {
         // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
         // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
-        oks.setTitleUrl("http://dev.dkhs.com");
+        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
         String customText = "";
         if (TextUtils.isEmpty(trendType)) {
             return;
