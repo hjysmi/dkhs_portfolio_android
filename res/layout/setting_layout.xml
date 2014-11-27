@@ -202,11 +202,11 @@
                         android:layout_toRightOf="@id/setting_sign_title"
                         android:ellipsize="end"
                         android:gravity="right"
-                        android:paddingLeft="5dp"
+                        android:paddingLeft="40dp"
                         android:paddingRight="5dp"
                         android:singleLine="true"
                         android:textColor="@color/person_setting_phonecolor"
-                        android:textSize="@dimen/setting_text_name" />
+                        android:textSize="@dimen/setting_text_phone" />
                 </RelativeLayout>
 
                 <include layout="@layout/layout_line" />
@@ -323,23 +323,6 @@
                     android:text="@string/setting_string_opinion" />
             </RelativeLayout>
 
-            <!--
-        <include layout="@layout/layout_line" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selector"
-                android:paddingBottom="15dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="15dp" >
-
-                <ImageView
-                android:text="@string/setting_string_opinion"
-                style="@style/text_18_style"
-                />
-        </RelativeLayout>
-            -->
 
             <include layout="@layout/layout_line" />
 
@@ -398,7 +381,7 @@
             </RelativeLayout>
 
             <include layout="@layout/layout_line" />
-"
+
 
             <RelativeLayout
                 android:layout_width="match_parent"

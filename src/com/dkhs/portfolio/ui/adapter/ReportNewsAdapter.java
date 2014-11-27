@@ -64,6 +64,9 @@ public class ReportNewsAdapter extends BaseAdapter{
 			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
 			if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
 				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
+				if(null != mOptionNewsBean.getSource()){
+					viewHolder.tvTextFrom.setText(mOptionNewsBean.getSource().getTitle());
+				}
 			}
 			Calendar old = TimeUtils.toCalendar(mOptionNewsBean.getPublish());
 			if(TimeUtils.compareTime(old)){
