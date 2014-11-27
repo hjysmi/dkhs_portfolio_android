@@ -51,6 +51,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentNews;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName CombinationDetailActivity
@@ -90,21 +91,23 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_combination_detail);
-        setTitle(R.string.netvalue_trend);
-
+        
         // handle intent extras
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
         }
-
+        if(null != mCombinationBean){
+        	setTitle(mCombinationBean.getName());
+            setTitleTipString("创建于" + TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+        }
         initView();
         // showFragmentByButtonId(R.id.btn_trend);
     }
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
-
+        
     }
 
     private void showShareButton() {
@@ -355,7 +358,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_trend: {
 
                 mSelectedTabIndex = 0;
-                setTitle(R.string.netvalue_trend);
+                //setTitle(R.string.netvalue_trend);
                 replaceTrendView();
                 // if (null == mFragmentTrend) {
                 // mFragmentTrend = new FragmentNetValueTrend();
@@ -368,7 +371,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
                 mSelectedTabIndex = 1;
 
-                setTitle(R.string.performance_comparison);
+                //setTitle(R.string.performance_comparison);
                 replaceCompareView();
             }
 
@@ -377,7 +380,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
                 mSelectedTabIndex = 2;
 
-                setTitle(R.string.position_detail);
+                //setTitle(R.string.position_detail);
                 replaceDetailView();
             }
 
@@ -385,7 +388,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_news: {
 
                 mSelectedTabIndex = 3;
-                setTitle(R.string.related_news);
+                //setTitle(R.string.related_news);
                 replaceNewsView();
 
             }
