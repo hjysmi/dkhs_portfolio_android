@@ -36,6 +36,7 @@ public class ChampionBean implements Serializable {
     private float chng_pct_month;
     private float chng_pct_week;
     private float chng_pct_three_month;
+    private float cumulative;
 
 
     private float net_value;
@@ -162,6 +163,14 @@ public class ChampionBean implements Serializable {
 
     public void setChng_pct_day(float chng_pct_day) {
         this.chng_pct_day = chng_pct_day;
+    }
+
+    public float getCumulative() {
+        return cumulative;
+    }
+
+    public void setCumulative(float cumulative) {
+        this.cumulative = cumulative;
     }
 
 }
