@@ -146,11 +146,11 @@ public class TrendChartFragment extends BaseFragment {
             clearViewData();
 
         }
-        if (isTodayShow()) {
+        //if (isTodayShow()) {
             dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-        } else {
-            dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-        }
+        //} else {
+          //  dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+        //}
     }
 
     Handler drawCharHandler = new Handler() {
@@ -927,7 +927,23 @@ public class TrendChartFragment extends BaseFragment {
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
-                mNetValueDataEngine.requeryToday(todayListener);
+            	if (!TextUtils.isEmpty(trendType)) {
+
+                    if (isTodayShow()) {
+                    	mNetValueDataEngine.requeryToday(todayListener);
+                    } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
+                            mNetValueDataEngine.requeryHistory(historyNetValueListener);
+                            //historyNetValueListener.setLoadingDialog(getActivity());
+                    } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
+                            mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
+                            //historyNetValueListener.setLoadingDialog(getActivity());
+                    } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
+                            mNetValueDataEngine.requerySevenDay(historyNetValueListener);
+                            //historyNetValueListener.setLoadingDialog(getActivity());
+                    }
+                    setupBottomTextViewData();
+                }
+                
                 // todayListener.setLoadingDialog(getActivity()).beforeRequest();
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
