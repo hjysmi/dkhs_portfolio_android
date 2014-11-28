@@ -52,6 +52,9 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private static final long mPollRequestTime = 1000 * 5;
     private Timer mMarketTimer;
     private Context context;
+
+    private boolean isLoading;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -90,8 +93,10 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
         @Override
         public void run() {
-
+            // if (!isLoading) {
             loadDataListFragment.refresh();
+            // }
+
         }
     }
 
@@ -106,17 +111,17 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
 
         Button btnRefresh = getSecondRightButton();
         // btnRefresh.setOnClickListener(this);
-        btnRefresh.setBackgroundDrawable(null);
+        // btnRefresh.setBackgroundDrawable(null);
         btnRefresh.setText("编辑");
-        btnRefresh.setTextColor(Color.WHITE);
-        btnRefresh.setBackgroundResource(R.drawable.white_black_selector);
+        // btnRefresh.setTextColor(Color.WHITE);
+        // btnRefresh.setBackgroundResource(R.drawable.white_black_selector);
         btnRefresh.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //loadDataListFragment.refresh();
-            	Intent intent = new Intent(context,OptionEditActivity.class);
-            	startActivity(intent);
+                // loadDataListFragment.refresh();
+                Intent intent = new Intent(context, OptionEditActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -199,6 +204,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         }
 
         if (null != loadDataListFragment && !TextUtils.isEmpty(orderType)) {
+            isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
         }
 

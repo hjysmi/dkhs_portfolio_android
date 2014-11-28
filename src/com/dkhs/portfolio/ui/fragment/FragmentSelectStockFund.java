@@ -323,11 +323,13 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         // }
     }
 
+    private boolean isLoading;
+    
     public void refresh() {
         isRefresh = true;
         if (mLoadDataEngine != null) {
             // mDataList.clear();
-
+            isLoading = true;
             mLoadDataEngine.loadData();
         }
     }

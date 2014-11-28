@@ -34,11 +34,13 @@ import com.dkhs.portfolio.net.DataParse;
  */
 public class MainIndexEngineImple extends LoadSelectDataEngine {
 
-    public static final String ORDER_BY_DAY = "chng_pct_day";
+    // public static final String ORDER_BY_DAY = "chng_pct_day";
+    public static final String ORDER_BY_YEAR = "chng_pct_year";
+    public static final String ORDER_BY_TYEAR = "chng_pct_tyear";
     public static final String ORDER_BY_MONTH = "chng_pct_month";
-    public static final String ORDER_BY_SEASON = "chng_pct_three_month";
+    // public static final String ORDER_BY_SEASON = "chng_pct_three_month";
 
-    private String orderType = ORDER_BY_DAY;
+    private String orderType = ORDER_BY_MONTH;
 
     public MainIndexEngineImple(ILoadDataBackListener loadListener) {
         super(loadListener);
@@ -47,14 +49,14 @@ public class MainIndexEngineImple extends LoadSelectDataEngine {
 
     public void setOrderType(OrderType orderType) {
         switch (orderType) {
-            case DAY:
-                this.orderType = ORDER_BY_DAY;
+            case YEAR:
+                this.orderType = ORDER_BY_YEAR;
                 break;
             case MONTH:
                 this.orderType = ORDER_BY_MONTH;
                 break;
-            case QUARTER:
-                this.orderType = ORDER_BY_SEASON;
+            case TYEAR:
+                this.orderType = ORDER_BY_TYEAR;
                 break;
 
             default:
@@ -112,15 +114,14 @@ public class MainIndexEngineImple extends LoadSelectDataEngine {
                     // selectBean.percentage = stockBean.getPercentage();
                     selectBean.isFollowed = stockBean.isFollowed();
 
-                    if (orderType.equalsIgnoreCase(ORDER_BY_DAY)) {
+                    if (orderType.equalsIgnoreCase(ORDER_BY_YEAR)) {
 
-                        selectBean.percentage = stockBean.getDayPercentage();
+                        selectBean.percentage = stockBean.getYearPercentage();
                     } else if (orderType.equalsIgnoreCase(ORDER_BY_MONTH)) {
 
                         selectBean.percentage = stockBean.getMonthPercentage();
-                    } else if (orderType.equalsIgnoreCase(ORDER_BY_SEASON)) {
-
-                        selectBean.percentage = stockBean.getSeasonPercentage();
+                    } else if (orderType.equalsIgnoreCase(ORDER_BY_TYEAR)) {
+                        selectBean.percentage = stockBean.getTyearPercentage();
                     }
 
                     selectList.add(selectBean);

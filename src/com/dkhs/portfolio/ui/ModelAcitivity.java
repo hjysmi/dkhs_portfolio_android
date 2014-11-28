@@ -187,7 +187,7 @@ public class ModelAcitivity extends BaseActivity {
     public Button getRightButton() {
         Button btnRight = (Button) findViewById(RIGHTBUTTON_ID);
         btnRight.setVisibility(View.VISIBLE);
-        btnRight.setTextColor(Color.WHITE);
+        // btnRight.setTextColor(Color.WHITE);
         return btnRight;
     }
 
