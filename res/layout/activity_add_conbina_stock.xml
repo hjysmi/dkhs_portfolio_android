@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_base_add_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/rl_base_add_view"
     android:background="@color/theme_gray" >
 
     <RelativeLayout
@@ -86,7 +86,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="3dp"
                 android:paddingTop="3dp"
-                android:text="日排行" />
+                android:text="月排行" />
 
             <com.dkhs.portfolio.ui.widget.TabPageIndicator
                 android:id="@+id/indicator"

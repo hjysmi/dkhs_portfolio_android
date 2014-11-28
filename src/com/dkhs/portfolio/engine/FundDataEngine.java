@@ -34,24 +34,27 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
  */
 public class FundDataEngine extends LoadSelectDataEngine {
 
-    private static final String ORDER_BY_DAY = "percent_day";
+    // private static final String ORDER_BY_DAY = "percent_day";
     private static final String ORDER_BY_MONTH = "percent_month";
-    private static final String ORDER_BY_SEASON = "percent_season";
+    private static final String ORDER_BY_YEAR = "percent_year";
+    private static final String ORDER_BY_TYEAR = "percent_tyear";
+    // private static final String ORDER_BY_SEASON = "percent_season";
 
     public static final String TYPE_MAININDEX = "all";
     public static final String TYPE_INDEX = "zs";
     public static final String TYPE_STOCK = "gp";
 
-    private OrderType mOrderType = OrderType.DAY;
+    private OrderType mOrderType = OrderType.MONTH;
     private String mFundsType = TYPE_MAININDEX;
 
     public enum OrderType {
         // 排序模式，日排行
-        DAY(ORDER_BY_DAY),
+        // DAY(ORDER_BY_DAY),
         // 排序模式，月排行
-        MONTH(ORDER_BY_MONTH),
+        MONTH(ORDER_BY_MONTH), YEAR(ORDER_BY_YEAR),
         // 排序模式，季度排行
-        QUARTER(ORDER_BY_SEASON);
+        // QUARTER(ORDER_BY_SEASON);
+        TYEAR(ORDER_BY_TYEAR);
 
         private String type;
 
@@ -122,15 +125,15 @@ public class FundDataEngine extends LoadSelectDataEngine {
                     selectBean.name = stockBean.getName();
                     // selectBean.currentValue = stockBean.getCurrent();
                     selectBean.code = stockBean.getCode();
-                    if (mOrderType == OrderType.DAY) {
+                    if (mOrderType == OrderType.YEAR) {
 
-                        selectBean.percentage = stockBean.getPercentDay();
+                        selectBean.percentage = stockBean.getPercentYear();
                     } else if (mOrderType == OrderType.MONTH) {
 
                         selectBean.percentage = stockBean.getPercentMonth();
-                    } else if (mOrderType == OrderType.QUARTER) {
+                    } else if (mOrderType == OrderType.TYEAR) {
 
-                        selectBean.percentage = stockBean.getPercentSeason();
+                        selectBean.percentage = stockBean.getPercentTYear();
                     }
                     selectList.add(selectBean);
 

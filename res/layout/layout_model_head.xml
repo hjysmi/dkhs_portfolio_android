@@ -43,6 +43,7 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="10dp"
         android:background="@null"
+        android:textColor="@color/white_textselector"
         android:visibility="gone" />
 
     <Button
@@ -53,6 +54,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/btn_right"
         android:background="@null"
+        android:textColor="@color/white_textselector"
         android:visibility="gone" />
 
 </RelativeLayout>

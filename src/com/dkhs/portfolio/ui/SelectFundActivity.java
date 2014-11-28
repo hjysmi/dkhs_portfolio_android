@@ -84,25 +84,25 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
 
         @Override
         public void onClick(View v) {
-            OrderType mOrderType = OrderType.DAY;
+            OrderType mOrderType = OrderType.MONTH;
             int id = v.getId();
             switch (id) {
                 case R.id.tv_day_order: {
                     btnOrder.setText(orderTitle[0]);
-                    mOrderType = OrderType.DAY;
+                    mOrderType = OrderType.MONTH;
                 }
 
                     break;
                 case R.id.tv_month_order: {
                     btnOrder.setText(orderTitle[1]);
-                    mOrderType = OrderType.MONTH;
+                    mOrderType = OrderType.YEAR;
 
                 }
 
                     break;
                 case R.id.tv_quarter_order: {
                     btnOrder.setText(orderTitle[2]);
-                    mOrderType = OrderType.QUARTER;
+                    mOrderType = OrderType.TYEAR;
                 }
                     break;
 

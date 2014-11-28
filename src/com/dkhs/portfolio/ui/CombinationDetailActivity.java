@@ -45,6 +45,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
@@ -97,12 +98,17 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         if (extras != null) {
             handleExtras(extras);
         }
+
+        updataTitle();
+        initView();
+        // showFragmentByButtonId(R.id.btn_trend);
+    }
+
+    private void updataTitle() {
         if (null != mCombinationBean) {
             setTitle(mCombinationBean.getName());
             setTitleTipString("创建于" + TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
         }
-        initView();
-        // showFragmentByButtonId(R.id.btn_trend);
     }
 
     private void handleExtras(Bundle extras) {
@@ -293,7 +299,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             case R.id.btn_right_second:
                 if (0 == mSelectedTabIndex && mFragmentTrend != null) {
                     // 直接分享
-//                    mFragmentTrend.showShare(false, null, false);
+                    // mFragmentTrend.showShare(false, null, false);
                     mFragmentTrend.showShareImage();
                 } else if (1 == mSelectedTabIndex && mFragmentCompare != null) {
                     mFragmentCompare.showShareImage();
@@ -322,8 +328,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     // 修改基金名称
-                    startActivity(ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this,
-                            mCombinationBean));
+                    startActivityForResult(
+                            ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this, mCombinationBean),
+                            REQUESTCODE_MODIFY_COMBINATION);
                 } else if (position == 1) {
                     // 调整仓位
                     Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
@@ -448,4 +455,30 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         MediaStore.Images.Media.insertImage(getContentResolver(), combination, "test_" + timeStamp + ".jpg",
                 timeStamp.toString());
     }
+
+    private final int REQUESTCODE_MODIFY_COMBINATION = 902;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            Bundle b = data.getExtras(); // data为B中回传的Intent
+            switch (requestCode) {
+                case REQUESTCODE_MODIFY_COMBINATION:
+                    // ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
+                    // .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+                    CombinationBean cBean = (CombinationBean) data
+                            .getSerializableExtra(ChangeCombinationNameActivity.ARGUMENT_COMBINATION_BEAN);
+                    if (null != cBean) {
+                        mCombinationBean = cBean;
+                        // update combination
+                        updataTitle();
+
+                    }
+                    break;
+            }
+
+        }
+    }
+
 }

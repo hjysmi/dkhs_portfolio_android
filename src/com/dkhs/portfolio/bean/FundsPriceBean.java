@@ -39,7 +39,13 @@ public class FundsPriceBean {
     private float percentMonth;
     @SerializedName("percent_season")
     private float percentSeason;
+    // "percent_year": -12.1951, 近一年涨跌幅,
+    @SerializedName("percent_year")
+    private float percentYear;
+    @SerializedName("percent_tyear")
+    private float percentTYear;
 
+    // "percent_tyear": -11.9691i , 本年涨跌幅
     public long getId() {
         return id;
     }
@@ -86,6 +92,22 @@ public class FundsPriceBean {
 
     public void setPercentSeason(float percentSeason) {
         this.percentSeason = percentSeason;
+    }
+
+    public float getPercentYear() {
+        return percentYear;
+    }
+
+    public void setPercentYear(float percentYear) {
+        this.percentYear = percentYear;
+    }
+
+    public float getPercentTYear() {
+        return percentTYear;
+    }
+
+    public void setPercentTYear(float percentTYear) {
+        this.percentTYear = percentTYear;
     }
 
 }

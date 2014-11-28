@@ -36,9 +36,9 @@
         <item>@string/turnover</item>
     </string-array>
     <string-array name="order_type">
-        <item>日排行</item>
         <item>月排行</item>
-        <item>季排行  </item>
+        <item>年排行</item>
+        <item>今年以来</item>
     </string-array>
     <string-array name="create_type">
         <item>快速</item>
@@ -52,6 +52,7 @@
         <item>删除基金</item>
     </string-array>
     <string-array name="detail_news_titles">
+
         <!-- <item>新闻资讯</item> -->
         <item>个股公告</item>
         <item>相关研报</item>

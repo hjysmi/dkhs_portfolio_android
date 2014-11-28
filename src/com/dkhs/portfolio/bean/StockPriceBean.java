@@ -41,6 +41,10 @@ public class StockPriceBean {
     private float monthPercentage;
     @SerializedName("chng_pct_three_month")
     private float seasonPercentage;
+    @SerializedName("chng_pct_year")
+    private float yearPercentage;
+    @SerializedName("chng_pct_tyear")
+    private float tyearPercentage;
 
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     private String symbol_type;
@@ -155,6 +159,22 @@ public class StockPriceBean {
 
     public void setSymbol_type(String symbol_type) {
         this.symbol_type = symbol_type;
+    }
+
+    public float getYearPercentage() {
+        return yearPercentage;
+    }
+
+    public void setYearPercentage(float yearPercentage) {
+        this.yearPercentage = yearPercentage;
+    }
+
+    public float getTyearPercentage() {
+        return tyearPercentage;
+    }
+
+    public void setTyearPercentage(float tyearPercentage) {
+        this.tyearPercentage = tyearPercentage;
     }
 
 }

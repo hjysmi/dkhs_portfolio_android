@@ -68,6 +68,8 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         this.orderType = orderType;
     }
 
+    private boolean isLoading;
+
     /**
      * 
      * 查询自选股
@@ -85,6 +87,10 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         //
         // }
         // if (TextUtils.isEmpty(orderType)) {
+        if (isLoading) {
+            return;
+        }
+        isLoading = true;
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("sort", orderType);
@@ -98,6 +104,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
+        isLoading = false;
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
         try {
             JSONObject dataObject = new JSONObject(jsonData);
@@ -142,38 +149,55 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(orderType.equals("followed_at")){
-        	selectList = forIndex(selectList);
+        if (orderType.equals("followed_at")) {
+            selectList = forIndex(selectList);
         }
         return selectList;
 
     }
-    public List<SelectStockBean> forIndex(List<SelectStockBean> datalist){
-    	List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
-    	SelectStockBean sb;
-    	int position;
-    	while(datalist.size() > 0){
-	    	for(int i = 0; i < datalist.size(); i++){
-	    		sb = datalist.get(i);
-	    		position = i;
-	    		for(int j = i; j < datalist.size(); j++){
-	    			if(sb.index < datalist.get(j).index){
-	    				sb = datalist.get(j);
-	    				position = j;
-	    			}
-	    		}
-	    		datalist.remove(position);
-	    		tmp.add(sb);
-	    		break;
-	    	}
-    	}
-    	return tmp;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param errCode
+     * @param errMsg
+     * @return
+     */
+    @Override
+    public void onFailure(int errCode, String errMsg) {
+        // TODO Auto-generated method stub
+        super.onFailure(errCode, errMsg);
+        isLoading = false;
     }
-    public static void setIndex(ParseHttpListener<List<SelectStockBean>> listener,String json){
-    	RequestParams params = new RequestParams();
+
+    public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
+        List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
+        SelectStockBean sb;
+        int position;
+        while (datalist.size() > 0) {
+            for (int i = 0; i < datalist.size(); i++) {
+                sb = datalist.get(i);
+                position = i;
+                for (int j = i; j < datalist.size(); j++) {
+                    if (sb.index < datalist.get(j).index) {
+                        sb = datalist.get(j);
+                        position = j;
+                    }
+                }
+                datalist.remove(position);
+                tmp.add(sb);
+                break;
+            }
+        }
+        return tmp;
+    }
+
+    public static void setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
+        RequestParams params = new RequestParams();
         params.addBodyParameter("symbols_position", json);
-    	DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
     }
+
     public static void loadAllData(IHttpListener listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
