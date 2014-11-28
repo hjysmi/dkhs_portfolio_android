@@ -43,7 +43,7 @@ public class StockPriceBean {
     private float seasonPercentage;
     @SerializedName("chng_pct_year")
     private float yearPercentage;
-    @SerializedName("chng_pct_tyear")
+    @SerializedName("chng_pct_year_sofar")
     private float tyearPercentage;
 
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
