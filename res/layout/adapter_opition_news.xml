@@ -35,6 +35,10 @@
 
             
         </RelativeLayout>
+        <RelativeLayout 
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            >
         <TextView
             android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
@@ -42,11 +46,21 @@
             android:ellipsize="end"
             android:singleLine="false"
             android:maxLines="2"
+            android:lines="2"
             android:lineSpacingExtra="3dp"
             android:id="@+id/adapter_market_title"
             android:textColor="@color/black"
             android:textSize="@dimen/list_text_size" />
-        
+        <TextView 
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/zhengquan"
+            android:textColor="@color/position_text_lgray"
+                android:textSize="@dimen/setting_text_phone"
+            />
+        </RelativeLayout>
     </LinearLayout>
 
    <!--  <include layout="@layout/layout_line" /> -->
