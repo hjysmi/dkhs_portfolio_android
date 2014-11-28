@@ -79,11 +79,13 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                         sb.append("   ");
                     }
                     sb.append(" 从");
-                    int percent = (int) (position.getFromPercent());
-                    sb.append(percent);
-                    sb.append("%");
+                    // int percent = (int) (position.getFromPercent());
+                    sb.append(StringFromatUtils.get2PointPercent(position.getFromPercent()));
+                    // sb.append("%");
                     sb.append("调至");
-                    sb.append((int) (position.getToPercent()) + "%");
+                    sb.append(StringFromatUtils.get2PointPercent(position.getToPercent()));
+
+                    // sb.append((int) (position.getToPercent()) + "%");
                     bean.content = sb.toString();
                     this.mDataList.add(bean);
                 } else {
@@ -95,11 +97,13 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                         sb.append("   ");
                     }
                     sb.append(" 从");
-                    int percent = (int) (position.getFromPercent());
-                    sb.append(percent);
-                    sb.append("%");
+                    // int percent = (int) (position.getFromPercent());
+                    // sb.append(percent);
+                    // sb.append("%");
+                    sb.append(StringFromatUtils.get2PointPercent(position.getFromPercent()));
                     sb.append("调至");
-                    sb.append((int) (position.getToPercent()) + "%");
+                    sb.append(StringFromatUtils.get2PointPercent(position.getToPercent()));
+                    // sb.append((int) (position.getToPercent()) + "%");
                     getLastBean().content = sb.toString();
                 }
             }
