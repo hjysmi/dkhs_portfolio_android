@@ -50,6 +50,13 @@ public class PieGraph extends View {
 
         canvas.drawColor(Color.TRANSPARENT);
 
+//        int sum = 0;
+//        for (PieSlice pieS : slices) {
+//            System.out.println("" + pieS.getValue());
+//            sum += pieS.getValue();
+//        }
+//        System.out.println("sum:" + sum);
+
         paint.reset();
         paint.setAntiAlias(true);
 

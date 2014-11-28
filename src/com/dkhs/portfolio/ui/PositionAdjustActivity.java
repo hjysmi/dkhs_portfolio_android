@@ -54,6 +54,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @ClassName PositionAdjustActivity
@@ -126,11 +127,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         initData();
         initView();
-        
+
         QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
         listener.setLoadingDialog(this).beforeRequest();
         new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
-        
+
     }
 
     /**
@@ -260,8 +261,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
 
         }
+
         setPieList(mPositionDetailBean.getFund_percent());
         setFootData(mPositionDetailBean.getFund_percent());
+
+        System.out.println("getFund_percent:" + mPositionDetailBean.getFund_percent());
+        System.out.println("surpulsValue:" + surpulsValue());
+
     }
 
     /**
@@ -275,7 +281,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             // ConStockBean stock4 = new SurpusStock(surValue);
             // stockList.add(stock4);
         } else {
-            setStockList();
+
+            // setStockList();
         }
     }
 
@@ -383,20 +390,27 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         setFootData(surValue);
     }
 
-    private int surpulsValue() {
-        int total = 100;
+    private float surpulsValue() {
+        float total = 100;
+        float sum = 0;
         for (int i = 0; i < stockList.size(); i++) {
-            total -= stockList.get(i).getPercent();
+            sum += stockList.get(i).getPercent();
         }
-        surValue = total;
+        System.out.println("surpulsValue sum:" + sum);
+        surValue = total - sum;
+        if (surValue < 0) {
+            LogUtils.e("Position adjsut surpulsValue < 0");
 
-        return total;
+            surValue = 0;
+        }
+
+        return surValue;
     }
 
     private void setFootData(float survalue) {
 
         surSeekbar.setProgress((int) (survalue));
-        tvSurpusValue.setText(StringFromatUtils.getPercentValue((int) (survalue)) + "");
+        tvSurpusValue.setText(StringFromatUtils.get2PointPercent(survalue));
     }
 
     /**
@@ -417,7 +431,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         // TODO Auto-generated method stub
         super.onStart();
 
-        
     }
 
     class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
@@ -632,7 +645,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             SubmitSymbol symbol = new SubmitSymbol();
             symbol.setSymbol(stock.getStockId());
             // symbol.setPercent(stock.getPercent() / 100);
-            symbol.setPercent((int)stock.getPercent());
+            symbol.setPercent((int) stock.getPercent());
             // System.out.println("symbols stock id:" + symbol.getSymbol() + " value:" + symbol.getPercent());
             symbols.add(symbol);
         }

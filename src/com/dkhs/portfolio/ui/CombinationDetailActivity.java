@@ -460,6 +460,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
 
             Bundle b = data.getExtras(); // data为B中回传的Intent

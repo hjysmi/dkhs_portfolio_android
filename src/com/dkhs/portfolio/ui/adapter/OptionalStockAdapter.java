@@ -35,7 +35,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class OptionalStockAdapter extends BaseAdapter {
     private Context mContext;
-    private int maxValue = 0;
+    private float maxValue = 0;
     private List<ConStockBean> stockList;
 
     public OptionalStockAdapter(Context mContext, List<ConStockBean> stocks) {
@@ -44,9 +44,13 @@ public class OptionalStockAdapter extends BaseAdapter {
         setSurpusValue();
     }
 
+    public void setFundpercent(float fundpercent) {
+        this.maxValue = fundpercent;
+    }
+
     public void setList(List stocklist) {
         this.stockList = stocklist;
-        setSurpusValue();
+        // setSurpusValue();
         notifyDataSetChanged();
     }
 
@@ -99,7 +103,7 @@ public class OptionalStockAdapter extends BaseAdapter {
 
         GradientDrawable gd = (GradientDrawable) sd.getDrawable();
         gd.setColor(item.getDutyColor());
-        tvPercent.setText(StringFromatUtils.getPercentValue((item.getPercent())));
+        tvPercent.setText(StringFromatUtils.get2PointPercent((item.getPercent())));
 
         seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             @Override
@@ -122,15 +126,19 @@ public class OptionalStockAdapter extends BaseAdapter {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int p = progress;
+                System.out.println("maxValue:" + maxValue);
                 int maxScoll = (int) (maxValue + stockList.get(position).getPercent());
+
                 if (progress >= maxScoll) {
                     p = maxScoll;
+                    maxScoll = maxScoll < 0 ? 0 : maxScoll;
                     seekbar.setProgress(maxScoll);
-                    tvPercent.setText(StringFromatUtils.getPercentValue(maxScoll));
+                    tvPercent.setText(StringFromatUtils.get2PointPercent(maxScoll));
                     return;
                 } else {
-                    p = progress;
-                    tvPercent.setText(StringFromatUtils.getPercentValue(progress));
+                    p = progress < 0 ? 0 : progress;
+                    // p = progress;
+                    tvPercent.setText(StringFromatUtils.get2PointPercent(p));
                 }
                 // notifySurpusValue(stockList.get(position).getDutyValue() - p);
                 // setSurpusValue(progress);
@@ -144,7 +152,7 @@ public class OptionalStockAdapter extends BaseAdapter {
     }
 
     public void setSurpusValue() {
-        int surpusValu = 100;
+        float surpusValu = 100;
         for (int i = 0; i < stockList.size(); i++) {
             surpusValu -= stockList.get(i).getPercent();
         }

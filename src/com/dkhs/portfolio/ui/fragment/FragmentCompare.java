@@ -85,7 +85,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
  */
 public class FragmentCompare extends BaseFragment implements OnClickListener, FragmentLifecycle {
 
-    private final int REQUESTCODE_SELECT_FUND = 900;
+    private final int REQUESTCODE_SELECT_FUND = 420;
 
     private GridView mGridView;
     private CompareIndexAdapter mGridAdapter;
@@ -882,7 +882,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
 
             Bundle b = data.getExtras(); // data为B中回传的Intent
@@ -892,6 +892,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                             .getSerializableExtra("list_select");
                     if (null != listStock) {
                         selectStockList = listStock;
+                        System.out.println("selectStockList size:"+selectStockList.size());
                         updateSelectData(listStock);
                     } else {
 
