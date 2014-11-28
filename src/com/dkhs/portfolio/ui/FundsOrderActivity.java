@@ -112,12 +112,14 @@ public class FundsOrderActivity extends ModelAcitivity {
 
     }
 
+    private boolean isFromTitle;
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
         @Override
         public void onSelectPosition(int position) {
             if (null != pager) {
                 pager.setCurrentItem(position);
+                // isFromTitle = true;
             }
         }
     };
@@ -126,7 +128,11 @@ public class FundsOrderActivity extends ModelAcitivity {
 
         @Override
         public void onPageSelected(int arg0) {
+            System.out.println("onPageSelected:" + arg0 + "isFromTitle:" + isFromTitle);
+            // if (!isFromTitle) {
             hsTitle.setSelectIndex(arg0);
+            // }
+            // isFromTitle = false;
 
         }
 

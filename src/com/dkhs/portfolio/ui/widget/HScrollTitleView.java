@@ -168,6 +168,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         addView(view);
         setAnima(offset, offset);
     }
+
     private int currentPosition = 0;
 
     class OnItemListener implements OnClickListener {
@@ -185,15 +186,18 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             // TODO Auto-generated method stub
             // Fragment f = fragmentList.get(position);
             // changeFrament(0,f,null,fragmentList.get(position).toString());
-//            tvList[position].setTextColor(getContext().getResources().getColor(R.color.red));
-//            tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+            // tvList[position].setTextColor(getContext().getResources().getColor(R.color.red));
+            // tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
             currentPosition = position;
-//        	hisPosition = position;
+            if (currentPosition == hisPosition) {
+                return;
+            }
+            // hisPosition = position;
             setAnima(hisPosition * indiatorWidth + offset * (2 * hisPosition + 1), position * indiatorWidth + offset
                     * (2 * position + 1));
-//            if (null != mSelectListener) {
-//                mSelectListener.onSelectPosition(position);
-//            }
+            // if (null != mSelectListener) {
+            // mSelectListener.onSelectPosition(position);
+            // }
         }
 
     }
@@ -221,6 +225,14 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     }
 
     public void setSelectIndex(int index) {
+        // tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.red));
+        // if(hisPosition != -1){
+        // tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+        // }
+        if (hisPosition == -1) {
+            hisPosition = 0;
+        }
+
         if (index >= 0 && index < tvList.length) {
             tvList[index].performClick();
         }
@@ -240,29 +252,32 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         public void onSelectPosition(int position);
     }
 
-	@Override
-	public void onAnimationEnd(Animation arg0) {
-		if (null != mSelectListener) {
+    @Override
+    public void onAnimationEnd(Animation arg0) {
+        if (null != mSelectListener) {
             mSelectListener.onSelectPosition(currentPosition);
         }
-	}
+    }
 
-	@Override
-	public void onAnimationRepeat(Animation arg0) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void onAnimationRepeat(Animation arg0) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public void onAnimationStart(Animation arg0) {
-		// TODO Auto-generated method stub
-		tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.red));
-		if(hisPosition != -1){
-			tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
-		}
+    }
+
+    @Override
+    public void onAnimationStart(Animation arg0) {
+        // TODO Auto-generated method stub
+        System.out.println("currentPosition:" + currentPosition);
+        System.out.println("hisPosition:" + hisPosition);
+
+        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.red));
+        if (hisPosition != -1) {
+            tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+        }
         hisPosition = currentPosition;
-		
-	}
+
+    }
 
     // @Override
     // protected void onLayout(boolean changed, int l, int t, int r, int b) {
