@@ -19,6 +19,7 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
+import com.dkhs.portfolio.ui.fragment.FragmentreportOneList;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -62,7 +63,7 @@ public class YanBaoActivity extends ModelAcitivity{
         String[] name = getResources().getStringArray(R.array.yanbao_items);
         NewsforImpleEngine vo;
         List<Fragment> frag = new ArrayList<Fragment>();
-        Fragment f1 = new FragmentreportNewsList();
+        Fragment f1 = new FragmentreportOneList();
         vo = new NewsforImpleEngine();
         vo.setUserid(userId);
         vo.setContentSubType("304");

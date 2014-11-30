@@ -28,6 +28,7 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
+import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
@@ -40,7 +41,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
-    private OptionMarketAdapter mOptionMarketAdapter;
+    //private OptionMarketAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
@@ -51,7 +52,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private NewsforImpleEngine vo;
     private int types;
     private TextView tv;
-
+    private OptionlistAdapter mOptionlistAdapter;
     // private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,8 +106,14 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(tv);
         mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
-        mListView.setAdapter(mOptionMarketAdapter);
+        //mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+       // if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+        	mOptionlistAdapter = new OptionlistAdapter(context, mDataList);
+        	mListView.setAdapter(mOptionlistAdapter);
+		//}else{
+			//mListView.setAdapter(mOptionMarketAdapter);
+		//}
+        
 
         mListView.removeFooterView(mFootView);
 
@@ -189,7 +196,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
                         first = false;
                     }
                     // layouts.getLayoutParams().height = dataList.size() * 150;
-                    mOptionMarketAdapter.notifyDataSetChanged();
+                    //mOptionMarketAdapter.notifyDataSetChanged();
+                    if(null != mOptionlistAdapter){
+                    	mOptionlistAdapter.notifyDataSetChanged();
+                    }
                     loadFinishUpdateView();
 
                 } else {
@@ -214,7 +224,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
 				    	first = false;
 				    }
 				    //layouts.getLayoutParams().height = dataList.size() * 150;
-				    mOptionMarketAdapter.notifyDataSetChanged();
+				    //mOptionMarketAdapter.notifyDataSetChanged();
+				    if(null != mOptionlistAdapter){
+                    	mOptionlistAdapter.notifyDataSetChanged();
+                    }
 				    loadFinishUpdateView();
 				    
 				}else{
@@ -228,7 +241,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
     };
 
     private void loadFinishUpdateView() {
-        mOptionMarketAdapter.notifyDataSetChanged();
+//        mOptionMarketAdapter.notifyDataSetChanged();
+        if(null != mOptionlistAdapter){
+        	mOptionlistAdapter.notifyDataSetChanged();
+        }
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);

@@ -15,19 +15,17 @@ import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.AppBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.google.gson.JsonArray;
 
 public class OptionEditActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
@@ -128,7 +126,6 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     e.printStackTrace();
                 }
                 break;
-
             default:
                 break;
         }
