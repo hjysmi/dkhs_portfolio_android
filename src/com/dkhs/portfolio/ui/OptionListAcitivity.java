@@ -1,21 +1,7 @@
 package com.dkhs.portfolio.ui;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -23,29 +9,45 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
+import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
-/**
- * 公告
- * @author weiting
- *
- */
-public class OptionMarketNewsActivity extends ModelAcitivity{
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView.OnItemClickListener;
+
+public class OptionListAcitivity extends ModelAcitivity{
+
 	private ListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
-    private OptionMarketAdapter mOptionMarketAdapter;
+    private OptionlistAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
     private TextView iv;
+    private static final String SYMBOL = "symbol";
+    private static final String TYPE = "type";
+    private static final String NAME = "name";
+    private String symbol;
+    private String type;
+    private String name;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -53,11 +55,27 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 		setContentView(R.layout.activity_option_market_news);
 		context = this;
 		mDataList = new ArrayList<OptionNewsBean>();
-		setTitle(R.string.function_notice);
+		
 		iv = (TextView) findViewById(android.R.id.empty);
         // iv.setText("暂无公告");
+		Bundle extras = getIntent().getExtras();
+		if(null != extras){
+			symbol = extras.getString(SYMBOL);
+			type = extras.getString(TYPE);
+			name = extras.getString(NAME);
+		}
+		((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
 		initDate();
 	}
+	public static Intent newIntent(Context context, String symbolName,String type,String name) {
+        Intent intent = new Intent(context, OptionListAcitivity.class);
+        Bundle b = new Bundle();
+        b.putString(SYMBOL, symbolName);
+        b.putString(TYPE, type);
+        b.putString(NAME, name);
+         intent.putExtras(b);
+        return intent;
+    }
 	private void initDate(){
 		UserEntity user;
 			try {
@@ -71,7 +89,9 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 					String userId = user.getId()+"";
 					NewsforImpleEngine vo = new NewsforImpleEngine();
 					vo.setUserid(userId);
-					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSALL,vo);
+					vo.setSymbol(symbol);
+					vo.setContentType(type);
+					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSFOREACH,vo);
 					mLoadDataEngine.loadData();
 					mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
 					mLoadDataEngine.setFromYanbao(false);
@@ -88,7 +108,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
         
         mListView.setEmptyView(iv);
         mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+        mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
 
         mListView.removeFooterView(mFootView);
@@ -126,15 +146,13 @@ public class OptionMarketNewsActivity extends ModelAcitivity{
 				long id) {
 			// TODO Auto-generated method stub
 			try {
-				/*if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
+				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
 				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",mDataList.get(position).getSymbols().get(0).getAbbrName(),mDataList.get(position).getSymbols().get(0).getId());
 				startActivity(intent);
 				}else{
 					Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",null,null);
 					startActivity(intent);
-				}*/
-				Intent intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0).getSymbol()+"", "20",mDataList.get(position).getSymbols().get(0).getAbbrName());
-				startActivity(intent);
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

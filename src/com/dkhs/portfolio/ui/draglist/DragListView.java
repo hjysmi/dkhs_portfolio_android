@@ -160,6 +160,7 @@ public class DragListView extends ListView {
 			lastPosition = startPosition = dragPosition = pointToPosition(x, y);
 			// 无效不进行处理
 			if (dragPosition == AdapterView.INVALID_POSITION) {
+				review(-1);
 				return super.onInterceptTouchEvent(ev);
 			}
 			if(false == bHasGetSapcing){
@@ -253,20 +254,25 @@ public class DragListView extends ListView {
 		});
 	}
 	public void reSet(int position){
-		ViewGroup dragger = (ViewGroup) getChildAt(position);
+		try {
+			ViewGroup dragger = (ViewGroup) getChildAt(position - getFirstVisiblePosition());
 
-		DragListAdapter adapter = (DragListAdapter) getAdapter();
+			DragListAdapter adapter = (DragListAdapter) getAdapter();
 
-		// 获取可拖拽的图标
-		View draggerIcon = dragger.findViewById(R.id.drag_list_item_image);
-		View delete = dragger.findViewById(R.id.image);
-			View layout = dragger.findViewById(R.id.layout);
-			View btn = dragger.findViewById(R.id.button_delete);
-			View tv = dragger.findViewById(R.id.drag_text_delet_pad);
-			//setAnima(btn.getWidth(),0,layout,btn,delete);
-			btn.setVisibility(View.GONE);
-			delete.setVisibility(View.VISIBLE);
-			tv.setVisibility(View.VISIBLE);
+			// 获取可拖拽的图标
+			View draggerIcon = dragger.findViewById(R.id.drag_list_item_image);
+			View delete = dragger.findViewById(R.id.image);
+				View layout = dragger.findViewById(R.id.layout);
+				View btn = dragger.findViewById(R.id.button_delete);
+				View tv = dragger.findViewById(R.id.drag_text_delet_pad);
+				//setAnima(btn.getWidth(),0,layout,btn,delete);
+				btn.setVisibility(View.GONE);
+				delete.setVisibility(View.VISIBLE);
+				tv.setVisibility(View.VISIBLE);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public Animation getScaleAnimation(){
 		Animation scaleAnimation= new   

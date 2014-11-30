@@ -37,6 +37,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 	public final static int NEWS_GROUP = 4;
 	//与人员相关的研报分支
 		public final static int NEWS_GROUP_TWO = 5;
+		public final static int GROUP_FOR_ONE = 6;
 	private int orderType;
 	private String model;
 	private NewsforImpleEngine vo;
@@ -85,6 +86,11 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 					MessageFormat.format(DKHSUrl.News.reportnewstwo + "&page=" + (getCurrentpage() + 1), vo.getContentSubType()),
 					null, this);
 			break;
+		case GROUP_FOR_ONE:
+			DKHSClient.requestByGet(
+					MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1), vo.getSymbol(),vo.getContentSubType()),
+					null, this);
+			break;
 		default:
 			break;
 		}
@@ -123,6 +129,10 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 			case NEWS_GROUP_TWO:
 				DKHSClient.requestByGet(
 						MessageFormat.format(DKHSUrl.News.reportnewstwo, vo.getContentSubType()),
+						null, this);
+			case GROUP_FOR_ONE:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),vo.getContentSubType()),
 						null, this);
 				break;
 			default:
