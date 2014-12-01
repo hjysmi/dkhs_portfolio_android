@@ -77,7 +77,9 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         isClickable = extras.getBoolean("isClickable");
         type = extras.getString("type");
     }
-
+    public InterceptScrollView getScroll(){
+    	return mScrollview;
+    }
     private void initViews() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         mScrollview.setScrollViewListener(mScrollViewListener);
