@@ -43,13 +43,14 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.SMSBroadcastReceiver;
 import com.dkhs.portfolio.ui.widget.TextViewClickableSpan;
 import com.dkhs.portfolio.utils.NetUtil;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 
-public class RLFActivity extends ModelAcitivity implements OnClickListener {
+public class BoundEmailActivity extends ModelAcitivity implements OnClickListener {
     // private Button btn_get_code;
     private Button rlfbutton;
     // private EditText code;
@@ -68,37 +69,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private boolean mobileAble = false;
     private boolean codeAble = false;
 
-    // @SuppressLint("HandlerLeak")
-    // private Handler handler = new Handler() {
-    // public void handleMessage(Message msg) {
-    // switch (msg.what) {
-    // case GET_CODE_ABLE:
-    // btn_get_code.setText(R.string.get_code);
-    // btn_get_code.setClickable(true);
-    // count = 0;
-    // btn_get_code.setBackgroundResource(R.drawable.button_normal_blue);
-    // mTimer.cancel();
-    // break;
-    // case GET_CODE_UNABLE:
-    // btn_get_code.setText((60 - count) + "秒");
-    // break;
-    // case GET_PHONE_NUMBER:
-    // if (!TextUtils.isEmpty(phoneNumber)) {
-    // if (phoneNumber.startsWith("+86")) {
-    // phoneNumber = phoneNumber.replace("+86", "");
-    // }
-    // etPhoneNum.setText(phoneNumber);
-    // }
-    // break;
-    // default:
-    // break;
-    // }
-    // };
-    // };
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.rlf_layout);
+        setContentView(R.layout.email_layout);
         initViews();
         setListener();
         initData();
@@ -120,14 +93,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             public void onClick(View v) {
 
                 dlg.dismiss();
-                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+                startActivity(LoginActivity.getLoginActivity(BoundEmailActivity.this, etPhoneNum.getText().toString()));
                 finish();
-                // if (NetUtil.checkNetWork(getApplicationContext())) {
-                // // PromptManager.showToast(R.string.logining);
-                // // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-                // } else {
-                // PromptManager.showNoNetWork(getApplicationContext());
-                // }
+
 
             }
         });
@@ -149,7 +117,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
             @Override
             public void run() {
-                SIMCardInfo info = new SIMCardInfo(RLFActivity.this);
+                SIMCardInfo info = new SIMCardInfo(BoundEmailActivity.this);
                 phoneNumber = info.getNativePhoneNumber();
                 Log.i(TAG, "运营商是: " + info.getProvidersName());
                 // handler.sendEmptyMessage(GET_PHONE_NUMBER);
@@ -179,29 +147,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 setRegistAble();
             }
         });
-        // code.addTextChangedListener(new TextWatcher() {
-        //
-        // @Override
-        // public void onTextChanged(CharSequence s, int start, int before, int count) {
-        //
-        // }
-        //
-        // @Override
-        // public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        //
-        // }
-        //
-        // @Override
-        // public void afterTextChanged(Editable s) {
-        // if (s.length() == 6 && mobileAble) {
-        //
-        // codeAble = true;
-        // } else {
-        // codeAble = false;
-        // }
-        // setRegistAble();
-        // }
-        // });
     }
 
     private void setRegistAble() {
@@ -223,7 +168,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         setRegistAble();
 
         if (current_type == REGIST_TYPE) {
-            setTitle("注册账号");
+            setTitle("绑定邮箱");
             rlfbutton.setText("下一步");
         } else if (current_type == FORGET_PSW_TYPE) {
             setTitle(R.string.forget_password);
@@ -278,29 +223,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 if (!isValidPhoneNum()) {
                     return;
                 }
-                // if (TextUtils.isEmpty(verify_code)) {
-                // code.requestFocus();
-                // return;
-                // }
-
-                // if (!cbAgree.isChecked() && current_type == REGIST_TYPE) {
-                // PromptManager.showToast("请同意服务协议");
-                // return;
-                // }
-
                 if (current_type == REGIST_TYPE) {
-                    // // engine.register(telephone, verify_code, listener);
-                    //
-                    // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
-                    // startActivity(intent);
-                    PromptManager.showProgressDialog(this, "正在验证...", false);
-                    engine.checkMobile(telephone, checkListener);
+                    PromptManager.showProgressDialog(this, "正在发送邮件...", false);
+                    engine.boundEmail(telephone, checkListener);
                 } else if (current_type == FORGET_PSW_TYPE) {
-                    // startActivity(SettingNameActivity.newIntent(RLFActivity.this,
-                    // etPhoneNum.getText().toString(),
-                    // code.getText().toString(), true));
-                    // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-                    // PromptManager.showProgressDialog(this, "正在登录...", false);
                 }
 
                 break;
@@ -331,27 +257,31 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         protected void afterParseData(Boolean object) {
-            if (!object) {
-                startActivity(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(), null,
-                        false));
-            } else {
+            if (object) {
+                /*startActivity(VerificationActivity.newIntent(BoundEmailActivity.this, etPhoneNum.getText().toString(), null,
+                        false));*/
+            	PromptManager.showToast(R.string.bound_email_succes);
+            	Intent intent=new Intent();
+    			setResult(RESULT_OK, intent);
+    			finish();
+            }/* else {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
                 // startActivity(i);
                 // finish();
                 showCaptchaLoginDailog();
-            }
+            }*/
         }
     };
 
     private boolean isValidPhoneNum() {
         if (TextUtils.isEmpty(telephone)) {
             // PromptManager.showToast("手机号码不能为空");
-            etPhoneNum.setError(Html.fromHtml("<font color='red'>手机号码不能为空</font>"));
+            etPhoneNum.setError(Html.fromHtml("<font color='red'>邮箱不能为空</font>"));
             etPhoneNum.requestFocus();
             return false;
         }
-        if (!SIMCardInfo.isMobileNO(telephone)) {
-            etPhoneNum.setError(Html.fromHtml("<font color='red'>请输入正确的手机号码</font>"));
+        if (!SIMCardInfo.isEmail(telephone)) {
+            etPhoneNum.setError(Html.fromHtml("<font color='red'>请输入正确的邮箱</font>"));
             etPhoneNum.requestFocus();
             // PromptManager.showToast("请输入正确的手机号码");
             return false;
@@ -413,18 +343,15 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
             if (current_type == REGIST_TYPE) {
                 if (isLoginByCaptcha) {
-                    Intent intent = new Intent(RLFActivity.this, MainActivity.class);
+                    Intent intent = new Intent(BoundEmailActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
-                    Intent intent = new Intent(RLFActivity.this, RegisterSuccessActivity.class);
+                    Intent intent = new Intent(BoundEmailActivity.this, RegisterSuccessActivity.class);
                     intent.putExtra("username", entity.getUsername());
                     startActivity(intent);
                 }
             } else {
-                // Intent intent = new Intent(RLFActivity.this, SetPasswordActivity.class);
-                // intent.putExtra("verify_code", verify_code);
-                // intent.putExtra("type", SetPasswordActivity.LOGIN_TYPE);
-                // startActivity(intent);
+
             }
             finish();
         }
@@ -461,21 +388,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private int current_type;
     private View rl_inviter;
     private UserEngineImpl engine;
-
-    // private void timerTask() {
-    // mTimer.schedule(new TimerTask() {
-    //
-    // @Override
-    // public void run() {
-    // if (count < 60) {
-    // handler.sendEmptyMessage(GET_CODE_UNABLE);
-    // count++;
-    // } else {
-    // handler.sendEmptyMessage(GET_CODE_ABLE);
-    // }
-    // }
-    // }, 0, 1000);
-    // }
 
     @Override
     public void onBackPressed() {

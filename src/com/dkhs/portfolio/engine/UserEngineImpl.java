@@ -144,7 +144,9 @@ public class UserEngineImpl {
     public void checkMobile(String mobile, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.checkMobile, mobile);
     }
-
+    public void boundEmail(String email,IHttpListener listener){
+    	DKHSClient.requestByGet(listener, DKHSUrl.User.boundemail, email);
+    }
     public void setUserName(String username, ParseHttpListener<String> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("username", username);
