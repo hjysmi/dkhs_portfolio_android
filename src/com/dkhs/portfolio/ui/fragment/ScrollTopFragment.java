@@ -116,7 +116,7 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         }
 
         tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(value));
-        view.findViewById(R.id.fl_content).setOnClickListener(this);
+        view.findViewById(R.id.rl_content).setOnClickListener(this);
         tvTitle.setOnClickListener(this);
         tvIncreaseText.setOnClickListener(this);
         tvIncreaseValue.setOnClickListener(this);
