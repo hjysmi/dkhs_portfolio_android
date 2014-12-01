@@ -326,21 +326,33 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    // 修改基金名称
-                    startActivityForResult(
+            	switch (position) {
+				case 0:
+					// 修改基金名称
+					startActivityForResult(
                             ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this, mCombinationBean),
                             REQUESTCODE_MODIFY_COMBINATION);
-                } else if (position == 1) {
-                    // 调整仓位
-                    Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
+					break;
+				case 1:
+					// 调整仓位
+					Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
                     intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
                     intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
                     startActivity(intent);
-                } else {
-                    // 隐私设置
-                    startActivity(PrivacySettingActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
-                }
+					break;
+				case 2:
+					// 隐私设置
+					startActivity(PrivacySettingActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
+					break;
+				case 3:
+					//每日收益记录
+					startActivity(EveryDayValueActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
+					break;
+				case 4:
+					break;
+				default:
+					break;
+				}
                 pw.dismiss();
             }
         });

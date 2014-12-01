@@ -141,6 +141,8 @@ public class DKHSUrl {
         // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
         String checkMobile = "/api/v1/accounts/check_mobile/?mobile={0}";
+        //绑定邮箱
+        String boundemail = "/api/v1/accounts/bind_email/?email={0}";
         // 设置昵称
         String setUserName = "/api/v1/accounts/set_username/";
         // 修改头像

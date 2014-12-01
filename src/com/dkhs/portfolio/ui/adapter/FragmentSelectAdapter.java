@@ -107,6 +107,9 @@ public class FragmentSelectAdapter {
 			}
 		}
 	}
+	public void setScrollAble(boolean isScorll){
+		pager.setCanScroll(isScorll);
+	}
 	/**
 	 * 实现标题栏的代码实现
 	 */

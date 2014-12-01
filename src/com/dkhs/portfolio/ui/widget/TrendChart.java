@@ -73,12 +73,14 @@ public class TrendChart extends TrendGridChart {
     private Runnable mLongPressRunnable;
     // 移动的阈值
     private static final int TOUCH_SLOP = 20;
-
+    private InterceptScrollView mScrollview;
     public TrendChart(Context context) {
         super(context);
         init();
     }
-
+    public void setScroll(InterceptScrollView mScrollview){
+    	this.mScrollview = mScrollview;
+    }
     public TrendChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
@@ -151,7 +153,9 @@ public class TrendChart extends TrendGridChart {
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
-
+                if(null != mScrollview){
+                	mScrollview.setIsfocus(true);
+                }
                 // postDelayed(mLongPressRunnable, 2000);
                 break;
             case MotionEvent.ACTION_UP:
@@ -160,6 +164,9 @@ public class TrendChart extends TrendGridChart {
                 isReleased = true;
                 if (null != mTouchListener) {
                     mTouchListener.loseTouching();
+                }
+                if(null != mScrollview){
+                	mScrollview.setIsfocus(false);
                 }
                 // removeCallbacks(mLongPressRunnable);
 

@@ -18,7 +18,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,7 +30,6 @@ import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
@@ -44,6 +42,8 @@ import com.dkhs.portfolio.engine.NetValueEngine.TodayNetValue;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.OrderFundDetailActivity;
+import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
@@ -402,7 +402,10 @@ public class TrendChartFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-
+        if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
+        	InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+        	mMaChart.setScroll(mScrollview);
+        }
         initMaChart(mMaChart);
         initView(view);
         // setupBottomTextViewData();

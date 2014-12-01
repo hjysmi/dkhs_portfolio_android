@@ -255,6 +255,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
                 getSupportFragmentManager());
+        mFragmentSelectAdapter.setScrollAble(false);
         mFragmentSelectAdapter.setOutLaoyout(layouts);
         // views.setOnTouchListener(new OnView());
     }
