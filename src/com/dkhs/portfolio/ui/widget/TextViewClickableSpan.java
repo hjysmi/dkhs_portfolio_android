@@ -34,7 +34,9 @@ public class TextViewClickableSpan extends ClickableSpan {
     }
 
     public void onClick(View widget) {
-        context.startActivity(intent);
+    	if(null != intent){
+    		context.startActivity(intent);
+    	}
     };
 
     @Override

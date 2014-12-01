@@ -248,7 +248,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     // private TextView tvMessage;
 
     private static final String str = "我已阅读并同意";
-    private static final String str2 = "《多块好省服务协议》";
+    private static final String str2 = "《多快好省服务协议》";
 
     private void initLink() {
         // 跳转隐私政策
