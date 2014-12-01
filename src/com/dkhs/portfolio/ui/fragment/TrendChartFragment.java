@@ -67,6 +67,7 @@ public class TrendChartFragment extends BaseFragment {
     public static final String TREND_TYPE_HISTORY = "trend_history";
 
     private String trendType = TREND_TYPE_TODAY;
+    private boolean needCloseDialog = false;
     // private boolean isTodayNetValue;
     private TextView tvTimeLeft;
     private TextView tvTimeRight;
@@ -336,42 +337,48 @@ public class TrendChartFragment extends BaseFragment {
         if (!TextUtils.isEmpty(trendType)) {
 
             if (isTodayShow()) {
-                long time = System.currentTimeMillis();
 
                 initTodayTrendTitle();
                 if (null != mTodayLineData) {
-
+                	needCloseDialog = true;
                     setTodayViewLoad();
+
 
                     // computeTodayDataThread.start();
                 }
-                Log.e("timemillis", (time - System.currentTimeMillis() + ""));
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
                 if (null == mAllLineData) {
                     mNetValueDataEngine.requeryHistory(historyNetValueListener);
                     historyNetValueListener.setLoadingDialog(getActivity());
+                    needCloseDialog = false;
                 } else {
-
+                	needCloseDialog = true;
                     setHistoryViewload(mAllLineData);
+
                 }
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
                 if (null == mMonthLineData) {
                     mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
                     historyNetValueListener.setLoadingDialog(getActivity());
+                    needCloseDialog = false;
                 } else {
-
+                	needCloseDialog = true;
                     setHistoryViewload(mMonthLineData);
+
                 }
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
                 if (null == mWeekLineData) {
                     mNetValueDataEngine.requerySevenDay(historyNetValueListener);
                     historyNetValueListener.setLoadingDialog(getActivity());
+                    needCloseDialog = false;
                 } else {
-
+                	needCloseDialog = true;
                     setHistoryViewload(mWeekLineData);
+
                 }
             }
             setupBottomTextViewData();
+            
         }
 
         PromptManager.closeProgressDialog();
@@ -457,7 +464,6 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private void initMaChart(final TrendChart machart) {
-
         machart.setBoldLine();
 
         machart.setAxisXColor(Color.LTGRAY);
@@ -514,7 +520,6 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
-
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");
@@ -636,7 +641,6 @@ public class TrendChartFragment extends BaseFragment {
         float increase = mTodayLineData.netvalue;
         tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increase));
         tvIncreaseValue.setText(StringFromatUtils.getPercentValue(increase));
-        Log.e("time", (System.currentTimeMillis() - time + ""));
     }
 
     /**

@@ -235,8 +235,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            System.out.println("hand update message");
-            float netValue = (Float) msg.obj;
+//            System.out.println("hand update message");
+//            float netValue = (Float) msg.obj;
             // if (netValue > 1) {
             // ivUpDownIcon.setImageResource(R.drawable.ic_combination_up);
             // viewNetvalueHead.setBackgroundResource(R.color.red);
@@ -248,7 +248,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // ivUpDownIcon.setImageDrawable(null);
             // viewNetvalueHead.setBackgroundResource(R.color.red);
             // }
-            updateIncreaseRatio(netValue);
+//            updateIncreaseRatio(netValue);
+        	replaceFragment(mtrendFragment);
         };
     };
 
@@ -518,6 +519,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }
         } else {
 
+        	
             trasection.show(newFragment);
         }
 
@@ -594,8 +596,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
         // mSwitchFragment = FragmentSwitchChart.newInstance(
         // TrendChartFragment.TREND_TYPE_TODAY, isFromOrder);
-        mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
-        replaceFragment(mtrendFragment);
+//        mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
+//        replaceFragment(mtrendFragment);
+        updateHandler.sendEmptyMessageDelayed(200, 50);
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {

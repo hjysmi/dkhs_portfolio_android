@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.utils.PromptManager;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -268,6 +269,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     @Override
     public void onAnimationStart(Animation arg0) {
         // TODO Auto-generated method stub
+    	PromptManager.showProgressDialog(getContext(), "");
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 

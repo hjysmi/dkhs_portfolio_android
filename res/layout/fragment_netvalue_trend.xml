@@ -249,20 +249,15 @@
 
     <View style="@style/divider_line" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/rl_trend_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
-    </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <com.dkhs.portfolio.ui.widget.ScrollViewPager
+    <!-- <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:visibility="gone" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" /> -->
 
 </LinearLayout>

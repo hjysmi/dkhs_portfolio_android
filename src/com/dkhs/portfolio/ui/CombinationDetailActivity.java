@@ -156,21 +156,21 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         // }
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         // ft.replace(R.id.rl_content, FragmentNetValueTrend.newInstance(false));
-        ft.replace(R.id.rl_content, mFragmentTrend);
+        ft.replace(R.id.fl_content, mFragmentTrend);
         ft.commit();
     }
 
     private void replaceCompareView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         mFragmentCompare = new FragmentCompare();
-        ft.replace(R.id.rl_content, mFragmentCompare);
+        ft.replace(R.id.fl_content, mFragmentCompare);
         ft.commit();
     }
 
     private void replaceDetailView() {
         mFragmentDetail = FragmentPositionDetail.newInstance(mCombinationBean.getId());
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.rl_content, mFragmentDetail);
+        ft.replace(R.id.fl_content, mFragmentDetail);
         ft.commit();
     }
 
@@ -181,7 +181,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         Bundle b = new Bundle();
         b.putSerializable(FragmentNews.DATA, mCombinationBean);
         f.setArguments(b);
-        ft.replace(R.id.rl_content, f);
+        ft.replace(R.id.fl_content, f);
         ft.commit();
     }
 
