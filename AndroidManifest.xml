@@ -99,6 +99,8 @@
         <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionListAcitivity" />
         <activity android:name="com.dkhs.portfolio.ui.ReportForOneListActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.EveryDayValueActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.BoundEmailActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />

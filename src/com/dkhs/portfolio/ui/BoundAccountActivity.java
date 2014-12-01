@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -69,7 +70,8 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bound_text_email:
-
+            	Intent intent = new Intent(this,BoundEmailActivity.class);
+            	startActivityForResult(intent, 5);
                 break;
             case R.id.bound_text_qq:
                 authPlatform(QZone.NAME);
@@ -230,10 +232,27 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                     } else if (plat.getProvider().contains("mobile")) {
                         boundTextPhone.setText(plat.getUsername());
                         boundTextPhone.setEnabled(false);
+                    }else if(plat.getProvider().contains("email")){
+                    	boundTextEmail.setText(plat.getUsername());
+                    	boundTextEmail.setEnabled(false);
                     }
                 }
             }
         };
     };
 
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		// TODO Auto-generated method stub
+		switch (arg0) {
+		case 5:
+			
+			break;
+
+		default:
+			break;
+		}
+		super.onActivityResult(arg0, arg1, arg2);
+	}
+    
 }

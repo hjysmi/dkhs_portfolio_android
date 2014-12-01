@@ -133,17 +133,19 @@ public class DragListView extends ListView {
 	}
 	public void review(int position){
 		DragListAdapter adapter = (DragListAdapter) getAdapter();
-		List<SelectStockBean> list = adapter.getList();
-		for(int i = 0; i < list.size(); i++){
-			if(i != position){
-				ViewGroup dragger = (ViewGroup) getChildAt(i);
-				if(null != dragger){
-					View delete = dragger.findViewById(R.id.image);
-					View btn = dragger.findViewById(R.id.button_delete);
-					View tv = dragger.findViewById(R.id.drag_text_delet_pad);
-					btn.setVisibility(View.GONE);
-					delete.setVisibility(View.VISIBLE);
-					tv.setVisibility(View.VISIBLE);
+		if(null != adapter && adapter.getList().size() > 0){
+			List<SelectStockBean> list = adapter.getList();
+			for(int i = 0; i < list.size(); i++){
+				if(i != position){
+					ViewGroup dragger = (ViewGroup) getChildAt(i);
+					if(null != dragger){
+						View delete = dragger.findViewById(R.id.image);
+						View btn = dragger.findViewById(R.id.button_delete);
+						View tv = dragger.findViewById(R.id.drag_text_delet_pad);
+						btn.setVisibility(View.GONE);
+						delete.setVisibility(View.VISIBLE);
+						tv.setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		}

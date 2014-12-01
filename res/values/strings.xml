@@ -156,6 +156,7 @@
     <string name="no_net_connect">网络连接失败，请检查网络</string>
     <string name="mobile">手机号</string>
     <string name="hint_mobile">请输入手机号</string>
+    <string name="hint_email">请输入邮箱</string>
     <string name="verify_code">验证码</string>
     <string name="hint_verify_code">请输入验证码</string>
     <string name="get_code">获取验证码</string>
@@ -227,6 +228,7 @@
     <string name="change_usesr_name_title">修改昵称</string>
     <string name="password_setting_name_null">昵称不能为空</string>
     <string name="password_setting_name_success">修改成功</string>
+    <string name="bound_email_succes">已经发送绑定邮件到您的邮箱，请查收</string>
     <string name="tip_message_dashline">注:虚线为模拟复盘走势</string>
     <string name="text_no_open">该用户未开放查看权限</string>
     <string name="text_combin_open">查看持仓明细</string>
@@ -253,7 +255,8 @@
     <string name="change_combination_name">修改基金名称</string>
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
+    <string name="privacy_everyday_record">每日收益记录</string>
+    <string name="privacy_history_record">历史调仓记录</string>
     <string name="adjust_back_message">持仓调整尚未提交，确定放弃本次调仓</string>
     <string name="title_binds">绑定账号</string>
-
 </resources>

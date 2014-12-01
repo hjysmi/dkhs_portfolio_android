@@ -713,10 +713,10 @@ public class StockQuotesChartFragment extends Fragment {
             }
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
-
+                todayListener.setFromYanbao(true);
             } else {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
-
+                todayListener.setFromYanbao(false);
             }
             todayListener.setLoadingDialog(getActivity()).beforeRequest();
             dataHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
