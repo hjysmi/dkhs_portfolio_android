@@ -108,6 +108,9 @@
             android:name="com.dkhs.portfolio.ui.CopyMessageDialog"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
+            android:name="com.dkhs.portfolio.ui.GettingUrlForAPPActivity"
+            android:theme="@style/MyDialogStyleBottom" />
+        <activity
             android:name="com.dkhs.portfolio.ui.StockQuotesActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

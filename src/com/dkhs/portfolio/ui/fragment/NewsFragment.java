@@ -106,12 +106,22 @@ public class NewsFragment extends Fragment {
 
     private void intialTitles() {
     	String url = "";
-    	 if (PortfolioPreferenceManager.isRequestByTestServer()) {
-    		 url =  DKHSUrl.BASE_TEST_URL;
-         } else {
-             url =  DKHSUrl.BASE_DEV_URL;
-
-         }
+    	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+		case 0:
+			url =  DKHSUrl.BASE_DEV_TAG;
+			break;
+		case 1:
+			url = DKHSUrl.BASE_DEV_URL;
+			break;
+		case 2:
+			url = DKHSUrl.BASE_TEST_URL;
+			break;
+		case 3:
+			url = DKHSUrl.BASE_DEV_MAIN;
+			break;
+		default:
+			break;
+		}
     	 
         Map<String, String> title = new HashMap<String, String>();
         titles.clear();
