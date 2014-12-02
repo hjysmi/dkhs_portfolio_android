@@ -41,8 +41,11 @@ import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
+import com.dkhs.portfolio.bean.errorbundle.BaseError;
+import com.dkhs.portfolio.bean.errorbundle.RaiseUpDown;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
@@ -53,7 +56,9 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -611,10 +616,81 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
 
         @Override
+        public void onFailure(int errCode, String errMsg) {
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+            BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
+            }.getType());
+            RaiseUpDown raiseError = baseErrors.getErrors();
+            StringBuilder sbRaiseUp = null;
+            StringBuilder sbRaiseDown = null;
+            if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
+                // Toast.makeText(getApplicationContext(),
+                // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
+                // .show();
+                sbRaiseDown = new StringBuilder();
+                for (String code : raiseError.getRaise_down()) {
+                    sbRaiseDown.append(code);
+                    sbRaiseDown.append("、");
+                }
+            } else if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+                sbRaiseUp = new StringBuilder();
+                for (String code : raiseError.getRaise_down()) {
+                    sbRaiseUp.append(code);
+                    sbRaiseUp.append("、");
+                }
+
+            }
+
+            StringBuilder sbToastText = new StringBuilder();
+            if (null != sbRaiseUp) {
+                sbToastText.append("涨停股");
+                sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
+                sbToastText.append("无法调高占比.");
+                sbToastText.append("\n");
+
+            }
+            if (null != sbRaiseDown) {
+                sbToastText.append("跌停股");
+                sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
+                sbToastText.append("无法调低占比.");
+                sbToastText.append("\n");
+            }
+
+            Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
+
+        };
+
+        @Override
         protected void afterParseData(Object object) {
             Toast.makeText(PositionAdjustActivity.this, "持仓调整成功", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        // @Override
+        // public void requestErrorBack(ErrorBundle error) {
+        // if (null != error && null != error.getErrorJsonArray() && !TextUtils.isEmpty(error.getErrorKey())) {
+        //
+        // StringBuilder sb = new StringBuilder();
+        // int length = error.getErrorJsonArray().length();
+        // for (int i = 0; i < length; i++) {
+        // try {
+        // sb.append(error.getErrorJsonArray().getString(i));
+        // } catch (JSONException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
+        // }
+        // if (error.getErrorKey().contains("raise_up")) {
+        // Toast.makeText(getApplicationContext(), "涨停股：" + sb.toString() + "无法调高占比  ", Toast.LENGTH_LONG)
+        // .show();
+        // } else if (error.getErrorKey().contains("raise_down")) {
+        // Toast.makeText(getApplicationContext(), "跌停股：" + sb.toString() + "无法调低占比  ", Toast.LENGTH_LONG)
+        // .show();
+        // }
+        // }
+        //
+        // }
 
     };
 
@@ -716,6 +792,27 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                             finish();
 
                         }
+
+                        @Override
+                        public void onFailure(int errCode, String errMsg) {
+                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                            BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg,
+                                    new TypeToken<BaseError<RaiseUpDown>>() {
+                                    }.getType());
+                            RaiseUpDown raiseError = baseErrors.getErrors();
+                            if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+                                StringBuilder sb = new StringBuilder();
+
+                                for (String code : raiseError.getRaise_up()) {
+                                    sb.append(code);
+                                    sb.append("、");
+                                }
+                                Toast.makeText(getApplicationContext(),
+                                        "涨停股：" + sb.substring(0, sb.length() - 1) + "不能加入基金", Toast.LENGTH_LONG).show();
+
+                            }
+                        };
 
                         @Override
                         protected CombinationBean parseDateTask(String jsonData) {
