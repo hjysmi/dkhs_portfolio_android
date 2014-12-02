@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout 
-        android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:layout_height="wrap_content"
         android:background="@color/activity_bg_color"
-        >
-        <TextView 
-            android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" >
+
+        <TextView
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black"
             android:gravity="center"
-            android:textSize="@dimen/list_text_size"
             android:text="日期"
-            />
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/list_text_size"
             android:text="净值"
-            />
-        <TextView 
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
             android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="@dimen/list_text_size"
             android:text="日涨幅"
-            />
+            android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
     </LinearLayout>
+
+    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
+        android:id="@+id/mListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>
