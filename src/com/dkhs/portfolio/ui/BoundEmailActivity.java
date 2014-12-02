@@ -196,13 +196,6 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
     private static final String str2 = "《多快好省服务协议》";
 
     private void initLink() {
-        // 跳转隐私政策
-        // Intent intent1 = new Intent(this, ActivityTermsPrivate.class);
-        // intent1.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_POLICY);
-        // // 跳转服务条款
-        // Intent intent = new Intent(this, .class);
-        // intent2.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_TERMS);
-
         SpannableStringBuilder sp = new SpannableStringBuilder();
         sp.append(str + str2);
 
@@ -264,12 +257,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
             	Intent intent=new Intent();
     			setResult(RESULT_OK, intent);
     			finish();
-            }/* else {
-                // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
-                // startActivity(i);
-                // finish();
-                showCaptchaLoginDailog();
-            }*/
+            }
         }
     };
 

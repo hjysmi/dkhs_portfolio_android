@@ -129,6 +129,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
+            PromptManager.closeProgressDialog();
         } else {
             if (mOrderType.contains(ORDER_TYPE_DAY)) {
                 setEmptyText("日排行暂无数据");
