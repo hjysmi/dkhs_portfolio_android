@@ -2,12 +2,12 @@ package com.dkhs.portfolio.net;
 
 public interface IHttpListener {
 
-
     public void beforeRequest();
 
     public void requestCallBack();
 
     public void stopRequest(boolean isStop);
+
     public boolean isStopRequest();
 
     /**
@@ -41,4 +41,7 @@ public interface IHttpListener {
      * @return void 返回类型
      */
     public void onHttpFailure(int errCode, Throwable err);
+
+    // public void requestErrorBack(ErrorBundle error);
+
 }

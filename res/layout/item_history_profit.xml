@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2014-07-25"
+            android:id="@+id/tv_date"
+            android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_value"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1.0558"
+            android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
+
+        <TextView
+            android:id="@+id/tv_percent"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="1.12%"
+            android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
+
+</LinearLayout>

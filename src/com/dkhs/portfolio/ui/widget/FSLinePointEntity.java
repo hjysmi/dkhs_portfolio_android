@@ -25,6 +25,7 @@ public class FSLinePointEntity extends LinePointEntity {
     private float increaseRange;
     private float minchange;
     private int turnover;
+    private boolean isIndexType;
 
     public String getTime() {
         return time;
@@ -96,6 +97,14 @@ public class FSLinePointEntity extends LinePointEntity {
 
     public void setMinchange(float minchange) {
         this.minchange = minchange;
+    }
+
+    public boolean isIndexType() {
+        return isIndexType;
+    }
+
+    public void setIndexType(boolean isIndexType) {
+        this.isIndexType = isIndexType;
     }
 
 }

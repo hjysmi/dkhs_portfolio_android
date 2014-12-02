@@ -32,6 +32,19 @@
             android:layout_toRightOf="@+id/tv_stock_name"
             android:textSize="12sp" />
 
+        <TextView
+            android:id="@+id/tv_isStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_stock_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/tv_gray_text"
+            android:text="已停牌"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="70dp"
+                android:layout_marginRight="80dp"
                 android:max="100"
                 android:maxHeight="12dp"
                 android:paddingLeft="8dp"

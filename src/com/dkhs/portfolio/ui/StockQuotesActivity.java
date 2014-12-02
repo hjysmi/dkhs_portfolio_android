@@ -262,10 +262,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // views.setOnTouchListener(new OnView());
     }
 
+    private boolean isIndexType() {
+        return null != mStockBean && mStockBean.symbol_type != null
+                && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX);
+    }
+
     private void initView() {
         ViewStub viewstub;
-        if (null != mStockBean && mStockBean.symbol_type != null
-                && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+        if (isIndexType()) {
             viewstub = (ViewStub) findViewById(R.id.layout_index_header);
 
         } else {
