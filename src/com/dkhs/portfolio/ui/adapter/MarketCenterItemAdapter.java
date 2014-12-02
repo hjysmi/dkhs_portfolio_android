@@ -16,25 +16,28 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.utils.StockUitls;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
-public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
-	public MarketCenterItemAdapter(Context context, List<SelectStockBean> datas) {
-		super(context, datas);
-		// TODO Auto-generated constructor stub
-	}
-	private SelectStockBean mStockQuotesBean;
+public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
+    public MarketCenterItemAdapter(Context context, List<SelectStockBean> datas) {
+        super(context, datas);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public long getItemId(int position) {
-		// TODO Auto-generated method stub
-		return position;
-	}
+    private SelectStockBean mStockQuotesBean;
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		ViewHodler viewHolder = null;
-		mStockQuotesBean = mDataList.get(position);
+    @Override
+    public long getItemId(int position) {
+        // TODO Auto-generated method stub
+        return position;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        // TODO Auto-generated method stub
+        ViewHodler viewHolder = null;
+        mStockQuotesBean = mDataList.get(position);
         if (convertView == null) {
             viewHolder = new ViewHodler();
             convertView = View.inflate(mContext, R.layout.market_layout_market, null);
@@ -49,26 +52,33 @@ public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
         }
         viewHolder.tvTextName.setText(mStockQuotesBean.name);
         viewHolder.tvTextNameNum.setText(mStockQuotesBean.code);
-        
+
         float change = mStockQuotesBean.percentage;
-        if(change > 0){
-        	viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.red));
-        	viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.red));
-        }else if(change == 0){
-        	viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.black));
-        	viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.black));
-        }else{
-        	viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.green));
-        	viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.green));
+        if (change > 0) {
+            viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.red));
+            viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.red));
+        } else if (change == 0) {
+            viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.black));
+            viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.black));
+        } else {
+            viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.green));
+            viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.green));
         }
-        viewHolder.tvTextItemIndex.setText( new DecimalFormat("##0.00").format(mStockQuotesBean.currentValue));
-        DecimalFormat fnum = new DecimalFormat("##0.00"); 
-        String dd=fnum.format(change); 
-        viewHolder.tvTextPercent.setText(dd+"%");
+        if (StockUitls.isShangZhengB(mStockQuotesBean.code)) {
+
+            viewHolder.tvTextItemIndex.setText(StringFromatUtils.get3Point(mStockQuotesBean.currentValue));
+        } else {
+            viewHolder.tvTextItemIndex.setText(StringFromatUtils.get2Point(mStockQuotesBean.currentValue));
+        }
+        // viewHolder.tvTextItemIndex.setText( new DecimalFormat("##0.00").format(mStockQuotesBean.currentValue));
+        DecimalFormat fnum = new DecimalFormat("##0.00");
+        String dd = fnum.format(change);
+        viewHolder.tvTextPercent.setText(dd + "%");
         viewHolder.tvLayoutTitle.setOnClickListener(new OnItemListener(position));
         return convertView;
-	}
-	final static class ViewHodler {
+    }
+
+    final static class ViewHodler {
         LinearLayout tvLayoutTitle;
         TextView tvTextIndex;
         TextView tvTextEdition;
@@ -79,20 +89,21 @@ public class MarketCenterItemAdapter  extends BaseAdatperSelectStockFund{
         TextView tvTextPercent;
         ImageView tvUpDown;
     }
-	class OnItemListener implements OnClickListener{
-    	private int position;
-    	public OnItemListener(int position){
-    		this.position = position;
-    	}
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			SelectStockBean itemStock = mDataList.get(position);
-            
-           
-            
+
+    class OnItemListener implements OnClickListener {
+        private int position;
+
+        public OnItemListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            // TODO Auto-generated method stub
+            SelectStockBean itemStock = mDataList.get(position);
+
             mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
-		}
-    	
+        }
+
     }
 }
