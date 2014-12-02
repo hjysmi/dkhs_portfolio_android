@@ -562,6 +562,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             b.recycle();
 
             System.out.println("image saved:" + SHARE_IMAGE);
+            updateView();
             // Toast.makeText(getActivity(), "image saved", 5000).show();
         } catch (Exception e) {
             System.out.println("Failed To Save");
