@@ -67,13 +67,14 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 		newsTitleNum = (TextView) findViewById(R.id.news_title_num);
 		newsTextTitle = (TextView) findViewById(R.id.news_text_title);
 		newsTextText = (TextView) findViewById(R.id.news_text_text);
+		newsTextText.setTextIsSelectable(true);
 	}
 	 ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
 	        @Override
 	        public void loadFinish(OptionNewsBean dataList) {
 	            try {
-					if (null != dataList) {
+	            	if (null != dataList) {
 						mOptionNewsBean = dataList;
 						setValue();
 					}

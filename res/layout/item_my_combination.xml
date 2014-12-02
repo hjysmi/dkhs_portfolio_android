@@ -16,7 +16,7 @@
             android:id="@+id/rl_combina_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_con_title_header" >
+            android:background="@drawable/combination_item_selector" >
 
             <RelativeLayout
                 android:id="@+id/rl_index"

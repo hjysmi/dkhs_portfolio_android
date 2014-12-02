@@ -762,10 +762,12 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		}
 
 	}
-
+	float timeX = 0;
+	float timeY = 0;
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 		e = event;
+		
 		switch (event.getAction()) {
 		// 设置触摸模式
 		case MotionEvent.ACTION_DOWN:
@@ -777,8 +779,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			currentTime = System.currentTimeMillis();
 			//TOUCH_MODE = DOWN;
 			showDetails = false;
-			mStartX = event.getX() - PADDING_LEFT;
-			mStartY = event.getY();
+			timeX = event.getX();
+			timeY = event.getY();
+			Log.e("xyxyxyx", timeX + " ----" + timeY);
 			Thread t = new Thread(new Runnable() {
 				
 				@Override
@@ -787,6 +790,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					try {
 						Thread.sleep(700);
 						if(go){
+							if (null != mTouchListener) {
+				                mTouchListener.chartTounching();
+				            }
 							mStartX = (int)(event.getX() - 2 * mCandleWidth - 6  - PADDING_LEFT);
 							if(mOHLCData.size() < MIN_CANDLE_NUM){
 								mStartX = (int)(event.getX() -  mCandleWidth - 3 - PADDING_LEFT);
@@ -819,10 +825,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				postInvalidate();
 			break;
 		case MotionEvent.ACTION_MOVE:
-			float horizontalSpacing = event.getX() - PADDING_LEFT - mStartX;
-			if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE) {
+			float horizontalSpacing = event.getX() - timeX;
+			float hor = event.getY() - timeY;
+			if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE) {
 				go = false;
+				if (null != mTouchListener) {
+	                mTouchListener.loseTouching();
+	            }
 			}
+			Log.e("hor", hor + " ----" + horizontalSpacing);
 			/*if (mOHLCData == null || mOHLCData.size() <= 0) {
 				return true;
 			}
@@ -838,6 +849,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				//setTouchMode(event);
 			}*/
 			if(showDetails){
+				if (null != mTouchListener) {
+	                mTouchListener.chartTounching();
+	            }
 				mStartX = event.getX() - PADDING_LEFT;
 				mStartY = event.getY();
 				setCurrentData();

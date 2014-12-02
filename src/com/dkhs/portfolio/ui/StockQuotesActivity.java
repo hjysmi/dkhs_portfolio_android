@@ -251,6 +251,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         frag.add(f4);
         if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
             Fragment f3 = new NewsFragment();
+            Bundle b3 = new Bundle();
+            b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
             frag.add(f3);
         }
         FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
