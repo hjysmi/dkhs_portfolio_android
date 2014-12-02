@@ -221,6 +221,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         if (isAdjustCombination) {
             setTitle(R.string.adjust_combination);
+            findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
+            findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
+            findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
             // ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
             // if (viewstub != null) {
             // viewstub.inflate();
@@ -251,7 +254,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             etConbinationName.setText(mPositionDetailBean.getPortfolio().getName());
             etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDescription());
-            viewCombinationInfo.setVisibility(View.VISIBLE);
+            // viewCombinationInfo.setVisibility(View.VISIBLE);
             positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
             positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
                     .getNetvalue() - 1));
@@ -265,8 +268,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         setPieList(mPositionDetailBean.getFund_percent());
         setFootData(mPositionDetailBean.getFund_percent());
 
-        System.out.println("getFund_percent:" + mPositionDetailBean.getFund_percent());
-        System.out.println("surpulsValue:" + surpulsValue());
+        // System.out.println("getFund_percent:" + mPositionDetailBean.getFund_percent());
+        // System.out.println("surpulsValue:" + surpulsValue());
 
     }
 

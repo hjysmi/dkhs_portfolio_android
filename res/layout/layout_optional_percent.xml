@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="70dp"
+                android:layout_toLeftOf="@+id/tv_stock_percent"
                 android:max="100"
                 android:maxHeight="12dp"
                 android:paddingLeft="8dp"

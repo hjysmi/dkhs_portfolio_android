@@ -72,6 +72,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="wrap_content" >
 
             <TextView
@@ -82,6 +83,7 @@
                 android:paddingBottom="3dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
+                android:id="@+id/tv_myconfig_text"
                 android:paddingTop="3dp"
                 android:text="@string/my_config"
                 android:textColor="@color/white" />

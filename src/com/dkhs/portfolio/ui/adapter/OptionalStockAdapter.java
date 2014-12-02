@@ -45,12 +45,12 @@ public class OptionalStockAdapter extends BaseAdapter {
     }
 
     public void setFundpercent(float fundpercent) {
-        this.maxValue = fundpercent;
+        // this.maxValue = fundpercent;
     }
 
     public void setList(List stocklist) {
         this.stockList = stocklist;
-        // setSurpusValue();
+        setSurpusValue();
         notifyDataSetChanged();
     }
 
