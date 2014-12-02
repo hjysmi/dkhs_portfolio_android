@@ -59,7 +59,7 @@
                 <TextView
                     android:id="@+id/tv_mycob_current"
                     style="@style/hw_wrap"
-                    android:text="今日"
+                    android:text="今日:"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
 
@@ -121,7 +121,7 @@
             android:paddingLeft="14dp"
             android:paddingTop="6dp"
             android:singleLine="true"
-            android:text="描述："
+            android:text="描述:"
             android:textColor="@android:color/darker_gray" />
     </RelativeLayout>
 
