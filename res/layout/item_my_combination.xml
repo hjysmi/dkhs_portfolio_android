@@ -31,8 +31,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
-                    android:text="66"
                     android:paddingLeft="6dp"
+                    android:text="66"
                     android:textColor="@color/white" />
             </RelativeLayout>
 
@@ -59,7 +59,7 @@
                 <TextView
                     android:id="@+id/tv_mycob_current"
                     style="@style/hw_wrap"
-                    android:text="@string/current"
+                    android:text="今日"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
 
