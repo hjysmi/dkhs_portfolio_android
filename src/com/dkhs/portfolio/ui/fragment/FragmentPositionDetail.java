@@ -388,7 +388,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     private void setPieList() {
-
+        // pieList.clear();
         PieSlice emptySlice = new PieSlice();
         emptySlice.setColor(ColorTemplate.DEF_RED);
         emptySlice.setValue(mPositionDetail.getFund_percent());
@@ -459,14 +459,14 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     public void showShareImage() {
 
         // initImagePath();
-//        new Thread() {
-//            public void run() {
+        // new Thread() {
+        // public void run() {
 
-                // initImagePath();
-                saveShareBitmap();
-                shareHandler.sendEmptyMessage(999);
-//            }
-//        }.start();
+        // initImagePath();
+        saveShareBitmap();
+        shareHandler.sendEmptyMessage(999);
+        // }
+        // }.start();
 
     }
 
@@ -487,8 +487,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
         oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
-        String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于" + mPositionDetail.getCurrentDate()
-                + "的持仓明细。你也来创建属于你的基金吧.https://dkhs.com/portfolio/wap/";
+        String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
+                + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧.https://dkhs.com/portfolio/wap/";
 
         oks.setText(customText);
 
@@ -544,7 +544,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             Canvas c = new Canvas(b);
             c.drawColor(Color.WHITE);
-            
+
             v.layout(0, 0, v.getLayoutParams().width, v.getLayoutParams().height);
             v.draw(c);
 
@@ -562,7 +562,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             b.recycle();
 
             System.out.println("image saved:" + SHARE_IMAGE);
-            updateView();
+            // updateView();
+            setCombinationInfo();
+            setStockList();
+            pgView.setSlices(pieList);
+
             // Toast.makeText(getActivity(), "image saved", 5000).show();
         } catch (Exception e) {
             System.out.println("Failed To Save");

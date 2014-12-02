@@ -266,22 +266,33 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             }
                 break;
             case R.id.iv_weibo: {
-                authPlatform(SinaWeibo.NAME);
+                // authPlatform(SinaWeibo.NAME);
+                authorize(new SinaWeibo(this));
             }
                 break;
             case R.id.iv_qq: {
-                authPlatform(QZone.NAME);
+                // authPlatform(QZone.NAME);
 
+                authorize(new QZone(this));
             }
                 break;
             case R.id.iv_weixin: {
-                authPlatform(Wechat.NAME);
-
+                // authPlatform(Wechat.NAME);
+                authorize(new Wechat(this));
             }
                 break;
             default:
                 break;
         }
+    }
+
+    private void authorize(Platform plat) {
+        if (plat.isValid()) {
+            plat.removeAccount();
+        }
+        plat.setPlatformActionListener(platFormActionListener);
+        plat.SSOSetting(true);
+        plat.showUser(null);
     }
 
     private void authPlatform(String platformName) {
@@ -422,7 +433,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         public void onError(Platform plat, int action, Throwable t) {
-            System.out.println("PlatformActionListener onComplete()");
+            System.out.println("PlatformActionListener onError()");
             t.printStackTrace();
 
             Message msg = new Message();
@@ -435,6 +446,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         @Override
         public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
 
+            // Toast.makeText(getApplicationContext(), text, duration)
             System.out.println("PlatformActionListener onComplete()");
             System.out.println("action:" + action);
             System.out.println("platform user id:" + plat.getDb().getUserId());
@@ -476,6 +488,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
                         String platname = plat.getName();
                         String imageUrl = "";
+                        // Toast.makeText(getApplicationContext(), "platname:" + platname, Toast.LENGTH_SHORT).show();
                         if (platname.contains(SinaWeibo.NAME)) {
                             platname = "weibo";
                             imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
@@ -498,9 +511,14 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 }
                     break;
                 case 2: {
+                    // Toast.makeText(getApplicationContext(), "PlatformActionListener onError()", Toast.LENGTH_SHORT)
+                    // .show();
                 }
                     break;
                 case 3: {
+                    // Toast.makeText(getApplicationContext(), "PlatformActionListener onCancel()", Toast.LENGTH_SHORT)
+                    // .show();
+
                 }
                     break;
 
