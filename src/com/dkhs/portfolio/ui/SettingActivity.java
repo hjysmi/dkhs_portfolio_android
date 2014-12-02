@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +31,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.AppBean;
+import com.dkhs.portfolio.bean.BindThreePlat;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
@@ -58,6 +61,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private TextView settingTextNameText;
     private UserEntity ue;
     private TextView settingSingText;
+    private boolean login = false;
+    private LinearLayout settingAccountLayout;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
@@ -73,6 +78,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
         context = this;
+        UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
         //initData();
@@ -131,6 +137,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
         settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
         settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
+        settingAccountLayout = (LinearLayout) findViewById(R.id.setting_account_layout);
         String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
         //account = setAccount(account);
         settingTextAccountText.setText(account);
@@ -358,5 +365,48 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 settingSingText.setText(ue.getDescription());
             }
         }
+    };
+    private ParseHttpListener<List<BindThreePlat>> bindsListener = new ParseHttpListener<List<BindThreePlat>>() {
+
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+        };
+
+        @Override
+        protected List<BindThreePlat> parseDateTask(String jsonData) {
+            List<BindThreePlat> bindList = DataParse.parseArrayJson(BindThreePlat.class, jsonData);
+
+            return bindList;
+        }
+
+        @Override
+        protected void afterParseData(List<BindThreePlat> entity) {
+            if (null != entity && entity.size() > 0) {
+                Message msg = updateHandler.obtainMessage(777);
+                msg.obj = entity;
+                msg.sendToTarget();
+            }
+
+        }
+    };
+
+    Handler updateHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            List<BindThreePlat> bindList = (List<BindThreePlat>) msg.obj;
+            for (BindThreePlat plat : bindList) {
+                if (plat.isStatus()) {
+                    if (plat.getProvider().contains("mobile")) {
+                        login = true;
+                    }else if(plat.getProvider().contains("email")){
+                    	login = true;
+                    }
+                }
+            }
+            if(login){
+            	settingAccountLayout.setVisibility(View.VISIBLE);
+            }else{
+            	settingAccountLayout.setVisibility(View.GONE);
+            }
+        };
     };
 }

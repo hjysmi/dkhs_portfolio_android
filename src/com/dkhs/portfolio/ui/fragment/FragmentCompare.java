@@ -679,7 +679,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 for (CompareFundsBean bean : beanList) {
                     LineEntity lineEntity = new LineEntity();
                     lineEntity.setTitle(bean.getSymbol());
-                    lineEntity.setLineColor(ColorTemplate.getDefaultColor(i));
+                    lineEntity.setLineColor(ColorTemplate.getDefaultColors(i));
 
                     List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
                     for (ComparePoint cPoint : bean.getChartlist()) {
