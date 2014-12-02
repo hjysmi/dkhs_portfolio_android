@@ -45,12 +45,12 @@ public class OptionalStockAdapter extends BaseAdapter {
     }
 
     public void setFundpercent(float fundpercent) {
-        this.maxValue = fundpercent;
+        // this.maxValue = fundpercent;
     }
 
     public void setList(List stocklist) {
         this.stockList = stocklist;
-        // setSurpusValue();
+        setSurpusValue();
         notifyDataSetChanged();
     }
 
@@ -91,9 +91,15 @@ public class OptionalStockAdapter extends BaseAdapter {
         View colorView = convertView.findViewById(R.id.view_color);
         TextView tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
         final TextView tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
+         TextView tvIstop = (TextView) convertView.findViewById(R.id.tv_isStop);
         final SeekBar seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
 
         ConStockBean item = stockList.get(position);
+        if (item.isStop()) {
+            convertView.setBackgroundResource(R.color.theme_gray);
+            seekbar.setEnabled(false);
+            tvIstop.setVisibility(View.VISIBLE);
+        }
         tvStockName.setText(item.getName());
         colorView.setBackgroundColor(item.getDutyColor());
         seekbar.setProgress((int) (item.getPercent()));

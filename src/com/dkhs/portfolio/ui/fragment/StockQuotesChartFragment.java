@@ -130,7 +130,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private void handleExtras(Bundle extras) {
         mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
-        System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
+        // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 
     /**
@@ -388,8 +388,8 @@ public class StockQuotesChartFragment extends Fragment {
             }
 
             if (isStopStock() || null == lineDataList || lineDataList.size() < 1) {
-//                setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
-//                mMaChart.invalidate();
+                // setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
+                // mMaChart.invalidate();
                 setStopYTitle(mStockBean.getLastClose());
             }
         };
@@ -426,7 +426,9 @@ public class StockQuotesChartFragment extends Fragment {
                 if (null == mFsDataBean.getMainstr()) {
                     mFsDataBean.setMainstr(fsDataBean.getMainstr());
                 } else {
-
+                    if (fsDataBean.getMainstr() == null || fsDataBean.getMainstr().size() == 0) {
+                        return;
+                    }
                     mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
                 }
                 List<TimeStock> mainList = mFsDataBean.getMainstr();
@@ -493,6 +495,10 @@ public class StockQuotesChartFragment extends Fragment {
                 pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
 
             }
+            if (null != mStockBean) {
+                pointEntity.setIndexType(StockUitls.isIndexStock(mStockBean.getSymbol_type()));
+            }
+
             pointEntity.setValue(iPrice);
             pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
             pointEntity.setIncreaseValue(iPrice - baseNum);
@@ -530,6 +536,7 @@ public class StockQuotesChartFragment extends Fragment {
         // offetYvalue = 0.105f * baseNum;
         // }
         System.out.println("max offet vlaue：" + offetYvalue);
+        System.out.println("baseNumvlaue：" + baseNum);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
         // float halfOffetValue = offetYvalue / 2.0f;
@@ -719,7 +726,7 @@ public class StockQuotesChartFragment extends Fragment {
                 todayListener.setFromYanbao(false);
             }
             todayListener.setLoadingDialog(getActivity()).beforeRequest();
-            dataHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
+            dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };
 
