@@ -106,7 +106,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // ShareSDK.registerPlatform(Laiwang.class);
         ShareSDK.setConnTimeout(5000);
         ShareSDK.setReadTimeout(10000);
-
+        Intent intent = new Intent(this,GettingUrlForAPPActivity.class);
+        startActivity(intent);
     }
 
     /**
