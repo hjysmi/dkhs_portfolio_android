@@ -495,6 +495,10 @@ public class StockQuotesChartFragment extends Fragment {
                 pointEntity.setPrice(StringFromatUtils.get2Point(iPrice));
 
             }
+            if (null != mStockBean) {
+                pointEntity.setIndexType(StockUitls.isIndexStock(mStockBean.getSymbol_type()));
+            }
+
             pointEntity.setValue(iPrice);
             pointEntity.setTime(TimeUtils.getTimeString(bean.getTime()));
             pointEntity.setIncreaseValue(iPrice - baseNum);
