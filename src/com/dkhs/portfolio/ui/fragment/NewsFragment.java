@@ -98,10 +98,10 @@ public class NewsFragment extends Fragment {
     }
 
     private void initailDatas() {
-        if (titles == null || titles.size() == 0 && null != mStockBean) {
+        //if (titles == null || titles.size() == 0 && null != mStockBean) {
             // 初始化标题
             intialTitles();
-        }
+        //}
     }
 
     private void intialTitles() {
@@ -114,6 +114,7 @@ public class NewsFragment extends Fragment {
          }
     	 
         Map<String, String> title = new HashMap<String, String>();
+        titles.clear();
         title.put(KEY_TITLE, "财报摘要");
 
         title.put(KEY_URL, url + "/finance/company/f10/financeindex/" + mStockBean.id);

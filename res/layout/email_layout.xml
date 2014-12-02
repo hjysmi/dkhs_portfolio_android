@@ -41,7 +41,8 @@
         android:layout_height="wrap_content"
         android:button="@drawable/cb_agree_seletor"
         android:checked="true"
-        android:padding="8dp"
+        android:layout_margin="8dp"
+        android:gravity="top"
         android:textSize="14sp" />
 
     <Button

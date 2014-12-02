@@ -76,7 +76,7 @@ public class CompareIndexAdapter extends BaseAdapter {
         }
 
         CompareFundItem item = mDataList.get(position);
-        int colorId = ColorTemplate.DEFAULTCOLORS[position];
+        int colorId = ColorTemplate.COMPARE[position];
         if(position + 1 == mDataList.size()){
         	colorId = R.color.def_0;
         }
@@ -105,7 +105,7 @@ public class CompareIndexAdapter extends BaseAdapter {
 
                 buttonView.setBackgroundColor(mContext.getResources().getColor(R.color.compare_select_gray));
             } else {
-                int colorId = ColorTemplate.DEFAULTCOLORS[position];
+                int colorId = ColorTemplate.COMPARE[position];
                 buttonView.setBackgroundColor(mContext.getResources().getColor(colorId));
 
             }

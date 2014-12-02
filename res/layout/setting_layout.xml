@@ -67,37 +67,43 @@
                 </RelativeLayout>
 
                 <include layout="@layout/layout_line" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_white_selector" >
-
-                    <TextView
-                        android:id="@+id/setting_text_account_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:paddingRight="30dp"
-                        android:text="18606511122"
-                        android:textColor="@color/person_setting_phonecolor"
-                        android:textSize="@dimen/setting_text_phone" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@id/setting_text_account_text"
-                        android:paddingBottom="10dp"
-                        android:paddingLeft="20dp"
-                        android:paddingTop="10dp"
-                        android:text="账号"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/setting_text_name" />
-                </RelativeLayout>
-
-                <include layout="@layout/layout_line" />
-
+				<LinearLayout 
+				    android:layout_height="wrap_content"
+				    android:layout_width="match_parent"
+				    android:orientation="vertical"
+				    android:visibility="gone"
+				    android:id="@+id/setting_account_layout"
+				    >
+	                <RelativeLayout
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:background="@drawable/btn_white_selector" >
+	
+	                    <TextView
+	                        android:id="@+id/setting_text_account_text"
+	                        android:layout_width="wrap_content"
+	                        android:layout_height="wrap_content"
+	                        android:layout_alignParentRight="true"
+	                        android:layout_centerVertical="true"
+	                        android:paddingRight="30dp"
+	                        android:text="18606511122"
+	                        android:textColor="@color/person_setting_phonecolor"
+	                        android:textSize="@dimen/setting_text_phone" />
+	
+	                    <TextView
+	                        android:layout_width="match_parent"
+	                        android:layout_height="wrap_content"
+	                        android:layout_toLeftOf="@id/setting_text_account_text"
+	                        android:paddingBottom="10dp"
+	                        android:paddingLeft="20dp"
+	                        android:paddingTop="10dp"
+	                        android:text="账号"
+	                        android:textColor="@color/black"
+	                        android:textSize="@dimen/setting_text_name" />
+	                </RelativeLayout>
+	
+	                <include layout="@layout/layout_line" />
+				</LinearLayout>
                 <RelativeLayout
                     android:id="@+id/setting_layout_username"
                     android:layout_width="match_parent"
