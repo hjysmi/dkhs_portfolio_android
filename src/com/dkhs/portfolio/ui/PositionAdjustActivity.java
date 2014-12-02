@@ -632,6 +632,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 for (String code : raiseError.getRaise_down()) {
                     sbRaiseDown.append(code);
                     sbRaiseDown.append("、");
+
                 }
             } else if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
                 sbRaiseUp = new StringBuilder();
@@ -657,6 +658,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 sbToastText.append("\n");
             }
 
+            copyDefalutList(mPositionDetailBean.getPositionList());
+            updatePieView();
             Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
 
         };
@@ -807,11 +810,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                 for (String code : raiseError.getRaise_up()) {
                                     sb.append(code);
                                     sb.append("、");
+
+                                    for (ConStockBean stock : stockList) {
+                                        // System.out.println("stock code:"+stock.getStockCode());
+                                        if (stock.getStockCode().equalsIgnoreCase(code)) {
+                                            stock.setPercent(0);
+                                        }
+                                    }
                                 }
+                                updatePieView();
                                 Toast.makeText(getApplicationContext(),
                                         "涨停股：" + sb.substring(0, sb.length() - 1) + "不能加入基金", Toast.LENGTH_LONG).show();
 
                             }
+
                         };
 
                         @Override
