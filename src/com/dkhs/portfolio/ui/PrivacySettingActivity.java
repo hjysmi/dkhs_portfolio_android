@@ -85,14 +85,14 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
 
                             mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "0", listener);
 
-                            open_position.setClickable(true);
+                            open_position.setEnabled(true);
                         } else {
                             ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
 
                             listener.setLoadingDialog(PrivacySettingActivity.this);
                             mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "1", listener);
                             open_position.setChecked(false);
-                            open_position.setClickable(false);
+                            open_position.setEnabled(false);
                         }
                     }
                 });
