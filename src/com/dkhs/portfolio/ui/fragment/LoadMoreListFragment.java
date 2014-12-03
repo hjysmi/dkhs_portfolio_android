@@ -120,7 +120,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     private void loadMore() {
         if (null != getLoadEngine()) {
             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
-                Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
