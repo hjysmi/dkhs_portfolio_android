@@ -349,6 +349,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 					startActivity(EveryDayValueActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
 					break;
 				case 4:
+					//历史调仓记录
+					startActivity(HistoryPositionDetailActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
 					break;
 				default:
 					break;

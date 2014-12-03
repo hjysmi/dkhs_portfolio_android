@@ -103,7 +103,7 @@ public class DKHSUrl {
         // String report = "/api/v1/portfolio/query_combination_netvalue/";
         // /api/v1/portfolio/{pk}/netvalue_history/
         String report = "/api/v1/portfolio/{0}/netvalue_history/";
-        String queryDetailPosition = "/api1/portfolio/{0}/get_detailed_positions";
+        String queryDetailPosition = "/api/v1/portfolio/{0}/get_detailed_positions/";
     }
 
     public interface Fund {
