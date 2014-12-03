@@ -255,7 +255,7 @@
     <string name="change_combination_name">修改基金名称</string>
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
-    <string name="privacy_everyday_record">每日收益记录</string>
+    <string name="privacy_everyday_record">历史收益记录</string>
     <string name="privacy_history_record">历史调仓记录</string>
     <string name="adjust_back_message">持仓调整尚未提交，确定放弃本次调仓</string>
     <string name="title_binds">绑定账号</string>

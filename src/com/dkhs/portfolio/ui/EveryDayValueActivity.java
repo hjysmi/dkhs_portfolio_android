@@ -54,7 +54,7 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 		mListView.setAdapter(adapter);
 		netValueEngine = new NetValueEngine(mCombinationBean.getId());
 		listener = new MyIhttpListener();
-		PromptManager.showProgressDialog(this, "");
+		PromptManager.showProgressDialog(this, "", false);
 		netValueEngine.requeryHistory(count, page, listener);
 	}
 	private class MyIhttpListener extends ParseHttpListener<HistoryProfitNetValue>{
