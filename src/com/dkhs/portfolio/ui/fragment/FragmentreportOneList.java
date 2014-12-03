@@ -149,6 +149,7 @@ public class FragmentreportOneList extends Fragment{
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
 				if (null != dataList&&dataList.size()>0) {
+					mDataList.clear();
 				    mDataList.addAll(dataList);
 				    if(first){
 				    	initView(view);

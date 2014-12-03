@@ -230,12 +230,25 @@ public class DKHSClient {
         if (relativeUrl.contains("http://")) {
             return relativeUrl;
         } else {
-            if (PortfolioPreferenceManager.isRequestByTestServer()) {
-                return DKHSUrl.BASE_TEST_URL + relativeUrl;
+        	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+			case 0:
+				return DKHSUrl.BASE_DEV_TAG + relativeUrl;
+			case 1:
+				return DKHSUrl.BASE_DEV_URL + relativeUrl;
+			case 2:
+				return DKHSUrl.BASE_TEST_URL + relativeUrl;
+			case 3:
+				return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
+			default:
+				break;
+			}
+            /*if (PortfolioPreferenceManager.isRequestByTestServer()) {
+                
             } else {
                 return DKHSUrl.BASE_DEV_URL + relativeUrl;
 
-            }
+            }*/
+        	return null;
         }
     }
 }

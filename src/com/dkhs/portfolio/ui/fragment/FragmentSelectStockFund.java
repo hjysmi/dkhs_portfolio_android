@@ -48,6 +48,7 @@ import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -80,7 +81,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private boolean fromPosition = false;
     LoadSelectDataEngine mLoadDataEngine;
     private TextView tvEmptyText;
-
+    private boolean flush = false;
     /**
      * view视图类型
      */
@@ -232,6 +233,11 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
+        	if(flush){
+        		Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+        		flush = false;
+        		return;
+        	}
             if (isRefresh) {
                 mDataList.clear();
                 isRefresh = false;
@@ -516,14 +522,18 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
-                return;
+            	flush = true;
+            	/*PromptManager.showProgressDialog(getActivity(), "", true);
+                
+                PromptManager.closeProgressDialog();
+                return;*/
             }
             //mListView.addFooterView(mFootView);
             // Thread thread = new Thread(null, loadMoreListItems);
             // thread.start();
 
             isLoadingMore = true;
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
         }
     }

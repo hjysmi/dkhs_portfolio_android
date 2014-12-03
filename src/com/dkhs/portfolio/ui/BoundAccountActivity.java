@@ -35,6 +35,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
     private TextView boundTextQq;
     private TextView boundTextWeibo;
     private TextView boundTextPhone;
+    private TextView boundTextWechat;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -56,6 +57,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         boundTextQq = (TextView) findViewById(R.id.bound_text_qq);
         boundTextWeibo = (TextView) findViewById(R.id.bound_text_weibo);
         boundTextPhone = (TextView) findViewById(R.id.bound_text_phone);
+        boundTextWechat = (TextView) findViewById(R.id.bound_text_wechat);
     }
 
     private void initListener() {
@@ -63,6 +65,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         boundTextQq.setOnClickListener(this);
         boundTextWeibo.setOnClickListener(this);
         boundTextPhone.setOnClickListener(this);
+        boundTextWechat.setOnClickListener(this);
     }
 
     @Override
@@ -70,14 +73,17 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.bound_text_email:
-            	Intent intent = new Intent(this,BoundEmailActivity.class);
-            	startActivityForResult(intent, 5);
+                Intent intent = new Intent(this, BoundEmailActivity.class);
+                startActivityForResult(intent, 5);
                 break;
             case R.id.bound_text_qq:
                 authPlatform(QZone.NAME);
                 break;
             case R.id.bound_text_weibo:
                 authPlatform(SinaWeibo.NAME);
+                break;
+            case R.id.bound_text_wechat:
+                authPlatform(Wechat.NAME);
                 break;
             default:
                 break;
@@ -232,27 +238,27 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                     } else if (plat.getProvider().contains("mobile")) {
                         boundTextPhone.setText(plat.getUsername());
                         boundTextPhone.setEnabled(false);
-                    }else if(plat.getProvider().contains("email")){
-                    	boundTextEmail.setText(plat.getUsername());
-                    	boundTextEmail.setEnabled(false);
+                    } else if (plat.getProvider().contains("email")) {
+                        boundTextEmail.setText(plat.getUsername());
+                        boundTextEmail.setEnabled(false);
                     }
                 }
             }
         };
     };
 
-	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		// TODO Auto-generated method stub
-		switch (arg0) {
-		case 5:
-			
-			break;
+    @Override
+    protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+        // TODO Auto-generated method stub
+        switch (arg0) {
+            case 5:
 
-		default:
-			break;
-		}
-		super.onActivityResult(arg0, arg1, arg2);
-	}
-    
+                break;
+
+            default:
+                break;
+        }
+        super.onActivityResult(arg0, arg1, arg2);
+    }
+
 }

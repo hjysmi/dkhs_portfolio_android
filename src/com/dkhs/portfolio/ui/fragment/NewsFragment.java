@@ -98,22 +98,33 @@ public class NewsFragment extends Fragment {
     }
 
     private void initailDatas() {
-        if (titles == null || titles.size() == 0 && null != mStockBean) {
+        //if (titles == null || titles.size() == 0 && null != mStockBean) {
             // 初始化标题
             intialTitles();
-        }
+        //}
     }
 
     private void intialTitles() {
     	String url = "";
-    	 if (PortfolioPreferenceManager.isRequestByTestServer()) {
-    		 url =  DKHSUrl.BASE_TEST_URL;
-         } else {
-             url =  DKHSUrl.BASE_DEV_URL;
-
-         }
+    	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+		case 0:
+			url =  DKHSUrl.BASE_DEV_TAG;
+			break;
+		case 1:
+			url = DKHSUrl.BASE_DEV_URL;
+			break;
+		case 2:
+			url = DKHSUrl.BASE_TEST_URL;
+			break;
+		case 3:
+			url = DKHSUrl.BASE_DEV_MAIN;
+			break;
+		default:
+			break;
+		}
     	 
         Map<String, String> title = new HashMap<String, String>();
+        titles.clear();
         title.put(KEY_TITLE, "财报摘要");
 
         title.put(KEY_URL, url + "/finance/company/f10/financeindex/" + mStockBean.id);

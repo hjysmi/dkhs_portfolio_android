@@ -76,6 +76,7 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 		newsTitleNum = (TextView) findViewById(R.id.news_title_num);
 		newsTextTitle = (TextView) findViewById(R.id.news_text_title);
 		newsTextText = (TextView) findViewById(R.id.news_text_text);
+		newsTextText.setTextIsSelectable(true);
 	}
 	 ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 

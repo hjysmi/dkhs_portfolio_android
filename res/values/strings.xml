@@ -75,7 +75,7 @@
     <string name="find_passwrod">找回密码</string>
     <string name="portfolio_text">投资基金</string>
     <string name="combin">基金：%1$d</string>
-    <string name="optional_stock_format">自选股：%1$d</string>
+    <string name="optional_stock_format">自选股:%1$d</string>
     <string name="optional_stock">自选股</string>
     <string name="add_optional_stock">添加自选股</string>
     <string name="stock_name">股票名称</string>
@@ -86,9 +86,9 @@
     <string name="portfolio_position">持仓基金</string>
     <string name="duty_percent">%1$d&#037;</string>
     <string name="my_combination">我的基金</string>
-    <string name="desc_format">描述：%1$s</string>
-    <string name="current">当前：</string>
-    <string name="add_up">累计：</string>
+    <string name="desc_format">描述:%1$s</string>
+    <string name="current">当前:</string>
+    <string name="add_up">累计:</string>
     <string name="create_combination">创建基金</string>
     <string name="adjust_combination">持仓调整</string>
     <string name="add_combination">添加基金</string>
