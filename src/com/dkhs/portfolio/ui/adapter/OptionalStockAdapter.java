@@ -133,7 +133,7 @@ public class OptionalStockAdapter extends BaseAdapter {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int p = progress;
                 System.out.println("maxValue:" + maxValue);
-                int maxScoll = (int) (maxValue + stockList.get(position).getPercent());
+                int maxScoll = (int) (setSurpusValue() + stockList.get(position).getPercent());
 
                 if (progress >= maxScoll) {
                     p = maxScoll;
@@ -157,12 +157,16 @@ public class OptionalStockAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void setSurpusValue() {
+    public float setSurpusValue() {
         float surpusValu = 100;
+        System.out.println("stockList size:"+stockList.size());
         for (int i = 0; i < stockList.size(); i++) {
             surpusValu -= stockList.get(i).getPercent();
+            System.out.println("Value:"+stockList.get(i).getPercent());
         }
         maxValue = surpusValu;
+        System.out.println("setSurpusValue:"+maxValue);
+        return maxValue;
 
     }
 

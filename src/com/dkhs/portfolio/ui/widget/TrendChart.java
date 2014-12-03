@@ -118,7 +118,7 @@ public class TrendChart extends TrendGridChart {
                 // 计数器大于0，说明当前执行的Runnable不是最后一次down产生的。
                 if (mCounter > 0 || isReleased)
                     return;
-                performLongClick();
+                // performLongClick();
                 isTouch = true;
                 //
                 // if (null != mTouchListener) {
@@ -209,7 +209,7 @@ public class TrendChart extends TrendGridChart {
                 if (null != mScrollview) {
                     mScrollview.setIsfocus(false);
                 }
-                // removeCallbacks(mLongPressRunnable);
+                removeCallbacks(mLongPressRunnable);
 
                 break;
 

@@ -169,4 +169,41 @@
 
     <include layout="@layout/layout_line" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white" >
+
+        <ImageView
+            android:id="@+id/bound_image_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:src="@drawable/bound_image_weibo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@id/bound_image_wechat"
+            android:text="微信"
+            android:textColor="@color/black"
+            android:textSize="@dimen/list_text_size" />
+
+        <TextView
+            android:id="@+id/bound_text_wechat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:text="点击绑定"
+            android:textColor="@drawable/bound_button"
+            android:textSize="@dimen/list_text_size" />
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
 </LinearLayout>

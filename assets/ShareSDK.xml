@@ -125,8 +125,8 @@
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 
     <QQ
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1103511496"
+        AppKey="H66tcVyajFGcxhWj"
         Enable="true"
         Id="7"
         ShareByAppClient="true"
