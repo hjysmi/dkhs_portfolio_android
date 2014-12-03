@@ -18,6 +18,8 @@ import org.apache.http.message.BasicNameValuePair;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName NetValueEngine
@@ -70,7 +72,7 @@ public class NetValueEngine {
                   listener);
     }
     
-    public void requeryDetailPosition(int count, int page, IHttpListener listener){
+    public void requeryHistoryDetailPosition(int count, int page, IHttpListener listener){
     	List<NameValuePair> params = new ArrayList<NameValuePair>();
     	NameValuePair valuePair = new BasicNameValuePair("page_size", ""+count);
     	NameValuePair valuePair2 = new BasicNameValuePair("page", ""+page);

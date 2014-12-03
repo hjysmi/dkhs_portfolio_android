@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -70,7 +71,12 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         }
-        viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+        if (StockUitls.isShangZhengB(item.code)) {
+            viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
+
+        } else {
+            viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+        }
         viewHolder.tvIncearseValue.setTextColor(textCsl);
         viewHolder.tvCurrentValue.setTextColor(textCsl);
         viewHolder.tvPercentValue.setTextColor(textCsl);
