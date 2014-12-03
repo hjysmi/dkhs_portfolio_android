@@ -827,7 +827,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		case MotionEvent.ACTION_MOVE:
 			float horizontalSpacing = event.getX() - timeX;
 			float hor = event.getY() - timeY;
-			if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE) {
+			if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE && go) {
 				go = false;
 				if (null != mTouchListener) {
 	                mTouchListener.loseTouching();

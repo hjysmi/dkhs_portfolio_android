@@ -80,7 +80,7 @@ public class YanBaoActivity extends ModelAcitivity{
         b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP);
         b2.putSerializable(FragmentNewsList.VO, vo);
         f2.setArguments(b2);
-        frag.add(f2);
+        //frag.add(f2);
         Fragment f3 = new FragmentreportNewsList();
         Bundle b3 = new Bundle();
         b3.putString(FragmentNewsList.NEWS_TYPE, "302");

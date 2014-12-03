@@ -127,6 +127,7 @@
     <CheckBox
         android:id="@+id/cb_is_request_test"
         android:layout_width="wrap_content"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_rigster_forget"
         android:text="是否使用测试服务器" />

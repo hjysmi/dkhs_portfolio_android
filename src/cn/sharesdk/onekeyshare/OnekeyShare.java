@@ -11,12 +11,12 @@ package cn.sharesdk.onekeyshare;
 import static cn.sharesdk.framework.utils.BitmapHelper.captureView;
 import static cn.sharesdk.framework.utils.R.getBitmapRes;
 import static cn.sharesdk.framework.utils.R.getStringRes;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-
+import com.dkhs.portfolio.R;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.NotificationManager;
@@ -359,9 +359,9 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         };
         llPage.setOrientation(LinearLayout.VERTICAL);
         int resId = getBitmapRes(getContext(), "share_vp_back");
-        if (resId > 0) {
-            llPage.setBackgroundResource(resId);
-        }
+        //if (resId > 0) {
+            llPage.setBackgroundResource(R.color.person_setting_backgroud);
+        //}
         FrameLayout.LayoutParams lpLl = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
         lpLl.gravity = Gravity.BOTTOM;
@@ -733,7 +733,8 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
     }
 
     // 在状态栏提示分享操作
-    private void showNotification(long cancelTime, String text) {
+    @SuppressLint("NewApi")
+	private void showNotification(long cancelTime, String text) {
         try {
             Context app = getContext().getApplicationContext();
             NotificationManager nm = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);

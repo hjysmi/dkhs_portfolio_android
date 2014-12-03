@@ -114,9 +114,9 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 				File f = new File(mars_file, "file.jpg");
 				File file = new File(path);
 				mUserEngineImpl.setUserHead(f, listener.setLoadingDialog(context));
-				ContentResolver cr = this.getContentResolver();
+				/*ContentResolver cr = this.getContentResolver();
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
-						.openInputStream(uri));
+						.openInputStream(uri));*/
 
 			} catch (Exception e) {
 				Log.e("Exception", e.getMessage(), e);
@@ -151,7 +151,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 					.getPath();
 			File mars_file = new File(file_str + "/my_camera");
 			File f = new File(mars_file, "file.jpg");
-			if(f.exists()){
+			if(f.exists() && !f.toString().equals(path)){
 				f.delete();
 			}
 			if (oldfile.exists()) { //文件不存在时   
