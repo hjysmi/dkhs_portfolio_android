@@ -13,7 +13,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:background="@drawable/action_sheet_base_9"
+            android:background="@color/person_setting_backgroud"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 

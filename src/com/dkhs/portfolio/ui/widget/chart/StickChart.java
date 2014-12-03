@@ -177,15 +177,18 @@ public class StickChart extends GridChart {
             if (null != StickData) {
                 float average = maxStickDataNum / longtitudeNum;
                 // �?��刻度
-                for (int i = 0; i < longtitudeNum; i++) {
+                for (int i = 0; i < longtitudeNum -1; i++) {
                     int index = (int) Math.floor(i * average);
                     if (index > maxStickDataNum - 1) {
                         index = maxStickDataNum - 1;
                     }
                     // 追�??�?
+                    if(StickData.size() - mShowDate < 0){
+                    	TitleX.add(String.valueOf(StickData.get(index).getDate()));
+                    }else
                     TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate).getDate()));
                 }
-                TitleX.add(String.valueOf(StickData.get(maxStickDataNum - 1).getDate()));
+                TitleX.add(String.valueOf(StickData.get(StickData.size() - 1).getDate()));
             }
         } catch (Exception e) {
             e.printStackTrace();

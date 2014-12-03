@@ -84,7 +84,6 @@
         <activity android:name="com.dkhs.portfolio.ui.FundsOrderActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ForgetPswActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.CompareForPublicSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanbaoNewsActivity" />

@@ -248,48 +248,6 @@
                         android:textSize="@dimen/setting_text_name" />
                 </RelativeLayout>
 
-                <include layout="@layout/layout_line" />
-
-                <include layout="@layout/layout_line_text" />
-
-                <RelativeLayout
-                    android:id="@+id/setting_layout_optiongroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_white_selector"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="15dp" >
-
-                    <LinearLayout
-                        android:id="@+id/setting_layout_checkbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:orientation="horizontal" >
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:paddingRight="30dp"
-                            android:src="@drawable/setting_image_right" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@id/setting_layout_checkbox" >
-
-                        <TextView
-                            android:id="@+id/setting_public_name"
-                            style="@style/text_16_style"
-                            android:text="@string/setting_string_public" />
-                    </RelativeLayout>
-                </RelativeLayout>
             </LinearLayout>
 
             <include layout="@layout/layout_line" />

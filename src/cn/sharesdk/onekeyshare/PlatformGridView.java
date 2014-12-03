@@ -478,7 +478,7 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             ll.addView(iv);
 
             TextView tv = new TextView(context);
-            tv.setTextColor(0xffffffff);
+            tv.setTextColor(0xff000000);
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
             tv.setSingleLine();
             tv.setIncludeFontPadding(false);

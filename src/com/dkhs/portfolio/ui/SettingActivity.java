@@ -118,7 +118,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void setListener() {
         findViewById(R.id.btn_exit).setOnClickListener(this);
         findViewById(R.id.btn_setpassword).setOnClickListener(this);
-        findViewById(R.id.setting_layout_optiongroup).setOnClickListener(this);
         findViewById(R.id.setting_layout_password).setOnClickListener(this);
         findViewById(R.id.setting_layout_username).setOnClickListener(this);
         findViewById(R.id.setting_layout_icon).setOnClickListener(this);
@@ -206,10 +205,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 startActivity(intent);
 
-                break;
-            case R.id.setting_layout_optiongroup:
-                intent = new Intent(this, CompareForPublicSettingActivity.class);
-                startActivity(intent);
                 break;
             case R.id.setting_layout_password:
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);

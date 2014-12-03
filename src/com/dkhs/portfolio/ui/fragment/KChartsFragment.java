@@ -2,6 +2,8 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +13,7 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
@@ -49,6 +52,9 @@ public class KChartsFragment extends Fragment {
 
     public static final boolean testInterface = false; // 测试，使用本地数据
     private boolean first = true;
+    private Timer mMarketTimer;
+	private static final long mPollRequestTime = 1000 * 5;
+	List<OHLCEntity> ohlcs;
     public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
@@ -257,7 +263,7 @@ public class KChartsFragment extends Fragment {
         // 获取K线类型，日，周，月
         try {
             String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, mKlineHttpListener);
+            mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener);
             if(first){
             	PromptManager.showProgressDialog(getActivity(), "", true);
             	first = false;
@@ -294,7 +300,7 @@ public class KChartsFragment extends Fragment {
         public void onSuccess(String result) {
             try {
                 List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-                List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
+                 ohlcs = new ArrayList<OHLCEntity>();
                 for(int i = ohlc.size() -1; i >= 0; i--){
                 	ohlcs.add(ohlc.get(i));
                 }
@@ -527,4 +533,63 @@ public class KChartsFragment extends Fragment {
     }
             super.setUserVisibleHint(isVisibleToUser);
     }
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        if (mMarketTimer == null) {
+            mMarketTimer = new Timer(true);
+            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+        }
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
+
+    }
+
+    public class RequestMarketTask extends TimerTask {
+
+        @Override
+        public void run() {
+        	String mtype = getKLineType();
+            mQuotesDataEngine.queryKLine(mtype, mStockCode,"1", mKlineHttpListenerFlush);
+        }
+    }
+    private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
+
+        @Override
+        public void onSuccess(String result) {
+            try {
+                List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
+                if(null == ohlcs || ohlcs.size() == 0){
+                	String mtype = getKLineType();
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener);
+                }else{
+	               if(ohlc.size() > 0){
+	            	   ohlcs.add(0, ohlc.get(0));
+	            	   ohlcs.remove(1);
+	               }
+	                refreshChartsView(ohlcs);
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            PromptManager.closeProgressDialog();
+        }
+
+        public void onFailure(int errCode, String errMsg) {
+            // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+        	PromptManager.closeProgressDialog();
+        };
+    };
 }
