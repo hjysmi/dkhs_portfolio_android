@@ -447,7 +447,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         oks.setImagePath(SHARE_IMAGE);
 
         oks.setFilePath(SHARE_IMAGE);
-
         oks.setSilent(false);
 
         oks.setShareFromQQAuthSupport(false);

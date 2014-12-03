@@ -74,7 +74,7 @@ public class TrendChart extends TrendGridChart {
     // 移动的阈值
     private static final int TOUCH_SLOP = 20;
     private InterceptScrollView mScrollview;
-
+    private boolean moves = false;
     public TrendChart(Context context) {
         super(context);
         init();
@@ -140,7 +140,8 @@ public class TrendChart extends TrendGridChart {
 
     /** 当前被选中的坐标点 */
     private PointF touchPoint;
-
+    float timeX = 0;
+	float timeY = 0;
     private boolean isTouch;
 
     /**
@@ -151,18 +152,55 @@ public class TrendChart extends TrendGridChart {
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mCounter++;
-                isTouch = true;
-                if (null != mTouchListener) {
-                    mTouchListener.chartTounching();
-                }
-                if (null != mScrollview) {
+                moves = true;
+                timeX = event.getX();
+    			timeY = event.getY();
+    			if (null != mTouchListener) {
+	                mTouchListener.chartTounching();
+	            }
+    			if (null != mScrollview) {
                     mScrollview.setIsfocus(true);
                 }
-                postDelayed(mLongPressRunnable, 2000);
+                Thread t = new Thread(new Runnable() {
+    				
+    				@Override
+    				public void run() {
+    					// TODO Auto-generated method stub
+    					try {
+    						Thread.sleep(700);
+    						if(moves){
+    							mCounter++;
+    			                isTouch = true;
+    			                if (null != mTouchListener) {
+    			                    mTouchListener.chartTounching();
+    			                }
+    			                if (null != mScrollview) {
+    			                    mScrollview.setIsfocus(true);
+    			                }
+    						}
+    					}catch(Exception e){
+    						
+    					}
+    				}
+                });
+                t.start();
                 break;
+            case MotionEvent.ACTION_MOVE:
+            	float horizontalSpacing = event.getX() - timeX;
+    			float hor = event.getY() - timeY;
+    			if (Math.abs(horizontalSpacing) > 15 || Math.abs(hor) > 15 && !isTouch) {
+    				moves = false;
+    				if (null != mTouchListener) {
+    	                mTouchListener.loseTouching();
+    	            }
+    				if (null != mScrollview) {
+                        mScrollview.setIsfocus(false);
+                    }
+    			}
+            	break;
             case MotionEvent.ACTION_UP:
                 isTouch = false;
+                moves = true;
                 // 释放了
                 isReleased = true;
                 if (null != mTouchListener) {
@@ -178,28 +216,35 @@ public class TrendChart extends TrendGridChart {
             default:
                 break;
         }
-
-        if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
-                && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {
-
-            /*
-             * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
-             */
-            if (event.getPointerCount() == 1) {
-                // 获取点击坐标
-                clickPostX = event.getX();
-                clickPostY = event.getY();
-
-                PointF point = new PointF(clickPostX, clickPostY);
-                touchPoint = point;
-                // super.invalidate();
-                super.invalidate();
-
-                // 通知�?��其他�?联Chart
-                // notifyEventAll(this);
-
-            } else if (event.getPointerCount() == 2) {
-            }
+        if(isTouch){
+	        /*if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
+	                && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {*/
+	        	
+	            /*
+	             * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
+	             */
+	            if (event.getPointerCount() == 1 ) {
+	            	if (null != mTouchListener) {
+	                    mTouchListener.chartTounching();
+	                }
+	                if (null != mScrollview) {
+	                    mScrollview.setIsfocus(true);
+	                }
+	                // 获取点击坐标
+	                clickPostX = event.getX();
+	                clickPostY = event.getY();
+	
+	                PointF point = new PointF(clickPostX, clickPostY);
+	                touchPoint = point;
+	                // super.invalidate();
+	                super.invalidate();
+	
+	                // 通知�?��其他�?联Chart
+	                // notifyEventAll(this);
+	
+	            } else if (event.getPointerCount() == 2) {
+	            }
+	        //}
         }
 
         // return super.onTouchEvent(event);
@@ -433,7 +478,7 @@ public class TrendChart extends TrendGridChart {
             System.out.println("touch pointIndex:" + pointIndex);
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
-            if (pointIndex < maxPointSize) {
+            if (pointIndex < maxPointSize && pointIndex >= 0) {
                 drawWithFingerClick(canvas, pointIndex);
                 if (isDrawTimesharingplanChart) {
                     drawTimesharingInfo(canvas, pointIndex);

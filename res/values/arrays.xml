@@ -93,7 +93,7 @@
     </string-array>
     <string-array name="yanbao_items">
         <item>公司</item>
-        <item>行业</item>
+        <!-- <item>行业</item> -->
         <item>策略</item>
         <item>宏观</item>
     </string-array>

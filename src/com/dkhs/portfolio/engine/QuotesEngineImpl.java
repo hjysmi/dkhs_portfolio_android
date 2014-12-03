@@ -71,12 +71,14 @@ public class QuotesEngineImpl {
      * @param stockid 股票id
      * @param listener
      */
-    public void queryKLine(String type, String stockid, IHttpListener listener) {
+    public void queryKLine(String type, String stockid, String isHis,IHttpListener listener) {
         // String url = DKHSUrl.BASE_URL + DKHSUrl.StockSymbol.kline_pre +stockid+
         // DKHSUrl.StockSymbol.kline_after+"?period="+type;
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("period", type);
+        NameValuePair valuePair2 = new BasicNameValuePair("is_realtime", isHis);
         params.add(valuePair);
+        params.add(valuePair2);
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.kline, stockid), null, params, listener);
     }
 }

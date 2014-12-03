@@ -154,6 +154,9 @@ public class UIUtils {
             baos.reset();//重置baos即清空baos  
             image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中  
             options -= 10;//每次都减少10  
+            if(options < 30){
+            	break;
+            }
         }  
         ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中  
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片  
@@ -169,8 +172,8 @@ public class UIUtils {
         int w = newOpts.outWidth;  
         int h = newOpts.outHeight;  
         //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为  
-        float hh = 800f;//这里设置高度为800f  
-        float ww = 480f;//这里设置宽度为480f  
+        float hh = 320f;//这里设置高度为800f  
+        float ww = 320f;//这里设置宽度为480f  
         //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可  
         int be = 1;//be=1表示不缩放  
         if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放  
