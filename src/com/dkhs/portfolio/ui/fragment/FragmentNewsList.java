@@ -41,7 +41,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
-    //private OptionMarketAdapter mOptionMarketAdapter;
+    // private OptionMarketAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
@@ -53,40 +53,40 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private int types;
     private TextView tv;
     private OptionlistAdapter mOptionlistAdapter;
+
     // private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        
-    }
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		view = inflater.inflate(R.layout.activity_option_market_news,null);
-		context = getActivity();
-		Bundle bundle = getArguments();
-        if (bundle != null) {
-        	initDate();
-        }
-        if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-			((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-		}
-		initView(view);
-		if(null != vo && vo.getContentType().equals("20")){
-			mDataList = new ArrayList<OptionNewsBean>();
-	 		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
-	 		mLoadDataEngine.loadData();
-	 		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-	 		mLoadDataEngine.setFromYanbao(false);
-				if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-				}
-		}
-		return view;
-	}
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        view = inflater.inflate(R.layout.activity_option_market_news, null);
+        context = getActivity();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            initDate();
+        }
+        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+        }
+        initView(view);
+        if (null != vo && vo.getContentType().equals("20")) {
+            mDataList = new ArrayList<OptionNewsBean>();
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setFromYanbao(false);
+            if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+                ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+            }
+        }
+        return view;
+    }
 
     private void initDate() {
         Bundle bundle = getArguments();
@@ -106,14 +106,13 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(tv);
         mListView.addFooterView(mFootView);
-        //mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
-       // if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-        	mOptionlistAdapter = new OptionlistAdapter(context, mDataList);
-        	mListView.setAdapter(mOptionlistAdapter);
-		//}else{
-			//mListView.setAdapter(mOptionMarketAdapter);
-		//}
-        
+        // mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+        // if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+        mOptionlistAdapter = new OptionlistAdapter(context, mDataList);
+        mListView.setAdapter(mOptionlistAdapter);
+        // }else{
+        // mListView.setAdapter(mOptionMarketAdapter);
+        // }
 
         mListView.removeFooterView(mFootView);
 
@@ -152,13 +151,16 @@ public class FragmentNewsList extends Fragment implements Serializable {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
             try {
-            	if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
-	                Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),mDataList.get(position).getSymbols().get(0).getAbbrName(),mDataList.get(position).getSymbols().get(0).getId());
-	                startActivity(intent);
-            	}else{
-            		Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),null,null);
+                if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),
+                            mDataList.get(position).getSymbols().get(0).getAbbrName(), mDataList.get(position)
+                                    .getSymbols().get(0).getId());
                     startActivity(intent);
-            	}
+                } else {
+                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), vo.getPageTitle(),
+                            null, null);
+                    startActivity(intent);
+                }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -169,7 +171,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
             mListView.addFooterView(mFootView);
@@ -186,19 +188,20 @@ public class FragmentNewsList extends Fragment implements Serializable {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-                if (null != dataList&&dataList.size()>0) {
+                if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
-                    if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-                    	((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+                    if (null != context
+                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+                        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
                     }
                     if (first || vo.getContentType().equals("20")) {
                         initView(view);
                         first = false;
                     }
                     // layouts.getLayoutParams().height = dataList.size() * 150;
-                    //mOptionMarketAdapter.notifyDataSetChanged();
-                    if(null != mOptionlistAdapter){
-                    	mOptionlistAdapter.notifyDataSetChanged();
+                    // mOptionMarketAdapter.notifyDataSetChanged();
+                    if (null != mOptionlistAdapter) {
+                        mOptionlistAdapter.notifyDataSetChanged();
                     }
                     loadFinishUpdateView();
 
@@ -206,84 +209,88 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     if (null != vo && null != vo.getPageTitle()) {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
                     }
-                    if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-                    	((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                    if (null != context
+                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-				if (null != dataList) {
-				    mDataList.addAll(dataList);
-				    if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-						((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-					}
-				    if(first){
-				    	initView(view);
-				    	first = false;
-				    }
-				    //layouts.getLayoutParams().height = dataList.size() * 150;
-				    //mOptionMarketAdapter.notifyDataSetChanged();
-				    if(null != mOptionlistAdapter){
-                    	mOptionlistAdapter.notifyDataSetChanged();
-                    }
-				    loadFinishUpdateView();
-				    
-				}else{
-					if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-						((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-					}
-				}
+            if (null != dataList) {
+                mDataList.addAll(dataList);
+                if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+                }
+                if (first) {
+                    initView(view);
+                    first = false;
+                }
+                // layouts.getLayoutParams().height = dataList.size() * 150;
+                // mOptionMarketAdapter.notifyDataSetChanged();
+                if (null != mOptionlistAdapter) {
+                    mOptionlistAdapter.notifyDataSetChanged();
+                }
+                loadFinishUpdateView();
+
+            } else {
+                if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+                }
+            }
 
         }
 
     };
 
     private void loadFinishUpdateView() {
-//        mOptionMarketAdapter.notifyDataSetChanged();
-        if(null != mOptionlistAdapter){
-        	mOptionlistAdapter.notifyDataSetChanged();
+        // mOptionMarketAdapter.notifyDataSetChanged();
+        if (null != mOptionlistAdapter) {
+            mOptionlistAdapter.notifyDataSetChanged();
         }
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
-    	if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-    		((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-    	}
+        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+            ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+        }
     }
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		/*if(null != mDataList)
-			layouts.getLayoutParams().height = mDataList.size() * 200;*/
-		if(!first){
-			 mDataList = new ArrayList<OptionNewsBean>();
-      		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
-      		mLoadDataEngine.loadData();
-      		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-      		mLoadDataEngine.setFromYanbao(false);
-		}
-		super.onResume();
-	}
-	 @Override
-     public void setUserVisibleHint(boolean isVisibleToUser) {
-             // TODO Auto-generated method stub
-             if (isVisibleToUser) {
-                     //fragment可见时加载数据
-            	 mDataList = new ArrayList<OptionNewsBean>();
-         		mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,types,vo);
-         		mLoadDataEngine.loadData();
-         		mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
-         		mLoadDataEngine.setFromYanbao(false);
-     			if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-					((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-     			}
-     } else {
-         //不可见时不执行操作
-     }
-             super.setUserVisibleHint(isVisibleToUser);
-     }
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        /*
+         * if(null != mDataList)
+         * layouts.getLayoutParams().height = mDataList.size() * 200;
+         */
+        if (!first) {
+            mDataList = new ArrayList<OptionNewsBean>();
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setFromYanbao(false);
+        }
+        super.onResume();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        if (isVisibleToUser) {
+            // fragment可见时加载数据
+            mDataList = new ArrayList<OptionNewsBean>();
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setFromYanbao(false);
+            if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+                ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+            }
+        } else {
+            // 不可见时不执行操作
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 }
