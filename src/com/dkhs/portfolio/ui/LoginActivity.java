@@ -89,8 +89,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         hideHead();
         // setBackTitle(R.string.login_title);
         // setTitle(R.string.login);
-        //默认为8030地址，即预发布地址
-        
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);

@@ -20,10 +20,9 @@ public class GettingUrlForAPPActivity extends Activity implements
 		setContentView(R.layout.layout_setting_url);
 		getWindow().setLayout(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
-		PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 1);
 		findViewById(R.id.setting_app_staging).setOnClickListener(this);
 		findViewById(R.id.setting_app_main).setOnClickListener(this);
-		//findViewById(R.id.setting_app_right).setOnClickListener(this);
+		findViewById(R.id.setting_app_right).setOnClickListener(this);
 		findViewById(R.id.setting_app_test).setOnClickListener(this);
 	}
 
@@ -37,11 +36,11 @@ public class GettingUrlForAPPActivity extends Activity implements
 		case R.id.setting_app_main:
 			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 1);
 			break;
-		/*case R.id.setting_app_right:
+		case R.id.setting_app_right:
 			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
-			break;*/
+			break;
 		case R.id.setting_app_test:
-			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
+			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 3);
 			break;
 		default:
 			break;

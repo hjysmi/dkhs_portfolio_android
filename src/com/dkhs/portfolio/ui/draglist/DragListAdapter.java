@@ -9,7 +9,6 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.utils.PromptManager;
 
 import android.R.integer;
 import android.content.Context;
@@ -46,13 +45,9 @@ public class DragListAdapter extends BaseAdapter {
 	private Context context;
 	public boolean isHidden;
 	private QuotesEngineImpl mQuotesEngine;
-	private int station = 0;
-	private int his = 0;
-	private DragListView mDragListView;
-	public DragListAdapter(Context context, List<SelectStockBean> dataList,DragListView mDragListView) {
+	public DragListAdapter(Context context, List<SelectStockBean> dataList) {
 		this.context = context;
 		this.dataList = dataList;
-		this.mDragListView = mDragListView;
 		mQuotesEngine = new QuotesEngineImpl();
 //		this.arrayDrawables = arrayDrawables;
 	}
@@ -68,14 +63,7 @@ public class DragListAdapter extends BaseAdapter {
 
         @Override
         public void onSuccess(String result) {
-        	try {
-        		PromptManager.closeProgressDialog();
-				dataList.remove(station); 
-				notifyDataSetChanged();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            
         }
     };
 	@Override
@@ -90,15 +78,14 @@ public class DragListAdapter extends BaseAdapter {
 		TextView tvId = (TextView) convertView.findViewById(R.id.drag_list_item_text_id);
 		ImageView imageView = (ImageView) convertView.findViewById(R.id.drag_list_item_image);
 		ImageView image = (ImageView) convertView.findViewById(R.id.image);
-		final Button btn = (Button) convertView.findViewById(R.id.button_delete);
+		Button btn = (Button) convertView.findViewById(R.id.button_delete);
 		TextView txv = (TextView) convertView.findViewById(R.id.drag_text_delet_pad);
 		ImageView imageUp = (ImageView) convertView.findViewById(R.id.drag_item_up);
 		RelativeLayout layoutCover = (RelativeLayout) convertView.findViewById(R.id.drag_cover);
 //		imageView.setImageResource(arrayDrawables.get(position));
-		
+		btn.setOnClickListener(new Click(position));
 		imageUp.setOnClickListener(new ClickForUp(position));
 		image.setOnClickListener(new OnDele(btn,txv));
-		btn.setOnClickListener(new Click( position,btn));
 		textView.setText(dataList.get(position).name);
 		tvId.setText(dataList.get(position).id+"");
 		//layoutCover.setOnTouchListener(new OnCover(image,btn));
@@ -192,17 +179,15 @@ public class DragListAdapter extends BaseAdapter {
 	}
 	class Click implements OnClickListener{
 		int position;
-		Button btn;
-		public Click(int position,Button btn){
+		public Click(int position){
 			this.position = position;
-			this.btn = btn;
 		}
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			PromptManager.showProgressDialog(context, null);
 			mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
-			station = position;
+			dataList.remove(position); 
+			notifyDataSetChanged();
 		}
 		
 	}

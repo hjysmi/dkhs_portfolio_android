@@ -93,7 +93,6 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 	private ParseHttpListener<FeedBackBean> listener = new ParseHttpListener<FeedBackBean>() {
 
         public void onFailure(int errCode, String errMsg) {
-        	PromptManager.closeProgressDialog();
             super.onFailure(errCode, errMsg);
         };
 

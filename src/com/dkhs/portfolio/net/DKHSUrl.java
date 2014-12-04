@@ -17,15 +17,15 @@ package com.dkhs.portfolio.net;
  */
 public class DKHSUrl {
 
-    // 预发布
+    // 测试用地址
     public static final String BASE_TEST_URL = "http://dev.dkhs.com:8030";
 
-    // 测试
+    // 开发用地址
     public static final String BASE_DEV_URL = "http://dev.dkhs.com:8010";
-    //正式
+    //main
     public static final String BASE_DEV_MAIN = "https://www.dkhs.com";
-    //开发
-    public static final String BASE_DEV_TAG = "http://dev.dkhs.com:8050";
+    //taging
+    public static final String BASE_DEV_TAG = "http://dev.dkhs.com:8066";
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
     // public static final String BASE_URL = "http://58.23.5.117:8030";
