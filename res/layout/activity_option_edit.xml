@@ -40,6 +40,16 @@
             android:textSize="@dimen/list_text_size"
             />
     </LinearLayout>
+    <RelativeLayout 
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        >
+        <LinearLayout 
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/layout"
+        ></LinearLayout>
     <com.dkhs.portfolio.ui.draglist.DragListView 
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -47,4 +57,5 @@
         android:cacheColorHint="#00000000"
        android:listSelector="#00000000"
         />
+    </RelativeLayout>
 </LinearLayout>
