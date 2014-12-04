@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
@@ -40,11 +41,11 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @version 1.0
  */
 public class OptionalStockEngineImpl extends LoadSelectDataEngine {
-
+	ILoadDataBackListener loadListener;
     public OptionalStockEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex) {
         super(loadListener);
         this.isShowIndex = isShowIndex;
-
+        this.loadListener = loadListener;
     }
 
     private boolean isShowIndex;
@@ -111,6 +112,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             totalcount = dataObject.optInt("total_count");
             totalpage = dataObject.optInt("total_page");
             currentpage = dataObject.optInt("current_page");
+            loadListener.setStatu(dataObject.optInt("trade_status"));
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();

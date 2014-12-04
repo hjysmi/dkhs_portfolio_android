@@ -9,10 +9,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
@@ -560,6 +562,10 @@ public class KChartsFragment extends Fragment {
 
         @Override
         public void run() {
+        	StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
+        	if(!m.getTrade_status().equals("0")){
+        		mMarketTimer.cancel();
+            }
         	String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode,"1", mKlineHttpListenerFlush);
         }

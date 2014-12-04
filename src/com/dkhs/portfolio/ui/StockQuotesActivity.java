@@ -119,7 +119,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private HScrollTitleView hsTitle;
     // privaet view
     private ScrollViewPager pager;
-
+    private ArrayList<Fragment> fragmentList;
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private LinearLayout stockLayout;
     private FragmentSelectAdapter mFragmentSelectAdapter;
@@ -419,6 +419,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
+                if(!stockQuotesBean.getTrade_status().equals("0")){
+                	quoteHandler.removeCallbacks(runnable);
+                }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
                 int i = 0;
@@ -508,7 +511,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initTabPage() {
 
-        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
                 mStockCode);
@@ -837,4 +840,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
+
+	public StockQuotesBean getmStockQuotesBean() {
+		return mStockQuotesBean;
+	}
+
+	public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
+		this.mStockQuotesBean = mStockQuotesBean;
+	}
+    
 }

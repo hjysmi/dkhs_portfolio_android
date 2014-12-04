@@ -394,6 +394,7 @@ public class StickChart extends GridChart {
                 }else{
                 	s = lineEntity.getLineData().size() - mShowDate;
                 }
+                paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                 for (int i = s; i < lineEntity.getLineData().size(); i++) {
                     if (i != s) {
                         canvas.drawLine(
