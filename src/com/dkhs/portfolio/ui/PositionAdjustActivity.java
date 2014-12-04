@@ -634,9 +634,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     sbRaiseDown.append("、");
 
                 }
-            } else if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+            }
+            if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
                 sbRaiseUp = new StringBuilder();
-                for (String code : raiseError.getRaise_down()) {
+                for (String code : raiseError.getRaise_up()) {
                     sbRaiseUp.append(code);
                     sbRaiseUp.append("、");
                 }

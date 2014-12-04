@@ -162,7 +162,10 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void replaceCompareView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        mFragmentCompare = new FragmentCompare();
+        if (null == mFragmentCompare) {
+
+            mFragmentCompare = new FragmentCompare();
+        }
         ft.replace(R.id.fl_content, mFragmentCompare);
         ft.commit();
     }
