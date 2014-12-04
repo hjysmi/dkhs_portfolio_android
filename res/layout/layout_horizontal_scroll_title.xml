@@ -21,15 +21,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/activity_bg_color"
+            android:background="@color/theme_gray_press"
             android:orientation="vertical" >
 
             <ImageView
                 android:id="@+id/selectadapter_parent_icon"
                 android:layout_width="80dp"
-                android:layout_height="wrap_content"
+                android:layout_height="5px"
                 android:scaleType="fitXY"
-                android:src="@drawable/vpi__tab_selected_holo" />
+                android:src="@color/red" />
         </LinearLayout>
     </LinearLayout>
 

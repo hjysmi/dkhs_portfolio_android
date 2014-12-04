@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.ui;
+package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,8 +6,11 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -25,11 +28,12 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.ui.YanbaoNewsActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 
-public class ReportForOneListActivity extends ModelAcitivity{
+public class FragmentForOptionOnr extends Fragment{
 	private ListView mListView;
 
     private boolean isLoadingMore;
@@ -46,44 +50,46 @@ public class ReportForOneListActivity extends ModelAcitivity{
     private String symbol;
     private String name;
     private String subType;
+    private View view;
+	
 	@Override
-	protected void onCreate(Bundle arg0) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		super.onCreate(arg0);
-		setContentView(R.layout.activity_option_market_news);
-		context = this;
+		view = inflater.inflate(R.layout.activity_option_market_news, null);
+		context = getActivity();
 		mDataList = new ArrayList<OptionNewsBean>();
 		
-		iv = (TextView) findViewById(android.R.id.empty);
+		iv = (TextView) view.findViewById(android.R.id.empty);
         // iv.setText("暂无公告");
-		Bundle extras = getIntent().getExtras();
+		Bundle extras = getArguments();
 		if(null != extras){
 			symbol = extras.getString(SYMBOL);
 			name = extras.getString(NAME);
 			subType = extras.getString(SUB);
 		}
-		((TextView) findViewById(R.id.tv_title)).setText("研报-" + name);
+		if(null != view.findViewById(R.id.tv_title)){
+			((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
+		}
 		initDate();
+		return view;
 	}
-	public static Intent newIntent(Context context, String symbolName,String name,String subType) {
-        Intent intent = new Intent(context, ReportForOneListActivity.class);
+
+	public static Fragment newIntent(Context context, String symbolName,String name,String subType) {
+        Fragment f = new FragmentForOptionOnr();
         Bundle b = new Bundle();
         b.putString(SYMBOL, symbolName);
         b.putString(NAME, name);
         b.putString(SUB, subType);
-         intent.putExtras(b);
-        return intent;
+         f.setArguments(b);
+        return f;
     }
 	private void initDate(){
 			try {
 					NewsforImpleEngine vo = new NewsforImpleEngine();
 					vo.setSymbol(symbol);
 					vo.setContentSubType(subType);
-					if(null ==subType){
-						mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
-					}else{
-						mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.GROUP_FOR_ONE,vo);
-					}
+					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
 					mLoadDataEngine.loadData();
 					mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
 					mLoadDataEngine.setFromYanbao(false);
@@ -93,9 +99,9 @@ public class ReportForOneListActivity extends ModelAcitivity{
 			}
 			
 	}
-	private void initView() {
+	private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) findViewById(android.R.id.list);
+        mListView = (ListView) view.findViewById(android.R.id.list);
         
         mListView.setEmptyView(iv);
         mListView.addFooterView(mFootView);
@@ -172,7 +178,7 @@ public class ReportForOneListActivity extends ModelAcitivity{
 				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(first){
-				    	initView();
+				    	initView(view);
 				    	first = false;
 				    }
 				    mOptionMarketAdapter.notifyDataSetChanged();
