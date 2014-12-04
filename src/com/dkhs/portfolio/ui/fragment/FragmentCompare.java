@@ -307,13 +307,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
 
         oks.setText(customText);
-
         oks.setImagePath(SHARE_IMAGE);
-
         oks.setFilePath(SHARE_IMAGE);
-
         oks.setSilent(false);
-
         oks.setShareFromQQAuthSupport(false);
 
         // 令编辑页面显示为Dialog模式
@@ -549,8 +545,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         lineEntityList.clear();
         maxOffsetValue = 0f;
         reShowGirdItem();
-		netValueEngine.requeryDay(TimeUtils.getTimeString(cStart),
-                TimeUtils.getTimeString(cEnd), historyNetValueListener);
+        netValueEngine.requeryDay(TimeUtils.getTimeString(cStart), TimeUtils.getTimeString(cEnd),
+                historyNetValueListener);
         mCompareEngine.compare(compareListener, mCompareIds, TimeUtils.getTimeString(cStart),
                 TimeUtils.getTimeString(cEnd));
         compareListener.setLoadingDialog(getActivity());
@@ -866,81 +862,81 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             // mDay = dayOfMonth;
 
             // String sbTime = String.format(mDayFormat, year, (monthOfYear + 1), dayOfMonth);
-        	Calendar lastCalendar;
-        	boolean needUpdate = false;
-        	if(isFirstTimeOnDateSet){
-        		if (isPickStartDate) {
-        			// cStart = Calendar.getInstance();
-        			lastCalendar = (Calendar) cStart.clone();
-        			cStart.set(year, monthOfYear, dayOfMonth);
-        			// if (isBeforeCreateDate(cStart)) {
-        			if(cStart.after(Calendar.getInstance())){
-        				PromptManager.showToast("查询开始时间不能大于当前时间");
-        				cStart = lastCalendar;
-        			}else{
-        				if (isBeforeMonthCreateDate(cStart)) {
-        					showBeforeCreateDayDialog();
-        					cStart = lastCalendar;
-        				}else{
-        					if(cStart.after(cEnd)){
-        						PromptManager.showToast("查询开始时间不能大于查询结束时间");
-        						cStart = lastCalendar;
-        					}else{
-        						Calendar sevenAfter = (Calendar) cStart.clone();
-        						sevenAfter.add(Calendar.DAY_OF_MONTH, 7);
-        						if(cEnd.before(sevenAfter)){
-        							PromptManager.showToast("查询间隔不能少于7天");
-        							cStart = lastCalendar;
-        						}else{
-        							needUpdate = true;
-        						}
-        					}
-        				}
-        			}
-        		} else {
-        			lastCalendar = (Calendar) cEnd.clone();
-        			Calendar sevenAfter = (Calendar) cStart.clone();
-        			sevenAfter.add(Calendar.DAY_OF_MONTH, 7);
-        			cEnd.set(year, monthOfYear, dayOfMonth);
-        			if(cEnd.after(Calendar.getInstance())){
-        				PromptManager.showToast("查询结束时间不能大于当前时间");
-        				cEnd = Calendar.getInstance();
-        			}else{
-        				if(cEnd.before(cStart)){
-        					
-        					PromptManager.showToast("查询结束时间不能小于查询开始时间");
-        					cEnd = lastCalendar;
-        				}else{
-        					if (cEnd.before(sevenAfter)) {
-        						PromptManager.showToast("查询间隔不能少于7天");
-        						cEnd = lastCalendar;
-        					}else{
-    							needUpdate = true;
-    						}
-        				}
-        			}
-        			
-        		}
-        		updateDayDisplay();
-        		if(needUpdate){
-        			if(isPickStartDate){
-        				if(cStart.compareTo(lastCalendar) != 0){
-        					requestCompare();
-        				}
-        			}else{
-        				if(cEnd.compareTo(lastCalendar) != 0){
-        					requestCompare();
-        				}
-        			}
-        		}
-        		// }
-        		// noOfTimesCalled++;
-        	}
-        	isFirstTimeOnDateSet = !isFirstTimeOnDateSet;
+            Calendar lastCalendar;
+            boolean needUpdate = false;
+            if (isFirstTimeOnDateSet) {
+                if (isPickStartDate) {
+                    // cStart = Calendar.getInstance();
+                    lastCalendar = (Calendar) cStart.clone();
+                    cStart.set(year, monthOfYear, dayOfMonth);
+                    // if (isBeforeCreateDate(cStart)) {
+                    if (cStart.after(Calendar.getInstance())) {
+                        PromptManager.showToast("查询开始时间不能大于当前时间");
+                        cStart = lastCalendar;
+                    } else {
+                        if (isBeforeMonthCreateDate(cStart)) {
+                            showBeforeCreateDayDialog();
+                            cStart = lastCalendar;
+                        } else {
+                            if (cStart.after(cEnd)) {
+                                PromptManager.showToast("查询开始时间不能大于查询结束时间");
+                                cStart = lastCalendar;
+                            } else {
+                                Calendar sevenAfter = (Calendar) cStart.clone();
+                                sevenAfter.add(Calendar.DAY_OF_MONTH, 7);
+                                if (cEnd.before(sevenAfter)) {
+                                    PromptManager.showToast("查询间隔不能少于7天");
+                                    cStart = lastCalendar;
+                                } else {
+                                    needUpdate = true;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    lastCalendar = (Calendar) cEnd.clone();
+                    Calendar sevenAfter = (Calendar) cStart.clone();
+                    sevenAfter.add(Calendar.DAY_OF_MONTH, 7);
+                    cEnd.set(year, monthOfYear, dayOfMonth);
+                    if (cEnd.after(Calendar.getInstance())) {
+                        PromptManager.showToast("查询结束时间不能大于当前时间");
+                        cEnd = Calendar.getInstance();
+                    } else {
+                        if (cEnd.before(cStart)) {
+
+                            PromptManager.showToast("查询结束时间不能小于查询开始时间");
+                            cEnd = lastCalendar;
+                        } else {
+                            if (cEnd.before(sevenAfter)) {
+                                PromptManager.showToast("查询间隔不能少于7天");
+                                cEnd = lastCalendar;
+                            } else {
+                                needUpdate = true;
+                            }
+                        }
+                    }
+
+                }
+                updateDayDisplay();
+                if (needUpdate) {
+                    if (isPickStartDate) {
+                        if (cStart.compareTo(lastCalendar) != 0) {
+                            requestCompare();
+                        }
+                    } else {
+                        if (cEnd.compareTo(lastCalendar) != 0) {
+                            requestCompare();
+                        }
+                    }
+                }
+                // }
+                // noOfTimesCalled++;
+            }
+            isFirstTimeOnDateSet = !isFirstTimeOnDateSet;
         }
     };
 
-	private NetValueEngine netValueEngine;
+    private NetValueEngine netValueEngine;
 
     // private boolean isBeforeCreateDate(Calendar cStart, Calendar cCreate) {
     // isBeforeCreateDate = cStart.before(cCreate);
