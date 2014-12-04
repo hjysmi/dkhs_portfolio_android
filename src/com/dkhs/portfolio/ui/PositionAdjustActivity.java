@@ -634,9 +634,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     sbRaiseDown.append("、");
 
                 }
-            } else if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+            }
+            if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
                 sbRaiseUp = new StringBuilder();
-                for (String code : raiseError.getRaise_down()) {
+                for (String code : raiseError.getRaise_up()) {
                     sbRaiseUp.append(code);
                     sbRaiseUp.append("、");
                 }
@@ -644,14 +645,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
 
             StringBuilder sbToastText = new StringBuilder();
-            if (null != sbRaiseUp) {
+            if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
                 sbToastText.append("涨停股");
                 sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
                 sbToastText.append("无法调高占比.");
                 sbToastText.append("\n");
 
             }
-            if (null != sbRaiseDown) {
+            if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
                 sbToastText.append("跌停股");
                 sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
                 sbToastText.append("无法调低占比.");

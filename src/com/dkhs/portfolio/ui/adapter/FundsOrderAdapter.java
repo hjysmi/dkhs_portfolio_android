@@ -15,6 +15,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import android.content.Context;
@@ -166,6 +167,7 @@ public class FundsOrderAdapter extends BaseAdapter {
         viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
         viewHolder.tvUserName.setText(mContext.getString(R.string.format_create_name, item.getUser().getUsername()));
         viewHolder.tvValue.setText(StringFromatUtils.get2PointPercentPlus(increasePercent));
+        viewHolder.tvValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increasePercent));
         viewHolder.tvCombinationName.setText(item.getName());
         return row;
     }

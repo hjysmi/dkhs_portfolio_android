@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 import android.content.Context;
@@ -41,7 +42,8 @@ public class CompareIndexAdapter extends BaseAdapter {
     public CompareIndexAdapter(Context context, List<CompareFundItem> mCompareItemList) {
         this.mContext = context;
         this.mDataList = mCompareItemList;
-        mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelOffset(R.dimen.gridview_height));
+        mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, mContext.getResources()
+                .getDimensionPixelOffset(R.dimen.gridview_height));
 
     }
 
@@ -77,8 +79,8 @@ public class CompareIndexAdapter extends BaseAdapter {
 
         CompareFundItem item = mDataList.get(position);
         int colorId = ColorTemplate.COMPARE[position];
-        if(position + 1 == mDataList.size()){
-        	colorId = R.color.def_0;
+        if (position + 1 == mDataList.size()) {
+            colorId = R.color.def_0;
         }
         // viewHolder.cbSelect.setBackgroundColor(mContext.getResources().getColor(colorId));
         // viewHolder.cbSelect.setOnCheckedChangeListener(itemSelectChangeListener);
@@ -87,7 +89,7 @@ public class CompareIndexAdapter extends BaseAdapter {
             colorId = R.color.compare_select_gray;
         }
 
-        //convertView.setLayoutParams(mItemViewLayoutParams);
+        // convertView.setLayoutParams(mItemViewLayoutParams);
         convertView.setBackgroundColor(mContext.getResources().getColor(colorId));
 
         viewHolder.tvName.setText(item.name);
@@ -129,7 +131,8 @@ public class CompareIndexAdapter extends BaseAdapter {
 
     }
 
-    public class CompareFundItem {
+    public class CompareFundItem implements Serializable {
+        private static final long serialVersionUID = 123299489598L;
         public String name;
         public String value;
         public boolean iSelect;

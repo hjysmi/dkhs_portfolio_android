@@ -268,19 +268,19 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             }
                 break;
             case R.id.iv_weibo: {
-                // authPlatform(SinaWeibo.NAME);
-                authorize(new SinaWeibo(this));
+                authPlatform(SinaWeibo.NAME);
+                // authorize(new SinaWeibo(this));
             }
                 break;
             case R.id.iv_qq: {
-                // authPlatform(QZone.NAME);
+                authPlatform(QZone.NAME);
 
-                authorize(new QZone(this));
+                // authorize(new QZone(this));
             }
                 break;
             case R.id.iv_weixin: {
-                // authPlatform(Wechat.NAME);
-                authorize(new Wechat(this));
+                authPlatform(Wechat.NAME);
+                // authorize(new Wechat(this));
             }
                 break;
             default:
@@ -288,14 +288,14 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
     }
 
-    private void authorize(Platform plat) {
-        if (plat.isValid()) {
-            plat.removeAccount();
-        }
-        plat.setPlatformActionListener(platFormActionListener);
-        plat.SSOSetting(true);
-        plat.showUser(null);
-    }
+    // private void authorize(Platform plat) {
+    // if (plat.isValid()) {
+    // plat.removeAccount();
+    // }
+    // plat.setPlatformActionListener(platFormActionListener);
+    // plat.SSOSetting(true);
+    // plat.showUser(null);
+    // }
 
     private void authPlatform(String platformName) {
         // System.out.println("authPlatform:" + platformName);

@@ -92,6 +92,7 @@ public class SelectStockBean implements Serializable {
         bean.setCurrentValue(currentValue);
         // bean.setPercent(percentage);
         bean.setStockId(id);
+        bean.setIsStop(isStop ? 1 : 0);
         bean.setStockCode(code);
         return bean;
     }
