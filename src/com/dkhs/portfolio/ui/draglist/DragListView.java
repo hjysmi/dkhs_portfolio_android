@@ -25,6 +25,7 @@ import android.view.animation.Animation.AnimationListener;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -157,72 +158,87 @@ public class DragListView extends ListView {
 	public boolean onInterceptTouchEvent(MotionEvent ev) {
 		// 按下
 		if (ev.getAction() == MotionEvent.ACTION_DOWN && !isLock && !isMoving && !isDragItemMoving) {
-			int x = (int) ev.getX();// 获取相对与ListView的x坐标
-			int y = (int) ev.getY();// 获取相应与ListView的y坐标
-			lastPosition = startPosition = dragPosition = pointToPosition(x, y);
-			// 无效不进行处理
-			if (dragPosition == AdapterView.INVALID_POSITION) {
-				review(-1);
-				return super.onInterceptTouchEvent(ev);
-			}
-			if(false == bHasGetSapcing){
-				getSpacing();
-			}
-			review(dragPosition);
-			// 获取当前位置的视图(可见状态)
-			ViewGroup dragger = (ViewGroup) getChildAt(dragPosition
-					- getFirstVisiblePosition());
-
-			DragListAdapter adapter = (DragListAdapter) getAdapter();
-			
-			mDragItemInfo.obj = adapter.getItem(dragPosition
-					- getFirstVisiblePosition());
-			
-			// 获取到的dragPoint其实就是在你点击指定item项中的高度.
-			dragPoint = y - dragger.getTop();
-			// 这个值是固定的:其实就是ListView这个控件与屏幕最顶部的距离（一般为标题栏+状态栏）.
-			dragOffset = (int) (ev.getRawY() - y);
-
-			// 获取可拖拽的图标
-			View draggerIcon = dragger.findViewById(R.id.drag_list_item_image);
-			View delete = dragger.findViewById(R.id.image);
-			// x > dragger.getLeft() - 20这句话为了更好的触摸（-20可以省略）
-			if (draggerIcon != null && x > draggerIcon.getLeft() && x < draggerIcon.getRight() && delete.getVisibility() == View.VISIBLE) {
+			try {
+				int x = (int) ev.getX();// 获取相对与ListView的x坐标
+				int y = (int) ev.getY();// 获取相应与ListView的y坐标
+				lastPosition = startPosition = dragPosition = pointToPosition(x, y);
+				// 无效不进行处理
+				if(dragPosition > getAdapter().getCount()){
+					return false;
+				}
+				ViewGroup dragger = (ViewGroup) getChildAt(dragPosition
+						- getFirstVisiblePosition());
+				if(null ==dragger){
+					review(-1);
+					return false;
+				}
+				DragListAdapter adapter = (DragListAdapter) getAdapter();
+				Button btn = (Button) dragger.findViewById(R.id.button_delete);
+				int[] location = new int[2];  
+				btn.getLocationOnScreen(location);  
+				if(btn != null && x > location[0] && x < (location[0] + btn.getWidth()) ){
+					return false;
+				}
+				if (dragPosition == AdapterView.INVALID_POSITION) {
+					review(-1);
+					return super.onInterceptTouchEvent(ev);
+				}
+				if(false == bHasGetSapcing){
+					getSpacing();
+				}
+				review(dragPosition);
+				// 获取当前位置的视图(可见状态)
 				
-				dragItemView = dragger;
+				mDragItemInfo.obj = adapter.getItem(dragPosition
+						- getFirstVisiblePosition());
 				
-				dragger.destroyDrawingCache();
-				dragger.setDrawingCacheEnabled(true);// 开启cache.
-				dragger.setBackgroundColor(0x55555555);
-				Bitmap bm = Bitmap.createBitmap(dragger.getDrawingCache(true));// 根据cache创建一个新的bitmap对象.
-				hideDropItem();
-				adapter.setInvisiblePosition(startPosition);
+				// 获取到的dragPoint其实就是在你点击指定item项中的高度.
+				dragPoint = y - dragger.getTop();
+				// 这个值是固定的:其实就是ListView这个控件与屏幕最顶部的距离（一般为标题栏+状态栏）.
+				dragOffset = (int) (ev.getRawY() - y);
+
+				// 获取可拖拽的图标
+				View draggerIcon = dragger.findViewById(R.id.drag_list_item_image);
+				View delete = dragger.findViewById(R.id.image);
+				// x > dragger.getLeft() - 20这句话为了更好的触摸（-20可以省略）
+				if (draggerIcon != null && x > draggerIcon.getLeft() && x < draggerIcon.getRight() && delete.getVisibility() == View.VISIBLE) {
+					
+					dragItemView = dragger;
+					
+					dragger.destroyDrawingCache();
+					dragger.setDrawingCacheEnabled(true);// 开启cache.
+					dragger.setBackgroundColor(0x55555555);
+					Bitmap bm = Bitmap.createBitmap(dragger.getDrawingCache(true));// 根据cache创建一个新的bitmap对象.
+					hideDropItem();
+					adapter.setInvisiblePosition(startPosition);
 //				Animation animation = getScaleAnimation();
 //				dragger.setVisibility(View.INVISIBLE);
 //				dragger.startAnimation(animation);
 //				dragger.removeAllViews();
-				adapter.notifyDataSetChanged();		
-				startDrag(bm, y);// 初始化影像
-				isMoving = false;
+					adapter.notifyDataSetChanged();		
+					startDrag(bm, y);// 初始化影像
+					isMoving = false;
+					
+					adapter.copyList();
+				}
 				
-				adapter.copyList();
+				View text = dragger.findViewById(R.id.drag_list_item_text);
+				View layout = dragger.findViewById(R.id.layout);
+				View tv = dragger.findViewById(R.id.drag_text_delet_pad);
+				if( !isMoving && (delete.getVisibility() == View.GONE) && x < (this.getWidth() - btn.getWidth() - draggerIcon.getWidth()) && x > delete.getWidth()){
+					
+					//setAnima(btn.getWidth(),0,layout,btn,delete);
+					btn.setVisibility(View.GONE);
+					delete.setVisibility(View.VISIBLE);
+					tv.setVisibility(View.VISIBLE);
+				}
+				return false;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
-			View text = dragger.findViewById(R.id.drag_list_item_text);
-			View btn = dragger.findViewById(R.id.button_delete);
-			View layout = dragger.findViewById(R.id.layout);
-			View tv = dragger.findViewById(R.id.drag_text_delet_pad);
-			if( !isMoving && (delete.getVisibility() == View.GONE) && x < (this.getWidth() - btn.getWidth() - draggerIcon.getWidth()) && x > delete.getWidth()){
-				
-				//setAnima(btn.getWidth(),0,layout,btn,delete);
-				btn.setVisibility(View.GONE);
-				delete.setVisibility(View.VISIBLE);
-				tv.setVisibility(View.VISIBLE);
-			}
-			return false;
 		}
-
-		return super.onInterceptTouchEvent(ev);
+		return false;
 	}
 	public List<SelectStockBean> getList(){
 		return ((DragListAdapter) getAdapter()).getList();

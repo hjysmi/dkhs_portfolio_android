@@ -232,12 +232,12 @@ public class DKHSClient {
         } else {
         	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
 			case 0:
-				return DKHSUrl.BASE_DEV_TAG + relativeUrl;
-			case 1:
 				return DKHSUrl.BASE_DEV_URL + relativeUrl;
-			case 2:
+			case 1:
 				return DKHSUrl.BASE_TEST_URL + relativeUrl;
-			case 3:
+			/*case 2:
+				return DKHSUrl.BASE_TEST_URL + relativeUrl;*/
+			case 2:
 				return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
 			default:
 				break;
