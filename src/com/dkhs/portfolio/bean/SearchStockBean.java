@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.Column;
 import com.lidroid.xutils.db.annotation.Table;
@@ -97,6 +99,9 @@ public class SearchStockBean extends DBEntityBase {
     }
 
     public boolean isStop() {
+        if (TextUtils.isEmpty(is_stop)) {
+            return false;
+        }
         return this.is_stop.equalsIgnoreCase("1") ? true : false;
     }
 }

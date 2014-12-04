@@ -16,6 +16,8 @@
     <color name="orange">#FF8800</color>
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
+    <color name="red_bg">#ffd8d8</color>
+    <color name="green_bg">#c4ffc4</color>
     <color name="white">#ffffffff</color>
     <color name="gray">#4d4c4d</color>
     <color name="text_press">#a0a0a0</color>

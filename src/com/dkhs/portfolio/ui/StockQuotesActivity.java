@@ -1,4 +1,5 @@
 /**
+ * 
  * @Title StockQuotesActivity.java
  * @Package com.dkhs.portfolio.ui
  * @Description TODO(用一句话描述该文件做什么)
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -28,10 +28,12 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewStub;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewStub;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -63,6 +65,7 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 /**
  * @ClassName StockQuotesActivity
@@ -81,6 +84,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private SelectStockBean mStockBean;
 
     public static final String EXTRA_STOCK = "extra_stock";
+
+    protected static final int MSG_WHAT_BEFORE_REQUEST = 99;
+
+    protected static final int MSG_WHAT_AFTER_REQUEST = 97;
     private final int REQUESTCODE_SELECT_STOCK = 901;
 
     private TextView tvCurrent;
@@ -89,6 +96,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvOpen;
     private TextView tvChange;
     private TextView tvPercentage;
+    private Button btnRefresh;
 
     private TextView tvChengjiaoLiang;
     private TextView tvChengjiaoE;
@@ -310,8 +318,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         addButton.setBackgroundResource(R.drawable.ic_search_title);
         addButton.setOnClickListener(mSearchClick);
 
-        Button btnRefresh = getSecondRightButton();
+        btnRefresh = getSecondRightButton();
         btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
+        btnRefresh.setOnClickListener(this);
+
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
         initTabPage();
         // setupViewData();
@@ -348,10 +358,31 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void setupViewData() {
         if (null != mQuotesEngine && mStockBean != null) {
+            requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             mQuotesEngine.quotes(mStockBean.code, listener);
             // listener.setLoadingDialog(context);
         }
     }
+
+    Handler requestUiHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case MSG_WHAT_BEFORE_REQUEST: {
+                    rotateRefreshButton();
+                }
+
+                    break;
+                case MSG_WHAT_AFTER_REQUEST: {
+                    stopRefreshAnimation();
+                }
+
+                    break;
+
+                default:
+                    break;
+            }
+        };
+    };
 
     ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
@@ -453,6 +484,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(StockQuotesBean object) {
+            requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
@@ -500,14 +532,38 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
+    private void updateCurrentText() {
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+                tvCurrent.setBackgroundDrawable(null);
+
+            }
+
+        }, 500);
+    }
+
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
             // if (mStockBean != null && !mStockBean.isStop) {
-
             tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
+
+            String curentText = tvCurrent.getText().toString();
+            try {
+                float beforePrice = Float.parseFloat(curentText);
+                if (mStockQuotesBean.getCurrent() > beforePrice) {
+                    tvCurrent.setBackgroundResource(R.color.red_bg);
+                } else if (mStockQuotesBean.getCurrent() < beforePrice) {
+                    tvCurrent.setBackgroundResource(R.color.green_bg);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            updateCurrentText();
 
             if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
                 tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
@@ -534,6 +590,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
         tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
+
+        setTitleTipString(mStockQuotesBean.getTradetile() + " "
+                + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
+
         // }
     }
 
@@ -607,8 +667,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void updateStockInfo() {
-        setTitle(mStockBean.name);
-        setTitleTipString(mStockBean.code);
+        setTitle(mStockBean.name + "(" + mStockBean.code + ")");
+        // setTitleTipString(mStockBean.code);
     }
 
     // private boolean hasFollow = true;
@@ -647,15 +707,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             quoteHandler.postDelayed(this, 5 * 1000);// 隔60s再执行一次
         }
     };
-    Runnable quoterunnable = new Runnable() {
-        @Override
-        public void run() {
-            // dataHandler.sendEmptyMessage(1722);
 
-            setupViewData();
-            quoteHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
-        }
-    };
+    // Runnable quoterunnable = new Runnable() {
+    // @Override
+    // public void run() {
+    // // dataHandler.sendEmptyMessage(1722);
+    //
+    // setupViewData();
+    // quoteHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
+    // }
+    // };
 
     /**
      * @Title
@@ -676,11 +737,34 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 }
 
                 break;
-
+            case R.id.btn_right_second: {
+                rotateRefreshButton();
+            }
+                break;
             default:
                 break;
         }
 
+    }
+
+    private void rotateRefreshButton() {
+        // RotateAnimation ani = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f,
+        // Animation.RELATIVE_TO_SELF,
+        // 0.5f);
+        // ani.setDuration(500);
+        // ani.setRepeatCount(-1);
+        // // LinearInterpolator inter = new LinearInterpolator();
+        // // ani.setInterpolator(inter);
+        // // Matrix matrix = new Matrix();
+        // // matrix.preRotate(360, 100, 200);
+
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
+        btnRefresh.startAnimation(animation);
+        // btnRefresh.startAnimation(ani);
+    }
+
+    private void stopRefreshAnimation() {
+        btnRefresh.clearAnimation();
     }
 
     /**
