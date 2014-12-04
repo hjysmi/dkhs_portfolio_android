@@ -420,7 +420,11 @@ public class StockQuotesChartFragment extends Fragment {
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
-
+        	StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
+        	if(!m.getTrade_status().equals("0")){
+        		dataHandler.removeCallbacks(runnable);
+            }
+        	
             if (fsDataBean != null) {
                 mFsDataBean.setCurtime(fsDataBean.getCurtime());
                 if (null == mFsDataBean.getMainstr()) {
