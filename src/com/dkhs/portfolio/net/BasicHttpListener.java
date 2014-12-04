@@ -107,7 +107,7 @@ public abstract class BasicHttpListener implements IHttpListener {
         // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
         if (errCode == 500 || errCode == 404) { // 服务器内部错误
-            PromptManager.showToast("服务端暂时不可用,请稍候.");
+            PromptManager.showToast("数据请求失败,请稍后重试.");
         } else if (errCode == 777 && fromYanbao) { // 服务器正确响应，错误参数需要提示用户
             parseToErrorBundle(errMsg);
         }

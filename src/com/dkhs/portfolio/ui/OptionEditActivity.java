@@ -33,7 +33,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
     private DragListAdapter adapter;
     private Context context;
     private Button btnRight;
-
+    private LinearLayout layout;
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -55,16 +55,18 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
 
     private void initView() {
         optionEditList = (DragListView) findViewById(R.id.option_edit_list);
+        layout = (LinearLayout) findViewById(R.id.layout);
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText("完成");
+        layout.setOnClickListener(this);
     }
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-            adapter = new DragListAdapter(context, forIndex(dataList));
+            adapter = new DragListAdapter(context, forIndex(dataList),optionEditList);
             optionEditList.setAdapter(adapter);
             optionEditList.setOnItemClickListener(new OnListener());
         }
@@ -126,6 +128,9 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     e.printStackTrace();
                 }
                 break;
+            case R.id.layout:
+            	optionEditList.review(-1);
+            	break;
             default:
                 break;
         }
