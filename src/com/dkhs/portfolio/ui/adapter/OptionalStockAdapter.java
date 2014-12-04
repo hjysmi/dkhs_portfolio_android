@@ -90,8 +90,9 @@ public class OptionalStockAdapter extends BaseAdapter {
         convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_optional_percent, null);
         View colorView = convertView.findViewById(R.id.view_color);
         TextView tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
+        TextView tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
         final TextView tvPercent = (TextView) convertView.findViewById(R.id.tv_stock_percent);
-         TextView tvIstop = (TextView) convertView.findViewById(R.id.tv_isStop);
+        TextView tvIstop = (TextView) convertView.findViewById(R.id.tv_isStop);
         final SeekBar seekbar = (SeekBar) convertView.findViewById(R.id.seekBar);
 
         ConStockBean item = stockList.get(position);
@@ -101,6 +102,7 @@ public class OptionalStockAdapter extends BaseAdapter {
             tvIstop.setVisibility(View.VISIBLE);
         }
         tvStockName.setText(item.getName());
+        tvStockNum.setText(item.getStockCode());
         colorView.setBackgroundColor(item.getDutyColor());
         seekbar.setProgress((int) (item.getPercent()));
 
@@ -159,13 +161,13 @@ public class OptionalStockAdapter extends BaseAdapter {
 
     public float setSurpusValue() {
         float surpusValu = 100;
-        System.out.println("stockList size:"+stockList.size());
+        System.out.println("stockList size:" + stockList.size());
         for (int i = 0; i < stockList.size(); i++) {
             surpusValu -= stockList.get(i).getPercent();
-            System.out.println("Value:"+stockList.get(i).getPercent());
+            System.out.println("Value:" + stockList.get(i).getPercent());
         }
         maxValue = surpusValu;
-        System.out.println("setSurpusValue:"+maxValue);
+        System.out.println("setSurpusValue:" + maxValue);
         return maxValue;
 
     }
