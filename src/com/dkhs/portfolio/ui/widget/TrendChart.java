@@ -167,7 +167,7 @@ public class TrendChart extends TrendGridChart {
     				public void run() {
     					// TODO Auto-generated method stub
     					try {
-    						Thread.sleep(700);
+    						Thread.sleep(300);
     						if(moves){
     							mCounter++;
     			                isTouch = true;

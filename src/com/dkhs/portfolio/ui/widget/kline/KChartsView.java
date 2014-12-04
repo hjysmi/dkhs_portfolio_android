@@ -790,7 +790,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				public void run() {
 					// TODO Auto-generated method stub
 					try {
-						Thread.sleep(700);
+						Thread.sleep(300);
 						if(go){
 							if (null != mTouchListener) {
 				                mTouchListener.chartTounching();

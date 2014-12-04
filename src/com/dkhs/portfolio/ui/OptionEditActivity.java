@@ -71,6 +71,12 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
             optionEditList.setOnItemClickListener(new OnListener());
         }
 
+		@Override
+		public void setStatu(int statu) {
+			// TODO Auto-generated method stub
+			mLoadDataEngine.setStatu(statu);
+		}
+
     };
 
     public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
