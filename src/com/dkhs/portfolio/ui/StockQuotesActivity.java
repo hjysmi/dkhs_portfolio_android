@@ -256,7 +256,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // vo.setLayout(stockLayout);
         b4.putSerializable(FragmentNewsList.VO, vo);
         // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
-        //f4.setArguments(b4);
+        // f4.setArguments(b4);
         frag.add(f4);
         if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
             Fragment f3 = new NewsFragment();
@@ -544,6 +544,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }, 500);
     }
 
+    private float mPrePrice = 0;
+
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
             // if (mStockBean != null && !mStockBean.isStop) {
@@ -552,18 +554,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
 
-            String curentText = tvCurrent.getText().toString();
-            try {
-                float beforePrice = Float.parseFloat(curentText);
-                if (mStockQuotesBean.getCurrent() > beforePrice) {
+            // String curentText = tvCurrent.getText().toString();
+            if (mPrePrice > 0) {
+
+                if (mStockQuotesBean.getCurrent() > mPrePrice) {
                     tvCurrent.setBackgroundResource(R.color.red_bg);
-                } else if (mStockQuotesBean.getCurrent() < beforePrice) {
+                } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
                     tvCurrent.setBackgroundResource(R.color.green_bg);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
+            }
+            mPrePrice = mStockQuotesBean.getCurrent();
             updateCurrentText();
 
             if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
@@ -739,7 +740,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                 break;
             case R.id.btn_right_second: {
-                rotateRefreshButton();
+                // rotateRefreshButton();
             }
                 break;
             default:
