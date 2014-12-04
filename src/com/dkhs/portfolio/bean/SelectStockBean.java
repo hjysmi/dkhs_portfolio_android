@@ -92,6 +92,7 @@ public class SelectStockBean implements Serializable {
         bean.setCurrentValue(currentValue);
         // bean.setPercent(percentage);
         bean.setStockId(id);
+        bean.setIsStop(isStop ? 1 : 0);
         bean.setStockCode(code);
         return bean;
     }
@@ -105,12 +106,12 @@ public class SelectStockBean implements Serializable {
         }
     }
 
-	public long getIndex() {
-		return index;
-	}
+    public long getIndex() {
+        return index;
+    }
 
-	public void setIndex(long index) {
-		this.index = index;
-	}
-    
+    public void setIndex(long index) {
+        this.index = index;
+    }
+
 }

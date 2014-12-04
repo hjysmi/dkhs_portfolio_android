@@ -230,8 +230,8 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                         boundTextWeibo.setText(plat.getUsername());
                         boundTextWeibo.setEnabled(false);
                     } else if (plat.getProvider().contains("weixin")) {
-                        // boundTextQq.setText(plat.getUsername());
-                        // boundTextQq.setEnabled(false);
+                        boundTextWechat.setText(plat.getUsername());
+                        boundTextWechat.setEnabled(false);
                     } else if (plat.getProvider().contains("qq")) {
                         boundTextQq.setText(plat.getUsername());
                         boundTextQq.setEnabled(false);
