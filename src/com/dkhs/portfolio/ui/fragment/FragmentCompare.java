@@ -132,9 +132,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
-        selectStockList = new ArrayList<SelectStockBean>();
-        mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
 
         cStart = Calendar.getInstance();
         cStart.add(Calendar.MONTH, -1);
@@ -149,8 +146,11 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         }
         netValueEngine = new NetValueEngine(mCombinationBean.getId());
         mCompareEngine = new CompareEngine();
-        setGridItemData();
+
+        System.out.println("===============onCreate(" + mListCount + ")================");
     }
+
+    private int mListCount = 0;
 
     /**
      * @Title
@@ -161,11 +161,49 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         // recLifeCycle_with_savedInstanceState(savedInstanceState);
+        System.out.println("===============onActivityCreated()================");
         super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
+        if (savedInstanceState != null) {
+            mListCount = savedInstanceState.getInt("COMPARE_COUNT");
+            System.out.println("===============savedInstanceState(" + mListCount + ")================");
+            ArrayList list = savedInstanceState.getParcelableArrayList("selectStockList");
+            selectStockList = (List<SelectStockBean>) list.get(0);
+            // ArrayList list2 = savedInstanceState.getParcelableArrayList("mCompareItemList");
+            // mCompareItemList = (List<CompareFundItem>) list.get(0);
+
+            System.out.println("savedInstanceState mCompareItemList size:" + mCompareItemList.size());
+
+        } else {
+
+            if (selectStockList == null) {
+
+                setGridItemData();
+            }
+            System.out.println("savedInstanceState selectStockList size:" + selectStockList.size());
+
+            System.out.println("===============(" + mListCount + ")================");
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        // super.onSaveInstanceState(outState);
+        ArrayList list = new ArrayList(); // 这个list用于在budnle中传递 需要传递的ArrayList<Object>
+        list.add(selectStockList);
+        outState.putParcelableArrayList("selectStockList", list);
+        // ArrayList list2 = new ArrayList(); // 这个list用于在budnle中传递 需要传递的ArrayList<Object>
+        // list.add(mCompareItemList);
+        // outState.putParcelableArrayList("mCompareItemList", list2);
+        // outState.put("", selectStockList);
+        // ("COMPARE_COUNT", mListCount);
+        outState.putInt("COMPARE_COUNT", mListCount);
     }
 
     private void setGridItemData() {
+        mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
+        selectStockList = new ArrayList<SelectStockBean>();
+        mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
 
         CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();
         defalutItem1.name = "沪深300";
@@ -183,7 +221,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         selectStockList.add(sBean1);
         selectStockList.add(sBean2);
-        
+
         mCompareItemList.add(defalutItem1);
         mCompareItemList.add(defalutItem2);
         CompareFundItem item = mGridAdapter.new CompareFundItem();
@@ -200,6 +238,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("===============onCreateView(" + mListCount + ")================");
+
         View view = inflater.inflate(R.layout.fragment_compare, null);
         initView(view);
         maChartView = (TrendChart) view.findViewById(R.id.machart);
@@ -207,6 +247,19 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         requestCompare();
         return view;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+
+        System.out.println("===============onStart(" + mListCount + ")================");
     }
 
     private String SHARE_IMAGE;
@@ -242,8 +295,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
         oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
-   
-        String customText = "这是我的基金「"+mCombinationBean.getName()+"」从"+btnStartTime.getText()+"至"+btnEndTime.getText()+"与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
+
+        String customText = "这是我的基金「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
+                + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
 
         oks.setText(customText);
 
@@ -370,17 +424,17 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             // String name = mCompareItemList.get(position).name;
             // Toast.makeText(getActivity(), "选择" + name, Toast.LENGTH_SHORT).show();
             try {
-				if (lineEntityList.size() >= position + 1) {
-				    boolean isHide = !(mCompareItemList.get(position).iSelect);
-				    mCompareItemList.get(position).iSelect = isHide;
-				    lineEntityList.get(position + 1).setDisplay(!isHide);
-				    mGridAdapter.notifyDataSetChanged();
-				    maChartView.invalidate();
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                if (lineEntityList.size() >= position + 1) {
+                    boolean isHide = !(mCompareItemList.get(position).iSelect);
+                    mCompareItemList.get(position).iSelect = isHide;
+                    lineEntityList.get(position + 1).setDisplay(!isHide);
+                    mGridAdapter.notifyDataSetChanged();
+                    maChartView.invalidate();
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     };
 
@@ -922,7 +976,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         int lenght = sbCompareIds.length();
         mCompareIds = sbCompareIds.substring(0, lenght - 1);
 
-        //btnSelectFund.setText(sb);
+        // btnSelectFund.setText(sb);
         if (isBetween7day()) {
             Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
         } else {
@@ -943,9 +997,11 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
                             .getSerializableExtra("list_select");
                     if (null != listStock) {
-                        selectStockList = listStock;
-                        System.out.println("selectStockList size:"+selectStockList.size());
-                        updateSelectData(listStock);
+                        selectStockList.clear();
+                        selectStockList.addAll(listStock);
+                        mListCount = selectStockList.size();
+                        System.out.println("selectStockList size:" + selectStockList.size());
+                        updateSelectData(selectStockList);
                     } else {
 
                     }
