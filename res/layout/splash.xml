@@ -8,8 +8,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
-        android:background="@drawable/dksh_flash"
+        android:background="@drawable/dkhs_flash"
         android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:visibility="visible" />
+    <TextView  android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dip"
+        android:textColor="@color/white"
+        android:text="@string/copyright"
+        android:layout_height="wrap_content"/>
 
 </RelativeLayout>
