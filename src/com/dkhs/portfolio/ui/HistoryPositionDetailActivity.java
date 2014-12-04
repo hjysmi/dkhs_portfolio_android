@@ -1,7 +1,6 @@
 package com.dkhs.portfolio.ui;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -260,7 +254,6 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 	@Override
 	public void onLoadMore() {
 		if(page > total_page){
-			PromptManager.showToast("当前没有更多了...");
 			mListView.setAutoLoadMore(false);
 			mListView.setLodaMoreText("当前没有更多了...");
 		}else{
