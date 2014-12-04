@@ -72,8 +72,9 @@ public class OptionMarketAdapter extends BaseAdapter{
 			    viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
 			    viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
 			    TextView texts = (TextView) convertView.findViewById(R.id.zhengquan);
+			    texts.setVisibility(View.GONE);
 			    convertView.setTag(viewHolder);
-			    Paint p= new Paint(); 
+			    /*Paint p= new Paint(); 
 				Rect rect = new Rect();
 				p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
 				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
@@ -81,9 +82,9 @@ public class OptionMarketAdapter extends BaseAdapter{
 					int le = (int) (mOptionNewsBean.getTitle().length() -  mOptionNewsBean.getTitle().length() *(rect.width() - dm.widthPixels + 50)/rect.width() - 3);
 					String text = mOptionNewsBean.getTitle().substring(0, le);
 					tv.setText(text + "...");
-				}else{
-					tv.setText(mOptionNewsBean.getTitle());
-				}
+				}else{*/
+				tv.setText(mOptionNewsBean.getTitle());
+				//}
 			//ViewTreeObserver observer = tv.getViewTreeObserver();
 			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
 			Calendar old = TimeUtils.toCalendar(mOptionNewsBean.getPublish());

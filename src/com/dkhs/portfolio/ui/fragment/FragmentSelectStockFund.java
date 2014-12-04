@@ -254,6 +254,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         }
 
+		@Override
+		public void setStatu(int statu) {
+			// TODO Auto-generated method stub
+			mLoadDataEngine.setStatu(statu);
+		}
+
     };
 
     public void setOrderType(OrderType orderType) {
@@ -334,7 +340,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     public void refresh() {
         isRefresh = true;
-        if (mLoadDataEngine != null) {
+        if (mLoadDataEngine != null && mLoadDataEngine.getStatu() == 0) {
             // mDataList.clear();
             isLoading = true;
             mLoadDataEngine.loadData();
@@ -345,16 +351,18 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         isRefresh = true;
         if (mLoadDataEngine != null) {
             // mDataList.clear();
-            if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
-                    || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
-                    && null != mDataList) {
-                ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-            }
-            if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId)
-                    && null != mDataList) {
-                ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-            }
-            mLoadDataEngine.setLoadingDialog(getActivity());
+	        	if(mLoadDataEngine.getStatu() == 0){
+		            if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
+		                    || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
+		                    && null != mDataList) {
+		                ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+		            }
+		            if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId)
+		                    && null != mDataList) {
+		                ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+		            }
+		            mLoadDataEngine.setLoadingDialog(getActivity());
+	        }
         }
     }
 

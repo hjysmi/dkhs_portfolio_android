@@ -26,9 +26,11 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String DESC = "-percentage";
     public final static String CURRENT = "";
     private String orderType;
+    ILoadDataBackListener loadListener;
     public MarketCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
+        this.loadListener = loadListener;
     }
     
     @Override
@@ -58,6 +60,8 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
             setTotalcount(dataObject.optInt("total_count"));
             setTotalpage(dataObject.optInt("total_page"));
             setCurrentpage(dataObject.optInt("current_page"));
+            setStatu(dataObject.optInt("trade_status"));
+            loadListener.setStatu(dataObject.optInt("trade_status"));
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();
