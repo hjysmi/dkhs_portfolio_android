@@ -90,44 +90,52 @@ public class TimeUtils {
         return new SimpleDateFormat("HH:mm", Locale.CHINA).format(toDate(iso8601Time));
     }
 
+    public static String getMDTimeString(String iso8601Time) {
+        return new SimpleDateFormat("MM-dd HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
+    }
+
     public static String getHourString(String iso8601Time) {
         return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
 
     }
-    public static boolean compareTime(Calendar old){
-    	Calendar c = Calendar.getInstance();
-    	if(old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH) && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)){
-    		return true;
-    	}
-    	return false;
+
+    public static boolean compareTime(Calendar old) {
+        Calendar c = Calendar.getInstance();
+        if (old.get(Calendar.YEAR) == c.get(Calendar.YEAR) && old.get(Calendar.MONTH) == c.get(Calendar.MONTH)
+                && old.get(Calendar.DAY_OF_MONTH) == c.get(Calendar.DAY_OF_MONTH)) {
+            return true;
+        }
+        return false;
     }
+
     public static String getTimeString(Calendar calendar) {
         return ACCEPTED_TIMESTAMP_FORMATS[7].format(calendar.getTime());
     }
-    public static String getDateString(String iso8601Time){
-    	String dateString = "";
-    	Date date = parseISOTime(iso8601Time);
-    	dateString = new SimpleDateFormat("yyyy年MM月dd日  ", Locale.CHINA).format(date);
-    	Calendar c = Calendar.getInstance();
-    	c.setTime(date);
-    	String weekString = new SimpleDateFormat("EEEE").format(c.getTime());
-    	if("1".equals(weekString)){
-		   weekString = "  星期日";
-		}else if("2".equals(weekString)){
-		   weekString = "  星期一";
-		}else if("3".equals(weekString)){
-		   weekString = "  星期二";
-		}else if("4".equals(weekString)){
-		   weekString = "  星期三";
-		}else if("5".equals(weekString)){
-		   weekString = "  星期四";
-		}else if("6".equals(weekString)){
-		   weekString = "  星期五";
-		}else if("7".equals(weekString)){
-		   weekString = "  星期六";
-		}
-    	dateString += weekString;
-    	return dateString;
+
+    public static String getDateString(String iso8601Time) {
+        String dateString = "";
+        Date date = parseISOTime(iso8601Time);
+        dateString = new SimpleDateFormat("yyyy年MM月dd日  ", Locale.CHINA).format(date);
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        String weekString = new SimpleDateFormat("EEEE").format(c.getTime());
+        if ("1".equals(weekString)) {
+            weekString = "  星期日";
+        } else if ("2".equals(weekString)) {
+            weekString = "  星期一";
+        } else if ("3".equals(weekString)) {
+            weekString = "  星期二";
+        } else if ("4".equals(weekString)) {
+            weekString = "  星期三";
+        } else if ("5".equals(weekString)) {
+            weekString = "  星期四";
+        } else if ("6".equals(weekString)) {
+            weekString = "  星期五";
+        } else if ("7".equals(weekString)) {
+            weekString = "  星期六";
+        }
+        dateString += weekString;
+        return dateString;
     }
 
     public static String getTimeByMSecond(float second) {
