@@ -296,10 +296,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         final OnekeyShare oks = new OnekeyShare();
 
         oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        // oks.setAddress("12345678901");
-        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
-        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
-        // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
         oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
 
@@ -310,6 +306,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         oks.setImagePath(SHARE_IMAGE);
         oks.setFilePath(SHARE_IMAGE);
         oks.setSilent(false);
+        oks.setUrl("https://dkhs.com/portfolio/wap/");
         oks.setShareFromQQAuthSupport(false);
 
         // 令编辑页面显示为Dialog模式
