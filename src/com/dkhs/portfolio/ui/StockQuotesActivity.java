@@ -49,6 +49,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
+import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
@@ -238,7 +239,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
         f2.setArguments(b2);
         frag.add(f2);
-        Fragment f4 = new FragmentreportNewsList();
+        Fragment f4 = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
         Bundle b4 = new Bundle();
         b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
         vo = new NewsforImpleEngine();
@@ -247,7 +248,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // vo.setLayout(stockLayout);
         b4.putSerializable(FragmentNewsList.VO, vo);
         // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
-        f4.setArguments(b4);
+        //f4.setArguments(b4);
         frag.add(f4);
         if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
             Fragment f3 = new NewsFragment();

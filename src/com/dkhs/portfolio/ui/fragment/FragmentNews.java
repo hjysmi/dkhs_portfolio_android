@@ -82,22 +82,21 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         b1.putSerializable(FragmentNewsList.VO, vo);
         f1.setArguments(b1);
         //fragmentList.add(f1);
-        Fragment f2 = new FragmentNewsList();
+        Fragment f2 = new OptionMarketNewsFragment();
         Bundle b2 = new Bundle();
-        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         NewsforImpleEngine vo2 = new NewsforImpleEngine();
         vo2.setPortfolioId(mCombinationBean.getId()+"");
         vo2.setContentType("20");
-        vo2.setPageTitle("公告正文");
-        b2.putSerializable(FragmentNewsList.VO, vo2);
+        b2.putSerializable(OptionMarketNewsFragment.VO, vo2);
         f2.setArguments(b2);
         fragmentList.add(f2);
-        Fragment f3 = new FragmentNewsList();
+        Fragment f3 = new FragmentreportOneList();
         Bundle b3 = new Bundle();
         b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         NewsforImpleEngine vo3 = new NewsforImpleEngine();
         vo3.setPortfolioId(mCombinationBean.getId()+"");
         vo3.setContentType("30");
+        
         vo3.setPageTitle("研报正文");
         b3.putSerializable(FragmentNewsList.VO, vo3);
         f3.setArguments(b3);
