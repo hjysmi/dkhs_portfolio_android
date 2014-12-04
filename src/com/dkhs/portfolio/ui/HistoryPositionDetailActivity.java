@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,17 +97,37 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 						StringBuilder sb = new StringBuilder();
 						for(int j = 0; j < changeLists.size(); j++){
 							HistoryPositionItem item = changeLists.get(j);
-							sb.append(String.format("%-6s", item.getSymbol_name()));
-							if (item.getSymbol_name().length() < 4) {
-		                        sb.append("   ");
-		                    }
-							sb.append(" 从");
+							sb.append( item.getSymbol_name());
+							try {
+								byte[] bytes = item.getSymbol_name().getBytes("UTF-8");
+								switch (bytes.length) {
+								case 6:
+									sb.append("      ");
+									break;
+								case 7:
+								case 8:
+								case 9:
+									sb.append("     ");
+									break;
+								case 10:
+								case 11:
+									sb.append("  ");
+									break;
+
+								default:
+									break;
+								}
+							} catch (UnsupportedEncodingException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							sb.append("\t\t从");
 							sb.append(StringFromatUtils.get2PointPercent(item.getFrom_percent()));
 		                    // sb.append("%");
 		                    sb.append("调至");
 		                    sb.append(StringFromatUtils.get2PointPercent(item.getTo_percent()));
 		                    if(j != changeLists.size() - 1){
-		                    	sb.append("\n\n");
+		                    	sb.append("\n");
 		                    }
 						}
 						historyPositionItem.setHourTime(TimeUtils.getHourString(historyPositionItem.getCreated_at()));
