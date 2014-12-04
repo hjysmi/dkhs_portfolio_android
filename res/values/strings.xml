@@ -3,6 +3,7 @@
 
     <string name="app_name">谁牛</string>
     <string name="setting">设置</string>
+    <string name="copyright">Copyright &#169; 2014 DKHS.ALL Rights Reserved</string>
     <string name="release_to_refresh">松开刷新</string>
     <string name="pull_to_refresh">下拉刷新</string>
     <string name="refreshing">正在刷新···</string>
@@ -149,7 +150,7 @@
     <string name="add_up_value">累计收益率</string>
     <string name="dialog_before_createday_title">查询时间早于基金创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
-    <string name="query_before_month">复盘至创建时间前一个月</string>
+    <string name="query_before_month">起始时间不能早于创建前1个月</string>
     <string name="hint_account">手机号或邮箱</string>
     <string name="logining">登录中...</string>
     <string name="no_net">网络连接不可用，请稍后重试</string>
