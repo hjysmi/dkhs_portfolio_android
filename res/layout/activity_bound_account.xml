@@ -181,7 +181,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="20dp"
             android:paddingTop="5dp"
-            android:src="@drawable/bound_image_weibo" />
+            android:src="@drawable/bound_image_wechat" />
 
         <TextView
             android:layout_width="wrap_content"
