@@ -10,6 +10,8 @@ package com.dkhs.portfolio.bean;
 
 import java.util.List;
 
+import android.text.TextUtils;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -37,6 +39,10 @@ public class StockQuotesBean {
     private String name;
     private boolean followed;
     private String symbol;
+    private String moment;
+    private String trade_status;
+    // 0开市 1休市 2闭市
+    private String tradetile;
 
     // 成交量
     private float volume;
@@ -298,6 +304,38 @@ public class StockQuotesBean {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public String getMoment() {
+        return moment;
+    }
+
+    public void setMoment(String moment) {
+        this.moment = moment;
+    }
+
+    public String getTrade_status() {
+        return trade_status;
+    }
+
+    public void setTrade_status(String trade_status) {
+        this.trade_status = trade_status;
+    }
+
+    public String getTradetile() {
+        if (TextUtils.isEmpty(getTrade_status())) {
+            return "";
+        }
+        if (getTrade_status().equalsIgnoreCase("0")) {
+            return "开市";
+        }
+        if (getTrade_status().equalsIgnoreCase("1")) {
+            return "休市";
+        }
+        if (getTrade_status().equalsIgnoreCase("2")) {
+            return "闭市";
+        }
+        return "";
     }
 
 }
