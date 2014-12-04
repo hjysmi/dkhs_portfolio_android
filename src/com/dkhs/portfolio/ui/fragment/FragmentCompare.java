@@ -89,7 +89,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
     private GridView mGridView;
     private CompareIndexAdapter mGridAdapter;
-    private List<CompareFundItem> mCompareItemList;
+    private List<CompareFundItem> mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
     private List<SelectStockBean> selectStockList;
     private Button btnStartTime;
     private Button btnEndTime;
@@ -171,24 +171,57 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             // ArrayList list2 = savedInstanceState.getParcelableArrayList("mCompareItemList");
             // mCompareItemList = (List<CompareFundItem>) list.get(0);
 
+            System.out.println("savedInstanceState selectStockList size:" + selectStockList.size());
             System.out.println("savedInstanceState mCompareItemList size:" + mCompareItemList.size());
 
         } else {
 
-            if (selectStockList == null) {
+            if (mCompareItemList.size() < 1) {
 
-                setGridItemData();
+                // mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
+                // mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
+                CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();
+                defalutItem1.name = "沪深300";
+                CompareFundItem defalutItem2 = mGridAdapter.new CompareFundItem();
+                defalutItem2.name = "上证指数";
+
+                mCompareItemList.add(defalutItem1);
+                mCompareItemList.add(defalutItem2);
+                CompareFundItem item = mGridAdapter.new CompareFundItem();
+                item.name = mCombinationBean.getName();
+                mCompareItemList.add(item);
+            } else {
+                System.out.println("savedInstanceState mCompareItemList size:" + mCompareItemList.size());
             }
-            System.out.println("savedInstanceState selectStockList size:" + selectStockList.size());
+            if (null == selectStockList) {
+                selectStockList = new ArrayList<SelectStockBean>();
+                SelectStockBean sBean1 = new SelectStockBean();
+                sBean1.code = "106000082";
+                sBean1.id = 106000082;
 
-            System.out.println("===============(" + mListCount + ")================");
+                sBean1.name = "上证指数";
+                SelectStockBean sBean2 = new SelectStockBean();
+                sBean2.code = "106000232";
+                sBean2.id = 106000232;
+                sBean2.name = "沪深300";
+
+                selectStockList.add(sBean1);
+                selectStockList.add(sBean2);
+            } else {
+                System.out.println("savedInstanceState selectStockList size:" + selectStockList.size());
+
+            }
+
+            System.out.println("===============savedInstanceState(" + mListCount + ")================");
+            // setGridItemData();
+            requestCompare();
         }
 
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        // super.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
         ArrayList list = new ArrayList(); // 这个list用于在budnle中传递 需要传递的ArrayList<Object>
         list.add(selectStockList);
         outState.putParcelableArrayList("selectStockList", list);
@@ -201,32 +234,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     private void setGridItemData() {
-        mCompareItemList = new ArrayList<CompareIndexAdapter.CompareFundItem>();
-        selectStockList = new ArrayList<SelectStockBean>();
-        mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
 
-        CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();
-        defalutItem1.name = "沪深300";
-        CompareFundItem defalutItem2 = mGridAdapter.new CompareFundItem();
-        defalutItem2.name = "上证指数";
-        SelectStockBean sBean1 = new SelectStockBean();
-        sBean1.code = "106000082";
-        sBean1.id = 106000082;
-
-        sBean1.name = "上证指数";
-        SelectStockBean sBean2 = new SelectStockBean();
-        sBean2.code = "106000232";
-        sBean2.id = 106000232;
-        sBean2.name = "沪深300";
-
-        selectStockList.add(sBean1);
-        selectStockList.add(sBean2);
-
-        mCompareItemList.add(defalutItem1);
-        mCompareItemList.add(defalutItem2);
-        CompareFundItem item = mGridAdapter.new CompareFundItem();
-        item.name = mCombinationBean.getName();
-        mCompareItemList.add(item);
         mGridAdapter.notifyDataSetChanged();
     }
 
@@ -245,7 +253,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         maChartView = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
 
-        requestCompare();
         return view;
     }
 
@@ -373,6 +380,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         btnSelectFund.setOnClickListener(this);
         btnCompare.setOnClickListener(this);
 
+        mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
         mGridView = (GridView) view.findViewById(R.id.gv_comparison);
         mGridView.setAdapter(mGridAdapter);
         mGridView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -559,12 +567,14 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
+            System.out.println("parseDateTask afterParseData");
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
             return histroyValue;
         }
 
         @Override
         protected void afterParseData(HistoryNetValue object) {
+            System.out.println("historyNetValueListener afterParseData");
             if (object != null && isAdded()) {
                 btnCompare.setEnabled(true);
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
@@ -717,7 +727,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         @Override
         protected List<LineEntity> parseDateTask(String jsonData) {
-
+            System.out.println("compareListener parseDateTask");
             List<LineEntity> linesList = new ArrayList<LineEntity>();
             try {
                 List<CompareFundsBean> beanList = DataParse.parseArrayJson(CompareFundsBean.class, new JSONArray(
@@ -777,6 +787,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         @Override
         protected void afterParseData(List<LineEntity> object) {
+            System.out.println("compareListener afterParseData");
             if (null != object && object.size() > 0) {
                 // setLineListsData(object);
                 // setYTitle(dayNetValueList.get(0).getPercentageBegin(), getMaxOffetValue(object));
@@ -987,8 +998,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     public void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        compareListener.stopRequest(true);
-        historyNetValueListener.stopRequest(true);
+        // compareListener.stopRequest(true);
+        // historyNetValueListener.stopRequest(true);
     }
 
 }
