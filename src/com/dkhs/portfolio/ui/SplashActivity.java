@@ -28,8 +28,8 @@ public class SplashActivity extends ModelAcitivity {
     private static final int GO_ACCOUNT_MAIN = 1000;
     private static final int GO_GUIDE = 1001;
     private static final int GO_NOACCOUNT_MAIN = 1002;
-    // 延迟200豪秒
-    private static final long SPLASH_DELAY_MILLIS = 200;
+    // 延迟2000豪秒
+    private static final long SPLASH_DELAY_MILLIS = 2000;
 
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
 
