@@ -10,12 +10,12 @@
         android:layout_height="wrap_content"
         android:background="#f5f5f5"
         android:gravity="center_vertical|left"
-        android:paddingBottom="5dip"
-        android:paddingLeft="15dip"
-        android:paddingTop="5dip"
+        android:paddingBottom="7dip"
+        android:paddingLeft="17dip"
+        android:paddingTop="7dip"
         android:text="12月2日  星期二"
         android:textColor="@color/black"
-        android:textSize="@dimen/setting_text_name" />
+        android:textSize="16sp" />
     <View android:layout_width="match_parent"
         android:layout_height="15dip"/>
 
