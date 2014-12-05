@@ -75,7 +75,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity {
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, OpitionNewsEngineImple.NEWSALL,
                         vo);
                 mLoadDataEngine.loadData();
-                mLoadDataEngine.setLoadingDialog(context).beforeRequest();
+                mLoadDataEngine.setLoadingDialog(context);
                 ;
                 mLoadDataEngine.setFromYanbao(false);
             }
@@ -162,7 +162,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity {
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setLoadingDialog(context).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(context);
             ;
         }
     }

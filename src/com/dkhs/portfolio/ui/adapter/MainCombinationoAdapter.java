@@ -127,7 +127,7 @@ public class MainCombinationoAdapter extends BaseAdapter {
                 }
             });
         }
-        // view.setLayoutParams(mItemViewLayoutParams);
+        view.setLayoutParams(mItemViewLayoutParams);
 
         return view;
     }

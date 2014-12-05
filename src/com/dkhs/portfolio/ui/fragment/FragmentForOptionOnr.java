@@ -91,7 +91,7 @@ public class FragmentForOptionOnr extends Fragment{
 					vo.setContentSubType(subType);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
 					mLoadDataEngine.loadData();
-					mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
+					mLoadDataEngine.setLoadingDialog(context);;
 					mLoadDataEngine.setFromYanbao(false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -167,7 +167,7 @@ public class FragmentForOptionOnr extends Fragment{
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
+            mLoadDataEngine.setLoadingDialog(context);;
         }
     }
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

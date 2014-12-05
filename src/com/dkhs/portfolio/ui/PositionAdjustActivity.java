@@ -134,7 +134,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initView();
 
         QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-        listener.setLoadingDialog(this).beforeRequest();
+        listener.setLoadingDialog(this);
         new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
 
     }
@@ -799,30 +799,36 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                         @Override
                         public void onFailure(int errCode, String errMsg) {
-                            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+                            try {
 
-                            BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg,
-                                    new TypeToken<BaseError<RaiseUpDown>>() {
-                                    }.getType());
-                            RaiseUpDown raiseError = baseErrors.getErrors();
-                            if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
-                                StringBuilder sb = new StringBuilder();
+                                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                                for (String code : raiseError.getRaise_up()) {
-                                    sb.append(code);
-                                    sb.append("、");
+                                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg,
+                                        new TypeToken<BaseError<RaiseUpDown>>() {
+                                        }.getType());
+                                RaiseUpDown raiseError = baseErrors.getErrors();
+                                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+                                    StringBuilder sb = new StringBuilder();
 
-                                    for (ConStockBean stock : stockList) {
-                                        // System.out.println("stock code:"+stock.getStockCode());
-                                        if (stock.getStockCode().equalsIgnoreCase(code)) {
-                                            stock.setPercent(0);
+                                    for (String code : raiseError.getRaise_up()) {
+                                        sb.append(code);
+                                        sb.append("、");
+
+                                        for (ConStockBean stock : stockList) {
+                                            // System.out.println("stock code:"+stock.getStockCode());
+                                            if (stock.getStockCode().equalsIgnoreCase(code)) {
+                                                stock.setPercent(0);
+                                            }
                                         }
                                     }
-                                }
-                                updatePieView();
-                                Toast.makeText(getApplicationContext(),
-                                        "涨停股：" + sb.substring(0, sb.length() - 1) + "不能加入基金", Toast.LENGTH_LONG).show();
+                                    updatePieView();
+                                    Toast.makeText(getApplicationContext(),
+                                            "涨停股：" + sb.substring(0, sb.length() - 1) + "不能加入基金", Toast.LENGTH_LONG)
+                                            .show();
 
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
 
                         };

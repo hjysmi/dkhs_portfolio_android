@@ -47,7 +47,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         if (mLoadDataEngine != null) {
             // mDataList.clear();
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(this).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(this);
             ;
         }
 

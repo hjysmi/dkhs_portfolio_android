@@ -176,7 +176,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private void getVerifyCode() {
         if (NetUtil.checkNetWork()) {
             engine.getVericode(phoneNum, listener);
-            listener.setLoadingDialog(context).beforeRequest();
+            listener.setLoadingDialog(context);
             if (mTimer != null) {
                 mTimer = null;
             }

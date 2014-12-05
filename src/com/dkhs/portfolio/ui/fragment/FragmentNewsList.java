@@ -79,7 +79,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             mDataList = new ArrayList<OptionNewsBean>();
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.setFromYanbao(false);
             if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
                 ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
@@ -178,7 +178,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.setFromYanbao(false);
         }
     }
@@ -269,7 +269,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             mDataList = new ArrayList<OptionNewsBean>();
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.setFromYanbao(false);
         }
         super.onResume();
@@ -283,7 +283,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             mDataList = new ArrayList<OptionNewsBean>();
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
             mLoadDataEngine.loadData();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.setFromYanbao(false);
             if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
                 ((StockQuotesActivity) getActivity()).setLayoutHeight(2);

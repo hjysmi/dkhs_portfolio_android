@@ -419,7 +419,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         super.onStart();
         isDefalutRequest = true;
         QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-        listener.setLoadingDialog(getActivity()).beforeRequest();
+        listener.setLoadingDialog(getActivity());
         new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
     }
 
@@ -621,7 +621,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             isDefalutRequest = false;
             QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
             new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay, listener);
-            listener.setLoadingDialog(getActivity()).beforeRequest();
+            listener.setLoadingDialog(getActivity());
         }
     };
 

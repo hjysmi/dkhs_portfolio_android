@@ -21,6 +21,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -52,6 +53,7 @@ import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
 import com.dkhs.portfolio.ui.widget.FixedSpeedScroller;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
@@ -141,8 +143,9 @@ public class MainFragment extends Fragment implements OnClickListener {
         tvBottomText = (TextView) view.findViewById(R.id.tv_bottom_text);
         // setMarqueeText();
 
-        gvFunction = (GridView) view.findViewById(R.id.gv_function);
         gvCombination = (GridView) view.findViewById(R.id.gv_mycombination);
+
+        gvFunction = (GridView) view.findViewById(R.id.gv_function);
         // gvFunction.getLayoutParams().height =
         // getResources().getDisplayMetrics().widthPixels / 3 * 2;
         gvFunction.setAdapter(new MainFunctionAdapter(getActivity()));
@@ -219,34 +222,108 @@ public class MainFragment extends Fragment implements OnClickListener {
     }
 
     private void inflateCombinationLayout(final List<CombinationBean> dataList) {
-        gvCombination.setVisibility(View.VISIBLE);
-        comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
-        comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
-        comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
-        final MainCombinationoAdapter cAdapter = new MainCombinationoAdapter(getActivity(), dataList);
-        // gvCombination.getViewTreeObserver().addOnGlobalLayoutListener(new
-        // ViewTreeObserver.OnGlobalLayoutListener() {
-        // @Override
-        // public void onGlobalLayout() {
-        // final int columnHeight = gvCombination.getHeight();
-        //
-        // cAdapter.setItemHeight((int) (columnHeight));
-        // }
-        // });
-        gvCombination.setAdapter(cAdapter);
-        // gvCombination.setFocusable(true);
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
+        comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+        comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
+        comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
+        ViewStub viewstubFirst = (ViewStub) comtentView.findViewById(R.id.vs_fristcombination);
+        ViewStub viewstubAdd = (ViewStub) comtentView.findViewById(R.id.vs_addcombination);
+        ViewStub viewstubTwo = (ViewStub) comtentView.findViewById(R.id.vs_twocombination);
 
-        gvCombination.setOnItemClickListener(new OnItemClickListener() {
+        if (null != dataList && dataList.size() > 0) {
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(CombinationDetailActivity.newIntent(getActivity(), dataList.get(position)));
+            if (viewstubFirst != null) {
+                View viewFirst = viewstubFirst.inflate();
+                final CombinationBean bean1 = dataList.get(0);
+                initCombinationView(viewFirst, bean1);
+                viewFirst.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(CombinationDetailActivity.newIntent(getActivity(), bean1));
+                    }
+                });
+            }
+            if (dataList.size() < 2) {
+                if (viewstubAdd != null) {
+                    View viewAdd = viewstubAdd.inflate();
+                    viewAdd.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = PositionAdjustActivity.newIntent(getActivity(), null);
+                            getActivity().startActivity(intent);
+                        }
+                    });
+                }
+            } else {
+
+                if (viewstubTwo != null) {
+                    View viewTwo = viewstubTwo.inflate();
+                    final CombinationBean bean2 = dataList.get(1);
+                    initCombinationView(viewTwo, bean2);
+                    viewTwo.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(CombinationDetailActivity.newIntent(getActivity(), bean2));
+                        }
+                    });
+                }
 
             }
-        });
+
+        }
+        // gvCombination.setVisibility(View.VISIBLE);
+
+        // final MainCombinationoAdapter cAdapter = new MainCombinationoAdapter(getActivity(), dataList);
+        // // gvCombination.getViewTreeObserver().addOnGlobalLayoutListener(new
+        // // ViewTreeObserver.OnGlobalLayoutListener() {
+        // // @Override
+        // // public void onGlobalLayout() {
+        // // final int columnHeight = gvCombination.getHeight();
+        // //
+        // // cAdapter.setItemHeight((int) (columnHeight));
+        // // }
+        // // });
+        // gvCombination.setAdapter(cAdapter);
+        // gvCombination.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        //
+        // @Override
+        // public void onGlobalLayout() {
+        // int gvHeight = gvCombination.getLayoutParams().height;
+        // System.out.println("gvHeight:" + gvHeight);
+        // // cAdapter.setItemHeight(gvHeight);
+        //
+        // }
+        // });
+        // // gvCombination.setFocusable(true);
+
+        //
+        // gvCombination.setOnItemClickListener(new OnItemClickListener() {
+        //
+        // @Override
+        // public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        // startActivity(CombinationDetailActivity.newIntent(getActivity(), dataList.get(position)));
+        //
+        // }
+        // });
+    }
+
+    private void initCombinationView(View view, CombinationBean item) {
+        TextView cNameText = (TextView) view.findViewById(R.id.tv_mycombination);
+        TextView cCurrentText = (TextView) view.findViewById(R.id.tv_current_value);
+        TextView cAddupText = (TextView) view.findViewById(R.id.tv_addup_value);
+        cNameText.setText(item.getName());
+        float currenValue = item.getCurrentValue();
+        cCurrentText.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
+        cCurrentText.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
+
+        float addValue = item.getAddUpValue();
+        cAddupText.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
+        cAddupText.setText(StringFromatUtils.get2PointPercentPlus(addValue));
     }
 
     OnItemClickListener functionClick = new OnItemClickListener() {
@@ -357,8 +434,8 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         protected void afterParseData(List<StockQuotesBean> object) {
             if (null != object && object.size() > 1) {
-            	if(!object.get(0).getTrade_status().equals("0")){
-            		if (mScollTimer != null) {
+                if (!object.get(0).getTrade_status().equals("0")) {
+                    if (mScollTimer != null) {
                         mScollTimer.cancel();
                         mScollTimer = null;
                     }
@@ -370,7 +447,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                         mCombinationTimer.cancel();
                         mCombinationTimer = null;
                     }
-            	}
+                }
                 setMarqueeText(object);
             }
 

@@ -84,7 +84,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
 			String version = info.versionName;
 			engine.setFeedBack("portfolio_android",version, feedEditText.getText().toString(), feedEditCom.getText().toString(), (null == imageFile)? null : imageFile, listener);
-			listener.setLoadingDialog(context).beforeRequest();
+			listener.setLoadingDialog(context);
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
