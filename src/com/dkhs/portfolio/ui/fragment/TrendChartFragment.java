@@ -340,7 +340,6 @@ public class TrendChartFragment extends BaseFragment {
 
                 initTodayTrendTitle();
                 if (null != mTodayLineData) {
-                	needCloseDialog = true;
                     setTodayViewLoad();
 
 
@@ -372,10 +371,7 @@ public class TrendChartFragment extends BaseFragment {
             }
             setupBottomTextViewData();
         }
-        if(needCloseDialog){
-        	PromptManager.closeProgressDialog();
-        	needCloseDialog = false;
-        }
+        PromptManager.closeProgressDialog();
 
     }
 
