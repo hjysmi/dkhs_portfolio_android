@@ -27,6 +27,7 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String CURRENT = "";
     private String orderType;
     ILoadDataBackListener loadListener;
+    private int Status;
     public MarketCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
@@ -55,13 +56,13 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+        JSONObject dataObject = null;
         try {
-            JSONObject dataObject = new JSONObject(jsonData);
+            dataObject = new JSONObject(jsonData);
             setTotalcount(dataObject.optInt("total_count"));
             setTotalpage(dataObject.optInt("total_page"));
             setCurrentpage(dataObject.optInt("current_page"));
             setStatu(dataObject.optInt("trade_status"));
-            loadListener.setStatu(dataObject.optInt("trade_status"));
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();
@@ -69,8 +70,9 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-
-                    selectList.add(SelectStockBean.copy(stockBean));
+                    SelectStockBean s = SelectStockBean.copy(stockBean);
+                    s.setStatus(dataObject.optInt("trade_status"));
+                    selectList.add(s);
 
                     // results.add(stockBean);
 
@@ -80,8 +82,19 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
 
         } catch (JSONException e) {
             e.printStackTrace();
+        }finally{
+        	//loadListener.setStatu(dataObject.optInt("trade_status"));
         }
 
         return selectList;
     }
+
+	public int getStatus() {
+		return Status;
+	}
+
+	public void setStatus(int status) {
+		Status = status;
+	}
+    
 }

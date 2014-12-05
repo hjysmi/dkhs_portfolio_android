@@ -82,7 +82,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     LoadSelectDataEngine mLoadDataEngine;
     private TextView tvEmptyText;
     private boolean flush = false;
-
+    private int typs = 3;
     /**
      * view视图类型
      */
@@ -234,6 +234,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
+        	//typs = mLoadDataEngine.getStatu();
             if (flush) {
                 // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 flush = false;
@@ -245,6 +246,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             }
             loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
+            	typs = dataList.get(0).getStatus();
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
 
@@ -257,7 +259,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 		@Override
 		public void setStatu(int statu) {
 			// TODO Auto-generated method stub
-			mLoadDataEngine.setStatu(statu);
+			//mLoadDataEngine.setStatu(statu);
+			/*typs = statu;
+			mLoadDataEngine.setStatu(statu);*/
 		}
 
     };
@@ -340,7 +344,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     public void refresh() {
         isRefresh = true;
-        if (mLoadDataEngine != null && mLoadDataEngine.getStatu() == 0) {
+        if (mLoadDataEngine != null ) {
             // mDataList.clear();
             isLoading = true;
             mLoadDataEngine.loadData();
@@ -351,7 +355,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         isRefresh = true;
         if (mLoadDataEngine != null) {
             // mDataList.clear();
-	        	if(mLoadDataEngine.getStatu() == 0){
+	        	if(typs == 0){
 		            if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
 		                    || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
 		                    && null != mDataList) {
