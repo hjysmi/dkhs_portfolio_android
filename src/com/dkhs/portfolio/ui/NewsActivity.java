@@ -14,6 +14,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
+import com.dkhs.portfolio.utils.TimeUtils;
 
 public class NewsActivity extends ModelAcitivity implements Serializable{
 	/**
@@ -36,6 +37,7 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	 private String optionName;
 	 private String symbolName;
 	 private String symbolId;
+	 private TextView newsSymbol;
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
@@ -76,6 +78,7 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 		newsTitleNum = (TextView) findViewById(R.id.news_title_num);
 		newsTextTitle = (TextView) findViewById(R.id.news_text_title);
 		newsTextText = (TextView) findViewById(R.id.news_text_text);
+		newsSymbol = (TextView) findViewById(R.id.news_symbol);
 		newsTextText.setTextIsSelectable(true);
 	}
 	 ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
@@ -97,10 +100,13 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	    };
 	    public void setValue(){
 	    	newsTitleName.setText(mOptionNewsBean.getTitle());
-	    	newsTitleDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+	    	String time = mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00";
+	    	time = TimeUtils.addHour(time);
+	    	newsTitleDate.setText(time);
 	    	if(null != symbolName){
-	    		newsTitleNum.setText(symbolName);
-	    	}else if(null != mOptionNewsBean.getSource()){
+	    		newsSymbol.setText(symbolName);
+	    	}
+	    	if(null != mOptionNewsBean.getSource()){
 	    		newsTitleNum.setText(mOptionNewsBean.getSource().getTitle());
 	    	}
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());

@@ -13,6 +13,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.BitmapUtils;
 
 public class YanbaoNewsActivity extends ModelAcitivity{
@@ -22,6 +23,7 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	private TextView newsTitleNum;
 	private TextView newsTextTitle;
 	private TextView newsTextText;
+	private TextView newsTitleSym;
 	private static final String EXTRA = "newsId";
 	private static final String EXTRA_NUM = "num";
 	private static final String EXTRA_NAME = "name";
@@ -67,6 +69,7 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 		newsTitleNum = (TextView) findViewById(R.id.news_title_num);
 		newsTextTitle = (TextView) findViewById(R.id.news_text_title);
 		newsTextText = (TextView) findViewById(R.id.news_text_text);
+		newsTitleSym = (TextView) findViewById(R.id.news_title_sym);
 		newsTextText.setTextIsSelectable(true);
 	}
 	 ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
@@ -88,14 +91,17 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	    };
 	    public void setValue(){
 	    	newsTitleName.setText(mOptionNewsBean.getTitle());
-	    	newsTitleDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00");
+	    	String time = mOptionNewsBean.getPublish().replace("T", " ").substring(0, mOptionNewsBean.getCreatedTime().length()-6) + "00";
+	    	time = TimeUtils.addHour(time);
+	    	newsTitleDate.setText(time);
 	    	if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
-	    		newsTitleNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
-	    	}else if(null != mOptionNewsBean.getSource()){
+	    		newsTitleSym.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
+	    	}
+	    	if(null != mOptionNewsBean.getSource()){
 	    		newsTitleNum.setText(mOptionNewsBean.getSource().getTitle());
 	    	}
 	    	if(null != optionName){
-	    		newsTitleNum.setText(optionName);
+	    		newsTitleSym.setText(optionName);
 	    	}
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());
