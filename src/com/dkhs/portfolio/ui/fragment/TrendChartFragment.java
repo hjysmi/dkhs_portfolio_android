@@ -349,8 +349,7 @@ public class TrendChartFragment extends BaseFragment {
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
                 if (null == mAllLineData) {
                     mNetValueDataEngine.requeryHistory(historyNetValueListener);
-                    historyNetValueListener.setLoadingDialog(getActivity());
-                    System.out.println("重新请求了一次");
+//                    historyNetValueListener.setLoadingDialog(getActivity());
                 } else {
                     setHistoryViewload(mAllLineData);
 
@@ -358,16 +357,14 @@ public class TrendChartFragment extends BaseFragment {
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
                 if (null == mMonthLineData) {
                     mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
-                    historyNetValueListener.setLoadingDialog(getActivity());
-                    System.out.println("重新请求了一次");
+//                    historyNetValueListener.setLoadingDialog(getActivity());
                 } else {
                     setHistoryViewload(mMonthLineData);
                 }
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
                 if (null == mWeekLineData) {
                     mNetValueDataEngine.requerySevenDay(historyNetValueListener);
-                    historyNetValueListener.setLoadingDialog(getActivity());
-                    System.out.println("重新请求了一次");
+//                    historyNetValueListener.setLoadingDialog(getActivity());
                 } else {
                     setHistoryViewload(mWeekLineData);
 
