@@ -110,8 +110,12 @@ public class AddStockItemAdapter extends SelectStockAdatper {
 
         @Override
         protected void afterParseData(SelectStockBean object) {
-            int index = mDataList.indexOf(object);
-            mDataList.get(index).isFollowed = true;
+            try {
+                int index = mDataList.indexOf(object);
+                mDataList.get(index).isFollowed = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
 
