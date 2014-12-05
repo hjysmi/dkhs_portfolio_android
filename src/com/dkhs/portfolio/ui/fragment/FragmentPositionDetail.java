@@ -487,6 +487,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         // String customText = CustomShareFieldsPage.getString( "text", null);
         oks.setTitle("谁牛");
         oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+        oks.setUrl("https://dkhs.com/portfolio/wap/");
         String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
                 + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧.https://dkhs.com/portfolio/wap/";
 

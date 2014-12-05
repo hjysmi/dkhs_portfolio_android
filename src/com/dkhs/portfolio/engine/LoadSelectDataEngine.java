@@ -27,7 +27,7 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     private int totalcount;
     private int totalpage;
     private int currentpage;
-
+    private int statu = -1;
     public LoadSelectDataEngine(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;
     }
@@ -40,6 +40,7 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
 
     public interface ILoadDataBackListener {
         void loadFinish(List<SelectStockBean> object);
+        void setStatu(int statu);
     }
 
     /**
@@ -100,4 +101,13 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     public void setCurrentpage(int currentpage) {
         this.currentpage = currentpage;
     }
+
+	public int getStatu() {
+		return statu;
+	}
+
+	public void setStatu(int statu) {
+		this.statu = statu;
+	}
+    
 }

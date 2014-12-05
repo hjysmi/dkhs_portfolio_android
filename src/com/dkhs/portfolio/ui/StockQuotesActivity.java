@@ -119,7 +119,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private HScrollTitleView hsTitle;
     // privaet view
     private ScrollViewPager pager;
-
+    private ArrayList<Fragment> fragmentList;
     private StockQuotesChartFragment mStockQuotesChartFragment;
     private LinearLayout stockLayout;
     private FragmentSelectAdapter mFragmentSelectAdapter;
@@ -256,7 +256,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // vo.setLayout(stockLayout);
         b4.putSerializable(FragmentNewsList.VO, vo);
         // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
-        //f4.setArguments(b4);
+        // f4.setArguments(b4);
         frag.add(f4);
         if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
             Fragment f3 = new NewsFragment();
@@ -419,6 +419,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
+                if(!stockQuotesBean.getTrade_status().equals("0")){
+                	quoteHandler.removeCallbacks(runnable);
+                }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
                 int i = 0;
@@ -508,7 +511,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initTabPage() {
 
-        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+        fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
                 mStockCode);
@@ -544,6 +547,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }, 500);
     }
 
+    private float mPrePrice = 0;
+
     protected void updateStockView() {
         if (null != mStockQuotesBean) {
             // if (mStockBean != null && !mStockBean.isStop) {
@@ -552,18 +557,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
 
-            String curentText = tvCurrent.getText().toString();
-            try {
-                float beforePrice = Float.parseFloat(curentText);
-                if (mStockQuotesBean.getCurrent() > beforePrice) {
+            // String curentText = tvCurrent.getText().toString();
+            if (mPrePrice > 0) {
+
+                if (mStockQuotesBean.getCurrent() > mPrePrice) {
                     tvCurrent.setBackgroundResource(R.color.red_bg);
-                } else if (mStockQuotesBean.getCurrent() < beforePrice) {
+                } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
                     tvCurrent.setBackgroundResource(R.color.green_bg);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
+            }
+            mPrePrice = mStockQuotesBean.getCurrent();
             updateCurrentText();
 
             if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
@@ -739,7 +743,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                 break;
             case R.id.btn_right_second: {
-                rotateRefreshButton();
+                // rotateRefreshButton();
             }
                 break;
             default:
@@ -836,4 +840,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
+
+	public StockQuotesBean getmStockQuotesBean() {
+		return mStockQuotesBean;
+	}
+
+	public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
+		this.mStockQuotesBean = mStockQuotesBean;
+	}
+    
 }
