@@ -30,9 +30,9 @@ import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class OptionListAcitivity extends ModelAcitivity{
+public class OptionListAcitivity extends ModelAcitivity {
 
-	private ListView mListView;
+    private ListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
@@ -48,64 +48,68 @@ public class OptionListAcitivity extends ModelAcitivity{
     private String symbol;
     private String type;
     private String name;
-	@Override
-	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
-		super.onCreate(arg0);
-		setContentView(R.layout.activity_option_market_news);
-		context = this;
-		mDataList = new ArrayList<OptionNewsBean>();
-		
-		iv = (TextView) findViewById(android.R.id.empty);
+
+    @Override
+    protected void onCreate(Bundle arg0) {
+        // TODO Auto-generated method stub
+        super.onCreate(arg0);
+        setContentView(R.layout.activity_option_market_news);
+        context = this;
+        mDataList = new ArrayList<OptionNewsBean>();
+
+        iv = (TextView) findViewById(android.R.id.empty);
         // iv.setText("暂无公告");
-		Bundle extras = getIntent().getExtras();
-		if(null != extras){
-			symbol = extras.getString(SYMBOL);
-			type = extras.getString(TYPE);
-			name = extras.getString(NAME);
-		}
-		((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
-		initDate();
-	}
-	public static Intent newIntent(Context context, String symbolName,String type,String name) {
+        Bundle extras = getIntent().getExtras();
+        if (null != extras) {
+            symbol = extras.getString(SYMBOL);
+            type = extras.getString(TYPE);
+            name = extras.getString(NAME);
+        }
+        ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
+        initDate();
+    }
+
+    public static Intent newIntent(Context context, String symbolName, String type, String name) {
         Intent intent = new Intent(context, OptionListAcitivity.class);
         Bundle b = new Bundle();
         b.putString(SYMBOL, symbolName);
         b.putString(TYPE, type);
         b.putString(NAME, name);
-         intent.putExtras(b);
+        intent.putExtras(b);
         return intent;
     }
-	private void initDate(){
-		UserEntity user;
-			try {
-				user = DbUtils.create(PortfolioApplication.getInstance())
-						.findFirst(UserEntity.class);
-				if (user != null) {
-					if (!TextUtils.isEmpty(user.getAccess_token())) {
-						user = UserEntityDesUtil.decode(user, "ENCODE",
-								ConstantValue.DES_PASSWORD);
-					}
-					String userId = user.getId()+"";
-					NewsforImpleEngine vo = new NewsforImpleEngine();
-					vo.setUserid(userId);
-					vo.setSymbol(symbol);
-					vo.setContentType(type);
-					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWSFOREACH,vo);
-					mLoadDataEngine.loadData();
-					mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
-					mLoadDataEngine.setFromYanbao(false);
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-	}
-	private void initView() {
+
+    private void initDate() {
+        UserEntity user;
+        try {
+            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if (user != null) {
+                if (!TextUtils.isEmpty(user.getAccess_token())) {
+                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                }
+                String userId = user.getId() + "";
+                NewsforImpleEngine vo = new NewsforImpleEngine();
+                vo.setUserid(userId);
+                vo.setSymbol(symbol);
+                vo.setContentType(type);
+                mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
+                        OpitionNewsEngineImple.NEWSFOREACH, vo);
+                mLoadDataEngine.loadData();
+                mLoadDataEngine.setLoadingDialog(context);
+                ;
+                mLoadDataEngine.setFromYanbao(false);
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    private void initView() {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (ListView) findViewById(android.R.id.list);
-        
+
         mListView.setEmptyView(iv);
         mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
@@ -137,27 +141,30 @@ public class OptionListAcitivity extends ModelAcitivity{
 
             }
         });
-            mListView.setOnItemClickListener(itemBackClick);
+        mListView.setOnItemClickListener(itemBackClick);
 
     }
+
     OnItemClickListener itemBackClick = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			// TODO Auto-generated method stub
-			try {
-				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
-				Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",mDataList.get(position).getSymbols().get(0).getAbbrName(),mDataList.get(position).getSymbols().get(0).getId());
-				startActivity(intent);
-				}else{
-					Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",null,null);
-					startActivity(intent);
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // TODO Auto-generated method stub
+            try {
+                if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文", mDataList
+                            .get(position).getSymbols().get(0).getAbbrName(),
+                            mDataList.get(position).getSymbols().get(0).getId());
+                    startActivity(intent);
+                } else {
+                    Intent intent = NewsActivity
+                            .newIntent(context, mDataList.get(position).getId(), "公告正文", null, null);
+                    startActivity(intent);
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     };
 
     private void loadMore() {
@@ -170,40 +177,43 @@ public class OptionListAcitivity extends ModelAcitivity{
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setLoadingDialog(context).beforeRequest();;
+            mLoadDataEngine.setLoadingDialog(context);
+            ;
         }
     }
+
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-				if (null != dataList&&dataList.size()>0) {
-				    mDataList.addAll(dataList);
-				    if(first){
-				    	initView();
-				    	first = false;
-				    }
-				    mOptionMarketAdapter.notifyDataSetChanged();
-				    loadFinishUpdateView();
-				    
-				}else{
-				    iv.setText("暂无公告");
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                if (null != dataList && dataList.size() > 0) {
+                    mDataList.addAll(dataList);
+                    if (first) {
+                        initView();
+                        first = false;
+                    }
+                    mOptionMarketAdapter.notifyDataSetChanged();
+                    loadFinishUpdateView();
+
+                } else {
+                    iv.setText("暂无公告");
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         }
 
     };
+
     private void loadFinishUpdateView() {
-    	mOptionMarketAdapter.notifyDataSetChanged();
+        mOptionMarketAdapter.notifyDataSetChanged();
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
     }
-    
+
 }

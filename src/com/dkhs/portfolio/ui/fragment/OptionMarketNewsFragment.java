@@ -81,7 +81,7 @@ public class OptionMarketNewsFragment extends Fragment {
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, OpitionNewsEngineImple.NEWS_GROUP_FOREACH,
                         vos);
                 mLoadDataEngine.loadData();
-                mLoadDataEngine.setLoadingDialog(context).beforeRequest();
+                mLoadDataEngine.setLoadingDialog(context);
                 ;
                 mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
@@ -167,7 +167,7 @@ public class OptionMarketNewsFragment extends Fragment {
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setLoadingDialog(context).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(context);
             ;
         }
     }

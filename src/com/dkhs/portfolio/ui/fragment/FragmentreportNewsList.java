@@ -78,7 +78,7 @@ public class FragmentreportNewsList extends Fragment{
 			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
 			mLoadDataEngine.loadData();
-			mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+			mLoadDataEngine.setLoadingDialog(getActivity());
 			mLoadDataEngine.setFromYanbao(false);
 		}
 
@@ -150,7 +150,7 @@ public class FragmentreportNewsList extends Fragment{
 
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
-            mLoadDataEngine.setLoadingDialog(getActivity()).beforeRequest();
+            mLoadDataEngine.setLoadingDialog(getActivity());
         }
     }
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

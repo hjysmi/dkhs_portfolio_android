@@ -105,7 +105,7 @@ public class CombinationUserActivity extends ModelAcitivity {
     private void initData() {
 
         new UserEngineImpl().getBaseUserInfo(mUserId, userInfoListener);
-        userInfoListener.setLoadingDialog(context).beforeRequest();
+        userInfoListener.setLoadingDialog(context);
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {

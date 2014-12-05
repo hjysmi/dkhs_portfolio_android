@@ -729,7 +729,7 @@ public class StockQuotesChartFragment extends Fragment {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
                 todayListener.setFromYanbao(false);
             }
-            todayListener.setLoadingDialog(getActivity()).beforeRequest();
+            todayListener.setLoadingDialog(getActivity());
             dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };

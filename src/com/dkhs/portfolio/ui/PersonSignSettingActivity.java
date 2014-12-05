@@ -110,7 +110,7 @@ public class PersonSignSettingActivity extends ModelAcitivity implements OnClick
 	public void setSign() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.setSettingMessage(signText.getText().toString(), listener);
-        listener.setLoadingDialog(context).beforeRequest();
+        listener.setLoadingDialog(context);
     }
 	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
