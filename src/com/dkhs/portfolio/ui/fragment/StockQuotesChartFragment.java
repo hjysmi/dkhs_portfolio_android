@@ -422,7 +422,7 @@ public class StockQuotesChartFragment extends Fragment {
         protected void afterParseData(FSDataBean fsDataBean) {
         	try {
 				StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-				if(!m.getTrade_status().equals("0")){
+				if(null != m && !m.getTrade_status().equals("0")){
 					dataHandler.removeCallbacks(runnable);
 				}
 				
