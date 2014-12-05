@@ -88,7 +88,7 @@ public class ReportNewsAdapter extends BaseAdapter{
 					viewHolder.tvTextFrom.setText(mOptionNewsBean.getSource().getTitle());
 				}
 			}
-			Calendar old = TimeUtils.toCalendar(mOptionNewsBean.getPublish());
+			Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
 			if(TimeUtils.compareTime(old)){
 				viewHolder.tvTextDate.setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old.get(Calendar.HOUR_OF_DAY) ) + ":" + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old.get(Calendar.MINUTE)));
 			}else{

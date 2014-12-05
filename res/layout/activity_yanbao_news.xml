@@ -74,6 +74,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/news_title_sym"
                     android:layout_toRightOf="@id/news_title_date"
                     android:singleLine="true"
                     android:layout_marginLeft="15dp"

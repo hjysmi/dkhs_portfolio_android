@@ -54,7 +54,16 @@
                 android:layout_width="match_parent"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content" >
-
+				<TextView 
+				    android:layout_height="wrap_content"
+				    android:layout_width="wrap_content"
+				    android:layout_alignParentRight="true"
+				    android:id="@+id/news_symbol"
+				    android:singleLine="true"
+				    android:visibility="gone"
+				    android:textColor="@color/position_text_lgray"
+                    android:textSize="@dimen/setting_text_phone"
+				    />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,6 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/news_title_date"
+                    android:layout_toLeftOf="@id/news_symbol"
                     android:singleLine="true"
                     android:layout_marginLeft="15dp"
                     android:id="@+id/news_title_num"

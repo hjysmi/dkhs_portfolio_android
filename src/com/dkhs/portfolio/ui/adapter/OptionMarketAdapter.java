@@ -87,7 +87,7 @@ public class OptionMarketAdapter extends BaseAdapter{
 				//}
 			//ViewTreeObserver observer = tv.getViewTreeObserver();
 			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
-			Calendar old = TimeUtils.toCalendar(mOptionNewsBean.getPublish());
+			Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
 			if(null != mOptionNewsBean.getSource()){
 				texts.setText(mOptionNewsBean.getSource().getTitle());
 			}

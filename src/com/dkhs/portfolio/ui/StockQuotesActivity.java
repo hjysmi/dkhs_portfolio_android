@@ -419,7 +419,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
-                if(!stockQuotesBean.getTrade_status().equals("0")){
+                if(null != stockQuotesBean && !stockQuotesBean.getTrade_status().equals("0")){
                 	quoteHandler.removeCallbacks(runnable);
                 }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();

@@ -420,37 +420,42 @@ public class StockQuotesChartFragment extends Fragment {
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
-        	StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-        	if(!m.getTrade_status().equals("0")){
-        		dataHandler.removeCallbacks(runnable);
-            }
-        	
-            if (fsDataBean != null) {
-                mFsDataBean.setCurtime(fsDataBean.getCurtime());
-                if (null == mFsDataBean.getMainstr()) {
-                    mFsDataBean.setMainstr(fsDataBean.getMainstr());
-                } else {
-                    if (fsDataBean.getMainstr() == null || fsDataBean.getMainstr().size() == 0) {
-                        return;
-                    }
-                    mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
-                }
-                List<TimeStock> mainList = mFsDataBean.getMainstr();
+        	try {
+				StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
+				if(null != m && !m.getTrade_status().equals("0")){
+					dataHandler.removeCallbacks(runnable);
+				}
+				
+				if (fsDataBean != null) {
+				    mFsDataBean.setCurtime(fsDataBean.getCurtime());
+				    if (null == mFsDataBean.getMainstr()) {
+				        mFsDataBean.setMainstr(fsDataBean.getMainstr());
+				    } else {
+				        if (fsDataBean.getMainstr() == null || fsDataBean.getMainstr().size() == 0) {
+				            return;
+				        }
+				        mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
+				    }
+				    List<TimeStock> mainList = mFsDataBean.getMainstr();
 
-                // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
+				    // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
 
-                if (mainList != null && mainList.size() > 0) {
-                    setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(fsDataBean.getLast_close(), mainList));
-                    setTodayPointTitle();
-                    setLineData(lineDataList);
-                    //
-                    // String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
-                    // // int zIndex = lasttime.indexOf("T");
-                    // Calendar calender = TimeUtils.toCalendar(lasttime);
-                    // // String dateStr = lasttime.substring(0, zIndex);
-                }
+				    if (mainList != null && mainList.size() > 0) {
+				        setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(fsDataBean.getLast_close(), mainList));
+				        setTodayPointTitle();
+				        setLineData(lineDataList);
+				        //
+				        // String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
+				        // // int zIndex = lasttime.indexOf("T");
+				        // Calendar calender = TimeUtils.toCalendar(lasttime);
+				        // // String dateStr = lasttime.substring(0, zIndex);
+				    }
 
-            }
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         }
     };
