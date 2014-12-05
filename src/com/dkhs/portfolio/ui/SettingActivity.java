@@ -78,7 +78,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
         context = this;
-        UserEngineImpl.queryThreePlatBind(bindsListener);
+        //UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
         //initData();
