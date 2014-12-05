@@ -101,8 +101,8 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
 			}
 			if(oldPassword.length() > 5 && newPassword.length() > 5){
 				mUserEngineImpl = new UserEngineImpl();
-				mUserEngineImpl.changePassword(oldPassword, newPassword, listener);
 				listener.setLoadingDialog(context);
+				mUserEngineImpl.changePassword(oldPassword, newPassword, listener);
 			}else{
 				PromptManager.showToast(R.string.password_setting_more);
 			}

@@ -71,8 +71,8 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
                  */
                 String userName = changeEditName.getText().toString();
                 if (checkUserName()) {
-                    mUserEngineImpl.setUserName(userName, listener);
                     listener.setLoadingDialog(context);
+                    mUserEngineImpl.setUserName(userName, listener);
                 }
                 break;
 
