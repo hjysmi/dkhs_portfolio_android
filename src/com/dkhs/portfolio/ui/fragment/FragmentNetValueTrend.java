@@ -632,9 +632,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     break;
             }
             // mSwitchFragment.setSelectType(type);
-            mtrendFragment.setSelectType(type);
             myType = type;
             setColor(type);
+            mtrendFragment.setSelectType(type);
         }
     };
 
