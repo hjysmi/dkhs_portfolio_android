@@ -142,16 +142,16 @@ public class TrendChartFragment extends BaseFragment {
         this.trendType = type;
 
         if (null != mMaChart) {
-            drawCharHandler.sendEmptyMessageDelayed(777, 500);
+            drawCharHandler.sendEmptyMessage(777);
             // updateView();
-            clearViewData();
+//            clearViewData();
 
         }
-        // if (isTodayShow()) {
-        dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-        // } else {
-        // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-        // }
+        //if (isTodayShow()) {
+            dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+        //} else {
+          //  dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+        //}
     }
 
     Handler drawCharHandler = new Handler() {
@@ -181,7 +181,6 @@ public class TrendChartFragment extends BaseFragment {
     };
 
     private String SHARE_IMAGE;
-
     public void showShare() {
         Context context = getActivity();
         final OnekeyShare oks = new OnekeyShare();
@@ -191,9 +190,8 @@ public class TrendChartFragment extends BaseFragment {
         // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
         // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
         // String customText = CustomShareFieldsPage.getString( "text", null);
-        oks.setTitle(mCombinationBean.getName() + "今日收益率");
+        oks.setTitle("谁牛");
         oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
-        oks.setUrl("https://dkhs.com/portfolio/wap/");
         String customText = "";
         if (TextUtils.isEmpty(trendType)) {
             return;
@@ -342,8 +340,9 @@ public class TrendChartFragment extends BaseFragment {
 
                 initTodayTrendTitle();
                 if (null != mTodayLineData) {
-                    needCloseDialog = true;
+                	needCloseDialog = true;
                     setTodayViewLoad();
+
 
                     // computeTodayDataThread.start();
                 }
@@ -351,9 +350,8 @@ public class TrendChartFragment extends BaseFragment {
                 if (null == mAllLineData) {
                     mNetValueDataEngine.requeryHistory(historyNetValueListener);
                     historyNetValueListener.setLoadingDialog(getActivity());
-                    needCloseDialog = false;
+                    System.out.println("重新请求了一次");
                 } else {
-                    needCloseDialog = true;
                     setHistoryViewload(mAllLineData);
 
                 }
@@ -361,28 +359,26 @@ public class TrendChartFragment extends BaseFragment {
                 if (null == mMonthLineData) {
                     mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
                     historyNetValueListener.setLoadingDialog(getActivity());
-                    needCloseDialog = false;
+                    System.out.println("重新请求了一次");
                 } else {
-                    needCloseDialog = true;
                     setHistoryViewload(mMonthLineData);
-
                 }
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
                 if (null == mWeekLineData) {
                     mNetValueDataEngine.requerySevenDay(historyNetValueListener);
                     historyNetValueListener.setLoadingDialog(getActivity());
-                    needCloseDialog = false;
+                    System.out.println("重新请求了一次");
                 } else {
-                    needCloseDialog = true;
                     setHistoryViewload(mWeekLineData);
 
                 }
             }
             setupBottomTextViewData();
-
         }
-
-        PromptManager.closeProgressDialog();
+        if(needCloseDialog){
+        	PromptManager.closeProgressDialog();
+        	needCloseDialog = false;
+        }
 
     }
 
@@ -410,9 +406,9 @@ public class TrendChartFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-        if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
-            InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-            mMaChart.setScroll(mScrollview);
+        if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
+        	InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+        	mMaChart.setScroll(mScrollview);
         }
         initMaChart(mMaChart);
         initView(view);
@@ -502,10 +498,19 @@ public class TrendChartFragment extends BaseFragment {
 
     }
 
+    private List<LineEntity> lines;
+    private LineEntity MA5;
+    
     private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
-            List<LineEntity> lines = new ArrayList<LineEntity>();
-            LineEntity MA5 = new LineEntity();
+        	if(lines == null){
+        		lines = new ArrayList<LineEntity>();
+        	}else{
+        		lines.clear();
+        	}
+        	if(MA5 == null){
+        		MA5 = new LineEntity();
+        	}
             MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
             MA5.setLineData(lineDataList);
             lines.add(MA5);
@@ -600,7 +605,6 @@ public class TrendChartFragment extends BaseFragment {
 
         // List<TodayNetBean> dayNetValueList = mTodayNetvalue.getChartlist();
         // mTodayLineData.dataList;
-        long time = System.currentTimeMillis();
 
         if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
@@ -876,11 +880,16 @@ public class TrendChartFragment extends BaseFragment {
                 }
                 // setHistoryPointTitle();
                 setLineData(historyNetvalue.dataList);
-                String strLeft = getString(R.string.time_start, historyNetvalue.startDay);
-                String strRight = getString(R.string.time_end, historyNetvalue.endDay);
-                tvTimeLeft.setText(strLeft);
+                if(strLeft == null){
+                	strLeft = getString(R.string.time_start);
+                }
+                if(strRight == null){
+                	strRight = getString(R.string.time_end);
+                }
+                strRight = getString(R.string.time_end, historyNetvalue.endDay);
+                tvTimeLeft.setText(String.format(strLeft,  historyNetvalue.startDay));
+                tvTimeRight.setText(String.format(strRight,  historyNetvalue.endDay));
 
-                tvTimeRight.setText(strRight);
 
                 setXTitle(historyNetvalue);
 
@@ -935,28 +944,30 @@ public class TrendChartFragment extends BaseFragment {
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
-                if (!TextUtils.isEmpty(trendType)) {
+            	if (!TextUtils.isEmpty(trendType)) {
 
                     if (isTodayShow()) {
-                        mNetValueDataEngine.requeryToday(todayListener);
+                    	mNetValueDataEngine.requeryToday(todayListener);
                     } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
-                        mNetValueDataEngine.requeryHistory(historyNetValueListener);
-                        // historyNetValueListener.setLoadingDialog(getActivity());
+                            mNetValueDataEngine.requeryHistory(historyNetValueListener);
+                            //historyNetValueListener.setLoadingDialog(getActivity());
                     } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
-                        mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
-                        // historyNetValueListener.setLoadingDialog(getActivity());
+                            mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
+                            //historyNetValueListener.setLoadingDialog(getActivity());
                     } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
-                        mNetValueDataEngine.requerySevenDay(historyNetValueListener);
-                        // historyNetValueListener.setLoadingDialog(getActivity());
+                            mNetValueDataEngine.requerySevenDay(historyNetValueListener);
+                            //historyNetValueListener.setLoadingDialog(getActivity());
                     }
                     setupBottomTextViewData();
                 }
-
+                
                 // todayListener.setLoadingDialog(getActivity()).beforeRequest();
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
+	private String strLeft;
+	private String strRight;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
