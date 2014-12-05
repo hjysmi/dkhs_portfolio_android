@@ -80,9 +80,8 @@ public class OptionMarketNewsFragment extends Fragment {
                 vos.setContentType(vo.getContentType());
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, OpitionNewsEngineImple.NEWS_GROUP_FOREACH,
                         vos);
-                mLoadDataEngine.loadData();
                 mLoadDataEngine.setLoadingDialog(context);
-                ;
+                mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -166,9 +165,8 @@ public class OptionMarketNewsFragment extends Fragment {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.loadMore();
             mLoadDataEngine.setLoadingDialog(context);
-            ;
+            mLoadDataEngine.loadMore();
         }
     }
 

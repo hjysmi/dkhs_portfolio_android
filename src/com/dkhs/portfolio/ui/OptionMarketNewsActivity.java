@@ -74,9 +74,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity {
                 vo.setUserid(userId);
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, OpitionNewsEngineImple.NEWSALL,
                         vo);
-                mLoadDataEngine.loadData();
                 mLoadDataEngine.setLoadingDialog(context);
-                ;
+                mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
             }
         } catch (Exception e) {
@@ -161,9 +160,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.loadMore();
             mLoadDataEngine.setLoadingDialog(context);
-            ;
+            mLoadDataEngine.loadMore();
         }
     }
 

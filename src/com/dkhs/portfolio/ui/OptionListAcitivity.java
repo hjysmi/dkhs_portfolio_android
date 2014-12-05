@@ -94,9 +94,8 @@ public class OptionListAcitivity extends ModelAcitivity {
                 vo.setContentType(type);
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.NEWSFOREACH, vo);
-                mLoadDataEngine.loadData();
                 mLoadDataEngine.setLoadingDialog(context);
-                ;
+                mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
             }
         } catch (Exception e) {
@@ -176,9 +175,8 @@ public class OptionListAcitivity extends ModelAcitivity {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.loadMore();
             mLoadDataEngine.setLoadingDialog(context);
-            ;
+            mLoadDataEngine.loadMore();
         }
     }
 

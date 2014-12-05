@@ -722,6 +722,7 @@ public class StockQuotesChartFragment extends Fragment {
             if (mQuotesDataEngine == null) {
                 return;
             }
+            todayListener.setLoadingDialog(getActivity());
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
                 todayListener.setFromYanbao(true);
@@ -729,7 +730,6 @@ public class StockQuotesChartFragment extends Fragment {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
                 todayListener.setFromYanbao(false);
             }
-            todayListener.setLoadingDialog(getActivity());
             dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };

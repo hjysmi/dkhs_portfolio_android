@@ -89,9 +89,8 @@ public class ReportForOneListActivity extends ModelAcitivity {
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.GROUP_FOR_ONE, vo);
             }
-            mLoadDataEngine.loadData();
             mLoadDataEngine.setLoadingDialog(context);
-            ;
+            mLoadDataEngine.loadData();
             mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -169,9 +168,8 @@ public class ReportForOneListActivity extends ModelAcitivity {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.loadMore();
             mLoadDataEngine.setLoadingDialog(context);
-            ;
+            mLoadDataEngine.loadMore();
         }
     }
 

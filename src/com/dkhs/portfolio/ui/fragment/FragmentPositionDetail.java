@@ -620,8 +620,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             tvCurrentDay.setText(queryDay);
             isDefalutRequest = false;
             QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay, listener);
             listener.setLoadingDialog(getActivity());
+            new MyCombinationEngineImpl().queryCombinationDetailByDay(mCombinationId, queryDay, listener);
         }
     };
 
