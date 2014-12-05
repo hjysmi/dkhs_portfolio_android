@@ -47,8 +47,9 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	        getId(extras);
 	    }
 	    mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
+	    mLoadDataEngine.setLoadingDialog(context);
 		mLoadDataEngine.loadData();
-		mLoadDataEngine.setLoadingDialog(context).beforeRequest();
+		
 	}
 	public static Intent newIntent(Context context, String id,String num,String name) {
         Intent intent = new Intent(context, YanbaoNewsActivity.class);
