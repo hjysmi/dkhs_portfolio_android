@@ -76,9 +76,9 @@
         <item>menu_icon_cal</item>
     </string-array>
     <string-array name="left_menu_img_items">
-        <item>我的基金</item>
+        <item>自建基金</item>
         <item>基金排行</item>
-        <item>自选</item>
+        <item>自选股</item>
         <item>行情</item>
         <item>公告</item>
         <item>研报</item>
