@@ -63,6 +63,7 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     protected void afterParseData(List<SelectStockBean> object) {
         if (null != iLoadListener) {
             iLoadListener.loadFinish(object);
+            //iLoadListener.setStatu(getStatu());
         }
 
     }
