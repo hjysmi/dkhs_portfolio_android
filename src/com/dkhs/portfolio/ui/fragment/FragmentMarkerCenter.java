@@ -30,6 +30,7 @@ public class FragmentMarkerCenter extends Fragment implements OnClickListener {
 	private int type;
 	private Timer mMarketTimer;
 	private static final long mPollRequestTime = 1000 * 5;
+	private boolean start = false;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -141,13 +142,13 @@ public class FragmentMarkerCenter extends Fragment implements OnClickListener {
 	}
 	@Override
     public void onResume() {
-
-        super.onResume();
-
-        if (mMarketTimer == null) {
+		if (mMarketTimer == null && start) {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
+        super.onResume();
+
+        
 
     }
 
@@ -170,4 +171,16 @@ public class FragmentMarkerCenter extends Fragment implements OnClickListener {
             loadDataListFragment.refreshForMarker();
         }
     }
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		// TODO Auto-generated method stub
+		if(isVisibleToUser){
+			start = true;
+		}else{
+			start = false;
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
+    
 }
