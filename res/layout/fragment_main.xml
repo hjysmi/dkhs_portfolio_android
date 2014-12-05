@@ -63,7 +63,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:padding="6dp"
         android:singleLine="true"
-        android:textSize="26sp" />
+        android:textSize="26sp" />
     -->
 
     <GridView
@@ -110,7 +110,7 @@
              <View
             android:id="@+id/order_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" />
         -->
     </RelativeLayout>
 
@@ -150,6 +150,40 @@
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/title_main_combination"
+        android:orientation="horizontal" >
+
+        <ViewStub
+            android:id="@+id/vs_fristcombination"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout="@layout/item_main_combination" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
+
+        <ViewStub
+            android:id="@+id/vs_twocombination"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout="@layout/item_main_combination" />
+
+        <ViewStub
+            android:id="@+id/vs_addcombination"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout="@layout/add_image" />
+    </LinearLayout>
 
     <GridView
         android:id="@+id/gv_mycombination"

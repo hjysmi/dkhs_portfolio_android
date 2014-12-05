@@ -12,8 +12,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,8 +38,12 @@ public class MainFunctionAdapter extends BaseAdapter {
             R.drawable.bg_f_market_selector, R.drawable.bg_f_notice_selector, R.drawable.bg_f_report_selector,
             R.drawable.bg_f_qidai_selector };
 
+    private GridView.LayoutParams mItemViewLayoutParams;
+
     public MainFunctionAdapter(Context context) {
         this.mContext = context;
+        mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
     }
 
     /**
@@ -102,8 +108,15 @@ public class MainFunctionAdapter extends BaseAdapter {
 
         viewHolder.tvTitle.setText(titleRes[position]);
         viewHolder.ivIcon.setImageResource(iconRes[position]);
-
+        convertView.setLayoutParams(mItemViewLayoutParams);
         return convertView;
+    }
+
+    public void setItemHeight(int height) {
+
+        mItemViewLayoutParams = new GridView.LayoutParams(LayoutParams.MATCH_PARENT, height);
+        notifyDataSetChanged();
+
     }
 
     final static class ViewHodler {
