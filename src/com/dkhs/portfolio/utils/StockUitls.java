@@ -20,6 +20,16 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
  * @version 1.0
  */
 public class StockUitls {
+    // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
+    public static final String SYMBOLTYPE_OTHER = "0";
+    public static final String SYMBOLTYPE_STOCK = "1";
+    public static final String SYMBOLTYPE_BOND = "2";
+    public static final String SYMBOLTYPE_FUND = "3";
+    public static final String SYMBOLTYPE_WARRANT = "4";
+    public static final String SYMBOLTYPE_INDEX = "5";
+    public static final String SYMBOLTYPE_JHLC = "6";
+    public static final String SYMBOLTYPE_FUTURES = "9";
+    public static final String SYMBOLTYPE_OPTION = "10";
 
     public static boolean isShangZhengB(String symbol) {
         if (TextUtils.isEmpty(symbol)) {
@@ -34,16 +44,16 @@ public class StockUitls {
         }
         return symbolType.equalsIgnoreCase(SYMBOLTYPE_INDEX);
     }
-
-    // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
-    public static final String SYMBOLTYPE_OTHER = "0";
-    public static final String SYMBOLTYPE_STOCK = "1";
-    public static final String SYMBOLTYPE_BOND = "2";
-    public static final String SYMBOLTYPE_FUND = "3";
-    public static final String SYMBOLTYPE_WARRANT = "4";
-    public static final String SYMBOLTYPE_INDEX = "5";
-    public static final String SYMBOLTYPE_JHLC = "6";
-    public static final String SYMBOLTYPE_FUTURES = "9";
-    public static final String SYMBOLTYPE_OPTION = "10";
+    
+    
+    public static boolean isDelistStock(String status){
+        if(TextUtils.isEmpty(status)){
+            return false;
+        }
+       if(status.equalsIgnoreCase("2")||status.equalsIgnoreCase("3")){
+           return true;
+       }
+       return false;
+    }
 
 }

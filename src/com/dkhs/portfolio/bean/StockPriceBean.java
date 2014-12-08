@@ -49,6 +49,9 @@ public class StockPriceBean {
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     private String symbol_type;
 
+    // 2,='暂停交易' 3='终止上市'
+    private String list_status;
+
     // 是否停牌 1是 0否
     @SerializedName("is_stop")
     private int isStop;
@@ -62,14 +65,14 @@ public class StockPriceBean {
     }
 
     public long getIndex() {
-		return index;
-	}
+        return index;
+    }
 
-	public void setIndex(long index) {
-		this.index = index;
-	}
+    public void setIndex(long index) {
+        this.index = index;
+    }
 
-	public String getAbbrname() {
+    public String getAbbrname() {
         return abbrname;
     }
 
@@ -175,6 +178,14 @@ public class StockPriceBean {
 
     public void setTyearPercentage(float tyearPercentage) {
         this.tyearPercentage = tyearPercentage;
+    }
+
+    public String getList_status() {
+        return list_status;
+    }
+
+    public void setList_status(String list_status) {
+        this.list_status = list_status;
     }
 
 }

@@ -46,14 +46,14 @@ public class SearchStockEngineImpl {
      */
     public static void loadStockList() {
         StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5&exchange=1,2");
-        // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1");
+        // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2");
         // "last_datetime"
         // lastLoadTime = 2014-11-21T07:15:53Z
         String lastLoadTime = PortfolioPreferenceManager
                 .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            lastLoadTime = "2014-11-21T07:15:53Z";
+            lastLoadTime = "2014-12-08T07:15:53Z";
         }
         loadUrl.append("&last_datetime=");
         loadUrl.append(lastLoadTime);
@@ -93,7 +93,7 @@ public class SearchStockEngineImpl {
             protected void afterParseData(String object) {
                 if (!TextUtils.isEmpty(object)) {
                     PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME, object);
-                   
+
                 }
 
             }
@@ -175,7 +175,7 @@ public class SearchStockEngineImpl {
             List<SearchStockBean> searchStockList = dbUtils.findAll(Selector
                     .from(SearchStockBean.class)
                     .where("symbol_type", "in", new String[] { "3", "5" })
-                    .and("symbol_stype", "in", new String[] { "300","303" })
+                    .and("symbol_stype", "in", new String[] { "300", "303" })
                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                             .or("stock_code", "LIKE", "%" + key + "%").or("chi_spell", "LIKE", "%" + key + "%")));
             if (null != searchStockList) {
