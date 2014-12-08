@@ -2,9 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_more_pop"
     android:orientation="vertical" >
 
-    <TextView
+    
+    
+   <ListView
+        android:id="@+id/lv_more"
+        style="@style/listViewStyle"
+        android:layout_width="100dip"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" />
+    
+    <!-- <TextView
         android:id="@+id/tv_day_order"
         style="@style/popwindow_item"
         android:text="月排行" />
@@ -21,6 +31,6 @@
     <TextView
         android:id="@+id/tv_quarter_order"
         style="@style/popwindow_item"
-        android:text="今年以来" />
+        android:text="今年以来" /> -->
 
 </LinearLayout>

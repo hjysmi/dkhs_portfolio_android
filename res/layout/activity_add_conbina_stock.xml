@@ -67,8 +67,33 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/divider_line" >
+        <LinearLayout
+            android:id="@+id/indicator_title"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/popwindow_padding"
+            android:paddingRight="@dimen/popwindow_padding" >
+            <com.dkhs.portfolio.ui.widget.TabPageIndicator
+                android:id="@+id/indicator"
+                android:layout_width="0dip"
+                android:layout_weight="3"
+                android:layout_gravity="center_vertical"
+                android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/btn_order"
+                style="@style/hw_wrap"
+                android:layout_width="0dip"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+                android:background="@null"
+                android:textSize ="15sp"
+                android:paddingBottom="3dp"
+                android:text="月排行" />
 
-        <RelativeLayout
+             </LinearLayout>
+        <!-- <RelativeLayout
             android:id="@+id/indicator_title"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -80,7 +105,6 @@
                 style="@style/hw_wrap"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/btn_grayborder_selector"
                 android:drawableRight="@drawable/ic_select_down"
                 android:paddingBottom="3dp"
                 android:paddingLeft="5dp"
@@ -94,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/btn_order" />
-        </RelativeLayout>
+        </RelativeLayout> -->
 
         <!-- <com.dkhs.portfolio.ui.widget.ScrollViewPager -->
 
