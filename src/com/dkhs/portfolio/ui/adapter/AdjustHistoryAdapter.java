@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,12 +74,35 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                     // bean.content = position.get
                     bean.time = position.getModifyTime();
                     StringBuilder sb = new StringBuilder();
-                    sb.append(String.format("%-6s", position.getStockName()));
-                    // sb.append(position.getStockName());
-                    if (position.getStockName().length() < 4) {
-                        sb.append("   ");
-                    }
-                    sb.append(" 从");
+//                    sb.append(String.format("%-6s", position.getStockName()));
+//                    // sb.append(position.getStockName());
+//                    if (position.getStockName().length() < 4) {
+//                        sb.append("   ");
+//                    }
+                    sb.append(position.getStockName());
+                    try {
+						byte[] bytes = position.getStockName().getBytes("UTF-8");
+						switch (bytes.length) {
+						case 6:
+							sb.append("      ");
+							break;
+						case 7:
+						case 8:
+						case 9:
+							sb.append("     ");
+							break;
+						case 10:
+						case 11:
+							sb.append("  ");
+							break;
+
+						default:
+							break;
+						}
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+                    sb.append("\t\t从");
                     // int percent = (int) (position.getFromPercent());
                     sb.append(StringFromatUtils.get2PointPercent(position.getFromPercent()));
                     // sb.append("%");
@@ -91,12 +115,36 @@ public class AdjustHistoryAdapter extends BaseAdapter {
                 } else {
 
                     StringBuilder sb = new StringBuilder(getLastBean().content + "\n");
-                    sb.append(String.format("%-6s", position.getStockName()));
-                    // sb.append(position.getStockName());
-                    if (position.getStockName().length() < 4) {
-                        sb.append("   ");
-                    }
-                    sb.append(" 从");
+//                    sb.append(String.format("%-6s", position.getStockName()));
+//                    // sb.append(position.getStockName());
+//                    if (position.getStockName().length() < 4) {
+//                        sb.append("   ");
+//                    }
+//                    sb.append(" 从");
+                    sb.append(position.getStockName());
+                    try {
+						byte[] bytes = position.getStockName().getBytes("UTF-8");
+						switch (bytes.length) {
+						case 6:
+							sb.append("      ");
+							break;
+						case 7:
+						case 8:
+						case 9:
+							sb.append("     ");
+							break;
+						case 10:
+						case 11:
+							sb.append("  ");
+							break;
+
+						default:
+							break;
+						}
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+                    sb.append("\t\t从");
                     // int percent = (int) (position.getFromPercent());
                     // sb.append(percent);
                     // sb.append("%");
