@@ -191,6 +191,14 @@
         </receiver>
 
         <service android:name="com.dkhs.portfolio.service.LoadStockToDBService" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="54850a5cfd98c5755f000e12" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng" >
+        </meta-data>
     </application>
 
 </manifest>
