@@ -82,7 +82,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     // private View viewOnecombination;
     // private View viewTwocombination;
     private View viewAddcombination;
-    private View ll_myconbinlayout;
+    private View mConbinlayout;
 
     private MainpageEngineImpl dataEngine;
 
@@ -123,6 +123,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("=========onCreateView=========");
         View view = inflater.inflate(R.layout.fragment_main, null);
         comtentView = view;
         initView(view);
@@ -181,7 +182,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
             }
         });
-        ll_myconbinlayout = view.findViewById(R.id.ll_myconbinlayout);
+        mConbinlayout = view.findViewById(R.id.ll_myconbinlayout);
 
         setViewLayoutParams();
         inflateAddLayout();
@@ -426,23 +427,23 @@ public class MainFragment extends Fragment implements OnClickListener {
             protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
                 // LogUtils.d("List<CombinationBean> size:" +
                 // dataList.size());
-                System.out.println("afterParseData ----");
                 mMoreCombination = moreBean;
                 if (null != moreBean) {
                     List<CombinationBean> dataList = moreBean.getResults();
                     if (null != dataList && isAdded()) {
-                        System.out.println("update ----");
 
                         if (dataList.size() > 0) {
-                            System.out.println("inflateCombinationLayout ----");
-                            ll_myconbinlayout.setVisibility(View.VISIBLE);
+                            if (null != mConbinlayout) {
+
+                                mConbinlayout.setVisibility(View.VISIBLE);
+                            }
                             inflateCombinationLayout(dataList);
                         } else {
                             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
                             comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
                             viewAddcombination.setVisibility(View.VISIBLE);
                             gvCombination.setVisibility(View.GONE);
-                            ll_myconbinlayout.setVisibility(View.GONE);
+                            mConbinlayout.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -657,17 +658,21 @@ public class MainFragment extends Fragment implements OnClickListener {
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         viewPager.getLayoutParams().width = screenWidth / 2;
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_main);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("=========onResume=========");
         MobclickAgent.onPageStart(mPageName);
         if (mScollTimer == null) { // 保证只有一个 定时任务
             mScollTimer = new Timer(true);
@@ -868,5 +873,5 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
 
     }
-    
+
 }
