@@ -112,7 +112,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             totalcount = dataObject.optInt("total_count");
             totalpage = dataObject.optInt("total_page");
             currentpage = dataObject.optInt("current_page");
-            loadListener.setStatu(dataObject.optInt("trade_status"));
+            setStatu(dataObject.optInt("trade_status"));
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();

@@ -226,9 +226,9 @@ public class TimeUtils {
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA).parse(iso8601string);
             calendar.setTime(date);
-            int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
+           /* int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
             int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
-            calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
+            calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));*/
             int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
             calendar.set(Calendar.HOUR_OF_DAY,k);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");

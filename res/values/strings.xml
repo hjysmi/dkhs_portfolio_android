@@ -268,4 +268,12 @@
     <string name="p2refresh_doing_head_refresh">正在刷新&#8230;</string>
     <string name="p2refresh_doing_end_refresh">加载中&#8230;</string>
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
+    
+    
+    <!-- 以下是友盟统计界面名称 -->
+    <string name="count_splash">程序选择界面</string>
+    <string name="count_guide">引导页</string>
+    <string name="count_login">登录</string>
+    <string name="count_main">首页</string>
+    <string name="count_main_left">左侧菜单</string>
 </resources>
