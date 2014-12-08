@@ -477,34 +477,36 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     };
 
     private void showShare() {
-        Context context = getActivity();
-        final OnekeyShare oks = new OnekeyShare();
+        if (null != mPositionDetail) {
+            Context context = getActivity();
+            final OnekeyShare oks = new OnekeyShare();
 
-        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        // oks.setAddress("12345678901");
-        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
-        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
-        // String customText = CustomShareFieldsPage.getString( "text", null);
-        oks.setTitle("谁牛");
-        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
-        oks.setUrl("https://dkhs.com/portfolio/wap/");
-        String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
-                + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧.https://dkhs.com/portfolio/wap/";
+            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+            // oks.setAddress("12345678901");
+            // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+            // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+            // String customText = CustomShareFieldsPage.getString( "text", null);
+            oks.setTitle("谁牛");
+            oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+            oks.setUrl("https://dkhs.com/portfolio/wap/");
+            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
+                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧.https://dkhs.com/portfolio/wap/";
 
-        oks.setText(customText);
+            oks.setText(customText);
 
-        oks.setImagePath(SHARE_IMAGE);
+            oks.setImagePath(SHARE_IMAGE);
 
-        oks.setFilePath(SHARE_IMAGE);
+            oks.setFilePath(SHARE_IMAGE);
 
-        oks.setSilent(false);
+            oks.setSilent(false);
 
-        oks.setShareFromQQAuthSupport(false);
+            oks.setShareFromQQAuthSupport(false);
 
-        // 令编辑页面显示为Dialog模式
-        oks.setDialogMode();
+            // 令编辑页面显示为Dialog模式
+            oks.setDialogMode();
 
-        oks.show(context);
+            oks.show(context);
+        }
     }
 
     private void saveShareBitmap() {

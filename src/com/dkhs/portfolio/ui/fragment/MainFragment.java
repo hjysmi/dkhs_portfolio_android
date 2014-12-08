@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionCollectionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -59,6 +60,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainFragment extends Fragment implements OnClickListener {
 
@@ -80,6 +82,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     // private View viewOnecombination;
     // private View viewTwocombination;
     private View viewAddcombination;
+    private View mConbinlayout;
 
     private MainpageEngineImpl dataEngine;
 
@@ -120,6 +123,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        System.out.println("=========onCreateView=========");
         View view = inflater.inflate(R.layout.fragment_main, null);
         comtentView = view;
         initView(view);
@@ -178,6 +182,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
             }
         });
+        mConbinlayout = view.findViewById(R.id.ll_myconbinlayout);
 
         setViewLayoutParams();
         inflateAddLayout();
@@ -221,6 +226,10 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
     }
 
+    private View viewFirst;
+    private View viewTwo;
+    View viewAdd = null;
+
     private void inflateCombinationLayout(final List<CombinationBean> dataList) {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
@@ -231,24 +240,27 @@ public class MainFragment extends Fragment implements OnClickListener {
         ViewStub viewstubFirst = (ViewStub) comtentView.findViewById(R.id.vs_fristcombination);
         ViewStub viewstubAdd = (ViewStub) comtentView.findViewById(R.id.vs_addcombination);
         ViewStub viewstubTwo = (ViewStub) comtentView.findViewById(R.id.vs_twocombination);
-
         if (null != dataList && dataList.size() > 0) {
 
-            if (viewstubFirst != null) {
-                View viewFirst = viewstubFirst.inflate();
-                final CombinationBean bean1 = dataList.get(0);
-                initCombinationView(viewFirst, bean1);
-                viewFirst.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(CombinationDetailActivity.newIntent(getActivity(), bean1));
-                    }
-                });
+            // if (viewstubFirst != null) {
+            if (null == viewFirst) {
+                viewFirst = viewstubFirst.inflate();
             }
+            final CombinationBean bean1 = dataList.get(0);
+            initCombinationView(viewFirst, bean1);
+            viewFirst.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    startActivity(CombinationDetailActivity.newIntent(getActivity(), bean1));
+                }
+            });
+            // }
             if (dataList.size() < 2) {
-                if (viewstubAdd != null) {
-                    View viewAdd = viewstubAdd.inflate();
+                // if (viewstubAdd != null) {
+                if (null == viewAdd) {
+                    System.out.println("viewAdd.inflate");
+                    viewAdd = viewstubAdd.inflate();
                     viewAdd.setOnClickListener(new OnClickListener() {
 
                         @Override
@@ -257,21 +269,36 @@ public class MainFragment extends Fragment implements OnClickListener {
                             getActivity().startActivity(intent);
                         }
                     });
+                } else {
+                    System.out.println("viewAdd.setVisibility(View.VISIBLE)");
+                    viewAdd.setVisibility(View.VISIBLE);
+                    System.out.println("viewTwo.setVisibility(View.GONE)");
+                    if (null != viewTwo) {
+                        System.out.println("viewTwo.setVisibility(View.GONE)");
+                        viewTwo.setVisibility(View.GONE);
+                    }
                 }
+
+                // }
             } else {
 
-                if (viewstubTwo != null) {
-                    View viewTwo = viewstubTwo.inflate();
-                    final CombinationBean bean2 = dataList.get(1);
-                    initCombinationView(viewTwo, bean2);
-                    viewTwo.setOnClickListener(new OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(CombinationDetailActivity.newIntent(getActivity(), bean2));
-                        }
-                    });
+                // if (viewstubTwo != null) {
+                if (null == viewTwo) {
+                    viewTwo = viewstubTwo.inflate();
                 }
+                final CombinationBean bean2 = dataList.get(1);
+                if (null != viewAdd) {
+                    viewAdd.setVisibility(View.GONE);
+                }
+                initCombinationView(viewTwo, bean2);
+                viewTwo.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(CombinationDetailActivity.newIntent(getActivity(), bean2));
+                    }
+                });
+                // }
 
             }
 
@@ -403,16 +430,20 @@ public class MainFragment extends Fragment implements OnClickListener {
                 mMoreCombination = moreBean;
                 if (null != moreBean) {
                     List<CombinationBean> dataList = moreBean.getResults();
-
                     if (null != dataList && isAdded()) {
 
                         if (dataList.size() > 0) {
+                            if (null != mConbinlayout) {
+
+                                mConbinlayout.setVisibility(View.VISIBLE);
+                            }
                             inflateCombinationLayout(dataList);
                         } else {
                             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
                             comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
                             viewAddcombination.setVisibility(View.VISIBLE);
                             gvCombination.setVisibility(View.GONE);
+                            mConbinlayout.setVisibility(View.GONE);
                         }
                     }
                 }
@@ -628,10 +659,21 @@ public class MainFragment extends Fragment implements OnClickListener {
         viewPager.getLayoutParams().width = screenWidth / 2;
     }
 
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_main);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
     @Override
     public void onResume() {
-
         super.onResume();
+        System.out.println("=========onResume=========");
+        MobclickAgent.onPageStart(mPageName);
         if (mScollTimer == null) { // 保证只有一个 定时任务
             mScollTimer = new Timer(true);
             mScollTimer.schedule(new ScrollPageTask(), 2000, 2000);
