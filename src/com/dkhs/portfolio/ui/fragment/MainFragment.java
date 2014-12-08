@@ -80,6 +80,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     // private View viewOnecombination;
     // private View viewTwocombination;
     private View viewAddcombination;
+    private View ll_myconbinlayout;
 
     private MainpageEngineImpl dataEngine;
 
@@ -178,6 +179,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
             }
         });
+        ll_myconbinlayout = view.findViewById(R.id.ll_myconbinlayout);
 
         setViewLayoutParams();
         inflateAddLayout();
@@ -221,6 +223,10 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
     }
 
+    private View viewFirst;
+    private View viewTwo;
+    View viewAdd = null;
+
     private void inflateCombinationLayout(final List<CombinationBean> dataList) {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
@@ -231,24 +237,27 @@ public class MainFragment extends Fragment implements OnClickListener {
         ViewStub viewstubFirst = (ViewStub) comtentView.findViewById(R.id.vs_fristcombination);
         ViewStub viewstubAdd = (ViewStub) comtentView.findViewById(R.id.vs_addcombination);
         ViewStub viewstubTwo = (ViewStub) comtentView.findViewById(R.id.vs_twocombination);
-
         if (null != dataList && dataList.size() > 0) {
 
-            if (viewstubFirst != null) {
-                View viewFirst = viewstubFirst.inflate();
-                final CombinationBean bean1 = dataList.get(0);
-                initCombinationView(viewFirst, bean1);
-                viewFirst.setOnClickListener(new OnClickListener() {
-
-                    @Override
-                    public void onClick(View v) {
-                        startActivity(CombinationDetailActivity.newIntent(getActivity(), bean1));
-                    }
-                });
+            // if (viewstubFirst != null) {
+            if (null == viewFirst) {
+                viewFirst = viewstubFirst.inflate();
             }
+            final CombinationBean bean1 = dataList.get(0);
+            initCombinationView(viewFirst, bean1);
+            viewFirst.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    startActivity(CombinationDetailActivity.newIntent(getActivity(), bean1));
+                }
+            });
+            // }
             if (dataList.size() < 2) {
-                if (viewstubAdd != null) {
-                    View viewAdd = viewstubAdd.inflate();
+                // if (viewstubAdd != null) {
+                if (null == viewAdd) {
+                    System.out.println("viewAdd.inflate");
+                    viewAdd = viewstubAdd.inflate();
                     viewAdd.setOnClickListener(new OnClickListener() {
 
                         @Override
@@ -257,21 +266,36 @@ public class MainFragment extends Fragment implements OnClickListener {
                             getActivity().startActivity(intent);
                         }
                     });
+                } else {
+                    System.out.println("viewAdd.setVisibility(View.VISIBLE)");
+                    viewAdd.setVisibility(View.VISIBLE);
+                    System.out.println("viewTwo.setVisibility(View.GONE)");
+                    if (null != viewTwo) {
+                        System.out.println("viewTwo.setVisibility(View.GONE)");
+                        viewTwo.setVisibility(View.GONE);
+                    }
                 }
+
+                // }
             } else {
 
-                if (viewstubTwo != null) {
-                    View viewTwo = viewstubTwo.inflate();
-                    final CombinationBean bean2 = dataList.get(1);
-                    initCombinationView(viewTwo, bean2);
-                    viewTwo.setOnClickListener(new OnClickListener() {
-
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(CombinationDetailActivity.newIntent(getActivity(), bean2));
-                        }
-                    });
+                // if (viewstubTwo != null) {
+                if (null == viewTwo) {
+                    viewTwo = viewstubTwo.inflate();
                 }
+                final CombinationBean bean2 = dataList.get(1);
+                if (null != viewAdd) {
+                    viewAdd.setVisibility(View.GONE);
+                }
+                initCombinationView(viewTwo, bean2);
+                viewTwo.setOnClickListener(new OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(CombinationDetailActivity.newIntent(getActivity(), bean2));
+                    }
+                });
+                // }
 
             }
 
@@ -400,19 +424,23 @@ public class MainFragment extends Fragment implements OnClickListener {
             protected void afterParseData(MoreDataBean<CombinationBean> moreBean) {
                 // LogUtils.d("List<CombinationBean> size:" +
                 // dataList.size());
+                System.out.println("afterParseData ----");
                 mMoreCombination = moreBean;
                 if (null != moreBean) {
                     List<CombinationBean> dataList = moreBean.getResults();
-
                     if (null != dataList && isAdded()) {
+                        System.out.println("update ----");
 
                         if (dataList.size() > 0) {
+                            System.out.println("inflateCombinationLayout ----");
+                            ll_myconbinlayout.setVisibility(View.VISIBLE);
                             inflateCombinationLayout(dataList);
                         } else {
                             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
                             comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
                             viewAddcombination.setVisibility(View.VISIBLE);
                             gvCombination.setVisibility(View.GONE);
+                            ll_myconbinlayout.setVisibility(View.GONE);
                         }
                     }
                 }
