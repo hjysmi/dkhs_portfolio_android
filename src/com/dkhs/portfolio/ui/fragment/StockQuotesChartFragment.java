@@ -420,42 +420,42 @@ public class StockQuotesChartFragment extends Fragment {
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
-        	try {
-				StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-				if(null != m && !m.getTrade_status().equals("0")){
-					dataHandler.removeCallbacks(runnable);
-				}
-				
-				if (fsDataBean != null) {
-				    mFsDataBean.setCurtime(fsDataBean.getCurtime());
-				    if (null == mFsDataBean.getMainstr()) {
-				        mFsDataBean.setMainstr(fsDataBean.getMainstr());
-				    } else {
-				        if (fsDataBean.getMainstr() == null || fsDataBean.getMainstr().size() == 0) {
-				            return;
-				        }
-				        mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
-				    }
-				    List<TimeStock> mainList = mFsDataBean.getMainstr();
+            try {
+                StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
+                if (null != m && !m.getTrade_status().equals("0")) {
+                    dataHandler.removeCallbacks(runnable);
+                }
 
-				    // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
+                if (fsDataBean != null) {
+                    mFsDataBean.setCurtime(fsDataBean.getCurtime());
+                    if (null == mFsDataBean.getMainstr()) {
+                        mFsDataBean.setMainstr(fsDataBean.getMainstr());
+                    } else {
+                        if (fsDataBean.getMainstr() == null || fsDataBean.getMainstr().size() == 0) {
+                            return;
+                        }
+                        mFsDataBean.getMainstr().addAll(fsDataBean.getMainstr());
+                    }
+                    List<TimeStock> mainList = mFsDataBean.getMainstr();
 
-				    if (mainList != null && mainList.size() > 0) {
-				        setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(fsDataBean.getLast_close(), mainList));
-				        setTodayPointTitle();
-				        setLineData(lineDataList);
-				        //
-				        // String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
-				        // // int zIndex = lasttime.indexOf("T");
-				        // Calendar calender = TimeUtils.toCalendar(lasttime);
-				        // // String dateStr = lasttime.substring(0, zIndex);
-				    }
+                    // List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
 
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                    if (mainList != null && mainList.size() > 0) {
+                        setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(fsDataBean.getLast_close(), mainList));
+                        setTodayPointTitle();
+                        setLineData(lineDataList);
+                        //
+                        // String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
+                        // // int zIndex = lasttime.indexOf("T");
+                        // Calendar calender = TimeUtils.toCalendar(lasttime);
+                        // // String dateStr = lasttime.substring(0, zIndex);
+                    }
+
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         }
     };
@@ -550,8 +550,12 @@ public class StockQuotesChartFragment extends Fragment {
         List<String> rightYtitle = new ArrayList<String>();
         // float halfOffetValue = offetYvalue / 2.0f;
 
-        float topValue = (float) Math.min(baseNum + offetYvalue * (1 + 0.1), baseNum * 1.1f);
-        float bottomValue = (float) Math.max(baseNum - offetYvalue * (1 + 0.1), baseNum * 0.9f);
+        // float topValue = (float) Math.min(baseNum + offetYvalue * (1 + 0.1), baseNum * 1.1f);
+        // float bottomValue = (float) Math.max(baseNum - offetYvalue * (1 + 0.1), baseNum * 0.9f);
+        // float topValue = (float) Math.min(baseNum + offetYvalue * (1), baseNum * 1f);
+        // float bottomValue = (float) Math.max(baseNum - offetYvalue * (1), baseNum * 1f);
+        float topValue = baseNum + offetYvalue;
+        float bottomValue = baseNum - offetYvalue;
 
         System.out.println("topValue:" + topValue);
         System.out.println("bottomValue:" + bottomValue);

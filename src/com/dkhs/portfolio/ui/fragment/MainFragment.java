@@ -231,7 +231,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         ViewStub viewstubFirst = (ViewStub) comtentView.findViewById(R.id.vs_fristcombination);
         ViewStub viewstubAdd = (ViewStub) comtentView.findViewById(R.id.vs_addcombination);
         ViewStub viewstubTwo = (ViewStub) comtentView.findViewById(R.id.vs_twocombination);
-
+        View viewAdd = null;
         if (null != dataList && dataList.size() > 0) {
 
             if (viewstubFirst != null) {
@@ -248,7 +248,7 @@ public class MainFragment extends Fragment implements OnClickListener {
             }
             if (dataList.size() < 2) {
                 if (viewstubAdd != null) {
-                    View viewAdd = viewstubAdd.inflate();
+                    viewAdd = viewstubAdd.inflate();
                     viewAdd.setOnClickListener(new OnClickListener() {
 
                         @Override
