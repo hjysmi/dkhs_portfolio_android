@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 
@@ -34,7 +36,7 @@ public class SplashActivity extends ModelAcitivity {
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
 
     protected static final String TAG = "SplashActivity";
-
+    private Context context;
     /**
      * Handler:跳转到不同界面
      */
@@ -62,6 +64,7 @@ public class SplashActivity extends ModelAcitivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
+        context = this;
         hideHead();
         init();
     }
@@ -122,5 +125,22 @@ public class SplashActivity extends ModelAcitivity {
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
+    /*private final String mPageName = getResources().getString(R.string.count_splash);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(context);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(context);
+	}*/
 }
