@@ -177,8 +177,16 @@ public class FragmentMarkerCenter extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		if(isVisibleToUser){
 			start = true;
+			if (mMarketTimer == null && start) {
+	            mMarketTimer = new Timer(true);
+	            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+	        }
 		}else{
 			start = false;
+			if (mMarketTimer != null) {
+	            mMarketTimer.cancel();
+	            mMarketTimer = null;
+	        }
 		}
 		super.setUserVisibleHint(isVisibleToUser);
 	}

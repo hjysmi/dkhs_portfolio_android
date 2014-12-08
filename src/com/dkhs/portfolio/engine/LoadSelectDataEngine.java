@@ -40,7 +40,6 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
 
     public interface ILoadDataBackListener {
         void loadFinish(List<SelectStockBean> object);
-        void setStatu(int statu);
     }
 
     /**

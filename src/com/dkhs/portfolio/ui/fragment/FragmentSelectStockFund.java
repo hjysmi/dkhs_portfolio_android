@@ -81,8 +81,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private boolean fromPosition = false;
     LoadSelectDataEngine mLoadDataEngine;
     private TextView tvEmptyText;
+    public int timeMill;
     private boolean flush = false;
-    private int typs = 3;
     /**
      * view视图类型
      */
@@ -238,6 +238,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             if (flush) {
                 // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 flush = false;
+                loadFinishUpdateView();
                 return;
             }
             if (isRefresh) {
@@ -246,7 +247,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             }
             loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
-            	typs = dataList.get(0).getStatus();
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
 
@@ -255,14 +255,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             }
 
         }
-
-		@Override
-		public void setStatu(int statu) {
-			// TODO Auto-generated method stub
-			//mLoadDataEngine.setStatu(statu);
-			/*typs = statu;
-			mLoadDataEngine.setStatu(statu);*/
-		}
 
     };
 
@@ -344,7 +336,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     public void refresh() {
         isRefresh = true;
-        if (mLoadDataEngine != null ) {
+        if (mLoadDataEngine != null  && mLoadDataEngine.getStatu() == 0 && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
             mLoadDataEngine.loadData();
@@ -352,10 +344,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     public void refreshForMarker() {
-        isRefresh = true;
-        if (mLoadDataEngine != null) {
+        
+        if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
-	        	if(typs == 0){
+        	timeMill= 0;
+        	isRefresh = true;
+	        	if(mLoadDataEngine.getStatu() == 0){
 		            if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
 		                    || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
 		                    && null != mDataList) {
@@ -367,6 +361,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 		            }
 		            mLoadDataEngine.setLoadingDialog(getActivity());
 	        }
+        }else{
+        	timeMill++;
+        	if(timeMill > 5){
+        		timeMill = 0;
+        		isLoadingMore = false;
+        	}
         }
     }
 
@@ -548,6 +548,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             // thread.start();
 
             isLoadingMore = true;
+            mLoadDataEngine.setCurrentpage((mDataList.size() + 9)/10);
             mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
         }

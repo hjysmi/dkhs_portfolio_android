@@ -61,6 +61,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
             setTotalcount(dataObject.optInt("total_count"));
             setTotalpage(dataObject.optInt("total_page"));
             setCurrentpage(dataObject.optInt("current_page"));
+            setStatu(dataObject.optInt("trade_status"));
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();
@@ -68,6 +69,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
+                    
                     // SelectStockBean selectBean = new SelectStockBean();
                     // selectBean.id = stockBean.getId();
                     // selectBean.name = stockBean.getAbbrname();
