@@ -292,27 +292,29 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     };
 
     private void showShare() {
-        Context context = getActivity();
-        final OnekeyShare oks = new OnekeyShare();
+        if (null != mCombinationBean) {
+            Context context = getActivity();
+            final OnekeyShare oks = new OnekeyShare();
 
-        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        oks.setTitle(mCombinationBean.getName() + "与公募基金PK业绩");
-        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+            oks.setTitle(mCombinationBean.getName() + "与公募基金PK业绩");
+            oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
 
-        String customText = "这是我的基金「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
-                + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
+            String customText = "这是我的基金「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
+                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
 
-        oks.setText(customText);
-        oks.setImagePath(SHARE_IMAGE);
-        oks.setFilePath(SHARE_IMAGE);
-        oks.setSilent(false);
-        oks.setUrl("https://dkhs.com/portfolio/wap/");
-        oks.setShareFromQQAuthSupport(false);
+            oks.setText(customText);
+            oks.setImagePath(SHARE_IMAGE);
+            oks.setFilePath(SHARE_IMAGE);
+            oks.setSilent(false);
+            oks.setUrl("https://dkhs.com/portfolio/wap/");
+            oks.setShareFromQQAuthSupport(false);
 
-        // 令编辑页面显示为Dialog模式
-        oks.setDialogMode();
+            // 令编辑页面显示为Dialog模式
+            oks.setDialogMode();
 
-        oks.show(context);
+            oks.show(context);
+        }
     }
 
     private void saveShareBitmap() {

@@ -565,7 +565,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             }
         }
     };
-    /*private final String mPageName = getResources().getString(R.string.count_login);
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
     @Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -582,5 +582,5 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageStart(mPageName);
 		MobclickAgent.onResume(this);
-	}*/
+	}
 }

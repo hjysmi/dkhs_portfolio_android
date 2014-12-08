@@ -235,8 +235,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-//            System.out.println("hand update message");
-//            float netValue = (Float) msg.obj;
+            // System.out.println("hand update message");
+            // float netValue = (Float) msg.obj;
             // if (netValue > 1) {
             // ivUpDownIcon.setImageResource(R.drawable.ic_combination_up);
             // viewNetvalueHead.setBackgroundResource(R.color.red);
@@ -248,8 +248,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // ivUpDownIcon.setImageDrawable(null);
             // viewNetvalueHead.setBackgroundResource(R.color.red);
             // }
-//            updateIncreaseRatio(netValue);
-        	replaceFragment(mtrendFragment);
+            // updateIncreaseRatio(netValue);
+            replaceFragment(mtrendFragment);
         };
     };
 
@@ -401,12 +401,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // FragmentSwitchChart mSwitchFragment = null;
 
     public void showShare(boolean silent, String platform, boolean captureView) {
-//        if (null != mtrendFragment)
-//            // mtrendFragment.showShare(silent, platform, captureView);
-//            mtrendFragment.showShareImage();
+        // if (null != mtrendFragment)
+        // // mtrendFragment.showShare(silent, platform, captureView);
+        // mtrendFragment.showShareImage();
     }
 
-    
     private String SHARE_IMAGE;
 
     public void showShareImage() {
@@ -430,31 +429,35 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     };
 
     private void showShare() {
-        Context context = getActivity();
-        final OnekeyShare oks = new OnekeyShare();
+        if (null != mPositionDetail) {
 
-        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        // oks.setAddress("12345678901");
-        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
-        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
-        // String customText = CustomShareFieldsPage.getString( "text", null);
-        oks.setTitle("谁牛");
-        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
-        String customText = "这是我的基金「"+mPositionDetail.getPortfolio().getName()+"」的收益率走势曲线。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
+            Context context = getActivity();
+            final OnekeyShare oks = new OnekeyShare();
 
-        oks.setText(customText);
+            oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+            // oks.setAddress("12345678901");
+            // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+            // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+            // String customText = CustomShareFieldsPage.getString( "text", null);
+            oks.setTitle("谁牛");
+            oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName()
+                    + "」的收益率走势曲线。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
 
-        oks.setImagePath(SHARE_IMAGE);
+            oks.setText(customText);
 
-        oks.setFilePath(SHARE_IMAGE);
-        oks.setSilent(false);
+            oks.setImagePath(SHARE_IMAGE);
 
-        oks.setShareFromQQAuthSupport(false);
+            oks.setFilePath(SHARE_IMAGE);
+            oks.setSilent(false);
 
-        // 令编辑页面显示为Dialog模式
-        oks.setDialogMode();
+            oks.setShareFromQQAuthSupport(false);
 
-        oks.show(context);
+            // 令编辑页面显示为Dialog模式
+            oks.setDialogMode();
+
+            oks.show(context);
+        }
     }
 
     private void saveShareBitmap() {
@@ -498,8 +501,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // Toast.makeText(getActivity(), "Failed To Save", 5000).show();
         }
     }
-    
-    
+
     private void replaceFragment(Fragment newFragment) {
 
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
@@ -518,7 +520,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }
         } else {
 
-        	
             trasection.show(newFragment);
         }
 
@@ -595,8 +596,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
         // mSwitchFragment = FragmentSwitchChart.newInstance(
         // TrendChartFragment.TREND_TYPE_TODAY, isFromOrder);
-//        mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
-//        replaceFragment(mtrendFragment);
+        // mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
+        // replaceFragment(mtrendFragment);
         updateHandler.sendEmptyMessageDelayed(200, 50);
     }
 
