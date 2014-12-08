@@ -162,12 +162,6 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
         }
 
-		@Override
-		public void setStatu(int statu) {
-			// TODO Auto-generated method stub
-			mLoadDataEngine.setStatu(statu);
-		}
-
     };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
