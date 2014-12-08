@@ -35,6 +35,8 @@ public class ConStockBean extends StockBean implements Serializable {
     private int isStop;
     @SerializedName("increase_percent")
     protected float increasePercent;
+    // 2,='暂停交易' 3='终止上市'
+    public String list_status;
 
     /**
      * @Title
@@ -121,6 +123,7 @@ public class ConStockBean extends StockBean implements Serializable {
         stock.percent = this.percent;
         stock.isStop = this.isStop;
         stock.increasePercent = this.increasePercent;
+        stock.list_status = this.list_status;
 
         return stock;
     }
@@ -161,6 +164,14 @@ public class ConStockBean extends StockBean implements Serializable {
 
     public void setPercent(float percent) {
         this.percent = percent;
+    }
+
+    public String getList_status() {
+        return list_status;
+    }
+
+    public void setList_status(String list_status) {
+        this.list_status = list_status;
     }
 
 

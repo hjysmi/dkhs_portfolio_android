@@ -910,7 +910,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != stockList && stockList.size() > 0 && surValue != 0 && !isAdjustCombination) {
             btnAverage.setVisibility(View.VISIBLE);
         } else {
-            btnAverage.setVisibility(View.GONE);
+            btnAverage.setVisibility(View.INVISIBLE);
         }
     }
 

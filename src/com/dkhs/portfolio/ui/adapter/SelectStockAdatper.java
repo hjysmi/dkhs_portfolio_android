@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -75,8 +76,15 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
-        if (item.isStop) {
+
+        if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+            viewHolder.tvSuspend.setText("退市");
+            viewHolder.mCheckbox.setVisibility(View.GONE);
+            viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+        } else if (item.isStop) {
+            viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+            viewHolder.tvSuspend.setText("停牌");
             viewHolder.mCheckbox.setVisibility(View.GONE);
             viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
         } else {

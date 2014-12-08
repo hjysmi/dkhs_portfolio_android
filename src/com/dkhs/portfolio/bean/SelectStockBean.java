@@ -33,6 +33,8 @@ public class SelectStockBean implements Serializable {
     public int status;
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
+    // 2,='暂停交易' 3='终止上市'
+    public String list_status;
 
     public static SelectStockBean copy(ConStockBean stockBean) {
 
@@ -43,6 +45,7 @@ public class SelectStockBean implements Serializable {
         bean.id = stockBean.getStockId();
         bean.code = stockBean.getStockCode();
         bean.isStop = stockBean.isStop();
+        bean.list_status = stockBean.getList_status();
         return bean;
     }
 
@@ -56,6 +59,7 @@ public class SelectStockBean implements Serializable {
         bean.code = stockBean.getStockCode();
         bean.symbol_type = stockBean.getSymbol_type();
         bean.isStop = stockBean.isStop();
+        bean.list_status = stockBean.getList_status();
         return bean;
     }
 
@@ -83,6 +87,7 @@ public class SelectStockBean implements Serializable {
         selectBean.isStop = stockBean.isStop();
         selectBean.index = stockBean.getIndex();
         selectBean.change = stockBean.getChange();
+        selectBean.list_status = stockBean.getList_status();
         return selectBean;
     }
 
@@ -95,6 +100,7 @@ public class SelectStockBean implements Serializable {
         bean.setStockId(id);
         bean.setIsStop(isStop ? 1 : 0);
         bean.setStockCode(code);
+        bean.setList_status(list_status);
         return bean;
     }
 
@@ -107,20 +113,20 @@ public class SelectStockBean implements Serializable {
         }
     }
 
-	public long getIndex() {
-		return index;
-	}
+    public long getIndex() {
+        return index;
+    }
 
-	public void setIndex(long index) {
-		this.index = index;
-	}
+    public void setIndex(long index) {
+        this.index = index;
+    }
 
-	public int getStatus() {
-		return status;
-	}
+    public int getStatus() {
+        return status;
+    }
 
-	public void setStatus(int status) {
-		this.status = status;
-	}
-    
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
 }
