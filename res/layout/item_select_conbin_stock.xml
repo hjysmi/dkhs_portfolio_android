@@ -74,7 +74,7 @@
             style="@style/hw_wrap"
             android:layout_centerInParent="true"
             android:singleLine="true"
-            android:text="已停牌"
+            android:text="停牌"
             android:visibility="gone" />
     </RelativeLayout>
 

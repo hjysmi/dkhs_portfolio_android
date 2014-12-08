@@ -62,9 +62,11 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
         }
-
-        if (item.isStop) {
-            viewHolder.tvIncearseValue.setText("已停牌");
+        if (StockUitls.isDelistStock(item.list_status)) {
+            viewHolder.tvIncearseValue.setText("退市");
+            viewHolder.tvPercentValue.setVisibility(View.INVISIBLE);
+        } else if (item.isStop) {
+            viewHolder.tvIncearseValue.setText("停牌");
             viewHolder.tvPercentValue.setVisibility(View.INVISIBLE);
         } else {
             viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
