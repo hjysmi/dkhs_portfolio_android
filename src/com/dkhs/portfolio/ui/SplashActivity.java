@@ -34,7 +34,7 @@ public class SplashActivity extends ModelAcitivity {
     private static final long SPLASH_DELAY_MILLIS = 2000;
 
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
-
+    
     protected static final String TAG = "SplashActivity";
     private Context context;
     /**
@@ -125,7 +125,7 @@ public class SplashActivity extends ModelAcitivity {
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
-    /*private final String mPageName = getResources().getString(R.string.count_splash);
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_splash);
     @Override
 	public void onPause() {
 		// TODO Auto-generated method stub
@@ -142,5 +142,5 @@ public class SplashActivity extends ModelAcitivity {
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageStart(mPageName);
 		MobclickAgent.onResume(context);
-	}*/
+	}
 }

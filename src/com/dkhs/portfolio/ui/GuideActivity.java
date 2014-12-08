@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.adapter.GuideViewPagerAdapter;
 import com.umeng.analytics.MobclickAgent;
 
@@ -107,7 +108,7 @@ public class GuideActivity extends ModelAcitivity implements OnPageChangeListene
         // 设置底部小点选中状态
         // setCurrentDot(arg0);
     }
-    /*private final String mPageName = getResources().getString(R.string.count_guide);
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_guide);
     @Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -124,5 +125,5 @@ public class GuideActivity extends ModelAcitivity implements OnPageChangeListene
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageStart(mPageName);
 		MobclickAgent.onResume(this);
-	}*/
+	}
 }

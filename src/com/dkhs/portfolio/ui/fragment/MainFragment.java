@@ -33,6 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionCollectionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -59,6 +60,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainFragment extends Fragment implements OnClickListener {
 
@@ -655,11 +657,18 @@ public class MainFragment extends Fragment implements OnClickListener {
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
         viewPager.getLayoutParams().width = screenWidth / 2;
     }
-
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_main);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
     @Override
     public void onResume() {
-
         super.onResume();
+        MobclickAgent.onPageStart(mPageName);
         if (mScollTimer == null) { // 保证只有一个 定时任务
             mScollTimer = new Timer(true);
             mScollTimer.schedule(new ScrollPageTask(), 2000, 2000);
@@ -859,5 +868,5 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
 
     }
-
+    
 }

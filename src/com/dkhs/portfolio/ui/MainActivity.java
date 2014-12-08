@@ -11,6 +11,7 @@ import com.dkhs.portfolio.ui.fragment.MainFragment;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.lidroid.xutils.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class MainActivity extends FragmentActivity implements ITitleButtonListener {
 
@@ -91,5 +92,19 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         super.onDestroy();
         LogUtils.i("================onDestroy()====================");
     }
+    @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onResume(this);
+	}
 }
