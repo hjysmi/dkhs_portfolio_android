@@ -88,6 +88,7 @@
     <string name="duty_percent">%1$d&#037;</string>
     <string name="my_combination">我的基金</string>
     <string name="desc_format">描述:%1$s</string>
+    <string name="desc_def_text">还没有描述内容呢</string>
     <string name="current">当前:</string>
     <string name="add_up">累计:</string>
     <string name="create_combination">创建基金</string>
