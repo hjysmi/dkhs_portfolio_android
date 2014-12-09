@@ -77,17 +77,17 @@
     </string-array>
     <string-array name="left_menu_img_items">
         <item>自建基金</item>
-        <item>基金排行</item>
         <item>自选股</item>
         <item>行情</item>
+        <item>基金排行</item>
         <item>公告</item>
         <item>研报</item>
     </string-array>
     <string-array name="left_menu_img">
         <item>menu_icon_myteam</item>
-        <item>menu_icon_seniority</item>
         <item>menu_icon_optional</item>
         <item>menu_icon_market</item>
+        <item>menu_icon_seniority</item>
         <item>menu_icon_notice</item>
         <item>menu_icon_study</item>
     </string-array>
