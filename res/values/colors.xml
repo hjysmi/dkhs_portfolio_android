@@ -7,6 +7,7 @@
     <color name="title_color">#e73535</color>
     <color name="theme_gray">#F5F5F5</color>
     <color name="theme_gray_press">#d0d0d0</color>
+    <color name="drivi_line">#d0d0d0</color>
     <color name="edit_textcolor">#d0d0d0</color>
     <color name="gray_textcolor">#979797</color>
     <color name="unable_blue_textcolor">#4fcfff</color>
