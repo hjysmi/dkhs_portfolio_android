@@ -33,8 +33,9 @@
             android:layout_toRightOf="@+id/divider_line"
             android:background="@null"
             android:hint="@string/my_combination"
-            android:singleLine="true"
+            android:inputType="textEmailAddress"
             android:maxLength="10"
+            android:singleLine="true"
             android:textColor="@color/gray"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -69,9 +70,10 @@
             android:layout_toRightOf="@+id/divider_line1"
             android:background="@null"
             android:hint="@string/conb_desc_hint"
+            android:inputType="textEmailAddress"
+            android:maxLength="20"
             android:singleLine="true"
             android:textColor="@color/gray"
-            android:maxLength="20"
             android:textSize="14sp" />
     </RelativeLayout>
 
