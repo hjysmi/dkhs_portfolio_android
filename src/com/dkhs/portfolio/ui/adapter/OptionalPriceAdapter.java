@@ -73,6 +73,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
             // viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         } else {
+            viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT_BOLD);
             viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
