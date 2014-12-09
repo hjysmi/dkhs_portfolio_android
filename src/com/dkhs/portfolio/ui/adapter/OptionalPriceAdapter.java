@@ -12,6 +12,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -58,16 +59,19 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvStockNum.setText(item.code);
         ColorStateList textCsl = null;
         if (item.isStop) {
-            textCsl = ColorTemplate.getUpOrDrownCSL(0);
+            textCsl = ColorTemplate.getTextColor(R.color.theme_gray_press);
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
         }
         if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvIncearseValue.setText("退市");
-            viewHolder.tvPercentValue.setVisibility(View.INVISIBLE);
+            viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
+            viewHolder.tvPercentValue.setText("—  ");
         } else if (item.isStop) {
             viewHolder.tvIncearseValue.setText("停牌");
-            viewHolder.tvPercentValue.setVisibility(View.INVISIBLE);
+            viewHolder.tvPercentValue.setText("—  ");
+            viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
+            // viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         } else {
             viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
