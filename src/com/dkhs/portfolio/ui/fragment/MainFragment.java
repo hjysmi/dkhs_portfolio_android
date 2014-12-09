@@ -742,6 +742,7 @@ public class MainFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         Intent intent = null;
+        MobclickAgent.onEvent(getActivity(), mPageName);
         switch (v.getId()) {
             case R.id.btn_back: {
                 if (null != mTitleClickListener) {

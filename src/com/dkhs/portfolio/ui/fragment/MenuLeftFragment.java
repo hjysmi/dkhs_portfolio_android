@@ -2,7 +2,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Type;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -93,6 +92,19 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         lvItem.setAdapter(itemAdapter);
         
         View userHeader = view.findViewById(R.id.iv_header);
+        tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+        String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
+        if (!TextUtils.isEmpty(url)) {
+            // url = DKHSUrl.BASE_DEV_URL + url;
+            BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
+            bitmapUtils.display(ivUserheader, url);
+            // b = UIUtils.toRoundBitmap(b);
+            // ivUserheader.setImageBitmap(b);
+        } else {
+            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
+            b = UIUtils.toRoundBitmap(b);
+            ivUserheader.setImageBitmap(b);
+        }
         userHeader.setOnClickListener(new OnClickListener() {
             
             @Override
@@ -191,14 +203,14 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                     intent = new Intent(getActivity(), MyCombinationActivity.class);
                     break;
                 case 1:
-                    intent = new Intent(getActivity(), FundsOrderActivity.class);
-                    break;
-                case 2:
                     intent = new Intent(getActivity(), OptionalStockListActivity.class);
 
                     break;
-                case 3:
+                case 2:
                     intent = new Intent(getActivity(), MarketCenterActivity.class);
+                    break;
+                case 3:
+                    intent = new Intent(getActivity(), FundsOrderActivity.class);
                     break;
                 case 4:
                     intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
@@ -268,7 +280,6 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(mPageName);
-        // TODO Auto-generated method stub
         tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url)) {
@@ -282,5 +293,8 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
             b = UIUtils.toRoundBitmap(b);
             ivUserheader.setImageBitmap(b);
         }
+        // TODO Auto-generated method stub
+        
     }
+    
 }
