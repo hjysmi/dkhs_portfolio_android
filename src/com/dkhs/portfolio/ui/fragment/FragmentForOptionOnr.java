@@ -93,7 +93,7 @@ public class FragmentForOptionOnr extends Fragment{
 					vo.setContentSubType(subType);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
 					mLoadDataEngine.setLoadingDialog(context);;
-					mLoadDataEngine.loadData();
+					((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
 					mLoadDataEngine.setFromYanbao(false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

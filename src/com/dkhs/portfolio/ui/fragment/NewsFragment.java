@@ -65,6 +65,8 @@ public class NewsFragment extends Fragment {
     private boolean first = true;
     private boolean expand = false;
     private boolean getadble = false;
+    private int height = 0;
+    private int position = -1;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -223,8 +225,12 @@ public class NewsFragment extends Fragment {
         public void onGroupExpand(int groupPosition) {
         	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
-            if(!first && getadble)
+            position = groupPosition;
+            if(!first && getadble && position != 2){
             ((StockQuotesActivity) getActivity()).setLayoutHeight(11);
+            }else if(!first && getadble && position == 2){
+            	((StockQuotesActivity) getActivity()).setLayoutHeight(19);	
+            }
             // 关闭其他的
             expand = true;
             collapseGroups(groupPosition);
@@ -241,9 +247,11 @@ public class NewsFragment extends Fragment {
 			if (isVisibleToUser) {
 				getadble = true;
 				// fragment可见时加载数据
-				if(null != getActivity() && getadble){
+				if(null != getActivity() && getadble&& position != 2){
 						((StockQuotesActivity) getActivity()).setLayoutHeight(11);
-				}
+				}else if(null != getActivity() && getadble && position == 2){
+	            	((StockQuotesActivity) getActivity()).setLayoutHeight(19);	
+	            }
 					
 				first = false;
 			} else {
@@ -381,8 +389,13 @@ public class NewsFragment extends Fragment {
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
                         mAdapter.resetWebView(view);
+                        height = mTextView.getContentHeight();
+                        if(height != 0){
+                        	//((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+                        	Log.e("mtextview", mTextView.getContentHeight()+"");
+                        }
                         PromptManager.closeProgressDialog();
-                        Log.e("mtextview", mTextView.getHeight()+"");
+                        
                     }
                 });
 

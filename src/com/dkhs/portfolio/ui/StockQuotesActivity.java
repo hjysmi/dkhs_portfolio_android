@@ -167,7 +167,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
     }
-
+    public void setLayoutHeights(int height) {
+        android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+        l.height = height;
+    }
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
