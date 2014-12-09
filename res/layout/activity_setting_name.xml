@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
-    android:orientation="vertical"
-    android:padding="30dp" >
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,12 +16,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="昵称"
             android:textSize="16sp" />
 
-        <EditText
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -30,6 +29,8 @@
             android:background="@null"
             android:hint="4-20个中英文字符"
             android:maxLength="22"
+            android:layout_marginRight="20dp"
+            android:textSize = "14sp"
             android:singleLine="true" />
     </RelativeLayout>
 
@@ -45,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="新密码"
             android:textSize="16sp" />
@@ -71,6 +72,7 @@
             android:hint="不少于6位"
             android:inputType="textPassword"
             android:maxLength="16"
+            android:textSize = "14sp"
             android:singleLine="true" />
     </RelativeLayout>
 
@@ -78,6 +80,8 @@
         android:id="@+id/rl_repassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="-1dp"
         android:visibility="gone" >
 
         <EditText
@@ -107,6 +111,8 @@
     <Button
         android:id="@+id/rlbutton"
         style="@style/btn_login_blue"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:text="@string/confirm" />
 

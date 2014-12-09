@@ -3,15 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f2f2f2"
-    android:orientation="vertical"
-    android:padding="30dp" >
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/rl_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_account"
-        android:layout_marginTop="10dip"
+        android:layout_marginLeft="-1dp"
+        android:layout_marginRight="-1dp"
+        android:layout_marginTop="40dip"
         android:background="@drawable/edittext_bg" >
 
         <TextView
@@ -19,22 +20,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:text="手机号"
             android:textSize="16sp" />
 
-        <EditText
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/tv_phone"
             android:background="@null"
             android:digits="0123456789"
+            android:layout_marginRight="20dp"
             android:hint="@string/hint_mobile"
             android:inputType="number"
             android:maxLength="11"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textSize="14sp" />
+
     </RelativeLayout>
 
     <CheckBox
@@ -43,13 +48,18 @@
         android:layout_height="wrap_content"
         android:button="@drawable/cb_agree_seletor"
         android:checked="true"
-        android:layout_margin="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:gravity="top"
         android:textSize="14sp" />
 
     <Button
         android:id="@+id/rlbutton"
         style="@style/btn_login_blue"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="6dp"
         android:text="下一步" />
 
