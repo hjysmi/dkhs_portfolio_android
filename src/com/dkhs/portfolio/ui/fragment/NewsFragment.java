@@ -64,6 +64,7 @@ public class NewsFragment extends Fragment {
     private SelectStockBean mStockBean;
     private boolean first = true;
     private boolean expand = false;
+    private boolean getadble = false;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -208,7 +209,7 @@ public class NewsFragment extends Fragment {
 		@Override
 		public void onGroupCollapse(int groupPosition) {
 			// TODO Auto-generated method stub
-			if(!expand && !first){
+			if(!expand && !first && getadble){
 				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
 				
 			}
@@ -222,7 +223,7 @@ public class NewsFragment extends Fragment {
         public void onGroupExpand(int groupPosition) {
         	mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
-            if(!first)
+            if(!first && getadble)
             ((StockQuotesActivity) getActivity()).setLayoutHeight(11);
             // 关闭其他的
             expand = true;
@@ -238,14 +239,16 @@ public class NewsFragment extends Fragment {
 		// TODO Auto-generated method stub
 		try {
 			if (isVisibleToUser) {
+				getadble = true;
 				// fragment可见时加载数据
-				if(null != getActivity()){
+				if(null != getActivity() && getadble){
 						((StockQuotesActivity) getActivity()).setLayoutHeight(11);
 				}
 					
 				first = false;
 			} else {
 				// 不可见时不执行操作
+				getadble = false;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
