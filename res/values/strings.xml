@@ -273,8 +273,8 @@
     <!-- 以下是友盟统计界面名称 -->
     <string name="count_splash">程序选择界面</string>
     <string name="count_guide">引导页</string>
-    <string name="count_login">登录</string>
-    <string name="count_main">首页</string>
+    <string name="count_login">login_page</string>
+    <string name="count_main">main_page</string>
     <string name="count_main_left">左侧菜单</string>
 
 </resources>

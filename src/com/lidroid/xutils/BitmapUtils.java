@@ -245,8 +245,14 @@ public class BitmapUtils implements TaskHandler {
         Bitmap bitmap = globalConfig.getBitmapCache().getBitmapFromMemCache(uri, displayConfig);
         
         if (bitmap != null) {
-        	bitmap = UIUtils.compressImage(bitmap);
-        	bitmap = UIUtils.toRoundBitmap(bitmap);
+        	Bitmap bitmaps = UIUtils.compressImage(bitmap);
+        	if(null != bitmaps){
+        		bitmap = bitmaps;
+        	}
+        	Bitmap bitmap2 = UIUtils.toRoundBitmap(bitmap);
+        	if(null != bitmaps){
+        		bitmap = bitmap2;
+        	}
             callBack.onLoadStarted(container, uri, displayConfig);
             callBack.onLoadCompleted(
                     container,
@@ -389,7 +395,7 @@ public class BitmapUtils implements TaskHandler {
 
         if (oldLoadTask != null) {
             final String oldUrl = oldLoadTask.uri;
-            if (TextUtils.isEmpty(oldUrl) || !oldUrl.equals(uri)) {
+            if (TextUtils.isEmpty(oldUrl) || !oldUrl.equals("")) {
                 oldLoadTask.cancel(true);
             } else {
                 return true;

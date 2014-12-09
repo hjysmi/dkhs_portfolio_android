@@ -28,6 +28,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.YanbaoNewsActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -51,7 +52,7 @@ public class FragmentForOptionOnr extends Fragment{
     private String name;
     private String subType;
     private View view;
-	
+	private boolean getadble = false;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class FragmentForOptionOnr extends Fragment{
 		if(null != view.findViewById(R.id.tv_title)){
 			((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
 		}
+		initView(view);
 		initDate();
 		return view;
 	}
@@ -91,7 +93,7 @@ public class FragmentForOptionOnr extends Fragment{
 					vo.setContentSubType(subType);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
 					mLoadDataEngine.setLoadingDialog(context);;
-					mLoadDataEngine.loadData();
+					((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
 					mLoadDataEngine.setFromYanbao(false);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -178,13 +180,17 @@ public class FragmentForOptionOnr extends Fragment{
 				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(first){
-				    	initView(view);
+				    	//initView(view);
 				    	first = false;
 				    }
 				    mOptionMarketAdapter.notifyDataSetChanged();
 				    loadFinishUpdateView();
 				    
 				}else{
+					if (null != context
+                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&&getadble) {
+                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                    }
 				    iv.setText("暂无研报");
 				}
 			} catch (Exception e) {
@@ -202,5 +208,27 @@ public class FragmentForOptionOnr extends Fragment{
             mListView.removeFooterView(mFootView);
         }
     }
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		// TODO Auto-generated method stub
+		if(isVisibleToUser){
+			getadble = true;
+			if(null == mDataList || mDataList.size() < 2){
+				if (null != context
+                        && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadble) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                }
+			}else if(null != mDataList){
+				if (null != context
+                        && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&&getadble) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+                }
+			}
+		}else{
+			getadble = false;
+		}
+		super.setUserVisibleHint(isVisibleToUser);
+	}
     
 }
