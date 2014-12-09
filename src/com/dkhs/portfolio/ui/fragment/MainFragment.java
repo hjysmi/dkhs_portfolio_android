@@ -466,10 +466,10 @@ public class MainFragment extends Fragment implements OnClickListener {
         protected void afterParseData(List<StockQuotesBean> object) {
             if (null != object && object.size() > 1) {
                 if (!object.get(0).getTrade_status().equals("0")) {
-                    if (mScollTimer != null) {
-                        mScollTimer.cancel();
-                        mScollTimer = null;
-                    }
+//                    if (mScollTimer != null) {
+//                        mScollTimer.cancel();
+//                        mScollTimer = null;
+//                    }
                     if (mMarketTimer != null) {
                         mMarketTimer.cancel();
                         mMarketTimer = null;

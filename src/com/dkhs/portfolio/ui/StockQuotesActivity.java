@@ -419,8 +419,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
-                if(null != stockQuotesBean && !stockQuotesBean.getTrade_status().equals("0")){
-                	quoteHandler.removeCallbacks(runnable);
+                if (null != stockQuotesBean && !stockQuotesBean.getTrade_status().equals("0")) {
+                    quoteHandler.removeCallbacks(runnable);
                 }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
@@ -591,8 +591,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
         }
 
-        tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
-        tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
+        if (isIndexType()) {
+
+            tvLiuzhi.setText(" —");
+            tvZongzhi.setText(" —");
+        } else {
+            tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
+            tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
+
+        }
         tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
 
@@ -841,12 +848,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-	public StockQuotesBean getmStockQuotesBean() {
-		return mStockQuotesBean;
-	}
+    public StockQuotesBean getmStockQuotesBean() {
+        return mStockQuotesBean;
+    }
 
-	public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
-		this.mStockQuotesBean = mStockQuotesBean;
-	}
-    
+    public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
+        this.mStockQuotesBean = mStockQuotesBean;
+    }
+
 }
