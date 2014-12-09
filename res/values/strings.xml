@@ -211,11 +211,11 @@
     <string name="day_top">日收益冠军榜</string>
     <string name="season_top">季度收益冠军榜</string>
     <string name="all_top">总收益冠军榜</string>
-    <string name="month_top_increase">月度累计涨幅</string>
-    <string name="week_top_increase">周累计涨幅</string>
-    <string name="day_top_increase">日累计涨幅</string>
-    <string name="season_top_increase">季度累计涨幅</string>
-    <string name="all_top_increase">总累计涨幅</string>
+    <string name="month_top_increase">月度累计收益率</string>
+    <string name="week_top_increase">周累计收益率</string>
+    <string name="day_top_increase">日累计收益率</string>
+    <string name="season_top_increase">季度累计收益率</string>
+    <string name="all_top_increase">总累计收益率</string>
     <string name="marketcenter_title">行情中心</string>
     <string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
@@ -268,12 +268,12 @@
     <string name="p2refresh_doing_head_refresh">正在刷新&#8230;</string>
     <string name="p2refresh_doing_end_refresh">加载中&#8230;</string>
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
-    
-    
+
     <!-- 以下是友盟统计界面名称 -->
     <string name="count_splash">程序选择界面</string>
     <string name="count_guide">引导页</string>
     <string name="count_login">登录</string>
     <string name="count_main">首页</string>
     <string name="count_main_left">左侧菜单</string>
+
 </resources>
