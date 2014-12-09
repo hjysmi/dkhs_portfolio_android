@@ -144,7 +144,53 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 		}
 
 	}
+	public void loadDatas() {
+		try {
+			if(null != vo)
+			switch (orderType) {
+			case NEWSALL:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.optionnews, vo.getUserid()),
+						null, this);
+				break;
+			case NEWSFOREACH:
+				DKHSClient.requestByGet(MessageFormat.format(
+						DKHSUrl.News.peroptionnews,vo.getSymbol(),vo.getContentType()), null,
+						this);
+				break;
+			case NEWS_GROUP_FOREACH:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.reportnewsgroupeach, vo.getPortfolioId(),vo.getContentType()),
+						null, this);
+				break;
+			case NEWS_OPITION_FOREACH:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.reportnewsoptioneachs, vo.getSymbol()),
+						null, this);
+					break;
+			case NEWS_GROUP:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.reportnews, vo.getUserid(),vo.getContentSubType()),
+						null, this);
+				break;
+			case NEWS_GROUP_TWO:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.reportnewstwo, vo.getContentSubType()),
+						null, this);
+			case GROUP_FOR_ONE:
+				DKHSClient.requestByGet(
+						MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),vo.getContentSubType()),
+						null, this);
+				break;
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
+	}
 	@Override
 	protected List<OptionNewsBean> parseDateTask(String jsonData) {
 		Log.e("json", jsonData);
