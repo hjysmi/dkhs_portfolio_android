@@ -258,18 +258,17 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         if (null != mSelectListener) {
             mSelectListener.onSelectPosition(currentPosition);
         }
+        PromptManager.closeProgressDialog();
     }
 
     @Override
     public void onAnimationRepeat(Animation arg0) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onAnimationStart(Animation arg0) {
-        // TODO Auto-generated method stub
-    	PromptManager.showProgressDialog(getContext(), "");
+        PromptManager.showProgressDialog(getContext(), "");
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 
