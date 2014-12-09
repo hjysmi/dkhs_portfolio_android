@@ -129,7 +129,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
 
         }
         if (TextUtils.isEmpty(item.getDescription().trim())) {
-            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, R.string.desc_def_text));
+            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format,
+                    mContext.getString(R.string.desc_def_text)));
         } else {
 
             viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
