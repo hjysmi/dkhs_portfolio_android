@@ -32,12 +32,18 @@ public class OptionMarketAdapter extends BaseAdapter{
 	private OptionNewsBean mOptionNewsBean;
 	private ViewHodler viewHolder = null;
 	private DisplayMetrics dm;
+	private Rect rect;
 	public OptionMarketAdapter(Context mContext,List<OptionNewsBean> mDataList){
 		this.mContext = mContext;
 		this.mDataList = mDataList;
 		dm = new DisplayMetrics();
         WindowManager m = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
+        Paint p= new Paint(); 
+		rect = new Rect();
+		String text = "正正正正正";
+		p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+		p.getTextBounds(text, 0, text.length(), rect); 
 	}
 	@Override
 	public int getCount() {
@@ -86,6 +92,8 @@ public class OptionMarketAdapter extends BaseAdapter{
 				tv.setText(mOptionNewsBean.getTitle());
 				//}
 			//ViewTreeObserver observer = tv.getViewTreeObserver();
+				
+			viewHolder.tvTextNameNum.getLayoutParams().width=rect.width();
 			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
 			Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
 			if(null != mOptionNewsBean.getSource()){

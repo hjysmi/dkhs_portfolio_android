@@ -26,12 +26,19 @@ public class ReportNewsAdapter extends BaseAdapter{
 	private List<OptionNewsBean> mDataList;
 	private OptionNewsBean mOptionNewsBean;
 	private DisplayMetrics dm;
+	private Rect rects;
 	public ReportNewsAdapter(Context mContext,List<OptionNewsBean> mDataList){
 		this.mContext = mContext;
 		this.mDataList = mDataList;
 		dm = new DisplayMetrics();
         WindowManager m = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
+        Paint p= new Paint(); 
+		rects = new Rect();
+		String text = "正正正正正";
+		p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
+		p.getTextBounds(text, 0, text.length(), rects); 
+	
 	}
 	@Override
 	public int getCount() {
@@ -72,8 +79,9 @@ public class ReportNewsAdapter extends BaseAdapter{
 			} else {
 			    viewHolder = (ViewHodler) convertView.getTag();
 			}
-			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
+			viewHolder.tvTextName.setText(mOptionNewsBean.getTitle().replaceAll("\n", "").replaceAll("\r", "").replaceAll("\t", ""));
 			if(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0){
+				viewHolder.tvTextNameNum.getLayoutParams().width=rects.width();
 				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
 				Paint p= new Paint(); 
 				Rect rect = new Rect();
@@ -81,7 +89,7 @@ public class ReportNewsAdapter extends BaseAdapter{
 				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
 				if(dm.widthPixels - 50  < rect.width()){
 					int le = (int) (mOptionNewsBean.getTitle().length() -  mOptionNewsBean.getTitle().length() *(rect.width() - dm.widthPixels  + 50)/rect.width() - 3);
-					String text = mOptionNewsBean.getTitle().substring(0, le);
+					String text = mOptionNewsBean.getTitle().substring(0, le).replaceAll("\n", "").replaceAll("\r", "").replaceAll("\t", "");
 					viewHolder.tvTextName.setText(text + "...");
 				}
 				if(null != mOptionNewsBean.getSource()){

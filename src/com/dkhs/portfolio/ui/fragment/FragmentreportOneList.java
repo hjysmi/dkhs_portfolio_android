@@ -186,7 +186,7 @@ public class FragmentreportOneList extends Fragment {
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
-
+    	
         super.onResume();
     }
 
@@ -195,7 +195,7 @@ public class FragmentreportOneList extends Fragment {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
             // fragment可见时加载数据
-            initDate();
+            //initDate();
         } else {
             // 不可见时不执行操作
         }
