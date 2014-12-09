@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -127,7 +128,12 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             // viewHolder.btnEidt.setVisibility(View.VISIBLE);
 
         }
-        viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
+        if (TextUtils.isEmpty(item.getDescription().trim())) {
+            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, R.string.desc_def_text));
+        } else {
+
+            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
+        }
 
         // row.setLayoutParams(mItemViewLayoutParams);
         return row;
