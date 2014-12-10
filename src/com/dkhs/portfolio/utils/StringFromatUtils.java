@@ -24,6 +24,20 @@ public class StringFromatUtils {
 
     public final static String regexUsername = "[^\\-_A-Za-z0-9\\u4e00-\\u9fa5]";
 
+    public static boolean isEmojiCharacter(char codePoint) {
+        return !((codePoint == 0x0) || (codePoint == 0x9) || (codePoint == 0xA) || (codePoint == 0xD)
+                || ((codePoint >= 0x20) && (codePoint <= 0xD7FF)) || ((codePoint >= 0xE000) && (codePoint <= 0xFFFD)) || ((codePoint >= 0x10000) && (codePoint <= 0x10FFFF)));
+    }
+
+    public static boolean isContainsEmoji(String text) {
+        for (char curr : text.toCharArray()) {
+            if (isEmojiCharacter(curr)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 判断字体有多少长度，中文占2个字符
      */
@@ -119,7 +133,7 @@ public class StringFromatUtils {
     }
 
     public static String convertToWan(float value) {
-//        value = value / 100;
+        // value = value / 100;
         float wan = 10000f;
         float yi = wan * wan;
         if (value < wan) {
@@ -155,7 +169,7 @@ public class StringFromatUtils {
         // } else {
         // return String.format("%.2f千万", value / 10000000f);
         // }
-        return convertToWan(value/100);
+        return convertToWan(value / 100);
     }
 
 }

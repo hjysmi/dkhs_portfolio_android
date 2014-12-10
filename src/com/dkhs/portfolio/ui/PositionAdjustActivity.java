@@ -23,7 +23,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ScaleDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
@@ -220,6 +222,27 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initStockPercentView();
 
         isShowAverageButton();
+
+        etConbinationName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     private void initConbinationInfoView() {
@@ -481,6 +504,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         switch (id) {
             case R.id.btn_confirm:
             case R.id.btn_right: {
+
+                if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
+                        || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
+                    PromptManager.showToast("3-10位字符:支持中英文、数字。");
+                    return;
+                }
+
                 if (!isAdjustCombination) {
                     createCombinationByServer();
                 } else {
