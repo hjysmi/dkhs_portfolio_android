@@ -43,7 +43,9 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 		layoutMarkerParent = (LinearLayout) findViewById(R.id.layout_marker_parenst);
 		context = this;
 		Button btn = getRightButton();
-		btn.setBackgroundResource(R.drawable.btn_search_select);
+		btn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select), null,
+                null, null);
+//		btn.setBackgroundResource(R.drawable.btn_search_select);
 		btn.setOnClickListener(this);
 		String[] name = new String[]{"沪深行情","国内指数"};
 		List<Fragment> frag = new ArrayList<Fragment>();

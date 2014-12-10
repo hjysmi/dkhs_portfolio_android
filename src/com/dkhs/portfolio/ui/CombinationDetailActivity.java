@@ -132,10 +132,14 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
         btnShare = getSecondRightButton();
         btnShare.setOnClickListener(this);
-        btnShare.setBackgroundResource(R.drawable.ic_share);
+        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null, null,
+                null);
+        // btnShare.setBackgroundResource(R.drawable.ic_share);
         btnMore = getRightButton();
         btnMore.setOnClickListener(this);
-        btnMore.setBackgroundResource(R.drawable.nav_more);
+        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_more), null, null,
+                null);
+        // btnMore.setBackgroundResource(R.drawable.nav_more);
         btnPreBottom = findViewById(R.id.btn_trend);
         btnPreBottom.setEnabled(false);
         btnPreBottom.setOnClickListener(bottomClickListner);
@@ -329,35 +333,36 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	switch (position) {
-				case 0:
-					// 修改基金名称
-					startActivityForResult(
-                            ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this, mCombinationBean),
-                            REQUESTCODE_MODIFY_COMBINATION);
-					break;
-				case 1:
-					// 调整仓位
-					Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
-                    intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
-                    intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
-                    startActivity(intent);
-					break;
-				case 2:
-					// 隐私设置
-					startActivity(PrivacySettingActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
-					break;
-				case 3:
-					//每日收益记录
-					startActivity(EveryDayValueActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
-					break;
-				case 4:
-					//历史调仓记录
-					startActivity(HistoryPositionDetailActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
-					break;
-				default:
-					break;
-				}
+                switch (position) {
+                    case 0:
+                        // 修改基金名称
+                        startActivityForResult(ChangeCombinationNameActivity.newIntent(CombinationDetailActivity.this,
+                                mCombinationBean), REQUESTCODE_MODIFY_COMBINATION);
+                        break;
+                    case 1:
+                        // 调整仓位
+                        Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
+                        intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
+                        intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        // 隐私设置
+                        startActivity(PrivacySettingActivity
+                                .newIntent(CombinationDetailActivity.this, mCombinationBean));
+                        break;
+                    case 3:
+                        // 每日收益记录
+                        startActivity(EveryDayValueActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
+                        break;
+                    case 4:
+                        // 历史调仓记录
+                        startActivity(HistoryPositionDetailActivity.newIntent(CombinationDetailActivity.this,
+                                mCombinationBean));
+                        break;
+                    default:
+                        break;
+                }
                 pw.dismiss();
             }
         });

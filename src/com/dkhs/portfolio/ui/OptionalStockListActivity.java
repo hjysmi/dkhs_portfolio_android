@@ -103,7 +103,9 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private void initView() {
 
         Button addButton = getRightButton();
-        addButton.setBackgroundResource(R.drawable.btn_search_select);
+//        addButton.setBackgroundResource(R.drawable.btn_search_select);
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select), null, null,
+                null);
         addButton.setOnClickListener(mAddButtonClickListener);
 
         /*Button bottomButton = (Button) findViewById(R.id.btn_add_optional_stock);
