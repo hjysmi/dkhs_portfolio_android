@@ -10,6 +10,8 @@ import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -109,36 +112,58 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private void showCaptchaLoginDailog() {
         PromptManager.closeProgressDialog();
         isLoginByCaptcha = true;
-        final AlertDialog dlg = new AlertDialog.Builder(this).create();
-        dlg.show();
-        dlg.setCancelable(false);
-        Window window = dlg.getWindow();
-        window.setContentView(R.layout.captcha_login_dialog_layout);
-        Button login = (Button) window.findViewById(R.id.login);
-        login.setClickable(true);
-        login.setOnClickListener(new OnClickListener() {
-            public void onClick(View v) {
-
-                dlg.dismiss();
-                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
-                finish();
-                // if (NetUtil.checkNetWork(getApplicationContext())) {
-                // // PromptManager.showToast(R.string.logining);
-                // // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-                // } else {
-                // PromptManager.showNoNetWork(getApplicationContext());
-                // }
-
-            }
+        final AlertDialog dpg = new AlertDialog.Builder(new ContextThemeWrapper(this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar)).create();
+        dpg.setCancelable(false);
+        dpg.setTitle(R.string.login_by_captcha);
+        dpg.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				dpg.dismiss();
+				startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+				finish();
+			}
+		});
+        dpg.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+        	
+        	@Override
+        	public void onClick(DialogInterface dialog, int which) {
+        		isLoginByCaptcha = false;
+        		dpg.dismiss();
+        	}
         });
-        window.findViewById(R.id.cancel).setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                isLoginByCaptcha = false;
-                dlg.dismiss();
-            }
-        });
+        dpg.show();
+//        final AlertDialog dlg = new AlertDialog.Builder(this).create();
+//        dlg.show();
+//        dlg.setCancelable(false);
+//        Window window = dlg.getWindow();
+//        window.setContentView(R.layout.captcha_login_dialog_layout);
+//        Button login = (Button) window.findViewById(R.id.login);
+//        login.setClickable(true);
+//        login.setOnClickListener(new OnClickListener() {
+//            public void onClick(View v) {
+//
+//                dlg.dismiss();
+//                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+//                finish();
+//                // if (NetUtil.checkNetWork(getApplicationContext())) {
+//                // // PromptManager.showToast(R.string.logining);
+//                // // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
+//                // } else {
+//                // PromptManager.showNoNetWork(getApplicationContext());
+//                // }
+//
+//            }
+//        });
+//        window.findViewById(R.id.cancel).setOnClickListener(new OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                isLoginByCaptcha = false;
+//                dlg.dismiss();
+//            }
+//        });
     }
 
     private String phoneNumber;

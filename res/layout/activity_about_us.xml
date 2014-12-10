@@ -5,6 +5,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingLeft="20dp"
+    android:background="@color/person_setting_backgroud"
     android:paddingRight="20dp" >
 
     <ImageView
@@ -21,6 +22,7 @@
         android:layout_marginTop="10dp"
         android:text="谁牛 Android0.5.1"
         android:textSize="18sp"
+        android:id="@+id/about_version"
         android:textStyle="bold" />
 
     <Button
@@ -31,20 +33,84 @@
         android:padding="8dp"
         android:text="给五星评价"
         android:textColor="@color/white" />
-
+	<RelativeLayout 
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+	    android:paddingTop="20dp"
+	    >
+	    <LinearLayout 
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        android:orientation="vertical"
+	        android:id="@+id/about_layout_dus"
+	        >
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+        		android:text="软件介绍"
+        		android:textSize="16sp"
+	            />
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:lineSpacingExtra="3dp"
+        		android:text="@string/about_dus_1"
+        		android:textSize="14sp"
+	            />
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:lineSpacingExtra="3dp"
+        		android:text="@string/about_dus_2"
+        		android:textSize="14sp"
+	            />
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:lineSpacingExtra="3dp"
+        		android:text="@string/about_dus_3"
+        		android:textSize="14sp"
+	            />
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="match_parent"
+	            android:lineSpacingExtra="3dp"
+        		android:text="@string/about_dus_4"
+        		android:textSize="14sp"
+	            />
+	    </LinearLayout>
+	    <LinearLayout 
+	        android:layout_height="wrap_content"
+	        android:layout_width="match_parent"
+	        android:orientation="vertical"
+	        android:layout_alignParentBottom="true"
+	        >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:text="版权信息"
-        android:textSize="16sp" />
-    <TextView
+        android:text="@string/about_phone"
+        android:textSize="14sp" />
+	<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="6dp"
-        android:text="©2014 dkhs.com All rights reserved"
-        android:textSize="16sp" />
-
+        android:text="@string/about_url"
+        android:textSize="14sp" />
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_weixin"
+        android:textSize="14sp" />
+	<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/about_weibo"
+        android:paddingBottom="20dp"
+        android:textSize="14sp" />    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp"
+        android:text="Copyright © 2014 DKHS.All Rights Reserved"
+        android:textSize="14sp" />
+    </LinearLayout>
+	</RelativeLayout>
 </LinearLayout>

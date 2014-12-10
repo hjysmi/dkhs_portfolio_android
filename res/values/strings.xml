@@ -277,5 +277,12 @@
     <string name="count_login">login_page</string>
     <string name="count_main">main_page</string>
     <string name="count_main_left">左侧菜单</string>
-
+	<string name="about_dus_1">①打造最佳理财服务，寻找牛股票基金！</string>
+	<string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
+	<string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
+	<string name="about_dus_4">④查询更新基金排行、追踪捕获牛基牛人、与专业的基金经理PK，看谁牛！</string>
+	<string name="about_phone">联 系 电 话 ：0592-5573789</string>
+	<string name="about_url">商 务 合 作 ：db@dkhs.com</string>
+	<string name="about_weixin">微信公众号：shuiniu</string>
+	<string name="about_weibo">新 浪 微 博 ：谁牛</string>
 </resources>

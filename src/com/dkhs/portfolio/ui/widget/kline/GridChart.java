@@ -1,5 +1,8 @@
 package com.dkhs.portfolio.ui.widget.kline;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -41,7 +44,7 @@ public class GridChart extends View {
 
 	/** 默认经线数 */
 	public static final int DEFAULT_LOGITUDE_NUM = 3;
-	public static final int PADDING_LEFT = 90;
+	public static final int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
 	/** 默认边框的颜色 */
 	public static final int DEFAULT_BORDER_COLOR = Color.RED;
 

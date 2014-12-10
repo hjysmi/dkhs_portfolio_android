@@ -125,5 +125,6 @@
     <drawable name="main_fund_ranking_select">#C20808</drawable>
     <drawable name="main_portfolio_ranking_normal">#4E89FF</drawable>
     <drawable name="main_portfolio_ranking_select">#2957B3</drawable>
-
+	<color name="point_lighter_gray">#b2a0a0a0</color>
+    <color name="point_white">#b2ffffff</color>
 </resources>

@@ -68,8 +68,8 @@
 
                 <Button
                     android:id="@+id/netvalue_button_day"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/combina_up"
+                    android:layout_height="@dimen/combina_up"
                     android:background="@drawable/netvalue_gray"
                     android:text="日"
                     android:textColor="@color/gray_textcolor"
@@ -92,8 +92,8 @@
 
                 <Button
                     android:id="@+id/netvalue_button_month"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/combina_up"
+                    android:layout_height="@dimen/combina_up"
                     android:background="@drawable/netvalue_gray"
                     android:text="月"
                     android:textColor="@color/gray_textcolor"
@@ -116,8 +116,8 @@
 
                 <Button
                     android:id="@+id/netvalue_button_week"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/combina_up"
+                    android:layout_height="@dimen/combina_up"
                     android:background="@drawable/netvalue_gray"
                     android:text="周"
                     android:textColor="@color/gray_textcolor"
@@ -235,7 +235,7 @@
                     android:paddingLeft="15dp"
                     android:text="-"
                     android:textColor="@color/white"
-                    android:textSize="35sp" />
+                    android:textSize="40sp" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
