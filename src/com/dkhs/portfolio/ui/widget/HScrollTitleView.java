@@ -207,7 +207,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         Animation animation = null;
         animation = new TranslateAnimation(startX, endX, 0, 0);
         animation.setFillAfter(true);// True:图片停在动画结束位置
-        animation.setDuration(300);
+        animation.setDuration(250);
         animation.setAnimationListener(this);
         iv.startAnimation(animation);
     }
@@ -258,7 +258,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         if (null != mSelectListener) {
             mSelectListener.onSelectPosition(currentPosition);
         }
-        PromptManager.closeProgressDialog();
+//        PromptManager.closeProgressDialog();
     }
 
     @Override
@@ -268,7 +268,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     @Override
     public void onAnimationStart(Animation arg0) {
-        PromptManager.showProgressDialog(getContext(), "");
+//        PromptManager.showProgressDialog(getContext(), "");
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 
