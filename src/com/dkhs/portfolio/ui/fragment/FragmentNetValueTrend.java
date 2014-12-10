@@ -96,8 +96,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private Button netvalueBtnMonth;
     private String type;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 5;
-    private String myType;
+    private static final long mPollRequestTime = 1000 * 60;
+    private String myType = TrendTodayChartFragment.TREND_TYPE_TODAY;
     private PositionDetail mPositionDetail;
 
     public static FragmentNetValueTrend newInstance(boolean isOrder, String type) {
@@ -249,7 +249,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // viewNetvalueHead.setBackgroundResource(R.color.red);
             // }
             // updateIncreaseRatio(netValue);
-            replaceFragment(mtrendFragment);
+            replaceFragment(todayFragment);
         };
     };
 
@@ -266,7 +266,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         try {
             if (null != mPositionDetail) {
             	updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
-                if (type.equals(TrendChartFragment.TREND_TYPE_TODAY)) {
+                if (type.equals(TrendTodayChartFragment.TREND_TYPE_TODAY)) {
                     netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
@@ -295,7 +295,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     }
                     netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendChartFragment.TREND_TYPE_SEVENDAY)) {
+                } else if (type.equals(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY)) {
                     netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                             .getColorStateList(R.color.gray_textcolor));
                     netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
@@ -324,7 +324,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     }
                     netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendChartFragment.TREND_TYPE_MONTH)) {
+                } else if (type.equals(TrendMonthChartFragment.TREND_TYPE_MONTH)) {
                     netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                             .getColorStateList(R.color.gray_textcolor));
                     netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
@@ -397,7 +397,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // }
 
     TrendChartFragment mtrendFragment = new TrendChartFragment();
-
+    
+    TrendTodayChartFragment todayFragment = TrendTodayChartFragment.newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
+    TrendSevenDayChartFragment sevendayFragment = TrendSevenDayChartFragment.newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
+    TrendMonthChartFragment monthFragment = TrendMonthChartFragment.newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
+    TrendHistoryChartFragment historyFragment = TrendHistoryChartFragment.newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
     // FragmentSwitchChart mSwitchFragment = null;
 
     public void showShare(boolean silent, String platform, boolean captureView) {
@@ -504,26 +508,41 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
     }
 
+    private Fragment lastFragment = null;
+    
     private void replaceFragment(Fragment newFragment) {
-
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
+        if(lastFragment != null){
+        	if(lastFragment instanceof TrendTodayChartFragment){
+        		todayFragment.stopRequry();
+        	}else if(lastFragment instanceof TrendSevenDayChartFragment){
+        		sevendayFragment.stopRequry();
+        	}else if(lastFragment instanceof TrendMonthChartFragment){
+        		monthFragment.stopRequry();
+        	}else if(lastFragment instanceof TrendHistoryChartFragment){
+        		historyFragment.stopRequry();
+        	}
+        	trasection.hide(lastFragment);
+        	trasection.commit();
+        }
         if (!newFragment.isAdded()) {
             try {
                 // FragmentTransaction trasection =
                 getChildFragmentManager().beginTransaction();
-                trasection.replace(R.id.rl_trend_layout, newFragment);
-                trasection.addToBackStack(null);
+//                trasection.replace(R.id.rl_trend_layout, newFragment);
+//                trasection.addToBackStack(null);
+//                trasection.add(R.id.rl_trend_layout, newFragment);
+                trasection.add(R.id.rl_trend_layout, newFragment, String.valueOf(newFragment.getId()));
                 trasection.commit();
-
             } catch (Exception e) {
                 // TODO: handle exception
                 // AppConstants.printLog(e.getMessage());
 
             }
         } else {
-
             trasection.show(newFragment);
         }
+        lastFragment = newFragment;
 
     }
 
@@ -609,25 +628,32 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         public void onSelectPosition(int position) {
 
             // replaceFragment(fragmentList.get(position));
-            String type = TrendChartFragment.TREND_TYPE_TODAY;
+            String type = TrendTodayChartFragment.TREND_TYPE_TODAY;
+            Fragment curFragment = null ;
             switch (position) {
                 case 0: {
-                    type = TrendChartFragment.TREND_TYPE_TODAY;
+                    type = TrendTodayChartFragment.TREND_TYPE_TODAY;
+                    curFragment = todayFragment;
+                    todayFragment.startRequry();
                 }
                     break;
                 case 1: {
-                    type = TrendChartFragment.TREND_TYPE_SEVENDAY;
-
+                    type = TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY;
+                    curFragment = sevendayFragment;
+                    sevendayFragment.startRequry();
                 }
                     break;
                 case 2: {
-                    type = TrendChartFragment.TREND_TYPE_MONTH;
-
+                    type = TrendMonthChartFragment.TREND_TYPE_MONTH;
+                    curFragment = monthFragment;
+                    monthFragment.startRequry();
                 }
                     break;
                 case 3: {
 
-                    type = TrendChartFragment.TREND_TYPE_HISTORY;
+                    type = TrendHistoryChartFragment.TREND_TYPE_HISTORY;
+                    curFragment = historyFragment;
+                    historyFragment.startRequry();
                 }
                     break;
 
@@ -636,8 +662,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }
             // mSwitchFragment.setSelectType(type);
             myType = type;
+            replaceFragment(curFragment);
             setColor(type);
-            mtrendFragment.setSelectType(type);
         }
     };
 
