@@ -61,5 +61,5 @@
     <dimen name="layout_height">69dp</dimen>
     <dimen name="layout_height_all">420dp</dimen>
 	<dimen name="adapter_line_height">7px</dimen>
-	
+	<dimen name="padding_left">90px</dimen>
 </resources>

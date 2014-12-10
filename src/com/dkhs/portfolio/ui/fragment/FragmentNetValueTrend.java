@@ -289,9 +289,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                         netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                                 .getColorStateList(R.color.white));
                     } else {
-                        netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
+                        netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_black);
                         netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.gray_textcolor));
+                                .getColorStateList(R.color.white));
                     }
                     netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
@@ -319,8 +319,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                                 .getColorStateList(R.color.white));
                     } else {
                         netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.gray_textcolor));
-                        netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
+                                .getColorStateList(R.color.white));
+                        netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_black);
                     }
                     netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
@@ -347,9 +347,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                         netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance()
                                 .getResources().getColorStateList(R.color.white));
                     } else {
-                        netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
+                        netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_black);
                         netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance()
-                                .getResources().getColorStateList(R.color.gray_textcolor));
+                                .getResources().getColorStateList(R.color.white));
                     }
                     netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);

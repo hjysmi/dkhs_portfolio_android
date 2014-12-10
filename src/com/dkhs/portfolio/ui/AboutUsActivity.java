@@ -8,9 +8,14 @@
  */
 package com.dkhs.portfolio.ui;
 
-import com.dkhs.portfolio.R;
-
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
 
 /**
  * @ClassName AboutUsActivity
@@ -20,6 +25,8 @@ import android.os.Bundle;
  * @version 1.0
  */
 public class AboutUsActivity extends ModelAcitivity {
+	private TextView aboutVersion;
+	private Context context;
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -32,6 +39,21 @@ public class AboutUsActivity extends ModelAcitivity {
         super.onCreate(arg0);
         setTitle("关于我们");
         setContentView(R.layout.activity_about_us);
+        context = this;
+        initView();
     }
-
+    private void initView(){
+    	aboutVersion = (TextView) findViewById(R.id.about_version);
+    	
+    	
+    	try {
+			PackageManager manager = context.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+			String version = info.versionName;
+			aboutVersion.setText("谁牛 Android " + version);
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
 }
