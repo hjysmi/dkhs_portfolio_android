@@ -657,6 +657,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             RaiseUpDown raiseError = baseErrors.getErrors();
             StringBuilder sbRaiseUp = null;
             StringBuilder sbRaiseDown = null;
+            if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
+                super.onFailure(errCode, errMsg);
+                return;
+            }
             if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
                 // Toast.makeText(getApplicationContext(),
                 // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
@@ -840,6 +844,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                         new TypeToken<BaseError<RaiseUpDown>>() {
                                         }.getType());
                                 RaiseUpDown raiseError = baseErrors.getErrors();
+                                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
+                                    super.onFailure(errCode, errMsg);
+                                    return;
+                                }
+
                                 if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
                                     StringBuilder sb = new StringBuilder();
 

@@ -117,7 +117,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void showShareButton() {
-        btnShare.setBackgroundResource(R.drawable.ic_share);
+        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null, null,
+                null);
         btnShare.setVisibility(View.VISIBLE);
         btnMore.setVisibility(View.VISIBLE);
 
