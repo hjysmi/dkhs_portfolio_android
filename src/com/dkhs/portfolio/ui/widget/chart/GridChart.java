@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 
 import android.content.Context;
@@ -29,7 +30,7 @@ import android.view.View;
 public class GridChart extends View implements IViewConst, ITouchEventNotify,ITouchEventResponse {
 
 	// ////////////默认值////////////////
-	public static final int PADDING_LEFT = 90;
+	public static final int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
 	/** 默认背景色 */
 	public static final int DEFAULT_BACKGROUD_COLOR = Color.BLACK;
 

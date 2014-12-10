@@ -100,7 +100,7 @@ public class DragListAdapter extends BaseAdapter {
 		image.setOnClickListener(new OnDele(btn,txv));
 		btn.setOnClickListener(new Click( position,btn));
 		textView.setText(dataList.get(position).name);
-		tvId.setText(dataList.get(position).id+"");
+		tvId.setText(dataList.get(position).code);
 		//layoutCover.setOnTouchListener(new OnCover(image,btn));
 		if (isChanged){
 			Log.i("wanggang", "position == " + position);
