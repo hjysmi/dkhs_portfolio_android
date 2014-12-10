@@ -266,9 +266,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_white_selector"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="15dp" >
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/setting_image_opinion"
@@ -295,9 +295,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_white_selector"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="15dp" >
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/setting_image_news"
@@ -323,9 +323,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_white_selector"
-                android:paddingBottom="15dp"
+                android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="15dp" >
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/setting_image_abortus"
@@ -349,7 +349,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
                 android:padding="30dp" >
 
                 <Button
