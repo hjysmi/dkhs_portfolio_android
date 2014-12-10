@@ -17,6 +17,7 @@
         <item>主要指数</item>
         <item>指数基金</item>
         <item>股票基金 </item>
+        <item></item>
     </string-array>
     <string-array name="combination_order">
         <item>日排行</item>

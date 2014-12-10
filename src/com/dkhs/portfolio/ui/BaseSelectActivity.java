@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -38,7 +39,9 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.adapter.SelectFundAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -69,9 +72,11 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public String fromCreate;
     private boolean isFrist;
 
+    private HScrollTitleView hsTitle;
+
     @Override
     protected void onCreate(Bundle arg0) {
-        setTheme(R.style.Theme_PageIndicatorDefaults);
+        // setTheme(R.style.Theme_PageIndicatorDefaults);
         super.onCreate(arg0);
 
         setContentView(R.layout.activity_add_conbina_stock);
@@ -175,30 +180,75 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         }
     }
 
+    private ViewPager pager;
+
     private void initTabPage() {
+        
+        hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
+        hsTitle.setTitleList(getResources().getStringArray(getTitleRes()));
+        hsTitle.setSelectPositionListener(titleSelectPostion);
 
-        ArrayList<String> tileList = new ArrayList<String>();
+        // ArrayList<String> tileList = new ArrayList<String>();
+        int titleArrayRes = 0;
+        pager = (ViewPager) findViewById(R.id.pager);
+        // TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        TabPageIndicator indicator = (TabPageIndicator) findViewById(R.id.indicator);
+        setTabViewPage(fragmentList);
 
-        setTabViewPage(tileList, fragmentList);
+        pager.setAdapter(new SelectPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        pager.setOnPageChangeListener(pageChangeListener);
 
-        pager.setAdapter(new SelectPagerFragmentAdapter(getSupportFragmentManager(), fragmentList, tileList));
-        indicator.setViewPager(pager);
+      
+
+        // indicator.setViewPager(pager);
 
     }
+
+    OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(int arg0) {
+            // if (!isFromTitle) {
+            hsTitle.setSelectIndex(arg0);
+            // }
+            // isFromTitle = false;
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+            // TODO Auto-generated method stub
+
+        }
+    };
+
+    ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
+
+        @Override
+        public void onSelectPosition(int position) {
+            if (null != pager) {
+                pager.setCurrentItem(position);
+                // isFromTitle = true;
+            }
+        }
+    };
 
     private class SelectPagerFragmentAdapter extends FragmentPagerAdapter {
 
         private List<FragmentSelectStockFund> fragmentList;
-        private ArrayList<String> titleList;
 
-        public SelectPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectStockFund> fragmentList2,
-                ArrayList<String> tileList) {
+        // private ArrayList<String> titleList;
+
+        public SelectPagerFragmentAdapter(FragmentManager fm, ArrayList<FragmentSelectStockFund> fragmentList2) {
             super(fm);
             this.fragmentList = fragmentList2;
-            this.titleList = tileList;
+            // this.titleList = tileList;
         }
 
         // ViewPage中显示的内容
@@ -211,7 +261,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         // Title中显示的内容
         @Override
         public CharSequence getPageTitle(int position) {
-            return (titleList.size() > position) ? titleList.get(position) : "";
+            // return (titleList.size() > position) ? titleList.get(position) : "";
+            return "";
         }
 
         @Override
@@ -373,8 +424,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     protected abstract ListViewType getLoadByType();
 
+    protected abstract int getTitleRes();
+
     protected abstract FragmentSearchStockFund getSearchFragment();
 
-    protected abstract void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList);
+    protected abstract void setTabViewPage(List<FragmentSelectStockFund> fragmenList);
 
 }
