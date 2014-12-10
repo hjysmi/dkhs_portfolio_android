@@ -78,8 +78,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private View btnDate;
     private View btnAdjust;
     private TextView tvCurrentDay;
-    private TextView tvCombinationName;
-    private TextView tvNetValue;
+    // private TextView tvCombinationName;
+    // private TextView tvNetValue;
     private ScrollView mScrollview;
     private View shareView;
 
@@ -288,10 +288,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
     protected void setCombinationInfo() {
         tvCurrentDay.setText(mPositionDetail.getCurrentDate());
-        tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
-        tvNetValue.setText(StringFromatUtils.get4Point(mPositionDetail.getPortfolio().getNetvalue()));
-        tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue() - 1));
-
+        // tvCombinationName.setText(mPositionDetail.getPortfolio().getName());
+        // tvNetValue.setText(StringFromatUtils.get4Point(mPositionDetail.getPortfolio().getNetvalue()));
+        // tvNetValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio().getNetvalue() - 1));
+        //
     }
 
     protected void setAdjustHistoryList() {
@@ -354,8 +354,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         btnDate = view.findViewById(R.id.btn_detail_date);
         btnDate.setOnClickListener(this);
         tvCurrentDay = (TextView) view.findViewById(R.id.tv_current_day);
-        tvCombinationName = (TextView) view.findViewById(R.id.tv_conbination_name);
-        tvNetValue = (TextView) view.findViewById(R.id.tv_today_netvalue);
+        tvCurrentDay.setOnClickListener(this);
+        // tvCombinationName = (TextView) view.findViewById(R.id.tv_conbination_name);
+        // tvNetValue = (TextView) view.findViewById(R.id.tv_today_netvalue);
         shareView = view.findViewById(R.id.ll_shareview);
 
     }
@@ -446,6 +447,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             }
 
                 break;
+            case R.id.tv_current_day:
             case R.id.btn_detail_date: {// 选择查询日期
                 showPickerDate();
 
