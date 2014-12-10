@@ -15,25 +15,11 @@
 
 package com.lidroid.xutils;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.text.TextUtils;
-
-import com.lidroid.xutils.db.sqlite.CursorUtils;
-import com.lidroid.xutils.db.sqlite.DbModelSelector;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.db.sqlite.SqlInfo;
-import com.lidroid.xutils.db.sqlite.SqlInfoBuilder;
-import com.lidroid.xutils.db.sqlite.WhereBuilder;
+import com.lidroid.xutils.db.sqlite.*;
 import com.lidroid.xutils.db.table.DbModel;
 import com.lidroid.xutils.db.table.Id;
 import com.lidroid.xutils.db.table.Table;
@@ -41,6 +27,14 @@ import com.lidroid.xutils.db.table.TableUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.IOUtils;
 import com.lidroid.xutils.util.LogUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class DbUtils {
 

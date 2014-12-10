@@ -15,16 +15,18 @@
 
 package com.lidroid.xutils;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.http.Header;
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpResponseInterceptor;
-import org.apache.http.HttpVersion;
+import android.text.TextUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.*;
+import com.lidroid.xutils.http.callback.HttpRedirectHandler;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.DefaultSSLSocketFactory;
+import com.lidroid.xutils.http.client.HttpRequest;
+import com.lidroid.xutils.http.client.RetryHandler;
+import com.lidroid.xutils.http.client.entity.GZipDecompressingEntity;
+import com.lidroid.xutils.task.PriorityExecutor;
+import com.lidroid.xutils.util.OtherUtils;
+import org.apache.http.*;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.protocol.ClientContext;
@@ -44,22 +46,8 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 
-import android.text.TextUtils;
-
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.HttpCache;
-import com.lidroid.xutils.http.HttpHandler;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseStream;
-import com.lidroid.xutils.http.SyncHttpHandler;
-import com.lidroid.xutils.http.callback.HttpRedirectHandler;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.DefaultSSLSocketFactory;
-import com.lidroid.xutils.http.client.HttpRequest;
-import com.lidroid.xutils.http.client.RetryHandler;
-import com.lidroid.xutils.http.client.entity.GZipDecompressingEntity;
-import com.lidroid.xutils.task.PriorityExecutor;
-import com.lidroid.xutils.util.OtherUtils;
+import java.io.File;
+import java.io.IOException;
 
 public class HttpUtils {
 

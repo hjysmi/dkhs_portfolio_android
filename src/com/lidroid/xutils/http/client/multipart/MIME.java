@@ -15,9 +15,9 @@
 
 package com.lidroid.xutils.http.client.multipart;
 
-import java.nio.charset.Charset;
-
 import org.apache.http.protocol.HTTP;
+
+import java.nio.charset.Charset;
 
 /**
  * @since 4.0

@@ -15,9 +15,9 @@
 
 package com.lidroid.xutils.db.sqlite;
 
-import java.util.LinkedList;
-
 import com.lidroid.xutils.db.table.ColumnUtils;
+
+import java.util.LinkedList;
 
 public class SqlInfo {
 

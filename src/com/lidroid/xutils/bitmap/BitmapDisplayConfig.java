@@ -18,7 +18,6 @@ package com.lidroid.xutils.bitmap;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.view.animation.Animation;
-
 import com.lidroid.xutils.bitmap.core.BitmapSize;
 import com.lidroid.xutils.bitmap.factory.BitmapFactory;
 import com.lidroid.xutils.task.Priority;

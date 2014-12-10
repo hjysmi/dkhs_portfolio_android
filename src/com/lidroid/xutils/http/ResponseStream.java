@@ -15,20 +15,13 @@
 
 package com.lidroid.xutils.http;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Locale;
-
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.util.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.protocol.HTTP;
 
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.util.IOUtils;
+import java.io.*;
+import java.util.Locale;
 
 /**
  * Author: wyouflf
