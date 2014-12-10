@@ -53,6 +53,7 @@
         android:layout_marginRight="10dp"
         android:background="@null"
         android:textColor="@color/white_textselector"
+        android:textSize="14sp"
         android:visibility="gone" />
 
     <Button
@@ -63,6 +64,7 @@
         android:layout_marginRight="10dp"
         android:layout_toLeftOf="@+id/btn_right"
         android:background="@null"
+        android:textSize="14sp"
         android:textColor="@color/white_textselector"
         android:visibility="gone" />
 

@@ -81,18 +81,26 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
             viewHolder.tvSuspend.setText("退市");
             viewHolder.mCheckbox.setVisibility(View.GONE);
-            viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+            // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
         } else if (item.isStop) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
             viewHolder.tvSuspend.setText("停牌");
             viewHolder.mCheckbox.setVisibility(View.GONE);
-            viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+            viewHolder.tvIncreaseValue.setText("—");
+            // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
         } else {
             viewHolder.tvSuspend.setVisibility(View.GONE);
             viewHolder.mCheckbox.setVisibility(View.VISIBLE);
-            viewHolder.tvIncreaseValue.setVisibility(View.VISIBLE);
+            viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
+            // viewHolder.tvIncreaseValue.setVisibility(View.VISIBLE);
         }
-        ColorStateList textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
+        ColorStateList textCsl = null;
+        if (item.isStop) {
+            textCsl = ColorTemplate.getTextColor(R.color.theme_gray_press);
+        } else {
+            textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
+        }
+        // ColorTemplate.getUpOrDrownCSL(item.percentage);
         // if (item.percentage >= 0) {
         // textCsl = (ColorStateList) mContext.getResources().getColorStateList(R.color.red);
         //
@@ -101,9 +109,9 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         //
         // }
         viewHolder.tvCurrentValue.setTextColor(textCsl);
-        viewHolder.tvCurrentValue.setText("" + item.currentValue);
         viewHolder.tvIncreaseValue.setTextColor(textCsl);
-        viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
+        viewHolder.tvSuspend.setTextColor(textCsl);
+        viewHolder.tvCurrentValue.setText("" + item.currentValue);
 
         return convertView;
     }
