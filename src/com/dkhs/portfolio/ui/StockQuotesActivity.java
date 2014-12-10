@@ -167,10 +167,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
     }
+
     public void setLayoutHeights(int height) {
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         l.height = height;
     }
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -319,11 +321,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
         Button addButton = getRightButton();
-        addButton.setBackgroundResource(R.drawable.ic_search_title);
+        // addButton.setBackgroundResource(R.drawable.ic_search_title);
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_search_title), null,
+                null, null);
         addButton.setOnClickListener(mSearchClick);
 
         btnRefresh = getSecondRightButton();
-        btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
+        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
+                null, null, null);
+        // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
         btnRefresh.setOnClickListener(this);
 
         // stockLayout.setOnTouchListener(new OnLayoutlistener());

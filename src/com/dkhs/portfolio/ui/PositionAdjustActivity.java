@@ -135,9 +135,12 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         initData();
         initView();
 
-        QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-        listener.setLoadingDialog(this);
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
+        if (isAdjustCombination) {
+
+            QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+            listener.setLoadingDialog(this);
+            new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
+        }
 
     }
 

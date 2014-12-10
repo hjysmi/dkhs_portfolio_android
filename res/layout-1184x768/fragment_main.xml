@@ -16,8 +16,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/nav_left_main_selector" />
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_left_main_selector" />
 
         <ImageView
             android:id="@+id/tv_title"
@@ -32,9 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/nav_right_main_selector"
-            android:visibility="gone" />
+            android:background="@null"
+            android:padding="10dp"
+            android:scaleType="fitCenter" />
     </RelativeLayout>
 
     <TextView
