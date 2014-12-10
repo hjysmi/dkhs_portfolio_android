@@ -15,17 +15,11 @@
 
 package com.lidroid.xutils.http.callback;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
+import android.text.TextUtils;
+import com.lidroid.xutils.util.IOUtils;
 import org.apache.http.HttpEntity;
 
-import android.text.TextUtils;
-
-import com.lidroid.xutils.util.IOUtils;
+import java.io.*;
 
 public class FileDownloadHandler {
 

@@ -15,12 +15,11 @@
 
 package com.lidroid.xutils.db.table;
 
+import android.text.TextUtils;
+import com.lidroid.xutils.DbUtils;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import android.text.TextUtils;
-
-import com.lidroid.xutils.DbUtils;
 
 
 public class Table {

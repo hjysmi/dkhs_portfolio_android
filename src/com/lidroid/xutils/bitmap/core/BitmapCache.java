@@ -15,16 +15,9 @@
 
 package com.lidroid.xutils.bitmap.core;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.bitmap.BitmapDisplayConfig;
 import com.lidroid.xutils.bitmap.BitmapGlobalConfig;
@@ -36,6 +29,8 @@ import com.lidroid.xutils.util.IOUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.util.OtherUtils;
 
+import java.io.*;
+
 
 public class BitmapCache {
 
@@ -45,7 +40,6 @@ public class BitmapCache {
     private LruMemoryCache<MemoryCacheKey, Bitmap> mMemoryCache;
 
     private final Object mDiskCacheLock = new Object();
-    private volatile boolean isDiskCacheReady = false;
 
     private BitmapGlobalConfig globalConfig;
 
@@ -95,7 +89,7 @@ public class BitmapCache {
     public void initDiskCache() {
         // Set up disk cache
         synchronized (mDiskCacheLock) {
-            if (globalConfig.isDiskCacheEnabled()) {
+            if (globalConfig.isDiskCacheEnabled() && (mDiskLruCache == null || mDiskLruCache.isClosed())) {
                 File diskCacheDir = new File(globalConfig.getDiskCachePath());
                 if (diskCacheDir.exists() || diskCacheDir.mkdirs()) {
                     long availableSpace = OtherUtils.getAvailableSpace(diskCacheDir);
@@ -104,14 +98,13 @@ public class BitmapCache {
                     try {
                         mDiskLruCache = LruDiskCache.open(diskCacheDir, 1, 1, diskCacheSize);
                         mDiskLruCache.setFileNameGenerator(globalConfig.getFileNameGenerator());
+                        LogUtils.d("create disk cache success");
                     } catch (Throwable e) {
                         mDiskLruCache = null;
-                        LogUtils.e(e.getMessage(), e);
+                        LogUtils.e("create disk cache error", e);
                     }
                 }
             }
-            isDiskCacheReady = true;
-            mDiskCacheLock.notifyAll();
         }
     }
 
@@ -122,14 +115,18 @@ public class BitmapCache {
     }
 
     public void setDiskCacheSize(int maxSize) {
-        if (mDiskLruCache != null) {
-            mDiskLruCache.setMaxSize(maxSize);
+        synchronized (mDiskCacheLock) {
+            if (mDiskLruCache != null) {
+                mDiskLruCache.setMaxSize(maxSize);
+            }
         }
     }
 
     public void setDiskCacheFileNameGenerator(FileNameGenerator fileNameGenerator) {
-        if (mDiskLruCache != null && fileNameGenerator != null) {
-            mDiskLruCache.setFileNameGenerator(fileNameGenerator);
+        synchronized (mDiskCacheLock) {
+            if (mDiskLruCache != null && fileNameGenerator != null) {
+                mDiskLruCache.setFileNameGenerator(fileNameGenerator);
+            }
         }
     }
 
@@ -142,17 +139,11 @@ public class BitmapCache {
 
         try {
             Bitmap bitmap = null;
+
             // try download to disk
             if (globalConfig.isDiskCacheEnabled()) {
-                synchronized (mDiskCacheLock) {
-                    // Wait for disk cache to initialize
-                    while (!isDiskCacheReady) {
-                        try {
-                            mDiskCacheLock.wait();
-                        } catch (Throwable e) {
-                            break;
-                        }
-                    }
+                if (mDiskLruCache == null) {
+                    initDiskCache();
                 }
 
                 if (mDiskLruCache != null) {
@@ -250,10 +241,13 @@ public class BitmapCache {
      * @return The file if found in cache.
      */
     public File getBitmapFileFromDiskCache(String uri) {
-        if (mDiskLruCache != null) {
-            return mDiskLruCache.getCacheFile(uri, DISK_CACHE_INDEX);
+        synchronized (mDiskCacheLock) {
+            if (mDiskLruCache != null) {
+                return mDiskLruCache.getCacheFile(uri, DISK_CACHE_INDEX);
+            } else {
+                return null;
+            }
         }
-        return null;
     }
 
     /**
@@ -265,14 +259,8 @@ public class BitmapCache {
      */
     public Bitmap getBitmapFromDiskCache(String uri, BitmapDisplayConfig config) {
         if (uri == null || !globalConfig.isDiskCacheEnabled()) return null;
-        synchronized (mDiskCacheLock) {
-            while (!isDiskCacheReady) {
-                try {
-                    mDiskCacheLock.wait();
-                } catch (Throwable e) {
-                    break;
-                }
-            }
+        if (mDiskLruCache == null) {
+            initDiskCache();
         }
         if (mDiskLruCache != null) {
             LruDiskCache.Snapshot snapshot = null;
@@ -320,10 +308,10 @@ public class BitmapCache {
 
     public void clearDiskCache() {
         synchronized (mDiskCacheLock) {
-            isDiskCacheReady = false;
             if (mDiskLruCache != null && !mDiskLruCache.isClosed()) {
                 try {
                     mDiskLruCache.delete();
+                    mDiskLruCache.close();
                 } catch (Throwable e) {
                     LogUtils.e(e.getMessage(), e);
                 }
@@ -382,16 +370,15 @@ public class BitmapCache {
      */
     public void close() {
         synchronized (mDiskCacheLock) {
-            isDiskCacheReady = false;
             if (mDiskLruCache != null) {
                 try {
                     if (!mDiskLruCache.isClosed()) {
                         mDiskLruCache.close();
-                        mDiskLruCache = null;
                     }
                 } catch (Throwable e) {
                     LogUtils.e(e.getMessage(), e);
                 }
+                mDiskLruCache = null;
             }
         }
     }
