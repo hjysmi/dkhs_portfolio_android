@@ -356,6 +356,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             // PromptManager.closeProgressDialog();
             if (null != entity) {
             	ue = entity;
+            	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME,entity.getUsername());
                 settingTextNameText.setText(entity.getUsername());
                 settingSingText.setText(ue.getDescription());
             }

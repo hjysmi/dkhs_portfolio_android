@@ -15,9 +15,10 @@
 
 package com.lidroid.xutils.http;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.callback.DefaultHttpRedirectHandler;
+import com.lidroid.xutils.http.callback.HttpRedirectHandler;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpRequestRetryHandler;
@@ -25,10 +26,8 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.protocol.HttpContext;
 
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.callback.DefaultHttpRedirectHandler;
-import com.lidroid.xutils.http.callback.HttpRedirectHandler;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class SyncHttpHandler {
 

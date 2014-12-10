@@ -15,10 +15,10 @@
 
 package com.lidroid.xutils.http.client.multipart.content;
 
+import com.lidroid.xutils.http.client.multipart.MultipartEntity;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import com.lidroid.xutils.http.client.multipart.MultipartEntity;
 
 /**
  * @since 4.0

@@ -15,10 +15,10 @@
 
 package com.lidroid.xutils.db.table;
 
+import android.text.TextUtils;
+
 import java.util.Date;
 import java.util.HashMap;
-
-import android.text.TextUtils;
 
 public class DbModel {
 

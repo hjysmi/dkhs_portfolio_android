@@ -15,9 +15,9 @@
 
 package com.lidroid.xutils.util;
 
-import java.io.Closeable;
-
 import android.database.Cursor;
+
+import java.io.Closeable;
 
 /**
  * Author: wyouflf

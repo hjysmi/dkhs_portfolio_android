@@ -15,13 +15,12 @@
 
 package com.lidroid.xutils.bitmap.core;
 
-import java.io.FileDescriptor;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
 import com.lidroid.xutils.util.LogUtils;
+
+import java.io.FileDescriptor;
 
 public class BitmapDecoder {
 

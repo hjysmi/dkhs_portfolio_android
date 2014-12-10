@@ -15,9 +15,6 @@
 
 package com.lidroid.xutils;
 
-import java.io.File;
-import java.lang.ref.WeakReference;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -41,6 +38,9 @@ import com.lidroid.xutils.cache.FileNameGenerator;
 import com.lidroid.xutils.task.PriorityAsyncTask;
 import com.lidroid.xutils.task.PriorityExecutor;
 import com.lidroid.xutils.task.TaskHandler;
+
+import java.io.File;
+import java.lang.ref.WeakReference;
 
 public class BitmapUtils implements TaskHandler {
 
@@ -220,8 +220,6 @@ public class BitmapUtils implements TaskHandler {
             return;
         }
 
-        container.clearAnimation();
-
         if (callBack == null) {
             callBack = new DefaultBitmapLoadCallBack<T>();
         }
@@ -234,16 +232,19 @@ public class BitmapUtils implements TaskHandler {
         BitmapSize size = displayConfig.getBitmapMaxSize();
         displayConfig.setBitmapMaxSize(BitmapCommonUtils.optimizeMaxSizeByView(container, size.getWidth(), size.getHeight()));
 
-        callBack.onPreLoad(container, uri, displayConfig);
+        container.clearAnimation();
 
         if (TextUtils.isEmpty(uri)) {
             callBack.onLoadFailed(container, uri, displayConfig.getLoadFailedDrawable());
             return;
         }
 
+        // start loading
+        callBack.onPreLoad(container, uri, displayConfig);
+
         // find bitmap from mem cache.
         Bitmap bitmap = globalConfig.getBitmapCache().getBitmapFromMemCache(uri, displayConfig);
-        
+
         if (bitmap != null) {
         	Bitmap bitmaps = UIUtils.compressImage(bitmap);
         	if(null != bitmaps){
@@ -273,7 +274,6 @@ public class BitmapUtils implements TaskHandler {
             }
             // set loading image
             Drawable loadingDrawable = displayConfig.getLoadingDrawable();
-            
             callBack.setDrawable(container, new AsyncDrawable<T>(loadingDrawable, loadTask));
 
             loadTask.setPriority(displayConfig.getPriority());
@@ -395,7 +395,7 @@ public class BitmapUtils implements TaskHandler {
 
         if (oldLoadTask != null) {
             final String oldUrl = oldLoadTask.uri;
-            if (TextUtils.isEmpty(oldUrl) || !oldUrl.equals("")) {
+            if (TextUtils.isEmpty(oldUrl) || !oldUrl.equals(uri)) {
                 oldLoadTask.cancel(true);
             } else {
                 return true;

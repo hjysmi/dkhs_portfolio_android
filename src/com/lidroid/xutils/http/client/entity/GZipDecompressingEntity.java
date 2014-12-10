@@ -15,12 +15,12 @@
 
 package com.lidroid.xutils.http.client.entity;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.GZIPInputStream;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 
 
 public class GZipDecompressingEntity extends DecompressingEntity {

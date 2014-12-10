@@ -15,17 +15,16 @@
 
 package com.lidroid.xutils.db.table;
 
-import java.lang.reflect.Field;
-import java.util.List;
-
 import android.database.Cursor;
-
 import com.lidroid.xutils.db.converter.ColumnConverter;
 import com.lidroid.xutils.db.converter.ColumnConverterFactory;
 import com.lidroid.xutils.db.sqlite.ColumnDbType;
 import com.lidroid.xutils.db.sqlite.ForeignLazyLoader;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
+
+import java.lang.reflect.Field;
+import java.util.List;
 
 public class Foreign extends Column {
 

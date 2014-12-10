@@ -15,12 +15,12 @@
 
 package com.lidroid.xutils.view.annotation.event;
 
+import android.preference.Preference;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import android.preference.Preference;
 
 /**
  * Author: wyouflf
