@@ -15,10 +15,10 @@
 
 package com.lidroid.xutils.http.client.multipart.content;
 
+import com.lidroid.xutils.http.client.multipart.MIME;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import com.lidroid.xutils.http.client.multipart.MIME;
 
 /**
  * Body part that is built using a byte array containing a file.

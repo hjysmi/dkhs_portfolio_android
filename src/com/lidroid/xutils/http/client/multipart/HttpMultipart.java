@@ -15,6 +15,9 @@
 
 package com.lidroid.xutils.http.client.multipart;
 
+import com.lidroid.xutils.http.client.multipart.content.ContentBody;
+import org.apache.http.util.ByteArrayBuffer;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InterruptedIOException;
@@ -24,10 +27,6 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.util.ByteArrayBuffer;
-
-import com.lidroid.xutils.http.client.multipart.content.ContentBody;
 
 /**
  * HttpMultipart represents a collection of MIME multipart encoded content bodies. This class is

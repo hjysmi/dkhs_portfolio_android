@@ -15,11 +15,10 @@
 
 package com.lidroid.xutils.bitmap.download;
 
-import java.io.OutputStream;
-
 import android.content.Context;
-
 import com.lidroid.xutils.BitmapUtils;
+
+import java.io.OutputStream;
 
 public abstract class Downloader {
 

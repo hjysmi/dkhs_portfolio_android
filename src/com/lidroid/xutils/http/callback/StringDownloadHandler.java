@@ -15,15 +15,14 @@
 
 package com.lidroid.xutils.http.callback;
 
+import com.lidroid.xutils.util.IOUtils;
+import com.lidroid.xutils.util.OtherUtils;
+import org.apache.http.HttpEntity;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import org.apache.http.HttpEntity;
-
-import com.lidroid.xutils.util.IOUtils;
-import com.lidroid.xutils.util.OtherUtils;
 
 public class StringDownloadHandler {
 

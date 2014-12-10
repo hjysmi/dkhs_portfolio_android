@@ -15,12 +15,12 @@
 
 package com.lidroid.xutils.view.annotation.event;
 
+import android.widget.SeekBar;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import android.widget.SeekBar;
 
 /**
  * Author: wyouflf
