@@ -104,14 +104,14 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     };
 
     @Override
-    protected void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList) {
+    protected void setTabViewPage(List<FragmentSelectStockFund> fragmenList) {
 
-        String[] tArray = getResources().getStringArray(R.array.select_optional_stock);
-        int titleLenght = tArray.length;
-        for (int i = 0; i < titleLenght; i++) {
-            titleList.add(tArray[i]);
-
-        }
+        // String[] tArray = getResources().getStringArray(R.array.select_optional_stock);
+        // int titleLenght = tArray.length;
+        // for (int i = 0; i < titleLenght; i++) {
+        // titleList.add(tArray[i]);
+        //
+        // }
         FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
                 .getItemClickBackFragment(ViewType.STOCK_INCREASE);
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
@@ -133,6 +133,18 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
     @Override
     protected ListViewType getLoadByType() {
         return ListViewType.ADD_OPTIONAL;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    protected int getTitleRes() {
+        // TODO Auto-generated method stub
+        return R.array.select_optional_stock;
     }
 
 }

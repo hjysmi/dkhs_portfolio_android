@@ -64,7 +64,8 @@
         <CheckBox
             android:id="@+id/cb_select_stock"
             style="@style/hw_wrap"
-            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:button="@drawable/cb_add_item_selector"
             android:focusable="false"
             android:focusableInTouchMode="false" />
@@ -72,11 +73,13 @@
         <TextView
             android:id="@+id/tv_suspend"
             style="@style/hw_wrap"
-            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:singleLine="true"
             android:text="停牌"
             android:textSize="18sp"
             android:visibility="gone" />
+
     </RelativeLayout>
 
 </LinearLayout>
