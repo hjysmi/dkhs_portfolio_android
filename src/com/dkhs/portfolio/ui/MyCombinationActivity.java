@@ -63,7 +63,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     // private GridView gvCombination;
     // private CombinationAdapter mCombinationAdapter;
     private Button btnMore;
-//    private Button btnRefresh;
+    // private Button btnRefresh;
 
     // private PopupWindow mPopMoreWindow;
     // private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
@@ -97,14 +97,17 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     private void initTitleView() {
         btnMore = getRightButton();
-        btnMore.setBackgroundResource(R.drawable.ic_title_add);
+        // btnMore.setBackgroundResource(R.drawable.ic_title_add);
+        // btnMore.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_title_add), null, null, null);
+        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
+                null, null);
         btnMore.setOnClickListener(this);
 
-//        btnRefresh = getSecondRightButton();
-//        btnRefresh.setOnClickListener(this);
-//        btnRefresh.setVisibility(View.VISIBLE);
-//        btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
-//        btnRefresh.setTag("refresh");
+        // btnRefresh = getSecondRightButton();
+        // btnRefresh.setOnClickListener(this);
+        // btnRefresh.setVisibility(View.VISIBLE);
+        // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
+        // btnRefresh.setTag("refresh");
 
     }
 
@@ -217,8 +220,8 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
             btnMore.setTag("del");
             btnMore.setBackgroundDrawable(null);
 
-//            btnRefresh.setTag("del");
-//            btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
+            // btnRefresh.setTag("del");
+            // btnRefresh.setBackgroundResource(R.drawable.btn_delete_selector);
             // mCombinationAdapter.setDelStatus(true);
             // mPopMoreWindow.dismiss();
             listFragment.setListDelStatus(true);
@@ -250,7 +253,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         btnMore.setTag("add");
         btnMore.setText("");
         btnMore.setBackgroundResource(R.drawable.ic_title_add);
-//        btnRefresh.setVisibility(View.VISIBLE);
+        // btnRefresh.setVisibility(View.VISIBLE);
     }
 
     public void setButtonCancel() {
@@ -258,15 +261,16 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         btnMore.setTag("cancel");
         btnMore.setBackgroundDrawable(null);
 
-//        btnRefresh.setVisibility(View.GONE);
+        // btnRefresh.setVisibility(View.GONE);
     }
+
     public void setButtonFinish() {
         btnMore.setText("完成");
     }
 
     private void setButtonRefresh() {
-//        btnRefresh.setTag("refresh");
-//        btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
+        // btnRefresh.setTag("refresh");
+        // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
     }
 
     private void clickSecondButton() {

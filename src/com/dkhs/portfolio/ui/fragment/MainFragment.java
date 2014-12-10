@@ -135,7 +135,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.btn_back).setOnClickListener(this);
 
         ImageButton btnRight = (ImageButton) view.findViewById(R.id.btn_right);
-        btnRight.setBackgroundResource(R.drawable.ic_title_add);
+        btnRight.setImageResource(R.drawable.ic_title_add);
         btnRight.setOnClickListener(this);
         btnRight.setVisibility(View.VISIBLE);
         // view.findViewById(R.id.iv_plus).setOnClickListener(this);
@@ -466,10 +466,10 @@ public class MainFragment extends Fragment implements OnClickListener {
         protected void afterParseData(List<StockQuotesBean> object) {
             if (null != object && object.size() > 1) {
                 if (!object.get(0).getTrade_status().equals("0")) {
-//                    if (mScollTimer != null) {
-//                        mScollTimer.cancel();
-//                        mScollTimer = null;
-//                    }
+                    // if (mScollTimer != null) {
+                    // mScollTimer.cancel();
+                    // mScollTimer = null;
+                    // }
                     if (mMarketTimer != null) {
                         mMarketTimer.cancel();
                         mMarketTimer = null;
