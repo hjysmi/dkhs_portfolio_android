@@ -347,7 +347,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
 
         } else if (null != btnAddOptional) {
-            btnAddOptional.setBackgroundResource(R.drawable.btn_blue_selector);
+            btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
             btnAddOptional.setText(R.string.add_fllow);
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
         }

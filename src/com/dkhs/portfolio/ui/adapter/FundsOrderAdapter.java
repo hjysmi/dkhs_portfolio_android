@@ -19,6 +19,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,8 +130,14 @@ public class FundsOrderAdapter extends BaseAdapter {
             ((TextView) row.findViewById(R.id.tv_value_text)).setText(textResId);
             ((TextView) row.findViewById(R.id.tv_value)).setText(StringFromatUtils
                     .get2PointPercentPlus(increasePercent));
-            ((TextView) row.findViewById(R.id.tv_desc)).setText(mContext.getString(R.string.desc_format,
-                    item.getDescription()));
+            if (TextUtils.isEmpty(item.getDescription())) {
+                ((TextView) row.findViewById(R.id.tv_desc)).setText(mContext.getString(R.string.desc_format,
+                        mContext.getString(R.string.desc_def_text)));
+            } else {
+
+                ((TextView) row.findViewById(R.id.tv_desc)).setText(mContext.getString(R.string.desc_format,
+                        item.getDescription()));
+            }
 
             return row;
         }
@@ -164,7 +171,15 @@ public class FundsOrderAdapter extends BaseAdapter {
             viewHolder.tvIndex.setText((position + 1) + "");
         }
         viewHolder.tvIncomeText.setText(textResId);
-        viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
+        if (TextUtils.isEmpty(item.getDescription().trim())) {
+            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format,
+                    mContext.getString(R.string.desc_def_text)));
+        } else {
+
+            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
+        }
+
+        // viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
         viewHolder.tvUserName.setText(mContext.getString(R.string.format_create_name, item.getUser().getUsername()));
         viewHolder.tvValue.setText(StringFromatUtils.get2PointPercentPlus(increasePercent));
         viewHolder.tvValue.setTextColor(ColorTemplate.getUpOrDrownCSL(increasePercent));

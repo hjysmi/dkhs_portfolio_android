@@ -439,10 +439,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
             // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
             // String customText = CustomShareFieldsPage.getString( "text", null);
-            oks.setTitle("谁牛");
-            oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
+            oks.setTitle(mCombinationBean.getName() + " 今日收益率");
+            oks.setTitleUrl("https://www.dkhs.com/portfolio/wap/");
+            oks.setUrl("https://www.dkhs.com/portfolio/wap/");
+
             String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName()
-                    + "」的收益率走势曲线。你也来创建属于你的基金吧。https://dkhs.com/portfolio/wap/";
+                    + "」的收益率走势曲线。你也来创建属于你的基金吧。https://www.dkhs.com/portfolio/wap/";
 
             oks.setText(customText);
 

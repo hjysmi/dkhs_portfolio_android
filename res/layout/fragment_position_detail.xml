@@ -20,34 +20,63 @@
 
             <!-- 明细日期 -->
 
+            <LinearLayout
+                android:id="@+id/line"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <include layout="@layout/layout_text_5dp" />
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/btn_detail_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/btn_grayborder_selector"
-                android:paddingBottom="6dp"
-                android:paddingTop="6dp" >
+                android:layout_below="@id/line"
+                android:background="@color/theme_gray"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" >
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/ic_calender" />
-
-                <TextView
+                <Button
                     android:id="@+id/tv_current_day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textSize="18sp" />
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:background="@null"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/compare_up_down"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:textSize="@dimen/list_text_size" />
             </RelativeLayout>
 
-            <!-- 组合信息 -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_below="@id/btn_detail_date"
+                android:background="@color/person_setting_line" />
 
+            <!--
+            <LinearLayout
+                android:id="@+id/lines"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_detail_date"
+                android:orientation="vertical" >
+
+                <include layout="@layout/layout_line" />
+
+                <include layout="@layout/layout_text_5dp" />
+            </LinearLayout>
+            -->
+
+
+            <!-- 组合信息 -->
+            <!--
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +84,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/border_gray" >
+                android:background="@drawable/border_gray"
+                android:visibility="gone" >
 
                 <TextView
                     android:id="@+id/tv_conbination_name"
@@ -86,25 +116,27 @@
                     android:layout_toLeftOf="@+id/tv_today_netvalue"
                     android:text="@string/today_netvalue"
                     android:textColor="@color/theme_color" />
-            </RelativeLayout>
+            </RelativeLayout>
+            -->
+
 
             <!-- 持仓配置 -->
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:background="@color/theme_color"
+                    android:background="@drawable/bg_gray_cion"
                     android:paddingBottom="3dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:paddingTop="3dp"
-                    android:text="@string/my_config"
-                    android:textColor="@color/white" />
+                    android:text="@string/my_config" />
 
                 <TextView
                     android:id="@+id/btn_adjust_position"
@@ -170,13 +202,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginTop="15dp"
-            android:background="@color/theme_color"
+            android:background="@drawable/bg_gray_cion"
             android:paddingBottom="3dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="3dp"
-            android:text="@string/adjust_history"
-            android:textColor="@color/white" />
+            android:text="@string/adjust_history" />
 
         <com.dkhs.portfolio.ui.widget.ListViewEx
             android:id="@+id/lv_adjust_history"

@@ -144,14 +144,14 @@ public class TrendChartFragment extends BaseFragment {
         if (null != mMaChart) {
             drawCharHandler.sendEmptyMessage(777);
             // updateView();
-//            clearViewData();
+            // clearViewData();
 
         }
-        //if (isTodayShow()) {
-            dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
-        //} else {
-          //  dataHandler.removeCallbacks(runnable);// 关闭定时器处理
-        //}
+        // if (isTodayShow()) {
+        dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+        // } else {
+        // dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+        // }
     }
 
     Handler drawCharHandler = new Handler() {
@@ -181,80 +181,83 @@ public class TrendChartFragment extends BaseFragment {
     };
 
     private String SHARE_IMAGE;
+
     public void showShare() {
-        Context context = getActivity();
-        final OnekeyShare oks = new OnekeyShare();
-
-        oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-        // oks.setAddress("12345678901");
-        // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
-        // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
-        // String customText = CustomShareFieldsPage.getString( "text", null);
-        oks.setTitle("谁牛");
-        oks.setTitleUrl("https://dkhs.com/portfolio/wap/");
-        String customText = "";
-        if (TextUtils.isEmpty(trendType)) {
-            return;
-        }
-
-        if (isTodayShow() && null != mTodayLineData) {
-            customText = "当前涨幅:" + StringFromatUtils.getPercentValue(mTodayLineData.netvalue);
-
-        } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY) && null != mAllLineData) {
-            float addupValue = (mAllLineData.end - mAllLineData.begin) / mAllLineData.begin * 100;
-            customText = "历史收益率:" + StringFromatUtils.getPercentValue(addupValue);
-
-        } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH) && null != mMonthLineData) {
-            float addupValue = (mMonthLineData.end - mMonthLineData.begin) / mMonthLineData.begin * 100;
-            customText = "月收益率:" + StringFromatUtils.getPercentValue(addupValue);
-
-        } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY) && null != mWeekLineData) {
-            float addupValue = (mWeekLineData.end - mWeekLineData.begin) / mWeekLineData.begin * 100;
-            customText = "周收益率:" + StringFromatUtils.getPercentValue(addupValue);
-        }
-
-        oks.setText(customText);
-
-        // if (customText != null) {
+        // Context context = getActivity();
+        // final OnekeyShare oks = new OnekeyShare();
+        //
+        // oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
+        // // oks.setAddress("12345678901");
+        // // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
+        // // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
+        // // String customText = CustomShareFieldsPage.getString( "text", null);
+        // oks.setTitle("谁牛");
+        // oks.setTitleUrl("https://www.dkhs.com/portfolio/wap/");
+        // oks.setUrl("https://www.dkhs.com/portfolio/wap/");
+        // String customText = "";
+        // if (TextUtils.isEmpty(trendType)) {
+        // return;
+        // }
+        //
+        // if (isTodayShow() && null != mTodayLineData) {
+        // customText = "当前涨幅:" + StringFromatUtils.getPercentValue(mTodayLineData.netvalue);
+        //
+        // } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY) && null != mAllLineData) {
+        // float addupValue = (mAllLineData.end - mAllLineData.begin) / mAllLineData.begin * 100;
+        // customText = "历史收益率:" + StringFromatUtils.getPercentValue(addupValue);
+        //
+        // } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH) && null != mMonthLineData) {
+        // float addupValue = (mMonthLineData.end - mMonthLineData.begin) / mMonthLineData.begin * 100;
+        // customText = "月收益率:" + StringFromatUtils.getPercentValue(addupValue);
+        //
+        // } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY) && null != mWeekLineData) {
+        // float addupValue = (mWeekLineData.end - mWeekLineData.begin) / mWeekLineData.begin * 100;
+        // customText = "周收益率:" + StringFromatUtils.getPercentValue(addupValue);
+        // }
+        //
         // oks.setText(customText);
-        // } {
-        // oks.setText(context.getString(R.string.share_content));
-        // }
-
-        // if (captureView) {
-        // // oks.setViewToShare(getPage());
-        // } else {
-        oks.setImagePath(SHARE_IMAGE);
-        // oks.setImageUrl(CustomShareFieldsPage.getString("imageUrl", MainActivity.TEST_IMAGE_URL));
-        // oks.setImageArray(new String[] { MainActivity.TEST_IMAGE, MainActivity.TEST_IMAGE_URL });
-        // }
-        // oks.setUrl("http://dev.dkhs.com");
-        oks.setFilePath(SHARE_IMAGE);
-        // oks.setComment("share");
-        // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
-        // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
-        // oks.setVenueName(CustomShareFieldsPage.getString("venueName", "ShareSDK"));
-        // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription", "This is a beautiful place!"));
-        // oks.setLatitude(23.056081f);
-        // oks.setLongitude(113.385708f);
-        oks.setSilent(false);
-        // oks.setShareFromQQAuthSupport(true);
-        oks.setShareFromQQAuthSupport(false);
-        // if (platform != null) {
-        // oks.setPlatform(platform);
-        // }
-
-        // 令编辑页面显示为Dialog模式
-        oks.setDialogMode();
-
-        // 在自动授权时可以禁用SSO方式
-        // if (!CustomShareFieldsPage.getBoolean("enableSSO", true))
-        // oks.disableSSOWhenAuthorize();
-
-        // 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
-        // oks.setCallback(new OneKeyShareCallback());
-
-        oks.show(context);
+        //
+        // // if (customText != null) {
+        // // oks.setText(customText);
+        // // } {
+        // // oks.setText(context.getString(R.string.share_content));
+        // // }
+        //
+        // // if (captureView) {
+        // // // oks.setViewToShare(getPage());
+        // // } else {
+        // oks.setImagePath(SHARE_IMAGE);
+        // // oks.setImageUrl(CustomShareFieldsPage.getString("imageUrl", MainActivity.TEST_IMAGE_URL));
+        // // oks.setImageArray(new String[] { MainActivity.TEST_IMAGE, MainActivity.TEST_IMAGE_URL });
+        // // }
+        // // oks.setUrl("http://dev.dkhs.com");
+        // oks.setFilePath(SHARE_IMAGE);
+        // // oks.setComment("share");
+        // // oks.setSite(CustomShareFieldsPage.getString("site", context.getString(R.string.app_name)));
+        // // oks.setSiteUrl(CustomShareFieldsPage.getString("siteUrl", "http://mob.com"));
+        // // oks.setVenueName(CustomShareFieldsPage.getString("venueName", "ShareSDK"));
+        // // oks.setVenueDescription(CustomShareFieldsPage.getString("venueDescription",
+        // "This is a beautiful place!"));
+        // // oks.setLatitude(23.056081f);
+        // // oks.setLongitude(113.385708f);
+        // oks.setSilent(false);
+        // // oks.setShareFromQQAuthSupport(true);
+        // oks.setShareFromQQAuthSupport(false);
+        // // if (platform != null) {
+        // // oks.setPlatform(platform);
+        // // }
+        //
+        // // 令编辑页面显示为Dialog模式
+        // oks.setDialogMode();
+        //
+        // // 在自动授权时可以禁用SSO方式
+        // // if (!CustomShareFieldsPage.getBoolean("enableSSO", true))
+        // // oks.disableSSOWhenAuthorize();
+        //
+        // // 去除注释，则快捷分享的操作结果将通过OneKeyShareCallback回调
+        // // oks.setCallback(new OneKeyShareCallback());
+        //
+        // oks.show(context);
     }
 
     public Bitmap convertViewToBitmap(View view) {
@@ -342,13 +345,12 @@ public class TrendChartFragment extends BaseFragment {
                 if (null != mTodayLineData) {
                     setTodayViewLoad();
 
-
                     // computeTodayDataThread.start();
                 }
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
                 if (null == mAllLineData) {
                     mNetValueDataEngine.requeryHistory(historyNetValueListener);
-//                    historyNetValueListener.setLoadingDialog(getActivity());
+                    // historyNetValueListener.setLoadingDialog(getActivity());
                 } else {
                     setHistoryViewload(mAllLineData);
 
@@ -356,14 +358,14 @@ public class TrendChartFragment extends BaseFragment {
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
                 if (null == mMonthLineData) {
                     mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
-//                    historyNetValueListener.setLoadingDialog(getActivity());
+                    // historyNetValueListener.setLoadingDialog(getActivity());
                 } else {
                     setHistoryViewload(mMonthLineData);
                 }
             } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
                 if (null == mWeekLineData) {
                     mNetValueDataEngine.requerySevenDay(historyNetValueListener);
-//                    historyNetValueListener.setLoadingDialog(getActivity());
+                    // historyNetValueListener.setLoadingDialog(getActivity());
                 } else {
                     setHistoryViewload(mWeekLineData);
 
@@ -399,9 +401,9 @@ public class TrendChartFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trend_chart, null);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-        if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
-        	InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-        	mMaChart.setScroll(mScrollview);
+        if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+            InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+            mMaChart.setScroll(mScrollview);
         }
         initMaChart(mMaChart);
         initView(view);
@@ -493,17 +495,17 @@ public class TrendChartFragment extends BaseFragment {
 
     private List<LineEntity> lines;
     private LineEntity MA5;
-    
+
     private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
-        	if(lines == null){
-        		lines = new ArrayList<LineEntity>();
-        	}else{
-        		lines.clear();
-        	}
-        	if(MA5 == null){
-        		MA5 = new LineEntity();
-        	}
+            if (lines == null) {
+                lines = new ArrayList<LineEntity>();
+            } else {
+                lines.clear();
+            }
+            if (MA5 == null) {
+                MA5 = new LineEntity();
+            }
             MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
             MA5.setLineData(lineDataList);
             lines.add(MA5);
@@ -873,16 +875,15 @@ public class TrendChartFragment extends BaseFragment {
                 }
                 // setHistoryPointTitle();
                 setLineData(historyNetvalue.dataList);
-                if(strLeft == null){
-                	strLeft = getString(R.string.time_start);
+                if (strLeft == null) {
+                    strLeft = getString(R.string.time_start);
                 }
-                if(strRight == null){
-                	strRight = getString(R.string.time_end);
+                if (strRight == null) {
+                    strRight = getString(R.string.time_end);
                 }
                 strRight = getString(R.string.time_end, historyNetvalue.endDay);
-                tvTimeLeft.setText(String.format(strLeft,  historyNetvalue.startDay));
-                tvTimeRight.setText(String.format(strRight,  historyNetvalue.endDay));
-
+                tvTimeLeft.setText(String.format(strLeft, historyNetvalue.startDay));
+                tvTimeRight.setText(String.format(strRight, historyNetvalue.endDay));
 
                 setXTitle(historyNetvalue);
 
@@ -937,30 +938,30 @@ public class TrendChartFragment extends BaseFragment {
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
-            	if (!TextUtils.isEmpty(trendType)) {
+                if (!TextUtils.isEmpty(trendType)) {
 
                     if (isTodayShow()) {
-                    	mNetValueDataEngine.requeryToday(todayListener);
+                        mNetValueDataEngine.requeryToday(todayListener);
                     } else if (trendType.equalsIgnoreCase(TREND_TYPE_HISTORY)) {
-                            mNetValueDataEngine.requeryHistory(historyNetValueListener);
-                            //historyNetValueListener.setLoadingDialog(getActivity());
+                        mNetValueDataEngine.requeryHistory(historyNetValueListener);
+                        // historyNetValueListener.setLoadingDialog(getActivity());
                     } else if (trendType.equalsIgnoreCase(TREND_TYPE_MONTH)) {
-                            mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
-                            //historyNetValueListener.setLoadingDialog(getActivity());
+                        mNetValueDataEngine.requeryOneMonth(historyNetValueListener);
+                        // historyNetValueListener.setLoadingDialog(getActivity());
                     } else if (trendType.equalsIgnoreCase(TREND_TYPE_SEVENDAY)) {
-                            mNetValueDataEngine.requerySevenDay(historyNetValueListener);
-                            //historyNetValueListener.setLoadingDialog(getActivity());
+                        mNetValueDataEngine.requerySevenDay(historyNetValueListener);
+                        // historyNetValueListener.setLoadingDialog(getActivity());
                     }
                     setupBottomTextViewData();
                 }
-                
+
                 // todayListener.setLoadingDialog(getActivity()).beforeRequest();
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
-	private String strLeft;
-	private String strRight;
+    private String strLeft;
+    private String strRight;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
