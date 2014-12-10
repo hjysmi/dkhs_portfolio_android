@@ -25,14 +25,14 @@
 			    android:background="@color/activity_bg_color"
 			    >
 			    <LinearLayout 
-			        android:layout_height="5px"
+			        android:layout_height="@dimen/adapter_line_height"
 			        android:layout_width="match_parent"
 			        android:orientation="vertical"
 			        
 			        >
 			        <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="4px"/>
+                    android:layout_height="6px"/>
 			        <LinearLayout 
 			            android:layout_height="1px"
 			            android:layout_width="match_parent"
@@ -48,7 +48,7 @@
             <ImageView
                 android:id="@+id/selectadapter_parent_icon"
                 android:layout_width="80dp"
-                android:layout_height="5px"
+                android:layout_height="@dimen/adapter_line_height"
                 android:scaleType="fitXY"
                 android:src="@color/red" />
         </LinearLayout>

@@ -51,6 +51,8 @@
     <dimen name="select_image">20dp</dimen>
     <dimen name="single_index_padding">6dp</dimen>
     <dimen name="two_index_padding">1dp</dimen>
+    <dimen name="option_eidt_button_wid">70dp</dimen>
+    <dimen name="combina_up">21dp</dimen>
 
     <integer name="select_touch_text">22</integer>
 	<dimen name="gridview_height">30dp</dimen>
@@ -58,5 +60,6 @@
     <dimen name="title_2text_length">50dp</dimen>
     <dimen name="layout_height">69dp</dimen>
     <dimen name="layout_height_all">420dp</dimen>
-
+	<dimen name="adapter_line_height">7px</dimen>
+	
 </resources>

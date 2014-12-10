@@ -190,6 +190,13 @@ public class DragListAdapter extends BaseAdapter {
 		}
 		
 	}
+	public void setAnima(int startX,int endX,LinearLayout ly){
+		Animation animation = null;
+		animation = new TranslateAnimation(startX,endX , 0, 0);
+		animation.setFillAfter(true);// True:图片停在动画结束位置
+		animation.setDuration(300);
+		ly.startAnimation(animation);
+	}
 	class Click implements OnClickListener{
 		int position;
 		Button btn;
