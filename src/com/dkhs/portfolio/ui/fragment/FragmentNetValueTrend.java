@@ -96,7 +96,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private Button netvalueBtnMonth;
     private String type;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 60;
+    private static final long mPollRequestTime = 1000 * 5;
     private String myType;
     private PositionDetail mPositionDetail;
 
@@ -265,8 +265,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void setColor(String type) {
         try {
             if (null != mPositionDetail) {
+            	updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
                 if (type.equals(TrendChartFragment.TREND_TYPE_TODAY)) {
-                    updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
                     netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");

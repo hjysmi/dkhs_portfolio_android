@@ -53,6 +53,7 @@
     <View
         android:id="@+id/divider_line"
         style="@style/divider_line"
+        android:visibility="gone"
         android:layout_below="@+id/rl_add_stocklist" />
 
     <RelativeLayout

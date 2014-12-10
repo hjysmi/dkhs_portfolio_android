@@ -209,8 +209,9 @@ public class TimeUtils {
         String s = iso8601string.replace("Z", "+00:00");
         try {
             s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-
-            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.CHINA).parse(s);
+            SimpleDateFormat ss = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.CHINA);
+            //ss.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+            Date date = ss.parse(iso8601string);
             calendar.setTime(date);
             int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
             calendar.set(Calendar.HOUR_OF_DAY,k);
