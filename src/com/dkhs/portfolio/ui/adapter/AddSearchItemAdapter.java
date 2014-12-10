@@ -79,7 +79,7 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
 
         @Override
         protected void afterParseData(Object object) {
-            // TODO Auto-generated method stub
+            notifyDataSetChanged();
 
         }
 
@@ -107,7 +107,7 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
 
         @Override
         protected void afterParseData(Object object) {
-            // TODO Auto-generated method stub
+            notifyDataSetChanged();
 
         }
 
