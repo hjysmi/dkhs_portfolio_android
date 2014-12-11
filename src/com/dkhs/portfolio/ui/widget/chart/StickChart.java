@@ -351,8 +351,10 @@ public class StickChart extends GridChart {
                 float total;
                 if(k > lineEntity.getLineData().size() -1  && k >= 0){
                 	total = 0;
-                }else{
+                }else if(lineEntity.getLineData().size()  > 0){
                 	total = Float.parseFloat(new DecimalFormat("0.00").format(lineEntity.getLineData().get(k))) / 100;
+                }else{
+                	total = 0;
                 }
                 if(total == 0){
                 	text = "0.00";
