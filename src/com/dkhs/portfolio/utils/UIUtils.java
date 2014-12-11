@@ -11,6 +11,7 @@ package com.dkhs.portfolio.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
@@ -27,6 +28,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.dkhs.portfolio.BuildConfig;
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 
 /**
  * @ClassName UiUtils
@@ -138,6 +141,7 @@ public class UIUtils {
 
 			paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 			canvas.drawBitmap(bitmap, src, dst, paint);
+			drawCircleBorder(canvas,roundPx-2,PortfolioApplication.getInstance().getResources().getColor(R.color.theme_gray_press),roundPx,roundPx);
 			return output;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -145,6 +149,20 @@ public class UIUtils {
 		}
         return null;
 }
+    @SuppressLint("ResourceAsColor")
+	private static void drawCircleBorder(Canvas canvas, float radius, int color,float hei,float wid) {  
+        Paint paint = new Paint();  
+        /* 去锯齿 */  
+        paint.setAntiAlias(true);  
+        paint.setFilterBitmap(true);  
+        paint.setDither(true);  
+        paint.setColor(color);  
+        /* 设置paint的　style　为STROKE：空心 */  
+        paint.setStyle(Paint.Style.STROKE);  
+        /* 设置paint的外框宽度 */  
+        paint.setStrokeWidth(4);  
+        canvas.drawCircle(wid, hei, radius, paint);  
+    } 
     public static Bitmap compressImage(Bitmap image) {  
   	  
         ByteArrayOutputStream baos = new ByteArrayOutputStream();  

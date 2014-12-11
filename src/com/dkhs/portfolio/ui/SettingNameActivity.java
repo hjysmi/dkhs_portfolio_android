@@ -38,6 +38,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.umeng.analytics.MobclickAgent;
 
 public class SettingNameActivity extends ModelAcitivity implements OnClickListener {
     private CheckBox cbShowPassword;
@@ -394,5 +395,22 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             }
         }
     };
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting_password);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
 }
