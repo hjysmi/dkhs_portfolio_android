@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class NewsActivity extends ModelAcitivity implements Serializable{
 	/**
@@ -112,4 +114,22 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());
 	    }
+	    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_news);
+	    @Override
+		public void onPause() {
+			// TODO Auto-generated method stub
+			super.onPause();
+			//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+			MobclickAgent.onPageEnd(mPageName);
+			MobclickAgent.onPause(this);
+		}
+
+		@Override
+		public void onResume() {
+			// TODO Auto-generated method stub
+			super.onResume();
+			//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+			MobclickAgent.onPageStart(mPageName);
+			MobclickAgent.onResume(this);
+		}
 }

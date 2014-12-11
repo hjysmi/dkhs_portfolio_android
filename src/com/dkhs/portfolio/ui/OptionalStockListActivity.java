@@ -23,8 +23,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName OptionalStockListActivity
@@ -75,7 +77,8 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
-
+        MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
     }
 
     @Override
@@ -274,5 +277,13 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         }
         setDrawableUp(currentSelectView);
     }
-
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
 }

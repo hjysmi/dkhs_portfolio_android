@@ -33,6 +33,7 @@ import com.dkhs.portfolio.ui.YanbaoNewsActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class FragmentForOptionOnr extends Fragment{
 	private ListView mListView;
@@ -230,5 +231,20 @@ public class FragmentForOptionOnr extends Fragment{
 		}
 		super.setUserVisibleHint(isVisibleToUser);
 	}
-    
+	private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_yanbao);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+	}
 }

@@ -45,6 +45,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -144,6 +145,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
             mCombinationTimer = new Timer(true);
             mCombinationTimer.schedule(new RequestCombinationTask(), 200, mCombinationRequestTime);
         }
+        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -405,5 +407,13 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         showDelDialog(combiantinBean);
 
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_list);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
 
 }

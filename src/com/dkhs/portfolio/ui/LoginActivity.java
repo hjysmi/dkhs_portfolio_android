@@ -567,7 +567,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
     @Override
-	protected void onPause() {
+	public void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
@@ -576,7 +576,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
