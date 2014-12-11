@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
@@ -38,6 +39,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName TrendChartFragment
@@ -112,31 +114,31 @@ public class TrendHistoryChartFragment extends BaseFragment {
     }
 
     private View rootView;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	if(rootView == null){
-    		rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-    		mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-    		if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
-    			InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-    			mMaChart.setScroll(mScrollview);
-    		}
-    		initMaChart(mMaChart);
-    		// setupBottomTextViewData();
-    		initView(rootView);
-    		PromptManager.showProgressDialog(getActivity(), "");
-    		mNetValueDataEngine.requeryHistory(historyListener);
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
+            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+                mMaChart.setScroll(mScrollview);
+            }
+            initMaChart(mMaChart);
+            // setupBottomTextViewData();
+            initView(rootView);
+            PromptManager.showProgressDialog(getActivity(), "");
+            mNetValueDataEngine.requeryHistory(historyListener);
 
-    	}
-    	//缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+        }
+        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
             parent.removeView(rootView);
-        } 
+        }
         return rootView;
     }
-    
+
     private void initView(View view) {
         viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
         tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
@@ -186,24 +188,23 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     private List<LineEntity> lines;
     private LineEntity MA5;
-    
+
     private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
-        	if(lines == null){
-        		lines = new ArrayList<LineEntity>();
-        	}else{
-        		lines.clear();
-        	}
-        	if(MA5 == null){
-        		MA5 = new LineEntity();
-        	}
+            if (lines == null) {
+                lines = new ArrayList<LineEntity>();
+            } else {
+                lines.clear();
+            }
+            if (MA5 == null) {
+                MA5 = new LineEntity();
+            }
             MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
             MA5.setLineData(lineDataList);
             lines.add(MA5);
             mMaChart.setLineData(lines);
         }
     }
-
 
     private void initTodayTrendTitle() {
         List<String> xtitle = new ArrayList<String>();
@@ -239,7 +240,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
-        	HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
             DrawLineDataEntity lineData = null;
             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
                 lineData = new DrawLineDataEntity();
@@ -272,43 +273,43 @@ public class TrendHistoryChartFragment extends BaseFragment {
     }
 
     private void setHistoryViewload() {
-    	 try {
-             // = historyNetvalue.da();
-             if (historyNetvalue.dataList != null) {
-                 mMaChart.setDashLinePointSize(historyNetvalue.dashLineSize);
-                 if (mMaChart.getDashLinePointSize() > 2) {
-                     setTipVisible(true);
-                     setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
-                 } else {
-                     setTipVisible(false);
-                     setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
-                 }
-                 setLineData(historyNetvalue.dataList);
-                 if(strLeft == null){
-                 	strLeft = getString(R.string.time_start);
-                 }
-                 if(strRight == null){
-                 	strRight = getString(R.string.time_end);
-                 }
-                 strRight = getString(R.string.time_end, historyNetvalue.endDay);
-                 tvTimeLeft.setText(String.format(strLeft,  historyNetvalue.startDay));
-                 tvTimeRight.setText(String.format(strRight,  historyNetvalue.endDay));
+        try {
+            // = historyNetvalue.da();
+            if (historyNetvalue.dataList != null) {
+                mMaChart.setDashLinePointSize(historyNetvalue.dashLineSize);
+                if (mMaChart.getDashLinePointSize() > 2) {
+                    setTipVisible(true);
+                    setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
+                } else {
+                    setTipVisible(false);
+                    setYTitle(historyNetvalue.begin, historyNetvalue.maxOffetvalue);
+                }
+                setLineData(historyNetvalue.dataList);
+                if (strLeft == null) {
+                    strLeft = getString(R.string.time_start);
+                }
+                if (strRight == null) {
+                    strRight = getString(R.string.time_end);
+                }
+                strRight = getString(R.string.time_end, historyNetvalue.endDay);
+                tvTimeLeft.setText(String.format(strLeft, historyNetvalue.startDay));
+                tvTimeRight.setText(String.format(strRight, historyNetvalue.endDay));
 
-                 setXTitle(historyNetvalue);
-             }
-             tvNetValue.setVisibility(View.VISIBLE);
-             tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
-             tvNetValue.setText(StringFromatUtils.get4Point(historyNetvalue.begin));
-             float addupValue = (historyNetvalue.end - historyNetvalue.begin) / historyNetvalue.begin * 100;
-             tvUpValue.setText(StringFromatUtils.get4Point(historyNetvalue.end));
-             // fl
-             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
-             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
-             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-             PromptManager.closeProgressDialog();
-         } catch (Exception e) {
-             // TODO: handle exception
-         }
+                setXTitle(historyNetvalue);
+            }
+            tvNetValue.setVisibility(View.VISIBLE);
+            tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+            tvNetValue.setText(StringFromatUtils.get4Point(historyNetvalue.begin));
+            float addupValue = (historyNetvalue.end - historyNetvalue.begin) / historyNetvalue.begin * 100;
+            tvUpValue.setText(StringFromatUtils.get4Point(historyNetvalue.end));
+            // fl
+            tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
+            tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
+            PromptManager.closeProgressDialog();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     /**
@@ -373,7 +374,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             float value = todayBean.getNetvalue();
             pointEntity.setValue(value);
             pointEntity.setTime("日期:" + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentage());
+            pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;
@@ -397,6 +398,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             lineData.begin = 1;
         } else {
             lineData.begin = historyNetValue.getBegin();
+            // lineData.begin = historyNetValue.getLast_netvalue();
         }
         lineData.dashLineSize = dashLineSize;
         lineData.maxOffetvalue = offetValue;
@@ -418,18 +420,20 @@ public class TrendHistoryChartFragment extends BaseFragment {
         mMaChart.setAxisXTitles(xtitle);
 
     }
-    
-    public void startRequry(){
-    	dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
+
+    public void startRequry() {
+        dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
     }
-    public void stopRequry(){
-    	dataHandler.removeCallbacks(runnable);
+
+    public void stopRequry() {
+        dataHandler.removeCallbacks(runnable);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+        MobclickAgent.onPageEnd(mPageName);
     }
 
     Runnable runnable = new Runnable() {
@@ -442,8 +446,8 @@ public class TrendHistoryChartFragment extends BaseFragment {
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
-	private String strLeft;
-	private String strRight;
+    private String strLeft;
+    private String strRight;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -451,5 +455,14 @@ public class TrendHistoryChartFragment extends BaseFragment {
             super.setUserVisibleHint(isVisibleToUser);
         }
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_history);
 
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+	}
 }

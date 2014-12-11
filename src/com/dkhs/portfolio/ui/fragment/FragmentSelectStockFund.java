@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
@@ -50,6 +51,7 @@ import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName FragmentSelectStock
@@ -83,6 +85,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private TextView tvEmptyText;
     public int timeMill;
     private boolean flush = false;
+
     /**
      * view视图类型
      */
@@ -234,7 +237,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-        	//typs = mLoadDataEngine.getStatu();
+            // typs = mLoadDataEngine.getStatu();
             if (flush) {
                 // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 flush = false;
@@ -336,7 +339,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     public void refresh() {
         isRefresh = true;
-        if (mLoadDataEngine != null  && mLoadDataEngine.getStatu() == 0 && !isLoadingMore) {
+        if (mLoadDataEngine != null && mLoadDataEngine.getStatu() == 0 && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
             mLoadDataEngine.loadData();
@@ -344,29 +347,29 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     public void refreshForMarker() {
-        
+
         if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
-	        	if(mLoadDataEngine.getStatu() == 0){
-	        		timeMill= 0;
-	            	isRefresh = true;
-		            if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
-		                    || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
-		                    && null != mDataList) {
-		                ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-		            }
-		            if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId)
-		                    && null != mDataList) {
-		                ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-		            }
-		            mLoadDataEngine.setLoadingDialog(getActivity());
-	        }
-        }else{
-        	timeMill++;
-        	if(timeMill > 5){
-        		timeMill = 0;
-        		isLoadingMore = false;
-        	}
+            if (mLoadDataEngine.getStatu() == 0) {
+                timeMill = 0;
+                isRefresh = true;
+                if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
+                        || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
+                        && null != mDataList) {
+                    ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+                }
+                if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId)
+                        && null != mDataList) {
+                    ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+                }
+                mLoadDataEngine.setLoadingDialog(getActivity());
+            }
+        } else {
+            timeMill++;
+            if (timeMill > 5) {
+                timeMill = 0;
+                isLoadingMore = false;
+            }
         }
     }
 
@@ -480,6 +483,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                     case OnScrollListener.SCROLL_STATE_IDLE:
 
                     {
+                        if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+                            return;
+                        }
                         // 判断是否滚动到底部
                         if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
                             loadMore();
@@ -548,8 +554,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             // thread.start();
 
             isLoadingMore = true;
-            if(mLoadDataEngine.getStatu() == 0)
-            	mLoadDataEngine.setCurrentpage((mDataList.size() + 9)/10);
+            if (mLoadDataEngine.getStatu() == 0)
+                mLoadDataEngine.setCurrentpage((mDataList.size() + 9) / 10);
             mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
         }
@@ -618,4 +624,21 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         getActivity().finish();
     }
 
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }

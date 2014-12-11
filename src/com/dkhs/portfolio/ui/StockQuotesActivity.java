@@ -33,7 +33,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -41,6 +40,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
@@ -68,6 +68,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName StockQuotesActivity
@@ -160,11 +161,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        if (0 == position) {
+        /*if (0 == position) {
             l.height = LayoutParams.MATCH_PARENT;
-        }
-        if (position < 2) {
-            position = 2;
+        }*/
+        if (position < 3) {
+            position = 3;
         }
         l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
     }
@@ -599,11 +600,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
             tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
             tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
-            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand((int) mStockQuotesBean.getVolume()));
-            tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
-            Log.i("StockQuotes", mStockQuotesBean.getAmount()+"");
+            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
+            tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         }
-        Log.i("StockQuotes",  TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
 
         if (isIndexType()) {
 
@@ -874,5 +873,19 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
         this.mStockQuotesBean = mStockQuotesBean;
     }
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onResume(this);
+	}
 }

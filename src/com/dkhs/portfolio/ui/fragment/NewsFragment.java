@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -41,6 +42,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 资讯列表
@@ -470,8 +472,16 @@ public class NewsFragment extends Fragment {
 		mListView.setSelectedGroup(0);
 		mListView.expandGroup(0);
 		super.onResume();
+		MobclickAgent.onPageStart(mPageName);
 	}
-	
+	private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_f10);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
     // class TextLoadListener implements IHttpListener {
     //
     // private WebView mTextView;

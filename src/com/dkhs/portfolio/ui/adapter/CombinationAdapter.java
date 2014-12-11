@@ -98,7 +98,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         }
         viewHolder.tvIndex.setText((position + 1) + "");
 
-        float currenValue = item.getCurrentValue();
+        float currenValue = item.getChng_pct_day();
         viewHolder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
         viewHolder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 

@@ -16,6 +16,7 @@ import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Context;
 import android.content.Intent;
@@ -213,5 +214,22 @@ public class OptionListAcitivity extends ModelAcitivity {
             mListView.removeFooterView(mFootView);
         }
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market_one);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
 }

@@ -27,7 +27,7 @@ public class CombinationBean implements Serializable {
     private String name;
     private CombinationUser createUser;
     private String description;
-    private float percent;
+//    private float percent;
     @SerializedName("cumulative")
     private float addUpValue;
     @SerializedName("net_value")
@@ -62,13 +62,13 @@ public class CombinationBean implements Serializable {
         this.name = name;
     }
 
-    public float getCurrentValue() {
-        return percent;
-    }
-
-    public void setCurrentValue(float currentValue) {
-        this.percent = currentValue;
-    }
+//    public float getCurrentValue() {
+//        return percent;
+//    }
+//
+//    public void setCurrentValue(float currentValue) {
+//        this.percent = currentValue;
+//    }
 
     public float getAddUpValue() {
         return addUpValue;
@@ -94,13 +94,13 @@ public class CombinationBean implements Serializable {
         this.description = description;
     }
 
-    public float getPercent() {
-        return percent;
-    }
-
-    public void setPercent(float percent) {
-        this.percent = percent;
-    }
+    // public float getPercent() {
+    // return percent;
+    // }
+    //
+    // public void setPercent(float percent) {
+    // this.percent = percent;
+    // }
 
     public String getCreateTime() {
         return createTime;

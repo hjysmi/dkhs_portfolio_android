@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
@@ -26,6 +27,7 @@ import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName OrderFundDetailActivity
@@ -128,7 +130,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         if (null != mChampionBean) {
 
             tvConName.setText(mChampionBean.getName());
-            tvUserName.setText(getString(R.string.format_create_name, mChampionBean.getCreateUser().getUsername()));
+            tvUserName.setText(mChampionBean.getCreateUser().getUsername());
             tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDescription()));
             tvCreateDay.setText(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
@@ -197,5 +199,19 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         }
 
     }
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onResume(this);
+	}
 }

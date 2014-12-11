@@ -51,6 +51,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.util.LogUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName MyCombinationActivity
@@ -64,7 +65,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     // private CombinationAdapter mCombinationAdapter;
     private Button btnMore;
     // private Button btnRefresh;
-
+    private Button btnTwo;
     // private PopupWindow mPopMoreWindow;
     // private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private MyCombinationListFragment listFragment;
@@ -97,12 +98,16 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
     private void initTitleView() {
         btnMore = getRightButton();
+        btnTwo = getSecondRightButton();
         // btnMore.setBackgroundResource(R.drawable.ic_title_add);
         // btnMore.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_title_add), null, null, null);
-        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
+        btnTwo.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
                 null, null);
+        btnMore.setBackgroundDrawable(null);
         btnMore.setOnClickListener(this);
-
+        btnTwo.setOnClickListener(this);
+        btnMore.setText(R.string.cancel);
+        btnMore.setVisibility(View.GONE);
         // btnRefresh = getSecondRightButton();
         // btnRefresh.setOnClickListener(this);
         // btnRefresh.setVisibility(View.VISIBLE);
@@ -205,11 +210,12 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     public void onClick(View v) {
         int id = v.getId();
         if (id == RIGHTBUTTON_ID) {
-
-            clickRightButton();
+        	listFragment.setListDelStatus(false);
+        	btnMore.setVisibility(View.GONE);
+            //clickRightButton();
         } else if (id == SECONDRIGHTBUTTON_ID) {
-
-            clickSecondButton();
+        	addNewCombination();
+            //clickSecondButton();
         } else if (id == R.id.tv_add_combina) {
             // mCombinationAdapter.addItem();
             // mPopMoreWindow.dismiss();
@@ -257,15 +263,15 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     public void setButtonCancel() {
-        btnMore.setText(R.string.cancel);
-        btnMore.setTag("cancel");
-        btnMore.setBackgroundDrawable(null);
-
+        //btnMore.setText(R.string.cancel);
+        //btnMore.setTag("cancel");
+        //btnMore.setBackgroundDrawable(null);
+    	btnMore.setVisibility(View.VISIBLE);
         // btnRefresh.setVisibility(View.GONE);
     }
 
     public void setButtonFinish() {
-        btnMore.setText("完成");
+    	btnMore.setText("完成");
     }
 
     private void setButtonRefresh() {
@@ -329,5 +335,19 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         setButtonAdd();
 
     }
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onResume(this);
+	}
 }
