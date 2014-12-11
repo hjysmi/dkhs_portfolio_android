@@ -161,14 +161,7 @@ public class StringFromatUtils {
     }
 
     public static String convertToWanHand(float value) {
-        // if (value < 100000) {
-        // return String.valueOf(value) + "";
-        // } else if (value < 10000000) {
-        //
-        // return String.format("%.2f万", value / 10000f);
-        // } else {
-        // return String.format("%.2f千万", value / 10000000f);
-        // }
+
         return convertToWan(value / 100);
     }
 
