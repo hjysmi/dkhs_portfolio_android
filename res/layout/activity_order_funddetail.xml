@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:paddingBottom="6dp"
-            android:paddingLeft="10dp"
+            android:paddingLeft="15dp"
             android:paddingRight="10dp"
             android:paddingTop="6dp" >
 
@@ -44,7 +44,7 @@
                     style="@style/hw_wrap"
                     android:layout_marginTop="5dp"
                     android:text="创建人："
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/combition_gray"
                     android:textSize="14sp" />
                 <TextView
                     android:id="@+id/tv_combination_user"
@@ -69,7 +69,7 @@
                     android:layout_marginLeft="15dp"
                     android:layout_toLeftOf="@+id/iv_more"
                     android:text="创建日期："
-                    android:textColor="@android:color/darker_gray"
+                    android:textColor="@color/combition_gray"
                     android:textSize="14sp" />
             </RelativeLayout>
 
@@ -78,7 +78,7 @@
                 style="@style/hw_wrap"
                 android:layout_below="@+id/rl_name_day"
                 android:text="描述："
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/combition_gray"
                 android:textSize="14sp" />
         </RelativeLayout>
 
@@ -103,7 +103,7 @@
                 android:gravity="center"
                 android:padding="12dp"
                 android:text="@string/text_no_open"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@color/combition_gray" />
         </RelativeLayout>
     </LinearLayout>
 
