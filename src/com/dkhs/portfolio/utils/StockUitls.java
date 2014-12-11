@@ -44,16 +44,25 @@ public class StockUitls {
         }
         return symbolType.equalsIgnoreCase(SYMBOLTYPE_INDEX);
     }
-    
-    
-    public static boolean isDelistStock(String status){
-        if(TextUtils.isEmpty(status)){
+
+    public static boolean isDelistStock(String status) {
+        if (TextUtils.isEmpty(status)) {
             return false;
         }
-       if(status.equalsIgnoreCase("2")||status.equalsIgnoreCase("3")){
-           return true;
-       }
-       return false;
+        if (status.equalsIgnoreCase("2") || status.equalsIgnoreCase("3")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isNewStock(String status) {
+        if (TextUtils.isEmpty(status)) {
+            return false;
+        }
+        if (status.equalsIgnoreCase("7")) {
+            return true;
+        }
+        return false;
     }
 
 }

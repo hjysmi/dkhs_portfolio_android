@@ -88,6 +88,11 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder.mCheckbox.setVisibility(View.GONE);
             viewHolder.tvIncreaseValue.setText("—");
             // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+        } else if (StockUitls.isNewStock(item.list_status)) {
+            viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+            viewHolder.tvSuspend.setText("新股");
+            viewHolder.mCheckbox.setVisibility(View.GONE);
+            viewHolder.tvIncreaseValue.setText(StringFromatUtils.getPercentValue(item.percentage));
         } else {
             viewHolder.tvSuspend.setVisibility(View.GONE);
             viewHolder.mCheckbox.setVisibility(View.VISIBLE);
@@ -110,7 +115,13 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         // }
         viewHolder.tvCurrentValue.setTextColor(textCsl);
         viewHolder.tvIncreaseValue.setTextColor(textCsl);
-        viewHolder.tvSuspend.setTextColor(textCsl);
+        if (StockUitls.isNewStock(item.list_status)) {
+            viewHolder.tvSuspend.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
+
+        } else {
+
+            viewHolder.tvSuspend.setTextColor(textCsl);
+        }
         viewHolder.tvCurrentValue.setText("" + item.currentValue);
 
         return convertView;
