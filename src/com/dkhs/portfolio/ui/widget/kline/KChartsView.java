@@ -906,6 +906,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}
 			mMinPrice = mOHLCData.get(mDataStartIndext).getLow();
 			mMaxPrice = mOHLCData.get(mDataStartIndext).getHigh();
+			
 			for (int i = mDataStartIndext + 1; i < mOHLCData.size()
 					&& i < mShowDataNum + mDataStartIndext; i++) {
 				OHLCEntity entity = mOHLCData.get(i);
@@ -922,7 +923,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 							.getLineData().get(i);
 				}
 			}
-
+			double value = mMaxPrice -mMinPrice;
+			mMinPrice = mMinPrice - (value * 0.1);
+			mMaxPrice = mMaxPrice + (value * 0.1);
 			if(mDisplayChangeListener != null) {
 				mDisplayChangeListener.onDisplayDataChange(getDisplayOHLCEntitys());
 			}
