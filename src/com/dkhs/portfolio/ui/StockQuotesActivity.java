@@ -368,7 +368,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void setupViewData() {
         if (null != mQuotesEngine && mStockBean != null) {
-            requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
+//            requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
+            rotateRefreshButton();
             mQuotesEngine.quotes(mStockBean.code, listener);
             // listener.setLoadingDialog(context);
         }
@@ -497,7 +498,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(StockQuotesBean object) {
-            requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+//            requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+            stopRefreshAnimation();
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
@@ -759,7 +761,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                 break;
             case R.id.btn_right_second: {
-                // rotateRefreshButton();
+//            	rotateRefreshButton();
+            	quoteHandler.removeCallbacks(runnable);
+            	setupViewData();
+            	quoteHandler.postDelayed(runnable, 6*1000);
             }
                 break;
             default:
@@ -778,7 +783,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // // ani.setInterpolator(inter);
         // // Matrix matrix = new Matrix();
         // // matrix.preRotate(360, 100, 200);
-
+    	
+    	btnRefresh.setBackgroundResource(R.drawable.nav_refreshing);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
         btnRefresh.startAnimation(animation);
         // btnRefresh.startAnimation(ani);
@@ -786,6 +792,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void stopRefreshAnimation() {
         btnRefresh.clearAnimation();
+        btnRefresh.setBackgroundResource(R.drawable.nav_refresh);
     }
 
     /**
