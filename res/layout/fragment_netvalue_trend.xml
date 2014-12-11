@@ -164,7 +164,7 @@
                 android:layout_alignParentRight="true"
                 android:paddingLeft="5dp"
                 android:text="-"
-                android:textColor="#979797"
+                android:textColor="@color/combition_gray"
                 android:textSize="14sp" />
 
             <TextView
@@ -173,7 +173,7 @@
                 android:layout_toLeftOf="@id/tv_history_netvalue"
                 android:paddingLeft="5dp"
                 android:text="净值"
-                android:textColor="#979797"
+                android:textColor="@color/combition_gray"
                 android:textSize="14sp" />
 
             <TextView
@@ -182,7 +182,7 @@
                 android:layout_below="@+id/tv_history"
                 android:paddingLeft="5dp"
                 android:text=" "
-                android:textColor="#979797"
+                android:textColor="@color/combition_gray"
                 android:textSize="35sp" />
         </RelativeLayout>
 
@@ -224,7 +224,7 @@
                     android:layout_toRightOf="@id/tv_combination_image_totalnet"
                     android:paddingLeft="5dp"
                     android:text="@string/add_up_value"
-                    android:textColor="#979797"
+                    android:textColor="@color/combition_gray"
                     android:textSize="14sp" />
 
                 <TextView
@@ -240,7 +240,7 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <View style="@style/divider_line" />
+    <!-- <View style="@style/divider_line" /> -->
 
     <com.dkhs.portfolio.ui.widget.HScrollTitleView
         android:id="@+id/hs_title"
