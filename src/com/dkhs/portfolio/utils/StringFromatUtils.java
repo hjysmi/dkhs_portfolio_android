@@ -160,7 +160,7 @@ public class StringFromatUtils {
 
     }
 
-    public static String convertToWanHand(int value) {
+    public static String convertToWanHand(float value) {
         // if (value < 100000) {
         // return String.valueOf(value) + "";
         // } else if (value < 10000000) {

@@ -116,42 +116,43 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     private View rootView;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	if(rootView == null){
-    		rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-    		mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-    		if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
-    			InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-    			mMaChart.setScroll(mScrollview);
-    		}
-    		initMaChart(mMaChart);
-    		// setupBottomTextViewData();
-    		initView(rootView);
-    		initTodayTrendTitle();
-    		PromptManager.showProgressDialog(getActivity(), "");
-    		mNetValueDataEngine.requeryToday(todayListener);
-    	}
-    	//缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
+            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+                mMaChart.setScroll(mScrollview);
+            }
+            initMaChart(mMaChart);
+            // setupBottomTextViewData();
+            initView(rootView);
+            initTodayTrendTitle();
+            PromptManager.showProgressDialog(getActivity(), "");
+            mNetValueDataEngine.requeryToday(todayListener);
+        }
+        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
             parent.removeView(rootView);
-        } 
+        }
         return rootView;
     }
-    
+
     private void initView(View view) {
         viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
         tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
         tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
     }
-    
-    public void startRequry(){
-    	dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
+
+    public void startRequry() {
+        dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
     }
-    public void stopRequry(){
-    	dataHandler.removeCallbacks(runnable);
+
+    public void stopRequry() {
+        dataHandler.removeCallbacks(runnable);
     }
 
     private void initMaChart(final TrendChart machart) {
@@ -194,24 +195,23 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private List<LineEntity> lines;
     private LineEntity MA5;
-    
+
     private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
-        	if(lines == null){
-        		lines = new ArrayList<LineEntity>();
-        	}else{
-        		lines.clear();
-        	}
-        	if(MA5 == null){
-        		MA5 = new LineEntity();
-        	}
+            if (lines == null) {
+                lines = new ArrayList<LineEntity>();
+            } else {
+                lines.clear();
+            }
+            if (MA5 == null) {
+                MA5 = new LineEntity();
+            }
             MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
             MA5.setLineData(lineDataList);
             lines.add(MA5);
             mMaChart.setLineData(lines);
         }
     }
-
 
     private void initTodayTrendTitle() {
         List<String> xtitle = new ArrayList<String>();
@@ -286,7 +286,6 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     }
 
-
     private void setTodayViewLoad() {
         if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
@@ -337,7 +336,7 @@ public class TrendTodayChartFragment extends BaseFragment {
             TrendLinePointEntity pointEntity = new TrendLinePointEntity();
             pointEntity.setTime("时间:" + TimeUtils.getTimeString(bean.getTimestamp()));
             pointEntity.setValue(bean.getNetvalue());
-            pointEntity.setIncreaseRange((bean.getNetvalue() - baseNum) / baseNum * 100);
+            pointEntity.setIncreaseRange(((bean.getNetvalue() - baseNum) / baseNum) * 100);
 
             if (dashLineSize == 0 && TimeUtils.toCalendar(bean.getTimestamp()) != null) {
                 if (TimeUtils.toCalendar(bean.getTimestamp()).after(mCreateCalender)) {
@@ -478,7 +477,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             if (null != mNetValueDataEngine) {
-            	mNetValueDataEngine.requeryToday(todayListener);
+                mNetValueDataEngine.requeryToday(todayListener);
             }
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }

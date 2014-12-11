@@ -380,7 +380,7 @@ public class TrendMonthChartFragment extends BaseFragment {
             float value = todayBean.getNetvalue();
             pointEntity.setValue(value);
             pointEntity.setTime("日期:" + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentage());
+            pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;

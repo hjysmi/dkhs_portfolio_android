@@ -111,31 +111,31 @@ public class TrendSevenDayChartFragment extends BaseFragment {
     }
 
     private View rootView;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	if(rootView == null){
-    		rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-    		mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-    		if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
-    			InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-    			mMaChart.setScroll(mScrollview);
-    		}
-    		initMaChart(mMaChart);
-    		// setupBottomTextViewData();
-    		initView(rootView);
-    		PromptManager.showProgressDialog(getActivity(), "");
-    		mNetValueDataEngine.requerySevenDay(sevendayListener);
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
+            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+                mMaChart.setScroll(mScrollview);
+            }
+            initMaChart(mMaChart);
+            // setupBottomTextViewData();
+            initView(rootView);
+            PromptManager.showProgressDialog(getActivity(), "");
+            mNetValueDataEngine.requerySevenDay(sevendayListener);
 
-    	}
-    	//缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+        }
+        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
             parent.removeView(rootView);
-        } 
+        }
         return rootView;
     }
-    
+
     private void initView(View view) {
         viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
         tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
@@ -144,8 +144,6 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
     }
-
-
 
     private void initMaChart(final TrendChart machart) {
         machart.setBoldLine();
@@ -187,25 +185,23 @@ public class TrendSevenDayChartFragment extends BaseFragment {
 
     private List<LineEntity> lines;
     private LineEntity MA5;
-    
+
     private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
-        	if(lines == null){
-        		lines = new ArrayList<LineEntity>();
-        	}else{
-        		lines.clear();
-        	}
-        	if(MA5 == null){
-        		MA5 = new LineEntity();
-        	}
+            if (lines == null) {
+                lines = new ArrayList<LineEntity>();
+            } else {
+                lines.clear();
+            }
+            if (MA5 == null) {
+                MA5 = new LineEntity();
+            }
             MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
             MA5.setLineData(lineDataList);
             lines.add(MA5);
             mMaChart.setLineData(lines);
         }
     }
-
-
 
     private void setTipVisible(boolean isShow) {
 
@@ -219,9 +215,9 @@ public class TrendSevenDayChartFragment extends BaseFragment {
 
     ParseHttpListener sevendayListener = new ParseHttpListener<DrawLineDataEntity>() {
 
-    	@Override
+        @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
-        	HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
             DrawLineDataEntity lineData = null;
             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
                 lineData = new DrawLineDataEntity();
@@ -255,44 +251,43 @@ public class TrendSevenDayChartFragment extends BaseFragment {
     }
 
     private void setSevendayViewLoad() {
-    	 try {
-             if (sevendayNetvalue.dataList != null) {
-                 mMaChart.setDashLinePointSize(sevendayNetvalue.dashLineSize);
-                 if (mMaChart.getDashLinePointSize() > 2) {
-                     setTipVisible(true);
-                     setYTitle(sevendayNetvalue.begin, sevendayNetvalue.maxOffetvalue);
-                 } else {
-                     setTipVisible(false);
-                     setYTitle(sevendayNetvalue.begin, sevendayNetvalue.maxOffetvalue);
-                 }
-                 setLineData(sevendayNetvalue.dataList);
-                 if(strLeft == null){
-                 	strLeft = getString(R.string.time_start);
-                 }
-                 if(strRight == null){
-                 	strRight = getString(R.string.time_end);
-                 }
-                 strRight = getString(R.string.time_end, sevendayNetvalue.endDay);
-                 tvTimeLeft.setText(String.format(strLeft,  sevendayNetvalue.startDay));
-                 tvTimeRight.setText(String.format(strRight,  sevendayNetvalue.endDay));
+        try {
+            if (sevendayNetvalue.dataList != null) {
+                mMaChart.setDashLinePointSize(sevendayNetvalue.dashLineSize);
+                if (mMaChart.getDashLinePointSize() > 2) {
+                    setTipVisible(true);
+                    setYTitle(sevendayNetvalue.begin, sevendayNetvalue.maxOffetvalue);
+                } else {
+                    setTipVisible(false);
+                    setYTitle(sevendayNetvalue.begin, sevendayNetvalue.maxOffetvalue);
+                }
+                setLineData(sevendayNetvalue.dataList);
+                if (strLeft == null) {
+                    strLeft = getString(R.string.time_start);
+                }
+                if (strRight == null) {
+                    strRight = getString(R.string.time_end);
+                }
+                strRight = getString(R.string.time_end, sevendayNetvalue.endDay);
+                tvTimeLeft.setText(String.format(strLeft, sevendayNetvalue.startDay));
+                tvTimeRight.setText(String.format(strRight, sevendayNetvalue.endDay));
 
-                 setXTitle(sevendayNetvalue);
-             }
-             tvNetValue.setVisibility(View.VISIBLE);
-             tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
-             tvNetValue.setText(StringFromatUtils.get4Point(sevendayNetvalue.begin));
-             float addupValue = (sevendayNetvalue.end - sevendayNetvalue.begin) / sevendayNetvalue.begin * 100;
-             tvUpValue.setText(StringFromatUtils.get4Point(sevendayNetvalue.end));
-             // fl
-             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
-             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
-             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-             PromptManager.closeProgressDialog();
-         } catch (Exception e) {
-             // TODO: handle exception
-         }
+                setXTitle(sevendayNetvalue);
+            }
+            tvNetValue.setVisibility(View.VISIBLE);
+            tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+            tvNetValue.setText(StringFromatUtils.get4Point(sevendayNetvalue.begin));
+            float addupValue = (sevendayNetvalue.end - sevendayNetvalue.begin) / sevendayNetvalue.begin * 100;
+            tvUpValue.setText(StringFromatUtils.get4Point(sevendayNetvalue.end));
+            // fl
+            tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
+            tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
+            PromptManager.closeProgressDialog();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
-
 
     /**
      * 设置纵坐标标题，并设置曲线的最大值和最小值
@@ -335,7 +330,6 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         };
     };
 
-
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
@@ -357,7 +351,7 @@ public class TrendSevenDayChartFragment extends BaseFragment {
             float value = todayBean.getNetvalue();
             pointEntity.setValue(value);
             pointEntity.setTime("日期:" + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentage());
+            pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
                     dashLineSize = i;
@@ -389,7 +383,6 @@ public class TrendSevenDayChartFragment extends BaseFragment {
 
     }
 
-
     private void setXTitle(DrawLineDataEntity historyNetvalue) {
         List<String> xtitle = new ArrayList<String>();
         String endDate = historyNetvalue.startDay;
@@ -404,12 +397,13 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         mMaChart.setAxisXTitles(xtitle);
 
     }
-    
-    public void startRequry(){
-    	dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
+
+    public void startRequry() {
+        dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
     }
-    public void stopRequry(){
-    	dataHandler.removeCallbacks(runnable);
+
+    public void stopRequry() {
+        dataHandler.removeCallbacks(runnable);
     }
 
     Runnable runnable = new Runnable() {
@@ -419,8 +413,8 @@ public class TrendSevenDayChartFragment extends BaseFragment {
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
-	private String strLeft;
-	private String strRight;
+    private String strLeft;
+    private String strRight;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
