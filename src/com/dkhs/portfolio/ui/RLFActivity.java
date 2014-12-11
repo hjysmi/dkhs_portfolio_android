@@ -276,15 +276,15 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         // Intent intent = new Intent(this, .class);
         // intent2.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_TERMS);
 
-        SpannableStringBuilder sp = new SpannableStringBuilder();
+        /*SpannableStringBuilder sp = new SpannableStringBuilder();
         sp.append(str2);
 
-        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, null), 0,
-                str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.drawable.agreement_color_selector), this, null), 0,
+                str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);*/
         cbAgree.setText(str);
         // 设置TextView可点击
         cbAgree.setMovementMethod(LinkMovementMethod.getInstance());
-        rltAgreement.setText(sp);
+        rltAgreement.setText(str2);
         rltAgreement.setOnClickListener(this);
     }
 
@@ -325,6 +325,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
                 break;
             case R.id.rlt_agreement:
+            	Intent intent = new Intent(this,AgreementTextActivity.class);
+            	startActivity(intent);
             	break;
             default:
                 break;

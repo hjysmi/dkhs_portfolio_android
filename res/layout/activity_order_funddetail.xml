@@ -32,17 +32,28 @@
                 android:id="@+id/rl_name_day"
                 style="@style/hw_wrap"
                 android:layout_below="@+id/tv_combination_name" >
-
-                <TextView
-                    android:id="@+id/tv_combination_user"
-                    style="@style/hw_wrap"
-                    android:layout_alignParentLeft="true"
+				<LinearLayout 
+				    android:layout_height="wrap_content"
+				    android:layout_width="wrap_content"
+				    android:orientation="horizontal"
+				    android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
+				    >
+                <TextView
+                    android:id="@+id/tv_combination"
+                    style="@style/hw_wrap"
                     android:layout_marginTop="5dp"
                     android:text="创建人："
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
-
+                <TextView
+                    android:id="@+id/tv_combination_user"
+                    style="@style/hw_wrap"
+                    android:layout_marginTop="5dp"
+                    android:text="某某某"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp" />
+				</LinearLayout>
                 <ImageView
                     android:id="@+id/iv_more"
                     android:layout_width="wrap_content"
