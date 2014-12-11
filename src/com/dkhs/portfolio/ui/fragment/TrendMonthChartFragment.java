@@ -111,31 +111,31 @@ public class TrendMonthChartFragment extends BaseFragment {
     }
 
     private View rootView;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    	if(rootView == null){
-    		rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
-    		mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
-    		if(getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")){
-    			InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-    			mMaChart.setScroll(mScrollview);
-    		}
-    		initMaChart(mMaChart);
-    		// setupBottomTextViewData();
-    		initView(rootView);
-    		PromptManager.showProgressDialog(getActivity(), "");
-    		mNetValueDataEngine.requeryOneMonth(monthListener);
+        if (rootView == null) {
+            rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
+            mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+                mMaChart.setScroll(mScrollview);
+            }
+            initMaChart(mMaChart);
+            // setupBottomTextViewData();
+            initView(rootView);
+            PromptManager.showProgressDialog(getActivity(), "");
+            mNetValueDataEngine.requeryOneMonth(monthListener);
 
-    	}
-    	//缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
+        }
+        // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
         ViewGroup parent = (ViewGroup) rootView.getParent();
         if (parent != null) {
             parent.removeView(rootView);
-        } 
+        }
         return rootView;
     }
-    
+
     private void initView(View view) {
         viewDashLineTip = view.findViewById(R.id.tv_dashline_tip);
         tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
@@ -144,7 +144,6 @@ public class TrendMonthChartFragment extends BaseFragment {
         tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
     }
-
 
     private boolean isTodayShow() {
         if (TextUtils.isEmpty(trendType)) {
@@ -191,24 +190,23 @@ public class TrendMonthChartFragment extends BaseFragment {
 
     private List<LineEntity> lines;
     private LineEntity MA5;
-    
+
     private void setLineData(List<TrendLinePointEntity> lineDataList) {
         if (isAdded()) {
-        	if(lines == null){
-        		lines = new ArrayList<LineEntity>();
-        	}else{
-        		lines.clear();
-        	}
-        	if(MA5 == null){
-        		MA5 = new LineEntity();
-        	}
+            if (lines == null) {
+                lines = new ArrayList<LineEntity>();
+            } else {
+                lines.clear();
+            }
+            if (MA5 == null) {
+                MA5 = new LineEntity();
+            }
             MA5.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
             MA5.setLineData(lineDataList);
             lines.add(MA5);
             mMaChart.setLineData(lines);
         }
     }
-
 
     private void initTodayTrendTitle() {
         List<String> xtitle = new ArrayList<String>();
@@ -242,24 +240,24 @@ public class TrendMonthChartFragment extends BaseFragment {
 
     ParseHttpListener monthListener = new ParseHttpListener<DrawLineDataEntity>() {
 
-    	 @Override
-         protected DrawLineDataEntity parseDateTask(String jsonData) {
-         	HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-             DrawLineDataEntity lineData = null;
-             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
-                 lineData = new DrawLineDataEntity();
-                 getMaxOffetValue(lineData, histroyValue);
-             }
-             return lineData;
-         }
+        @Override
+        protected DrawLineDataEntity parseDateTask(String jsonData) {
+            HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            DrawLineDataEntity lineData = null;
+            if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
+                lineData = new DrawLineDataEntity();
+                getMaxOffetValue(lineData, histroyValue);
+            }
+            return lineData;
+        }
 
-         @Override
-         protected void afterParseData(DrawLineDataEntity todayNetvalue) {
-             if (todayNetvalue != null) {
-                 monthNetvalue = todayNetvalue;
-                 setMonthViewLoad();
-             }
-         }
+        @Override
+        protected void afterParseData(DrawLineDataEntity todayNetvalue) {
+            if (todayNetvalue != null) {
+                monthNetvalue = todayNetvalue;
+                setMonthViewLoad();
+            }
+        }
 
     };
 
@@ -277,51 +275,54 @@ public class TrendMonthChartFragment extends BaseFragment {
     }
 
     private void setMonthViewLoad() {
-    	 try {
-             // = historyNetvalue.da();
-             if (monthNetvalue.dataList != null) {
-                 mMaChart.setDashLinePointSize(monthNetvalue.dashLineSize);
-                 if (mMaChart.getDashLinePointSize() > 2) {
-                     setTipVisible(true);
-                     setYTitle(monthNetvalue.begin, monthNetvalue.maxOffetvalue);
-                 } else {
-                     setTipVisible(false);
-                     setYTitle(monthNetvalue.begin, monthNetvalue.maxOffetvalue);
-                 }
-                 setLineData(monthNetvalue.dataList);
-                 if(strLeft == null){
-                 	strLeft = getString(R.string.time_start);
-                 }
-                 if(strRight == null){
-                 	strRight = getString(R.string.time_end);
-                 }
-                 strRight = getString(R.string.time_end, monthNetvalue.endDay);
-                 tvTimeLeft.setText(String.format(strLeft,  monthNetvalue.startDay));
-                 tvTimeRight.setText(String.format(strRight,  monthNetvalue.endDay));
+        try {
+            // = historyNetvalue.da();
+            if (monthNetvalue.dataList != null) {
+                mMaChart.setDashLinePointSize(monthNetvalue.dashLineSize);
+                if (mMaChart.getDashLinePointSize() > 2) {
+                    setTipVisible(true);
+                    setYTitle(monthNetvalue.begin, monthNetvalue.maxOffetvalue);
+                } else {
+                    setTipVisible(false);
+                    setYTitle(monthNetvalue.begin, monthNetvalue.maxOffetvalue);
+                }
+                setLineData(monthNetvalue.dataList);
+                if (strLeft == null) {
+                    strLeft = getString(R.string.time_start);
+                }
+                if (strRight == null) {
+                    strRight = getString(R.string.time_end);
+                }
+                strRight = getString(R.string.time_end, monthNetvalue.endDay);
+                tvTimeLeft.setText(String.format(strLeft, monthNetvalue.startDay));
+                tvTimeRight.setText(String.format(strRight, monthNetvalue.endDay));
 
-                 setXTitle(monthNetvalue);
-             }
-             tvNetValue.setVisibility(View.VISIBLE);
-             tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
-             tvNetValue.setText(StringFromatUtils.get4Point(monthNetvalue.begin));
-             float addupValue = (monthNetvalue.end - monthNetvalue.begin) / monthNetvalue.begin * 100;
-             tvUpValue.setText(StringFromatUtils.get4Point(monthNetvalue.end));
-             // fl
-             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
-             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
-             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-             PromptManager.closeProgressDialog();
-         } catch (Exception e) {
-             // TODO: handle exception
-         }
+                setXTitle(monthNetvalue);
+            }
+            tvNetValue.setVisibility(View.VISIBLE);
+            tvNetValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+            tvNetValue.setText(StringFromatUtils.get4Point(monthNetvalue.begin));
+            float addupValue = (monthNetvalue.end - monthNetvalue.begin) / monthNetvalue.begin * 100;
+            tvUpValue.setText(StringFromatUtils.get4Point(monthNetvalue.end));
+            // fl
+            tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
+            tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
+            tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
+            PromptManager.closeProgressDialog();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
     /**
-
-    /**
+     * /**
      * 设置纵坐标标题，并设置曲线的最大值和最小值
      */
     private void setYTitle(float baseNum, float offetYvalue) {
+
+        System.out.println("setYTitle baseNum:" + baseNum);
+        System.out.println("setYTitle offetYvalue:" + offetYvalue);
+
         // 增加20的空白区域
         if (offetYvalue != 0) {
             offetYvalue = offetYvalue / 0.8f;
@@ -404,6 +405,7 @@ public class TrendMonthChartFragment extends BaseFragment {
         if (dashLineSize > 1) {
             lineData.begin = 1;
         } else {
+            // lineData.begin = historyNetValue.getBegin();
             lineData.begin = historyNetValue.getBegin();
         }
         lineData.dashLineSize = dashLineSize;
@@ -411,7 +413,6 @@ public class TrendMonthChartFragment extends BaseFragment {
         return offetValue;
 
     }
-
 
     private void setXTitle(DrawLineDataEntity historyNetvalue) {
         List<String> xtitle = new ArrayList<String>();
@@ -427,25 +428,26 @@ public class TrendMonthChartFragment extends BaseFragment {
         mMaChart.setAxisXTitles(xtitle);
 
     }
-    
-    public void startRequry(){
-    	dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
+
+    public void startRequry() {
+        dataHandler.postDelayed(runnable, 60 * 1000);// 隔60s再执行一次
     }
-    public void stopRequry(){
-    	dataHandler.removeCallbacks(runnable);
+
+    public void stopRequry() {
+        dataHandler.removeCallbacks(runnable);
     }
 
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
-            if (null != mNetValueDataEngine) 
-            	mNetValueDataEngine.requeryOneMonth(monthListener);
+            if (null != mNetValueDataEngine)
+                mNetValueDataEngine.requeryOneMonth(monthListener);
             dataHandler.postDelayed(this, 60 * 1000);// 隔60s再执行一次
         }
     };
-	private String strLeft;
-	private String strRight;
+    private String strLeft;
+    private String strRight;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

@@ -376,6 +376,7 @@ public class TrendSevenDayChartFragment extends BaseFragment {
             lineData.begin = 1;
         } else {
             lineData.begin = historyNetValue.getBegin();
+            // lineData.begin = historyNetValue.getLast_netvalue();
         }
         lineData.dashLineSize = dashLineSize;
         lineData.maxOffetvalue = offetValue;

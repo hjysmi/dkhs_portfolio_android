@@ -323,7 +323,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         lineData.netvalue = dayNetValueList.get(dayNetValueList.size() - 1).getPercentage();
         int dashLineSize = 0;
         int i = 0;
-        float baseNum = todayNetvalue.getBegin();
+        float baseNum = todayNetvalue.getLast_netvalue();
         float maxNum = baseNum, minNum = baseNum;
         for (TodayNetBean bean : todayNetvalue.getChartlist()) {
             i++;
@@ -351,7 +351,8 @@ public class TrendTodayChartFragment extends BaseFragment {
         if (dashLineSize > 1) {
             lineData.begin = 1;
         } else {
-            lineData.begin = todayNetvalue.getBegin();
+//            lineData.begin = todayNetvalue.getBegin();
+            lineData.begin = todayNetvalue.getLast_netvalue();
         }
         lineData.dashLineSize = dashLineSize;
         float offetValue;
