@@ -98,7 +98,7 @@ public class MainCombinationoAdapter extends BaseAdapter {
             TextView cAddupText = (TextView) view.findViewById(R.id.tv_addup_value);
             CombinationBean item = dataList.get(position);
             cNameText.setText(item.getName());
-            float currenValue = item.getCurrentValue();
+            float currenValue = item.getChng_pct_day();
             cCurrentText.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
             cCurrentText.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
