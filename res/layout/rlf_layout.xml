@@ -41,7 +41,11 @@
             android:textSize="14sp" />
 
     </RelativeLayout>
-
+	<LinearLayout 
+	    android:layout_height="wrap_content"
+	    android:layout_width="match_parent"
+	    android:orientation="horizontal"
+	    >
     <CheckBox
         android:id="@+id/cb_agree"
         android:layout_width="wrap_content"
@@ -51,10 +55,21 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="10dp"
         android:gravity="top"
         android:textSize="14sp" />
-
+    <TextView 
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:singleLine="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="top"
+        android:textSize="14sp"
+        android:text=""
+        android:id="@+id/rlt_agreement"
+        />
+	</LinearLayout>
     <Button
         android:id="@+id/rlbutton"
         style="@style/btn_login_blue"

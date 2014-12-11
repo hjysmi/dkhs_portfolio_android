@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
@@ -26,6 +27,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.umeng.analytics.MobclickAgent;
 
 public class OptionEditActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
@@ -149,5 +151,22 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         protected void afterParseData(List<SelectStockBean> dataList) {
         }
     };
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_edit);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
 }

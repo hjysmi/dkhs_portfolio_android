@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
@@ -37,6 +38,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.umeng.analytics.MobclickAgent;
 
 public class KChartsFragment extends Fragment {
     public static final int TYPE_CHART_DAY = 1;
@@ -544,7 +546,7 @@ public class KChartsFragment extends Fragment {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
-
+        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -598,4 +600,12 @@ public class KChartsFragment extends Fragment {
         	PromptManager.closeProgressDialog();
         };
     };
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
 }

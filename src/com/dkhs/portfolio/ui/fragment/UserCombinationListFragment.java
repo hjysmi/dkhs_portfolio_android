@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -33,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
+import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -149,5 +151,20 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
             }
         };
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_user_combination_list);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+	}
 }

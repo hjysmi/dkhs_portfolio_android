@@ -33,6 +33,7 @@ import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 公告
@@ -203,5 +204,20 @@ public class OptionMarketNewsFragment extends Fragment {
             mListView.removeFooterView(mFootView);
         }
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news_list);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+	}
 }

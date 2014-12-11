@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine;
 import com.dkhs.portfolio.engine.LoadNewsTextEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.umeng.analytics.MobclickAgent;
 
 
 public class YanbaoNewsActivity extends ModelAcitivity{
@@ -110,4 +112,22 @@ public class YanbaoNewsActivity extends ModelAcitivity{
 	    	/*BitmapUtils bitmapUtils = new BitmapUtils(this);
             bitmapUtils.display(newsTitleIcon, mOptionNewsBean.getUser().getHeadPitureSM());*/
 	    }
+	    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao_news);
+	    @Override
+		public void onPause() {
+			// TODO Auto-generated method stub
+			super.onPause();
+			//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+			MobclickAgent.onPageEnd(mPageName);
+			MobclickAgent.onPause(this);
+		}
+
+		@Override
+		public void onResume() {
+			// TODO Auto-generated method stub
+			super.onResume();
+			//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+			MobclickAgent.onPageStart(mPageName);
+			MobclickAgent.onResume(this);
+		}
 }
