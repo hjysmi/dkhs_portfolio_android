@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -139,14 +142,39 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.rlbutton) {
-            String verifyCode = etVerifucode.getText().toString();
+            verifyCode = etVerifucode.getText().toString();
             if (TextUtils.isEmpty(verifyCode)) {
                 // PromptManager.showToast("手机号码不能为空");
                 etVerifucode.setError(Html.fromHtml("<font color='red'>验证码不能为空</font>"));
                 etVerifucode.requestFocus();
                 return;
             }
-            startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode, false));
+            new UserEngineImpl().checkVericode(phoneNum, verifyCode, new ParseHttpListener<Boolean>() {
+
+				@Override
+				protected Boolean parseDateTask(String jsonData) {
+					try {
+						JSONObject json = new JSONObject(jsonData);
+						if(json.has("status")){
+							boolean bool = json.getBoolean("status");
+							return bool;
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+						return false;
+					}
+					return false;
+				}
+
+				@Override
+				protected void afterParseData(Boolean object) {
+					if(object){
+						startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode, false));
+					}else{
+						PromptManager.showToast("验证码有误");
+					}
+				}
+			}.setLoadingDialog(this));
         }
         if (v.getId() == R.id.btn_getCode) {
             getVerifyCode();
@@ -237,6 +265,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             }
         };
     };
+	private String verifyCode;
 
     /**
      * @Title

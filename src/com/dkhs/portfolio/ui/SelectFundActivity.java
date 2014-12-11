@@ -26,6 +26,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.PopupWindow.OnDismissListener;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -169,7 +170,6 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
                 for (FragmentSelectStockFund fragment : fragmentList) {
                     fragment.setOrderType(mOrderType);
                 }
-                btnOrder.setCompoundDrawables(null, null, drawable_down, null);
             }
         });
         lv_profit_loss.setAdapter(new ArrayAdapter<String>(this, R.layout.item_btn_more, orderTitle));
@@ -177,12 +177,13 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         mPopMoreWindow.setOutsideTouchable(true); // 不能在没有焦点的时候使用
         mPopMoreWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPopMoreWindow.setFocusable(true);
-        // TextView tvDay = (TextView) view.findViewById(R.id.tv_day_order);
-        // TextView tvMonth = (TextView) view.findViewById(R.id.tv_month_order);
-        // TextView tvQuarter = (TextView) view.findViewById(R.id.tv_quarter_order);
-        // tvDay.setOnClickListener(popMoreClickLisenter);
-        // tvMonth.setOnClickListener(popMoreClickLisenter);
-        // tvQuarter.setOnClickListener(popMoreClickLisenter);
+        mPopMoreWindow.setOnDismissListener(new OnDismissListener() {
+			
+			@Override
+			public void onDismiss() {
+				 btnOrder.setCompoundDrawables(null, null, drawable_down, null);
+			}
+		});
 
         // mPopMoreWindow.setWidth(btnOrder.getWidth());
 

@@ -102,7 +102,7 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 								byte[] bytes = item.getSymbol_name().getBytes("UTF-8");
 								switch (bytes.length) {
 								case 6:
-									sb.append("      ");
+									sb.append("        ");
 									break;
 								case 7:
 								case 8:
@@ -121,7 +121,11 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							sb.append("\t\t从");
+							if(item.getSymbol_name().contains("*")){
+		                    	sb.append("\t从");
+		                    }else{
+		                    	sb.append("\t\t从");
+		                    }
 							sb.append(StringFromatUtils.get2PointPercent(item.getFrom_percent()));
 		                    // sb.append("%");
 		                    sb.append("调至");

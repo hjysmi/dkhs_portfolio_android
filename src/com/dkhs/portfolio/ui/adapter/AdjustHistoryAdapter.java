@@ -84,7 +84,7 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 						byte[] bytes = position.getStockName().getBytes("UTF-8");
 						switch (bytes.length) {
 						case 6:
-							sb.append("      ");
+							sb.append("        ");
 							break;
 						case 7:
 						case 8:
@@ -102,7 +102,11 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
-                    sb.append("\t\t从");
+                    if(position.getStockName().contains("*")){
+                    	sb.append("\t从");
+                    }else{
+                    	sb.append("\t\t从");
+                    }
                     // int percent = (int) (position.getFromPercent());
                     sb.append(StringFromatUtils.get2PointPercent(position.getFromPercent()));
                     // sb.append("%");
@@ -126,12 +130,13 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 						byte[] bytes = position.getStockName().getBytes("UTF-8");
 						switch (bytes.length) {
 						case 6:
-							sb.append("      ");
+							sb.append("        ");
 							break;
 						case 7:
 						case 8:
 						case 9:
 							sb.append("     ");
+							
 							break;
 						case 10:
 						case 11:
@@ -144,7 +149,12 @@ public class AdjustHistoryAdapter extends BaseAdapter {
 					} catch (UnsupportedEncodingException e) {
 						e.printStackTrace();
 					}
-                    sb.append("\t\t从");
+                    
+                    if(position.getStockName().contains("*")){
+                    	sb.append("\t从");
+                    }else{
+                    	sb.append("\t\t从");
+                    }
                     // int percent = (int) (position.getFromPercent());
                     // sb.append(percent);
                     // sb.append("%");

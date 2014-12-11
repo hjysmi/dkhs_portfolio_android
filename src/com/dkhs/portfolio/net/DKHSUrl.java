@@ -140,6 +140,7 @@ public class DKHSUrl {
    
         // 获取验证码
         String get_vericode = "/api/v1/accounts/new_mobile_captcha/";
+        String check_vericode = "/api/v1/accounts/verify_mobile_captcha/";
         // 是否设置过密码
         String is_setpassword = "/api/v1/accounts/is_password_set/";
         // 设置密码
