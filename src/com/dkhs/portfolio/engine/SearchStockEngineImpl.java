@@ -47,7 +47,7 @@ public class SearchStockEngineImpl {
     public static void loadStockList() {
         // 股票类型 1, '股票' 2, '债券' 3, '基金' 5, '指数' 默认 1
         String loadStockUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=1&exchange=1,2";
-        String loadFundUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=3&exchange=1,2";
+        String loadFundUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=3&exchange=1,2,12";
         String loadIndexUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2";
         // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2");
         // "last_datetime"
