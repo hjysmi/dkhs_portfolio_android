@@ -45,91 +45,70 @@ public class SearchStockEngineImpl {
      * 请服务器获取到3348条数据，包括解析数据，插入数据到数据库一共耗时42秒
      */
     public static void loadStockList() {
-        StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=1,3,5&exchange=1,2");
+        // 股票类型 1, '股票' 2, '债券' 3, '基金' 5, '指数' 默认 1
+        String loadStockUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=1&exchange=1,2";
+        String loadFundUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=3&exchange=1,2";
+        String loadIndexUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2";
         // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2");
         // "last_datetime"
         // lastLoadTime = 2014-11-21T07:15:53Z
         String lastLoadTime = PortfolioPreferenceManager
                 .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
+        StringBuilder sbLastDate = new StringBuilder("&last_datetime=");
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            lastLoadTime = "2014-12-08T07:15:53Z";
+            sbLastDate.append("2014-12-08T07:15:53Z");
+        } else {
+
+            sbLastDate.append(lastLoadTime);
         }
-        loadUrl.append("&last_datetime=");
-        loadUrl.append(lastLoadTime);
-        DKHSClient.requestLong(HttpMethod.GET, loadUrl.toString(), null, new ParseHttpListener<String>() {
+        DKHSClient.requestLong(HttpMethod.GET, loadStockUrl + sbLastDate.toString(), null, stockProfiListener);
+        DKHSClient.requestLong(HttpMethod.GET, loadFundUrl + sbLastDate.toString(), null, stockProfiListener);
+        DKHSClient.requestLong(HttpMethod.GET, loadIndexUrl + sbLastDate.toString(), null, stockProfiListener);
 
-            @Override
-            protected String parseDateTask(String jsonData) {
-
-                try {
-
-                    // Type listType = new TypeToken<List<SearchStockBean>>() {
-                    // }.getType();
-                    StockProfileDataBean dataBean = DataParse.parseObjectJson(StockProfileDataBean.class, jsonData);
-                    // dataList = DataParse.parseJsonList(jsonData, listType);
-                    if (null != dataBean) {
-
-                        List<SearchStockBean> dataList = dataBean.getResults();
-                        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-                        // dbUtils.configAllowTransaction(true);
-                        try {
-                            dbUtils.replaceAll(dataList);
-                            LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
-                        } catch (Exception e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-
-                    return dataBean.getLast_datetime();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return "";
-            }
-
-            @Override
-            protected void afterParseData(String object) {
-                if (!TextUtils.isEmpty(object)) {
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME, object);
-
-                }
-
-            }
-        });
-        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.profile + "?symbol_type=3,5", null,
-        // new ParseHttpListener<Boolean>() {
-        //
-        // @Override
-        // protected Boolean parseDateTask(String jsonData) {
-        // List<SearchFundsBean> dataList = new ArrayList<SearchFundsBean>();
-        // Type listType = new TypeToken<List<SearchFundsBean>>() {
-        // }.getType();
-        // dataList = DataParse.parseJsonList(jsonData, listType);
-        //
-        // DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-        // // dbUtils.configAllowTransaction(true);
-        // try {
-        // dbUtils.replaceAll(dataList);
-        // LogUtils.d("Insert " + dataList.size() + " item to funds database success!");
-        // return true;
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // return false;
-        // }
-        //
-        // @Override
-        // protected void afterParseData(Boolean object) {
-        // // if (object) {
-        // //
-        // // PortfolioPreferenceManager.setLoadSearchStock();
-        // // }
-        //
-        // }
-        // });
     }
+
+    static ParseHttpListener stockProfiListener = new ParseHttpListener<String>() {
+
+        @Override
+        protected String parseDateTask(String jsonData) {
+
+            try {
+
+                // Type listType = new TypeToken<List<SearchStockBean>>() {
+                // }.getType();
+                StockProfileDataBean dataBean = DataParse.parseObjectJson(StockProfileDataBean.class, jsonData);
+                // dataList = DataParse.parseJsonList(jsonData, listType);
+                if (null != dataBean) {
+
+                    List<SearchStockBean> dataList = dataBean.getResults();
+                    DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+                    // dbUtils.configAllowTransaction(true);
+                    try {
+                        dbUtils.replaceAll(dataList);
+                        LogUtils.d("Insert " + dataList.size() + " item to stock database success!");
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                }
+
+                return dataBean.getLast_datetime();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+        @Override
+        protected void afterParseData(String object) {
+            if (!TextUtils.isEmpty(object)) {
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME, object);
+
+            }
+
+        }
+    };
 
     public void searchStock(String key) {
 

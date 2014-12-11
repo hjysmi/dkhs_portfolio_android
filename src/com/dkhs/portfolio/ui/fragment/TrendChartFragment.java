@@ -671,7 +671,7 @@ public class TrendChartFragment extends BaseFragment {
             // HitstroyNetBean todayBean = dayNetValueList.get(i);
             pointEntity.setTime("时间:" + TimeUtils.getTimeString(bean.getTimestamp()));
             pointEntity.setValue(bean.getNetvalue());
-            pointEntity.setIncreaseRange((bean.getNetvalue() - baseNum) / baseNum * 100);
+            pointEntity.setIncreaseRange(((bean.getNetvalue() - baseNum) / baseNum) * 100);
 
             if (dashLineSize == 0 && TimeUtils.toCalendar(bean.getTimestamp()) != null) {
                 if (TimeUtils.toCalendar(bean.getTimestamp()).after(mCreateCalender)) {

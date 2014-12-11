@@ -33,7 +33,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewStub;
 import android.view.WindowManager;
 import android.view.animation.Animation;
-import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -601,11 +600,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
             tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
             tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
-            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand((int) mStockQuotesBean.getVolume()));
-            tvChengjiaoE.setText(StringFromatUtils.convertToWan((int) mStockQuotesBean.getAmount()));
-            Log.i("StockQuotes", mStockQuotesBean.getAmount()+"");
+            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
+            tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         }
-        Log.i("StockQuotes",  TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
 
         if (isIndexType()) {
 

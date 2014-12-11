@@ -107,4 +107,12 @@ public class HistoryNetValue {
         this.maxOffetValue = maxOffetValue;
     }
 
+    // public float getLast_netvalue() {
+    // return last_netvalue;
+    // }
+    //
+    // public void setLast_netvalue(float last_netvalue) {
+    // this.last_netvalue = last_netvalue;
+    // }
+
 }

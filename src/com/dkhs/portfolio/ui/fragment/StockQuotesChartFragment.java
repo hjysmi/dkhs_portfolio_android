@@ -655,11 +655,11 @@ public class StockQuotesChartFragment extends Fragment {
             rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
         } else {
 
-            rightYtitle.add(StringFromatUtils.get2PointPercent(1));
-            rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
-            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(-1));
             rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
-            rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+            rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         }
 
         mMaChart.setAxisRightYTitles(rightYtitle);

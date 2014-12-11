@@ -79,7 +79,6 @@
             android:text="停牌"
             android:textSize="18sp"
             android:visibility="gone" />
-
     </RelativeLayout>
 
 </LinearLayout>
