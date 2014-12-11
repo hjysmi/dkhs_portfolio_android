@@ -144,6 +144,12 @@ public class UserEngineImpl {
     public void checkMobile(String mobile, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.checkMobile, mobile);
     }
+    public void checkVericode(String mobile, String captcha, IHttpListener listener) {
+    	RequestParams params = new RequestParams();
+    	params.addQueryStringParameter("mobile", mobile);
+    	params.addQueryStringParameter("captcha", captcha);
+    	DKHSClient.request(HttpMethod.GET, DKHSUrl.User.check_vericode, params, listener);
+    }
     public void boundEmail(String email,IHttpListener listener){
     	DKHSClient.requestByGet(listener, DKHSUrl.User.boundemail, email);
     }
