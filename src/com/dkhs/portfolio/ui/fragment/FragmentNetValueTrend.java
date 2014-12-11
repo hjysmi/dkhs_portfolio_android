@@ -45,7 +45,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ToggleButton;
-
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
@@ -65,6 +64,7 @@ import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName FragmentNetValueTrend
@@ -777,7 +777,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
-
+        MobclickAgent.onPageStart(mPageName);
     }
 
     @Override
@@ -841,4 +841,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void setITouchListener(ITouchListener touchListener) {
         this.mTouchListener = touchListener;
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_fund_order_line);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
 }

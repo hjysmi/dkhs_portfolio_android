@@ -47,6 +47,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName TrendChartFragment
@@ -742,5 +743,20 @@ public class StockQuotesChartFragment extends Fragment {
             dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_time);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+	}
 }

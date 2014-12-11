@@ -127,7 +127,9 @@ public class CombinationUserActivity extends ModelAcitivity {
 
     protected void updateUserView(UserEntity object) {
         BitmapUtils bitmapUtils = new BitmapUtils(this);
-        bitmapUtils.display(ivHeader, object.getAvatar_md());
+        if(null != object.getAvatar_md() && object.getAvatar_md().length() > 35){
+        	bitmapUtils.display(ivHeader, object.getAvatar_md());
+        }
         tvUName.setText(object.getUsername());
         tvUCreateTime.setText(TimeUtils.getSimpleDay(object.getDate_joined()) + "   进驻谁牛");
         tvUserDesc.setText(getString(R.string.format_sign_text_title,object.getDescription()));

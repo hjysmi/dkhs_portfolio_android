@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -30,6 +31,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
+import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -161,7 +163,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void onPause() {
 
         super.onPause();
-
+        MobclickAgent.onPageEnd(mPageName);
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
     
@@ -169,6 +171,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		MobclickAgent.onPageStart(mPageName);
 	}
     
 	@Override
@@ -202,5 +205,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             }
         };
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
 
 }

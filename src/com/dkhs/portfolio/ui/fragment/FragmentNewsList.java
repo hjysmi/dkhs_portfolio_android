@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
@@ -29,6 +30,7 @@ import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
@@ -259,22 +261,22 @@ public class FragmentNewsList extends Fragment implements Serializable {
         }
     }
 
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
     @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        /*
-         * if(null != mDataList)
-         * layouts.getLayoutParams().height = mDataList.size() * 200;
-         */
-        /*if (!first) {
-            mDataList = new ArrayList<OptionNewsBean>();
-            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-            mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
-            mLoadDataEngine.setFromYanbao(false);
-        }*/
-        super.onResume();
-    }
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+	}
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
