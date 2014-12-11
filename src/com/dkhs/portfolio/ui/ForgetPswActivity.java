@@ -263,10 +263,11 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
     };
 
     private String telephone;
+	private String verifyCode;
 
     @Override
     public void onClick(View v) {
-        String verifyCode = etVerifucode.getText().toString();
+        verifyCode = etVerifucode.getText().toString();
         telephone = etPhoneNum.getText().toString();
         if (v.getId() == R.id.rlbutton) {
             if (TextUtils.isEmpty(verifyCode)) {
@@ -275,7 +276,32 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
                 etVerifucode.requestFocus();
                 return;
             }
-            startActivity(SetPasswordActivity.newIntent(this, telephone, verifyCode));
+            new UserEngineImpl().checkVericode(telephone, verifyCode, new ParseHttpListener<Boolean>() {
+
+				@Override
+				protected Boolean parseDateTask(String jsonData) {
+					try {
+						JSONObject json = new JSONObject(jsonData);
+						if(json.has("status")){
+							boolean bool = json.getBoolean("status");
+							return bool;
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+						return false;
+					}
+					return false;
+				}
+
+				@Override
+				protected void afterParseData(Boolean object) {
+					if(object){
+						startActivity(SetPasswordActivity.newIntent(ForgetPswActivity.this, telephone, verifyCode));
+					}else{
+						PromptManager.showToast("验证码有误");
+					}
+				}
+			}.setLoadingDialog(this));
         }
         if (v.getId() == R.id.btn_getCode) {
             if (!isValidPhoneNum()) {
