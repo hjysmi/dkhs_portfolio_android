@@ -100,7 +100,7 @@ public class DragListAdapter extends BaseAdapter {
 		image.setOnClickListener(new OnDele(btn,txv));
 		btn.setOnClickListener(new Click( position,btn));
 		textView.setText(dataList.get(position).name);
-		tvId.setText(dataList.get(position).id+"");
+		tvId.setText(dataList.get(position).code);
 		//layoutCover.setOnTouchListener(new OnCover(image,btn));
 		if (isChanged){
 			Log.i("wanggang", "position == " + position);
@@ -189,6 +189,13 @@ public class DragListAdapter extends BaseAdapter {
 			return false;
 		}
 		
+	}
+	public void setAnima(int startX,int endX,LinearLayout ly){
+		Animation animation = null;
+		animation = new TranslateAnimation(startX,endX , 0, 0);
+		animation.setFillAfter(true);// True:图片停在动画结束位置
+		animation.setDuration(300);
+		ly.startAnimation(animation);
 	}
 	class Click implements OnClickListener{
 		int position;

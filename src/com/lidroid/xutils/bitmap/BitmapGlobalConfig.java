@@ -15,12 +15,9 @@
 
 package com.lidroid.xutils.bitmap;
 
-import java.util.HashMap;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
-
 import com.lidroid.xutils.bitmap.core.BitmapCache;
 import com.lidroid.xutils.bitmap.download.DefaultDownloader;
 import com.lidroid.xutils.bitmap.download.Downloader;
@@ -30,6 +27,8 @@ import com.lidroid.xutils.task.PriorityAsyncTask;
 import com.lidroid.xutils.task.PriorityExecutor;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.util.OtherUtils;
+
+import java.util.HashMap;
 
 /**
  * Author: wyouflf
@@ -76,7 +75,7 @@ public class BitmapGlobalConfig {
         initBitmapCache();
     }
 
-    public static BitmapGlobalConfig getInstance(Context context, String diskCachePath) {
+    public synchronized static BitmapGlobalConfig getInstance(Context context, String diskCachePath) {
 
         if (TextUtils.isEmpty(diskCachePath)) {
             diskCachePath = OtherUtils.getDiskCacheDir(context, "xBitmapCache");

@@ -1,16 +1,11 @@
 package com.lidroid.xutils.bitmap.core;
 
-import java.lang.ref.WeakReference;
-
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.graphics.Region;
+import android.graphics.*;
 import android.graphics.drawable.Drawable;
 import android.view.View;
-
 import com.lidroid.xutils.BitmapUtils;
+
+import java.lang.ref.WeakReference;
 
 /**
  * Author: wyouflf

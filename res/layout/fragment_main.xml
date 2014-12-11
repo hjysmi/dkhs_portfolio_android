@@ -16,8 +16,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/nav_left_main_selector" />
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_left_main_selector" />
 
         <ImageView
             android:id="@+id/tv_title"
@@ -32,8 +34,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/nav_right_main_selector" />
+            android:background="@null"
+            android:padding="10dp"
+            android:scaleType="fitCenter" />
     </RelativeLayout>
 
     <TextView
@@ -49,22 +52,6 @@
         android:padding="6dp"
         android:singleLine="true"
         android:textSize="23sp" />
-    <!--
-         <TextView
-        android:id="@+id/tv_bottom_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:background="@color/theme_color"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:padding="6dp"
-        android:singleLine="true"
-        android:textSize="26sp" />
-    -->
 
     <GridView
         android:id="@+id/gv_function"
@@ -105,13 +92,6 @@
             android:layout_marginTop="10.0dip"
             android:orientation="horizontal" >
         </LinearLayout>
-
-        <!--
-             <View
-            android:id="@+id/order_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-        -->
     </RelativeLayout>
 
     <ViewStub
@@ -152,10 +132,10 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/ll_myconbinlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/dline1"
-        android:id="@+id/ll_myconbinlayout"
         android:layout_below="@+id/title_main_combination"
         android:orientation="horizontal" >
 

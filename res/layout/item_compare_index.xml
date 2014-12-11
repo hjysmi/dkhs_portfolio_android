@@ -19,6 +19,8 @@
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
         android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="end"
         android:text="沪深大盘沪"
         android:textColor="@color/white"
         android:textSize="13sp" />

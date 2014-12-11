@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 
@@ -35,14 +36,14 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
     }
 
     @Override
-    protected void setTabViewPage(ArrayList<String> titleList, List<FragmentSelectStockFund> fragmenList) {
+    protected void setTabViewPage(List<FragmentSelectStockFund> fragmenList) {
 
-        String[] tArray = getResources().getStringArray(R.array.select_stock);
-        int titleLenght = tArray.length;
-        for (int i = 0; i < titleLenght; i++) {
-            titleList.add(tArray[i]);
-
-        }
+        // String[] tArray = getResources().getStringArray(R.array.select_stock);
+        // int titleLenght = tArray.length;
+        // for (int i = 0; i < titleLenght; i++) {
+        // titleList.add(tArray[i]);
+        //
+        // }
         FragmentSelectStockFund mOptionalFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_OPTIONAL);
         FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_INCREASE);
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_DRAWDOWN);
@@ -63,6 +64,18 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
     @Override
     protected ListViewType getLoadByType() {
         return ListViewType.STOCK;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    protected int getTitleRes() {
+        // TODO Auto-generated method stub
+        return R.array.select_stock;
     }
 
 }

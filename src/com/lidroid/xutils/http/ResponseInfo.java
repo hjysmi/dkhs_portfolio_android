@@ -1,12 +1,8 @@
 package com.lidroid.xutils.http;
 
-import java.util.Locale;
+import org.apache.http.*;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.ProtocolVersion;
-import org.apache.http.StatusLine;
+import java.util.Locale;
 
 /**
  * Author: wyouflf

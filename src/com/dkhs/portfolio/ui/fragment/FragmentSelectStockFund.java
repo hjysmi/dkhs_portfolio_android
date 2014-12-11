@@ -347,9 +347,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         
         if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
-        	timeMill= 0;
-        	isRefresh = true;
 	        	if(mLoadDataEngine.getStatu() == 0){
+	        		timeMill= 0;
+	            	isRefresh = true;
 		            if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
 		                    || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
 		                    && null != mDataList) {
@@ -548,7 +548,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             // thread.start();
 
             isLoadingMore = true;
-            mLoadDataEngine.setCurrentpage((mDataList.size() + 9)/10);
+            if(mLoadDataEngine.getStatu() == 0)
+            	mLoadDataEngine.setCurrentpage((mDataList.size() + 9)/10);
             mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
         }
