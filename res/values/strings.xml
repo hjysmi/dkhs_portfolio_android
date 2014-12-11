@@ -19,7 +19,7 @@
     <string name="tv_forget_password"><u>忘记密码</u></string>
     <string name="tv_register_now"><u>立即注册</u></string>
     <string name="account">邮箱/手机号</string>
-    <string name="password">密码</string>
+    <string name="password">请输入密码,不少于6位</string>
     <string name="phone">手机号码</string>
     <string name="nickname">您的昵称</string>
     <string name="nickname_hint">中英文、数字或-、_</string>
@@ -153,7 +153,7 @@
     <string name="dialog_before_createday_title">查询时间早于基金创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">起始时间不能早于创建前1个月</string>
-    <string name="hint_account">手机号或邮箱</string>
+    <string name="hint_account">手机号/邮箱地址</string>
     <string name="logining">登录中...</string>
     <string name="no_net">网络连接不可用，请稍后重试</string>
     <string name="no_net_connect">网络连接失败，请检查网络</string>
