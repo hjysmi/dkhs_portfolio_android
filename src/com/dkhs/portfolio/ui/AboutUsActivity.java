@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName AboutUsActivity
@@ -50,10 +52,28 @@ public class AboutUsActivity extends ModelAcitivity {
 			PackageManager manager = context.getPackageManager();
 			PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
 			String version = info.versionName;
-			aboutVersion.setText("谁牛 Android " + version);
+			aboutVersion.setText("谁牛 " + version);
 		} catch (NameNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_abort_us);
+    @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
 }

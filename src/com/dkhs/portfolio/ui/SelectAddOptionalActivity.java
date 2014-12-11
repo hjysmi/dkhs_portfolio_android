@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
@@ -29,6 +30,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -146,5 +148,19 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         // TODO Auto-generated method stub
         return R.array.select_optional_stock;
     }
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onResume(this);
+	}
 }

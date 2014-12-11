@@ -14,9 +14,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.umeng.analytics.MobclickAgent;
 /**
  * 密码设置
  * @author weiting
@@ -136,4 +138,22 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
             finish();
         }
     };
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_change_password);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
 }

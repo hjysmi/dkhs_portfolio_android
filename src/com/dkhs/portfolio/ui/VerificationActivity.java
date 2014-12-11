@@ -22,12 +22,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.SMSBroadcastReceiver;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.umeng.analytics.MobclickAgent;
 
 public class VerificationActivity extends ModelAcitivity implements OnClickListener {
 
@@ -250,5 +252,22 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         // 注销短信监听广播
         this.unregisterReceiver(mSMSBroadcastReceiver);
     }
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_verification);
+    @Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
 
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
+	}
 }

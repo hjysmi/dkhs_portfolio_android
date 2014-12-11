@@ -43,6 +43,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 软件设置界面
@@ -331,6 +332,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 		// TODO Auto-generated method stub
     	initData();
 		super.onResume();
+		MobclickAgent.onPageStart(mPageName);
+		MobclickAgent.onResume(this);
 	}
 	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
@@ -405,4 +408,13 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
         };
     };
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting);
+    @Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+		MobclickAgent.onPageEnd(mPageName);
+		MobclickAgent.onPause(this);
+	}
 }
