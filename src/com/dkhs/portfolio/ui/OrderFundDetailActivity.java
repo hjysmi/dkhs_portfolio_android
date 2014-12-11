@@ -130,7 +130,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         if (null != mChampionBean) {
 
             tvConName.setText(mChampionBean.getName());
-            tvUserName.setText(getString(R.string.format_create_name, mChampionBean.getCreateUser().getUsername()));
+            tvUserName.setText(mChampionBean.getCreateUser().getUsername());
             tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDescription()));
             tvCreateDay.setText(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
