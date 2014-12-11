@@ -786,7 +786,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // // Matrix matrix = new Matrix();
         // // matrix.preRotate(360, 100, 200);
     	
-    	btnRefresh.setBackgroundResource(R.drawable.nav_refreshing);
+    	btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
+                  null, null, null);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
         btnRefresh.startAnimation(animation);
         // btnRefresh.startAnimation(ani);
@@ -794,7 +795,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void stopRefreshAnimation() {
         btnRefresh.clearAnimation();
-        btnRefresh.setBackgroundResource(R.drawable.nav_refresh);
+        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
+                null, null, null);
     }
 
     /**
