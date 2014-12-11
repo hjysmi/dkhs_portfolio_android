@@ -1,22 +1,14 @@
 package com.dkhs.portfolio.ui;
 
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
@@ -28,12 +20,12 @@ import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -43,9 +35,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.service.SMSBroadcastReceiver;
 import com.dkhs.portfolio.ui.widget.TextViewClickableSpan;
-import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -71,6 +61,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     public Timer mTimer = new Timer();// 定时器
     private boolean mobileAble = false;
     private boolean codeAble = false;
+    private TextView rltAgreement;
 
     // @SuppressLint("HandlerLeak")
     // private Handler handler = new Handler() {
@@ -242,6 +233,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         current_type = getIntent().getIntExtra("activity_type", REGIST_TYPE);
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
+        rltAgreement = (TextView) findViewById(R.id.rlt_agreement);
         rlfbutton.setEnabled(false);
         // code = (EditText) findViewById(R.id.et_verifycode);
         // tvMessage = (TextView) findViewById(R.id.tv_agree_info);
@@ -285,13 +277,15 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         // intent2.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_TERMS);
 
         SpannableStringBuilder sp = new SpannableStringBuilder();
-        sp.append(str + str2);
+        sp.append(str2);
 
-        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, null), str.length(),
-                str.length() + str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        cbAgree.setText(sp);
+        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, null), 0,
+                str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        cbAgree.setText(str);
         // 设置TextView可点击
         cbAgree.setMovementMethod(LinkMovementMethod.getInstance());
+        rltAgreement.setText(sp);
+        rltAgreement.setOnClickListener(this);
     }
 
     @Override
@@ -330,7 +324,8 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 }
 
                 break;
-
+            case R.id.rlt_agreement:
+            	break;
             default:
                 break;
         }
