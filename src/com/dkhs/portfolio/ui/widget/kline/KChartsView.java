@@ -566,10 +566,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					if(j == 0){
 						wid = 2;
 					}else{
-						wid = 2 + rect.width()*2/3 + wid + 5;
+						//wid = 2 + rect.width()*2/3 + wid + 5;
 					}
-					canvas.drawText(text, wid,DEFAULT_AXIS_TITLE_SIZE, paint);
-					wid = wid +  2 + rect.width() ;
+					canvas.drawText(text, wid+PADDING_LEFT,DEFAULT_AXIS_TITLE_SIZE, paint);
+					wid = wid +  32 + rect.width() ;
 					paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
 					for (int i = 0; i < mShowDataNum
 							&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
@@ -854,8 +854,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				if (null != mTouchListener) {
 	                mTouchListener.chartTounching();
 	            }
-				mStartX = event.getX() - PADDING_LEFT;
-				mStartY = event.getY();
+				if(event.getX() - PADDING_LEFT  >= 0){
+					mStartX = event.getX() - PADDING_LEFT;
+					mStartY = event.getY();
+				}
 				setCurrentData();
 				postInvalidate();
 			}
