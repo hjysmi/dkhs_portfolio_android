@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -21,7 +22,7 @@ public class AgreementTextActivity extends ModelAcitivity{
 		
 		agreement_webview_web = (WebView) findViewById(R.id.agreement_webview_web);
 		agreement_webview_web.getSettings().setJavaScriptEnabled(true);  
-		agreement_webview_web.loadUrl(getResources().getString(R.string.agreement_url));
+		agreement_webview_web.loadUrl(DKHSClient.getAbsoluteUrl(getResources().getString(R.string.agreement_url)));
 		agreement_webview_web.setWebViewClient(new WebViewClient(){
 
 			@Override
