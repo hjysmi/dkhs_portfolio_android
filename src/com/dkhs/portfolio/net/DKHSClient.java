@@ -226,7 +226,7 @@ public class DKHSClient {
         request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);
     }
 
-    private static String getAbsoluteUrl(String relativeUrl) {
+    public static String getAbsoluteUrl(String relativeUrl) {
         if (relativeUrl.contains("http://") || relativeUrl.contains("https://")) {
             return relativeUrl;
         } else {

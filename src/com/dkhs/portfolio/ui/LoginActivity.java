@@ -75,7 +75,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private UserEngineImpl engine;
 
     public static final String EXTRA_PHONENUM = "extra_phone";
-
+    private boolean isDeBug = true; 
     public static Intent getLoginActivity(Context context, String phoneNum) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
@@ -107,8 +107,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // ShareSDK.registerPlatform(Laiwang.class);
         ShareSDK.setConnTimeout(5000);
         ShareSDK.setReadTimeout(10000);
-        Intent intent = new Intent(this,GettingUrlForAPPActivity.class);
-        startActivity(intent);
+        if(isDeBug){
+        	Intent intent = new Intent(this,GettingUrlForAPPActivity.class);
+            startActivity(intent);
+        }else{
+        	
+        }
     }
 
     /**

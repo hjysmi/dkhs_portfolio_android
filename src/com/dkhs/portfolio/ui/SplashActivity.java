@@ -13,6 +13,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -37,6 +38,7 @@ public class SplashActivity extends ModelAcitivity {
     
     protected static final String TAG = "SplashActivity";
     private Context context;
+    private boolean isDebug = true;
     /**
      * Handler:跳转到不同界面
      */
@@ -67,6 +69,9 @@ public class SplashActivity extends ModelAcitivity {
         context = this;
         hideHead();
         init();
+        if(!isDebug){
+        	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
+        }
     }
 
     private void init() {
