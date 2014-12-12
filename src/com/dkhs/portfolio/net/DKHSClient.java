@@ -227,7 +227,7 @@ public class DKHSClient {
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
-        if (relativeUrl.contains("http://")) {
+        if (relativeUrl.contains("http://")||relativeUrl.contains("https://")) {
             return relativeUrl;
         } else {
         	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
