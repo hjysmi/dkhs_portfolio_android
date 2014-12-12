@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -36,11 +38,13 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
@@ -271,7 +275,21 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_pos_increase_title, null);
         lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);
+        //增加牛人基金持仓明细可点击并跳转至个股行情页----2014.12.12 add by zcm
+        lvStock.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				position -= 1;
+				if(position >= 0 && position < stockList.size()){
+					 ConStockBean selectBean = stockList.get(position);
+	                 SelectStockBean sStockBean = SelectStockBean.copy(selectBean);
+	                 sStockBean.symbol_type = "1";
+	                 startActivity(StockQuotesActivity.newIntent(getActivity(), sStockBean));
+				}
+			}
+		});
     }
 
     private void setPieList() {
