@@ -555,7 +555,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
             isLoadingMore = true;
             if (mLoadDataEngine.getStatu() == 0)
-                mLoadDataEngine.setCurrentpage((mDataList.size() + 9) / 10);
+                mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
         }
