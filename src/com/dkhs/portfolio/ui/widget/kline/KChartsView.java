@@ -165,9 +165,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 			float width = getWidth() - PADDING_LEFT;
 			float left = 3.0f + PADDING_LEFT + 10;
-			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 10;
+			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 20;
 			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
-			float bottom = 8.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + 10;
+			float bottom = 8.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + 20;
 			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f  + PADDING_LEFT)) {
 					right = width - 12.0f + PADDING_LEFT;
@@ -216,16 +216,27 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	         paint1.setXfermode(new PorterDuffXfermode(Mode.SRC_IN)); 
 	        RectF rectF = new RectF(rect);    
 	        paint.setColor(Color.WHITE);
-	        canvas.drawRoundRect(rectF, 10f, 10f, paint1);
+	        //canvas.drawRoundRect(rectF, 10f, 10f, paint1);
 	        RectF rectF2 = new RectF((int)left, (int)top, (int)(right), (int)(bottom));  
 	        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-			canvas.drawRoundRect(rectF2,  10f, 10f, paint);
+			//canvas.drawRoundRect(rectF2,  10f, 10f, paint);
+	        Paint selectPaint = new Paint();
+	        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+	        selectPaint.setStyle(Paint.Style.FILL);// 充满
+	        selectPaint.setColor(Color.WHITE);
+	        RectF oval3 = new RectF(left - 5, top - 15, right, bottom + 15);// 设置个新的长方形
+	        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
+	        selectPaint.setStyle(Paint.Style.STROKE);// 描边
+	        selectPaint.setStrokeWidth(2);
+	        selectPaint.setColor(Color.LTGRAY);
+	        canvas.drawRoundRect(oval3, 20, 15, selectPaint);
+			
 			Paint borderPaint = new Paint();
 			borderPaint.setColor(Color.LTGRAY);
 			borderPaint.setStrokeWidth(2);
-			canvas.drawLine(left, top, left, bottom, borderPaint);
-			canvas.drawLine(left, top, right, top, borderPaint);
+			//canvas.drawLine(left, top, left, bottom, borderPaint);
+			//canvas.drawLine(left, top, right, top, borderPaint);
 			//canvas.drawLine(right, bottom, right, top, borderPaint);
 			//canvas.drawLine(right, bottom, left, bottom, borderPaint);
 
@@ -1138,7 +1149,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		if(mOHLCData == null || mOHLCData.size() == 0) {
 			return false;
 		}
-		return mShowDataNum == mOHLCData.size();
+		/*if(mShowDataNum == MAX_CANDLE_NUM){
+			return true;
+		}*/
+		return mShowDataNum == MAX_CANDLE_NUM;
 	}
 	
 	/**
@@ -1148,7 +1162,12 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	public boolean isSmallest() {
 		return mShowDataNum == MIN_CANDLE_NUM;
 	}
-	
+	public boolean iscanSmoll() {
+		if(mOHLCData == null || mOHLCData.size() < MIN_CANDLE_NUM) {
+			return true;
+		}
+		return false;
+	}
 	/**
 	 * 缩小
 	 */
