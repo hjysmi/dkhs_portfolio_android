@@ -377,6 +377,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						String t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						if(t.length() > 6){
 							t = t.substring(0, 6);
+							if(t.substring(5, 6).equals(".")){
+								t = t.substring(0,5);
+							}
 						}
 						Paint p= new Paint(); 
 						Rect rect = new Rect();
@@ -388,6 +391,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						String t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						if(t.length() > 6){
 							t = t.substring(0, 6);
+							if(t.substring(5, 6).equals(".")){
+								t = t.substring(0,5);
+							}
 						}
 						Paint p= new Paint(); 
 						Rect rect = new Rect();
@@ -401,6 +407,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			String t = new DecimalFormat("0.00").format(mMaxPrice);
 			if(t.length() > 6){
 				t = t.substring(0, 6);
+				if(t.substring(5, 6).equals(".")){
+					t = t.substring(0,5);
+				}
 			}
 			Paint p= new Paint(); 
 			Rect rect = new Rect();
