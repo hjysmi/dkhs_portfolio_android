@@ -221,27 +221,32 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            if (null != dataList) {
-                mDataList.addAll(dataList);
-                if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-                }
-                if (first) {
-                    //initView(view);
-                    first = false;
-                }
-                // layouts.getLayoutParams().height = dataList.size() * 150;
-                // mOptionMarketAdapter.notifyDataSetChanged();
-                if (null != mOptionlistAdapter) {
-                    mOptionlistAdapter.notifyDataSetChanged();
-                }
-                loadFinishUpdateView();
+            try {
+				if (null != dataList) {
+				    mDataList.addAll(dataList);
+				    if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+				        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+				    }
+				    if (first) {
+				        //initView(view);
+				        first = false;
+				    }
+				    // layouts.getLayoutParams().height = dataList.size() * 150;
+				    // mOptionMarketAdapter.notifyDataSetChanged();
+				    if (null != mOptionlistAdapter) {
+				        mOptionlistAdapter.notifyDataSetChanged();
+				    }
+				    loadFinishUpdateView();
 
-            } else {
-                if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-                }
-            }
+				} else {
+				    if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+				        ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+				    }
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         }
 
