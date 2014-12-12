@@ -59,6 +59,7 @@ public class KChartsFragment extends Fragment {
     private Timer mMarketTimer;
 	private static final long mPollRequestTime = 1000 * 5;
 	List<OHLCEntity> ohlcs;
+	private boolean having = true;
     public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
@@ -85,7 +86,8 @@ public class KChartsFragment extends Fragment {
         initVloumnChartView();
         mMyChartsView.setStick(mVolumnChartView);
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
-        mLargerButton.setVisibility(View.INVISIBLE);
+        //mLargerButton.setVisibility(View.INVISIBLE);
+       
         mLargerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -103,8 +105,10 @@ public class KChartsFragment extends Fragment {
             }
         });
 
-        
-
+        mSmallerButton.setClickable(false);
+    	mSmallerButton.setSelected(true);
+        mLargerButton.setClickable(false);
+    	mLargerButton.setSelected(true);
         return view;
     }
 
@@ -202,6 +206,7 @@ public class KChartsFragment extends Fragment {
 
 			// 刷新成交量
 			refreshVolumnCharts();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -337,6 +342,7 @@ public class KChartsFragment extends Fragment {
         try {
             JSONArray ja = new JSONArray(jsonObject);
             int len = ja.length();
+            
             if (len > 0) {
                 JSONObject jo = null;
                 OHLCEntity ohlc = null;
@@ -363,6 +369,11 @@ public class KChartsFragment extends Fragment {
                         entitys.add(ohlc);
                     }
                 }
+            }
+            if(len > 50 && having){
+            	mSmallerButton.setClickable(true);
+            	mSmallerButton.setSelected(false);
+            	having = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -498,14 +509,22 @@ public class KChartsFragment extends Fragment {
      */
     private void changeButtonState() {
         if (mMyChartsView.isSmallest()) {
-            mLargerButton.setVisibility(View.INVISIBLE);
+            //mLargerButton.setVisibility(View.INVISIBLE);
+        	mLargerButton.setClickable(false);
+        	mLargerButton.setSelected(true);
         } else {
-            mLargerButton.setVisibility(View.VISIBLE);
+            //mLargerButton.setVisibility(View.VISIBLE);
+        	mLargerButton.setClickable(true);
+        	mLargerButton.setSelected(false);
         }
         if (mMyChartsView.isLargest()) {
-            mSmallerButton.setVisibility(View.INVISIBLE);
+            //mSmallerButton.setVisibility(View.INVISIBLE);
+        	mSmallerButton.setClickable(false);
+        	mSmallerButton.setSelected(true);
         } else {
-            mSmallerButton.setVisibility(View.VISIBLE);
+            //mSmallerButton.setVisibility(View.VISIBLE);
+        	mSmallerButton.setClickable(true);
+        	mSmallerButton.setSelected(false);
         }
     }
 

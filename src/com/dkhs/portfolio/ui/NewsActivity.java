@@ -107,9 +107,10 @@ public class NewsActivity extends ModelAcitivity implements Serializable{
 	    	newsTitleDate.setText(time);
 	    	if(null != symbolName){
 	    		newsSymbol.setText(symbolName);
+	    		newsTitleNum.setText(symbolName);
 	    	}
-	    	if(null != mOptionNewsBean.getSource()){
-	    		newsTitleNum.setText(mOptionNewsBean.getSource().getTitle());
+	    	if(null != mOptionNewsBean.getSymbols()){
+	    		newsTitleNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
 	    	}
 	    	newsTextTitle.setText(mOptionNewsBean.getTitle());
 	    	newsTextText.setText(mOptionNewsBean.getText());

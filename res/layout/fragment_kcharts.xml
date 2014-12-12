@@ -43,7 +43,7 @@
 	            android:layout_width="30dp"
 	            android:layout_height="30dp"
 	            android:scaleType="fitCenter"
-	            android:src="@drawable/zoom_in"
+	            android:src="@drawable/btn_zoom_in_select"
 	            android:background="@null"/>
 	         
 	         <ImageButton 
@@ -51,7 +51,7 @@
 	            android:layout_width="30dp"
 	            android:layout_height="30dp"
 	            android:scaleType="fitCenter"
-	            android:src="@drawable/zoom_out"
+	            android:src="@drawable/btn_zoom_out_select"
 	            android:background="@null"
 	            android:layout_toRightOf="@id/btn_large"
 	            android:layout_marginLeft="10dip"/>
