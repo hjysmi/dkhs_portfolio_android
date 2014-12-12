@@ -85,6 +85,7 @@ public class SelectFundAdapter extends BaseAdapter {
                 // dataLenght--;
                 mDataSet.remove(item);
                 mActivity.notifySelectDataChange(true);
+                // BaseSelectActivity.mSelectList.remove(item);
                 // notifyDataSetChanged();
             }
         });

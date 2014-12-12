@@ -183,7 +183,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     private ViewPager pager;
 
     private void initTabPage() {
-        
+
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         hsTitle.setTitleList(getResources().getStringArray(getTitleRes()));
         hsTitle.setSelectPositionListener(titleSelectPostion);
@@ -197,8 +197,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         pager.setAdapter(new SelectPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
-
-      
 
         // indicator.setViewPager(pager);
 
@@ -369,6 +367,10 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         for (FragmentSelectStockFund fragment : fragmentList) {
             fragment.refreshSelect();
         }
+        if (null != mSearchFragment) {
+            mSearchFragment.refreshSelect();
+        }
+
         // }
         mSelectStockAdapter.notifyDataSetChanged();
     }
