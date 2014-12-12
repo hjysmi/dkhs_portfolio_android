@@ -18,10 +18,12 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.dkhs.portfolio.service.LoadStockToDBService;
+import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 
@@ -47,7 +49,7 @@ public class PortfolioApplication extends Application {
         if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();
         }
-        LoadStockToDBService.requestDownload(this);
+        // LoadStockToDBService.requestDownload(this);
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
@@ -63,6 +65,10 @@ public class PortfolioApplication extends Application {
         System.out.println("Devices height:" + height);
         System.out.println("Devices density:" + density);
         System.out.println("Devices densityDpi:" + densityDpi);
+
+        Intent demand = new Intent(this, ReLoadDataService.class);
+        // intent.putExtra("login", true);
+        startService(demand);
 
     }
 
