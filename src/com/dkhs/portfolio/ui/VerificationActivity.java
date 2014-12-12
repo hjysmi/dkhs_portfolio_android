@@ -96,21 +96,24 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             @Override
             public void onReceived(String message) {
 
-                StringBuilder codeSb = new StringBuilder();
-                int codeLength = 0;
-                for (String sss : message.replaceAll("[^0-9]", ",").split(",")) {
-                    if (codeLength >= 6) {
-                        break;
-                    }
-                    if (sss.length() > 0) {
-                        codeSb.append(sss);
-                        codeLength++;
-                    }
-                }
+                if (!TextUtils.isEmpty(message) && message.contains("多快好省")) {
 
-                System.out.println("ReceiveCode:" + codeSb);
-                // System.out.println("code:"+codeSb.substring(0, 6));
-                etVerifucode.setText(codeSb.substring(0, 6));
+                    StringBuilder codeSb = new StringBuilder();
+                    int codeLength = 0;
+                    for (String sss : message.replaceAll("[^0-9]", ",").split(",")) {
+                        if (codeLength >= 6) {
+                            break;
+                        }
+                        if (sss.length() > 0) {
+                            codeSb.append(sss);
+                            codeLength++;
+                        }
+                    }
+
+                    System.out.println("ReceiveCode:" + codeSb);
+                    // System.out.println("code:"+codeSb.substring(0, 6));
+                    etVerifucode.setText(codeSb.substring(0, 4));
+                }
 
             }
         });
@@ -153,30 +156,31 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             }
             new UserEngineImpl().checkVericode(phoneNum, verifyCode, new ParseHttpListener<Boolean>() {
 
-				@Override
-				protected Boolean parseDateTask(String jsonData) {
-					try {
-						JSONObject json = new JSONObject(jsonData);
-						if(json.has("status")){
-							boolean bool = json.getBoolean("status");
-							return bool;
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
-						return false;
-					}
-					return false;
-				}
+                @Override
+                protected Boolean parseDateTask(String jsonData) {
+                    try {
+                        JSONObject json = new JSONObject(jsonData);
+                        if (json.has("status")) {
+                            boolean bool = json.getBoolean("status");
+                            return bool;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                    return false;
+                }
 
-				@Override
-				protected void afterParseData(Boolean object) {
-					if(object){
-						startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode, false));
-					}else{
-						PromptManager.showToast("验证码有误");
-					}
-				}
-			}.setLoadingDialog(this));
+                @Override
+                protected void afterParseData(Boolean object) {
+                    if (object) {
+                        startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode,
+                                false));
+                    } else {
+                        PromptManager.showToast("验证码有误");
+                    }
+                }
+            }.setLoadingDialog(this));
         }
         if (v.getId() == R.id.btn_getCode) {
             getVerifyCode();
@@ -267,7 +271,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
             }
         };
     };
-	private String verifyCode;
+    private String verifyCode;
 
     /**
      * @Title
@@ -281,22 +285,24 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         // 注销短信监听广播
         this.unregisterReceiver(mSMSBroadcastReceiver);
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_verification);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_verification);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }
