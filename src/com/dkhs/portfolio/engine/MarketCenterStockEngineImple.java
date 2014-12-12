@@ -40,13 +40,13 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
         DKHSClient.requestByGet(
-                MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1), orderType,10),
+                MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1), orderType,50),
                 null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType,10), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType,50), null, this);
 
     }
     public void loadDataFromCurrent(int num) {

@@ -64,7 +64,7 @@ public class DKHSUrl {
 
         // http://192.168.107.251:8002/api/v1/symbols/?exchange=1&sort=change
 
-        String stocklist = "/api/v1/symbols/?exchange={0}&sort={1}&symbol_type={2}";
+        String stocklist = "/api/v1/symbols/?exchange={0}&sort={1}&symbol_type={2}&page_size=50";
 
         // 查股票实时行情信息，包含5档信息
         // http://192.168.107.251:8002/api/v1/symbols/SZ000002/quote/
@@ -117,15 +117,15 @@ public class DKHSUrl {
 
     public interface News {
         // 新闻公告 从主界面与左滑动栏进入时调用
-        String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=30&content_type=20";
+        String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=50&content_type=20";
         // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
-        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=30&symbol={0}&content_type={1}";
+        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type={1}";
         String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=30&user_id={0}&content_type=30&content_subtype={1}";
-        String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=30&symbol={0}&content_type=30&content_subtype={1}";
-        String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=30&content_type=30&content_subtype={0}";
-        String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=30&portfolio_id={0}&content_type={1}";
-        String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=30&symbol={0}&content_type=30";
+        String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30&content_subtype={1}";
+        String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=50&content_type=30&content_subtype={0}";
+        String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=50&portfolio_id={0}&content_type={1}";
+        String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30";
         String reportnewsoptioneachs = "/api/v1/statuses/symbol_timeline/?page_size=200&symbol={0}&content_type=30";
         String newstext = "/api/v1/statuses/";
     }
