@@ -212,6 +212,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         if (id == RIGHTBUTTON_ID) {
         	listFragment.setListDelStatus(false);
         	btnMore.setVisibility(View.GONE);
+        	btnTwo.setVisibility(View.VISIBLE);
             //clickRightButton();
         } else if (id == SECONDRIGHTBUTTON_ID) {
         	addNewCombination();
@@ -222,6 +223,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
 
             addNewCombination();
         } else if (id == R.id.tv_delete_combina) {
+        	btnTwo.setVisibility(View.GONE);
             btnMore.setText("取消");
             btnMore.setTag("del");
             btnMore.setBackgroundDrawable(null);
@@ -267,6 +269,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         //btnMore.setTag("cancel");
         //btnMore.setBackgroundDrawable(null);
     	btnMore.setVisibility(View.VISIBLE);
+    	btnTwo.setVisibility(View.GONE);
         // btnRefresh.setVisibility(View.GONE);
     }
 
