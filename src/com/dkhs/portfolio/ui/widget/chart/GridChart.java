@@ -665,7 +665,11 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 								total = total/100000000;
 								totals = new DecimalFormat("0.00").format(total) + "亿";
 							}
-							canvas.drawText( totals, 0f, mTitleHeight + 20,
+							Paint ps= new Paint(); 
+							Rect rects = new Rect();
+							ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+							ps.getTextBounds(totals, 0, totals.length(), rects); 
+							canvas.drawText( totals, PADDING_LEFT - rects.width(), mTitleHeight + 20,
 									mPaintFont);
 							Paint p= new Paint(); 
 							Rect rect = new Rect();
@@ -673,7 +677,11 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 							titalWid = rect.width();
 						}else {
 							if (i < counts && i > 0) {
-								canvas.drawText(axisYTitles.get(i), 0f, offset - i
+								Paint ps= new Paint(); 
+								Rect rects = new Rect();
+								ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+								ps.getTextBounds(axisYTitles.get(i), 0, axisYTitles.get(i).length(), rects); 
+								canvas.drawText(axisYTitles.get(i), PADDING_LEFT - rects.width(), offset - i
 										* postOffset + latitudeFontSize / 2f,
 										mPaintFont);
 							} /*else if (0 == i) {
