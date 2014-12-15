@@ -244,7 +244,7 @@
     <string name="text_other_manager_combin">他管理的基金一览</string>
     <string name="text_my_manager_combin">我管理的基金一览</string>
     <string name="sign_text_title">个人签名</string>
-    <string name="format_sign_text_title">个人签名:</string>
+    <string name="format_sign_text_title">个人签名:%1$s</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈意见</string>
@@ -271,14 +271,14 @@
     <string name="p2refresh_doing_end_refresh">加载中&#8230;</string>
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="about_dus_1">①打造最佳理财服务，寻找牛股票基金！</string>
-	<string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
-	<string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
-	<string name="about_dus_4">④查询更新基金排行、追踪捕获牛基牛人、与专业的基金经理PK，看谁牛！</string>
-	<string name="about_phone">联 系 电 话 ：0592-5573789</string>
-	<string name="about_url">商 务 合 作 ：db@dkhs.com</string>
-	<string name="about_weixin">微信公众号：shuiniu</string>
-	<string name="about_weibo">新 浪 微 博 ：谁牛</string>
-	<string name="agreement_url">/portfolio/agreement/</string>
+    <string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
+    <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
+    <string name="about_dus_4">④查询更新基金排行、追踪捕获牛基牛人、与专业的基金经理PK，看谁牛！</string>
+    <string name="about_phone">联 系 电 话 ：0592-5573789</string>
+    <string name="about_url">商 务 合 作 ：db@dkhs.com</string>
+    <string name="about_weixin">微信公众号：shuiniu</string>
+    <string name="about_weibo">新 浪 微 博 ：谁牛</string>
+    <string name="agreement_url">/portfolio/agreement/</string>
 
     <!-- 以下是友盟统计界面名称 -->
     <string name="count_splash">程序选择界面</string>
@@ -338,5 +338,6 @@
     <string name="count_trend_seven">7日收益曲线图</string>
     <string name="count_trend_today">日收益曲线图</string>
     <string name="count_user_combination_list">用户基金列表</string>
-	<!--  -->
+    <!--  -->
+
 </resources>

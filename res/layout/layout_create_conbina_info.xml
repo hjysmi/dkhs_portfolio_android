@@ -6,8 +6,8 @@
 
     <RelativeLayout
         style="@style/hwrap_wfill"
-        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:background="@drawable/edittext_bg" >
 
         <TextView
@@ -15,10 +15,8 @@
             style="@style/hw_wrap"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="6dp"
-            android:textSize="16sp"
-            android:text="@string/combination_name" />
-
+            android:text="@string/combination_name"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/et_myconbina_name"
