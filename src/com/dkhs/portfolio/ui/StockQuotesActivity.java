@@ -161,9 +161,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        /*if (0 == position) {
-            l.height = LayoutParams.MATCH_PARENT;
-        }*/
+        /*
+         * if (0 == position) {
+         * l.height = LayoutParams.MATCH_PARENT;
+         * }
+         */
         if (position < 3) {
             position = 3;
         }
@@ -370,7 +372,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void setupViewData() {
         if (null != mQuotesEngine && mStockBean != null) {
-//            requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
+            // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
             mQuotesEngine.quotes(mStockBean.code, listener);
             // listener.setLoadingDialog(context);
@@ -500,7 +502,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(StockQuotesBean object) {
-//            requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+            // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
             stopRefreshAnimation();
             if (null != object) {
                 mStockQuotesBean = object;
@@ -764,10 +766,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
                 break;
             case R.id.btn_right_second: {
-//            	rotateRefreshButton();
-            	quoteHandler.removeCallbacks(runnable);
-            	setupViewData();
-            	quoteHandler.postDelayed(runnable, 6*1000);
+                // rotateRefreshButton();
+                quoteHandler.removeCallbacks(runnable);
+                setupViewData();
+                quoteHandler.postDelayed(runnable, 6 * 1000);
             }
                 break;
             default:
@@ -786,9 +788,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // // ani.setInterpolator(inter);
         // // Matrix matrix = new Matrix();
         // // matrix.preRotate(360, 100, 200);
-    	
-    	btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
-                  null, null, null);
+
+        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing), null,
+                null, null);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
         btnRefresh.startAnimation(animation);
         // btnRefresh.startAnimation(ani);
@@ -796,8 +798,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void stopRefreshAnimation() {
         btnRefresh.clearAnimation();
-        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
-                null, null, null);
+        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh), null,
+                null, null);
     }
 
     /**
@@ -876,19 +878,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
         this.mStockQuotesBean = mStockQuotesBean;
     }
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onResume(this);
+    }
 }
