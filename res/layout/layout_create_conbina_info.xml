@@ -45,7 +45,6 @@
             style="@style/hw_wrap"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="6dp"
             android:text="@string/combination_desc"
             android:textSize="16sp" />
 
