@@ -174,6 +174,7 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         // machart.setMaxValue(120);
         // machart.setMinValue(0);
 
+        setInitYTitle();
         machart.setDisplayAxisXTitle(true);
         machart.setDisplayAxisYTitle(true);
         machart.setDisplayLatitude(true);
@@ -183,6 +184,27 @@ public class TrendSevenDayChartFragment extends BaseFragment {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+    }
+
+    private void setInitYTitle() {
+        List<String> ytitle = new ArrayList<String>();
+        ytitle.add(StringFromatUtils.get4Point(0.99f));
+        ytitle.add(StringFromatUtils.get4Point(0.995f));
+        ytitle.add(StringFromatUtils.get4Point(1.0f));
+        ytitle.add(StringFromatUtils.get4Point(1.005f));
+        ytitle.add(StringFromatUtils.get4Point(1.01f));
+        mMaChart.setAxisYTitles(ytitle);
+
+        List<String> rightYtitle = new ArrayList<String>();
+
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(1.0f));
+
+        mMaChart.setDrawRightYTitle(true);
+        mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
     private List<LineEntity> lines;
@@ -425,20 +447,22 @@ public class TrendSevenDayChartFragment extends BaseFragment {
             super.setUserVisibleHint(isVisibleToUser);
         }
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_seven);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_seven);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }
