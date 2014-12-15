@@ -28,7 +28,7 @@ public class GridChart extends View {
 	public static final int DEFAULT_BACKGROUD = android.R.color.white;
 
 	/** 默认XY轴字体大小 **/
-	public static int DEFAULT_AXIS_TITLE_SIZE = 8;
+	public static int DEFAULT_AXIS_TITLE_SIZE = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font);
 
 	/** 默认XY坐标轴颜色 */
 	private static final int DEFAULT_AXIS_COLOR = Color.RED;
@@ -44,7 +44,7 @@ public class GridChart extends View {
 
 	/** 默认经线数 */
 	public static final int DEFAULT_LOGITUDE_NUM = 3;
-	public static final int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
+	public static  int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
 	/** 默认边框的颜色 */
 	public static final int DEFAULT_BORDER_COLOR = Color.RED;
 
@@ -140,6 +140,12 @@ public class GridChart extends View {
 	}
 
 	private void init() {
+		String lent = "2222.2正";
+		Paint ps= new Paint(); 
+		Rect rects = new Rect();
+		ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		ps.getTextBounds(lent, 0, lent.length(), rects); 
+		PADDING_LEFT = rects.width();
 		mBackGround = DEFAULT_BACKGROUD;
 		mAxisColor = DEFAULT_AXIS_COLOR;
 		mLongiLatitudeColor = DEFAULT_LONGI_LAITUDE_COLOR;
@@ -179,8 +185,8 @@ public class GridChart extends View {
 		}
 		
 		//快速容错处理
-		DEFAULT_AXIS_TITLE_SIZE = 12;
-		DEFAULT_AXIS_TITLE_SIZE = DisplayUtil.sp2px(getContext(), DEFAULT_AXIS_TITLE_SIZE);
+		//DEFAULT_AXIS_TITLE_SIZE = 12;
+		//DEFAULT_AXIS_TITLE_SIZE = DisplayUtil.sp2px(getContext(), DEFAULT_AXIS_TITLE_SIZE);
 		if (showTopTitles) {
 			topTitleHeight = DEFAULT_AXIS_TITLE_SIZE + 2;
 		} else {

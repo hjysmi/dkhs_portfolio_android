@@ -541,7 +541,7 @@ public class TrendChart extends TrendGridChart {
         viewHeight = (textTextHeight + textMargin) * (6) + textMargin;
         // }
 
-        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -623,12 +623,12 @@ public class TrendChart extends TrendGridChart {
 
         FontMetrics fm = selectPaint.getFontMetrics();
         int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-
+        viewHeight = (textTextHeight + textMargin) * 3 + textMargin;
         if (lineData.size() > 3) {
-            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
+            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin ;
         }
 
-        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -717,7 +717,7 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setStyle(Paint.Style.FILL);// 充满
         selectPaint.setColor(Color.WHITE);
 
-        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -803,12 +803,17 @@ public class TrendChart extends TrendGridChart {
 
         FontMetrics fm = selectPaint.getFontMetrics();
         int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-
+        int size = 0;
+        for (int i = 0; i < lineData.size(); i++) {
+            if (lineData.get(i).isDisplay()){
+            	size++;
+            	}
+            }
         if (lineData.size() > 2) {
-            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
+            viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
         }
 
-        RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边

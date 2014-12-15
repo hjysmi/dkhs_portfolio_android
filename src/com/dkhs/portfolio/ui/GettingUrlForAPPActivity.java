@@ -27,6 +27,7 @@ public class GettingUrlForAPPActivity extends Activity implements
 		findViewById(R.id.setting_app_main).setOnClickListener(this);
 		//findViewById(R.id.setting_app_right).setOnClickListener(this);
 		findViewById(R.id.setting_app_test).setOnClickListener(this);
+		findViewById(R.id.setting_app_cancel).setOnClickListener(this);
 	}
 
 	@Override
@@ -44,6 +45,9 @@ public class GettingUrlForAPPActivity extends Activity implements
 			break;*/
 		case R.id.setting_app_test:
 			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
+			break;
+		case R.id.setting_app_cancel:
+			finish();
 			break;
 		default:
 			break;

@@ -30,7 +30,7 @@ import android.view.View;
 public class GridChart extends View implements IViewConst, ITouchEventNotify,ITouchEventResponse {
 
 	// ////////////默认值////////////////
-	public static final int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
+	public static  int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
 	/** 默认背景色 */
 	public static final int DEFAULT_BACKGROUD_COLOR = Color.BLACK;
 
@@ -233,7 +233,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 
 		// 设置背景色
 		super.setBackgroundColor(backgroudColor);
-
+		String lent = "2222.2正";
+		Paint ps= new Paint(); 
+		Rect rects = new Rect();
+		ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		ps.getTextBounds(lent, 0, lent.length(), rects); 
+		PADDING_LEFT = rects.width();
 		//解决适配字体大小
 		longtitudeFontSize = DEFAULT_LONGTITUDE_FONT_SIZE;
 		longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
@@ -658,12 +663,32 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 							float total = Float.parseFloat(axisYTitles.get(i))/100;
 							if(total < 10000){
 								totals = new DecimalFormat("0.00").format(total);
+								if(totals.length() > 6){
+									totals = totals.substring(0, 6);
+									if(totals.substring(5, 6).equals(".")){
+										totals = totals.substring(0,5);
+									}
+								}
 							}else if(total > 10000 && total < 100000000){
 								total = total/10000;
-								totals = new DecimalFormat("0.00").format(total) + "万";
+								totals = new DecimalFormat("0.00").format(total) ;
+								if(totals.length() > 6){
+									totals = totals.substring(0, 6);
+									if(totals.substring(5, 6).equals(".")){
+										totals = totals.substring(0,5);
+									}
+								}
+								totals = totals + "万";
 							}else{
 								total = total/100000000;
-								totals = new DecimalFormat("0.00").format(total) + "亿";
+								totals = new DecimalFormat("0.00").format(total);
+								if(totals.length() > 6){
+									totals = totals.substring(0, 6);
+									if(totals.substring(5, 6).equals(".")){
+										totals = totals.substring(0,5);
+									}
+								}
+								totals = totals + "亿";
 							}
 							Paint ps= new Paint(); 
 							Rect rects = new Rect();
