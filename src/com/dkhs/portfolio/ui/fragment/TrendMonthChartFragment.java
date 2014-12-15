@@ -184,10 +184,33 @@ public class TrendMonthChartFragment extends BaseFragment {
         machart.setDisplayLatitude(true);
         machart.setDisplayLongitude(true);
 
+        setInitYTitle();
+        
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
+    }
+    
+    private void setInitYTitle() {
+        List<String> ytitle = new ArrayList<String>();
+        ytitle.add(StringFromatUtils.get4Point(0.99f));
+        ytitle.add(StringFromatUtils.get4Point(0.995f));
+        ytitle.add(StringFromatUtils.get4Point(1.0f));
+        ytitle.add(StringFromatUtils.get4Point(1.005f));
+        ytitle.add(StringFromatUtils.get4Point(1.01f));
+        mMaChart.setAxisYTitles(ytitle);
+
+        List<String> rightYtitle = new ArrayList<String>();
+
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(1.0f));
+
+        mMaChart.setDrawRightYTitle(true);
+        mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
     private List<LineEntity> lines;

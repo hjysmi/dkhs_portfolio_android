@@ -126,7 +126,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
         super.loadFinish(object);
         if (null != object.getResults() && object.getResults().size() > 0) {
-
+        	// add by zcm -----2014.12.15
+        	setListViewVisible();
+        	// add by zcm -----2014.12.15
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
@@ -134,7 +136,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 //            PromptManager.closeProgressDialog();
         } else {
             if (mOrderType.contains(ORDER_TYPE_DAY)) {
-                setEmptyText("日排行暂无数据");
+            	// modify by zcm -----2014.12.15
+                setEmptyText("还没有开盘,请耐心等待");
+                // modify by zcm -----2014.12.15
             } else if (mOrderType.contains(ORDER_TYPE_WEEK)) {
 
                 setEmptyText("周排行暂无数据");

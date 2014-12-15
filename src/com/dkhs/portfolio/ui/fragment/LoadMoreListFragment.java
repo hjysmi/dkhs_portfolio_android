@@ -68,8 +68,17 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     // public void setListAdatper(ListAdapter mAdapter){
     // mListView.setAdapter(mAdapter);
     // }
+    // add by zcm -----2014.12.15
+    public void setListViewVisible(){
+    	if(mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)
+    		return;
+    	mListView.setVisibility(View.VISIBLE);
+    	tvEmptyText.setVisibility(View.GONE);
+    }
+    // add by zcm -----2014.12.15
 
     public void setEmptyText(String text) {
+    	mListView.setVisibility(View.GONE);
         tvEmptyText.setText(text);
         tvEmptyText.setVisibility(View.VISIBLE);
     }

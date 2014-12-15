@@ -192,6 +192,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
+        setInitYTitle();
 
     }
 
@@ -216,6 +217,7 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
+        System.out.println("initTodayTrendTitle");
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");
@@ -353,7 +355,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         if (dashLineSize > 1) {
             lineData.begin = 1;
         } else {
-//            lineData.begin = todayNetvalue.getBegin();
+            // lineData.begin = todayNetvalue.getBegin();
             lineData.begin = todayNetvalue.getLast_netvalue();
         }
         lineData.dashLineSize = dashLineSize;
@@ -398,6 +400,27 @@ public class TrendTodayChartFragment extends BaseFragment {
         mMaChart.setAxisRightYTitles(rightYtitle);
         mMaChart.setDrawTrendChart(true);
 
+    }
+
+    private void setInitYTitle() {
+        List<String> ytitle = new ArrayList<String>();
+        ytitle.add(StringFromatUtils.get4Point(0.99f));
+        ytitle.add(StringFromatUtils.get4Point(0.995f));
+        ytitle.add(StringFromatUtils.get4Point(1.0f));
+        ytitle.add(StringFromatUtils.get4Point(1.005f));
+        ytitle.add(StringFromatUtils.get4Point(1.01f));
+        mMaChart.setAxisYTitles(ytitle);
+
+        List<String> rightYtitle = new ArrayList<String>();
+
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-1f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(-0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(0.5f));
+        rightYtitle.add(StringFromatUtils.get2PointPercent(1.0f));
+
+        mMaChart.setDrawRightYTitle(true);
+        mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
     Handler dataHandler = new Handler() {
@@ -495,20 +518,22 @@ public class TrendTodayChartFragment extends BaseFragment {
             }
         }
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_today);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_today);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }
