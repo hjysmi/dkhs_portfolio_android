@@ -183,7 +183,7 @@
                 android:paddingLeft="5dp"
                 android:text=" "
                 android:textColor="@color/combition_gray"
-                android:textSize="35sp" />
+                android:textSize="46sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -235,7 +235,7 @@
                     android:paddingLeft="15dp"
                     android:text="-"
                     android:textColor="@color/white"
-                    android:textSize="40sp" />
+                    android:textSize="46sp" />
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
