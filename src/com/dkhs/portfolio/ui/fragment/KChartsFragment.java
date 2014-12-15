@@ -60,10 +60,12 @@ public class KChartsFragment extends Fragment {
 	private static final long mPollRequestTime = 1000 * 5;
 	List<OHLCEntity> ohlcs;
 	private boolean having = true;
-    public static KChartsFragment getKChartFragment(Integer type, String stockcode) {
+	private String symbolType;
+    public static KChartsFragment getKChartFragment(Integer type, String stockcode,String symbolType) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
         fg.setStockCode(stockcode);
+        fg.setSymbolType(symbolType);
         return fg;
     }
 
@@ -135,6 +137,7 @@ public class KChartsFragment extends Fragment {
         mMyChartsView.setDisplayAxisXTitle(false);
         mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
         mMyChartsView.setITouchListener(mTouchListener);
+        mMyChartsView.setSymbolType(getSymbolType());
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
@@ -544,7 +547,16 @@ public class KChartsFragment extends Fragment {
     public void setStockCode(String mStockCode) {
         this.mStockCode = mStockCode;
     }
-    @Override
+    
+    public String getSymbolType() {
+		return symbolType;
+	}
+
+	public void setSymbolType(String symbolType) {
+		this.symbolType = symbolType;
+	}
+
+	@Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
             // TODO Auto-generated method stub
             if (isVisibleToUser) {

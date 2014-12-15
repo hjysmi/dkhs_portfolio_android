@@ -29,6 +29,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 
@@ -69,7 +70,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
     public Timer mTimer = new Timer();// 定时器
     private boolean mobileAble = false;
     private boolean codeAble = false;
-
+    private TextView rltAgreement;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.email_layout);
@@ -162,6 +163,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
         current_type = getIntent().getIntExtra("activity_type", REGIST_TYPE);
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
+        rltAgreement = (TextView) findViewById(R.id.rlt_agreement);
         rlfbutton.setEnabled(false);
         // code = (EditText) findViewById(R.id.et_verifycode);
         // tvMessage = (TextView) findViewById(R.id.tv_agree_info);
@@ -197,14 +199,16 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
     private static final String str2 = "《多快好省服务协议》";
 
     private void initLink() {
-        SpannableStringBuilder sp = new SpannableStringBuilder();
+        /*SpannableStringBuilder sp = new SpannableStringBuilder();
         sp.append(str + str2);
 
         sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.color.blue), this, null), str.length(),
-                str.length() + str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        cbAgree.setText(sp);
+                str.length() + str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);*/
+        cbAgree.setText(str);
         // 设置TextView可点击
         cbAgree.setMovementMethod(LinkMovementMethod.getInstance());
+        rltAgreement.setText(str2);
+        rltAgreement.setOnClickListener(this);
     }
 
     @Override
@@ -224,7 +228,10 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
                 }
 
                 break;
-
+            case R.id.rlt_agreement:
+            	Intent intent = new Intent(this,AgreementTextActivity.class);
+            	startActivity(intent);
+            	break;
             default:
                 break;
         }
