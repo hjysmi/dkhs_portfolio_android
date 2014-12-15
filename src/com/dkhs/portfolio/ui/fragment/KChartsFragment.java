@@ -138,6 +138,7 @@ public class KChartsFragment extends Fragment {
         mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
         mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
+        mMyChartsView.setSymbol(mStockCode);
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
