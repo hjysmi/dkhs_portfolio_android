@@ -102,6 +102,8 @@ public class StockQuotesChartFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // System.out.println("====StockQuotesChartFragment=onCreate=====");
+
         // handle fragment arguments
         Bundle arguments = getArguments();
         if (arguments != null) {
@@ -369,6 +371,7 @@ public class StockQuotesChartFragment extends Fragment {
 
             this.mStockBean = bean;
             mHandler.sendEmptyMessage(111);
+            // System.out.println("====StockQuotesChartFragment=setStockQuotesBean=====");
 
         }
 
@@ -545,8 +548,8 @@ public class StockQuotesChartFragment extends Fragment {
         // if ((offetYvalue / baseNum) > 0.105f) {
         // offetYvalue = 0.105f * baseNum;
         // }
-        System.out.println("max offet vlaue：" + offetYvalue);
-        System.out.println("baseNumvlaue：" + baseNum);
+        // System.out.println("max offet vlaue：" + offetYvalue);
+        // System.out.println("baseNumvlaue：" + baseNum);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
         // float halfOffetValue = offetYvalue / 2.0f;
@@ -558,8 +561,8 @@ public class StockQuotesChartFragment extends Fragment {
         float topValue = baseNum + offetYvalue;
         float bottomValue = baseNum - offetYvalue;
 
-        System.out.println("topValue:" + topValue);
-        System.out.println("bottomValue:" + bottomValue);
+        // System.out.println("topValue:" + topValue);
+        // System.out.println("bottomValue:" + bottomValue);
         BigDecimal t = new BigDecimal(topValue);
         topValue = t.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         BigDecimal b = new BigDecimal(bottomValue);
@@ -620,8 +623,8 @@ public class StockQuotesChartFragment extends Fragment {
         float topValue = (float) (baseNum * (1 + 0.01));
         float bottomValue = (float) (baseNum * (1 - 0.01));
 
-        System.out.println("topValue:" + topValue);
-        System.out.println("bottomValue:" + bottomValue);
+        // System.out.println("topValue:" + topValue);
+        // System.out.println("bottomValue:" + bottomValue);
         BigDecimal t = new BigDecimal(topValue);
         topValue = t.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
         BigDecimal b = new BigDecimal(bottomValue);
@@ -696,6 +699,8 @@ public class StockQuotesChartFragment extends Fragment {
     }
 
     public void onStart() {
+        // System.out.println("====StockQuotesChartFragment=onStart=====");
+
         super.onStart();
         if (null != mStockBean) {
             setStockQuotesBean(mStockBean);
@@ -728,12 +733,14 @@ public class StockQuotesChartFragment extends Fragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
+            // System.out.println("====StockQuotesChartFragment=run update=====");
             dataHandler.sendEmptyMessage(1722);
             if (mQuotesDataEngine == null) {
                 return;
             }
             todayListener.setLoadingDialog(getActivity());
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
+                // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
                 todayListener.setFromYanbao(true);
             } else {
@@ -744,19 +751,20 @@ public class StockQuotesChartFragment extends Fragment {
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_time);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }

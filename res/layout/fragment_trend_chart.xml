@@ -27,17 +27,6 @@
             android:layout_toLeftOf="@+id/tv_time_right"
             android:textColor="@android:color/darker_gray"
             android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/tv_dashline_tip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@+id/tv_time_right"
-            android:text="@string/tip_message_dashline"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="12sp"
-            android:visibility="gone" />
     </RelativeLayout>
 
     <LinearLayout
@@ -121,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/rl_trend_info"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginTop="2dp" >
 
         <com.dkhs.portfolio.ui.widget.TrendChart
@@ -139,5 +128,16 @@
             android:textSize="32sp"
             android:visibility="gone" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_dashline_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/tip_message_dashline"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
 </RelativeLayout>
