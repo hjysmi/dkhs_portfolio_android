@@ -521,6 +521,7 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
+       
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");

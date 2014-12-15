@@ -6,23 +6,17 @@
 
     <RelativeLayout
         style="@style/hwrap_wfill"
-        android:layout_height="40dp"
-        android:background="@drawable/border_gray" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/edittext_bg" >
 
         <TextView
             android:id="@+id/tv_conbination_name"
             style="@style/hw_wrap"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="6dp"
-            android:text="@string/combination_name" />
-
-        <View
-            android:id="@+id/divider_line"
-            style="@style/divider_line"
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/tv_conbination_name" />
+            android:text="@string/combination_name"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/et_myconbina_name"
@@ -30,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/divider_line"
+            android:layout_toRightOf="@+id/tv_conbination_name"
             android:background="@null"
             android:hint="@string/my_combination"
             android:inputType="textEmailAddress"
@@ -42,24 +36,17 @@
 
     <RelativeLayout
         style="@style/hwrap_wfill"
-        android:layout_height="40dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/border_gray" >
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-1dp"
+        android:background="@drawable/edittext_bg" >
 
         <TextView
             android:id="@+id/tv_conbination_desc"
             style="@style/hw_wrap"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:padding="6dp"
-            android:text="@string/combination_desc" />
-
-        <View
-            android:id="@+id/divider_line1"
-            style="@style/divider_line"
-            android:layout_width="1px"
-            android:layout_height="match_parent"
-            android:layout_toRightOf="@+id/tv_conbination_desc" />
+            android:text="@string/combination_desc"
+            android:textSize="16sp" />
 
         <EditText
             android:id="@+id/et_myconbina_desc"
@@ -67,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/divider_line1"
+            android:layout_toRightOf="@+id/tv_conbination_desc"
             android:background="@null"
             android:hint="@string/conb_desc_hint"
             android:inputType="textEmailAddress"
