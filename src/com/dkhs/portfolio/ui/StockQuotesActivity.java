@@ -542,6 +542,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // fragmentList.add(new TestFragment());
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
         pager.setCanScroll(false);
+        pager.setOffscreenPageLimit(4);
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
 
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);

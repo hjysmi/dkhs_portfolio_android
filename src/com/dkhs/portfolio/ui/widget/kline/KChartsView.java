@@ -1158,9 +1158,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		if(mOHLCData == null || mOHLCData.size() == 0) {
 			return false;
 		}
-		/*if(mShowDataNum == MAX_CANDLE_NUM){
+		if(mShowDataNum == mOHLCData.size()){
 			return true;
-		}*/
+		}
 		return mShowDataNum == MAX_CANDLE_NUM;
 	}
 	

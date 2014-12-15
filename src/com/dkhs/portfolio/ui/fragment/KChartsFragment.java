@@ -104,11 +104,12 @@ public class KChartsFragment extends Fragment {
                 small(v);
             }
         });
-
-        mSmallerButton.setClickable(false);
-    	mSmallerButton.setSelected(true);
-        mLargerButton.setClickable(false);
-    	mLargerButton.setSelected(true);
+        if(having){
+	        mSmallerButton.setClickable(false);
+	    	mSmallerButton.setSelected(true);
+	        mLargerButton.setClickable(false);
+	    	mLargerButton.setSelected(true);
+        }
         return view;
     }
 
