@@ -14,10 +14,10 @@
             android:id="@+id/selectadapter_parent_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
             android:background="@color/activity_bg_color"
-            android:orientation="horizontal"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp" >
+            android:orientation="horizontal" >
         </LinearLayout>
 
         <RelativeLayout

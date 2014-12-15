@@ -90,6 +90,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private boolean go = true;
 	private boolean firsttime = true;
 	private String symbolType;
+	private String symbol;
 	public KChartsView(Context context) {
 		super(context);
 		init();
@@ -164,6 +165,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	}
 
 	private void drawCandleDetails(Canvas canvas) {
+		boolean isB = false;
+		if(symbol.contains("SH9")){
+			isB = true;
+		}
 		if (showDetails && mStartX > 3) {
 			Paint textPaintFor = new Paint();
 			textPaintFor.setStyle(Paint.Style.FILL);// 充满
@@ -268,9 +273,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				} else {
 					//textPaint.setColor(Color.DKGRAY);
 				}
-				canvas.drawText(new DecimalFormat("0.00").format(open), left + 1
-						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 2 + textMargin,
-						textPaint);
+				if(!isB){
+					canvas.drawText(new DecimalFormat("0.00").format(open), left + 1
+							+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 2 + textMargin,
+							textPaint);
+				}else{
+					canvas.drawText(new DecimalFormat("0.000").format(open), left + 1
+							+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 2 + textMargin,
+							textPaint);
+				}
 			} catch (Exception e) {
 				canvas.drawText(new DecimalFormat("0.00").format(open), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 2+ textMargin,
@@ -285,10 +296,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			} else {
 				//textPaint.setColor(Color.DKGRAY);
 			}
+			if(!isB){
 			canvas.drawText(new DecimalFormat("0.00").format(high), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 3+ textMargin * 2,
 					textPaint);
-
+			}else{
+				canvas.drawText(new DecimalFormat("0.000").format(high), left + 1
+						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 3+ textMargin * 2,
+						textPaint);
+			}
 			//textPaint.setColor(Color.DKGRAY);
 			canvas.drawText("最低:", left + 1, top + textTextHeight * 4+ textMargin * 3, textPaint);
 			double low = mOHLCData.get(selectIndext).getLow();
@@ -303,10 +319,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			} catch (Exception e) {
 
 			}
+			if(!isB){
 			canvas.drawText(new DecimalFormat("0.00").format(low), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 4+ textMargin * 3,
 					textPaint);
-
+			}else{
+				canvas.drawText(new DecimalFormat("0.000").format(low), left + 1
+						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 4+ textMargin * 3,
+						textPaint);
+			}
 			//textPaint.setColor(Color.DKGRAY);
 			canvas.drawText("收盘:", left + 1, top + textTextHeight * 5+ textMargin * 4, textPaint);
 			double close = mOHLCData.get(selectIndext).getClose();
@@ -321,16 +342,28 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			} catch (Exception e) {
 
 			}
+			if(!isB){
 			canvas.drawText(new DecimalFormat("0.00").format(close), left + 1
 					+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 5+ textMargin * 4,
 					textPaint);
+			}else{
+				canvas.drawText(new DecimalFormat("0.000").format(close), left + 1
+						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 5+ textMargin * 4,
+						textPaint);
+			}
 			
 			//textPaint.setColor(Color.DKGRAY);
 			canvas.drawText("涨跌:", left + 1, top + textTextHeight * 6+ textMargin * 5, textPaint);
 			try {
+				if(!isB){
 				canvas.drawText(new DecimalFormat("0.00").format(mOHLCData.get(selectIndext).getChange()), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 6+ textMargin * 5,
 						textPaint);
+				}else{
+					canvas.drawText(new DecimalFormat("0.000").format(mOHLCData.get(selectIndext).getChange()), left + 1
+							+ DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 6+ textMargin * 5,
+							textPaint);
+				}
 			} catch (Exception e) {
 				/*canvas.drawText("--", left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top
 						+ DEFAULT_AXIS_TITLE_SIZE * 6.0f, textPaint);*/
@@ -1247,6 +1280,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
 	public void setSymbolType(String symbolType) {
 		this.symbolType = symbolType;
+	}
+
+	public String getSymbol() {
+		return symbol;
+	}
+
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
 	}
 	
 }

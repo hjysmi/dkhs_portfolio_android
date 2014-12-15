@@ -265,7 +265,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 					PackageManager manager = context.getPackageManager();
 					PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
 					String version = info.versionName;
-					if(!bean.getVersion().equals(version)){
+					String s = bean.getVersion().replaceAll("\\.", "");
+					int service = Integer.parseInt(s);
+					int local = Integer.parseInt(version.replaceAll("\\.", ""));
+					if(service > local){
 						AlertDialog.Builder alert = new AlertDialog.Builder(context);
 						alert.setTitle("软件升级")
 								.setMessage("发现新版本,建议立即更新使用.")//"发现新版本,建议立即更新使用."

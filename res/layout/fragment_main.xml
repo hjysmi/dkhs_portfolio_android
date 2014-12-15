@@ -107,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/slide_layout"
-        android:background="@drawable/theme_gray"
+        android:background="@color/activity_bg_color"
         android:padding="6dp"
         android:visibility="gone" >
 

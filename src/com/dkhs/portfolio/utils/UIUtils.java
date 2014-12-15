@@ -141,7 +141,7 @@ public class UIUtils {
 
 			paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 			canvas.drawBitmap(bitmap, src, dst, paint);
-			drawCircleBorder(canvas,roundPx-2,PortfolioApplication.getInstance().getResources().getColor(R.color.theme_gray_press),roundPx,roundPx);
+			drawCircleBorder(canvas,roundPx-2,PortfolioApplication.getInstance().getResources().getColor(R.color.round),roundPx,roundPx);
 			return output;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -160,8 +160,8 @@ public class UIUtils {
         /* 设置paint的　style　为STROKE：空心 */  
         paint.setStyle(Paint.Style.STROKE);  
         /* 设置paint的外框宽度 */  
-        paint.setStrokeWidth(4);  
-        canvas.drawCircle(wid, hei, radius, paint);  
+        paint.setStrokeWidth(6);  
+        canvas.drawCircle(wid, hei, radius-1, paint);  
     } 
     public static Bitmap compressImage(Bitmap image) {  
   	  
