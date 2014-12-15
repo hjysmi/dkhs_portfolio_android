@@ -127,6 +127,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private FragmentSelectAdapter mFragmentSelectAdapter;
     private StockQuotesActivity layouts;
     private View viewHeader;
+    private String symbolType;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -206,6 +207,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             mStockId = mStockBean.id;
             mStockCode = mStockBean.code;
+            symbolType = mStockBean.symbol_type;
             updateStockInfo();
         }
         // setAddOptionalButton();
@@ -530,13 +532,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
         fragmentList.add(mStockQuotesChartFragment);
-        KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode);
+        KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode,symbolType);
         fragment.setITouchListener(this);
         fragmentList.add(fragment);
-        KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode);
+        KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,symbolType);
         fragment2.setITouchListener(this);
         fragmentList.add(fragment2);
-        KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode);
+        KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,symbolType);
         fragment3.setITouchListener(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
