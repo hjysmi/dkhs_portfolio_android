@@ -112,8 +112,11 @@ public class PullToRefreshExpanelListView extends ExpandableListView implements 
 	
 	public void setLodaMoreText(String msg){
 		if(mEndRootView != null){
-			mEndLoadProgressBar.setVisibility(View.GONE);
-			mEndLoadTipsTextView.setText(msg);
+			//modify by zcm --- 2012.12.16
+//			mEndLoadProgressBar.setVisibility(View.GONE);
+//			mEndLoadTipsTextView.setText(msg);
+			mEndRootView.setVisibility(View.GONE);
+			//modify by zcm --- 2012.12.16
 		}
 	}
 	
@@ -131,6 +134,11 @@ public class PullToRefreshExpanelListView extends ExpandableListView implements 
 
 	public void setAutoLoadMore(boolean pIsAutoLoadMore) {
 		mIsAutoLoadMore = pIsAutoLoadMore;
+		//add by zcm --- 2014.12.16
+		if(mEndRootView != null){
+			removeFooterView(mEndRootView);
+		}
+		//add by zcm --- 2014.12.16
 	}
 		
 	public boolean isMoveToFirstItemAfterRefresh() {

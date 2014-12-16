@@ -130,6 +130,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 	public void setAutoLoadMore(boolean pIsAutoLoadMore) {
 		mIsAutoLoadMore = pIsAutoLoadMore;
+		//add by zcm --- 2014.12.16
+		if(mEndRootView != null){
+			removeFooterView(mEndRootView);
+		}
+		//add by zcm --- 2014.12.16
 	}
 		
 	public boolean isMoveToFirstItemAfterRefresh() {
