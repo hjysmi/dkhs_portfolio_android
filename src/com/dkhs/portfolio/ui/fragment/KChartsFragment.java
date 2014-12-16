@@ -38,6 +38,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class KChartsFragment extends Fragment {
@@ -598,7 +599,7 @@ public class KChartsFragment extends Fragment {
         @Override
         public void run() {
         	StockQuotesBean m =((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-        	if(null != m && !m.getTrade_status().equals("0")){
+        	if(null != m && UIUtils.roundAble(m)){
         		mMarketTimer.cancel();
             }
         	String mtype = getKLineType();

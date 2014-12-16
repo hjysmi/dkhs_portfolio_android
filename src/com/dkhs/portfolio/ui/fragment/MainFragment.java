@@ -57,6 +57,7 @@ import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -466,7 +467,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         protected void afterParseData(List<StockQuotesBean> object) {
             if (null != object && object.size() > 1) {
-                if (!object.get(0).getTrade_status().equals("0")) {
+                if (UIUtils.roundAble(object.get(0))) {
                     // if (mScollTimer != null) {
                     // mScollTimer.cancel();
                     // mScollTimer = null;

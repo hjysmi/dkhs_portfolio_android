@@ -50,6 +50,7 @@ import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -339,7 +340,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     public void refresh() {
         isRefresh = true;
-        if (mLoadDataEngine != null && mLoadDataEngine.getStatu() == 0 && !isLoadingMore) {
+        if (mLoadDataEngine != null && UIUtils.roundAble(mLoadDataEngine.getStatu()) && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
             mLoadDataEngine.loadData();
@@ -350,7 +351,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
-            if (mLoadDataEngine.getStatu() == 0) {
+            if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
                 timeMill = 0;
                 isRefresh = true;
                 if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
@@ -554,7 +555,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             // thread.start();
 
             isLoadingMore = true;
-            if (mLoadDataEngine.getStatu() == 0)
+            if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();

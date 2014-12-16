@@ -68,6 +68,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -435,7 +436,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
-                if (null != stockQuotesBean && !stockQuotesBean.getTrade_status().equals("0")) {
+                if (null != stockQuotesBean &&UIUtils.roundAble(stockQuotesBean)) {
                     quoteHandler.removeCallbacks(runnable);
                 }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();

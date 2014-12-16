@@ -115,8 +115,18 @@ public class NetValueEngine {
         private float end;
         private List<TodayNetBean> chartlist;
         private float maxOffetValue;
+        private int trade_status;
+        
 
-        public float getBegin() {
+        public int getTrade_status() {
+			return trade_status;
+		}
+
+		public void setTrade_status(int trade_status) {
+			this.trade_status = trade_status;
+		}
+
+		public float getBegin() {
             return begin;
         }
 

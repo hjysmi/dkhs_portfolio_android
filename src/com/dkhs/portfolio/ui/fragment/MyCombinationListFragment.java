@@ -40,6 +40,7 @@ import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
 import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -174,7 +175,12 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
 
         super.loadFinish(object);
         if (null != object.getResults()) {
-
+        	if(!UIUtils.roundAble(object.getStatu())){
+        		if (mCombinationTimer != null) {
+                    mCombinationTimer.cancel();
+                    mCombinationTimer = null;
+                }
+        	}
             if (isRefresh) {
                 mDataList.clear();
                 isRefresh = false;

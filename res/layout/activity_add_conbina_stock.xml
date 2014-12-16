@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dkhs="http://schemas.android.com/apk/res/com.dkhs.portfolio"
     android:id="@+id/rl_base_add_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,11 +12,13 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
+        android:background="@drawable/edittext_search_bg"
         android:focusableInTouchMode="true"
-        android:paddingBottom="3dp"
+        android:layout_margin="5dp"
+        android:paddingBottom="10dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="3dp" >
+        android:paddingTop="10dp" >
 
         <ImageView
             android:id="@+id/iv_search"
@@ -30,10 +33,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
+            android:background="@null"
+            dkhs:needVisible ="true"
             android:layout_toRightOf="@+id/iv_search"
             android:hint="@string/search_fund_hint"
             android:singleLine="true"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <GridView

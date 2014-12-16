@@ -26,6 +26,8 @@ public class MoreDataBean<T> {
     private int totalPage;
     @SerializedName("current_page")
     private int currentPage;
+    @SerializedName("trade_status")
+    private int statu;
     @SerializedName("results")
     private List<T> results;
     public int getTotalCount() {
@@ -52,4 +54,11 @@ public class MoreDataBean<T> {
     public void setResults(List<T> results) {
         this.results = results;
     }
+	public int getStatu() {
+		return statu;
+	}
+	public void setStatu(int statu) {
+		this.statu = statu;
+	}
+    
 }

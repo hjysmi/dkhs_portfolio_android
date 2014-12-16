@@ -51,6 +51,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName TrendChartFragment
@@ -556,7 +557,9 @@ public class TrendChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
-
+            if(UIUtils.roundAble(todayNetvalue.getTrade_status())){
+            	dataHandler.removeCallbacks(runnable);
+            }
             DrawLineDataEntity todayLine = null;
             if (null != todayNetvalue && todayNetvalue.getChartlist() != null
                     && todayNetvalue.getChartlist().size() > 0) {
@@ -760,6 +763,9 @@ public class TrendChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            if(UIUtils.roundAble(histroyValue.getTrade_status())){
+            	dataHandler.removeCallbacks(runnable);
+            }
             DrawLineDataEntity lineData = null;
             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
                 lineData = new DrawLineDataEntity();
