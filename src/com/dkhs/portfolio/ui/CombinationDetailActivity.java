@@ -119,7 +119,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void showShareButton() {
-        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null, null,
+        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_share_select), null, null,
                 null);
         btnShare.setVisibility(View.VISIBLE);
         btnMore.setVisibility(View.VISIBLE);
@@ -135,12 +135,12 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
         btnShare = getSecondRightButton();
         btnShare.setOnClickListener(this);
-        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_share), null, null,
+        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_share_select), null, null,
                 null);
         // btnShare.setBackgroundResource(R.drawable.ic_share);
         btnMore = getRightButton();
         btnMore.setOnClickListener(this);
-        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_more), null, null,
+        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_more_select), null, null,
                 null);
         // btnMore.setBackgroundResource(R.drawable.nav_more);
         btnPreBottom = findViewById(R.id.btn_trend);

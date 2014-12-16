@@ -329,7 +329,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         hsTitle.setSelectPositionListener(titleSelectPostion);
         Button addButton = getRightButton();
         // addButton.setBackgroundResource(R.drawable.ic_search_title);
-        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_search_title), null,
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select), null,
                 null, null);
         addButton.setOnClickListener(mSearchClick);
 
