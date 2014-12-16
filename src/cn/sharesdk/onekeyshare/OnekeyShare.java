@@ -385,7 +385,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
             btnCancel.setText(resId);
         }
         btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
-        resId = getBitmapRes(getContext(), "btn_unable_gray");
+        resId = getBitmapRes(getContext(), "btn_quxiao_selector");
         if (resId > 0) {
             btnCancel.setBackgroundResource(resId);
         }
