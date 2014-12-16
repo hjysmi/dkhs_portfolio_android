@@ -15,6 +15,7 @@
         <attr name="innerPadding" format="dimension" />
         <attr name="isChecked" format="boolean" />
     </declare-styleable>
+    <attr name = "needVisible" format = "boolean" />
     <declare-styleable name="PowerImageView">
         <attr name="auto_play" format="boolean"></attr>
     </declare-styleable>

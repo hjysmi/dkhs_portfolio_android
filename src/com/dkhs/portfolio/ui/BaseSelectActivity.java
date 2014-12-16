@@ -144,8 +144,9 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         } else {
             btnAdd.setEnabled(false);
             btnAdd.setText(R.string.add_text);
-            btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
-
+            //modify by zcm ---2014.12.15
+            btnAdd.setTextColor(Color.WHITE);
+            //modify by zcm ---2014.12.15
         }
 
         initTabPage();
@@ -339,6 +340,12 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
+        	// add by zcm --- 2014.12.16
+        	if(!TextUtils.isEmpty(etSearchKey.getText().toString())){
+        		etSearchKey.setText("");
+        		return;
+        	}
+        	// add by zcm --- 2014.12.16
             if (null != fromCreate) {
                 Intent intent = new Intent();
                 setResult(999, intent);
