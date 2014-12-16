@@ -19,7 +19,7 @@
     <string name="tv_forget_password"><u>忘记密码</u></string>
     <string name="tv_register_now"><u>立即注册</u></string>
     <string name="account">邮箱/手机号</string>
-    <string name="password">请输入密码,不少于6位</string>
+    <string name="password">请输入密码</string>
     <string name="phone">手机号码</string>
     <string name="nickname">您的昵称</string>
     <string name="nickname_hint">中英文、数字或-、_</string>
@@ -271,14 +271,14 @@
     <string name="p2refresh_doing_end_refresh">加载中&#8230;</string>
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="about_dus_1">①打造最佳理财服务，寻找牛股票基金！</string>
-	<string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
-	<string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
-	<string name="about_dus_4">④查询更新基金排行、追踪捕获牛基牛人、与专业的基金经理PK，看谁牛！</string>
-	<string name="about_phone">联 系 电 话 ：0592-5573789</string>
-	<string name="about_url">商 务 合 作 ：service@dkhs.com</string>
-	<string name="about_weixin">微信公众号：shuiniu</string>
-	<string name="about_weibo">新 浪 微 博 ：谁牛</string>
-	<string name="agreement_url">/portfolio/agreement/</string>
+    <string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
+    <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
+    <string name="about_dus_4">④查询更新基金排行、追踪捕获牛基牛人、与专业的基金经理PK，看谁牛！</string>
+    <string name="about_phone">联 系 电 话 ：0592-5573789</string>
+    <string name="about_url">商 务 合 作 ：service@dkhs.com</string>
+    <string name="about_weixin">微信公众号：shuiniu</string>
+    <string name="about_weibo">新 浪 微 博 ：谁牛</string>
+    <string name="agreement_url">/portfolio/agreement/</string>
 
     <!-- 以下是友盟统计界面名称 -->
     <string name="count_splash">程序选择界面</string>
@@ -338,6 +338,7 @@
     <string name="count_trend_seven">7日收益曲线图</string>
     <string name="count_trend_today">日收益曲线图</string>
     <string name="count_user_combination_list">用户基金列表</string>
+    <string name="password_digts">._0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ</string>
     <!--  -->
 
 </resources>
