@@ -39,6 +39,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -242,6 +243,9 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
+            if(!UIUtils.roundAble(histroyValue.getTrade_status())){
+            	stopRequry();
+            }
             DrawLineDataEntity lineData = null;
             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
                 lineData = new DrawLineDataEntity();

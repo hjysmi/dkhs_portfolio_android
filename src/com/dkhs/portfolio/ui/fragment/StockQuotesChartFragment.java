@@ -47,6 +47,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -426,7 +427,7 @@ public class StockQuotesChartFragment extends Fragment {
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
                 StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-                if (null != m && !m.getTrade_status().equals("0")) {
+                if (null != m &&UIUtils.roundAble(m)) {
                     dataHandler.removeCallbacks(runnable);
                 }
 

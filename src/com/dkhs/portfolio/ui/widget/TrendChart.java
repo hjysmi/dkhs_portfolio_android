@@ -539,6 +539,14 @@ public class TrendChart extends TrendGridChart {
 
         // if (lineData.size() > 3) {
         viewHeight = (textTextHeight + textMargin) * (6) + textMargin;
+        //设置悬浮框高度（国内指数高为5，其它全6）
+        if((LinePointEntity) lineData.get(0).getLineData().get(pointIndex)instanceof FSLinePointEntity){
+        	FSLinePointEntity fsPoints = (FSLinePointEntity) ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex));
+        	if(fsPoints.isIndexType()){
+        		viewHeight = (textTextHeight + textMargin) * (5) + textMargin;
+            }
+        }
+        
         // }
 
         RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
