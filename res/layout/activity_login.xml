@@ -63,7 +63,7 @@
             android:layout_toRightOf="@+id/tv_accout"
             android:background="@null"
             android:hint="@string/hint_account"
-            android:singleLine="true" />
+            android:singleLine="true" />
         -->
 
         <com.dkhs.portfolio.ui.widget.ClearableEditText
@@ -74,6 +74,7 @@
             android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/tv_accout"
             android:background="@null"
+            android:digits="@string/password_digts"
             android:hint="@string/hint_account"
             android:singleLine="true"
             android:textSize="14sp" />
@@ -107,6 +108,7 @@
             android:layout_marginRight="20dp"
             android:layout_toRightOf="@+id/tv_psw"
             android:background="@null"
+            android:digits="@string/password_digts"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:singleLine="true"
