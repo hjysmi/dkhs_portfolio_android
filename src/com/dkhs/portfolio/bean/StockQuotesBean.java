@@ -335,7 +335,7 @@ public class StockQuotesBean {
         if (getTrade_status().equalsIgnoreCase("2")) {
             return "闭市";
         }
-        if (getTrade_status().equalsIgnoreCase("")) {
+        if (getTrade_status().equalsIgnoreCase("3")) {
             return "集合竞价";
         }
         return "";
