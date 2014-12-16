@@ -179,9 +179,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			int textMargin = getResources().getDimensionPixelSize(R.dimen.float_text_margin);
 			int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 			float width = getWidth() - PADDING_LEFT;
-			float left = 3.0f + PADDING_LEFT + 10;
+			float left = 3.0f + PADDING_LEFT + 20;
 			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 20;
-			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
+			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 20;
 			float bottom = 5.0f + 9 * textTextHeight + 20;
 			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f  + PADDING_LEFT)) {
