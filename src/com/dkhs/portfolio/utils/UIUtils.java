@@ -30,6 +30,7 @@ import android.widget.ListView;
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.StockQuotesBean;
 
 /**
  * @ClassName UiUtils
@@ -206,4 +207,16 @@ public class UIUtils {
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);  
         return compressImage(bitmap);//压缩好比例大小后再进行质量压缩  
     } 
+    public static boolean roundAble(StockQuotesBean stockQuotesBean){
+    	if(!(stockQuotesBean.getTrade_status().equals("0")  || stockQuotesBean.getTrade_status().equals("3"))){
+    		return true;
+    	}
+    	return false;
+    }
+    public static boolean roundAble(int statu){
+    	if((statu == 0) || (statu == 3)){
+    		return true;
+    	}
+    	return false;
+    }
 }
