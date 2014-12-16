@@ -165,7 +165,11 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 	@Override
 	public void onLoadMore() {
 		if(page > total_page){
-			mListView.setLodaMoreText("当前没有更多了...");
+			//modify by zcm --- 2012.12.16
+			mListView.setAutoLoadMore(false);
+//			mListView.setLodaMoreText("当前没有更多了...");
+			PromptManager.showToast("当前没有更多了...");
+			//modify by zcm --- 2012.12.16
 		}else{
 			netValueEngine.requeryHistory(count, page, listener);
 		}

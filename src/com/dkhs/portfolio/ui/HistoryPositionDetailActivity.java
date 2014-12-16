@@ -282,9 +282,12 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 	public void onLoadMore() {
 		if(page > total_page){
 			mListView.setAutoLoadMore(false);
-			mListView.setLodaMoreText("当前没有更多了...");
+			//modify by zcm --- 2012.12.16
+//			mListView.setLodaMoreText("当前没有更多了...");
+			PromptManager.showToast("当前没有更多了...");
 		}else{
-			netValueEngine.requeryHistory(count, page, listener);
+			netValueEngine.requeryHistoryDetailPosition(count, page, listener);
+			//modify by zcm --- 2012.12.16
 		}
 	}
 	private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_history_positiondetainl);
