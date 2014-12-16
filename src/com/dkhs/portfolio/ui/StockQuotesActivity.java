@@ -534,13 +534,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
         fragmentList.add(mStockQuotesChartFragment);
-        KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode,symbolType);
+        KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode,
+                symbolType);
         fragment.setITouchListener(this);
         fragmentList.add(fragment);
-        KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,symbolType);
+        KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,
+                symbolType);
         fragment2.setITouchListener(this);
         fragmentList.add(fragment2);
-        KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,symbolType);
+        KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,
+                symbolType);
         fragment3.setITouchListener(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
