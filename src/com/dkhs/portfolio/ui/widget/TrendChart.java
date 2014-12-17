@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -531,7 +532,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = 2;
 
         FontMetrics fm = selectPaint.getFontMetrics();
@@ -626,7 +627,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = (int) (getResources().getDimensionPixelOffset(R.dimen.float_text_margin) * 1.5);
 
         FontMetrics fm = selectPaint.getFontMetrics();
@@ -723,7 +724,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
 
         RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
@@ -806,7 +807,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
         FontMetrics fm = selectPaint.getFontMetrics();
