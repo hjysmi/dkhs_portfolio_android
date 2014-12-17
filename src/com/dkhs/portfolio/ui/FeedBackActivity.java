@@ -66,10 +66,10 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 		
 		
 		btnCancle.setText("取消");
-		btnCancle.setBackgroundResource(R.drawable.white_black_selector);
+		btnCancle.setBackgroundDrawable(null);
 		btnCancle.setCompoundDrawables(null, null, null, null);
 		btnSave.setText("提交");
-		btnSave.setBackgroundResource(R.drawable.white_black_selector);
+		btnSave.setBackgroundDrawable(null);
 	}
 	private void initListener(){
 		btnSave.setOnClickListener(this);

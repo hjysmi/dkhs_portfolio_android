@@ -45,7 +45,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     private void initView() {
         Button btnSave = getRightButton();
         btnSave.setText("确定");
-        btnSave.setBackgroundResource(R.drawable.white_black_selector);
+        btnSave.setBackgroundDrawable(null);
         btnSave.setOnClickListener(this);
         combination_desc = (EditText) findViewById(R.id.combination_desc);
         combination_name = (EditText) findViewById(R.id.combination_name);

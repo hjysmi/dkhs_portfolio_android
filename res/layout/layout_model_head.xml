@@ -12,9 +12,9 @@
         android:layout_centerVertical="true"
         android:background="@null"
         android:drawableLeft="@drawable/btn_back_selector"
+        android:textColor="@color/white_textselector"
         android:padding="15dp"
-        android:scaleType="fitCenter"
-        android:textColor="@color/white" />
+        android:scaleType="fitCenter"/>
 
     <RelativeLayout
         android:id="@+id/ll_tilte"
