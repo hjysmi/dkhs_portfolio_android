@@ -51,10 +51,10 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
 		btnSave = getRightButton();
 		
 		btnCancle.setText("取消");
-		btnCancle.setBackgroundResource(R.drawable.white_black_selector);
+		btnCancle.setBackgroundDrawable(null);
 		btnCancle.setCompoundDrawables(null, null, null, null);
 		btnSave.setText("保存");
-		btnSave.setBackgroundResource(R.drawable.white_black_selector);
+		btnSave.setBackgroundDrawable(null);
 	}
 	private void setListener(){
 		passwordSettingCheck.setOnCheckedChangeListener(checkBox_Listener);

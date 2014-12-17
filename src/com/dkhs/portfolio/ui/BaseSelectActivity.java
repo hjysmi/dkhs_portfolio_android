@@ -139,13 +139,13 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            btnAdd.setTextColor(Color.WHITE);
+            //btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             btnAdd.setEnabled(false);
             btnAdd.setText(R.string.add_text);
             //modify by zcm ---2014.12.15
-            btnAdd.setTextColor(Color.WHITE);
+            //btnAdd.setTextColor(Color.WHITE);
             //modify by zcm ---2014.12.15
         }
 
@@ -161,6 +161,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         mSelctStockView = (GridView) findViewById(R.id.rl_add_stocklist);
         btnAdd = getRightButton();
         btnBack = getBtnBack();
+        btnAdd.setBackgroundDrawable(null);
         etSearchKey = (EditText) findViewById(R.id.et_search_key);
 
         mStockPageView = findViewById(R.id.rl_stock_rowview);
@@ -361,13 +362,14 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public void notifySelectDataChange(boolean isUpdataFragment) {
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            btnAdd.setTextColor(Color.WHITE);
+            //btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             btnAdd.setEnabled(false);
             btnAdd.setText(R.string.add_text);
+           // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
             //modify by zcm ---2014.12.17
-            btnAdd.setTextColor(Color.WHITE);
+            //btnAdd.setTextColor(Color.WHITE);
             //modify by zcm ---2014.12.17
 
         }
