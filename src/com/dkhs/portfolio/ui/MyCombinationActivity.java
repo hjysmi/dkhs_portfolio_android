@@ -101,7 +101,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         btnTwo = getSecondRightButton();
         // btnMore.setBackgroundResource(R.drawable.ic_title_add);
         // btnMore.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_title_add), null, null, null);
-        btnTwo.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null,
+        btnTwo.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_add_select), null,
                 null, null);
         btnMore.setBackgroundDrawable(null);
         btnMore.setOnClickListener(this);

@@ -136,7 +136,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         view.findViewById(R.id.btn_back).setOnClickListener(this);
 
         ImageButton btnRight = (ImageButton) view.findViewById(R.id.btn_right);
-        btnRight.setImageResource(R.drawable.ic_title_add);
+        btnRight.setImageResource(R.drawable.btn_add_select);
         btnRight.setOnClickListener(this);
         btnRight.setVisibility(View.VISIBLE);
         // view.findViewById(R.id.iv_plus).setOnClickListener(this);

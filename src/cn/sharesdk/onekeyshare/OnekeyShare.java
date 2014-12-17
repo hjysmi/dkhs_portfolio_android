@@ -359,9 +359,9 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         };
         llPage.setOrientation(LinearLayout.VERTICAL);
         int resId = getBitmapRes(getContext(), "share_vp_back");
-        //if (resId > 0) {
-            llPage.setBackgroundResource(R.color.person_setting_backgroud);
-        //}
+        // if (resId > 0) {
+        llPage.setBackgroundResource(R.color.person_setting_backgroud);
+        // }
         FrameLayout.LayoutParams lpLl = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
         lpLl.gravity = Gravity.BOTTOM;
@@ -385,7 +385,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
             btnCancel.setText(resId);
         }
         btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
-        resId = getBitmapRes(getContext(), "btn_cancel_back");
+        resId = getBitmapRes(getContext(), "btn_quxiao_selector");
         if (resId > 0) {
             btnCancel.setBackgroundResource(resId);
         }
@@ -734,7 +734,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
 
     // 在状态栏提示分享操作
     @SuppressLint("NewApi")
-	private void showNotification(long cancelTime, String text) {
+    private void showNotification(long cancelTime, String text) {
         try {
             Context app = getContext().getApplicationContext();
             NotificationManager nm = (NotificationManager) app.getSystemService(Context.NOTIFICATION_SERVICE);
