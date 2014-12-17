@@ -655,56 +655,60 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         @Override
         public void onFailure(int errCode, String errMsg) {
-            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+            try {
 
-            BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
-            }.getType());
-            RaiseUpDown raiseError = baseErrors.getErrors();
-            StringBuilder sbRaiseUp = null;
-            StringBuilder sbRaiseDown = null;
-            if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
-                super.onFailure(errCode, errMsg);
-                return;
-            }
-            if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
-                // Toast.makeText(getApplicationContext(),
-                // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
-                // .show();
-                sbRaiseDown = new StringBuilder();
-                for (String code : raiseError.getRaise_down()) {
-                    sbRaiseDown.append(code);
-                    sbRaiseDown.append("、");
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
+                }.getType());
+                RaiseUpDown raiseError = baseErrors.getErrors();
+                StringBuilder sbRaiseUp = null;
+                StringBuilder sbRaiseDown = null;
+                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
+                    super.onFailure(errCode, errMsg);
+                    return;
+                }
+                if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
+                    // Toast.makeText(getApplicationContext(),
+                    // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
+                    // .show();
+                    sbRaiseDown = new StringBuilder();
+                    for (String code : raiseError.getRaise_down()) {
+                        sbRaiseDown.append(code);
+                        sbRaiseDown.append("、");
+
+                    }
+                }
+                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+                    sbRaiseUp = new StringBuilder();
+                    for (String code : raiseError.getRaise_up()) {
+                        sbRaiseUp.append(code);
+                        sbRaiseUp.append("、");
+                    }
 
                 }
-            }
-            if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
-                sbRaiseUp = new StringBuilder();
-                for (String code : raiseError.getRaise_up()) {
-                    sbRaiseUp.append(code);
-                    sbRaiseUp.append("、");
+
+                StringBuilder sbToastText = new StringBuilder();
+                if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
+                    sbToastText.append("涨停股");
+                    sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
+                    sbToastText.append("无法调高占比.");
+                    sbToastText.append("\n");
+
+                }
+                if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
+                    sbToastText.append("跌停股");
+                    sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
+                    sbToastText.append("无法调低占比.");
+                    sbToastText.append("\n");
                 }
 
+                copyDefalutList(mPositionDetailBean.getPositionList());
+                updatePieView();
+                Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                // TODO: handle exception
             }
-
-            StringBuilder sbToastText = new StringBuilder();
-            if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
-                sbToastText.append("涨停股");
-                sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
-                sbToastText.append("无法调高占比.");
-                sbToastText.append("\n");
-
-            }
-            if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
-                sbToastText.append("跌停股");
-                sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
-                sbToastText.append("无法调低占比.");
-                sbToastText.append("\n");
-            }
-
-            copyDefalutList(mPositionDetailBean.getPositionList());
-            updatePieView();
-            Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
-
         };
 
         @Override
