@@ -237,6 +237,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         }
         comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
+        comtentView.findViewById(R.id.dline_top).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
         ViewStub viewstubFirst = (ViewStub) comtentView.findViewById(R.id.vs_fristcombination);
         ViewStub viewstubAdd = (ViewStub) comtentView.findViewById(R.id.vs_addcombination);
@@ -345,7 +346,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         TextView cCurrentText = (TextView) view.findViewById(R.id.tv_current_value);
         TextView cAddupText = (TextView) view.findViewById(R.id.tv_addup_value);
         cNameText.setText(item.getName());
-//        float currenValue = item.getCurrentValue();
+        // float currenValue = item.getCurrentValue();
         float currenValue = item.getChng_pct_day();
         cCurrentText.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
         cCurrentText.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
@@ -443,6 +444,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                         } else {
                             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.GONE);
                             comtentView.findViewById(R.id.divier_line).setVisibility(View.GONE);
+                            comtentView.findViewById(R.id.dline_top).setVisibility(View.GONE);
                             viewAddcombination.setVisibility(View.VISIBLE);
                             gvCombination.setVisibility(View.GONE);
                             mConbinlayout.setVisibility(View.GONE);
@@ -499,27 +501,29 @@ public class MainFragment extends Fragment implements OnClickListener {
         @Override
         protected void afterParseData(ChampionCollectionBean object) {
             // = new ArrayList<Fragment>();
-        	if(null != object){
-	            fList.clear();
-	            
-	            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
-	                    .getIncreasePercent()));
-	            float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
-	            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
-	            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
-	            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
-	                    .getIncreasePercent()));
-	            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
-	                    .getIncreasePercent()));
-	            fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek().getIncreasePercent()));
-	
-	            viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
-	            viewPager.setOnPageChangeListener(scrollPageChangeListener);
-	            viewPager.setOffscreenPageLimit(6);
-	
-	            viewPager.setCurrentItem(1);
-	            // viewPager.setCurrentItem(0);
-        	}
+            if (null != object) {
+                fList.clear();
+
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
+                        .getIncreasePercent()));
+                float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
+                        .getIncreasePercent()));
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
+                        .getIncreasePercent()));
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
+                        .getIncreasePercent()));
+                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
+                        .getIncreasePercent()));
+
+                viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
+                viewPager.setOnPageChangeListener(scrollPageChangeListener);
+                viewPager.setOffscreenPageLimit(6);
+
+                viewPager.setCurrentItem(1);
+                // viewPager.setCurrentItem(0);
+            }
         }
     };
 

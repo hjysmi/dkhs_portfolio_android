@@ -36,6 +36,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
+import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
@@ -133,22 +134,18 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
         }
         if (isFund) {
-            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList,true);
+            mAdapterConbinStock = new SearchFundAdatper(getActivity(), mDataList, true);
         } else if (isItemClickBack) {
             mAdapterConbinStock = new AddSearchItemAdapter(getActivity(), mDataList);
         } else {
-            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList,true);
+            mAdapterConbinStock = new SearchStockAdatper(getActivity(), mDataList, true);
         }
         mAdapterConbinStock.setCheckChangeListener(this);
 
         mSearchEngine = new SearchStockEngineImpl(mSelectStockBackListener);
 
-        
-        
-        
     }
-    
-    
+
     // private List<SelectStockBean> hasLoadSelect
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
