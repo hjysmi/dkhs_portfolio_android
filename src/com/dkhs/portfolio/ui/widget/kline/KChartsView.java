@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.R.color;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 
@@ -238,7 +239,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	        Paint selectPaint = new Paint();
 	        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
 	        selectPaint.setStyle(Paint.Style.FILL);// 充满
-	        selectPaint.setColor(Color.WHITE);
+	        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
 	        RectF oval3 = new RectF(left - 10, top - 10, right, bottom + 15+ textMargin * 7);// 设置个新的长方形
 	        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
