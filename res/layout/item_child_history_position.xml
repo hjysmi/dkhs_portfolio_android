@@ -42,7 +42,7 @@
             <View
                 android:id="@+id/blank_view1"
                 android:layout_width="1dip"
-                android:layout_height="30dp"
+                android:layout_height="15dp"
                 android:visibility="visible" />
             <View
                 android:id="@+id/blank_view2"

@@ -1,5 +1,9 @@
 package com.dkhs.portfolio.bean;
 
+import android.text.TextUtils;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 public class UserEntity {
@@ -85,6 +89,9 @@ public class UserEntity {
     }
 
     public String getDescription() {
+        if (TextUtils.isEmpty(description)) {
+            return PortfolioApplication.getInstance().getResources().getString(R.string.desc_def_text);
+        }
         return description;
     }
 

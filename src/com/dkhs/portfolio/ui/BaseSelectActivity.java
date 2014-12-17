@@ -368,6 +368,9 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnAdd.setEnabled(false);
             btnAdd.setText(R.string.add_text);
            // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            //modify by zcm ---2014.12.17
+            //btnAdd.setTextColor(Color.WHITE);
+            //modify by zcm ---2014.12.17
 
         }
 

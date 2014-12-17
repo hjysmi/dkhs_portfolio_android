@@ -293,7 +293,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     .getNetvalue() - 1));
             // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
             // time = time.substring(0, time.length() - 4);
-            positionTextCreatedate.setText("成立时间:"
+            positionTextCreatedate.setText("成立时间: "
                     + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
 
         }
@@ -510,16 +510,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             case R.id.btn_confirm:
             case R.id.btn_right: {
 
-                if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
-                        || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
-                    PromptManager.showToast("3-10位字符:支持中英文、数字。");
-                    return;
-                }
+                if (mPositionDetailBean != null) {
 
-                if (!isAdjustCombination) {
-                    createCombinationByServer();
-                } else {
-                    adjustPositionDetailToServer();
+                    if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
+                            || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
+                        PromptManager.showToast("3-10位字符:支持中英文、数字。");
+                        return;
+                    }
+
+                    if (!isAdjustCombination) {
+                        createCombinationByServer();
+                    } else {
+                        adjustPositionDetailToServer();
+                    }
                 }
                 // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
             }
@@ -652,56 +655,60 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         @Override
         public void onFailure(int errCode, String errMsg) {
-            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+            try {
 
-            BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
-            }.getType());
-            RaiseUpDown raiseError = baseErrors.getErrors();
-            StringBuilder sbRaiseUp = null;
-            StringBuilder sbRaiseDown = null;
-            if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
-                super.onFailure(errCode, errMsg);
-                return;
-            }
-            if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
-                // Toast.makeText(getApplicationContext(),
-                // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
-                // .show();
-                sbRaiseDown = new StringBuilder();
-                for (String code : raiseError.getRaise_down()) {
-                    sbRaiseDown.append(code);
-                    sbRaiseDown.append("、");
+                Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+
+                BaseError<RaiseUpDown> baseErrors = gson.fromJson(errMsg, new TypeToken<BaseError<RaiseUpDown>>() {
+                }.getType());
+                RaiseUpDown raiseError = baseErrors.getErrors();
+                StringBuilder sbRaiseUp = null;
+                StringBuilder sbRaiseDown = null;
+                if (null == raiseError.getRaise_down() && null == raiseError.getRaise_up()) {
+                    super.onFailure(errCode, errMsg);
+                    return;
+                }
+                if (null != raiseError.getRaise_down() && raiseError.getRaise_down().size() > 0) {
+                    // Toast.makeText(getApplicationContext(),
+                    // "跌停股：" + raiseError.getRaise_down().size() + "无法调低占比  ", Toast.LENGTH_LONG)
+                    // .show();
+                    sbRaiseDown = new StringBuilder();
+                    for (String code : raiseError.getRaise_down()) {
+                        sbRaiseDown.append(code);
+                        sbRaiseDown.append("、");
+
+                    }
+                }
+                if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
+                    sbRaiseUp = new StringBuilder();
+                    for (String code : raiseError.getRaise_up()) {
+                        sbRaiseUp.append(code);
+                        sbRaiseUp.append("、");
+                    }
 
                 }
-            }
-            if (null != raiseError.getRaise_up() && raiseError.getRaise_up().size() > 0) {
-                sbRaiseUp = new StringBuilder();
-                for (String code : raiseError.getRaise_up()) {
-                    sbRaiseUp.append(code);
-                    sbRaiseUp.append("、");
+
+                StringBuilder sbToastText = new StringBuilder();
+                if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
+                    sbToastText.append("涨停股");
+                    sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
+                    sbToastText.append("无法调高占比.");
+                    sbToastText.append("\n");
+
+                }
+                if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
+                    sbToastText.append("跌停股");
+                    sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
+                    sbToastText.append("无法调低占比.");
+                    sbToastText.append("\n");
                 }
 
+                copyDefalutList(mPositionDetailBean.getPositionList());
+                updatePieView();
+                Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                // TODO: handle exception
             }
-
-            StringBuilder sbToastText = new StringBuilder();
-            if (null != sbRaiseUp && sbRaiseUp.length() > 1) {
-                sbToastText.append("涨停股");
-                sbToastText.append(sbRaiseUp.substring(0, sbRaiseUp.length() - 1));
-                sbToastText.append("无法调高占比.");
-                sbToastText.append("\n");
-
-            }
-            if (null != sbRaiseDown && sbRaiseDown.length() > 1) {
-                sbToastText.append("跌停股");
-                sbToastText.append(sbRaiseDown.substring(0, sbRaiseDown.length() - 1));
-                sbToastText.append("无法调低占比.");
-                sbToastText.append("\n");
-            }
-
-            copyDefalutList(mPositionDetailBean.getPositionList());
-            updatePieView();
-            Toast.makeText(getApplicationContext(), sbToastText, Toast.LENGTH_LONG).show();
-
         };
 
         @Override
@@ -1047,22 +1054,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         builder.show();
 
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_adjust);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_adjust);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

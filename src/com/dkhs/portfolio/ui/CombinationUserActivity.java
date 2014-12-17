@@ -132,6 +132,7 @@ public class CombinationUserActivity extends ModelAcitivity {
         }
         tvUName.setText(object.getUsername());
         tvUCreateTime.setText(TimeUtils.getSimpleDay(object.getDate_joined()) + "   进驻谁牛");
+        
         tvUserDesc.setText(getString(R.string.format_sign_text_title,object.getDescription()));
 
     }
