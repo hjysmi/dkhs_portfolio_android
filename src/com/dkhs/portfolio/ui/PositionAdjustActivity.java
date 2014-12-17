@@ -510,16 +510,19 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             case R.id.btn_confirm:
             case R.id.btn_right: {
 
-                if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
-                        || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
-                    PromptManager.showToast("3-10位字符:支持中英文、数字。");
-                    return;
-                }
+                if (mPositionDetailBean != null) {
 
-                if (!isAdjustCombination) {
-                    createCombinationByServer();
-                } else {
-                    adjustPositionDetailToServer();
+                    if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
+                            || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
+                        PromptManager.showToast("3-10位字符:支持中英文、数字。");
+                        return;
+                    }
+
+                    if (!isAdjustCombination) {
+                        createCombinationByServer();
+                    } else {
+                        adjustPositionDetailToServer();
+                    }
                 }
                 // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
             }
@@ -1047,22 +1050,24 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         builder.show();
 
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_adjust);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_adjust);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }
