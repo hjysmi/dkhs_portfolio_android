@@ -25,6 +25,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshExpanelListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshExpanelListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -63,8 +64,14 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 		mListView.setGroupIndicator(null);
 		netValueEngine = new NetValueEngine(mCombinationBean.getId());
 		listener = new MyIhttpListener();
-		PromptManager.showProgressDialog(this, "");
-		netValueEngine.requeryHistoryDetailPosition(count, page, listener);
+		//add by zcm --- 2014.12.17
+		if(NetUtil.checkNetWork()){
+			PromptManager.showProgressDialog(this, "");
+			netValueEngine.requeryHistoryDetailPosition(count, page, listener);
+		}else{
+			PromptManager.showToast(R.string.no_net_connect);
+		}
+		//add by zcm --- 2014.12.17
 	}
 	private class MyIhttpListener extends ParseHttpListener<HistoryPositionDetail>{
 
@@ -151,9 +158,6 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 						mListView.setOnLoadListener(HistoryPositionDetailActivity.this);
 					}
 					page ++;
-					if(page > total_page){
-						mListView.setAutoLoadMore(false);
-					}
 					PromptManager.closeProgressDialog();
 					mListView.onLoadMoreComplete();
 				}else{

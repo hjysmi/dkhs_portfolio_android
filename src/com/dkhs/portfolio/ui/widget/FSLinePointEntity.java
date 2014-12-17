@@ -32,7 +32,7 @@ public class FSLinePointEntity extends LinePointEntity {
     }
 
     public void setTime(String time) {
-        this.time = "时间：" + time;
+        this.time = "时间: " + time;
     }
 
     public String getPrice() {
@@ -40,7 +40,7 @@ public class FSLinePointEntity extends LinePointEntity {
     }
 
     public void setPrice(String price) {
-        this.price = "价格：" + price;
+        this.price = "价格: " + price;
     }
 
     public float getIncreaseValue() {
@@ -48,7 +48,7 @@ public class FSLinePointEntity extends LinePointEntity {
     }
 
     public String getIncreaseValueDesc() {
-        return "涨跌：" + StringFromatUtils.get2Point(increaseValue);
+        return "涨跌: " + StringFromatUtils.get2Point(increaseValue);
     }
 
     public void setIncreaseValue(float increaseValue) {
@@ -60,7 +60,7 @@ public class FSLinePointEntity extends LinePointEntity {
     }
 
     public String getIncreaseRangeDesc() {
-        return "涨幅：" + StringFromatUtils.get2PointPercent(increaseRange);
+        return "涨幅: " + StringFromatUtils.get2PointPercent(increaseRange);
     }
 
     public void setIncreaseRange(float increaseRange) {
@@ -72,7 +72,7 @@ public class FSLinePointEntity extends LinePointEntity {
     }
 
     public String getTurnoverDesc() {
-        return "成交量：" + StringFromatUtils.convertToWanHand(turnover);
+        return "成交量: " + StringFromatUtils.convertToWanHand(turnover);
     }
 
     public void setTurnover(int turnover) {
@@ -84,7 +84,7 @@ public class FSLinePointEntity extends LinePointEntity {
     }
 
     public String getAvgPriceDesc() {
-        return "均价：" + avgPrice;
+        return "均价: " + avgPrice;
     }
 
     public void setAvgPrice(String avgPrice) {

@@ -34,11 +34,11 @@ public class TrendLinePointEntity extends LinePointEntity {
     }
 
     public String getIncreaseRangeDesc() {
-        return "涨幅:" + StringFromatUtils.get2PointPercent(increaseRange);
+        return "涨幅: " + StringFromatUtils.get2PointPercent(increaseRange);
     }
 
     public String getDataDesc() {
-        return "当前净值:" + StringFromatUtils.get4Point(getValue());
+        return "当前净值: " + StringFromatUtils.get4Point(getValue());
     }
 
     public void setIncreaseRange(float increaseRange) {

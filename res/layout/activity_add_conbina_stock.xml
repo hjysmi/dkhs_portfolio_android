@@ -15,10 +15,10 @@
         android:background="@drawable/edittext_search_bg"
         android:focusableInTouchMode="true"
         android:layout_margin="5dp"
-        android:paddingBottom="10dp"
+        android:paddingBottom="5dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="10dp" >
+        android:paddingTop="5dp" >
 
         <ImageView
             android:id="@+id/iv_search"
@@ -33,8 +33,11 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:background="@null"
+            android:background="@drawable/clearedittext_bg"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             dkhs:needVisible ="true"
+            android:textColorHint="#999999"
             android:layout_toRightOf="@+id/iv_search"
             android:hint="@string/search_fund_hint"
             android:singleLine="true"
@@ -110,7 +113,10 @@
             android:id="@+id/pager"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@+id/indicator_title" />
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/indicator_title" >
+        </android.support.v4.view.ViewPager>
+
     </RelativeLayout>
 
 </RelativeLayout>
