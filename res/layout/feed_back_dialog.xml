@@ -54,7 +54,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/action_sheet_button_cancel_selector"
+                android:background="@drawable/btn_quxiao_selector"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="取消"

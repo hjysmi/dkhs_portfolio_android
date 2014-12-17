@@ -162,7 +162,9 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 					feedImageLoad.setImageBitmap(bitmap);
 					bitmap = null;
 					having = true;
-				} catch (Exception e) {
+				} catch(OutOfMemoryError e){
+					
+				}catch (Exception e) {
 					Log.e("Exception", e.getMessage(), e);
 				}
 			}else if(requestCode == 5 && resultCode == RESULT_FIRST_USER){
