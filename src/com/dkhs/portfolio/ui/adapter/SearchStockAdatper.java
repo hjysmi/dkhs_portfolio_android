@@ -79,24 +79,4 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param buttonView
-     * @param isChecked
-     * @return
-     */
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
-
-        if (!isCombination && isChecked) {
-            if (BaseSelectActivity.mSelectList.size() == 5) {
-                Toast.makeText(mContext, mContext.getString(R.string.max_fund_select_tip), Toast.LENGTH_SHORT).show();
-                buttonView.setChecked(false);
-                return;
-            }
-        }
-        super.onCheckedChanged(buttonView, isChecked);
-    }
 }
