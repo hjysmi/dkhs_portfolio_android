@@ -819,6 +819,8 @@ public class TrendChart extends TrendGridChart {
             }
         if (lineData.size() > 2) {
             viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
+        }else if(lineData.size() == 2){
+        	viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
         }
 
         RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形

@@ -134,6 +134,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 					f.delete();
 				}
 				FileOutputStream out = new FileOutputStream(f);
+				imageBitmap = UIUtils.loadBitmap(imageBitmap, file_str +"/my_camera/file.jpg");
 				imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
 				mUserEngineImpl.setUserHead(file_go, listener.setLoadingDialog(context));
 			} catch (Exception e) {
@@ -170,6 +171,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			}
 			Bitmap imageBitmap;// = BitmapFactory.decodeFile(file_str +"/my_camera/file.jpg");
 			imageBitmap = UIUtils.getimage(file_str +"/my_camera/file.jpg");
+			imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
 			f = new File(mars_file, "file.jpg");
 			if(f.exists()){
 				f.delete();

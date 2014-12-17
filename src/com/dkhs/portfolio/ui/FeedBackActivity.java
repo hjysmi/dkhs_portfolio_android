@@ -32,6 +32,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 /**
  * 意见反馈
@@ -66,10 +67,10 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 		
 		
 		btnCancle.setText("取消");
-		btnCancle.setBackgroundResource(R.drawable.white_black_selector);
+		btnCancle.setBackgroundDrawable(null);
 		btnCancle.setCompoundDrawables(null, null, null, null);
 		btnSave.setText("提交");
-		btnSave.setBackgroundResource(R.drawable.white_black_selector);
+		btnSave.setBackgroundDrawable(null);
 	}
 	private void initListener(){
 		btnSave.setOnClickListener(this);
@@ -146,7 +147,8 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 				
 				try {
 					Uri uri = data.getData();
-					
+					feedImageLoad.setImageBitmap(null);
+					System.gc();
 					String[] proj = {MediaStore.Images.Media.DATA};
 		            Cursor cursor = managedQuery(uri, proj, null, null, null); 
 		            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -154,11 +156,15 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 	
 		            String path = cursor.getString(column_index);
 		            imageFile = new File(path);
-					ContentResolver cr = this.getContentResolver();
+					//ContentResolver cr = this.getContentResolver();
 					Bitmap bitmap = BitmapFactory.decodeFile(path);
+					bitmap = UIUtils.loadBitmap(bitmap, path);
 					feedImageLoad.setImageBitmap(bitmap);
+					bitmap = null;
 					having = true;
-				} catch (Exception e) {
+				} catch(OutOfMemoryError e){
+					
+				}catch (Exception e) {
 					Log.e("Exception", e.getMessage(), e);
 				}
 			}else if(requestCode == 5 && resultCode == RESULT_FIRST_USER){

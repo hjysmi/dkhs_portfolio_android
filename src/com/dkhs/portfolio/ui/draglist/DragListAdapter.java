@@ -109,6 +109,9 @@ public class DragListAdapter extends BaseAdapter {
 		    	if(!ShowItem){
 		    		convertView.findViewById(R.id.drag_list_item_text).setVisibility(View.INVISIBLE);
 		    		convertView.findViewById(R.id.drag_list_item_image).setVisibility(View.INVISIBLE);
+		    		convertView.findViewById(R.id.image).setVisibility(View.INVISIBLE);
+		    		convertView.findViewById(R.id.drag_list_item_text_id).setVisibility(View.INVISIBLE);
+		    		convertView.findViewById(R.id.drag_item_up).setVisibility(View.INVISIBLE);
 		    		//convertView.findViewById(R.id.check_del).setVisibility(View.INVISIBLE);
 //			        convertView.setVisibility(View.INVISIBLE);
 		    	}
