@@ -293,7 +293,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     .getNetvalue() - 1));
             // String time = mPositionDetailBean.getPortfolio().getCreateTime().replace("T", "-");
             // time = time.substring(0, time.length() - 4);
-            positionTextCreatedate.setText("成立时间:"
+            positionTextCreatedate.setText("成立时间: "
                     + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
 
         }

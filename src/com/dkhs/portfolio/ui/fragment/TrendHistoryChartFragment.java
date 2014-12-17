@@ -399,7 +399,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             HistoryNetBean todayBean = historyNetList.get(i);
             float value = todayBean.getNetvalue();
             pointEntity.setValue(value);
-            pointEntity.setTime("日期:" + todayBean.getDate());
+            pointEntity.setTime("日期: " + todayBean.getDate());
             pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
             if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
                 if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
