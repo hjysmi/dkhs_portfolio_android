@@ -130,8 +130,12 @@ public class UIUtils {
                 // 旋转图片  
                 Matrix m = new Matrix();  
                 m.postRotate(digree);  
-                bm = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),  
+                Bitmap bms = Bitmap.createBitmap(bm, 0, 0, bm.getWidth(),  
                         bm.getHeight(), m, true);  
+                if(null != bms){
+                	bm = bms;
+                	bms = null;
+                }
             }  
             return bm;  
         } 
