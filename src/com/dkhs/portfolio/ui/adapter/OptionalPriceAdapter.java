@@ -59,25 +59,26 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
         ColorStateList textCsl = null;
-        if (item.isStop) {
-            textCsl = ColorTemplate.getTextColor(R.color.theme_gray_press);
+        if (item.isStop||StockUitls.isDelistStock(item.list_status)) {
+            textCsl = ColorTemplate.getTextColor(R.color.theme_color);
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
         }
         if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvIncearseValue.setText("退市");
             viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
-            viewHolder.tvPercentValue.setText("—  ");
+            viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
         } else if (item.isStop) {
             viewHolder.tvIncearseValue.setText("停牌");
-            viewHolder.tvPercentValue.setText("—  ");
+            viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
             viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
-            // viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         } else {
+            viewHolder.tvIncearseValue.setTextColor(textCsl);
             viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT_BOLD);
-            viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
+            viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
         }
         if (StockUitls.isShangZhengB(item.code)) {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
@@ -85,7 +86,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         } else {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
         }
-        viewHolder.tvIncearseValue.setTextColor(textCsl);
+        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         viewHolder.tvCurrentValue.setTextColor(textCsl);
         viewHolder.tvPercentValue.setTextColor(textCsl);
 
