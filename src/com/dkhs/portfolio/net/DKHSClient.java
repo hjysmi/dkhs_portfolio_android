@@ -51,18 +51,31 @@ public class DKHSClient {
 
     public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
-        requestServer(new HttpUtils(), method, url, params, listener);
+        requestServer(new HttpUtils(), method, url, params, listener, true);
+
+    }
+
+    public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener,
+            boolean isShowTip) {
+
+        requestServer(new HttpUtils(), method, url, params, listener, isShowTip);
+
+    }
+
+    public static void requestNotTip(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+
+        requestServer(new HttpUtils(), method, url, params, listener, false);
 
     }
 
     public static void requestLong(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
-        requestServer(new HttpUtils(10*60 * 1000), method, url, params, listener);
+        requestServer(new HttpUtils(10 * 60 * 1000), method, url, params, listener, false);
 
     }
 
     private static void requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
-            final IHttpListener listener) {
+            final IHttpListener listener, boolean isShowTip) {
         // HttpUtils mHttpUtils = new HttpUtils();
         if (NetUtil.checkNetWork()) {
 
@@ -155,7 +168,7 @@ public class DKHSClient {
                 listener.requestCallBack();
                 listener.onHttpFailure(123, "网络未连接");
             }
-            if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            if (Looper.getMainLooper().getThread() == Thread.currentThread() && isShowTip) {
                 // On UI thread.
                 PromptManager.showNoNetWork();
             } else {
@@ -171,36 +184,27 @@ public class DKHSClient {
 
     public static void requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener) {
 
-        // StringBuilder sbParams = new StringBuilder(url);
-        //
-        // if (null != params) {
-        //
-        // for (String value : params) {
-        // sbParams.append(value);
-        // sbParams.append("/");
-        // }
-        //
-        // }
-        requestByGet(urlPrefix, urlPath, null, listener);
+        requestByGet(urlPrefix, urlPath, null, listener, true);
+    }
+
+    public static void
+            requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener, boolean isShowTip) {
+
+        requestByGet(urlPrefix, urlPath, null, listener, isShowTip);
     }
 
     public static void requestByGet(final IHttpListener listener, String urlPrefix, Object... params) {
 
-        // StringBuilder sbParams = new StringBuilder(url);
-        //
-        // if (null != params) {
-        //
-        // for (String value : params) {
-        // sbParams.append(value);
-        // sbParams.append("/");
-        // }
-        //
-        // }
-        requestByGet(MessageFormat.format(urlPrefix, params), null, null, listener);
+        requestByGet(MessageFormat.format(urlPrefix, params), null, null, listener, true);
     }
 
     public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
             final IHttpListener listener) {
+        requestByGet(urlPrefix, urlPath, params, listener, true);
+    }
+
+    public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
+            final IHttpListener listener, boolean isShowTip) {
 
         StringBuilder sbParams = new StringBuilder(urlPrefix);
 
@@ -223,7 +227,7 @@ public class DKHSClient {
             // sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
         }
 
-        request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener);
+        request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener, isShowTip);
     }
 
     public static String getAbsoluteUrl(String relativeUrl) {

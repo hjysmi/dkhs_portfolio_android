@@ -36,6 +36,13 @@ public class QuotesEngineImpl {
         DKHSClient.request(HttpMethod.GET, MessageFormat.format(DKHSUrl.StockSymbol.quotes, stockCode), null, listener);
     }
 
+    public void quotesNotTip(String stockCode, IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        // params.addBodyParameter("symbols", stockCode);
+        DKHSClient.requestNotTip(HttpMethod.GET, MessageFormat.format(DKHSUrl.StockSymbol.quotes, stockCode), null,
+                listener);
+    }
+
     public void symbolfollow(long id, IHttpListener listener) {
         RequestParams params = new RequestParams();
         // params.addBodyParameter("symbol", id + "");
@@ -52,7 +59,8 @@ public class QuotesEngineImpl {
     public void queryTimeShare(String stockCode, IHttpListener listener) {
         // RequestParams params = new RequestParams();
         // params.addBodyParameter("period", "1");
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.sfthumbnail, stockCode), null, listener);
+        DKHSClient
+                .requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.sfthumbnail, stockCode), null, listener, false);
 
     }
 
@@ -60,7 +68,7 @@ public class QuotesEngineImpl {
         // RequestParams params = new RequestParams();
         // params.addBodyParameter("period", "1");
         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.sfthumbnail, stockCode) + "&fromtime="
-                + current, null, listener);
+                + current, null, listener, false);
 
     }
 
@@ -71,7 +79,7 @@ public class QuotesEngineImpl {
      * @param stockid 股票id
      * @param listener
      */
-    public void queryKLine(String type, String stockid, String isHis,IHttpListener listener) {
+    public void queryKLine(String type, String stockid, String isHis, IHttpListener listener) {
         // String url = DKHSUrl.BASE_URL + DKHSUrl.StockSymbol.kline_pre +stockid+
         // DKHSUrl.StockSymbol.kline_after+"?period="+type;
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -79,6 +87,7 @@ public class QuotesEngineImpl {
         NameValuePair valuePair2 = new BasicNameValuePair("is_realtime", isHis);
         params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.kline, stockid), null, params, listener);
+        DKHSClient
+                .requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.kline, stockid), null, params, listener, false);
     }
 }

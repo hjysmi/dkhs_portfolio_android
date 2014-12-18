@@ -329,8 +329,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         hsTitle.setSelectPositionListener(titleSelectPostion);
         Button addButton = getRightButton();
         // addButton.setBackgroundResource(R.drawable.ic_search_title);
-        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select), null,
-                null, null);
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                null, null, null);
         addButton.setOnClickListener(mSearchClick);
 
         btnRefresh = getSecondRightButton();
@@ -373,11 +373,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
+    private boolean isFirstLoadQuotes = true;
+
     private void setupViewData() {
         if (null != mQuotesEngine && mStockBean != null) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
-            mQuotesEngine.quotes(mStockBean.code, listener);
+            if (isFirstLoadQuotes) {
+
+                mQuotesEngine.quotes(mStockBean.code, listener);
+                isFirstLoadQuotes = false;
+            } else {
+
+                mQuotesEngine.quotesNotTip(mStockBean.code, listener);
+            }
             // listener.setLoadingDialog(context);
         }
     }
@@ -436,7 +445,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
 
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
-                if (null != stockQuotesBean &&UIUtils.roundAble(stockQuotesBean)) {
+                if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
                     quoteHandler.removeCallbacks(runnable);
                 }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
@@ -676,7 +685,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(StockQuotesActivity.this, SelectAddOptionalActivity.class);
-        	//Intent intent = new Intent(StockQuotesActivity.this, KChartLandScapeActivity.class);
+            // Intent intent = new Intent(StockQuotesActivity.this, KChartLandScapeActivity.class);
             startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
             finish();
         }
