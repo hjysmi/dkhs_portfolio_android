@@ -25,7 +25,7 @@ public class GettingUrlForAPPActivity extends Activity implements
 		PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 1);
 		findViewById(R.id.setting_app_staging).setOnClickListener(this);
 		findViewById(R.id.setting_app_main).setOnClickListener(this);
-		//findViewById(R.id.setting_app_right).setOnClickListener(this);
+		findViewById(R.id.setting_app_right).setOnClickListener(this);
 		findViewById(R.id.setting_app_test).setOnClickListener(this);
 		findViewById(R.id.setting_app_cancel).setOnClickListener(this);
 	}
@@ -34,15 +34,19 @@ public class GettingUrlForAPPActivity extends Activity implements
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
+		//开发环境
 		case R.id.setting_app_staging:
 			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 0);
 			break;
+			//测试环境
 		case R.id.setting_app_main:
 			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 1);
 			break;
-		/*case R.id.setting_app_right:
-			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
-			break;*/
+			//服务器调试
+		case R.id.setting_app_right:
+			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 3);
+			break;
+			//正式环境
 		case R.id.setting_app_test:
 			PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
 			break;
