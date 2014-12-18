@@ -321,7 +321,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setOnClickListener(this);
 
         }
-
+        findViewById(R.id.stock_land).setOnClickListener(this);
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
@@ -788,6 +788,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 quoteHandler.postDelayed(runnable, 6 * 1000);
             }
                 break;
+            case R.id.stock_land:
+            	Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean);
+            	startActivity(intent);
+            	break;
             default:
                 break;
         }

@@ -290,8 +290,8 @@ public class TrendChart extends TrendGridChart {
     protected void drawWithFingerClick(Canvas canvas, int pointIndex) {
 
         Paint mPaint = new Paint();
-        mPaint.setColor(Color.CYAN);
-        mPaint.setStrokeWidth(lineStrokeWidth);
+        mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+        mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 
         // 水平线长度
         float lineHLength = getWidth() - 2f;
@@ -316,7 +316,7 @@ public class TrendChart extends TrendGridChart {
 
         if (clickPostX > 0 && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
             if (!isTouch) {
-                mPaint.setColor(Color.TRANSPARENT);
+                mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
             }
             // 显示纵线
             // if (displayCrossXOnTouch) {
