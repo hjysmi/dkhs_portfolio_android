@@ -28,6 +28,7 @@ import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.umeng.analytics.MobclickAgent;
@@ -55,7 +56,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private int types;
     private TextView tv;
     private boolean getadle = false;
-    private OptionlistAdapter mOptionlistAdapter;
+    private OptionForOnelistAdapter mOptionlistAdapter;
 
     // private LinearLayout layouts;
     @Override
@@ -105,7 +106,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mListView.addFooterView(mFootView);
         // mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
         // if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
-        mOptionlistAdapter = new OptionlistAdapter(context, mDataList);
+        mOptionlistAdapter = new OptionForOnelistAdapter(context, mDataList);
         mListView.setAdapter(mOptionlistAdapter);
         // }else{
         // mListView.setAdapter(mOptionMarketAdapter);
