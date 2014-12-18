@@ -95,17 +95,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/about_url"
+        android:paddingBottom="20dp"
         android:textSize="14sp" />
 	<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/about_weixin"
+        android:visibility="gone"
         android:textSize="14sp" />
 	<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/about_weibo"
         android:paddingBottom="20dp"
+        android:visibility="gone"
         android:textSize="14sp" />    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

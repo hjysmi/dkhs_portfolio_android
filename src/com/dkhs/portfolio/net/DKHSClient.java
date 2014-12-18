@@ -235,10 +235,10 @@ public class DKHSClient {
 				return DKHSUrl.BASE_DEV_URL + relativeUrl;
 			case 1:
 				return DKHSUrl.BASE_TEST_URL + relativeUrl;
-			/*case 2:
-				return DKHSUrl.BASE_TEST_URL + relativeUrl;*/
 			case 2:
 				return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
+			case 3:
+				return DKHSUrl.BASE_DEV_TAG + relativeUrl;
 			default:
 				break;
 			}

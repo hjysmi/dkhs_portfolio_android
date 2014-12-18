@@ -27,6 +27,17 @@
 			    android:textSize="@dimen/list_text_size"
 			    />
 			<include layout="@layout/layout_line"/>
+			<Button
+                android:id="@+id/setting_app_right"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/dialog_black_selector"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="服务器调试"
+                android:textColor="@drawable/bound_button"
+                android:textSize="16sp" />
+            <include layout="@layout/layout_line"/>
             <Button
                 android:id="@+id/setting_app_staging"
                 android:layout_width="fill_parent"
@@ -39,6 +50,7 @@
                android:textColor="@drawable/bound_button"
                 android:textSize="16sp" />
             <include layout="@layout/layout_line"/>
+            
 			<Button
                 android:id="@+id/setting_app_main"
                 android:layout_width="fill_parent"
@@ -51,17 +63,7 @@
               android:textColor="@drawable/bound_button"
                 android:textSize="16sp" />
 			<include layout="@layout/layout_line"/>
-            <!-- <Button
-                android:id="@+id/setting_app_right"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dialog_black_selector"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="预发布环境"
-                android:textColor="@drawable/bound_button"
-                android:textSize="16sp" />
-            <include layout="@layout/layout_line"/> -->
+            
             <Button
                 android:id="@+id/setting_app_test"
                 android:layout_width="fill_parent"
