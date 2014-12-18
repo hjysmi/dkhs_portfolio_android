@@ -10,6 +10,10 @@ package com.dkhs.portfolio.bean;
 
 import java.io.Serializable;
 
+import android.text.TextUtils;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.google.gson.annotations.SerializedName;
 
@@ -27,7 +31,7 @@ public class CombinationBean implements Serializable {
     private String name;
     private CombinationUser createUser;
     private String description;
-//    private float percent;
+    // private float percent;
     @SerializedName("cumulative")
     private float addUpValue;
     @SerializedName("net_value")
@@ -62,13 +66,13 @@ public class CombinationBean implements Serializable {
         this.name = name;
     }
 
-//    public float getCurrentValue() {
-//        return percent;
-//    }
-//
-//    public void setCurrentValue(float currentValue) {
-//        this.percent = currentValue;
-//    }
+    // public float getCurrentValue() {
+    // return percent;
+    // }
+    //
+    // public void setCurrentValue(float currentValue) {
+    // this.percent = currentValue;
+    // }
 
     public float getAddUpValue() {
         return addUpValue;
@@ -87,6 +91,9 @@ public class CombinationBean implements Serializable {
     }
 
     public String getDescription() {
+        if (TextUtils.isEmpty(description)) {
+            return PortfolioApplication.getInstance().getResources().getString(R.string.desc_def_text);
+        }
         return description;
     }
 

@@ -676,6 +676,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(StockQuotesActivity.this, SelectAddOptionalActivity.class);
+        	//Intent intent = new Intent(StockQuotesActivity.this, KChartLandScapeActivity.class);
             startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
             finish();
         }
