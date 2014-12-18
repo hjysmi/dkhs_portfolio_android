@@ -78,7 +78,7 @@
     <string name="combin">基金：%1$d</string>
     <string name="optional_stock_format">自选股:%1$d</string>
     <string name="optional_stock">自选股</string>
-    <string name="add_optional_stock">添加自选股</string>
+    <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
