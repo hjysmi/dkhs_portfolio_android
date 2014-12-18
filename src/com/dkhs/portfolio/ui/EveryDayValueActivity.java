@@ -21,6 +21,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -56,8 +57,14 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 		mListView.setAdapter(adapter);
 		netValueEngine = new NetValueEngine(mCombinationBean.getId());
 		listener = new MyIhttpListener();
-		PromptManager.showProgressDialog(this, "", false);
-		netValueEngine.requeryHistory(count, page, listener);
+		//add by zcm --- 2014.12.17
+		if(NetUtil.checkNetWork()){
+			PromptManager.showProgressDialog(this, "", false);
+			netValueEngine.requeryHistory(count, page, listener);
+		}else{
+			PromptManager.showToast(R.string.no_net_connect);
+		}
+		//add by zcm --- 2014.12.17
 	}
 	private class MyIhttpListener extends ParseHttpListener<HistoryProfitNetValue>{
 
@@ -76,6 +83,13 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 				if(page <= total_page){
 					lists.addAll(object.getResults());
 					adapter.notifyDataSetChanged();
+					//add by zcm --- 2014.12.17
+					if(page == 1){
+						mListView.setCanLoadMore(true);
+						mListView.setAutoLoadMore(true);
+						mListView.setOnLoadListener(EveryDayValueActivity.this);
+					}
+					//add by zcm --- 2014.12.17
 					page ++;
 					PromptManager.closeProgressDialog();
 					mListView.onLoadMoreComplete();
@@ -89,9 +103,6 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 
 	private void initView() {
 		mListView = (PullToRefreshListView) findViewById(R.id.mListView);
-		mListView.setCanLoadMore(true);
-		mListView.setAutoLoadMore(true);
-		mListView.setOnLoadListener(this);
 	}
 
 	private void handleExtras(Bundle extras) {

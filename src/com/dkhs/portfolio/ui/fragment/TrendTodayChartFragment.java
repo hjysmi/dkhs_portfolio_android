@@ -341,7 +341,7 @@ public class TrendTodayChartFragment extends BaseFragment {
                 minNum = bean.getNetvalue();
             }
             TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            pointEntity.setTime("时间:" + TimeUtils.getTimeString(bean.getTimestamp()));
+            pointEntity.setTime("时间: " + TimeUtils.getTimeString(bean.getTimestamp()));
             pointEntity.setValue(bean.getNetvalue());
             pointEntity.setIncreaseRange(((bean.getNetvalue() - baseNum) / baseNum) * 100);
 
@@ -457,7 +457,7 @@ public class TrendTodayChartFragment extends BaseFragment {
             float value = todayBean.getNetvalue();
             // pointEntity.setDesc(todayBean.getDate());
             pointEntity.setValue(value);
-            pointEntity.setTime("日期:" + todayBean.getDate());
+            pointEntity.setTime("日期: " + todayBean.getDate());
             pointEntity.setIncreaseRange(todayBean.getPercentage());
             // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
 
