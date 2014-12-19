@@ -437,8 +437,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	protected void drawWithFingerClick(Canvas canvas) {
 		if(ismove){
 			Paint mPaint = new Paint();
-			mPaint.setColor(Color.LTGRAY);
-	
+			mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+			mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 			// 水平线长度
 			float lineHLength = getWidth() - 2f;
 			// 垂直线高度

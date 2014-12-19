@@ -59,8 +59,16 @@ public class KChartsLandFragment extends Fragment {
 	List<OHLCEntity> ohlcs;
 	private boolean having = true;
 	private String symbolType;
+	private final static String TYPE = "type";
+	private final static String CODE = "code";
+	private final static String SYMBOLETYPE = "symboltype";
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode,String symbolType) {
         KChartsLandFragment fg = new KChartsLandFragment();
+        Bundle b = new Bundle();
+        b.putInt(TYPE, type);
+        b.putString(CODE, stockcode);
+        b.putString(SYMBOLETYPE, symbolType);
+        fg.setArguments(b);
         fg.setType(type);
         fg.setStockCode(stockcode);
         fg.setSymbolType(symbolType);
@@ -274,6 +282,14 @@ public class KChartsLandFragment extends Fragment {
         // mStockCode = "SZ002252";
         // 获取K线类型，日，周，月
         try {
+        	if(null == mStockCode){
+        		Bundle b = getArguments();
+        		type = b.getInt(TYPE);
+        		mStockCode = b.getString(CODE);
+        		symbolType = b.getString(SYMBOLETYPE);
+        		mMyChartsView.setSymbolType(symbolType);
+                mMyChartsView.setSymbol(mStockCode);
+        	}
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener);
             if(first){

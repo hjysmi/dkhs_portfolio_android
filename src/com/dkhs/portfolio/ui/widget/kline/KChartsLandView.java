@@ -846,6 +846,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 	}
 	float timeX = 0;
 	float timeY = 0;
+	int currentDate = mDataStartIndext;
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 		e = event;
@@ -856,6 +857,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 			if (null != mTouchListener) {
                 mTouchListener.chartTounching();
             }
+			currentDate = mDataStartIndext;
 			ismove = true;
 			go = true;
 			currentTime = System.currentTimeMillis();
@@ -921,14 +923,18 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 					mStartX = event.getX() - PADDING_LEFT;
 					mStartY = event.getY();
 				}
-				if (horizontalSpacing < 0) {
+				mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
+				if (mDataStartIndext < 0) {
+					mDataStartIndext = 0;
+				}
+				/*if (horizontalSpacing < 0) {
 					mDataStartIndext--;
 					if (mDataStartIndext < 0) {
 						mDataStartIndext = 0;
 					}
 				} else if (horizontalSpacing > 0) {
 					mDataStartIndext++;
-				}
+				}*/
 				setCurrentData();
 				postInvalidate();
 				mVolumnChartView.onSet(e,ismove,mDataStartIndext);

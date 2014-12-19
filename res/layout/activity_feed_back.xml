@@ -8,13 +8,14 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"
-        android:layout_marginLeft="20dp"
-    	android:layout_marginRight="20dp"
+        
     	android:layout_marginTop="30dp"
         >
         <LinearLayout 
-    	android:background="@drawable/layout_back_ground"
+    	android:background="@drawable/edittext_bg"
         android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+    	android:paddingRight="20dp"
         android:layout_width="match_parent"
         android:orientation="vertical"
         >
@@ -36,7 +37,6 @@
         <ImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
             android:layout_gravity="end"
             android:id="@+id/feed_image_load"
             android:src="@drawable/feed_image_photo" />
@@ -45,8 +45,16 @@
             android:layout_height="10dp"
             android:layout_width="match_parent"
             />
+        <LinearLayout 
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/edittext_bg"
+	        android:paddingLeft="20dp"
+	    	android:paddingRight="20dp"
+            >
         <EditText 
-            android:background="@drawable/edit_back_ground"
+            android:background="@null"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:id="@+id/feed_edit_com"
@@ -54,8 +62,12 @@
             android:textSize="@dimen/list_text_size"
             android:singleLine="true"
             />
+        
+        </LinearLayout>
         <TextView 
             android:paddingTop="5dp"
+            android:paddingLeft="20dp"
+	    	android:paddingRight="20dp"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:textSize="@dimen/list_text_size"
