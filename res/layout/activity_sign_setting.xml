@@ -6,10 +6,10 @@
     android:background="@color/person_setting_backgroud"
     android:layout_height="match_parent" >
     <LinearLayout 
-        android:layout_marginLeft="20dp"
-    	android:layout_marginRight="20dp"
+        android:paddingLeft="20dp"
+    	android:paddingRight="20dp"
     	android:layout_marginTop="30dp"
-    	android:background="@drawable/layout_back_ground"
+    	android:background="@drawable/edittext_bg"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:orientation="vertical"

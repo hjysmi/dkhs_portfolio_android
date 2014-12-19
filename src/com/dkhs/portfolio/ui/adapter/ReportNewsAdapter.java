@@ -104,27 +104,27 @@ public class ReportNewsAdapter extends BaseAdapter{
 				viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t) +"-" + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) :old.get(Calendar.DAY_OF_MONTH)));
 			}
 			if(null != mOptionNewsBean.getSource() && !(null != mOptionNewsBean.getSymbols() && mOptionNewsBean.getSymbols().size() > 0)){
-				viewHolder.tvTextNameNum.setText("");
-				viewHolder.tvTextNameNum.setVisibility(View.GONE);
+				viewHolder.tvTextNameNum.getLayoutParams().width=rects.width();
+				viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSource().getTitle());
 				Paint p= new Paint(); 
 				Rect rect = new Rect();
 				p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
 				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
 				if(dm.widthPixels * 3/2- 50  < rect.width()){
 					int le = (int) (mOptionNewsBean.getTitle().length() -  mOptionNewsBean.getTitle().length() *(rect.width() - dm.widthPixels* 3/2  + 50)/rect.width() - 3);
-					String text = "[" + mOptionNewsBean.getSource().getTitle() + "] " + mOptionNewsBean.getTitle().substring(0, le);
+					String text = mOptionNewsBean.getTitle().substring(0, le);
 					viewHolder.tvTextName.setText(text + "...");
 				}else{
-					viewHolder.tvTextName.setText("[" + mOptionNewsBean.getSource().getTitle() + "] " + mOptionNewsBean.getTitle());
+					viewHolder.tvTextName.setText( mOptionNewsBean.getTitle());
 				}
-				viewHolder.tvTextDate.setVisibility(View.GONE);
+				/*viewHolder.tvTextDate.setVisibility(View.GONE);
 				viewHolder.tvTextDates.setVisibility(View.VISIBLE);
 				if(TimeUtils.compareTime(old)){
 					viewHolder.tvTextDates.setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old.get(Calendar.HOUR_OF_DAY) ) + ":" + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old.get(Calendar.MINUTE)));
 				}else{
 					int t = old.get(Calendar.MONTH) + 1;
 					viewHolder.tvTextDates.setText((t < 10 ? ("0" + t) : t) +"-" + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) :old.get(Calendar.DAY_OF_MONTH)));
-				}
+				}*/
 				/*android.widget.RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)viewHolder.tvTextDate.getLayoutParams();
 				params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 				viewHolder.tvTextDate.setLayoutParams(params);*/

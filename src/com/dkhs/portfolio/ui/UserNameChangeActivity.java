@@ -46,9 +46,9 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
         btnCancle = getBtnBack();
         btnSave = getRightButton();
 
-        btnCancle.setText("取消");
-        btnCancle.setBackgroundDrawable(null);
-        btnCancle.setCompoundDrawables(null, null, null, null);
+        //btnCancle.setText("取消");
+        //btnCancle.setBackgroundDrawable(null);
+        //btnCancle.setCompoundDrawables(null, null, null, null);
         btnSave.setText("保存");
         btnSave.setBackgroundDrawable(null);
         changeEditName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
