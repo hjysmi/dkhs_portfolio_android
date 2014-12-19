@@ -26,7 +26,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 
-public class KChartsView extends GridChart implements GridChart.OnTabClickListener {
+public class KChartsLandView extends GridChart implements GridChart.OnTabClickListener {
 
 	/** 触摸模式 */
 	private static int TOUCH_MODE;
@@ -92,17 +92,17 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private boolean firsttime = true;
 	private String symbolType;
 	private String symbol;
-	public KChartsView(Context context) {
+	public KChartsLandView(Context context) {
 		super(context);
 		init();
 	}
 	
-	public KChartsView(Context context, AttributeSet attrs) {
+	public KChartsLandView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
-	public KChartsView(Context context, AttributeSet attrs, int defStyle) {
+	public KChartsLandView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init();
 	}
@@ -211,7 +211,6 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			Paint paint = new Paint();
 			paint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
 			paint.setAntiAlias(true);
-			paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 			//paint.setAlpha(150);
 			e.setLocation(startX, startX);
 			mVolumnChartView.onSet(e,ismove,mDataStartIndext);
@@ -915,6 +914,25 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				if (null != mTouchListener) {
 	                mTouchListener.loseTouching();
 	            }
+			}
+			if(!go && !showDetails){
+				ismove = false;
+				if(event.getX() - PADDING_LEFT  >= 0){
+					mStartX = event.getX() - PADDING_LEFT;
+					mStartY = event.getY();
+				}
+				if (horizontalSpacing < 0) {
+					mDataStartIndext--;
+					if (mDataStartIndext < 0) {
+						mDataStartIndext = 0;
+					}
+				} else if (horizontalSpacing > 0) {
+					mDataStartIndext++;
+				}
+				setCurrentData();
+				postInvalidate();
+				mVolumnChartView.onSet(e,ismove,mDataStartIndext);
+				
 			}
 			Log.e("hor", hor + " ----" + horizontalSpacing);
 			/*if (mOHLCData == null || mOHLCData.size() <= 0) {

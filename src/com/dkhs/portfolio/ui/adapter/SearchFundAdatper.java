@@ -30,11 +30,11 @@ import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
  * @date 2014-9-5 下午2:24:13
  * @version 1.0
  */
-public class SearchStockAdatper extends BaseAdatperSelectStockFund {
+public class SearchFundAdatper extends BaseAdatperSelectStockFund {
 
     private boolean isCombination;
 
-    public SearchStockAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
+    public SearchFundAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
         this.isCombination = isCombination;
     }
@@ -59,11 +59,11 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         viewHolder.mCheckbox.setOnCheckedChangeListener(null);
         viewHolder.mCheckbox.setTag(item);
-        if (isCombination) {
-            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
-        } else {
-            viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
-        }
+        // if (isCombination) {
+        viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+        // } else {
+        // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+        // }
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         viewHolder.tvStockName.setText(item.name);
@@ -79,4 +79,24 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param buttonView
+     * @param isChecked
+     * @return
+     */
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
+
+        if (isChecked) {
+            if (BaseSelectActivity.mSelectList.size() == 5) {
+                Toast.makeText(mContext, mContext.getString(R.string.max_fund_select_tip), Toast.LENGTH_SHORT).show();
+                buttonView.setChecked(false);
+                return;
+            }
+        }
+        super.onCheckedChanged(buttonView, isChecked);
+    }
 }

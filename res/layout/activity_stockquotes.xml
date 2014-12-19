@@ -39,7 +39,15 @@
             android:layout_height="310dp" />
 
         <!-- 底部资讯 -->
-
+		<Button 
+		    android:layout_height="wrap_content"
+		    android:layout_width="wrap_content"
+		    android:layout_gravity="right"
+		    android:background="@null"
+		    android:layout_margin="10dp"
+		    android:text="详情"
+		    android:id="@+id/stock_land"
+		    />
         <LinearLayout
             android:id="@+id/stock_layout"
             android:layout_width="match_parent"

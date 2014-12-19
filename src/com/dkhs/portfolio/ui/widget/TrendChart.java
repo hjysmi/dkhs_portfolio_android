@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -289,8 +290,8 @@ public class TrendChart extends TrendGridChart {
     protected void drawWithFingerClick(Canvas canvas, int pointIndex) {
 
         Paint mPaint = new Paint();
-        mPaint.setColor(Color.CYAN);
-        mPaint.setStrokeWidth(lineStrokeWidth);
+        mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+        mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 
         // 水平线长度
         float lineHLength = getWidth() - 2f;
@@ -315,7 +316,7 @@ public class TrendChart extends TrendGridChart {
 
         if (clickPostX > 0 && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
             if (!isTouch) {
-                mPaint.setColor(Color.TRANSPARENT);
+                mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
             }
             // 显示纵线
             // if (displayCrossXOnTouch) {
@@ -531,7 +532,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = 2;
 
         FontMetrics fm = selectPaint.getFontMetrics();
@@ -626,7 +627,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = (int) (getResources().getDimensionPixelOffset(R.dimen.float_text_margin) * 1.5);
 
         FontMetrics fm = selectPaint.getFontMetrics();
@@ -723,7 +724,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
 
         RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
@@ -806,7 +807,7 @@ public class TrendChart extends TrendGridChart {
         Paint selectPaint = new Paint();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(Color.WHITE);
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
         FontMetrics fm = selectPaint.getFontMetrics();
@@ -819,6 +820,8 @@ public class TrendChart extends TrendGridChart {
             }
         if (lineData.size() > 2) {
             viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
+        }else if(lineData.size() == 2){
+        	viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
         }
 
         RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形

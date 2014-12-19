@@ -12,6 +12,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -38,7 +39,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
-    private OptionlistAdapter mOptionMarketAdapter;
+    private OptionForOnelistAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
@@ -112,7 +113,7 @@ public class OptionListAcitivity extends ModelAcitivity {
 
         mListView.setEmptyView(iv);
         mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
+        mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
 
         mListView.removeFooterView(mFootView);

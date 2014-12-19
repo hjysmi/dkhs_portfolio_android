@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="5"
-    android:versionName="0.8.7" >
+    android:versionName="0.8.9" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -109,6 +109,8 @@
         <activity android:name="com.dkhs.portfolio.ui.BoundEmailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.HistoryPositionDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.KChartLandScapeActivity" 
+            />
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />

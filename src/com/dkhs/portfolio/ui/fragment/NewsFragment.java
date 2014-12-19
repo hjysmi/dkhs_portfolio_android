@@ -114,16 +114,16 @@ public class NewsFragment extends Fragment {
     	String url = "";
     	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
 		case 0:
-			url =  DKHSUrl.BASE_DEV_TAG;
+			url =  DKHSUrl.BASE_DEV_URL;
 			break;
 		case 1:
-			url = DKHSUrl.BASE_DEV_URL;
-			break;
-		case 2:
 			url = DKHSUrl.BASE_TEST_URL;
 			break;
-		case 3:
+		case 2:
 			url = DKHSUrl.BASE_DEV_MAIN;
+			break;
+		case 3:
+			url = DKHSUrl.BASE_DEV_TAG;
 			break;
 		default:
 			break;

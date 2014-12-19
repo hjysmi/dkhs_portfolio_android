@@ -128,7 +128,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void hideMoreButton() {
         btnShare.setVisibility(View.GONE);
-        btnMore.setVisibility(View.GONE);
+        //btnMore.setVisibility(View.GONE);
     }
 
     private void initView() {

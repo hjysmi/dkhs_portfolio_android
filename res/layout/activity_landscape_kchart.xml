@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.dkhs.portfolio.ui.widget.InterceptScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sc_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <com.dkhs.portfolio.ui.widget.HScrollTitleView
+            android:id="@+id/hs_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View style="@style/divider_line" />
+
+        <com.dkhs.portfolio.ui.widget.ScrollViewPager
+            android:id="@+id/pager"
+            android:layout_width="fill_parent"
+            android:layout_height="310dp" />
+    </LinearLayout>
+
+</com.dkhs.portfolio.ui.widget.InterceptScrollView>
