@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <ListView
+    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
         android:id="@android:id/list"
         style="@style/listViewStyle"
         android:layout_width="match_parent"

@@ -83,14 +83,18 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 				if(page <= total_page){
 					lists.addAll(object.getResults());
 					adapter.notifyDataSetChanged();
-					//add by zcm --- 2014.12.17
-					if(page == 1){
+					page ++;
+					//add by zcm --- 2014.12.18
+					if(page <= total_page){
 						mListView.setCanLoadMore(true);
 						mListView.setAutoLoadMore(true);
-						mListView.setOnLoadListener(EveryDayValueActivity.this);
+						if(page == 2)
+							mListView.setOnLoadListener(EveryDayValueActivity.this);
+					}else{
+						mListView.setCanLoadMore(false);
+						mListView.setAutoLoadMore(false);
 					}
-					//add by zcm --- 2014.12.17
-					page ++;
+					//add by zcm --- 2014.12.18
 					PromptManager.closeProgressDialog();
 					mListView.onLoadMoreComplete();
 				}else{
