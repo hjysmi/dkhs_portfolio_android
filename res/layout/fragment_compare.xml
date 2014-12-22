@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:text="@string/referto"
-            android:visibility="invisible" />
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,16 +44,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_margin="5dp"
+                android:layout_marginLeft="5dp"
                 android:text="@string/to" />
-
+			<RelativeLayout 
+			    android:layout_height="wrap_content"
+			    android:layout_width="match_parent"
+			    android:layout_toLeftOf="@id/tv_totime"
+			    >
             <Button
                 android:id="@+id/tv_compare_ftime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:layout_toLeftOf="@+id/tv_totime"
                 android:background="@null"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/compare_up_down"
@@ -61,16 +64,23 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="15dp"
                 android:paddingTop="5dp"
+                android:layout_centerHorizontal="true"
                 android:textSize="@dimen/list_text_size" />
-
+            </RelativeLayout>
+			<RelativeLayout 
+			    android:layout_height="wrap_content"
+			    android:layout_width="match_parent"
+			    android:layout_toRightOf="@id/tv_totime"
+			    
+			    >
             <Button
                 android:id="@+id/tv_compare_ttime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/tv_totime"
                 android:background="@null"
+                android:layout_centerHorizontal="true"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/compare_up_down"
                 android:paddingBottom="5dp"
@@ -78,6 +88,7 @@
                 android:paddingRight="15dp"
                 android:paddingTop="5dp"
                 android:textSize="@dimen/list_text_size" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 

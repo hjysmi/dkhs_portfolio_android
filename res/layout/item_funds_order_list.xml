@@ -57,19 +57,7 @@
             android:text="@string/week_income_rate"
             android:textColor="@color/darker_gray"
             android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_champion_combination"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_create_user"
-            android:layout_toRightOf="@+id/iv_gold_award"
-            android:singleLine="true"
-            android:text="牛人基金2"
-            android:textSize="18sp"
-            tools:ignore="HardcodedText" />
-
-        <TextView
+		<TextView
             android:id="@+id/tv_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,6 +67,21 @@
             android:text="+19.52%"
             android:textColor="@color/def_red"
             android:textSize="22sp" />
+        <TextView
+            android:id="@+id/tv_champion_combination"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="3dp"
+            android:layout_below="@+id/tv_create_user"
+            android:layout_toRightOf="@+id/iv_gold_award"
+            android:layout_toLeftOf="@id/tv_value"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:text="牛人基金2"
+            android:textSize="18sp"
+            tools:ignore="HardcodedText" />
+
+        
     </RelativeLayout>
 
     <TextView

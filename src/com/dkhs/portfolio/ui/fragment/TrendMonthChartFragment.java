@@ -170,7 +170,7 @@ public class TrendMonthChartFragment extends BaseFragment {
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(20);
+        machart.setAxisMarginLeft(10);
         machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);

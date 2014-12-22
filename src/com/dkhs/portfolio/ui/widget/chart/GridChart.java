@@ -240,8 +240,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		ps.getTextBounds(lent, 0, lent.length(), rects); 
 		PADDING_LEFT = rects.width();
 		//解决适配字体大小
-		longtitudeFontSize = DEFAULT_LONGTITUDE_FONT_SIZE;
-		longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
+		longtitudeFontSize = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font);
+		//longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
 		axisMarginBottom = DEFAULT_LATITUDE_FONT_SIZE;
 		latitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LATITUDE_FONT_SIZE);
 		mTitleHeight = longtitudeFontSize;
