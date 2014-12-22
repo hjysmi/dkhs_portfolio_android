@@ -80,7 +80,7 @@ public class OptionlistAdapter extends BaseAdapter{
 			    Paint p= new Paint(); 
 				Rect rect = new Rect();
 				p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
+				p.getTextBounds(mOptionNewsBean.getTitle() + "正正正正正", 0, mOptionNewsBean.getTitle().length() +5, rect); 
 				int soL = 0;
 				if(null != mOptionNewsBean.getSource()){
 					soL = mOptionNewsBean.getSource().getTitle().length() + 2;

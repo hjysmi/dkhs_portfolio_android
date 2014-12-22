@@ -182,7 +182,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
         // TODO Auto-generated method stub
         super.onRestart();
         if (null != loadDataListFragment) {
-            loadDataListFragment.refresh();
+            loadDataListFragment.refreshNoCaseTime();
         }
     }
 
