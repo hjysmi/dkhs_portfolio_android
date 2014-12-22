@@ -7,10 +7,13 @@ import java.util.List;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.R.color;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -92,6 +95,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private boolean firsttime = true;
 	private String symbolType;
 	private String symbol;
+	private Context context;
+	private SelectStockBean mStockBean;
 	public KChartsView(Context context) {
 		super(context);
 		init();
@@ -897,6 +902,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			if (null != mTouchListener) {
                 mTouchListener.loseTouching();
             }
+			if(!showDetails &&  go){
+				Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean);
+            	context.startActivity(intent);
+			}
 				showDetails = false;
 				go = false;
 				mStartX = getWidth() - 6 - PADDING_LEFT;
@@ -1290,6 +1299,18 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
 	public void setSymbol(String symbol) {
 		this.symbol = symbol;
+	}
+
+	public void setContext(Context context) {
+		this.context = context;
+	}
+
+	public SelectStockBean getmStockBean() {
+		return mStockBean;
+	}
+
+	public void setmStockBean(SelectStockBean mStockBean) {
+		this.mStockBean = mStockBean;
 	}
 	
 }

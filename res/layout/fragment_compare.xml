@@ -19,7 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/line"
-        android:background="@color/theme_gray"
+        android:addStatesFromChildren="true"
+        android:background="@drawable/gray_bg_selector"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="5dp"
@@ -97,7 +98,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lines"
-        android:background="@color/theme_gray"
+        android:addStatesFromChildren="true"
+        android:background="@drawable/gray_bg_selector"
         android:gravity="center" >
 
         <TextView

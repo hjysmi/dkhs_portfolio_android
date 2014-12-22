@@ -34,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/line"
-                android:background="@color/theme_gray"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/gray_bg_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
@@ -71,7 +72,7 @@
                 <include layout="@layout/layout_line" />
 
                 <include layout="@layout/layout_text_5dp" />
-            </LinearLayout>
+            </LinearLayout>
             -->
 
 
@@ -116,7 +117,7 @@
                     android:layout_toLeftOf="@+id/tv_today_netvalue"
                     android:text="@string/today_netvalue"
                     android:textColor="@color/theme_color" />
-            </RelativeLayout>
+            </RelativeLayout>
             -->
 
 

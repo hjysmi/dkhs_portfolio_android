@@ -57,9 +57,9 @@ public class PersonSignSettingActivity extends ModelAcitivity implements OnClick
 			int k = 40 - signText.getText().toString().length();
 			signVlaue.setText(k+"");
 		}
-		btnCancle.setText("取消");
-		btnCancle.setBackgroundDrawable(null);
-		btnCancle.setCompoundDrawables(null, null, null, null);
+		//btnCancle.setText("取消");
+		//btnCancle.setBackgroundDrawable(null);
+		//btnCancle.setCompoundDrawables(null, null, null, null);
 		btnSave.setText("保存");
 		btnSave.setBackgroundDrawable(null);
 	}

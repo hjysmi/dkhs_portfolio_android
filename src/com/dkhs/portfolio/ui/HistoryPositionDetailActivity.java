@@ -152,12 +152,16 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
 					for(int i = 0; i< adapter.getGroupCount(); i++){
 						mListView.expandGroup(i);
 					}
-					if(page == 1){
+					page ++;
+					if(page <= total_page){
 						mListView.setCanLoadMore(true);
 						mListView.setAutoLoadMore(true);
-						mListView.setOnLoadListener(HistoryPositionDetailActivity.this);
+						if(page == 2)
+							mListView.setOnLoadListener(HistoryPositionDetailActivity.this);
+					}else{
+						mListView.setCanLoadMore(false);
+						mListView.setAutoLoadMore(false);
 					}
-					page ++;
 					PromptManager.closeProgressDialog();
 					mListView.onLoadMoreComplete();
 				}else{

@@ -125,7 +125,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        return intent;
 	    }
 
-	    @Override
+	    /*@Override
 	    protected void onNewIntent(Intent intent) {
 
 	        super.onNewIntent(intent);
@@ -134,7 +134,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
 	        processExtraData();
 
-	    }
+	    }*/
 
 	    private void processExtraData() {
 
@@ -183,7 +183,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
 
 	        // stockLayout.setOnTouchListener(new OnLayoutlistener());
-	        initTabPage();
+	        //initTabPage();
 	        // setupViewData();
 
 	        // scrollview + listview 会滚动到底部，需要滚动到头部
