@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="10sp" />
+        android:textSize="@dimen/title_text_font" />
 
     <TextView
         android:id="@+id/tv_detail_value"
@@ -21,7 +21,7 @@
         android:singleLine="true"
         android:text="-"
         android:textColor="@color/red"
-        android:textSize="10sp" />
+        android:textSize="@dimen/title_text_font" />
 
     <TextView
         android:id="@+id/tv_range_vol"
@@ -32,6 +32,6 @@
         android:gravity="right"
         android:singleLine="true"
         android:text="-"
-        android:textSize="10sp" />
+        android:textSize="@dimen/title_text_font" />
 
 </RelativeLayout>

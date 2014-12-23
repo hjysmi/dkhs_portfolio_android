@@ -532,13 +532,21 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 						
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
-						canvas.drawLine(left, open, right, open, grayPaint);
-						canvas.drawLine(startX, high, startX, low, grayPaint);
+					    double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+                        if(entity.getOpen() > hisClose){
+                            canvas.drawLine(left, open, right, open, redPaint);
+                            canvas.drawLine(startX, high, startX, low, redPaint);
+                        }else if(entity.getOpen() < hisClose){
+                            canvas.drawLine(left, open, right, open, greenPaint);
+                            canvas.drawLine(startX, high, startX, low, greenPaint);
+                        }else{
+                            canvas.drawLine(left, open, right, open, grayPaint);
+                            canvas.drawLine(startX, high, startX, low, grayPaint);
+                        }
 					} else {
 						canvas.drawRect(left, open, right, close, redPaint);
 						canvas.drawLine(startX, high, startX, low, redPaint);
 					}
-
 				}
 				// 绘制上部曲线图及上部分MA值
 				//float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
@@ -603,22 +611,26 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 					float left = (float) (width - 2 - mCandleWidth * (i + 1 + addNum) - (i + addNum)*3 + PADDING_LEFT);
 					float right = (float) (width - 3 - mCandleWidth * (i + addNum) - (i + addNum)*3 + PADDING_LEFT);
 					float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2 - (i + addNum) * 3 + PADDING_LEFT);
-					if(entity.getOpen()==26.73 ){
-						float a = open;
-						Log.e("asa", a+"");
-					}
 					if (open < close) {
 						canvas.drawRect(left, close, right, open, greenPaint);
 						
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
-						canvas.drawLine(left, open, right, open, grayPaint);
-						canvas.drawLine(startX, high, startX, low, grayPaint);
+					    double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+                        if(entity.getOpen() > hisClose){
+                            canvas.drawLine(left, open, right, open, redPaint);
+                            canvas.drawLine(startX, high, startX, low, redPaint);
+                        }else if(entity.getOpen() < hisClose){
+                            canvas.drawLine(left, open, right, open, greenPaint);
+                            canvas.drawLine(startX, high, startX, low, greenPaint);
+                        }else{
+                            canvas.drawLine(left, open, right, open, grayPaint);
+                            canvas.drawLine(startX, high, startX, low, grayPaint);
+                        }
 					} else {
 						canvas.drawRect(left, open, right, close, redPaint);
 						canvas.drawLine(startX, high, startX, low, redPaint);
 					}
-
 				}
 				
 				String text = "";

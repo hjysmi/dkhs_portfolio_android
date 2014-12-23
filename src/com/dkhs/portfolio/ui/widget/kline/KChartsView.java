@@ -525,7 +525,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					float close = (float) ((mMaxPrice - entity.getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 					float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 					float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
-
+					
 					float left = (float) (width - 2 - mCandleWidth * (i + 1) - i*3 + PADDING_LEFT);
 					float right = (float) (width - 3 - mCandleWidth * i - i*3 + PADDING_LEFT);
 					float startX = (float) (width - 3 - mCandleWidth * i - (mCandleWidth - 1) / 2 - i * 3 + PADDING_LEFT);
@@ -538,13 +538,22 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
-						canvas.drawLine(left, open, right, open, grayPaint);
-						canvas.drawLine(startX, high, startX, low, grayPaint);
+					    double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+                        if(entity.getOpen() > hisClose){
+                            canvas.drawLine(left, open, right, open, redPaint);
+                            canvas.drawLine(startX, high, startX, low, redPaint);
+                        }else if(entity.getOpen() < hisClose){
+                            canvas.drawLine(left, open, right, open, greenPaint);
+                            canvas.drawLine(startX, high, startX, low, greenPaint);
+                        }else{
+                            canvas.drawLine(left, open, right, open, grayPaint);
+                            canvas.drawLine(startX, high, startX, low, grayPaint);
+                        }
+						
 					} else {
 						canvas.drawRect(left, open, right, close, redPaint);
 						canvas.drawLine(startX, high, startX, low, redPaint);
 					}
-
 				}
 				// 绘制上部曲线图及上部分MA值
 				//float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
@@ -599,6 +608,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 				}
 			}else{
 				int addNum = MIN_CANDLE_NUM - mOHLCData.size();
+				
 				for (int i = 0; i < mShowDataNum && mDataStartIndext + i < mOHLCData.size(); i++) {
 					OHLCEntity entity = mOHLCData.get(mDataStartIndext + i);
 					float open = (float) ((mMaxPrice - entity.getOpen()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
@@ -618,13 +628,21 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
-						canvas.drawLine(left, open, right, open, grayPaint);
-						canvas.drawLine(startX, high, startX, low, grayPaint);
+					    double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+					    if(entity.getOpen() > hisClose){
+                            canvas.drawLine(left, open, right, open, redPaint);
+                            canvas.drawLine(startX, high, startX, low, redPaint);
+                        }else if(entity.getOpen() < hisClose){
+                            canvas.drawLine(left, open, right, open, greenPaint);
+                            canvas.drawLine(startX, high, startX, low, greenPaint);
+                        }else{
+                            canvas.drawLine(left, open, right, open, grayPaint);
+                            canvas.drawLine(startX, high, startX, low, grayPaint);
+                        }
 					} else {
 						canvas.drawRect(left, open, right, close, redPaint);
 						canvas.drawLine(startX, high, startX, low, redPaint);
 					}
-
 				}
 				
 				String text = "";
