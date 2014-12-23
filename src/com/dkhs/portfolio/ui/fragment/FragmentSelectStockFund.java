@@ -380,7 +380,14 @@ public class FragmentSelectStockFund extends Fragment implements
 			mLoadDataEngine.loadData();
 		}
 	}
-
+	public void refreshNoCaseTime() {
+        isRefresh = true;
+        if (mLoadDataEngine != null && !isLoadingMore) {
+            // mDataList.clear();
+            isLoading = true;
+            mLoadDataEngine.loadData();
+        }
+    }
 	public void refreshForMarker() {
 
 		if (mLoadDataEngine != null && !isLoadingMore) {

@@ -868,5 +868,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 				new SimpleDateFormat(DATE_FORMAT_STR, Locale.CHINA).format(new Date()));
 		super.setAdapter(adapter);
 	}
-	
+	@Override
+	public boolean performItemClick(View view, int position, long id) {
+		return super.performItemClick(view, position -1, id);
+	}
 }

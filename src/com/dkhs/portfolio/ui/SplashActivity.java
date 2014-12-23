@@ -67,6 +67,7 @@ public class SplashActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         context = this;
+        
         hideHead();
         init();
         if(!isDebug){
@@ -79,7 +80,7 @@ public class SplashActivity extends ModelAcitivity {
         try {
             user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if (user != null) {
-                if (!TextUtils.isEmpty(user.getAccess_token())) {
+                if (!TextUtils.isEmpty(user.getAccess_token()) && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || isDebug)) {
                     user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                     GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                     GlobalParams.USERNAME = user.getUsername();

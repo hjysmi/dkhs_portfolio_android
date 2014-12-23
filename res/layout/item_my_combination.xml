@@ -53,8 +53,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_margin="12dp" >
+                android:layout_centerHorizontal="true"
+                android:paddingBottom="3dp"
+                android:layout_margin="5dp" >
 
                 <TextView
                     android:id="@+id/tv_mycob_current"
@@ -67,14 +68,13 @@
                     android:id="@+id/tv_mycob_add"
                     style="@style/hw_wrap"
                     android:layout_below="@+id/tv_mycob_current"
-                    android:layout_marginTop="3dp"
                     android:text="@string/add_up"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tv_mycob_curren_value"
-                    android:layout_width="80dp"
+                    android:layout_width="@dimen/mycombina_list_text_wid"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/tv_mycob_current"
                     android:layout_toRightOf="@+id/tv_mycob_current"
@@ -85,7 +85,7 @@
 
                 <TextView
                     android:id="@+id/tv_mycob_add_value"
-                    android:layout_width="80dp"
+                    android:layout_width="@dimen/mycombina_list_text_wid"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@+id/tv_mycob_add"
                     android:layout_toRightOf="@+id/tv_mycob_add"
@@ -100,7 +100,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
                 android:layout_toLeftOf="@+id/rl_value"
                 android:layout_toRightOf="@+id/rl_index"
                 android:ellipsize="end"
