@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,6 @@ import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -173,32 +173,30 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        return null != mStockBean && mStockBean.symbol_type != null
 	                && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX);
 	    }
-
+	    private TextView landKlinTextTitle;
+	    private TextView landKlinTextPrice;
+	    private TextView landKlinTextValum;
+	    private TextView landKlinTextData;
 	    private void initView() {
 	        hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
 	        String[] titleArray = getResources().getStringArray(R.array.quotes_title);
 	        hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
 	        hsTitle.setSelectPositionListener(titleSelectPostion);
-
-
-
+	        findViewById(R.id.lank_klind_exit).setOnClickListener(this);
+	        landKlinTextTitle = (TextView) findViewById(R.id.land_klin_text_title);
+	        landKlinTextPrice = (TextView) findViewById(R.id.land_klin_text_price);
+	        landKlinTextValum = (TextView) findViewById(R.id.land_klin_text_valum);
+	        landKlinTextData = (TextView) findViewById(R.id.land_klin_text_data);
 	        // stockLayout.setOnTouchListener(new OnLayoutlistener());
 	        //initTabPage();
 	        // setupViewData();
-
+	        
 	        // scrollview + listview 会滚动到底部，需要滚动到头部
-	        scrollToTop();
 	        // setAddOptionalButton();
 	    }
 
 
 
-	    private void scrollToTop() {
-	        mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
-	        // mScrollview.smoothScrollTo(0, 0);
-	        mScrollview.setScrollViewListener(mScrollViewListener);
-
-	    }
 
 	    private void setupViewData() {
 	        if (null != mQuotesEngine && mStockBean != null) {
@@ -224,20 +222,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        };
 	    };
 
-	    ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
-	        @Override
-	        public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
-	            // TODO Auto-generated method stub
-	            /*
-	             * if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
-	             * chartTounching();
-	             * }
-	             */
-	            Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
-	        }
-
-	    };
 	    ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
 	        @Override
@@ -331,6 +316,22 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	            if (null != object) {
 	                mStockQuotesBean = object;
 	                mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
+	                landKlinTextTitle.setText(object.getName());
+	                landKlinTextPrice.setText(object.getCurrent()+"");
+	                landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
+	                double volume = object.getVolume()/100;
+	                String vo = "";
+	                if (volume < 10000) {
+	                    vo = volume + "手";
+	                } else if(volume > 10000 && volume < 100000000){
+	                    volume = volume/10000;
+	                    vo = new DecimalFormat("0.00").format(volume) + "万手";
+	                }else{
+	                    volume = volume/100000000;
+	                    vo = new DecimalFormat("0.00").format(volume) + "亿手";
+	                }
+	                landKlinTextValum.setText(vo);
+	                landKlinTextData.setText(TimeUtils.getTimeString(object.getMoment()));
 	            }
 
 	        }
@@ -576,6 +577,13 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			
+			switch (v.getId()) {
+                case R.id.lank_klind_exit:
+                    finish();
+                    break;
+
+                default:
+                    break;
+            }
 		}
 }
