@@ -19,7 +19,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -46,10 +46,10 @@ public class SelectStockActivity extends BaseSelectActivity implements OnClickLi
         // titleList.add(tArray[i]);
         //
         // }
-        FragmentSelectStockFund mOptionalFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_OPTIONAL);
-        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_INCREASE);
-        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_DRAWDOWN);
-        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOCK_HANDOVER);
+        FragmentSelectStockFund mOptionalFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL);
+        FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_INCREASE);
+        FragmentSelectStockFund mDownFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_DRAWDOWN);
+        FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_HANDOVER);
 
         fragmenList.add(mOptionalFragment);
         fragmenList.add(mIncreaseFragment);

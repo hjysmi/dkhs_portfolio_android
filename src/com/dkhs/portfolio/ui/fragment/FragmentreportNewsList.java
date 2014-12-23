@@ -15,9 +15,7 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -29,10 +27,12 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.YanbaoNewsActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.umeng.analytics.MobclickAgent;
 
-public class FragmentreportNewsList extends Fragment{
-	private ListView mListView;
+public class FragmentreportNewsList extends Fragment implements OnLoadMoreListener{
+	private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
@@ -80,45 +80,45 @@ public class FragmentreportNewsList extends Fragment{
 			mDataList = new ArrayList<OptionNewsBean>();
 			mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,bundle.getInt(NEWS_TYPE),vo);
 			mLoadDataEngine.loadData();
-			mLoadDataEngine.setLoadingDialog(getActivity());
+//			mLoadDataEngine.setLoadingDialog(getActivity());
 			mLoadDataEngine.setFromYanbao(false);
 		}
 
 	}
 	private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) view.findViewById(android.R.id.list);
+        mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
-        mListView.addFooterView(mFootView);
+//        mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
 
-        mListView.removeFooterView(mFootView);
-        mListView.setOnScrollListener(new OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-                switch (scrollState) {
-                    case OnScrollListener.SCROLL_STATE_IDLE:
-
-                    {
-                        // 判断是否滚动到底部
-                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-                            loadMore();
-
-                        }
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
+//        mListView.removeFooterView(mFootView);
+//        mListView.setOnScrollListener(new OnScrollListener() {
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+//
+//                switch (scrollState) {
+//                    case OnScrollListener.SCROLL_STATE_IDLE:
+//
+//                    {
+//                        // 判断是否滚动到底部
+//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+//                            loadMore();
+//
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//            }
+//        });
             mListView.setOnItemClickListener(itemBackClick);
 
     }
@@ -160,6 +160,17 @@ public class FragmentreportNewsList extends Fragment{
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+            	mListView.onLoadMoreComplete();
+            	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
+    					.getTotalpage()) {
+            		mListView.setCanLoadMore(false);
+    				mListView.setAutoLoadMore(false);
+            	}else{
+            		mListView.setCanLoadMore(true);
+    				mListView.setAutoLoadMore(true);
+    				if(mLoadDataEngine.getCurrentpage() == 1)
+    					mListView.setOnLoadListener(FragmentreportNewsList.this);
+            	}
 				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
@@ -170,7 +181,7 @@ public class FragmentreportNewsList extends Fragment{
 				    	first = false;
 				    }
 				    mOptionMarketAdapter.notifyDataSetChanged();
-				    loadFinishUpdateView();
+//				    loadFinishUpdateView();
 				    
 				}else{
 				    tv.setText("暂无研报");
@@ -234,5 +245,15 @@ public class FragmentreportNewsList extends Fragment{
 			// 不可见时不执行操作
 		}
 		super.setUserVisibleHint(isVisibleToUser);
+	}
+	@Override
+	public void onLoadMore() {
+		 if (null != mLoadDataEngine) {
+	            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+	                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+	                return;
+	            }
+	            mLoadDataEngine.loadMore();
+	        }
 	}
 }
