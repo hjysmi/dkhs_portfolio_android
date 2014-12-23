@@ -1,14 +1,210 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.dkhs.portfolio"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
-        <LinearLayout 
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:id="@+id/layout_marker_parenst"
-            ></LinearLayout>
+    android:background="@color/white" >
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_gray"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="6dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:id="@+id/tv_mainindex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/market_title_index"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_more_selector" />
+        </RelativeLayout>
+
+        <com.dkhs.portfolio.ui.GridViewEx
+            android:id="@+id/gv_mainindex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="5dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:padding="5dp"
+            android:verticalSpacing="5dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_gray"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="6dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/market_title_hot"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more_plate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_more_selector" />
+        </RelativeLayout>
+
+        <com.dkhs.portfolio.ui.GridViewEx
+            android:id="@+id/gv_plate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="5dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="3"
+            android:padding="5dp"
+            android:verticalSpacing="5dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_gray"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="6dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/market_title_up"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more_incease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_more_selector" />
+        </RelativeLayout>
+
+        <com.dkhs.portfolio.ui.widget.ListViewEx
+            android:id="@+id/lv_market_incease"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+        </com.dkhs.portfolio.ui.widget.ListViewEx>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_gray"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="6dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/market_title_down"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_more_selector" />
+        </RelativeLayout>
+
+        <com.dkhs.portfolio.ui.widget.ListViewEx
+            android:id="@+id/lv_market_down"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_gray"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="6dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/market_title_turnover"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more_handover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_more_selector" />
+        </RelativeLayout>
+
+        <com.dkhs.portfolio.ui.widget.ListViewEx
+            android:id="@+id/lv_market_handover"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme_gray"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="6dp"
+            android:paddingTop="4dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/market_title_ampli"
+                android:textSize="14sp" />
+
+            <ImageButton
+                android:id="@+id/btn_more_amplitude"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_right_more_selector" />
+        </RelativeLayout>
+
+        <com.dkhs.portfolio.ui.widget.ListViewEx
+            android:id="@+id/lv_market_amplitude"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</ScrollView>

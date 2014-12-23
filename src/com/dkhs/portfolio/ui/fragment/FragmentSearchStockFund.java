@@ -31,6 +31,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter;
@@ -39,7 +40,7 @@ import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -156,6 +157,12 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
             }
+
+        }
+
+        @Override
+        public void loadFail(ErrorBundle error) {
+            // TODO Auto-generated method stub
 
         }
 

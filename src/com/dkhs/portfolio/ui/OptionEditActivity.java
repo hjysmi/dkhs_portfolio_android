@@ -23,6 +23,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
@@ -36,6 +37,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
     private Context context;
     private Button btnRight;
     private LinearLayout layout;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -67,9 +69,15 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-            adapter = new DragListAdapter(context, forIndex(dataList),optionEditList);
+            adapter = new DragListAdapter(context, forIndex(dataList), optionEditList);
             optionEditList.setAdapter(adapter);
             optionEditList.setOnItemClickListener(new OnListener());
+        }
+
+        @Override
+        public void loadFail(ErrorBundle error) {
+            // TODO Auto-generated method stub
+
         }
 
     };
@@ -130,8 +138,8 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                 }
                 break;
             case R.id.layout:
-            	optionEditList.review(-1);
-            	break;
+                optionEditList.review(-1);
+                break;
             default:
                 break;
         }
@@ -152,21 +160,22 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_edit);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }
