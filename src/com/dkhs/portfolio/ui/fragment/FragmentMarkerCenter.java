@@ -275,11 +275,11 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
     @Override
     public void onResume() {
+        super.onResume();
         if (mMarketTimer == null && start) {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
-        super.onResume();
         MobclickAgent.onPageStart(mPageName);
 
     }

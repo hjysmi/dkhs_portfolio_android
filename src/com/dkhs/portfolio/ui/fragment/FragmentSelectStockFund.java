@@ -243,7 +243,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         }
         if (null != mLoadDataEngine) {
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
 
         } else {
@@ -415,7 +415,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                         && null != mDataList) {
                     ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
                 }
-                mLoadDataEngine.setLoadingDialog(getActivity());
+                // mLoadDataEngine.setLoadingDialog(getActivity());
             }
         } else {
             timeMill++;
