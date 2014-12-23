@@ -128,19 +128,19 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.MARKET_STOC_INDEX_CURRENT);
+                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_MARKET);
             }
                 break;
             case TYPE_INLAND_INDEX_DWON: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.MARKET_STOC_INDEX_ACE);
+                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_MARKET_ACE);
             }
                 break;
             case TYPE_HU_SHEN_UP: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.MARKET_STOC_INDEX_POSITION);
+                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_POSITION);
             }
                 break;
             case TYPE_HU_SHEN_DOWN: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.MARKET_STOC_INDEX_POSITION_ACE);
+                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_POSITION_ACE);
             }
                 break;
 

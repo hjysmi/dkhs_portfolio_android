@@ -239,8 +239,8 @@ public class StockQuotesChartLandFragment extends Fragment {
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(5);
-        machart.setAxisMarginLeft(5);
-        machart.setAxisMarginRight(5);
+        machart.setAxisMarginLeft(10);
+        machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);
         machart.setLongtitudeFontColor(Color.GRAY);

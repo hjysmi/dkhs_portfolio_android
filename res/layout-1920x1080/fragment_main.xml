@@ -70,7 +70,7 @@
     <RelativeLayout
         android:id="@+id/slide_layout"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="@dimen/billboard_height"
         android:layout_below="@+id/layout_title"
         android:background="@drawable/small_slide" >
 

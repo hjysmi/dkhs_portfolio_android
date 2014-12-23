@@ -16,10 +16,10 @@
         android:id="@+id/combination_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:layout_marginTop="5dp"
-        android:background="@drawable/edit_back_ground"
+        android:background="@drawable/edittext_bg"
         android:maxLength="10"
         android:singleLine="true" />
 
@@ -34,11 +34,11 @@
         android:id="@+id/combination_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:layout_marginTop="5dp"
         android:gravity="top"
-        android:background="@drawable/edit_back_ground"
+        android:background="@drawable/edittext_bg"
         android:lines="3"
         android:maxLength="20" />
 
