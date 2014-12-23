@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+	<!-- 实心 -->
+    <solid android:color="@color/activity_bg_color" />
+	<!-- 描边 -->
+    <stroke
+        android:width="0.5px"
+        android:color="@color/darker_gray" />
+
+
+    <padding
+        android:bottom="1px"
+        android:left="1px"
+        android:right="1px"
+        android:top="1px" />
+
+</shape>

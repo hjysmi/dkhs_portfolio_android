@@ -629,7 +629,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		// �?��Paint
 		Paint mPaintFont = new Paint();
 		mPaintFont.setColor(latitudeFontColor);
-		mPaintFont.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		mPaintFont.setTextSize(PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font));
 		mPaintFont.setAntiAlias(true);
 		if (null != axisYTitles) {
 			int counts = axisYTitles.size();

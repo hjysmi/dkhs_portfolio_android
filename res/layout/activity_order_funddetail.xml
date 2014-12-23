@@ -13,7 +13,7 @@
             android:id="@+id/rl_combination_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/lv_white_selector"
             android:paddingBottom="6dp"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
@@ -31,6 +31,7 @@
             <RelativeLayout
                 android:id="@+id/rl_name_day"
                 style="@style/hw_wrap"
+                
                 android:layout_below="@+id/tv_combination_name" >
 				<LinearLayout 
 				    android:layout_height="wrap_content"

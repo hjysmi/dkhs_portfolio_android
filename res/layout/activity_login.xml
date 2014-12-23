@@ -55,16 +55,6 @@
             android:text="账号"
             android:textSize="16sp" />
 
-        <!--
-             <EditText
-            android:id="@+id/username"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/tv_accout"
-            android:background="@null"
-            android:hint="@string/hint_account"
-            android:singleLine="true" />
-        -->
 
         <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/username"

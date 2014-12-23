@@ -144,7 +144,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             btnAdd.setEnabled(false);
-            btnAdd.setText(R.string.add_text);
+            String name = getResources().getString(R.string.add_text) + "(0)";
+            btnAdd.setText(name);
             //modify by zcm ---2014.12.15
             //btnAdd.setTextColor(Color.WHITE);
             //modify by zcm ---2014.12.15
@@ -366,8 +367,9 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             //btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
+            String name = getResources().getString(R.string.add_text) + "(0)";
             btnAdd.setEnabled(false);
-            btnAdd.setText(R.string.add_text);
+            btnAdd.setText(name);
            // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
             //modify by zcm ---2014.12.17
             //btnAdd.setTextColor(Color.WHITE);
