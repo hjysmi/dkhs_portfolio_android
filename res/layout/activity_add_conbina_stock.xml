@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:background="@drawable/edittext_search_bg"
+        android:background="@drawable/search_bg_selector"
         android:focusableInTouchMode="true"
         android:layout_margin="5dp"
         android:paddingBottom="5dp"
@@ -22,10 +22,10 @@
 
         <ImageView
             android:id="@+id/iv_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
             android:layout_centerVertical="true"
-            android:src="@drawable/search_purple" />
+            android:src="@drawable/search_gray" />
 
         <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_search_key"
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
-            android:background="@drawable/clearedittext_bg"
+            android:background="@null"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             dkhs:needVisible ="true"

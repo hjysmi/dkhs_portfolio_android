@@ -28,6 +28,7 @@ import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -162,8 +163,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         btnAdd = getRightButton();
         btnBack = getBtnBack();
         btnAdd.setBackgroundDrawable(null);
+        mSearchStock = findViewById(R.id.rl_search_stock);
         etSearchKey = (EditText) findViewById(R.id.et_search_key);
-
         mStockPageView = findViewById(R.id.rl_stock_rowview);
         replaceSearchView();
         mSearchListView = findViewById(R.id.rl_stock_searchview);
@@ -406,6 +407,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public static final int CRATE_TYPE_CUSTOM = 1;
     public static final int FROM_CREATE = 999;
     public static final String FROM_CREATE_TITLE = "first_create";
+    private View mSearchStock;
 
     private void setSelectBack(int type) {
         Intent intent = new Intent();
