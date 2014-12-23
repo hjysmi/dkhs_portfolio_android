@@ -35,9 +35,9 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 public class FundDataEngine extends LoadSelectDataEngine {
 
     // private static final String ORDER_BY_DAY = "percent_day";
-    private static final String ORDER_BY_MONTH = "percent_month";
-    private static final String ORDER_BY_YEAR = "percent_year";
-    private static final String ORDER_BY_TYEAR = "percent_tyear";
+    private static final String ORDER_BY_MONTH = "-percent_month";
+    private static final String ORDER_BY_YEAR = "-percent_year";
+    private static final String ORDER_BY_TYEAR = "-percent_tyear";
     // private static final String ORDER_BY_SEASON = "percent_season";
 
     public static final String TYPE_MAININDEX = "all";

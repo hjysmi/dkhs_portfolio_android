@@ -35,9 +35,9 @@ import com.dkhs.portfolio.net.DataParse;
 public class MainIndexEngineImple extends LoadSelectDataEngine {
 
     // public static final String ORDER_BY_DAY = "chng_pct_day";
-    public static final String ORDER_BY_YEAR = "chng_pct_year";
-    public static final String ORDER_BY_TYEAR = "chng_pct_year_sofar";
-    public static final String ORDER_BY_MONTH = "chng_pct_month";
+    public static final String ORDER_BY_YEAR = "-chng_pct_year";
+    public static final String ORDER_BY_TYEAR = "-chng_pct_year_sofar";
+    public static final String ORDER_BY_MONTH = "-chng_pct_month";
     // public static final String ORDER_BY_SEASON = "chng_pct_three_month";
 
     private String orderType = ORDER_BY_MONTH;

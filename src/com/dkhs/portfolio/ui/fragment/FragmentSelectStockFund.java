@@ -102,8 +102,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         /** 股票，跌幅 */
         STOCK_DRAWDOWN(3),
         /** 股票，换手率 */
-
         STOCK_HANDOVER(4),
+        
         /** 基金，主要指数 */
         FUND_MAININDEX(5),
         /** 基金，指数 */
