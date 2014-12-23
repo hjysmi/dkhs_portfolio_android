@@ -6,32 +6,26 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
+import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.umeng.analytics.MobclickAgent;
 
-public class ReportForOneListActivity extends ModelAcitivity {
-    private ListView mListView;
+public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMoreListener {
+    private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
@@ -90,7 +84,7 @@ public class ReportForOneListActivity extends ModelAcitivity {
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.GROUP_FOR_ONE, vo);
             }
-            mLoadDataEngine.setLoadingDialog(context);
+//            mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadData();
             mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
@@ -102,39 +96,39 @@ public class ReportForOneListActivity extends ModelAcitivity {
 
     private void initView() {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) findViewById(android.R.id.list);
+        mListView = (PullToRefreshListView) findViewById(android.R.id.list);
 
         mListView.setEmptyView(iv);
-        mListView.addFooterView(mFootView);
+//        mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
 
-        mListView.removeFooterView(mFootView);
-        mListView.setOnScrollListener(new OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-                switch (scrollState) {
-                    case OnScrollListener.SCROLL_STATE_IDLE:
-
-                    {
-                        // 判断是否滚动到底部
-                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-                            loadMore();
-
-                        }
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
+//        mListView.removeFooterView(mFootView);
+//        mListView.setOnScrollListener(new OnScrollListener() {
+//
+//            @Override
+//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+//
+//                switch (scrollState) {
+//                    case OnScrollListener.SCROLL_STATE_IDLE:
+//
+//                    {
+//                        // 判断是否滚动到底部
+//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+//                            loadMore();
+//
+//                        }
+//                    }
+//
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+//
+//            }
+//        });
         mListView.setOnItemClickListener(itemBackClick);
 
     }
@@ -179,6 +173,17 @@ public class ReportForOneListActivity extends ModelAcitivity {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+            	mListView.onLoadMoreComplete();
+            	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
+    					.getTotalpage()) {
+            		mListView.setCanLoadMore(false);
+    				mListView.setAutoLoadMore(false);
+            	}else{
+            		mListView.setCanLoadMore(true);
+    				mListView.setAutoLoadMore(true);
+    				if(mLoadDataEngine.getCurrentpage() == 1)
+    					mListView.setOnLoadListener(ReportForOneListActivity.this);
+            	}
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
                     if (first) {
@@ -186,7 +191,7 @@ public class ReportForOneListActivity extends ModelAcitivity {
                         first = false;
                     }
                     mOptionMarketAdapter.notifyDataSetChanged();
-                    loadFinishUpdateView();
+//                    loadFinishUpdateView();
 
                 } else {
                     iv.setText("暂无研报");
@@ -224,5 +229,18 @@ public class ReportForOneListActivity extends ModelAcitivity {
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageStart(mPageName);
 		MobclickAgent.onResume(this);
+	}
+
+	@Override
+	public void onLoadMore() {
+		if (null != mLoadDataEngine) {
+            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            isLoadingMore = true;
+            mLoadDataEngine.loadMore();
+        }
 	}
 }

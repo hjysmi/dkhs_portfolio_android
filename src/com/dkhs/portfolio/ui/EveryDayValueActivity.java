@@ -80,26 +80,34 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
 		protected void afterParseData(HistoryProfitNetValue object) {
 			// TODO Auto-generated method stub
 			if(object != null){
-				if(page <= total_page){
-					lists.addAll(object.getResults());
-					adapter.notifyDataSetChanged();
-					page ++;
-					//add by zcm --- 2014.12.18
-					if(page <= total_page){
-						mListView.setCanLoadMore(true);
-						mListView.setAutoLoadMore(true);
-						if(page == 2)
-							mListView.setOnLoadListener(EveryDayValueActivity.this);
-					}else{
-						mListView.setCanLoadMore(false);
-						mListView.setAutoLoadMore(false);
-					}
-					//add by zcm --- 2014.12.18
-					PromptManager.closeProgressDialog();
-					mListView.onLoadMoreComplete();
-				}else{
-					mListView.setCanLoadMore(false);
-				}
+			    if(object.getResults() == null ||object.getResults().size() == 0){
+			        mListView.setVisibility(View.GONE);
+			        PromptManager.closeProgressDialog();
+			    }else{
+			        if(page <= total_page){
+			            lists.addAll(object.getResults());
+			            adapter.notifyDataSetChanged();
+			            page ++;
+			            //add by zcm --- 2014.12.18
+			            if(page <= total_page){
+			                mListView.setCanLoadMore(true);
+			                mListView.setAutoLoadMore(true);
+			                if(page == 2)
+			                    mListView.setOnLoadListener(EveryDayValueActivity.this);
+			            }else{
+			                mListView.setCanLoadMore(false);
+			                mListView.setAutoLoadMore(false);
+			            }
+			            //add by zcm --- 2014.12.18
+			            PromptManager.closeProgressDialog();
+			            mListView.onLoadMoreComplete();
+			        }else{
+			            mListView.setCanLoadMore(false);
+			        }
+			    }
+			}else{
+			    mListView.setVisibility(View.GONE);
+			    PromptManager.closeProgressDialog();
 			}
 		}
 		
