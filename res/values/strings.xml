@@ -346,6 +346,11 @@
     <string name="market_current_value">最新价</string>
     <string name="market_up_ratio">涨幅</string>
     <string name="market_down_ratio">跌幅</string>
+    <string name="market_turnover">换手率</string>
+    <string name="market_amplit">振幅</string>
+    <string name="plate_name">行业名称</string>
+    <string name="plate_leader_stock">领涨股</string>
+    <string name="market_updown_ratio">涨跌幅</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>

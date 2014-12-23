@@ -24,10 +24,16 @@ import android.widget.TextView;
 
 public class FragmentMarkerCenter extends BaseFragment implements OnClickListener {
     private static final String KEY_TYPE = "type";
-    public static final int TYPE_INLAND_INDEX_UP = 0;
-    public static final int TYPE_INLAND_INDEX_DWON = 10;
-    public static final int TYPE_HU_SHEN_UP = 1;
-    public static final int TYPE_HU_SHEN_DOWN = 11;
+    public static final int TYPE_INLAND_INDEX_UP = 0x00;
+    public static final int TYPE_INLAND_INDEX_DWON = 0x10;
+    public static final int TYPE_STOCK_UP = 0x01;
+    public static final int TYPE_STOCK_DOWN = 0x11;
+    public static final int TYPE_STOCK_TURN_UP = 0x20;
+    public static final int TYPE_STOCK_TURN_DOWN = 0x21;
+    public static final int TYPE_STOCK_AMPLI_DOWN = 0x31;
+    public static final int TYPE_STOCK_AMPLI_UP = 0x30;
+    public static final int TYPE_PLATE_UP = 0x12;
+    public static final int TYPE_PLATE_DOWN = 0x22;
 
     private int mType;
 
@@ -37,6 +43,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     // private boolean iSortAscend = true;
 
     private ImageView marketIconUpDown;
+    private ImageView ivCenter;
     private TextView tvUpDown;
     private TextView marketTextIndex;
     private TextView marketTextEdition;
@@ -47,7 +54,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
     private WeakReference<MarketListActivity> mWeakActivity;
 
-    public static Fragment initFrag(int type) {
+    public static FragmentMarkerCenter initFrag(int type) {
         FragmentMarkerCenter fragment = new FragmentMarkerCenter();
         Bundle args = new Bundle();
         args.putInt(KEY_TYPE, type);
@@ -73,7 +80,6 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
      */
     @Override
     public void onAttach(Activity activity) {
-        // TODO Auto-generated method stub
         super.onAttach(activity);
         if (mWeakActivity == null) {
             mWeakActivity = new WeakReference<MarketListActivity>((MarketListActivity) activity);
@@ -84,7 +90,6 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_market_canter, null);
         initView(view);
-        // initFragment();
         setLoadTypeView(mType);
         loadFragment(mType);
         return view;
@@ -96,51 +101,55 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         marketTextEdition = (TextView) view.findViewById(R.id.market_text_edition);
         tvUpDown = (TextView) view.findViewById(R.id.market_text_change);
         marketLayoutUpanddown = (LinearLayout) view.findViewById(R.id.market_layout_upanddown);
+        ivCenter = (ImageView) view.findViewById(R.id.market_icon_center);
         marketLayoutUpanddown.setOnClickListener(this);
         marketIconUpDown.setVisibility(View.VISIBLE);
-        // marketIconUpDown.setVisibility(View.GONE);
-        if (mType == TYPE_HU_SHEN_UP || mType == TYPE_HU_SHEN_DOWN) {
+        if (mType == TYPE_STOCK_UP || mType == TYPE_STOCK_DOWN || mType == TYPE_STOCK_AMPLI_UP
+                || mType == TYPE_STOCK_TURN_UP) {
             marketTextIndex.setText(R.string.market_stock_name);
             marketTextEdition.setText(R.string.market_current_value);
+        } else if (mType == TYPE_PLATE_UP || mType == TYPE_PLATE_DOWN) {
+            marketTextIndex.setText(R.string.plate_name);
+            marketTextEdition.setText(R.string.market_updown_ratio);
+            tvUpDown.setText(R.string.plate_leader_stock);
+            marketIconUpDown.setVisibility(View.GONE);
+            ivCenter.setVisibility(View.VISIBLE);
+
         }
     }
-
-    // private void initFragment() {
-    // // switch (mType) {
-    // // case TYPE_INLAND_INDEX_UP:
-    // // if (null == loadDataListFragment) {
-    // // loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_MARKET_CURRENT);
-    // // }
-    // // break;
-    // // case TYPE_HU_SHEN_UP:
-    // // if (null == loadDataListFragment) {
-    // // loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_POSITION);
-    // // // iSortAscend = false;
-    // // }
-    // // break;
-    // // default:
-    // // break;
-    // // }
-    // // getChildFragmentManager().beginTransaction().replace(R.id.fragment_market, loadDataListFragment).commit();
-    // loadFragment(mType);
-    // }
 
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_MARKET);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_MARKET);
             }
                 break;
             case TYPE_INLAND_INDEX_DWON: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_MARKET_ACE);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_MARKET_ACE);
             }
                 break;
-            case TYPE_HU_SHEN_UP: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_POSITION);
+            case TYPE_STOCK_UP: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_POSITION);
             }
                 break;
-            case TYPE_HU_SHEN_DOWN: {
-                loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOC_INDEX_POSITION_ACE);
+            case TYPE_STOCK_DOWN: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_POSITION_ACE);
+            }
+                break;
+            case TYPE_STOCK_AMPLI_DOWN: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_AMPLIT_ACE);
+            }
+                break;
+            case TYPE_STOCK_AMPLI_UP: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_AMPLIT);
+            }
+                break;
+            case TYPE_STOCK_TURN_UP: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_TURNOVER);
+            }
+                break;
+            case TYPE_STOCK_TURN_DOWN: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_TURNOVER_ACE);
             }
                 break;
 
@@ -153,22 +162,52 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     }
 
     private void setLoadTypeView(int type) {
+        int tvTextResId = 0;
+        int iconResId = 0;
         switch (type) {
             case TYPE_INLAND_INDEX_UP:
-            case TYPE_HU_SHEN_UP: {
-                tvUpDown.setText(R.string.market_up_ratio);
-                marketIconUpDown.setImageResource(R.drawable.market_icon_down);
+            case TYPE_STOCK_UP: {
+                tvTextResId = R.string.market_up_ratio;
+                iconResId = R.drawable.market_icon_down;
             }
                 break;
             case TYPE_INLAND_INDEX_DWON:
-            case TYPE_HU_SHEN_DOWN: {
-                tvUpDown.setText(R.string.market_down_ratio);
-                marketIconUpDown.setImageResource(R.drawable.market_icon_up);
+            case TYPE_STOCK_DOWN: {
+                tvTextResId = R.string.market_down_ratio;
+                iconResId = R.drawable.market_icon_up;
             }
                 break;
 
+            case TYPE_STOCK_AMPLI_DOWN: {
+                tvTextResId = R.string.market_amplit;
+                iconResId = R.drawable.market_icon_up;
+            }
+                break;
+            case TYPE_STOCK_AMPLI_UP: {
+                tvTextResId = R.string.market_amplit;
+                iconResId = R.drawable.market_icon_down;
+            }
+                break;
+            case TYPE_STOCK_TURN_UP: {
+                tvTextResId = R.string.market_turnover;
+                iconResId = R.drawable.market_icon_down;
+            }
+                break;
+            case TYPE_STOCK_TURN_DOWN: {
+                tvTextResId = R.string.market_turnover;
+                iconResId = R.drawable.market_icon_up;
+            }
+                break;
             default:
                 break;
+        }
+        if (tvTextResId > 0) {
+
+            tvUpDown.setText(tvTextResId);
+        }
+        if (iconResId > 0) {
+
+            marketIconUpDown.setImageResource(iconResId);
         }
     }
 
@@ -176,16 +215,16 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public void onClick(View v) {
         if (v.getId() == R.id.market_layout_upanddown) {
             switch (mType) {
-                case TYPE_HU_SHEN_DOWN: {
-                    mType = TYPE_HU_SHEN_UP;
+                case TYPE_STOCK_DOWN: {
+                    mType = TYPE_STOCK_UP;
                     if (null != mWeakActivity.get()) {
                         mWeakActivity.get().setTitleByType(LoadViewType.StockIncease);
                     }
 
                 }
                     break;
-                case TYPE_HU_SHEN_UP: {
-                    mType = TYPE_HU_SHEN_DOWN;
+                case TYPE_STOCK_UP: {
+                    mType = TYPE_STOCK_DOWN;
                     if (null != mWeakActivity.get()) {
                         mWeakActivity.get().setTitleByType(LoadViewType.StockDown);
                     }
@@ -199,6 +238,26 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
                     break;
                 case TYPE_INLAND_INDEX_UP: {
                     mType = TYPE_INLAND_INDEX_DWON;
+
+                }
+                    break;
+                case TYPE_STOCK_AMPLI_DOWN: {
+                    mType = TYPE_STOCK_AMPLI_UP;
+
+                }
+                    break;
+                case TYPE_STOCK_AMPLI_UP: {
+                    mType = TYPE_STOCK_AMPLI_DOWN;
+
+                }
+                    break;
+                case TYPE_STOCK_TURN_UP: {
+                    mType = TYPE_STOCK_TURN_DOWN;
+
+                }
+                    break;
+                case TYPE_STOCK_TURN_DOWN: {
+                    mType = TYPE_STOCK_TURN_UP;
 
                 }
                     break;

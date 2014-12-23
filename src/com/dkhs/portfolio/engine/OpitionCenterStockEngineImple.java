@@ -22,6 +22,9 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String ORDER_INCREASE = "-percentage";
     public final static String ORDER_DOWN = "percentage";
     public final static String ORDER_TURNOVER = "-turnover_rate";
+    public final static String ORDER_TURNOVER_DOWN = "turnover_rate";
+    public final static String ORDER_AMPLITU = "-amplitude";
+    public final static String ORDER_AMPLITU_DOWN = "amplitude";
     public final static String ACE = "percentage";
     public final static String DESC = "-percentage";
     private String orderType;

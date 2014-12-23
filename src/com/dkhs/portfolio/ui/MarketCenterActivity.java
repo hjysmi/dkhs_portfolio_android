@@ -54,7 +54,10 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     private MarketCenterItemAdapter mTurnOverAdapter;
     private List<SelectStockBean> mTurnOverDataList = new ArrayList<SelectStockBean>();
 
+    // 振幅榜
     private ListView lvAmplit;
+    private MarketCenterItemAdapter mAmplitAdapter;
+    private List<SelectStockBean> mAmpliDataList = new ArrayList<SelectStockBean>();
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -138,10 +141,11 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         mIncreaseAdapter = new MarketCenterItemAdapter(this, mIncreaseDataList);
         mDownAdapter = new MarketCenterItemAdapter(this, mDownDataList);
         mTurnOverAdapter = new MarketCenterItemAdapter(this, mTurnOverDataList);
+        mAmplitAdapter = new MarketCenterItemAdapter(this, mAmpliDataList);
         lvIncease.setAdapter(mIncreaseAdapter);
         lvDown.setAdapter(mDownAdapter);
         lvHandover.setAdapter(mTurnOverAdapter);
-        lvAmplit.setAdapter(mIncreaseAdapter);
+        lvAmplit.setAdapter(mAmplitAdapter);
 
         initData();
     }
@@ -162,7 +166,9 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         new OpitionCenterStockEngineImple(mIncreaseListener, OpitionCenterStockEngineImple.ORDER_INCREASE, 10)
                 .loadData();
         new OpitionCenterStockEngineImple(mDownListener, OpitionCenterStockEngineImple.ORDER_DOWN, 10).loadData();
-        new OpitionCenterStockEngineImple(mTurnOverListener, MarketCenterStockEngineImple.ORDER_TURNOVER, 10)
+        new OpitionCenterStockEngineImple(mTurnOverListener, OpitionCenterStockEngineImple.ORDER_TURNOVER, 10)
+                .loadData();
+        new OpitionCenterStockEngineImple(mAmpliOverListener, OpitionCenterStockEngineImple.ORDER_AMPLITU, 10)
                 .loadData();
         new MarketCenterStockEngineImple(mIndexListener, MarketCenterStockEngineImple.CURRENT, 3).loadData();
     }
@@ -174,6 +180,17 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
             if (null != dataList) {
                 mIndexDataList.addAll(dataList);
                 mIndexAdapter.notifyDataSetChanged();
+            }
+        }
+
+    };
+    ILoadDataBackListener mAmpliOverListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+            if (null != dataList) {
+                mAmpliDataList.addAll(dataList);
+                mAmplitAdapter.notifyDataSetChanged();
             }
         }
 
@@ -226,7 +243,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
             }
                 break;
             case R.id.btn_more_plate: {
-                PromptManager.showToast("更多板块");
+                // PromptManager.showToast("更多板块");
+                startActivity(MarketListActivity.newIntent(this, LoadViewType.PlateHot));
             }
                 break;
             case R.id.btn_more_incease: {
@@ -240,11 +258,13 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
             }
                 break;
             case R.id.btn_more_handover: {
-                PromptManager.showToast("更多换手率榜");
+                startActivity(MarketListActivity.newIntent(this, LoadViewType.StockTurnOver));
+                // PromptManager.showToast("更多换手率榜");
             }
                 break;
             case R.id.btn_more_amplitude: {
-                PromptManager.showToast("更多振幅榜");
+                startActivity(MarketListActivity.newIntent(this, LoadViewType.StockAmplit));
+                // PromptManager.showToast("更多振幅榜");
             }
                 break;
             default:

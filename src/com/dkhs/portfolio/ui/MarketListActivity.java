@@ -26,7 +26,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
 public class MarketListActivity extends ModelAcitivity {
 
     public enum LoadViewType {
-        StockIncease, StockDown, IndexUp, IndexDown;
+        StockIncease, StockDown, IndexUp, IndexDown, StockTurnOver, StockAmplit, PlateHot;
     }
 
     private LoadViewType mLoadType;
@@ -78,7 +78,7 @@ public class MarketListActivity extends ModelAcitivity {
     private void initView() {
         switch (mLoadType) {
             case StockIncease: {
-                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_HU_SHEN_UP));
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_UP));
             }
                 break;
             case IndexUp: {
@@ -86,7 +86,19 @@ public class MarketListActivity extends ModelAcitivity {
             }
                 break;
             case StockDown: {
-                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_HU_SHEN_DOWN));
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_DOWN));
+            }
+                break;
+            case StockAmplit: {
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_AMPLI_UP));
+            }
+                break;
+            case StockTurnOver: {
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_TURN_UP));
+            }
+                break;
+            case PlateHot: {
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_PLATE_UP));
             }
                 break;
 
@@ -108,6 +120,18 @@ public class MarketListActivity extends ModelAcitivity {
                 break;
             case StockDown: {
                 setTitle(R.string.market_title_down);
+            }
+                break;
+            case StockAmplit: {
+                setTitle(R.string.market_title_ampli);
+            }
+                break;
+            case StockTurnOver: {
+                setTitle(R.string.market_title_turnover);
+            }
+                break;
+            case PlateHot: {
+                setTitle(R.string.market_title_hot);
             }
                 break;
 
