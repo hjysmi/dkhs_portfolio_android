@@ -8,7 +8,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.MarketListActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -121,35 +121,35 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_MARKET);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_INLAND_INDEX);
             }
                 break;
             case TYPE_INLAND_INDEX_DWON: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_MARKET_ACE);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_INLAND_INDEX_ACE);
             }
                 break;
             case TYPE_STOCK_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_POSITION);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_UPRATIO);
             }
                 break;
             case TYPE_STOCK_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_INDEX_POSITION_ACE);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_DOWNRATIO);
             }
                 break;
             case TYPE_STOCK_AMPLI_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_AMPLIT_ACE);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_AMPLIT_ACE);
             }
                 break;
             case TYPE_STOCK_AMPLI_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_AMPLIT);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_AMPLIT);
             }
                 break;
             case TYPE_STOCK_TURN_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_TURNOVER);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_TURNOVER);
             }
                 break;
             case TYPE_STOCK_TURN_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(ViewType.STOC_TURNOVER_ACE);
+                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
             }
                 break;
 

@@ -37,7 +37,7 @@ import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;

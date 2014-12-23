@@ -36,7 +36,7 @@ import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
 import com.umeng.analytics.MobclickAgent;
 
@@ -62,9 +62,9 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         // for (int i = 0; i < titleLenght; i++) {
         // titleList.add(tArray[i]);
         // }
-        FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getFundFragment(ViewType.FUND_MAININDEX);
-        FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getFundFragment(ViewType.FUND_INDEX);
-        FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getFundFragment(ViewType.FUND_STOCK);
+        FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_MAININDEX);
+        FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_INDEX);
+        FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_STOCK);
         fragmenList.add(mPagerFragment);
         fragmenList.add(mPagerFragment2);
         fragmenList.add(mPagerFragment3);

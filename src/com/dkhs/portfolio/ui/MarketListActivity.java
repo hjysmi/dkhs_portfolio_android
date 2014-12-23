@@ -18,7 +18,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
 
 /**
  * @ClassName MarketListActivity
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 由行情中心入口的列表Activity,包含：国内行情、个股涨跌幅、个股振幅、个股换手率、热门板块界面；
  * @author zjz
  * @date 2014-12-22 下午5:47:35
  * @version 1.0
@@ -26,7 +26,34 @@ import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
 public class MarketListActivity extends ModelAcitivity {
 
     public enum LoadViewType {
-        StockIncease, StockDown, IndexUp, IndexDown, StockTurnOver, StockAmplit, PlateHot;
+        /**
+         * 个股涨幅排序
+         */
+        StockIncease,
+        /**
+         * 个股跌幅排序
+         */
+        StockDown,
+        /**
+         * 国内指数涨幅排序
+         */
+        IndexUp,
+        /**
+         * 国内指数跌幅幅排序
+         */
+        IndexDown,
+        /**
+         * 个股换手率排序
+         */
+        StockTurnOver,
+        /**
+         * 个股振幅
+         */
+        StockAmplit,
+        /**
+         * 热门行业
+         */
+        PlateHot;
     }
 
     private LoadViewType mLoadType;

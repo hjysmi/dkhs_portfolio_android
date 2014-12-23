@@ -25,7 +25,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -152,7 +152,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = loadDataListFragment.getStockFragment(ViewType.STOCK_OPTIONAL_PRICE);
+            loadDataListFragment = loadDataListFragment.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
     }

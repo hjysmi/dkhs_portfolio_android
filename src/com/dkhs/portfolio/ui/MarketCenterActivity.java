@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -18,6 +19,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
@@ -31,6 +33,8 @@ import com.umeng.analytics.MobclickAgent;
  * 
  */
 public class MarketCenterActivity extends ModelAcitivity implements OnClickListener {
+
+    public final static String INLAND_INDEX = "inland_index";
 
     private GridView gvMainIndex;
     private List<SelectStockBean> mIndexDataList = new ArrayList<SelectStockBean>();
@@ -68,18 +72,6 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
         initView();
 
-        // layoutMarkerParent = (LinearLayout) findViewById(R.id.layout_marker_parenst);
-        // context = this;
-        // Button btn = getRightButton();
-        // btn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select), null,
-        // null, null);
-        // // btn.setBackgroundResource(R.drawable.btn_search_select);
-        // btn.setOnClickListener(this);
-        // String[] name = new String[]{"沪深行情","国内指数"};
-        // List<Fragment> frag = new ArrayList<Fragment>();
-        // frag.add(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.SHEN_HU));
-        // frag.add(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.INSIDE_COUNT));
-        // new FragmentSelectAdapter(context, name, frag, layoutMarkerParent, getSupportFragmentManager());
     }
 
     /**
@@ -90,7 +82,6 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     private void initView() {
 
         Button addButton = getRightButton();
-        // addButton.setBackgroundResource(R.drawable.btn_search_select);
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
         addButton.setOnClickListener(new OnClickListener() {
@@ -163,108 +154,84 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     }
 
     private void initData() {
-        new OpitionCenterStockEngineImple(mIncreaseListener, OpitionCenterStockEngineImple.ORDER_INCREASE, 10)
-                .loadData();
-        new OpitionCenterStockEngineImple(mDownListener, OpitionCenterStockEngineImple.ORDER_DOWN, 10).loadData();
-        new OpitionCenterStockEngineImple(mTurnOverListener, OpitionCenterStockEngineImple.ORDER_TURNOVER, 10)
-                .loadData();
-        new OpitionCenterStockEngineImple(mAmpliOverListener, OpitionCenterStockEngineImple.ORDER_AMPLITU, 10)
-                .loadData();
-        new MarketCenterStockEngineImple(mIndexListener, MarketCenterStockEngineImple.CURRENT, 3).loadData();
+        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_INCREASE),
+                OpitionCenterStockEngineImple.ORDER_INCREASE, 10).loadData();
+        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_DOWN),
+                OpitionCenterStockEngineImple.ORDER_DOWN, 10).loadData();
+        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_TURNOVER),
+                OpitionCenterStockEngineImple.ORDER_TURNOVER, 10).loadData();
+        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_AMPLITU),
+                OpitionCenterStockEngineImple.ORDER_AMPLITU, 10).loadData();
+        new MarketCenterStockEngineImple(new StockLoadDataListener(INLAND_INDEX), MarketCenterStockEngineImple.CURRENT,
+                3).loadData();
     }
 
-    ILoadDataBackListener mIndexListener = new ILoadDataBackListener() {
+    class StockLoadDataListener implements ILoadDataBackListener {
+
+        private String type;
+
+        public StockLoadDataListener(String loadType) {
+            this.type = loadType;
+        }
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
-                mIndexDataList.addAll(dataList);
-                mIndexAdapter.notifyDataSetChanged();
+            if (null != dataList && !TextUtils.isEmpty(type)) {
+                if (type.equals(OpitionCenterStockEngineImple.ORDER_INCREASE)) {
+                    mIncreaseDataList.addAll(dataList);
+                    mIncreaseAdapter.notifyDataSetChanged();
+                } else if (type.equals(OpitionCenterStockEngineImple.ORDER_DOWN)) {
+                    mDownDataList.addAll(dataList);
+                    mDownAdapter.notifyDataSetChanged();
+                } else if (type.equals(OpitionCenterStockEngineImple.ORDER_TURNOVER)) {
+                    mTurnOverDataList.addAll(dataList);
+                    mTurnOverAdapter.notifyDataSetChanged();
+                } else if (type.equals(OpitionCenterStockEngineImple.ORDER_AMPLITU)) {
+                    mAmpliDataList.addAll(dataList);
+                    mAmplitAdapter.notifyDataSetChanged();
+                } else if (type.equals(INLAND_INDEX)) {
+                    mIndexDataList.addAll(dataList);
+                    mIndexAdapter.notifyDataSetChanged();
+                }
             }
         }
-
-    };
-    ILoadDataBackListener mAmpliOverListener = new ILoadDataBackListener() {
 
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
-                mAmpliDataList.addAll(dataList);
-                mAmplitAdapter.notifyDataSetChanged();
-            }
+        public void loadFail(ErrorBundle error) {
+
         }
 
-    };
-    ILoadDataBackListener mTurnOverListener = new ILoadDataBackListener() {
-
-        @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
-                mTurnOverDataList.addAll(dataList);
-                mTurnOverAdapter.notifyDataSetChanged();
-            }
-        }
-
-    };
-    ILoadDataBackListener mIncreaseListener = new ILoadDataBackListener() {
-
-        @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
-                mIncreaseDataList.addAll(dataList);
-                mIncreaseAdapter.notifyDataSetChanged();
-            }
-        }
-
-    };
-    ILoadDataBackListener mDownListener = new ILoadDataBackListener() {
-
-        @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
-                mDownDataList.addAll(dataList);
-                mDownAdapter.notifyDataSetChanged();
-            }
-        }
-
-    };
+    }
 
     @Override
     public void onClick(View v) {
-        // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.btn_right:
                 Intent intent = new Intent(this, SelectAddOptionalActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_more_index: {
-                // PromptManager.showToast("更多指数");
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.IndexUp));
             }
                 break;
             case R.id.btn_more_plate: {
-                // PromptManager.showToast("更多板块");
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.PlateHot));
             }
                 break;
             case R.id.btn_more_incease: {
-                // PromptManager.showToast("更多涨幅榜");
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.StockIncease));
             }
                 break;
             case R.id.btn_more_down: {
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.StockDown));
-                // PromptManager.showToast("更多跌幅榜");
             }
                 break;
             case R.id.btn_more_handover: {
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.StockTurnOver));
-                // PromptManager.showToast("更多换手率榜");
             }
                 break;
             case R.id.btn_more_amplitude: {
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.StockAmplit));
-                // PromptManager.showToast("更多振幅榜");
             }
                 break;
             default:

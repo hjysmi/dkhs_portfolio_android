@@ -28,7 +28,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.umeng.analytics.MobclickAgent;
 
@@ -115,11 +115,11 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         //
         // }
         FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(ViewType.STOCK_INCREASE);
+                .getItemClickBackFragment(StockViewType.STOCK_INCREASE);
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(ViewType.STOCK_DRAWDOWN);
+                .getItemClickBackFragment(StockViewType.STOCK_DRAWDOWN);
         FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(ViewType.STOCK_HANDOVER);
+                .getItemClickBackFragment(StockViewType.STOCK_HANDOVER);
 
         fragmenList.add(mIncreaseFragment);
         fragmenList.add(mDownFragment);
