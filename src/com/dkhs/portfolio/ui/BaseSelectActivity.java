@@ -140,15 +140,15 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            //btnAdd.setTextColor(Color.WHITE);
+            // btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             btnAdd.setEnabled(false);
             String name = getResources().getString(R.string.add_text) + "(0)";
             btnAdd.setText(name);
-            //modify by zcm ---2014.12.15
-            //btnAdd.setTextColor(Color.WHITE);
-            //modify by zcm ---2014.12.15
+            // modify by zcm ---2014.12.15
+            // btnAdd.setTextColor(Color.WHITE);
+            // modify by zcm ---2014.12.15
         }
 
         initTabPage();
@@ -343,12 +343,12 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-        	// add by zcm --- 2014.12.16
-        	if(!TextUtils.isEmpty(etSearchKey.getText().toString())){
-        		etSearchKey.setText("");
-        		return;
-        	}
-        	// add by zcm --- 2014.12.16
+            // add by zcm --- 2014.12.16
+            if (!TextUtils.isEmpty(etSearchKey.getText().toString())) {
+                etSearchKey.setText("");
+                return;
+            }
+            // add by zcm --- 2014.12.16
             if (null != fromCreate) {
                 Intent intent = new Intent();
                 setResult(999, intent);
@@ -364,16 +364,16 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public void notifySelectDataChange(boolean isUpdataFragment) {
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            //btnAdd.setTextColor(Color.WHITE);
+            // btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             String name = getResources().getString(R.string.add_text) + "(0)";
             btnAdd.setEnabled(false);
             btnAdd.setText(name);
-           // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
-            //modify by zcm ---2014.12.17
-            //btnAdd.setTextColor(Color.WHITE);
-            //modify by zcm ---2014.12.17
+            // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            // modify by zcm ---2014.12.17
+            // btnAdd.setTextColor(Color.WHITE);
+            // modify by zcm ---2014.12.17
 
         }
 
