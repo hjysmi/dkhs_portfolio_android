@@ -28,31 +28,42 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     private String orderType;
     ILoadDataBackListener loadListener;
     private int Status;
+    private int mPagesize = 50;
+
+    public MarketCenterStockEngineImple(ILoadDataBackListener loadListener, String type, int pageSize) {
+        super(loadListener);
+        this.orderType = type;
+        this.loadListener = loadListener;
+        this.mPagesize = pageSize;
+    }
+
     public MarketCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
         this.loadListener = loadListener;
     }
-    
+
     @Override
     public void loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(
-                MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page=" + (getCurrentpage() + 1), orderType,50),
-                null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page="
+                + (getCurrentpage() + 1), orderType, mPagesize), null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType,50), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, mPagesize), null,
+                this);
 
     }
+
     public void loadDataFromCurrent(int num) {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType,num), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, num), null, this);
 
     }
+
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
@@ -82,19 +93,19 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }finally{
-        	//loadListener.setStatu(dataObject.optInt("trade_status"));
+        } finally {
+            // loadListener.setStatu(dataObject.optInt("trade_status"));
         }
 
         return selectList;
     }
 
-	public int getStatus() {
-		return Status;
-	}
+    public int getStatus() {
+        return Status;
+    }
 
-	public void setStatus(int status) {
-		Status = status;
-	}
-    
+    public void setStatus(int status) {
+        Status = status;
+    }
+
 }

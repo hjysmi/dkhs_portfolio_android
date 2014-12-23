@@ -11,17 +11,19 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.bean.MarketCenterGridItem;
+import com.dkhs.portfolio.ui.widget.stickygridheaders.StickyGridHeadersSimpleAdapter;
 
 /**
  * @ClassName MarketCenterGridAdapter
@@ -30,31 +32,29 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  * @date 2014-12-18 下午5:24:37
  * @version 1.0
  */
-public class MarketCenterGridAdapter extends BaseAdapter {
+public class MarketCenterListAdapter extends BaseAdapter {
 
-    private List<SelectStockBean> mDataList;
+    private List<MarketCenterGridItem> hasHeaderIdList;
     private LayoutInflater mInflater;
-    private Context mcontext;
     // private GridView mGridView;
-    // private int mCount = 0;
-    private boolean isPlate;
+    private Point mPoint = new Point(0, 0);// 用来封装ImageView的宽和高的对象
 
-    public MarketCenterGridAdapter(Context context, List<SelectStockBean> datalist, boolean isplate) {
+    public MarketCenterListAdapter(Context context, List<MarketCenterGridItem> hasHeaderIdList) {
         mInflater = LayoutInflater.from(context);
-        this.mDataList = datalist;
-        this.isPlate = isplate;
-        this.mcontext = context;
-
+        // this.mGridView = mGridView;
+        this.hasHeaderIdList = hasHeaderIdList;
     }
 
     @Override
     public int getCount() {
-        return mDataList.size();
+        // return hasHeaderIdList.size();
+        return 30;
     }
 
     @Override
     public Object getItem(int position) {
-        return mDataList.get(position);
+        return hasHeaderIdList.get(position);
+
     }
 
     @Override
@@ -67,42 +67,22 @@ public class MarketCenterGridAdapter extends BaseAdapter {
         ViewHolder mViewHolder;
         if (convertView == null) {
             mViewHolder = new ViewHolder();
-            convertView = mInflater.inflate(R.layout.item_mark_center, parent, false);
-            mViewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
-            mViewHolder.tvTitleName = (TextView) convertView.findViewById(R.id.tv_title_name);
-            mViewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_main_value);
-            mViewHolder.tvIncrease = (TextView) convertView.findViewById(R.id.tv_incease_value);
-            mViewHolder.tvPercent = (TextView) convertView.findViewById(R.id.tv_incease_ratio);
-
+            convertView = mInflater.inflate(R.layout.item_optional_stock_price, parent, false);
+            // mViewHolder.mImageView = (MyImageView) convertView.findViewById(R.id.grid_item);
             convertView.setTag(mViewHolder);
+            //
+            // // 用来监听ImageView的宽和高
+            // mViewHolder.mImageView.setOnMeasureListener(new OnMeasureListener() {
+            //
+            // @Override
+            // public void onMeasureSize(int width, int height) {
+            // mPoint.set(width, height);
+            // }
+            // });
 
         } else {
             mViewHolder = (ViewHolder) convertView.getTag();
         }
-        if (isPlate) {
-            mViewHolder.tvStockName.setVisibility(View.VISIBLE);
-        } else {
-
-            mViewHolder.tvStockName.setVisibility(View.GONE);
-        }
-
-        SelectStockBean item = mDataList.get(position);
-
-        float change = item.percentage;
-        mViewHolder.tvCurrentValue.setTextColor(ColorTemplate.getUpOrDrownCSL(change));
-        if (change > 0) {
-            mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
-                    mcontext.getResources().getDrawable(R.drawable.ic_grow_up), null, null, null);
-        } else if (change < 0) {
-            mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(
-                    mcontext.getResources().getDrawable(R.drawable.ic_grow_down), null, null, null);
-        } else {
-            mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        }
-        mViewHolder.tvTitleName.setText(item.name);
-        mViewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
-        mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercent(item.percentage));
-        mViewHolder.tvIncrease.setText(StringFromatUtils.get2PointPlus(item.change));
 
         // String path = hasHeaderIdList.get(position).getPath();
         // mViewHolder.mImageView.setTag(path);
@@ -154,12 +134,6 @@ public class MarketCenterGridAdapter extends BaseAdapter {
 
     public static class ViewHolder {
         public ImageView mImageView;
-        public TextView tvStockName;
-        public TextView tvTitleName;
-        public TextView tvCurrentValue;
-        public TextView tvIncrease;
-        public TextView tvPercent;
-
     }
 
     public static class HeaderViewHolder {

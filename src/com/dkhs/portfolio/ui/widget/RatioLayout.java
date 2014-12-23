@@ -50,7 +50,6 @@ public class RatioLayout extends RelativeLayout {
         a.recycle();
     }
 
-    @SuppressWarnings("unused")
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 

@@ -25,10 +25,18 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String ACE = "percentage";
     public final static String DESC = "-percentage";
     private String orderType;
+    private int mPageSize = 50;
 
     public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
+        // this.mPageSize = pagesize;
+    }
+
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, String type, int pagesize) {
+        super(loadListener);
+        this.orderType = type;
+        this.mPageSize = pagesize;
     }
 
     @Override
@@ -36,23 +44,25 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(
-                MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page=" + (getCurrentpage() + 1), orderType,50),
-                null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page="
+                + (getCurrentpage() + 1), orderType, mPageSize), null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType,50), null, this);
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, mPageSize), null,
+                this);
 
     }
+
     public void loadDataFromCurrent(int num) {
-    	if(num == 0){
-    		num = 10;
-    	}
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType,num), null, this);
+        if (num == 0) {
+            num = 10;
+        }
+        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, num), null, this);
 
     }
+
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
@@ -69,7 +79,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    
+
                     // SelectStockBean selectBean = new SelectStockBean();
                     // selectBean.id = stockBean.getId();
                     // selectBean.name = stockBean.getAbbrname();

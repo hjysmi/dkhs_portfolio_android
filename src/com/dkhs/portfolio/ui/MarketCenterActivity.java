@@ -1,20 +1,27 @@
 package com.dkhs.portfolio.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.MarketCenterGridItem;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
+import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
+import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
+import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -24,14 +31,30 @@ import com.umeng.analytics.MobclickAgent;
  * 
  */
 public class MarketCenterActivity extends ModelAcitivity implements OnClickListener {
-    // private LinearLayout layoutMarkerParent;
-    // private Context context;
 
-    private GridView mGridView;
-    /**
-     * 没有HeaderId的List
-     */
-    private List<MarketCenterGridItem> nonHeaderIdList = new ArrayList<MarketCenterGridItem>();
+    private GridView gvMainIndex;
+    private List<SelectStockBean> mIndexDataList = new ArrayList<SelectStockBean>();
+    private MarketCenterGridAdapter mIndexAdapter;
+
+    private GridView gvPlate;
+    // private View btnMoreIndex;
+    // private View btnMorePlate;
+
+    // 涨幅榜
+    private ListView lvIncease;
+    private List<SelectStockBean> mIncreaseDataList = new ArrayList<SelectStockBean>();
+    private MarketCenterItemAdapter mIncreaseAdapter;
+
+    // 跌幅榜
+    private ListView lvDown;
+    private MarketCenterItemAdapter mDownAdapter;
+    private List<SelectStockBean> mDownDataList = new ArrayList<SelectStockBean>();
+
+    private ListView lvHandover;
+    private MarketCenterItemAdapter mTurnOverAdapter;
+    private List<SelectStockBean> mTurnOverDataList = new ArrayList<SelectStockBean>();
+
+    private ListView lvAmplit;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -40,12 +63,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         setContentView(R.layout.activity_marketcenter);
         setTitle(R.string.marketcenter_title);
 
-        mGridView = (GridView) findViewById(R.id.asset_grid);
+        initView();
 
-        // 给GridView的item的数据生成HeaderId
-        List<MarketCenterGridItem> hasHeaderIdList = generateHeaderId(nonHeaderIdList);
-        // 排序
-        mGridView.setAdapter(new MarketCenterGridAdapter(MarketCenterActivity.this, hasHeaderIdList, mGridView));
         // layoutMarkerParent = (LinearLayout) findViewById(R.id.layout_marker_parenst);
         // context = this;
         // Button btn = getRightButton();
@@ -60,6 +79,139 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         // new FragmentSelectAdapter(context, name, frag, layoutMarkerParent, getSupportFragmentManager());
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return void
+     */
+    private void initView() {
+
+        Button addButton = getRightButton();
+        // addButton.setBackgroundResource(R.drawable.btn_search_select);
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                null, null, null);
+        addButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MarketCenterActivity.this, SelectAddOptionalActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        gvMainIndex = (GridView) findViewById(R.id.gv_mainindex);
+        gvPlate = (GridView) findViewById(R.id.gv_plate);
+        View btnMoreIndex = findViewById(R.id.btn_more_index);
+        View btnMorePlate = findViewById(R.id.btn_more_plate);
+        View btnMoreIncease = findViewById(R.id.btn_more_incease);
+        View btnMoreDown = findViewById(R.id.btn_more_down);
+        View btnMoreHand = findViewById(R.id.btn_more_handover);
+        View btnMoreAmplit = findViewById(R.id.btn_more_amplitude);
+
+        lvIncease = (ListView) findViewById(R.id.lv_market_incease);
+        lvDown = (ListView) findViewById(R.id.lv_market_down);
+        lvHandover = (ListView) findViewById(R.id.lv_market_handover);
+        lvAmplit = (ListView) findViewById(R.id.lv_market_amplitude);
+
+        btnMoreIndex.setOnClickListener(this);
+        btnMorePlate.setOnClickListener(this);
+        btnMoreIncease.setOnClickListener(this);
+        btnMoreDown.setOnClickListener(this);
+        btnMoreHand.setOnClickListener(this);
+        btnMoreAmplit.setOnClickListener(this);
+
+        mIndexAdapter = new MarketCenterGridAdapter(this, mIndexDataList, false);
+
+        gvMainIndex.setAdapter(mIndexAdapter);
+        gvMainIndex.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // PromptManager.showToast("position:" + position);
+                startQuoteActivity(mIndexDataList.get(position));
+
+            }
+        });
+
+        // gvPlate.setAdapter(new MarketCenterGridAdapter(this, 6, true));
+        mIncreaseAdapter = new MarketCenterItemAdapter(this, mIncreaseDataList);
+        mDownAdapter = new MarketCenterItemAdapter(this, mDownDataList);
+        mTurnOverAdapter = new MarketCenterItemAdapter(this, mTurnOverDataList);
+        lvIncease.setAdapter(mIncreaseAdapter);
+        lvDown.setAdapter(mDownAdapter);
+        lvHandover.setAdapter(mTurnOverAdapter);
+        lvAmplit.setAdapter(mIncreaseAdapter);
+
+        initData();
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onStart() {
+        // TODO Auto-generated method stub
+        super.onStart();
+
+    }
+
+    private void initData() {
+        new OpitionCenterStockEngineImple(mIncreaseListener, OpitionCenterStockEngineImple.ORDER_INCREASE, 10)
+                .loadData();
+        new OpitionCenterStockEngineImple(mDownListener, OpitionCenterStockEngineImple.ORDER_DOWN, 10).loadData();
+        new OpitionCenterStockEngineImple(mTurnOverListener, MarketCenterStockEngineImple.ORDER_TURNOVER, 10)
+                .loadData();
+        new MarketCenterStockEngineImple(mIndexListener, MarketCenterStockEngineImple.CURRENT, 3).loadData();
+    }
+
+    ILoadDataBackListener mIndexListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+            if (null != dataList) {
+                mIndexDataList.addAll(dataList);
+                mIndexAdapter.notifyDataSetChanged();
+            }
+        }
+
+    };
+    ILoadDataBackListener mTurnOverListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+            if (null != dataList) {
+                mTurnOverDataList.addAll(dataList);
+                mTurnOverAdapter.notifyDataSetChanged();
+            }
+        }
+
+    };
+    ILoadDataBackListener mIncreaseListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+            if (null != dataList) {
+                mIncreaseDataList.addAll(dataList);
+                mIncreaseAdapter.notifyDataSetChanged();
+            }
+        }
+
+    };
+    ILoadDataBackListener mDownListener = new ILoadDataBackListener() {
+
+        @Override
+        public void loadFinish(List<SelectStockBean> dataList) {
+            if (null != dataList) {
+                mDownDataList.addAll(dataList);
+                mDownAdapter.notifyDataSetChanged();
+            }
+        }
+
+    };
+
     @Override
     public void onClick(View v) {
         // TODO Auto-generated method stub
@@ -68,37 +220,40 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
                 Intent intent = new Intent(this, SelectAddOptionalActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.btn_more_index: {
+                PromptManager.showToast("更多指数");
+            }
+                break;
+            case R.id.btn_more_plate: {
+                PromptManager.showToast("更多板块");
+            }
+                break;
+            case R.id.btn_more_incease: {
+                // PromptManager.showToast("更多涨幅榜");
+                startActivity(MarketListActivity.newIntent(this, LoadViewType.StockIncease));
+            }
+                break;
+            case R.id.btn_more_down: {
+                startActivity(MarketListActivity.newIntent(this, LoadViewType.StockDown));
+                // PromptManager.showToast("更多跌幅榜");
+            }
+                break;
+            case R.id.btn_more_handover: {
+                PromptManager.showToast("更多换手率榜");
+            }
+                break;
+            case R.id.btn_more_amplitude: {
+                PromptManager.showToast("更多振幅榜");
+            }
+                break;
             default:
                 break;
         }
     }
 
-    private List<MarketCenterGridItem> generateHeaderId(List<MarketCenterGridItem> nonHeaderIdList) {
-        // Map<String, Integer> mHeaderIdMap = new HashMap<String, Integer>();
-        // int mHeaderId = 1;
-        // List<MarketCenterGridItem> hasHeaderIdList;
+    private void startQuoteActivity(SelectStockBean itemStock) {
+        startActivity(StockQuotesActivity.newIntent(this, itemStock));
 
-        for (int i = 1; i < 30; i++) {
-            MarketCenterGridItem mGridItem = new MarketCenterGridItem("dddd", i + "");
-            // String ymd = mGridItem.getTime();
-            // if (!mHeaderIdMap.containsKey(ymd)) {
-            if (i % 3 == 0 || i % 4 == 0) {
-                mGridItem.setHeaderId(2);
-
-            } else {
-
-                mGridItem.setHeaderId(1);
-            }
-            nonHeaderIdList.add(mGridItem);
-            // mHeaderIdMap.put(ymd, mHeaderId);
-            // mHeaderId++;
-            // } else {
-            // mGridItem.setHeaderId(mHeaderIdMap.get(ymd));
-            // }
-        }
-        // hasHeaderIdList = nonHeaderIdList;
-
-        return nonHeaderIdList;
     }
 
     @Override

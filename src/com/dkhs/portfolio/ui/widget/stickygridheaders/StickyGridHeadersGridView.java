@@ -1005,7 +1005,12 @@ public class StickyGridHeadersGridView extends GridView implements OnScrollListe
 
         measureHeader();
 
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,   
+                MeasureSpec.AT_MOST);   
+        super.onMeasure(widthMeasureSpec, expandSpec);   
+        
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     void attachHeader(View header) {
