@@ -26,7 +26,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
 public class MarketListActivity extends ModelAcitivity {
 
     public enum LoadViewType {
-        StockIncease, StockDown;
+        StockIncease, StockDown, IndexUp, IndexDown;
     }
 
     private LoadViewType mLoadType;
@@ -66,6 +66,7 @@ public class MarketListActivity extends ModelAcitivity {
         super.onCreate(arg0);
         processExtraData();
         setContentView(R.layout.activity_market);
+        setTitleByType(mLoadType);
         initView();
     }
 
@@ -77,19 +78,42 @@ public class MarketListActivity extends ModelAcitivity {
     private void initView() {
         switch (mLoadType) {
             case StockIncease: {
-                setTitle("涨幅榜");
-                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.SHEN_HU));
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_HU_SHEN_UP));
+            }
+                break;
+            case IndexUp: {
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_INLAND_INDEX_UP));
             }
                 break;
             case StockDown: {
-                setTitle("跌幅榜");
-
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_HU_SHEN_DOWN));
             }
                 break;
 
             default:
                 break;
         }
-
     }
+
+    public void setTitleByType(LoadViewType type) {
+        mLoadType = type;
+        switch (mLoadType) {
+            case StockIncease: {
+                setTitle(R.string.market_title_up);
+            }
+                break;
+            case IndexUp: {
+                setTitle(R.string.market_title_index);
+            }
+                break;
+            case StockDown: {
+                setTitle(R.string.market_title_down);
+            }
+                break;
+
+            default:
+                break;
+        }
+    }
+
 }

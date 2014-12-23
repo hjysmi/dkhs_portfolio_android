@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="国内指数"
+                android:text="@string/market_title_index"
                 android:textSize="14sp" />
 
             <ImageButton
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="热门行业"
+                android:text="@string/market_title_hot"
                 android:textSize="14sp" />
 
             <ImageButton
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="涨幅榜"
+                android:text="@string/market_title_up"
                 android:textSize="14sp" />
 
             <ImageButton
@@ -126,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="跌幅榜"
+                android:text="@string/market_title_down"
                 android:textSize="14sp" />
 
             <ImageButton
@@ -157,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="换手率榜"
+                android:text="@string/market_title_turnover"
                 android:textSize="14sp" />
 
             <ImageButton
@@ -188,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="振幅榜"
+                android:text="@string/market_title_ampli"
                 android:textSize="14sp" />
 
             <ImageButton

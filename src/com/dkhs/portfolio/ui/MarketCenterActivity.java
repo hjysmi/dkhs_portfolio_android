@@ -221,7 +221,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
                 startActivity(intent);
                 break;
             case R.id.btn_more_index: {
-                PromptManager.showToast("更多指数");
+                // PromptManager.showToast("更多指数");
+                startActivity(MarketListActivity.newIntent(this, LoadViewType.IndexUp));
             }
                 break;
             case R.id.btn_more_plate: {

@@ -339,6 +339,18 @@
     <string name="count_trend_today">日收益曲线图</string>
     <string name="count_user_combination_list">用户基金列表</string>
     <string name="password_digts">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ`¬!"£$%^*()~=#{}[];':,./?/*-_+&#060;&#062;&#064;&#038;</string>
-    <!--  -->
+
+    <!-- 行情中心 -->
+    <string name="market_index_name">指数名称</string>
+    <string name="market_stock_name">股票名称</string>
+    <string name="market_current_value">最新价</string>
+    <string name="market_up_ratio">涨幅</string>
+    <string name="market_down_ratio">跌幅</string>
+    <string name="market_title_up">涨幅榜</string>
+    <string name="market_title_hot">热门行业</string>
+    <string name="market_title_turnover">换手率榜</string>
+    <string name="market_title_ampli">振幅榜</string>
+    <string name="market_title_down">跌幅榜</string>
+    <string name="market_title_index">国内指数</string>
 
 </resources>
