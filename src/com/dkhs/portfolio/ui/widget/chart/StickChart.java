@@ -101,6 +101,7 @@ public class StickChart extends GridChart {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        currentIndex = index;
         try {
 			initAxisY();
 			initAxisX();
@@ -285,37 +286,39 @@ public class StickChart extends GridChart {
                 	stickX = (maxStickDataNum - StickData.size()) * (stickWidth + 3);
                 }*/
                 // 判断显示为方柱或显示为线条
-            	int num = StickData.size() - mShowDate;
+            	int num = StickData.size() - mShowDate - currentIndex;
             	if(StickData.size() < maxStickDataNum){
             		mShowDate = maxStickDataNum;
             		stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
             		num = 0;
             	}
                 for (int i = num; i < StickData.size(); i++) {
-                    StickEntity ohlc = StickData.get(i);
-
-                    if (ohlc.isUp()) {
-                        mPaintStick.setColor(stickFillColorUp);
-                    } else {
-                        mPaintStick.setColor(stickFillColorDown);
+                    if(i >=0){
+                        StickEntity ohlc = StickData.get(i);
+    
+                        if (ohlc.isUp()) {
+                            mPaintStick.setColor(stickFillColorUp);
+                        } else {
+                            mPaintStick.setColor(stickFillColorDown);
+                        }
+                        float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
+                                * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                .getAxisMarginTop());
+                        float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
+                                * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                .getAxisMarginTop());
+    
+                        // 绘制数据?��?据宽度判断绘制直线或方柱
+                        if (stickWidth >= 2f) {
+                            canvas.drawRect(stickX, highY + mTitleHeight, stickX + stickWidth, lowY + mTitleHeight,
+                                    mPaintStick);
+                        } else {
+                            canvas.drawLine(stickX, highY + mTitleHeight, stickX, lowY + mTitleHeight, mPaintStick);
+                        }
+    
+                        // X位移
+                        stickX = stickX + 3 + stickWidth;
                     }
-                    float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
-                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                            .getAxisMarginTop());
-                    float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
-                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                            .getAxisMarginTop());
-
-                    // 绘制数据?��?据宽度判断绘制直线或方柱
-                    if (stickWidth >= 2f) {
-                        canvas.drawRect(stickX, highY + mTitleHeight, stickX + stickWidth, lowY + mTitleHeight,
-                                mPaintStick);
-                    } else {
-                        canvas.drawLine(stickX, highY + mTitleHeight, stickX, lowY + mTitleHeight, mPaintStick);
-                    }
-
-                    // X位移
-                    stickX = stickX + 3 + stickWidth;
                 }
                 drawMA(canvas);
             }
@@ -389,28 +392,29 @@ public class StickChart extends GridChart {
                 	addWid = (int) (19 * (stickWidth + 3));
                 }
                 //startX = startX + addWid + stickWidth / 2;
-                int s = lineEntity.getLineData().size();
+                int s = lineEntity.getLineData().size()- currentIndex;
                 if(lineEntity.getLineData().size() < mShowDate){
                 	s =0;
                 	startX = addWid + PADDING_LEFT;
                 }else{
-                	s = lineEntity.getLineData().size() - mShowDate;
+                	s = lineEntity.getLineData().size() - mShowDate - currentIndex;
                 }
                 paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
-                for (int i = s; i < lineEntity.getLineData().size(); i++) {
-                    if (i != s) {
-                        canvas.drawLine(
-                                startX,
-                                startY,
-                                startX + 3 + stickWidth,
-                                (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
-                                        * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                            .getAxisMarginTop()) + mTitleHeight, paint);
-                    }
-                    startX = startX + 3 + stickWidth;
-                    startY = (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
-                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                .getAxisMarginTop()) + mTitleHeight;
+                for (int i = s; i < lineEntity.getLineData().size() && i < s+mShowDate; i++) {
+                        if (i != s && i >0) {
+                            canvas.drawLine(
+                                    startX,
+                                    startY,
+                                    startX + 3 + stickWidth,
+                                    (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
+                                            * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                                .getAxisMarginTop()) + mTitleHeight, paint);
+                        }
+                        startX = startX + 3 + stickWidth;
+                        if(i>=0)
+                        startY = (float) ((1f - (lineEntity.getLineData().get(i) - minValue) / (maxValue - minValue))
+                                * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop()) + mTitleHeight;
                 }
             }
         } catch (Exception e) {

@@ -29,32 +29,32 @@ import com.dkhs.portfolio.utils.ColorTemplate;
  * @date 2014-10-17 下午3:59:21
  * @version 1.0
  */
-public class TimesharingplanChart extends TrendChart {
+public class TimesharingplanChartLand extends TrendChart {
 
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param context
      */
-    public TimesharingplanChart(Context context) {
+    public TimesharingplanChartLand(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
     }
 
-    public TimesharingplanChart(Context context, AttributeSet attrs, int defStyle) {
+    public TimesharingplanChartLand(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
-    public TimesharingplanChart(Context context, AttributeSet attrs) {
+    public TimesharingplanChartLand(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     /**
      * 重新控件大小
      */
-    @Override
+    /*@Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
         int mesasureWidth = measureWidth(widthMeasureSpec);
@@ -64,8 +64,8 @@ public class TimesharingplanChart extends TrendChart {
         // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
         // System.out.println("mesasureWidth:" + mesasureWidth);
         // System.out.println("screenWidth:" + screenWidth);
-        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));
-    }
+        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().y*4/5));
+    }*/
 
     private int measureWidth(int measureSpec) {
         int result = 0;

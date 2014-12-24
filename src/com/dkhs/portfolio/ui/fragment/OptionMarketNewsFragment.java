@@ -63,6 +63,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
         if (bundle != null) {
         	vo = (NewsforImpleEngine) bundle.getSerializable(VO);
         }
+        initView();
         initDate();
 		return view;
 	}
@@ -181,10 +182,10 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
             	}
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
-                    if (first) {
+                    /*if (first) {
                         initView();
                         first = false;
-                    }
+                    }*/
                     mOptionMarketAdapter.notifyDataSetChanged();
 //                    loadFinishUpdateView();
 

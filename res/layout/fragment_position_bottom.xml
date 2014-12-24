@@ -9,7 +9,7 @@
 
     <include
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="180dp"
         layout="@layout/layout_pieview" />
 
     <!-- 涨幅比列表 -->

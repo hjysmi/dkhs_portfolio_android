@@ -109,7 +109,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
     private Calendar mCurrentCalendar;
     private boolean isDefalutRequest = true;
-
+    private Calendar hisDate = null;
     public static FragmentPositionDetail newInstance(String combinationId) {
         FragmentPositionDetail fragment = new FragmentPositionDetail();
 
@@ -589,9 +589,13 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private int mDay;
 
     private void showPickerDate() {
+        if(null != hisDate){
+            mYear = hisDate.get(Calendar.YEAR);
+            mMonth = hisDate.get(Calendar.MONTH);
+            mDay = hisDate.get(Calendar.DAY_OF_MONTH);
+        }
         dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar), null, mYear, mMonth, mDay);
-
         dpg.setTitle(R.string.dialog_select_time_title);
         dpg.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
 
@@ -617,8 +621,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
                 String queryDay = "";
                 if (calSelect.before(calCreate)) {
                     queryDay = TimeUtils.getTimeString(calCreate);
+                    hisDate = calCreate;
                 } else {
                     queryDay = TimeUtils.getTimeString(calSelect);
+                    hisDate = calSelect;
                 }
                 // if (calSelect.before(calToday)) {
                 // btnAdjust.setVisibility(View.GONE);
