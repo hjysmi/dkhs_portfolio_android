@@ -103,7 +103,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         STOCK_DRAWDOWN(3),
         /** 股票，换手率 */
         STOCK_HANDOVER(4),
-        
+
         /** 基金，主要指数 */
         FUND_MAININDEX(5),
         /** 基金，指数 */
@@ -284,7 +284,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
 
-            } else {
+            }
+            if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             }
 
@@ -292,8 +293,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void loadFail(ErrorBundle error) {
-            //
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            if (null == mDataList || mDataList.size() == 0) {
+                initNotice();
+            }
         }
 
     };
