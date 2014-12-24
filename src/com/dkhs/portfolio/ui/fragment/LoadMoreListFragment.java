@@ -38,14 +38,14 @@ import com.dkhs.portfolio.utils.UIUtils;
  */
 public abstract class LoadMoreListFragment extends Fragment implements ILoadDataBackListener, OnLoadMoreListener {
 
-	PullToRefreshListView mListView;
+    PullToRefreshListView mListView;
     // private ListAdapter mAdapter;
     // private BaseSelectActivity mActivity;
 
     // private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
 
-//    private boolean isLoadingMore;
-//    private View mFootView;
+    // private boolean isLoadingMore;
+    // private View mFootView;
     private TextView tvEmptyText;
 
     // LoadMoreDataEngine mLoadDataEngine;
@@ -72,56 +72,57 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     // mListView.setAdapter(mAdapter);
     // }
     // add by zcm -----2014.12.15
-    public void setListViewVisible(){
-    	if(mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)
-    		return;
-    	mListView.setVisibility(View.VISIBLE);
-    	tvEmptyText.setVisibility(View.GONE);
+    public void setListViewVisible() {
+        if (mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)
+            return;
+        mListView.setVisibility(View.VISIBLE);
+        tvEmptyText.setVisibility(View.GONE);
     }
+
     // add by zcm -----2014.12.15
 
     public void setEmptyText(String text) {
-    	mListView.setVisibility(View.GONE);
+        mListView.setVisibility(View.GONE);
         tvEmptyText.setText(text);
         tvEmptyText.setVisibility(View.VISIBLE);
     }
 
     private void initLoadMoreList(View view) {
 
-//        mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
+        // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
-//        mListView.setEmptyView(tvEmptyText);
-//        mListView.addFooterView(mFootView);
+        // mListView.setEmptyView(tvEmptyText);
+        // mListView.addFooterView(mFootView);
         mListView.setAdapter(getListAdapter());
         mListView.setOnItemClickListener(getItemClickListener());
         setListViewInit(mListView);
-//        mListView.removeFooterView(mFootView);
-//        mListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                switch (scrollState) {
-//                    case OnScrollListener.SCROLL_STATE_IDLE:
-//
-//                    {
-//                        // 判断是否滚动到底部
-//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-//                            loadMore();
-//
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
+        // mListView.removeFooterView(mFootView);
+        // mListView.setOnScrollListener(new OnScrollListener() {
+        //
+        // @Override
+        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        //
+        // switch (scrollState) {
+        // case OnScrollListener.SCROLL_STATE_IDLE:
+        //
+        // {
+        // // 判断是否滚动到底部
+        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+        // loadMore();
+        //
+        // }
+        // }
+        //
+        // }
+        //
+        // }
+        //
+        // @Override
+        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //
+        // }
+        // });
 
         // getLoadEngine().loadData();
         loadData();
@@ -134,8 +135,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
                 // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-//            mListView.addFooterView(mFootView);
-//            isLoadingMore = true;
+            // mListView.addFooterView(mFootView);
+            // isLoadingMore = true;
             getLoadEngine().loadMore();
         }
 
@@ -169,12 +170,12 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     //
     // };
 
-//    public void loadFinishUpdateView() {
-//        isLoadingMore = false;
-//        if (mListView != null) {
-//            mListView.removeFooterView(mFootView);
-//        }
-//    }
+    // public void loadFinishUpdateView() {
+    // isLoadingMore = false;
+    // if (mListView != null) {
+    // mListView.removeFooterView(mFootView);
+    // }
+    // }
 
     /**
      * @Title
@@ -185,18 +186,17 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     @Override
     public void loadFinish(MoreDataBean object) {
         if (isAdded()) {
-        	mListView.onLoadMoreComplete();
-        	if (getLoadEngine().getCurrentpage() >= getLoadEngine()
-					.getTotalpage()) {
-        		mListView.setCanLoadMore(false);
-				mListView.setAutoLoadMore(false);
-        	}else{
-        		mListView.setCanLoadMore(true);
-				mListView.setAutoLoadMore(true);
-				if(getLoadEngine().getCurrentpage() == 1)
-					mListView.setOnLoadListener(LoadMoreListFragment.this);
-        	}
-//            loadFinishUpdateView();
+            mListView.onLoadMoreComplete();
+            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+                mListView.setCanLoadMore(false);
+                mListView.setAutoLoadMore(false);
+            } else {
+                mListView.setCanLoadMore(true);
+                mListView.setAutoLoadMore(true);
+                if (getLoadEngine().getCurrentpage() == 1)
+                    mListView.setOnLoadListener(LoadMoreListFragment.this);
+            }
+            // loadFinishUpdateView();
         }
         // if (null != dataList && isAdded()) {
         // if (isRefresh) {
@@ -216,13 +216,14 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
             mListView.setOnItemClickListener(listener);
         }
     }
+
     @Override
-	public void onLoadMore() {
-    	 if (null != getLoadEngine()) {
-             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
-                 return;
-             }
-             getLoadEngine().loadMore();
-         }
-	}
+    public void onLoadMore() {
+        if (null != getLoadEngine()) {
+            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+                return;
+            }
+            getLoadEngine().loadMore();
+        }
+    }
 }
