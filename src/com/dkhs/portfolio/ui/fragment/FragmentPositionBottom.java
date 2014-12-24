@@ -72,7 +72,6 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     // private TextView tvNetValue;
     // private ScrollView mScrollview;
     private ArrayList<PieSlice> pieList = new ArrayList<PieSlice>();
-    private float surValue;
 
     private List<ConStockBean> stockList = new ArrayList<ConStockBean>();
     // 涨幅相关
@@ -275,21 +274,20 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
         View headerView = View.inflate(getActivity(), R.layout.layout_detail_pos_increase_title, null);
         lvStock.addHeaderView(headerView);
         lvStock.setAdapter(stockAdapter);
-        //增加牛人基金持仓明细可点击并跳转至个股行情页----2014.12.12 add by zcm
+        // 增加牛人基金持仓明细可点击并跳转至个股行情页----2014.12.12 add by zcm
         lvStock.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				position -= 1;
-				if(position >= 0 && position < stockList.size()){
-					 ConStockBean selectBean = stockList.get(position);
-	                 SelectStockBean sStockBean = SelectStockBean.copy(selectBean);
-	                 sStockBean.symbol_type = "1";
-	                 startActivity(StockQuotesActivity.newIntent(getActivity(), sStockBean));
-				}
-			}
-		});
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                position -= 1;
+                if (position >= 0 && position < stockList.size()) {
+                    ConStockBean selectBean = stockList.get(position);
+                    SelectStockBean sStockBean = SelectStockBean.copy(selectBean);
+                    sStockBean.symbol_type = "1";
+                    startActivity(StockQuotesActivity.newIntent(getActivity(), sStockBean));
+                }
+            }
+        });
     }
 
     private void setPieList() {
@@ -303,25 +301,25 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
             pieList.add(slice1);
 
         }
-        surpulsValue();
+        // surpulsValue();
         PieSlice emptySlice = new PieSlice();
         emptySlice.setColor(ColorTemplate.DEF_RED);
-        emptySlice.setValue(surValue);
+        emptySlice.setValue(mPositionDetail.getFund_percent());
         pieList.add(emptySlice);
 
         pgView.setSlices(pieList);
 
     }
 
-    private float surpulsValue() {
-        float total = 100;
-        for (int i = 0; i < stockList.size(); i++) {
-            total -= stockList.get(i).getPercent();
-        }
-        surValue = total;
-
-        return total;
-    }
+    // private float surpulsValue() {
+    // float total = 100;
+    // for (int i = 0; i < stockList.size(); i++) {
+    // total -= stockList.get(i).getPercent();
+    // }
+    // surValue = total;
+    //
+    // return total;
+    // }
 
     /**
      * @Title
@@ -342,7 +340,8 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
             case R.id.btn_adjust_position: {
 
                 // todo :持仓调整
-                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), mPositionDetail.getPortfolio().getId()));
+                getActivity().startActivity(
+                        PositionAdjustActivity.newIntent(getActivity(), mPositionDetail.getPortfolio().getId()));
 
             }
 

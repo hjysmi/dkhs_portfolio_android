@@ -20,10 +20,13 @@ import org.json.JSONObject;
 
 import com.dkhs.portfolio.bean.FundsPriceBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName FundDataEngine
@@ -35,9 +38,9 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 public class FundDataEngine extends LoadSelectDataEngine {
 
     // private static final String ORDER_BY_DAY = "percent_day";
-    private static final String ORDER_BY_MONTH = "percent_month";
-    private static final String ORDER_BY_YEAR = "percent_year";
-    private static final String ORDER_BY_TYEAR = "percent_tyear";
+    private static final String ORDER_BY_MONTH = "-percent_month";
+    private static final String ORDER_BY_YEAR = "-percent_year";
+    private static final String ORDER_BY_TYEAR = "-percent_tyear";
     // private static final String ORDER_BY_SEASON = "percent_season";
 
     public static final String TYPE_MAININDEX = "all";
@@ -79,21 +82,21 @@ public class FundDataEngine extends LoadSelectDataEngine {
 
     @Override
     public void loadMore() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        params.add(valuePair);
-        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist + "?exchange=1,2&sort=" + orderType, null, params,
-        // this);
 
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.Fund.fundsList, mFundsType, mOrderType.getType()), null,
-                params, this);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("type", mFundsType);
+        params.addQueryStringParameter("sort", mOrderType.getType());
+        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 
     @Override
     public void loadData() {
-        System.out.println("Load FundDataEngine");
-        DKHSClient.requestByGet(this, DKHSUrl.Fund.fundsList, mFundsType, mOrderType.getType());
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("type", mFundsType);
+        params.addQueryStringParameter("sort", mOrderType.getType());
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 

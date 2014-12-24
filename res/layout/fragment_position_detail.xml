@@ -61,9 +61,6 @@
                 android:layout_below="@id/btn_detail_date"
                 android:background="@color/person_setting_line" />
 
-           
-
-
             <!-- 持仓配置 -->
 
             <RelativeLayout
@@ -112,7 +109,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <View style="@style/divider_line" />
+            <View
+                style="@style/divider_line"
+                android:visibility="gone" />
             <!-- 净值贡献 -->
 
             <TextView

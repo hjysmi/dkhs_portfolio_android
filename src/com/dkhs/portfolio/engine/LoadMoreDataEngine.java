@@ -59,12 +59,12 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     protected void afterParseData(MoreDataBean object) {
 
         if (null != object) {
-            if (null != iLoadListener) {
-                iLoadListener.loadFinish(object);
-            }
             setTotalcount(object.getTotalCount());
             setTotalpage(object.getTotalPage());
             setCurrentpage(object.getCurrentPage());
+            if (null != iLoadListener) {
+                iLoadListener.loadFinish(object);
+            }
 
         }
     }

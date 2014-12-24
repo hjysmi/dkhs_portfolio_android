@@ -126,17 +126,17 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
         super.loadFinish(object);
         if (null != object.getResults() && object.getResults().size() > 0) {
-        	// add by zcm -----2014.12.15
-        	setListViewVisible();
-        	// add by zcm -----2014.12.15
+            // add by zcm -----2014.12.15
+            setListViewVisible();
+            // add by zcm -----2014.12.15
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
-//            PromptManager.closeProgressDialog();
+            // PromptManager.closeProgressDialog();
         } else {
             if (mOrderType.contains(ORDER_TYPE_DAY)) {
-            	// modify by zcm -----2014.12.15
+                // modify by zcm -----2014.12.15
                 setEmptyText("还没有开盘,请耐心等待");
                 // modify by zcm -----2014.12.15
             } else if (mOrderType.contains(ORDER_TYPE_WEEK)) {
@@ -153,16 +153,18 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         }
 
     }
+
     Handler dataHandler = new Handler() {
-    	
+
     };
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        	loadData();
-        	dataHandler.postDelayed(this, 60 * 1000);
+            loadData();
+            dataHandler.postDelayed(this, 60 * 1000);
         }
     };
+
     @Override
     public void onPause() {
 
@@ -170,28 +172,30 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         MobclickAgent.onPageEnd(mPageName);
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
-    
-    @Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		MobclickAgent.onPageStart(mPageName);
-	}
-    
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		// TODO Auto-generated method stub
-		if(isVisibleToUser){
-			dataHandler.postDelayed(runnable, 60 * 1000);
-		}
-		super.setUserVisibleHint(isVisibleToUser);
-	}
 
-	@Override
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        MobclickAgent.onPageStart(mPageName);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        if (isVisibleToUser) {
+            dataHandler.postDelayed(runnable, 60 * 1000);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
+            System.out.println("getLoadEngine new FundsOrderEngineImpl");
             orderEngine = new FundsOrderEngineImpl(this, mOrderType);
         }
+        System.out.println("getLoadEngine not new ");
         return orderEngine;
     }
 
@@ -205,10 +209,11 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
                 getActivity().startActivity(
                         OrderFundDetailActivity.getIntent(getActivity(),
-                                CombinationBean.parse(mDataList.get(position)), true,mOrderType));
+                                CombinationBean.parse(mDataList.get(position)), true, mOrderType));
             }
         };
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
 
 }
