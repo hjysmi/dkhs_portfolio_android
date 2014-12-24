@@ -8,40 +8,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.FiveRangeItem;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
-import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
-import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
-import com.dkhs.portfolio.ui.fragment.NewsFragment;
-import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
-import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
-import com.dkhs.portfolio.ui.widget.HScrollTitleView;
-import com.dkhs.portfolio.ui.widget.InterceptScrollView;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.StockUitls;
-import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
-import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -49,19 +18,36 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewStub;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.FiveRangeItem;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
+import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.InterceptScrollView;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.StockUitls;
+import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class KChartLandScapeActivity extends FragmentActivity implements OnClickListener, ITouchListener, Serializable {
 
@@ -88,6 +74,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	 /**
 		 * 
 		 */
+	    //private LinearLayout landKlineLayout;
 	    private static final long serialVersionUID = 15121212311111156L;
 
 	    private SelectStockBean mStockBean;
@@ -116,16 +103,17 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	    private StockQuotesChartLandFragment mStockQuotesChartFragment;
 	    private View viewHeader;
 	    private String symbolType;
-
-	    public static Intent newIntent(Context context, SelectStockBean bean) {
+	    public static final String TYPE = "type";
+	    private int type;
+	    public static Intent newIntent(Context context, SelectStockBean bean,int type) {
 	        Intent intent = new Intent(context, KChartLandScapeActivity.class);
-
+	        intent.putExtra(TYPE, type);
 	        intent.putExtra(EXTRA_STOCK, bean);
 
 	        return intent;
 	    }
 
-	    /*@Override
+	    @Override
 	    protected void onNewIntent(Intent intent) {
 
 	        super.onNewIntent(intent);
@@ -134,7 +122,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
 	        processExtraData();
 
-	    }*/
+	    }
 
 	    private void processExtraData() {
 
@@ -168,6 +156,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
 	    private void handleExtras(Bundle extras) {
 	        mStockBean = (SelectStockBean) extras.getSerializable(EXTRA_STOCK);
+	        type = extras.getInt(TYPE);
 	    }
 	    private boolean isIndexType() {
 	        return null != mStockBean && mStockBean.symbol_type != null
@@ -178,6 +167,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	    private TextView landKlinTextValum;
 	    private TextView landKlinTextData;
 	    private void initView() {
+	        //landKlineLayout = (LinearLayout) findViewById(R.id.land_kline_layout);
 	        hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
 	        String[] titleArray = getResources().getStringArray(R.array.quotes_title);
 	        hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -187,8 +177,9 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        landKlinTextPrice = (TextView) findViewById(R.id.land_klin_text_price);
 	        landKlinTextValum = (TextView) findViewById(R.id.land_klin_text_valum);
 	        landKlinTextData = (TextView) findViewById(R.id.land_klin_text_data);
+	        hsTitle.setSelectIndex(type);
 	        // stockLayout.setOnTouchListener(new OnLayoutlistener());
-	        //initTabPage();
+	       // initTabPage();
 	        // setupViewData();
 	        
 	        // scrollview + listview 会滚动到底部，需要滚动到头部
@@ -228,7 +219,14 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        @Override
 	        public void onSelectPosition(int position) {
 	            if (null != pager) {
+	                /*if(position == 0){
+                        landKlineLayout.setVisibility(View.GONE);
+                    }else{
+                        landKlineLayout.setVisibility(View.VISIBLE);
+                    }*/
 	                pager.setCurrentItem(position);
+	                
+	                
 	            }
 	        }
 	    };
@@ -372,7 +370,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        pager.setCanScroll(false);
 	        pager.setOffscreenPageLimit(4);
 	        pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
-
 	        // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
 	        // indicator.setViewPager(pager);
 
@@ -451,12 +448,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
 	    // Handler quoteHandler = new Handler();
 
-	    public void onStart() {
-	        super.onStart();
 
-	        quoteHandler.postDelayed(runnable, 6);// 打开定时器，60ms后执行runnable操作
-
-	    };
 
 	    public void onStop() {
 	        super.onStop();
@@ -570,6 +562,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	    		  setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 	    		 }
 	        super.onResume();
+	        quoteHandler.postDelayed(runnable, 6);
 	        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 	        MobclickAgent.onResume(this);
 	    }

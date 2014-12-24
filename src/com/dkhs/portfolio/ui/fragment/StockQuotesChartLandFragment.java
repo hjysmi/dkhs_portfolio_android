@@ -42,6 +42,7 @@ import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
+import com.dkhs.portfolio.ui.widget.TimesharingplanChartLand;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -71,7 +72,7 @@ public class StockQuotesChartLandFragment extends Fragment {
     private String trendType;
     private boolean isTodayNetValue;
 
-    private TimesharingplanChart mMaChart;
+    private TimesharingplanChartLand mMaChart;
 
     private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
@@ -189,8 +190,8 @@ public class StockQuotesChartLandFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
-        mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
+        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart_land, null);
+        mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
         initMaChart(mMaChart);
         initView(view);
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
@@ -368,7 +369,7 @@ public class StockQuotesChartLandFragment extends Fragment {
     private StockQuotesBean mStockBean;
 
     public void setStockQuotesBean(StockQuotesBean bean) {
-        if (isAdded()) {
+        if (isAdded() && null != bean) {
 
             this.mStockBean = bean;
             mHandler.sendEmptyMessage(111);
@@ -389,7 +390,8 @@ public class StockQuotesChartLandFragment extends Fragment {
                 mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
-
+                mBuyAdapter.notifyDataSetChanged();
+                mSellAdapter.notifyDataSetChanged();
             }
 
             if (isStopStock() || null == lineDataList || lineDataList.size() < 1) {
@@ -430,7 +432,7 @@ public class StockQuotesChartLandFragment extends Fragment {
                 if (null != m &&UIUtils.roundAble(m)) {
                     dataHandler.removeCallbacks(runnable);
                 }
-
+                setStockQuotesBean(m);
                 if (fsDataBean != null) {
                     mFsDataBean.setCurtime(fsDataBean.getCurtime());
                     if (null == mFsDataBean.getMainstr()) {

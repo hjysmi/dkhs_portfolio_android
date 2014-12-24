@@ -949,7 +949,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 				}*/
 				setCurrentData();
 				postInvalidate();
-				mVolumnChartView.onSet(e,ismove,mDataStartIndext);
+				mVolumnChartView.onSet(e,false,mDataStartIndext);
 				
 			}
 			Log.e("hor", hor + " ----" + horizontalSpacing);
