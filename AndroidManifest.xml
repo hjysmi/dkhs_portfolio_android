@@ -115,7 +115,7 @@
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
-            android:name="com.dkhs.portfolio.ui.CopyMessageDialog"
+            android:name="com.dkhs.portfolio.ui.SelectPhoneFromSystem"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name="com.dkhs.portfolio.ui.GettingUrlForAPPActivity"

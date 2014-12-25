@@ -43,7 +43,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
-public class CopyMessageDialog extends Activity implements OnClickListener {
+public class SelectPhoneFromSystem extends Activity implements OnClickListener {
 	private File file_go;
 	private UserEngineImpl mUserEngineImpl;
 	private Context context;
