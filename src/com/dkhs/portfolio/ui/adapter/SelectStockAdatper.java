@@ -37,10 +37,17 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private Context context;
+    private boolean isDefColor;
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         this.context = context;
+    }
+
+    public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
+        super(context, datas);
+        this.context = context;
+        this.isDefColor = isdefcolor;
     }
 
     @Override
@@ -99,7 +106,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             // viewHolder.tvIncreaseValue.setVisibility(View.VISIBLE);
         }
         ColorStateList textCsl = null;
-        if (StockUitls.isDelistStock(item.list_status) || item.isStop) {
+        if (StockUitls.isDelistStock(item.list_status) || item.isStop || isDefColor) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);

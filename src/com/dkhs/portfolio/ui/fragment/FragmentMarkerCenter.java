@@ -6,9 +6,12 @@ import java.util.TimerTask;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -34,10 +37,12 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public static final int TYPE_STOCK_AMPLI_UP = 0x30;
     public static final int TYPE_PLATE_UP = 0x12;
     public static final int TYPE_PLATE_DOWN = 0x22;
+    public static final int TYPE_PLATEDETAIL_UP = 0x13;
+    public static final int TYPE_PLATEDETAIL_DOWN = 0x23;
 
     private int mType;
 
-    private FragmentSelectStockFund loadDataListFragment;
+    private Fragment loadDataListFragment;
 
     // 按降序排序
     // private boolean iSortAscend = true;
@@ -53,6 +58,9 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private boolean start = false;
 
     private WeakReference<MarketListActivity> mWeakActivity;
+
+    private String mPlateName;
+    private String mPlateId;
 
     public static FragmentMarkerCenter initFrag(int type) {
         FragmentMarkerCenter fragment = new FragmentMarkerCenter();
@@ -70,6 +78,16 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         if (null != b) {
             mType = b.getInt(KEY_TYPE);
         }
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+    }
+
+    private void handleExtras(Bundle extras) {
+        mPlateName = extras.getString(MarketListActivity.EXTRA_PLATE_NAME);
+        mPlateId = extras.getString(MarketListActivity.EXTRA_PLATE_ID);
+
     }
 
     /**
@@ -102,10 +120,10 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         tvUpDown = (TextView) view.findViewById(R.id.market_text_change);
         marketLayoutUpanddown = (LinearLayout) view.findViewById(R.id.market_layout_upanddown);
         ivCenter = (ImageView) view.findViewById(R.id.market_icon_center);
-        marketLayoutUpanddown.setOnClickListener(this);
         marketIconUpDown.setVisibility(View.VISIBLE);
         if (mType == TYPE_STOCK_UP || mType == TYPE_STOCK_DOWN || mType == TYPE_STOCK_AMPLI_UP
-                || mType == TYPE_STOCK_TURN_UP) {
+                || mType == TYPE_STOCK_TURN_UP || mType == TYPE_PLATEDETAIL_UP) {
+            marketLayoutUpanddown.setOnClickListener(this);
             marketTextIndex.setText(R.string.market_stock_name);
             marketTextEdition.setText(R.string.market_current_value);
         } else if (mType == TYPE_PLATE_UP || mType == TYPE_PLATE_DOWN) {
@@ -114,6 +132,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             tvUpDown.setText(R.string.plate_leader_stock);
             marketIconUpDown.setVisibility(View.GONE);
             ivCenter.setVisibility(View.VISIBLE);
+            marketTextEdition.setOnClickListener(this);
 
         }
     }
@@ -149,7 +168,26 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             }
                 break;
             case TYPE_STOCK_TURN_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
+                loadDataListFragment = FragmentSelectStockFund
+                        .getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
+            }
+                break;
+            case TYPE_PLATE_UP: {
+                loadDataListFragment = HotPlateFragment.getFragment(HotPlateFragment.ORDER_TYPE_UP);
+            }
+                break;
+            case TYPE_PLATE_DOWN: {
+                loadDataListFragment = HotPlateFragment.getFragment(HotPlateFragment.ORDER_TYPE_DOWN);
+            }
+                break;
+            case TYPE_PLATEDETAIL_UP: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragmentByPlate(StockViewType.MARKET_PLATE_LIST,
+                        mPlateId);
+            }
+                break;
+            case TYPE_PLATEDETAIL_DOWN: {
+                loadDataListFragment = FragmentSelectStockFund.getStockFragmentByPlate(
+                        StockViewType.MARKET_PLATE_LIST_ACE, mPlateId);
             }
                 break;
 
@@ -166,12 +204,14 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         int iconResId = 0;
         switch (type) {
             case TYPE_INLAND_INDEX_UP:
+            case TYPE_PLATEDETAIL_UP:
             case TYPE_STOCK_UP: {
                 tvTextResId = R.string.market_up_ratio;
                 iconResId = R.drawable.market_icon_down;
             }
                 break;
             case TYPE_INLAND_INDEX_DWON:
+            case TYPE_PLATEDETAIL_DOWN:
             case TYPE_STOCK_DOWN: {
                 tvTextResId = R.string.market_down_ratio;
                 iconResId = R.drawable.market_icon_up;
@@ -198,6 +238,16 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
                 iconResId = R.drawable.market_icon_up;
             }
                 break;
+
+            case TYPE_PLATE_DOWN: {
+                ivCenter.setImageResource(R.drawable.market_icon_up);
+            }
+                break;
+            case TYPE_PLATE_UP: {
+                ivCenter.setImageResource(R.drawable.market_icon_down);
+
+            }
+                break;
             default:
                 break;
         }
@@ -213,7 +263,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.market_layout_upanddown) {
+        if (v.getId() == R.id.market_layout_upanddown || v.getId() == R.id.market_text_edition) {
             switch (mType) {
                 case TYPE_STOCK_DOWN: {
                     mType = TYPE_STOCK_UP;
@@ -261,6 +311,26 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
                 }
                     break;
+                case TYPE_PLATE_UP: {
+                    mType = TYPE_PLATE_DOWN;
+
+                }
+                    break;
+                case TYPE_PLATE_DOWN: {
+                    mType = TYPE_PLATE_UP;
+
+                }
+                    break;
+                case TYPE_PLATEDETAIL_DOWN: {
+                    mType = TYPE_PLATEDETAIL_UP;
+
+                }
+                    break;
+                case TYPE_PLATEDETAIL_UP: {
+                    mType = TYPE_PLATEDETAIL_DOWN;
+
+                }
+                    break;
 
                 default:
                     break;
@@ -299,8 +369,10 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
         @Override
         public void run() {
+            if (loadDataListFragment instanceof FragmentSelectStockFund) {
 
-            loadDataListFragment.refreshForMarker();
+                ((FragmentSelectStockFund) loadDataListFragment).refreshForMarker();
+            }
         }
     }
 

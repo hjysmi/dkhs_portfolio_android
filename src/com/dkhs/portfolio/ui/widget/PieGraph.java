@@ -50,12 +50,12 @@ public class PieGraph extends View {
 
         canvas.drawColor(Color.TRANSPARENT);
 
-//        int sum = 0;
-//        for (PieSlice pieS : slices) {
-//            System.out.println("" + pieS.getValue());
-//            sum += pieS.getValue();
-//        }
-//        System.out.println("sum:" + sum);
+        // int sum = 0;
+        // for (PieSlice pieS : slices) {
+        // System.out.println("" + pieS.getValue());
+        // sum += pieS.getValue();
+        // }
+        // System.out.println("sum:" + sum);
 
         paint.reset();
         paint.setAntiAlias(true);
@@ -103,7 +103,7 @@ public class PieGraph extends View {
             paint.setColor(slice.getColor());
             RectF rectF;
             currentSweep = (slice.getValue() / maxValue) * (360);
-            currentSweep = currentSweep == 360 ? 359.99f : currentSweep;
+            currentSweep = currentSweep == 360 ? 359.999f : currentSweep;
             rectF = new RectF(paddingLeft, midY - radius, paddingLeft + 2 * radius, midY + radius);
             p.arcTo(rectF, currentAngle + arcPadding, currentSweep - arcPadding);
             RectF innerRectF = new RectF(paddingLeft + circleWidth, midY - innerRadius, paddingLeft + circleWidth
