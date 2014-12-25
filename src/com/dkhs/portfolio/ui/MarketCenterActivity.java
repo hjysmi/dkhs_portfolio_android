@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -173,13 +174,13 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
     private void initData() {
         new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_INCREASE),
-                OpitionCenterStockEngineImple.ORDER_INCREASE, 10).loadData();
+                StockViewType.MARKET_STOCK_UPRATIO, 10).loadData();
         new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_DOWN),
-                OpitionCenterStockEngineImple.ORDER_DOWN, 10).loadData();
+                StockViewType.MARKET_STOCK_DOWNRATIO, 10).loadData();
         new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_TURNOVER),
-                OpitionCenterStockEngineImple.ORDER_TURNOVER, 10).loadData();
+                StockViewType.MARKET_STOCK_TURNOVER, 10).loadData();
         new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_AMPLITU),
-                OpitionCenterStockEngineImple.ORDER_AMPLITU, 10).loadData();
+                StockViewType.MARKET_STOCK_AMPLIT, 10).loadData();
         new MarketCenterStockEngineImple(new StockLoadDataListener(INLAND_INDEX), MarketCenterStockEngineImple.CURRENT,
                 3).loadData();
 
