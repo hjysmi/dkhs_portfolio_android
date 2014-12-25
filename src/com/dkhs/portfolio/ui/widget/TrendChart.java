@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -20,7 +21,9 @@ import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
@@ -76,6 +79,8 @@ public class TrendChart extends TrendGridChart {
     private static final int TOUCH_SLOP = 20;
     private InterceptScrollView mScrollview;
     private boolean moves = false;
+    private Context context;
+    private SelectStockBean mStockBean = null;
     public TrendChart(Context context) {
         super(context);
         init();
@@ -172,6 +177,7 @@ public class TrendChart extends TrendGridChart {
     						if(moves){
     							mCounter++;
     			                isTouch = true;
+    			                moves = false;
     			                if (null != mTouchListener) {
     			                    mTouchListener.chartTounching();
     			                }
@@ -200,8 +206,12 @@ public class TrendChart extends TrendGridChart {
     			}
             	break;
             case MotionEvent.ACTION_UP:
+                if(moves &&!isTouch && null != mStockBean){
+                    Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean,0);
+                    context.startActivity(intent);
+                }
                 isTouch = false;
-                moves = true;
+                moves = false;
                 // 释放了
                 isReleased = true;
                 if (null != mTouchListener) {
@@ -224,7 +234,7 @@ public class TrendChart extends TrendGridChart {
 	            /*
 	             * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
 	             */
-	            if (event.getPointerCount() == 1 ) {
+	            if (event.getPointerCount() == 1) {
 	            	if (null != mTouchListener) {
 	                    mTouchListener.chartTounching();
 	                }
@@ -1011,5 +1021,15 @@ public class TrendChart extends TrendGridChart {
     // public void setDrawDashLine(boolean isDrawDashLine) {
     // this.isDrawDashLine = isDrawDashLine;
     // }
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
+    public SelectStockBean getmStockBean() {
+        return mStockBean;
+    }
+
+    public void setmStockBean(SelectStockBean mStockBean) {
+        this.mStockBean = mStockBean;
+    }
 }

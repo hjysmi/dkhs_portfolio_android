@@ -3,181 +3,138 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-	<LinearLayout 
-	    android:layout_height="wrap_content"
-	    android:layout_width="match_parent"
-	    android:paddingLeft="10dp"
-	    android:orientation="horizontal"
-	    >
-	    <LinearLayout 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:layout_weight="1"
-	        android:layout_gravity="center_vertical"
-	        android:orientation="horizontal"
-	        >
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:text="民生银行"
-	        android:textColor="@color/black"
-	        android:id="@+id/land_klin_text_title"
-	        />
-	    </LinearLayout>
-	    <LinearLayout 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:layout_weight="1"
-	        android:layout_gravity="center_vertical"
-	        android:orientation="horizontal"
-	        >
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="5dp"
-	        android:text="39.93"
-	        android:id="@+id/land_klin_text_price"
-	        />
-	    </LinearLayout>
-	    <LinearLayout 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:layout_weight="1"
-	        android:layout_gravity="center_vertical"
-	        android:orientation="horizontal"
-	        >
-	        
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="5dp"
-	        android:text="成交量"
-	        android:textColor="@color/theme_gray_press"
-	        android:id="@+id/land_klin_text_valumNmae"
-	        />
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="5dp"
-	        android:text="9.63万手"
-	        android:textColor="@color/black"
-	        android:id="@+id/land_klin_text_valum"
-	        />
-	    </LinearLayout>
-	    <LinearLayout 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:layout_weight="1"
-	        android:layout_gravity="center_vertical"
-	        android:orientation="horizontal"
-	        >
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="5dp"
-	        android:text="时间"
-	        android:textColor="@color/theme_gray_press"
-	        android:id="@+id/land_klin_text_data_name"
-	        />
-	    <TextView 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:paddingLeft="5dp"
-	        android:text="12:05"
-	        android:textColor="@color/black"
-	        android:id="@+id/land_klin_text_data"
-	        />
-	    </LinearLayout>
-	    <LinearLayout 
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:layout_gravity="right"
-	        android:orientation="horizontal"
-	        >
-	    <ImageView
-	        android:layout_height="wrap_content"
-	        android:layout_width="wrap_content"
-	        android:src="@drawable/btn_del_item_selector"
-	        android:padding="5dp"
-	        android:id="@+id/lank_klind_exit"
-	        />
-	    </LinearLayout>
-	</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/land_klin_text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="民生银行"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/land_klin_text_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="39.93" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/land_klin_text_valumNmae"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="成交量"
+                android:textColor="@color/theme_gray_press" />
+
+            <TextView
+                android:id="@+id/land_klin_text_valum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="9.63万手"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/land_klin_text_data_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="时间"
+                android:textColor="@color/theme_gray_press" />
+
+            <TextView
+                android:id="@+id/land_klin_text_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:text="12:05"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/lank_klind_exit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:src="@drawable/btn_del_item_selector" />
+        </LinearLayout>
+    </LinearLayout>
+
     <com.dkhs.portfolio.ui.widget.HScrollTitleView
         android:id="@+id/hs_title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <View style="@style/divider_line" 
+        android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"/>
+        android:layout_marginRight="10dp" />
+
+    <View
+        style="@style/divider_line"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:id="@+id/land_kline_layout"
+        <RelativeLayout
+            android:id="@+id/land_kline_layouts"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/layout_back"
-            android:orientation="vertical"
-            android:padding="10dp" >
+            android:layout_height="match_parent" >
 
-            <TextView
-                style="@style/edit_style_land_kilne"
-                android:text="不复权" />
-
-            <TextView
-                style="@style/edit_style_land_kilne"
-                android:text="前复权" />
-
-            <TextView
-                style="@style/edit_style_land_kilne"
-                android:text="后复权" />
-
-            <include layout="@layout/layout_line" />
-
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:scrollbars="none"
-                android:layout_height="wrap_content" >
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-
-                    <TextView
-                        style="@style/edit_style_land_kilne"
-                        android:text="VOL" />
-
-                    <TextView
-                        style="@style/edit_style_land_kilne"
-                        android:text="MACD" />
-
-                    <TextView
-                        style="@style/edit_style_land_kilne"
-                        android:text="KDJ" />
-
-                    <TextView
-                        style="@style/edit_style_land_kilne"
-                        android:text="RSI" />
-                </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
+            
+        </RelativeLayout>
 
         <com.dkhs.portfolio.ui.widget.ScrollViewPager
             android:id="@+id/pager"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/land_kline_layout"
-            android:paddingLeft="10dp"
-            android:paddingBottom="10dp" />
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/land_kline_layouts"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp" />
     </RelativeLayout>
 
 </LinearLayout>

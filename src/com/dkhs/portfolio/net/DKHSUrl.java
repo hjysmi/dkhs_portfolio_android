@@ -22,9 +22,9 @@ public class DKHSUrl {
 
     // 开发
     public static final String BASE_DEV_URL = "http://dev.dkhs.com:8010";
-    //正式
+    // 正式
     public static final String BASE_DEV_MAIN = "https://www.dkhs.com";
-    //服务器
+    // 服务器
     public static final String BASE_DEV_TAG = "http://dev.dkhs.com:8050";
 
     // public static final String BASE_URL = "http://192.168.107.251:8010";
@@ -56,21 +56,14 @@ public class DKHSUrl {
 
     public interface StockSymbol {
         // 自选股列表
-        // String optional = "/api/v1/symbolfollow/";
-        // String optional = "/api/v1/symbolfollow/mysymbols/";
         String optional = "/api/v1/symbols/following/";
+
         // 股票列表查询
-        // /api/v1/quotes/symbols/{exchange}/{sort}/
-
-        // http://192.168.107.251:8002/api/v1/symbols/?exchange=1&sort=change
-
-        String stocklist = "/api/v1/symbols/?exchange={0}&sort={1}&symbol_type={2}&page_size=50";
+        String stocklist = "/api/v1/symbols/";
 
         // 查股票实时行情信息，包含5档信息
-        // http://192.168.107.251:8002/api/v1/symbols/SZ000002/quote/
         String quotes = "/api/v1/symbols/{0}/quote/";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
-        // http://192.168.107.251:8002/api/v1/symbols/101000100/unfollow/
         String unfollow = "/api/v1/symbols/{0}/unfollow/";
 
         // GET /api/v1/quotes/symbols_profile/
@@ -78,10 +71,6 @@ public class DKHSUrl {
 
         // k线图数据
         String kline = "/api/v1/symbols/{0}/k_line/";
-
-        // GET /api/v1/quotes/fs_thumbnail/SZ000002/
-        // 返回当日缩略图分时数据
-        // http://192.168.107.251:8002/api/v1/symbols/SZ000002/time_line/?period=1
 
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
         // 行情中心 指数排行
@@ -91,26 +80,17 @@ public class DKHSUrl {
     }
 
     public interface NetValue {
-        // /api/v1/portfolio/query_daily_netvalue/
-        // GET /api/v1/portfolio/{pk}/netvalue_daily_chart/
         String queryDaily = "/api/v1/portfolio/{0}/netvalue_daily_chart/";
 
-        // http://192.168.107.251:8000/api/v1/portfolio/query_netvalue/?portfolio_id=525
-        // String queryToday = "/api/v1/portfolio/query_netvalue/";
         String queryToday = "/api/v1/portfolio/{0}/netvalue_realtime_chart/";
 
-        // http://192.168.107.251:8000/api/v1/portfolio/query_combination_netvalue/?portfolio_id=508&page_size=7
-        // String report = "/api/v1/portfolio/query_combination_netvalue/";
-        // /api/v1/portfolio/{pk}/netvalue_history/
         String report = "/api/v1/portfolio/{0}/netvalue_history/";
         String queryDetailPosition = "/api/v1/portfolio/{0}/get_detailed_positions/";
     }
 
     public interface Fund {
-        // http://192.168.107.251:8002/api/v1/symbols/funds/?type=1&sort=percent_month
-        String fundsList = "/api/v1/symbols/funds/?type={0}&sort={1}";
-        String mainIndexList = "/api/v1/symbols/?symbol_type=5&is_midx=1&sort={0}";
-        // http://192.168.107.251:8002/api/v1/symbols/106000082%2C106000232/quote_history/?from_date=2014-09-01&to_date=2014-10-08
+        String fundsList = "/api/v1/symbols/funds/";
+        String mainIndexList = "/api/v1/symbols/";
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
 
     }
@@ -137,7 +117,7 @@ public class DKHSUrl {
         String register = "/api/v1/accounts/signup/";
         // 绑定第三方
         String bingdings = "/api/v1/accounts/social_bindings/";
-   
+
         // 获取验证码
         String get_vericode = "/api/v1/accounts/new_mobile_captcha/";
         String check_vericode = "/api/v1/accounts/verify_mobile_captcha/";
@@ -148,7 +128,7 @@ public class DKHSUrl {
         // 修改密码
         String changepassword = "/api/v1/accounts/change_password/";
         String checkMobile = "/api/v1/accounts/check_mobile/?mobile={0}";
-        //绑定邮箱
+        // 绑定邮箱
         String boundemail = "/api/v1/accounts/bind_email/?email={0}";
         // 设置昵称
         String setUserName = "/api/v1/accounts/set_username/";

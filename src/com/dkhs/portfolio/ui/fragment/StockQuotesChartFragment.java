@@ -191,6 +191,8 @@ public class StockQuotesChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
+        mMaChart.setContext(getActivity());
+        mMaChart.setmStockBean(((StockQuotesActivity)getActivity()).getmStockBean());
         initMaChart(mMaChart);
         initView(view);
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type

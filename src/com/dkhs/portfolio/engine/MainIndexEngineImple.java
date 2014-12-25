@@ -24,6 +24,8 @@ import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName QuetosStockEngineImple
@@ -67,27 +69,24 @@ public class MainIndexEngineImple extends LoadSelectDataEngine {
 
     @Override
     public void loadMore() {
-        // int pageIndex = getCurrentpage() + 1;
-        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist, new String[] { EXCHANGE, orderType },new String[]
-        // this);
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        params.add(valuePair);
-        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist + "?exchange=1,2&sort=" + orderType, null, params,
-        // this);
-        // DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.stocklist+"&page="+, "1,2", orderType),
-        // null, params,
-        // this);
 
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.Fund.mainIndexList, orderType) + "&page="
-                + (getCurrentpage() + 1), null, this);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("symbol_type", "5");
+        params.addQueryStringParameter("is_midx", "1");
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
+
     }
 
     @Override
     public void loadData() {
 
-        // DKHSClient.requestByGet(DKHSUrl.StockSymbol.stocklist+"?exchange=1,2&sort="+orderType, null, this);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.Fund.mainIndexList, orderType), null, this);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("symbol_type", "5");
+        params.addQueryStringParameter("is_midx", "1");
+        params.addQueryStringParameter("sort", orderType);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
 
     }
 

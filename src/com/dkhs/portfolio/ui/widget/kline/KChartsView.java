@@ -37,7 +37,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	private final static int DOWN = 1;
 	private final static int MOVE = 2;
 	private final static int ZOOM = 3;
-
+	private int type = -1;
 	/** 默认Y轴字体颜色 **/
 	private static final int DEFAULT_AXIS_Y_TITLE_COLOR = Color.GRAY;
 
@@ -921,7 +921,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 mTouchListener.loseTouching();
             }
 			if(!showDetails &&  go){
-				Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean);
+				Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean,type);
             	context.startActivity(intent);
 			}
 				showDetails = false;
@@ -1330,5 +1330,13 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	public void setmStockBean(SelectStockBean mStockBean) {
 		this.mStockBean = mStockBean;
 	}
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 	
 }
