@@ -139,7 +139,7 @@ public class KChartsLandFragment extends Fragment {
         mMyChartsView.setAxisColor(Color.LTGRAY);
         mMyChartsView.setLongiLatitudeColor(Color.LTGRAY);
         mMyChartsView.setBorderColor(Color.LTGRAY);
-        mMyChartsView.setDisplayLongitude(false);
+        mMyChartsView.setDisplayLongitude(true);
         mMyChartsView.setDisplayAxisXTitle(false);
         mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
         mMyChartsView.setITouchListener(mTouchListener);
@@ -199,7 +199,7 @@ public class KChartsLandFragment extends Fragment {
         mVolumnChartView.setDisplayAxisXTitle(true);
         mVolumnChartView.setDisplayAxisYTitle(true);
         mVolumnChartView.setDisplayLatitude(false);
-        mVolumnChartView.setDisplayLongitude(false);
+        mVolumnChartView.setDisplayLongitude(true);
         mVolumnChartView.setBackgroudColor(Color.WHITE);
     }
 

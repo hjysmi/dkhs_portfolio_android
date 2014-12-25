@@ -578,9 +578,9 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			mPaintFont.setTextSize(longtitudeFontSize);
 			mPaintFont.setAntiAlias(true);
 			if (counts > 1) {
-				float postOffset = (super.getWidth() - axisMarginLeft - 2 * axisMarginRight)
-						/ (counts - 1);
-				float offset = axisMarginLeft + axisMarginRight + PADDING_LEFT;
+				float postOffset = (super.getWidth() - 2 * axisMarginRight - PADDING_LEFT)
+						/ (counts -1);
+				float offset = 2 + PADDING_LEFT;
 				float sumTexts = 0l;
 				for(int i=0; i<counts; i++) {
 					sumTexts += mPaintFont.measureText(axisXTitles.get(i));
@@ -591,9 +591,21 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 				for (int i = 0; i < counts; i++) {
 					// 绘制线条
 					if (displayLongitude) {
-						canvas.drawLine(offset + i * postOffset, 0f, offset + i
+					    if(!(i == 0))
+						canvas.drawLine(offset + i * postOffset, axisMarginTop + mTitleHeight, offset + i
 								* postOffset, length, mPaintLine);
-					}
+						if(!(i == 0) && !( i == axisXTitles.size() -1)){
+						    Paint p= new Paint(); 
+		                    Rect rect = new Rect();
+		                    p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		                    p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect); 
+                            canvas.drawText(axisXTitles.get(i), 
+                                    i * postOffset + PADDING_LEFT - rect.width()/2, super
+                                    .getHeight()
+                                    - axisMarginBottom + longtitudeFontSize,
+                                    mPaintFont);
+                        }
+					}else
 					// 绘制刻度
 					if (displayAxisXTitle) {
 //						if (i < counts && i > 0) {
@@ -605,7 +617,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 									mPaintFont);
 						}else if( i == axisXTitles.size() -1){
 							canvas.drawText(axisXTitles.get(i), 
-									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + axisMarginLeft + PADDING_LEFT, super
+									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT, super
 									.getHeight()
 									- axisMarginBottom + longtitudeFontSize,
 									mPaintFont);

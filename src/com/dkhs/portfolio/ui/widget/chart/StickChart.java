@@ -24,7 +24,7 @@ public class StickChart extends GridChart {
     public static final int DEFAULT_LATITUDE_NUM = 4;
 
     /** 显示纬线数 */
-    public static final int DEFAULT_LONGTITUDE_NUM = 2;
+    public static final int DEFAULT_LONGTITUDE_NUM = 4;
 
     /** 柱条边�?��色 */
     public static final int DEFAULT_STICK_BORDER_COLOR = Color.RED;
@@ -176,20 +176,21 @@ public class StickChart extends GridChart {
         List<String> TitleX = new ArrayList<String>();
         try {
             if (null != StickData) {
-                float average = maxStickDataNum / longtitudeNum;
+                float average = mShowDate / (longtitudeNum + 1);
                 // �?��刻度
-                for (int i = 0; i < longtitudeNum -1; i++) {
+                for (int i = 0; i <= longtitudeNum +1; i++) {
                     int index = (int) Math.floor(i * average);
                     if (index > maxStickDataNum - 1) {
                         index = maxStickDataNum - 1;
                     }
+                    TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate  + index -1 - currentIndex).getDate()));
                     // 追�??�?
-                    if(StickData.size() - mShowDate < 0){
+                    /*if(StickData.size() - mShowDate < 0){
                     	TitleX.add(String.valueOf(StickData.get(index).getDate()));
                     }else
-                    TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate).getDate()));
+                    TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate).getDate()));*/
                 }
-                TitleX.add(String.valueOf(StickData.get(StickData.size() - 1).getDate()));
+                //TitleX.add(String.valueOf(StickData.get(StickData.size() - 1).getDate()));
             }
         } catch (Exception e) {
             e.printStackTrace();

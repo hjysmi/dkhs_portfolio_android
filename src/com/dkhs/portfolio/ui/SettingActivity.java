@@ -216,7 +216,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 startActivityForResult(intent, 6);
                 break;
             case R.id.setting_layout_icon:
-                intent = new Intent(context, CopyMessageDialog.class);
+                intent = new Intent(context, SelectPhoneFromSystem.class);
                 startActivityForResult(intent, 5);
                 break;
             case R.id.feed_back_layout:

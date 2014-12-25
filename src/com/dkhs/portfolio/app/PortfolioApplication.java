@@ -36,11 +36,14 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
  */
 public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
-
+    private int width;
+    private int height;
+    private float density;
+    private int densityDpi;
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
-
+    
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
@@ -56,10 +59,10 @@ public class PortfolioApplication extends Application {
 
         DisplayMetrics metric = getResources().getDisplayMetrics();
 
-        int width = metric.widthPixels; // 屏幕宽度（像素）
-        int height = metric.heightPixels; // 屏幕高度（像素）
-        float density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
-        int densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
+        width = metric.widthPixels; // 屏幕宽度（像素）
+        height = metric.heightPixels; // 屏幕高度（像素）
+        density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
+        densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
 
         System.out.println("Devices width:" + width);
         System.out.println("Devices height:" + height);
@@ -130,4 +133,36 @@ public class PortfolioApplication extends Application {
         }
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public float getDensity() {
+        return density;
+    }
+
+    public void setDensity(float density) {
+        this.density = density;
+    }
+
+    public int getDensityDpi() {
+        return densityDpi;
+    }
+
+    public void setDensityDpi(int densityDpi) {
+        this.densityDpi = densityDpi;
+    }
+    
 }

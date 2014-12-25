@@ -72,7 +72,6 @@
             android:layout_width="match_parent"
             android:layout_height="81.5dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@null" />
 
@@ -82,7 +81,6 @@
             android:layout_height="match_parent"
             android:layout_above="@id/chart_volumn"
             android:layout_marginBottom="1dp"
-            android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
         <LinearLayout
@@ -93,6 +91,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:orientation="horizontal" >
 
             <ImageButton

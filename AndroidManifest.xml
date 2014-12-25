@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="5"
-    android:versionName="1.0.1224" >
+    android:versionName="1.0.1225" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -115,7 +115,7 @@
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
-            android:name="com.dkhs.portfolio.ui.CopyMessageDialog"
+            android:name="com.dkhs.portfolio.ui.SelectPhoneFromSystem"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name="com.dkhs.portfolio.ui.GettingUrlForAPPActivity"
