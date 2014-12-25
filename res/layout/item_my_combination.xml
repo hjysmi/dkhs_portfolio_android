@@ -54,8 +54,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerHorizontal="true"
-                android:paddingBottom="3dp"
-                android:layout_margin="5dp" >
+                android:layout_margin="5dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp" >
 
                 <TextView
                     android:id="@+id/tv_mycob_current"
