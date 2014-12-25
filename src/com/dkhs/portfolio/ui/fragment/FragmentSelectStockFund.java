@@ -202,17 +202,23 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
-        }
-
-        else if (isLoadStockType() || mViewType == StockViewType.MARKET_INLAND_INDEX
+        } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
+                || mViewType == StockViewType.MARKET_INLAND_INDEX
                 || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
-                || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
+                || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
+                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
             mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
+        } else if (mViewType == StockViewType.MARKET_STOCK_AMPLIT || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
+            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList, true);
+        } else if (mViewType == StockViewType.STOCK_HANDOVER) {
+            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList, true);
+            mAdapterConbinStock.setFromShow(!fromPosition);
 
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
             mAdapterConbinStock.setFromShow(!fromPosition);
-            System.out.println("new SelectStockAdatper");
         }
 
         mAdapterConbinStock.setCheckChangeListener(this);
@@ -475,7 +481,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
         } else if (isItemClickBack) {
-            // mListView.setOnItemClickListener(itemBackClick);
             mListView.setOnItemClickListener(itemBackClick);
         }
 

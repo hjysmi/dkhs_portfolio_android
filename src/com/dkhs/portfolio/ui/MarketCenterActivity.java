@@ -150,8 +150,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         // gvPlate.setAdapter(new MarketCenterGridAdapter(this, 6, true));
         mIncreaseAdapter = new MarketCenterItemAdapter(this, mIncreaseDataList);
         mDownAdapter = new MarketCenterItemAdapter(this, mDownDataList);
-        mTurnOverAdapter = new MarketCenterItemAdapter(this, mTurnOverDataList);
-        mAmplitAdapter = new MarketCenterItemAdapter(this, mAmpliDataList);
+        mTurnOverAdapter = new MarketCenterItemAdapter(this, mTurnOverDataList, true);
+        mAmplitAdapter = new MarketCenterItemAdapter(this, mAmpliDataList, true);
         lvIncease.setAdapter(mIncreaseAdapter);
         lvDown.setAdapter(mDownAdapter);
         lvHandover.setAdapter(mTurnOverAdapter);
