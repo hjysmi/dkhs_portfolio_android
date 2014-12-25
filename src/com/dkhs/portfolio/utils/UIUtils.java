@@ -110,6 +110,9 @@ public class UIUtils {
                 // 读取图片中相机方向信息  
                 int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,  
                         ExifInterface.ORIENTATION_UNDEFINED);  
+                double oris = exif.getAttributeDouble(ExifInterface.TAG_ORIENTATION,  
+                        ExifInterface.ORIENTATION_UNDEFINED);  
+                String oriss = exif.getAttribute(ExifInterface.TAG_ORIENTATION);  
                 // 计算旋转角度  
                 switch (ori) {  
                 case ExifInterface.ORIENTATION_ROTATE_90:  

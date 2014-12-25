@@ -101,6 +101,8 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 		if (requestCode == 5 && resultCode == RESULT_OK) {
 			
 			try {
+			    String file_str = Environment.getExternalStorageDirectory()
+                        .getPath();
 				Uri uri = data.getData();
 				
 				String[] proj = {MediaStore.Images.Media.DATA};
@@ -109,12 +111,15 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 	            cursor.moveToFirst();
 
 	            String path = cursor.getString(column_index);
-	            copyImg(path);
-	            String file_str = Environment.getExternalStorageDirectory()
-						.getPath();
-				File mars_file = new File(file_str + "/my_camera");
-				File f = new File(mars_file, "file.jpg");
-				File file = new File(path);
+	            Bitmap imageBitmap = UIUtils.getimage(path);
+                File f = new File(file_str +"/my_camera/file.jpg");
+                if(f.exists()){
+                    f.delete();
+                }
+                FileOutputStream out = new FileOutputStream(f);
+                imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
+                imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+	            
 				mUserEngineImpl.setUserHead(f, listener.setLoadingDialog(context));
 				/*ContentResolver cr = this.getContentResolver();
 				Bitmap bitmap = BitmapFactory.decodeStream(cr
@@ -128,15 +133,23 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			try {
 				String file_str = Environment.getExternalStorageDirectory()
 						.getPath();
-				Bitmap imageBitmap = UIUtils.getimage(file_str +"/my_camera/file.jpg");
-				File f = new File(file_str, "/my_camera/file.jpg");
+				Uri uri = data.getData();
+                
+                String[] proj = {MediaStore.Images.Media.DATA};
+                Cursor cursor = managedQuery(uri, proj, null, null, null); 
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                cursor.moveToFirst();
+
+                String path = cursor.getString(column_index);
+                Bitmap imageBitmap = UIUtils.getimage(path);
+				File f = new File(file_str +"/my_camera/file.jpg");
 				if(f.exists()){
 					f.delete();
 				}
 				FileOutputStream out = new FileOutputStream(f);
-				imageBitmap = UIUtils.loadBitmap(imageBitmap, file_str +"/my_camera/file.jpg");
+				imageBitmap = UIUtils.loadBitmap(imageBitmap, path);
 				imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-				mUserEngineImpl.setUserHead(file_go, listener.setLoadingDialog(context));
+				mUserEngineImpl.setUserHead(f, listener.setLoadingDialog(context));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -203,7 +216,7 @@ public class CopyMessageDialog extends Activity implements OnClickListener {
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			// 并设置拍照的存在方式为外部存储和存储的路径；
 
-			intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file_go));
+			//intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file_go));
 			// 跳转到拍照界面;
 			startActivityForResult(intent, 0x1);
 		} else {

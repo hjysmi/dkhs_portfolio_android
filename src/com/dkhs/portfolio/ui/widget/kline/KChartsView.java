@@ -185,10 +185,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			int textMargin = getResources().getDimensionPixelSize(R.dimen.float_text_margin);
 			int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 			float width = getWidth() - PADDING_LEFT;
-			float left = 3.0f + PADDING_LEFT + 20;
-			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 20;
-			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 20;
-			float bottom = 5.0f + 9 * textTextHeight + 20;
+			float left = 3.0f + PADDING_LEFT + 40;
+            float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 40;
+            float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 20;
+            float bottom = 5.0f + 8 * textTextHeight + 40 + textMargin * 9 ;
 			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f  + PADDING_LEFT)) {
 					right = width - 12.0f + PADDING_LEFT;
@@ -246,7 +246,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
 	        selectPaint.setStyle(Paint.Style.FILL);// 充满
 	        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
-	        RectF oval3 = new RectF(left - 10, top - 10, right, bottom + 15+ textMargin * 7);// 设置个新的长方形
+	        RectF oval3 = new RectF(left - 20, top - 20, right, bottom);// 设置个新的长方形
 	        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
 	        selectPaint.setStyle(Paint.Style.STROKE);// 描边

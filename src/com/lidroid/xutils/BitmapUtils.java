@@ -249,10 +249,12 @@ public class BitmapUtils implements TaskHandler {
         	Bitmap bitmaps = UIUtils.compressImage(bitmap);
         	if(null != bitmaps){
         		bitmap = bitmaps;
+        		bitmaps = null;
         	}
         	Bitmap bitmap2 = UIUtils.toRoundBitmap(bitmap);
-        	if(null != bitmaps){
+        	if(null != bitmap2){
         		bitmap = bitmap2;
+        		bitmap2 = null;
         	}
             callBack.onLoadStarted(container, uri, displayConfig);
             callBack.onLoadCompleted(

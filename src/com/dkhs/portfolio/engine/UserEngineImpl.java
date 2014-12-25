@@ -194,7 +194,7 @@ public class UserEngineImpl {
     public void setUserHead(File file, ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("avatar", file);
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
+        DKHSClient.requestLong(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
 
     public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
@@ -232,6 +232,6 @@ public class UserEngineImpl {
             params.addBodyParameter("contact", contact);
         if (null != file)
             params.addBodyParameter("image", file);
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
+        DKHSClient.requestLong(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
     }
 }

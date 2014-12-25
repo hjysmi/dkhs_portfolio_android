@@ -180,10 +180,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 			int textMargin = getResources().getDimensionPixelSize(R.dimen.float_text_margin);
 			int addNum = MIN_CANDLE_NUM - mOHLCData.size();
 			float width = getWidth() - PADDING_LEFT;
-			float left = 3.0f + PADDING_LEFT + 20;
-			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 20;
+			float left = 3.0f + PADDING_LEFT + 40;
+			float top = (float) (5.0 + DEFAULT_AXIS_TITLE_SIZE) + 40;
 			float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 20;
-			float bottom = 5.0f + 9 * textTextHeight + 20;
+			float bottom = 5.0f + 8 * textTextHeight + 40 + textMargin * 9 ;
 			if(mOHLCData.size() < MIN_CANDLE_NUM){
 				if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f  + PADDING_LEFT)) {
 					right = width - 12.0f + PADDING_LEFT;
@@ -223,7 +223,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 				canvas.drawLine(mStartX, getHeight() - 2.0f, mStartX, LOWER_CHART_TOP, paint);
 			}*/
 			
-			Rect rect = new Rect((int)left, (int)top, (int)(right+4), (int)(bottom+4));
+			Rect rect = new Rect((int)left, (int)top, (int)(right+4), (int)(bottom));
 	        //由于图片的实际尺寸比显示出来的图像要大一些，因此需要适当更改下大小，以达到较好的效果     
 			Paint paint1 = new Paint();
 			paint1.setColor(Color.WHITE);
@@ -240,7 +240,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 	        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
 	        selectPaint.setStyle(Paint.Style.FILL);// 充满
 	        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
-	        RectF oval3 = new RectF(left - 10, top - 10, right, bottom + 15+ textMargin * 7);// 设置个新的长方形
+	        RectF oval3 = new RectF(left - 20, top - 20, right, bottom);// 设置个新的长方形
 	        canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
 	        selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -487,11 +487,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 			try {
 				canvas.drawText(
 						String.valueOf(mOHLCData.get(mDataStartIndext + mShowDataNum / 2).getDate()),
-						getWidth() / 2 - 2.25f * DEFAULT_AXIS_TITLE_SIZE, UPER_CHART_BOTTOM
+						getWidth() / 2 - 2.25f * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT, UPER_CHART_BOTTOM
 								+ DEFAULT_AXIS_TITLE_SIZE, textPaint);
 				canvas.drawText(
 						String.valueOf(mOHLCData.get(mDataStartIndext + mShowDataNum - 1).getDate()),
-						2, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE, textPaint);
+						2 + PADDING_LEFT, UPER_CHART_BOTTOM + DEFAULT_AXIS_TITLE_SIZE, textPaint);
 			} catch (Exception e) {
 
 			}
@@ -859,12 +859,21 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 	float timeX = 0;
 	float timeY = 0;
 	int currentDate = mDataStartIndext;
+	private boolean twoFingle = false;
+	int currentShow = mShowDataNum;
+	float longs;
 	@Override
 	public boolean onTouchEvent(final MotionEvent event) {
 		e = event;
 		
 		switch (event.getAction()) {
 		// 设置触摸模式
+		    case MotionEvent.ACTION_POINTER_2_DOWN:
+		        twoFingle = true;
+		        longs =Math.abs(event.getX(0)- event.getX(event.getPointerCount()-1));
+		        currentShow = mShowDataNum;
+		        currentDate = mDataStartIndext;
+		        break;
 		case MotionEvent.ACTION_DOWN:
 			if (null != mTouchListener) {
                 mTouchListener.chartTounching();
@@ -885,7 +894,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 					// TODO Auto-generated method stub
 					try {
 						Thread.sleep(300);
-						if(go){
+						if(go && !twoFingle){
 							if (null != mTouchListener) {
 				                mTouchListener.chartTounching();
 				            }
@@ -910,6 +919,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 			if (null != mTouchListener) {
                 mTouchListener.loseTouching();
             }
+			if(!twoFingle){
 				showDetails = false;
 				go = false;
 				mStartX = getWidth() - 6 - PADDING_LEFT;
@@ -919,8 +929,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 				/*e.setLocation(getWidth() - 6, 0);
 				mVolumnChartView.onSet(e,ismove,mDataStartIndext);*/
 				postInvalidate();
+			}
+			twoFingle = false;
 			break;
 		case MotionEvent.ACTION_MOVE:
+		    if(!twoFingle){
 			float horizontalSpacing = event.getX() - timeX;
 			float hor = event.getY() - timeY;
 			if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE && go) {
@@ -950,23 +963,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 				setCurrentData();
 				postInvalidate();
 				mVolumnChartView.onSet(e,false,mDataStartIndext);
-				
 			}
-			Log.e("hor", hor + " ----" + horizontalSpacing);
-			/*if (mOHLCData == null || mOHLCData.size() <= 0) {
-				return true;
-			}
-			if (!showDetails && TOUCH_MODE == ZOOM) {
-				
-				mStartX = event.getX();
-				mStartY = event.getY();
-				
-				setCurrentData();
-				postInvalidate();
-
-			} else if (TOUCH_MODE == DOWN) {
-				//setTouchMode(event);
-			}*/
 			if(showDetails){
 				if (null != mTouchListener) {
 	                mTouchListener.chartTounching();
@@ -977,6 +974,25 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 				}
 				setCurrentData();
 				postInvalidate();
+			}
+			}else if(event.getPointerCount() > 1){
+                ismove = false;
+                mShowDataNum = (int) (currentShow - (Math.abs(event.getX(0) - event.getX(event.getPointerCount()-1)) - longs) / (mCandleWidth + 3));
+                if(mShowDataNum< 50){
+                    mShowDataNum = 50;
+                }
+                //mDataStartIndext = (int) (currentShow + ((event.getX(0) - event.getX(event.getPointerCount()-1)) - longs) / (mCandleWidth + 3))/2;
+                /*if (horizontalSpacing < 0) {
+                    mDataStartIndext--;
+                    if (mDataStartIndext < 0) {
+                        mDataStartIndext = 0;
+                    }
+                } else if (horizontalSpacing > 0) {
+                    mDataStartIndext++;
+                }*/
+                setCurrentData();
+                postInvalidate();
+                mVolumnChartView.onSet(e,false,mDataStartIndext);
 			}
 			break;
 		}

@@ -6,7 +6,7 @@
 	<!-- 描边 -->
     <stroke
         android:width="0.5px"
-        android:color="@color/darker_gray" />
+        android:color="@color/theme_gray_press" />
 
 
     <padding
