@@ -126,6 +126,7 @@
         <item>@string/privacy_setting</item>
         <item>@string/privacy_everyday_record</item>
         <item>@string/privacy_history_record</item>
+        <item>@string/help</item>
     </string-array>
 
 </resources>

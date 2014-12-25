@@ -111,6 +111,7 @@
         <activity android:name="com.dkhs.portfolio.ui.HistoryPositionDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.KChartLandScapeActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.FAQTextActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />
