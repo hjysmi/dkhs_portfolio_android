@@ -260,6 +260,7 @@
     <string name="privacy_setting">隐私设置</string>
     <string name="privacy_everyday_record">历史收益记录</string>
     <string name="privacy_history_record">历史调仓记录</string>
+    <string name="help">帮助</string>
     <string name="adjust_back_message">持仓调整尚未提交，确定放弃本次调仓</string>
     <string name="title_binds">绑定账号</string>
     <string name="p2refresh_head_load_more">加载更多</string>
@@ -279,6 +280,7 @@
     <string name="about_weixin">微信公众号：shuiniu</string>
     <string name="about_weibo">新 浪 微 博 ：谁牛</string>
     <string name="agreement_url">/portfolio/agreement/</string>
+    <string name="faq_url">/portfolio/faq/</string>
 
     <!-- 以下是友盟统计界面名称 -->
     <string name="count_splash">程序选择界面</string>

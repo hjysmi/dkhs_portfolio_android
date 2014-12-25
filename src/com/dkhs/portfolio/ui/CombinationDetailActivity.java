@@ -1,5 +1,5 @@
 /**
- * @Title CombinationDetailActivity.java
+  * @Title CombinationDetailActivity.java
  * @Package com.dkhs.portfolio.ui
  * @Description TODO(用一句话描述该文件做什么)
  * @author zjz
@@ -362,6 +362,10 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                         // 历史调仓记录
                         startActivity(HistoryPositionDetailActivity.newIntent(CombinationDetailActivity.this,
                                 mCombinationBean));
+                        break;
+                    case 5:
+                        // 谁牛FAQ
+                        startActivity(new Intent(CombinationDetailActivity.this, FAQTextActivity.class));
                         break;
                     default:
                         break;

@@ -53,15 +53,35 @@ public class MarketListActivity extends ModelAcitivity {
         /**
          * 热门行业
          */
-        PlateHot;
+        PlateHot,
+        /**
+         * 行业列表
+         */
+        PlateList;
     }
 
     private LoadViewType mLoadType;
+    private String mPlateName;
+    private String mPlateId;
+
+    public static final String EXTRA_PLATE_NAME = "plate_name";
+    public static final String EXTRA_PLATE_ID = "plate_id";
+    public static final String EXTRA_LOAD_TYPE = "load_type";
 
     public static Intent newIntent(Context context, LoadViewType loadType) {
         Intent intent = new Intent(context, MarketListActivity.class);
 
-        intent.putExtra("load_type", loadType);
+        intent.putExtra(EXTRA_LOAD_TYPE, loadType);
+
+        return intent;
+    }
+
+    public static Intent newIntent(Context context, LoadViewType loadType, String plateId, String platename) {
+        Intent intent = new Intent(context, MarketListActivity.class);
+
+        intent.putExtra(EXTRA_LOAD_TYPE, loadType);
+        intent.putExtra(EXTRA_PLATE_NAME, platename);
+        intent.putExtra(EXTRA_PLATE_ID, plateId);
 
         return intent;
     }
@@ -84,7 +104,9 @@ public class MarketListActivity extends ModelAcitivity {
     }
 
     private void handleExtras(Bundle extras) {
-        mLoadType = (LoadViewType) extras.getSerializable("load_type");
+        mLoadType = (LoadViewType) extras.getSerializable(EXTRA_LOAD_TYPE);
+        mPlateId = extras.getString(EXTRA_PLATE_ID);
+        mPlateName = extras.getString(EXTRA_PLATE_NAME);
     }
 
     @Override
@@ -128,6 +150,10 @@ public class MarketListActivity extends ModelAcitivity {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_PLATE_UP));
             }
                 break;
+            case PlateList: {
+                replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_PLATEDETAIL_UP));
+            }
+                break;
 
             default:
                 break;
@@ -136,6 +162,7 @@ public class MarketListActivity extends ModelAcitivity {
 
     public void setTitleByType(LoadViewType type) {
         mLoadType = type;
+
         switch (mLoadType) {
             case StockIncease: {
                 setTitle(R.string.market_title_up);
@@ -159,6 +186,10 @@ public class MarketListActivity extends ModelAcitivity {
                 break;
             case PlateHot: {
                 setTitle(R.string.market_title_hot);
+            }
+                break;
+            case PlateList: {
+                setTitle(mPlateName);
             }
                 break;
 

@@ -75,7 +75,7 @@ public class DKHSUrl {
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
         // 行情中心 指数排行
         String marketcenter = "/api/v1/symbols/?sort={0}&page_size={1}&is_midx=1";
-        String opitionmarket = "/api/v1/symbols/?sort={0}&page_size={1}&symbol_type=1&symbol_stype=101";
+        String opitionmarket = "/api/v1/symbols/";
         String index = "/api/v1/symbols/following/sort/";
     }
 
@@ -145,6 +145,10 @@ public class DKHSUrl {
 
     public interface MainPage {
         String zhishu = "/api/v1/symbols/{0}/quote/";
+    }
+
+    public interface Plate {
+        String hotPlate = "/api/v1/symbols/sectors/?sector_root_id=26";
     }
 
 }

@@ -27,6 +27,8 @@ public class StockPriceBean {
     @SerializedName("current")
     private float current;
     private float change;
+    private float turnover_rate;
+    private float amplitude;
     @SerializedName("sort_index")
     public long index;
     // 涨跌幅
@@ -186,6 +188,22 @@ public class StockPriceBean {
 
     public void setList_status(String list_status) {
         this.list_status = list_status;
+    }
+
+    public float getTurnover_rate() {
+        return turnover_rate;
+    }
+
+    public void setTurnover_rate(float turnover_rate) {
+        this.turnover_rate = turnover_rate;
+    }
+
+    public float getAmplitude() {
+        return amplitude;
+    }
+
+    public void setAmplitude(float amplitude) {
+        this.amplitude = amplitude;
     }
 
 }

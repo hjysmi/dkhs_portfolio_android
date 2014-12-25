@@ -11,42 +11,29 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
-import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
-import com.umeng.analytics.MobclickAgent;
-
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.SectorBean;
+import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
+import com.dkhs.portfolio.ui.MarketListActivity;
+import com.dkhs.portfolio.ui.OrderFundDetailActivity;
+import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
+import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
+import com.dkhs.portfolio.ui.adapter.HotPlateAdapter;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName FundsOrderFragment
@@ -55,21 +42,23 @@ import android.widget.AbsListView.OnScrollListener;
  * @date 2014-10-29 下午4:03:33
  * @version 1.0
  */
-public class FundsOrderFragment extends LoadMoreListFragment {
+public class HotPlateFragment extends LoadMoreListFragment {
 
     private static final String ARGUMENT_ORDER_TYPE = "order_type";
-    public static final String ORDER_TYPE_DAY = "chng_pct_day";
-    public static final String ORDER_TYPE_WEEK = "chng_pct_week";
-    public static final String ORDER_TYPE_MONTH = "chng_pct_month";
-    // public static final String ORDER_TYPE_SEASON = "chng_pct_three_month";
-    public static final String ORDER_TYPE_ALL = "net_value";
+    // public static final String ORDER_TYPE_DAY = "chng_pct_day";
+    // public static final String ORDER_TYPE_WEEK = "chng_pct_week";
+    // public static final String ORDER_TYPE_MONTH = "chng_pct_month";
+    // // public static final String ORDER_TYPE_SEASON = "chng_pct_three_month";
+    public static final String ORDER_TYPE_UP = "-percentage";
+    public static final String ORDER_TYPE_DOWN = "percentage";
     private String mOrderType;
-    private FundsOrderAdapter mAdapter;
-    private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
-    private FundsOrderEngineImpl orderEngine;
+    // private FundsOrderAdapter mAdapter;
+    private HotPlateAdapter mAdapter;
+    private List<SectorBean> mDataList = new ArrayList<SectorBean>();
+    private PlateLoadMoreEngineImpl orderEngine;
 
-    public static FundsOrderFragment getFragment(String orderType) {
-        FundsOrderFragment fragment = new FundsOrderFragment();
+    public static HotPlateFragment getFragment(String orderType) {
+        HotPlateFragment fragment = new HotPlateFragment();
         Bundle args = new Bundle();
         args.putString(ARGUMENT_ORDER_TYPE, orderType);
 
@@ -88,15 +77,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         }
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param inflater
-     * @param container
-     * @param savedInstanceState
-     * @return
-     * @return
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -106,16 +86,11 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
-            mAdapter = new FundsOrderAdapter(getActivity(), mDataList, mOrderType);
+            mAdapter = new HotPlateAdapter(getActivity(), mDataList);
         }
         return mAdapter;
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     public void loadData() {
         getLoadEngine().loadData();
@@ -136,21 +111,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             // PromptManager.closeProgressDialog();
         }
         if (null == mDataList || mDataList.size() == 0) {
-            if (mOrderType.contains(ORDER_TYPE_DAY)) {
-                // modify by zcm -----2014.12.15
-                setEmptyText("还没有开盘,请耐心等待");
-                // modify by zcm -----2014.12.15
-            } else if (mOrderType.contains(ORDER_TYPE_WEEK)) {
-
-                setEmptyText("周排行暂无数据");
-            } else if (mOrderType.contains(ORDER_TYPE_MONTH)) {
-
-                setEmptyText("月排行暂无数据");
-
-            } else if (mOrderType.contains(ORDER_TYPE_ALL)) {
-
-                setEmptyText("总排行暂无数据");
-            }
+            setEmptyText("热门行业暂无数据");
         }
 
     }
@@ -194,7 +155,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
             System.out.println("getLoadEngine new FundsOrderEngineImpl");
-            orderEngine = new FundsOrderEngineImpl(this, mOrderType);
+            // orderEngine = new PlateEngineImpl(this);
+            orderEngine = new PlateLoadMoreEngineImpl(this, mOrderType);
         }
         System.out.println("getLoadEngine not new ");
         return orderEngine;
@@ -208,9 +170,10 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                getActivity().startActivity(
-                        OrderFundDetailActivity.getIntent(getActivity(),
-                                CombinationBean.parse(mDataList.get(position)), true, mOrderType));
+                SectorBean bean = mDataList.get(position);
+                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                        bean.getAbbr_name()));
+
             }
         };
     }
