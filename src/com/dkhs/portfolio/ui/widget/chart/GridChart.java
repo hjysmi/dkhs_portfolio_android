@@ -319,8 +319,10 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		PointF point = new PointF(clickPostX,clickPostY);
 		touchPoint = point;
 		// super.invalidate();
-		super.invalidate();
 		notifyEventAll(this);
+        postInvalidate();
+		super.invalidate();
+		
 	}
 	/**
 	 * 触摸事件

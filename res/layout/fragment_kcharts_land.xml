@@ -4,9 +4,64 @@
     android:layout_height="match_parent" >
 
     
+	<LinearLayout
+                android:id="@+id/land_kline_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                
+				android:layout_marginLeft="10dp"
+				android:layout_marginRight="10dp"
+				android:layout_marginTop="10dp"
+                android:background="@drawable/layout_back"
+                android:orientation="vertical"
+                android:padding="10dp" >
 
+                <TextView
+                    style="@style/edit_style_land_kilne"
+                    android:text="不复权" />
+
+                <TextView
+                    style="@style/edit_style_land_kilne"
+                    android:text="前复权" />
+
+                <TextView
+                    style="@style/edit_style_land_kilne"
+                    android:text="后复权" />
+
+                <include layout="@layout/layout_line" />
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none" >
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            style="@style/edit_style_land_kilne"
+                            android:text="VOL" />
+
+                        <TextView
+                            style="@style/edit_style_land_kilne"
+                            android:text="MACD" />
+
+                        <TextView
+                            style="@style/edit_style_land_kilne"
+                            android:text="KDJ" />
+
+                        <TextView
+                            style="@style/edit_style_land_kilne"
+                            android:text="RSI" />
+                    </LinearLayout>
+                </ScrollView>
+            </LinearLayout>
     <RelativeLayout
         android:id="@+id/layout_first"
+        android:layout_toLeftOf="@id/land_kline_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
