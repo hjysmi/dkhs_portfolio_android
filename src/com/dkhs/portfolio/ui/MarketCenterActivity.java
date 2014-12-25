@@ -15,14 +15,18 @@ import android.widget.GridView;
 import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
+import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
+import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -41,6 +45,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     private MarketCenterGridAdapter mIndexAdapter;
 
     private GridView gvPlate;
+    private List<SectorBean> mSecotrList = new ArrayList<SectorBean>();
+    private MarketPlateGridAdapter mPlateAdapter;
     // private View btnMoreIndex;
     // private View btnMorePlate;
 
@@ -116,6 +122,18 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         btnMoreAmplit.setOnClickListener(this);
 
         mIndexAdapter = new MarketCenterGridAdapter(this, mIndexDataList, false);
+        mPlateAdapter = new MarketPlateGridAdapter(this, mSecotrList);
+        gvPlate.setAdapter(mPlateAdapter);
+        gvPlate.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                SectorBean bean = mSecotrList.get(position);
+                startActivity(MarketListActivity.newIntent(MarketCenterActivity.this, LoadViewType.PlateList,
+                        bean.getId(), bean.getName()));
+
+            }
+        });
 
         gvMainIndex.setAdapter(mIndexAdapter);
         gvMainIndex.setOnItemClickListener(new OnItemClickListener() {
@@ -164,7 +182,27 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
                 OpitionCenterStockEngineImple.ORDER_AMPLITU, 10).loadData();
         new MarketCenterStockEngineImple(new StockLoadDataListener(INLAND_INDEX), MarketCenterStockEngineImple.CURRENT,
                 3).loadData();
+
+        new PlateLoadMoreEngineImpl(plateListener).loadData();
+
     }
+
+    com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener plateListener = new com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener<SectorBean>() {
+
+        @Override
+        public void loadFinish(MoreDataBean<SectorBean> object) {
+            if (null != object) {
+
+                List<SectorBean> sectorList = object.getResults();
+                mSecotrList.addAll(sectorList);
+                mPlateAdapter.notifyDataSetChanged();
+            } else {
+                System.out.println("MoreDataBean is null");
+            }
+
+        }
+
+    };
 
     class StockLoadDataListener implements ILoadDataBackListener {
 

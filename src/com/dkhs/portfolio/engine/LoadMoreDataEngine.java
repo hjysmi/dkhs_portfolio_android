@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.util.List;
+
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
 
@@ -35,8 +37,8 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
         this.iLoadListener = backListener;
     }
 
-    public interface ILoadDataBackListener {
-        void loadFinish(MoreDataBean object);
+    public interface ILoadDataBackListener<T> {
+        void loadFinish(MoreDataBean<T> object);
     }
 
     /**

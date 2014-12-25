@@ -69,6 +69,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
     private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
     private static final String ARGUMENT_LOAD_TYPE = "load_type";
+    private static final String ARGUMENT_SECTOR_ID = "sector_id";
 
     private PullToRefreshListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
@@ -89,6 +90,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     private TextView tvEmptyText;
     public int timeMill;
     private boolean flush = false;
+
+    private String mSecotrId;
 
     /**
      * view视图类型
@@ -131,7 +134,11 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         /** 行情中心 ,个股振幅，高到低 */
         MARKET_STOCK_AMPLIT(16),
         /** 行情中心 ,个股振幅，低到高 */
-        MARKET_STOCK_AMPLIT_ACE(17);
+        MARKET_STOCK_AMPLIT_ACE(17),
+        /** 行情中心 ,板块列表，高到底 */
+        MARKET_PLATE_LIST(18),
+        /** 行情中心 ,个股振幅，低到高 */
+        MARKET_PLATE_LIST_ACE(19);
 
         private int typeId;
 
@@ -149,6 +156,16 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putSerializable(ARGUMENT_LOAD_TYPE, type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static FragmentSelectStockFund getStockFragmentByPlate(StockViewType type, String plateId) {
+        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
+        args.putString(ARGUMENT_SECTOR_ID, plateId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -182,6 +199,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mViewType = (StockViewType) bundle.getSerializable(ARGUMENT_LOAD_TYPE);
             fromPosition = bundle.getBoolean("fromPosition");
+            mSecotrId = bundle.getString(ARGUMENT_SECTOR_ID);
+
         }
         if (isItemClickBack) {
             mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
@@ -215,7 +234,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 || mViewType == StockViewType.MARKET_STOCK_UPRATIO || mViewType == StockViewType.MARKET_STOCK_AMPLIT
                 || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
                 || mViewType == StockViewType.MARKET_STOCK_TURNOVER
-                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
+                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
             return true;
         }
         return false;
@@ -371,6 +391,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else if (mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
             mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,
                     OpitionCenterStockEngineImple.ORDER_TURNOVER_DOWN);
+        } else if (mViewType == StockViewType.MARKET_PLATE_LIST) {
+            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,
+                    OpitionCenterStockEngineImple.ORDER_INCREASE, mSecotrId);
+        } else if (mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
+            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,
+                    OpitionCenterStockEngineImple.ORDER_DOWN, mSecotrId);
         }
 
         else {

@@ -10,11 +10,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     private final static String EXCHANGE = "1,2";
@@ -28,11 +32,19 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String ACE = "percentage";
     public final static String DESC = "-percentage";
     private String orderType;
+    private String mSectorId;
     private int mPageSize = 50;
 
     public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
         super(loadListener);
         this.orderType = type;
+        // this.mPageSize = pagesize;
+    }
+
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, String type, String sectorId) {
+        super(loadListener);
+        this.orderType = type;
+        this.mSectorId = sectorId;
         // this.mPageSize = pagesize;
     }
 
@@ -44,17 +56,42 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
 
     @Override
     public void loadMore() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        params.add(valuePair);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page="
-                + (getCurrentpage() + 1), orderType, mPageSize), null, this);
+
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPageSize + "");
+        params.addQueryStringParameter("symbol_type", "1");
+        params.addQueryStringParameter("symbol_stype", "101");
+        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+
+        // List<NameValuePair> params = new ArrayList<NameValuePair>();
+        // NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
+        // params.add(valuePair);
+        // DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page="
+        // + (getCurrentpage() + 1), orderType, mPageSize), null, this);
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, mPageSize), null,
-                this);
+
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPageSize + "");
+        params.addQueryStringParameter("symbol_type", "1");
+        params.addQueryStringParameter("symbol_stype", "101");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+
+        // DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, mPageSize), null,
+        // this);
 
     }
 
