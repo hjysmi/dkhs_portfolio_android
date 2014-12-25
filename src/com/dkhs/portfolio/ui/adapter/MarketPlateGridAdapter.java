@@ -104,7 +104,7 @@ public class MarketPlateGridAdapter extends BaseAdapter {
         // mcontext.getResources().getDrawable(R.drawable.ic_grow_down), null, null, null);
         // } else {
         mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
-        mViewHolder.tvTitleName.setText(item.getName());
+        mViewHolder.tvTitleName.setText(item.getAbbr_name());
         mViewHolder.tvCurrentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getPercentage()));
         mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercent(item.getTop_symbol_percentage()));
         mViewHolder.tvIncrease.setText(StringFromatUtils.get2PointPlus(item.getTop_symbol_current()));

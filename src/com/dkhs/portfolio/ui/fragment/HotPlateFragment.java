@@ -172,7 +172,7 @@ public class HotPlateFragment extends LoadMoreListFragment {
 
                 SectorBean bean = mDataList.get(position);
                 startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
-                        bean.getName()));
+                        bean.getAbbr_name()));
 
             }
         };

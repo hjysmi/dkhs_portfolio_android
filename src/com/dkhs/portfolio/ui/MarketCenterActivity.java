@@ -130,7 +130,7 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SectorBean bean = mSecotrList.get(position);
                 startActivity(MarketListActivity.newIntent(MarketCenterActivity.this, LoadViewType.PlateList,
-                        bean.getId(), bean.getName()));
+                        bean.getId(), bean.getAbbr_name()));
 
             }
         });

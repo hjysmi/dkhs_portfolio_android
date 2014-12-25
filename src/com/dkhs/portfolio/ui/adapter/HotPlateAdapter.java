@@ -49,7 +49,7 @@ public class HotPlateAdapter extends BaseAdapter {
         }
 
         SectorBean item = mDataList.get(position);
-        viewHolder.tvTextName.setText(item.getName());
+        viewHolder.tvTextName.setText(item.getAbbr_name());
 
         float change = item.getPercentage();
         if (change > 0) {

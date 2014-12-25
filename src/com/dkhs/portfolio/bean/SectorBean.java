@@ -18,6 +18,7 @@ package com.dkhs.portfolio.bean;
 public class SectorBean {
     private String id;
     private String name;
+    private String abbr_name;
     private float percentage;
     private float top_symbol_current;
     private float top_symbol_percentage;
@@ -87,5 +88,13 @@ public class SectorBean {
 
     public void setTop_symbol_name(String top_symbol_name) {
         this.top_symbol_name = top_symbol_name;
+    }
+
+    public String getAbbr_name() {
+        return abbr_name;
+    }
+
+    public void setAbbr_name(String abbr_name) {
+        this.abbr_name = abbr_name;
     }
 }
