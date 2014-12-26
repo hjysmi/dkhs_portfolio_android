@@ -53,6 +53,8 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
@@ -451,7 +453,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
             oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
 
-            String shareUrl = "https://www.dkhs.com/portfolio/share/" + mCombinationBean.getId();
+            String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
             oks.setTitle(mCombinationBean.getName() + " 今日收益率");

@@ -62,6 +62,8 @@ import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -306,7 +308,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
             oks.setTitle(mCombinationBean.getName() + "与公募基金PK业绩");
 
-            String shareUrl = "https://www.dkhs.com/portfolio/share/" + mCombinationBean.getId();
+            String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
 
