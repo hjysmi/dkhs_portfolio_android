@@ -113,6 +113,8 @@ public class DKHSUrl {
     public interface User {
         // 登录
         String login = "/api/v1/accounts/login/";
+        // 分享
+        String share = "/portfolio/share/";
         // 注册
         String register = "/api/v1/accounts/signup/";
         // 绑定第三方

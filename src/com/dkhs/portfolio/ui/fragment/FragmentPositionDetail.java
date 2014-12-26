@@ -51,6 +51,8 @@ import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
@@ -493,7 +495,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
             oks.setTitle(mPositionDetail.getPortfolio().getName() + "持仓明细");
-            String shareUrl = "https://www.dkhs.com/portfolio/share/" + mCombinationId;
+            String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationId;
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
             String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
