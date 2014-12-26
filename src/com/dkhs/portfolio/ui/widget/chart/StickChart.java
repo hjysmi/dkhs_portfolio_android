@@ -102,6 +102,7 @@ public class StickChart extends GridChart {
     @Override
     protected void onDraw(Canvas canvas) {
         currentIndex = index;
+        setMaxValue();
         try {
 			initAxisY();
 			initAxisX();
@@ -118,7 +119,16 @@ public class StickChart extends GridChart {
             drawWithFingerClick(canvas);
         }
     }
-
+    public void setMaxValue(){
+        if(null != StickData){
+            maxValue = 0;
+            for(int i = StickData.size() - mShowDate - currentIndex; i < StickData.size()-currentIndex; i++){
+                if(i >=0 && StickData.get(i).getHigh() > maxValue){
+                    maxValue = (float) StickData.get(i).getHigh();
+                }
+            }
+        }
+    }
     /**
      * 获取X轴刻度位置,�?�??�最大1
      * 
