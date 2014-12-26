@@ -101,7 +101,7 @@ public class MarketCenterGridAdapter extends BaseAdapter {
         }
         mViewHolder.tvTitleName.setText(item.name);
         mViewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
-        mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercent(item.percentage));
+        mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercentPlus(item.percentage));
         mViewHolder.tvIncrease.setText(StringFromatUtils.get2PointPlus(item.change));
 
         // String path = hasHeaderIdList.get(position).getPath();
