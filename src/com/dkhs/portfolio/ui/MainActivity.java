@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -28,7 +30,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class MainActivity extends FragmentActivity implements ITitleButtonListener {
+public class MainActivity extends FragmentActivity implements ITitleButtonListener,OnClickListener {
 
     private DrawerLayout mDrawerLayout;
     // private View mRightMenu;
@@ -36,7 +38,8 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
 
     private MainFragment mainFragment;
     private Context context;
-
+    private ImageView mainIntroImage;
+    private boolean intro = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,12 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // mRightMenu = findViewById(R.id.menu_layout_right);
         mLeftMenu = findViewById(R.id.menu_layout_left);
+        int k = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_INTRODUS);
+        if(k != 555){
+            mainIntroImage = (ImageView) findViewById(R.id.main_intro_image);
+            mainIntroImage.setOnClickListener(this);
+            mainIntroImage.setVisibility(View.VISIBLE);
+        }
         context = this;
         // 如果保存的状态不为空则得到之前保存的Fragment，否则实例化MainFragment
         if (savedInstanceState != null) {
@@ -192,4 +201,22 @@ public class MainActivity extends FragmentActivity implements ITitleButtonListen
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onResume(this);
 	}
+
+    @Override
+    public void onClick(View v) {
+        // TODO Auto-generated method stub
+        switch (v.getId()) {
+            case R.id.main_intro_image:
+                if(intro){
+                    mainIntroImage.setVisibility(View.GONE);
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_INTRODUS, 555);
+                }
+                intro = true;
+                mainIntroImage.setImageResource(R.drawable.main_intro_show);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
