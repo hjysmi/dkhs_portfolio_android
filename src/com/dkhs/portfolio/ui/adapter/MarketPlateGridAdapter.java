@@ -106,8 +106,8 @@ public class MarketPlateGridAdapter extends BaseAdapter {
         mViewHolder.tvCurrentValue.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         mViewHolder.tvTitleName.setText(item.getAbbr_name());
         mViewHolder.tvCurrentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getPercentage()));
-        mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercent(item.getTop_symbol_percentage()));
-        mViewHolder.tvIncrease.setText(StringFromatUtils.get2PointPlus(item.getTop_symbol_current()));
+        mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercentPlus(item.getTop_symbol_percentage()));
+        mViewHolder.tvIncrease.setText(StringFromatUtils.get2Point(item.getTop_symbol_current()));
 
         // String path = hasHeaderIdList.get(position).getPath();
         // mViewHolder.mImageView.setTag(path);
