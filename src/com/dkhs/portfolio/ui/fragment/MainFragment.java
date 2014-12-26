@@ -235,7 +235,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if(!(PortfolioApplication.getInstance().getHeight() == 1776)){
+        if(!((PortfolioApplication.getInstance().getHeight() >= 1500 && (PortfolioApplication.getInstance().getHeight() <1920)) || (PortfolioApplication.getInstance().getHeight() >= 1000 && (PortfolioApplication.getInstance().getHeight() < 1280)))){
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         }
         comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);

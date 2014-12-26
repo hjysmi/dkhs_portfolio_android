@@ -2,4 +2,5 @@
 
 	<dimen name="layout_height">75dp</dimen>
 	<dimen name="title_text_font">10sp</dimen>
+	<dimen name="float_text_margin">2dp</dimen>
 </resources>

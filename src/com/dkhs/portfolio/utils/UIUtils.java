@@ -11,6 +11,7 @@ package com.dkhs.portfolio.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -267,5 +268,23 @@ public class UIUtils {
     		return true;
     	}
     	return false;
+    }
+    public static String getValue(double volume){
+        String text = null;
+        try {
+            if (volume < 10000) {
+                text = new DecimalFormat("0.00").format(volume);
+            } else if(volume > 10000 && volume < 100000000){
+                volume = volume/10000;
+                text = new DecimalFormat("0.00").format(volume) + "万";
+            }else{
+                volume = volume/100000000;
+                text = new DecimalFormat("0.00").format(volume) + "亿";
+            }
+            
+        } catch (Exception e) {
+            
+        }
+        return text;
     }
 }
