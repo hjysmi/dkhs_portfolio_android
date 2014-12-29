@@ -90,7 +90,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // view.findViewById(R.id.btn_setting).setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
         lvItem.setAdapter(itemAdapter);
-        
+
         View userHeader = view.findViewById(R.id.iv_header);
         tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
@@ -106,11 +106,16 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
             ivUserheader.setImageBitmap(b);
         }
         userHeader.setOnClickListener(new OnClickListener() {
-            
+
             @Override
             public void onClick(View v) {
-                startActivity(CombinationUserActivity.getIntent(getActivity(), PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME), PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID), true));
-                
+                if (UIUtils.iStartLoginActivity(getActivity())) {
+                    return;
+                }
+                startActivity(CombinationUserActivity.getIntent(getActivity(),
+                        PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME),
+                        PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID), true));
+
             }
         });
 
@@ -269,13 +274,15 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     //
     // };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_main_left);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -294,7 +301,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
             ivUserheader.setImageBitmap(b);
         }
         // TODO Auto-generated method stub
-        
+
     }
-    
+
 }

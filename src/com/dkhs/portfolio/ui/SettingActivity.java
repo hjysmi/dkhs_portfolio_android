@@ -79,10 +79,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_layout);
         context = this;
-        //UserEngineImpl.queryThreePlatBind(bindsListener);
+        // UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
-        //initData();
+        // initData();
         // loadCombinationData();
     }
 
@@ -139,7 +139,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText = (TextView) findViewById(R.id.setting_text_name_text);
         settingAccountLayout = (LinearLayout) findViewById(R.id.setting_account_layout);
         String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-        //account = setAccount(account);
+        // account = setAccount(account);
         settingTextAccountText.setText(account);
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
@@ -194,6 +194,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 break;
             case R.id.btn_setpassword:
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 if (isSetPassword) {
                     intent = new Intent(this, SetPasswordActivity.class);
                     // intent.putExtra("type", SetPasswordActivity.SET_PASSWORD_TYPE);
@@ -208,14 +211,23 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                 break;
             case R.id.setting_layout_password:
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);
                 startActivity(intent);
                 break;
             case R.id.setting_layout_username:
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 intent = new Intent(this, UserNameChangeActivity.class);
                 startActivityForResult(intent, 6);
                 break;
             case R.id.setting_layout_icon:
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 intent = new Intent(context, SelectPhoneFromSystem.class);
                 startActivityForResult(intent, 5);
                 break;
@@ -227,28 +239,35 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 intent = new Intent(this, AboutUsActivity.class);
                 startActivity(intent);
             }
-            	break;
+                break;
             case R.id.setting_layout_check_version:
-            	UserEngineImpl mUserEngineImpl = new UserEngineImpl();
-				mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
-				userInfoListener.setLoadingDialog(context);
-            	break;
+                UserEngineImpl mUserEngineImpl = new UserEngineImpl();
+                mUserEngineImpl.getAppVersion("portfolio_android", userInfoListener);
+                userInfoListener.setLoadingDialog(context);
+                break;
             case R.id.setting_layout_sign:
-            	intent = new Intent(this,PersonSignSettingActivity.class);
-            	Bundle b = new Bundle();
-            	if(null != ue)
-            		b.putString(PersonSignSettingActivity.DESCRIPTION,ue.getDescription() );
-            	intent.putExtras(b);
-            	startActivity(intent);
-            	break;
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
+                intent = new Intent(this, PersonSignSettingActivity.class);
+                Bundle b = new Bundle();
+                if (null != ue)
+                    b.putString(PersonSignSettingActivity.DESCRIPTION, ue.getDescription());
+                intent.putExtras(b);
+                startActivity(intent);
+                break;
             case R.id.setting_image_bound:
-            	intent = new Intent(this,BoundAccountActivity.class);
-            	startActivity(intent);
-            	break;
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
+                intent = new Intent(this, BoundAccountActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
     }
+
     ParseHttpListener userInfoListener = new ParseHttpListener<AppBean>() {
 
         @Override
@@ -260,62 +279,56 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(AppBean object) {
             try {
-				if (null != object) {
-					final AppBean bean = object;
-					PackageManager manager = context.getPackageManager();
-					PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-					String version = info.versionName;
-					String s = bean.getVersion().replaceAll("\\.", "");
-					int service = Integer.parseInt(s);
-					int local = Integer.parseInt(version.replaceAll("\\.", ""));
-					if(service > local){
-						AlertDialog.Builder alert = new AlertDialog.Builder(context);
-						alert.setTitle("软件升级")
-								.setMessage("发现新版本,建议立即更新使用.")//"发现新版本,建议立即更新使用."
-								.setCancelable(false)
-								.setPositiveButton("更新",
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												 DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-								            	  
-								            	 Uri uri = Uri.parse(bean.getUrl());
-								            	 Request request = new Request(uri);
-								            	 //设置允许使用的网络类型，这里是移动网络和wifi都可以 
-								            	 request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI); 
-								            	 //禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION 
-								            	 request.setShowRunningNotification(true); 
-								            	 //不显示下载界面 
-								            	 request.setVisibleInDownloadsUi(true);
-								            	       
-								            	request.setDestinationInExternalFilesDir(context, null, "dkhs.apk");
-								            	long id = downloadManager.enqueue(request);
-								            	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_ID,id +"");
-								            	PromptManager.showToast("开始下载");
-											}
-										})
-								.setNegativeButton("取消",
-										new DialogInterface.OnClickListener() {
-											public void onClick(
-													DialogInterface dialog,
-													int which) {
-												dialog.dismiss();
-											}
-										});
-						alert.show();
-					}else{
-						PromptManager.showToast("当前已经是最新版本");
-					}
-					
-				}
-			} catch (NameNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                if (null != object) {
+                    final AppBean bean = object;
+                    PackageManager manager = context.getPackageManager();
+                    PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+                    String version = info.versionName;
+                    String s = bean.getVersion().replaceAll("\\.", "");
+                    int service = Integer.parseInt(s);
+                    int local = Integer.parseInt(version.replaceAll("\\.", ""));
+                    if (service > local) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                        alert.setTitle("软件升级").setMessage("发现新版本,建议立即更新使用.")// "发现新版本,建议立即更新使用."
+                                .setCancelable(false).setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+
+                                        Uri uri = Uri.parse(bean.getUrl());
+                                        Request request = new Request(uri);
+                                        // 设置允许使用的网络类型，这里是移动网络和wifi都可以
+                                        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE
+                                                | DownloadManager.Request.NETWORK_WIFI);
+                                        // 禁止发出通知，既后台下载，如果要使用这一句必须声明一个权限：android.permission.DOWNLOAD_WITHOUT_NOTIFICATION
+                                        request.setShowRunningNotification(true);
+                                        // 不显示下载界面
+                                        request.setVisibleInDownloadsUi(true);
+
+                                        request.setDestinationInExternalFilesDir(context, null, "dkhs.apk");
+                                        long id = downloadManager.enqueue(request);
+                                        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_ID, id
+                                                + "");
+                                        PromptManager.showToast("开始下载");
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alert.show();
+                    } else {
+                        PromptManager.showToast("当前已经是最新版本");
+                    }
+
+                }
+            } catch (NameNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
         }
     };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -329,16 +342,17 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
         }
     }
-    
+
     @Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-    	initData();
-		super.onResume();
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
-	private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        initData();
+        super.onResume();
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
+
+    private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
@@ -361,8 +375,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-            	ue = entity;
-            	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME,entity.getUsername());
+                ue = entity;
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
                 settingTextNameText.setText(entity.getUsername());
                 settingSingText.setText(ue.getDescription());
             }
@@ -399,25 +413,26 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (plat.isStatus()) {
                     if (plat.getProvider().contains("mobile")) {
                         login = true;
-                    }else if(plat.getProvider().contains("email")){
-                    	login = true;
+                    } else if (plat.getProvider().contains("email")) {
+                        login = true;
                     }
                 }
             }
-            if(login){
-            	settingAccountLayout.setVisibility(View.VISIBLE);
-            }else{
-            	settingAccountLayout.setVisibility(View.GONE);
+            if (login) {
+                settingAccountLayout.setVisibility(View.VISIBLE);
+            } else {
+                settingAccountLayout.setVisibility(View.GONE);
             }
         };
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting);
+
     @Override
-	protected void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
+    protected void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
 }

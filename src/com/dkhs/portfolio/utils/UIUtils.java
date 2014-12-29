@@ -18,11 +18,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
-import android.graphics.BitmapFactory;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -299,21 +299,24 @@ public class UIUtils {
         return text;
     }
 
-    public static void startLoginActivity(Context context) {
-        DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+    public static boolean iStartLoginActivity(Context context) {
         try {
-            GlobalParams.ACCESS_TOCKEN = null;
-            GlobalParams.MOBILE = null;
-            dbUtils.deleteAll(UserEntity.class);
-            PortfolioApplication.getInstance().exitApp();
-            Intent intent = new Intent(context, LoginActivity.class);
-            context.startActivity(intent);
+            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if (user == null) {
+                PortfolioApplication.getInstance().exitApp();
+                Intent intent = new Intent(context, LoginActivity.class);
+                context.startActivity(intent);
+                return true;
+            } else {
+                return false;
+            }
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
             PortfolioApplication.getInstance().exitApp();
             Intent intent = new Intent(context, LoginActivity.class);
             context.startActivity(intent);
+            return true;
         }
     }
 }
