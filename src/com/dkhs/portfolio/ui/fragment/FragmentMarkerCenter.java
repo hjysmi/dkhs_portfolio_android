@@ -28,6 +28,7 @@ import android.widget.TextView;
 public class FragmentMarkerCenter extends BaseFragment implements OnClickListener {
     private static final String KEY_TYPE = "type";
     public static final int TYPE_INLAND_INDEX_UP = 0x00;
+    public static final int TYPE_INLAND_INDEX = 0x00;
     public static final int TYPE_INLAND_INDEX_DWON = 0x10;
     public static final int TYPE_STOCK_UP = 0x01;
     public static final int TYPE_STOCK_DOWN = 0x11;
@@ -122,7 +123,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         ivCenter = (ImageView) view.findViewById(R.id.market_icon_center);
         marketIconUpDown.setVisibility(View.VISIBLE);
         if (mType == TYPE_STOCK_UP || mType == TYPE_STOCK_DOWN || mType == TYPE_STOCK_AMPLI_UP
-                || mType == TYPE_STOCK_TURN_UP || mType == TYPE_PLATEDETAIL_UP || mType == TYPE_INLAND_INDEX_UP) {
+                || mType == TYPE_STOCK_TURN_UP || mType == TYPE_PLATEDETAIL_UP) {
             marketLayoutUpanddown.setOnClickListener(this);
             marketTextIndex.setText(R.string.market_stock_name);
             marketTextEdition.setText(R.string.market_current_value);
@@ -134,13 +135,18 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             ivCenter.setVisibility(View.VISIBLE);
             marketTextEdition.setOnClickListener(this);
 
+        } else if (mType == TYPE_INLAND_INDEX_UP) {
+
+            marketIconUpDown.setVisibility(View.GONE);
+
         }
     }
 
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_INLAND_INDEX);
+                loadDataListFragment = FragmentSelectStockFund
+                        .getStockFragment(StockViewType.MARKET_INLAND_INDEX_CURRENT);
             }
                 break;
             case TYPE_INLAND_INDEX_DWON: {
