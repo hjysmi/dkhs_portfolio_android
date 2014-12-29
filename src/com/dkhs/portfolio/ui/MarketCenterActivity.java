@@ -2,6 +2,8 @@ package com.dkhs.portfolio.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
@@ -28,7 +31,7 @@ import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -70,14 +73,40 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     private MarketCenterItemAdapter mAmplitAdapter;
     private List<SelectStockBean> mAmpliDataList = new ArrayList<SelectStockBean>();
 
+    private Timer mMarketTimer;
+    private static final long mPollRequestTime = 1000 * 5;
+    private boolean start = false;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.activity_marketcenter);
         setTitle(R.string.marketcenter_title);
-
         initView();
+        initData();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mMarketTimer == null && start) {
+            mMarketTimer = new Timer(true);
+            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+        }
+        MobclickAgent.onResume(this);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
 
     }
 
@@ -157,7 +186,6 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         lvHandover.setAdapter(mTurnOverAdapter);
         lvAmplit.setAdapter(mAmplitAdapter);
 
-        initData();
     }
 
     /**
@@ -172,20 +200,28 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
     }
 
+    private List<LoadSelectDataEngine> engineList;
+    private PlateLoadMoreEngineImpl plateEngine;
+
     private void initData() {
-        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_INCREASE),
-                StockViewType.MARKET_STOCK_UPRATIO, 10).loadData();
-        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_DOWN),
-                StockViewType.MARKET_STOCK_DOWNRATIO, 10).loadData();
-        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_TURNOVER),
-                StockViewType.MARKET_STOCK_TURNOVER, 10).loadData();
-        new OpitionCenterStockEngineImple(new StockLoadDataListener(OpitionCenterStockEngineImple.ORDER_AMPLITU),
-                StockViewType.MARKET_STOCK_AMPLIT, 10).loadData();
-        new MarketCenterStockEngineImple(new StockLoadDataListener(INLAND_INDEX), MarketCenterStockEngineImple.CURRENT,
-                3).loadData();
+        engineList = new ArrayList<LoadSelectDataEngine>();
+        engineList.add(new OpitionCenterStockEngineImple(new StockLoadDataListener(
+                OpitionCenterStockEngineImple.ORDER_INCREASE), StockViewType.MARKET_STOCK_UPRATIO, 10));
+        engineList.add(new OpitionCenterStockEngineImple(new StockLoadDataListener(
+                OpitionCenterStockEngineImple.ORDER_DOWN), StockViewType.MARKET_STOCK_DOWNRATIO, 10));
+        engineList.add(new OpitionCenterStockEngineImple(new StockLoadDataListener(
+                OpitionCenterStockEngineImple.ORDER_TURNOVER), StockViewType.MARKET_STOCK_TURNOVER, 10));
+        engineList.add(new OpitionCenterStockEngineImple(new StockLoadDataListener(
+                OpitionCenterStockEngineImple.ORDER_AMPLITU), StockViewType.MARKET_STOCK_AMPLIT, 10));
+        engineList.add(new MarketCenterStockEngineImple(new StockLoadDataListener(INLAND_INDEX),
+                MarketCenterStockEngineImple.CURRENT, 3));
 
-        new PlateLoadMoreEngineImpl(plateListener).loadData();
-
+        plateEngine = new PlateLoadMoreEngineImpl(plateListener);
+        // loadAllData();
+        for (LoadSelectDataEngine mLoadDataEngine : engineList) {
+            mLoadDataEngine.loadData();
+        }
+        plateEngine.loadData();
     }
 
     com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener plateListener = new com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener<SectorBean>() {
@@ -193,7 +229,7 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         @Override
         public void loadFinish(MoreDataBean<SectorBean> object) {
             if (null != object) {
-
+                mSecotrList.clear();
                 List<SectorBean> sectorList = object.getResults();
                 mSecotrList.addAll(sectorList);
                 mPlateAdapter.notifyDataSetChanged();
@@ -217,18 +253,23 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         public void loadFinish(List<SelectStockBean> dataList) {
             if (null != dataList && !TextUtils.isEmpty(type)) {
                 if (type.equals(OpitionCenterStockEngineImple.ORDER_INCREASE)) {
+                    mIncreaseDataList.clear();
                     mIncreaseDataList.addAll(dataList);
                     mIncreaseAdapter.notifyDataSetChanged();
                 } else if (type.equals(OpitionCenterStockEngineImple.ORDER_DOWN)) {
+                    mDownDataList.clear();
                     mDownDataList.addAll(dataList);
                     mDownAdapter.notifyDataSetChanged();
                 } else if (type.equals(OpitionCenterStockEngineImple.ORDER_TURNOVER)) {
+                    mTurnOverDataList.clear();
                     mTurnOverDataList.addAll(dataList);
                     mTurnOverAdapter.notifyDataSetChanged();
                 } else if (type.equals(OpitionCenterStockEngineImple.ORDER_AMPLITU)) {
+                    mAmpliDataList.clear();
                     mAmpliDataList.addAll(dataList);
                     mAmplitAdapter.notifyDataSetChanged();
                 } else if (type.equals(INLAND_INDEX)) {
+                    mIndexDataList.clear();
                     mIndexDataList.addAll(dataList);
                     mIndexAdapter.notifyDataSetChanged();
                 }
@@ -291,11 +332,38 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         MobclickAgent.onPause(this);
     }
 
-    @Override
-    public void onResume() {
-        // TODO Auto-generated method stub
-        super.onResume();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-        MobclickAgent.onResume(this);
+    //
+    // @Override
+    // public void onResume() {
+    // // TODO Auto-generated method stub
+    // super.onResume();
+    // // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+    // MobclickAgent.onResume(this);
+    // }
+
+    public class RequestMarketTask extends TimerTask {
+
+        @Override
+        public void run() {
+
+            loadAllData();
+            // if (loadDataListFragment instanceof FragmentSelectStockFund) {
+            //
+            // ((FragmentSelectStockFund) loadDataListFragment).refreshForMarker();
+            // }
+        }
+    }
+
+    private void loadAllData() {
+        int i = 0;
+        for (LoadSelectDataEngine mLoadDataEngine : engineList) {
+            if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
+                mLoadDataEngine.loadData();
+                if (i == 0) {
+                    plateEngine.loadData();
+                }
+            }
+            i++;
+        }
     }
 }

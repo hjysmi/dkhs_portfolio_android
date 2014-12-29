@@ -149,7 +149,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_rigster_forget"
         android:layout_marginTop="6dp"
-        android:text="使用游客模式" />
+        android:text="使用游客模式"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/ll_three_login"

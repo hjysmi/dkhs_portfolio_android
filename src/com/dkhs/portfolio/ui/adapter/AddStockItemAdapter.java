@@ -42,6 +42,11 @@ public class AddStockItemAdapter extends SelectStockAdatper {
 
     }
 
+    public AddStockItemAdapter(Context context, List<SelectStockBean> datas, boolean isDefColor) {
+        super(context, datas, isDefColor);
+
+    }
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 

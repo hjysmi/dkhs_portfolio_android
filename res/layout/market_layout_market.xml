@@ -48,7 +48,7 @@
             android:layout_weight="1.0"
             android:gravity="center_vertical|right"
             android:text="3132.16"
-            android:textColor="@color/red"
+            android:textColor="@color/theme_color"
             android:textSize="@dimen/list_text_size"
             android:textStyle="bold" />
 

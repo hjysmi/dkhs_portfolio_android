@@ -197,7 +197,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         }
         if (isItemClickBack) {
-            mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
+            if (mViewType == StockViewType.STOCK_HANDOVER) {
+
+                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList, true);
+            } else {
+                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
+            }
         } else if (isFund) {
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
