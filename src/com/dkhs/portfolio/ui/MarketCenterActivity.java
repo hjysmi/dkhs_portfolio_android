@@ -51,8 +51,6 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     private GridView gvPlate;
     private List<SectorBean> mSecotrList = new ArrayList<SectorBean>();
     private MarketPlateGridAdapter mPlateAdapter;
-    // private View btnMoreIndex;
-    // private View btnMorePlate;
 
     // 涨幅榜
     private ListView lvIncease;
@@ -217,7 +215,6 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
                 MarketCenterStockEngineImple.CURRENT, 3));
 
         plateEngine = new PlateLoadMoreEngineImpl(plateListener);
-        // loadAllData();
         for (LoadSelectDataEngine mLoadDataEngine : engineList) {
             mLoadDataEngine.loadData();
         }
