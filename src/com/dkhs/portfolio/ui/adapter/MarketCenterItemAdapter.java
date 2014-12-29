@@ -69,6 +69,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
             textCsl = ColorTemplate.getUpOrDrownCSL(change);
         }
         viewHolder.tvTextPercent.setTextColor(textCsl);
+        viewHolder.tvTextItemIndex.setTextColor(textCsl);
         if (StockUitls.isShangZhengB(mStockQuotesBean.code)) {
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get3Point(mStockQuotesBean.currentValue));
         } else {

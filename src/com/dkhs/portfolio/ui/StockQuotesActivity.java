@@ -796,7 +796,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         int id = v.getId();
         switch (id) {
             case R.id.btn_add_optional:
-
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 if (mStockQuotesBean.isFollowed()) {
                     mQuotesEngine.delfollow(mStockBean.id, baseListener);
                 } else {
@@ -917,16 +919,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void setmStockQuotesBean(StockQuotesBean mStockQuotesBean) {
         this.mStockQuotesBean = mStockQuotesBean;
     }
-    
+
     public SelectStockBean getmStockBean() {
-		return mStockBean;
-	}
+        return mStockBean;
+    }
 
-	public void setmStockBean(SelectStockBean mStockBean) {
-		this.mStockBean = mStockBean;
-	}
+    public void setmStockBean(SelectStockBean mStockBean) {
+        this.mStockBean = mStockBean;
+    }
 
-	@Override
+    @Override
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();

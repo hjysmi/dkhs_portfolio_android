@@ -35,7 +35,7 @@ public class SplashActivity extends ModelAcitivity {
     private static final long SPLASH_DELAY_MILLIS = 2000;
 
     private static final String SHAREDPREFERENCES_NAME = "first_pref";
-    
+
     protected static final String TAG = "SplashActivity";
     private Context context;
     private boolean isDebug = true;
@@ -48,7 +48,8 @@ public class SplashActivity extends ModelAcitivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case GO_NOACCOUNT_MAIN:
-                    goNoAccountMain();
+                    // goNoAccountMain();
+                    goAccountMain();
                     break;
                 case GO_GUIDE:
                     goGuide();
@@ -67,11 +68,11 @@ public class SplashActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         context = this;
-        
+
         hideHead();
         init();
-        if(!isDebug){
-        	PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
+        if (!isDebug) {
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
         }
     }
 
@@ -80,7 +81,8 @@ public class SplashActivity extends ModelAcitivity {
         try {
             user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if (user != null) {
-                if (!TextUtils.isEmpty(user.getAccess_token()) && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || isDebug)) {
+                if (!TextUtils.isEmpty(user.getAccess_token())
+                        && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || isDebug)) {
                     user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                     GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                     GlobalParams.USERNAME = user.getUsername();
@@ -131,22 +133,24 @@ public class SplashActivity extends ModelAcitivity {
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_splash);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(context);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(context);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_splash);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(context);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(context);
+    }
 }
