@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 public class FragmentSelectAdapter {
 	private Context context;
@@ -76,7 +77,7 @@ public class FragmentSelectAdapter {
 		this.mFragmentManager = fragmentManager;
 		inflater = LayoutInflater.from(context);
 		offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
-		oneTextSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
+		oneTextSize = UIUtils.getTextWidth("正", context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
 		imageAddSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
 		initDate();
 		createView();

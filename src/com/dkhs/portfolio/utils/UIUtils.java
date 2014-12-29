@@ -287,4 +287,11 @@ public class UIUtils {
         }
         return text;
     }
+    public static int getTextWidth(String text,int textSize){
+        Paint p= new Paint(); 
+        Rect rect = new Rect();
+        p.setTextSize(textSize);
+        p.getTextBounds(text, 0, text.length(), rect); 
+        return rect.width();
+    }
 }
