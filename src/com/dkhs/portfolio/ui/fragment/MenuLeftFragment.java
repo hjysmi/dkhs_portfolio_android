@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -24,6 +25,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
@@ -49,9 +51,11 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     private String[] items;
     private String[] icon_items;
     BaseAdapter itemAdapter;
-    private RelativeLayout menuSetting;
-    private TextView tvCombin;
-    private TextView tvStock;
+    // private RelativeLayout menuSetting;
+    private TextView tvSetting;
+    private Button btnLogin;
+    // private TextView tvCombin;
+    // private TextView tvStock;
     private TextView tvUserName;
     LoadSelectDataEngine mLoadDataEngine;
     private ImageView ivUserheader;
@@ -67,8 +71,8 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_menu_left, null);
-        menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
-        menuSetting.setOnClickListener(this);
+        // menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
+        // menuSetting.setOnClickListener(this);
         initView(view);
         // loadCombinationData();
         /*
@@ -80,32 +84,19 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
     private void initView(View view) {
 
-        tvCombin = (TextView) view.findViewById(R.id.tv_combin);
-        // tvCombin.setText(getString(R.string.combin, 3));
-        tvStock = (TextView) view.findViewById(R.id.tv_stock);
+        // tvCombin = (TextView) view.findViewById(R.id.tv_combin);
+
+        // tvStock = (TextView) view.findViewById(R.id.tv_stock);
+        btnLogin = (Button) view.findViewById(R.id.btn_login);
+        btnLogin.setOnClickListener(this);
         tvUserName = (TextView) view.findViewById(R.id.tv_username);
         ivUserheader = (ImageView) view.findViewById(R.id.iv_userheader);
-        tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-        // tvStock.setText(getString(R.string.optional_stock_format, 12));
-        // view.findViewById(R.id.btn_setting).setOnClickListener(this);
+        tvSetting = (TextView) view.findViewById(R.id.btn_setting);
+        tvSetting.setOnClickListener(this);
         ListView lvItem = (ListView) view.findViewById(R.id.menu_list);
         lvItem.setAdapter(itemAdapter);
 
-        View userHeader = view.findViewById(R.id.iv_header);
-        tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-        String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (!TextUtils.isEmpty(url)) {
-            // url = DKHSUrl.BASE_DEV_URL + url;
-            BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
-            bitmapUtils.display(ivUserheader, url);
-            // b = UIUtils.toRoundBitmap(b);
-            // ivUserheader.setImageBitmap(b);
-        } else {
-            Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
-            b = UIUtils.toRoundBitmap(b);
-            ivUserheader.setImageBitmap(b);
-        }
-        userHeader.setOnClickListener(new OnClickListener() {
+        ivUserheader.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -124,11 +115,15 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.menu_setting: {
+            case R.id.btn_setting: {
                 // Toast.makeText(getActivity(), "点击设置按钮",
                 // Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), SettingActivity.class);
                 getActivity().startActivity(intent);
+            }
+                break;
+            case R.id.btn_login: {
+                UIUtils.iStartLoginActivity(getActivity());
             }
                 break;
             default:
@@ -245,40 +240,6 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
     }
 
-    // private void loadCombinationData() {
-    // new MyCombinationEngineImpl().getCombinationList(new ParseHttpListener<List<CombinationBean>>() {
-    //
-    // @Override
-    // protected List<CombinationBean> parseDateTask(String jsonData) {
-    // Type listType = new TypeToken<List<CombinationBean>>() {
-    // }.getType();
-    // List<CombinationBean> combinationList = DataParse.parseJsonList(jsonData, listType);
-    //
-    // return combinationList;
-    // }
-    //
-    // @Override
-    // protected void afterParseData(List<CombinationBean> dataList) {
-    // if (null != dataList && isAdded()) {
-    //
-    // tvCombin.setText(dataList.size() + "");
-    //
-    // }
-    // }
-    //
-    // });
-    // // new OptionalStockEngineImpl(mSelectStockBackListener).loadData();
-    // }
-
-    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
-    //
-    // @Override
-    // public void loadFinish(List<SelectStockBean> dataList) {
-    // tvStock.setText(dataList.size() + "");
-    //
-    // }
-    //
-    // };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_main_left);
 
     @Override
@@ -293,21 +254,25 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(mPageName);
-        tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+        showUserInfo();
+
+    }
+
+    private void showUserInfo() {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (!TextUtils.isEmpty(url)) {
-            // url = DKHSUrl.BASE_DEV_URL + url;
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
             BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
             bitmapUtils.display(ivUserheader, url);
-            // b = UIUtils.toRoundBitmap(b);
-            // ivUserheader.setImageBitmap(b);
+            tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+            btnLogin.setVisibility(View.GONE);
+            tvUserName.setVisibility(View.VISIBLE);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
             b = UIUtils.toRoundBitmap(b);
             ivUserheader.setImageBitmap(b);
+            btnLogin.setVisibility(View.VISIBLE);
+            tvUserName.setVisibility(View.GONE);
         }
-        // TODO Auto-generated method stub
-
     }
 
 }

@@ -24,6 +24,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -60,6 +61,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private ImageView settingImageHead;
     private TextView settingTextAccountText;
     private TextView settingTextNameText;
+    private Button btnLogin;
+    private View viewUserInfo;
+    private View viewLogin;
     private UserEntity ue;
     private TextView settingSingText;
     private boolean login = false;
@@ -133,6 +137,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
+        btnLogin = (Button) findViewById(R.id.btn_login);
+        btnLogin.setOnClickListener(this);
+        viewUserInfo = findViewById(R.id.ll_userinfo_layout);
+        viewLogin = findViewById(R.id.ll_login_layout);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
         settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
@@ -143,14 +151,19 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextAccountText.setText(account);
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (!TextUtils.isEmpty(url)) {
+        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
             // url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(context);
             bitmapUtils.display(settingImageHead, url);
+            viewLogin.setVisibility(View.GONE);
+            viewUserInfo.setVisibility(View.VISIBLE);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
             b = UIUtils.toRoundBitmap(b);
             settingImageHead.setImageBitmap(b);
+            viewLogin.setVisibility(View.VISIBLE);
+            viewUserInfo.setVisibility(View.GONE);
+            findViewById(R.id.btn_exit).setVisibility(View.GONE);
         }
     }
 
@@ -169,6 +182,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void onClick(View v) {
         Intent intent;
         switch (v.getId()) {
+            case R.id.btn_login: {
+                UIUtils.iStartLoginActivity(this);
+            }
+                break;
             case R.id.btn_exit:
                 if (isSetPassword) {
                     DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
