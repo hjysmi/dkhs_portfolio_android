@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/btn_red_selector"
-            android:text="@string/login"
+            android:text="登陆注册"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -37,7 +37,7 @@
             android:layout_marginLeft="20dp"
             android:layout_weight="1"
             android:background="@drawable/btn_tiyan_selector"
-            android:text="@string/register"
+            android:text="随便看看"
             android:textColor="@color/red"
             android:textSize="18sp" />
     </LinearLayout>

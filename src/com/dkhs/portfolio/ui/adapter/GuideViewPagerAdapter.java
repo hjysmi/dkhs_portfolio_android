@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.LoginActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.NoAccountMainActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
 
@@ -86,7 +87,7 @@ public class GuideViewPagerAdapter extends PagerAdapter {
         @Override
         public void onClick(View v) {
             setGuided();
-            goHome();
+            goLogin();
 
         }
     };
@@ -95,14 +96,22 @@ public class GuideViewPagerAdapter extends PagerAdapter {
         @Override
         public void onClick(View v) {
             setGuided();
-            goRegister();
+            // goRegister();
+            goMainPage();
 
         }
     };
 
-    private void goHome() {
+    private void goLogin() {
         // 跳转
         Intent intent = new Intent(activity, LoginActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    private void goMainPage() {
+        // 跳转
+        Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }
