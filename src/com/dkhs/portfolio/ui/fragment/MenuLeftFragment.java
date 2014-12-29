@@ -205,9 +205,15 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
             Intent intent = null;
             switch (position) {
                 case 0:
+                    if (UIUtils.iStartLoginActivity(getActivity())) {
+                        return;
+                    }
                     intent = new Intent(getActivity(), MyCombinationActivity.class);
                     break;
                 case 1:
+                    if (UIUtils.iStartLoginActivity(getActivity())) {
+                        return;
+                    }
                     intent = new Intent(getActivity(), OptionalStockListActivity.class);
 
                     break;
