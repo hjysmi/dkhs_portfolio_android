@@ -68,14 +68,16 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private Button rlfbutton;
     private ImageView ivHeader;
     private String phoneNum;
-    private CheckBox cbRequestTestServer;
+    // private CheckBox cbRequestTestServer;
+    private TextView tvAnnoyLogin;
     private View ivWeibo, ivQQ, ivWeixin;
 
     private String mUserAccout;
     private UserEngineImpl engine;
 
     public static final String EXTRA_PHONENUM = "extra_phone";
-    private boolean isDeBug = true; 
+    private boolean isDeBug = true;
+
     public static Intent getLoginActivity(Context context, String phoneNum) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
@@ -89,8 +91,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         hideHead();
         // setBackTitle(R.string.login_title);
         // setTitle(R.string.login);
-        //默认为8030地址，即预发布地址
-        
+        // 默认为8030地址，即预发布地址
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -107,11 +109,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // ShareSDK.registerPlatform(Laiwang.class);
         ShareSDK.setConnTimeout(5000);
         ShareSDK.setReadTimeout(10000);
-        if(isDeBug){
-        	Intent intent = new Intent(this,GettingUrlForAPPActivity.class);
+        if (isDeBug) {
+            Intent intent = new Intent(this, GettingUrlForAPPActivity.class);
             startActivity(intent);
-        }else{
-        	
+        } else {
+
         }
     }
 
@@ -175,14 +177,24 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         ivWeixin.setOnClickListener(this);
 
         tvRegister.setOnClickListener(this);
-        cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
-        cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
-        cbRequestTestServer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        // cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
+        // cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
+        // cbRequestTestServer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        //
+        // @Override
+        // public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        //
+        // PortfolioPreferenceManager.setRequestByTestServer(isChecked);
+        // }
+        // });
+
+        tvAnnoyLogin = (TextView) findViewById(R.id.tv_is_request_test);
+        tvAnnoyLogin.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                PortfolioPreferenceManager.setRequestByTestServer(isChecked);
+            public void onClick(View v) {
+                GlobalParams.ACCESS_TOCKEN = "";
+                goMainPage();
             }
         });
 
@@ -356,14 +368,14 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
-        public void onHttpFailure(int errCode, String errMsg) {
-            PromptManager.closeProgressDialog();
-            super.onHttpFailure(errCode, errMsg);
-        };
+        // public void onHttpFailure(int errCode, String errMsg) {
+        // PromptManager.closeProgressDialog();
+        // super.onHttpFailure(errCode, errMsg);
+        // };
 
         public void onFailure(int errCode, String errMsg) {
-            PromptManager.closeProgressDialog();
             super.onFailure(errCode, errMsg);
+            PromptManager.closeProgressDialog();
         };
 
         @Override
@@ -390,11 +402,16 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(UserEntity entity) {
             PromptManager.closeProgressDialog();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            goMainPage();
         }
     };
+
+    private void goMainPage() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private String userName;
 
     /**
@@ -570,21 +587,22 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

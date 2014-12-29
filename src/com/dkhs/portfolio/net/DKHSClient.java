@@ -234,25 +234,27 @@ public class DKHSClient {
         if (relativeUrl.contains("http://") || relativeUrl.contains("https://")) {
             return relativeUrl;
         } else {
-        	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
-			case 0:
-				return DKHSUrl.BASE_DEV_URL + relativeUrl;
-			case 1:
-				return DKHSUrl.BASE_TEST_URL + relativeUrl;
-			case 2:
-				return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
-			case 3:
-				return DKHSUrl.BASE_DEV_TAG + relativeUrl;
-			default:
-				break;
-			}
-            /*if (PortfolioPreferenceManager.isRequestByTestServer()) {
-                
-            } else {
-                return DKHSUrl.BASE_DEV_URL + relativeUrl;
-
-            }*/
-        	return null;
+            switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+                case 0:
+                    return DKHSUrl.BASE_DEV_URL + relativeUrl;
+                case 1:
+                    return DKHSUrl.BASE_TEST_URL + relativeUrl;
+                case 2:
+                    return DKHSUrl.BASE_DEV_MAIN + relativeUrl;
+                case 3:
+                    return DKHSUrl.BASE_DEV_TAG + relativeUrl;
+                default:
+                    break;
+            }
+            /*
+             * if (PortfolioPreferenceManager.isRequestByTestServer()) {
+             * 
+             * } else {
+             * return DKHSUrl.BASE_DEV_URL + relativeUrl;
+             * 
+             * }
+             */
+            return null;
         }
     }
 }
