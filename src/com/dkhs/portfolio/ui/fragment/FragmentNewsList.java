@@ -172,8 +172,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
         }
     };
 
-    private void loadMore() {
-        if (null != mLoadDataEngine) {
+    public void loadMore() {
+        if (null != mLoadDataEngine && !isLoadingMore && getadle) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
@@ -194,10 +194,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
             try {
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
-                    if (null != context
+                    /*if (null != context
                             && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-                    }
+                    }*/
                     if (first || vo.getContentType().equals("20")) {
                         //initView(view);
                         first = false;
@@ -208,7 +208,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
                         mOptionlistAdapter.notifyDataSetChanged();
                     }
                     loadFinishUpdateView();
-
                 } else {
                     if (null != vo && null != vo.getPageTitle()) {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
@@ -225,9 +224,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
             try {
 				if (null != dataList) {
 				    mDataList.addAll(dataList);
-				    if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+				    /*if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
 				        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-				    }
+				    }*/
 				    if (first) {
 				        //initView(view);
 				        first = false;
@@ -262,8 +261,16 @@ public class FragmentNewsList extends Fragment implements Serializable {
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
-        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
+        int height = 0;
+        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+            View listItem = mOptionlistAdapter.getView(i, null, mListView);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+            height += list_child_item_height; // 统计所有子项的总高度
+        }
+        if (null != context
+                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
         }
     }
 
@@ -305,10 +312,17 @@ public class FragmentNewsList extends Fragment implements Serializable {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
     			}else if(null != mDataList){
-    				if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
-                        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-                    }
+    			    int height = 0;
+    		        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+    		            View listItem = mOptionlistAdapter.getView(i, null, mListView);
+    		            listItem.measure(0, 0); // 计算子项View 的宽高
+    		            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+    		            height += list_child_item_height; // 统计所有子项的总高度
+    		        }
+    		        if (null != context
+    		                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+    		            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+    		        }
     			}
     		}
         } else {

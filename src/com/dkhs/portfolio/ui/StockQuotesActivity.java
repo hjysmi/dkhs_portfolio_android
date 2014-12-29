@@ -129,7 +129,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private StockQuotesActivity layouts;
     private View viewHeader;
     private String symbolType;
-
+    private List<Fragment> frag;
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -164,19 +164,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         m.getDefaultDisplay().getMetrics(dm);
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         /*
-         * if (0 == position) {
+         * if (0 == position) { 
          * l.height = LayoutParams.MATCH_PARENT;
          * }
          */
         if (position < 3) {
             position = 3;
         }
-        l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        l.height = position * getResources().getDimensionPixelSize(R.dimen.layout_height) + 70;
     }
 
     public void setLayoutHeights(int height) {
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        l.height = height;
+        l.height = height + 70;
+        scrollToTop();
     }
 
     @Override
@@ -234,7 +235,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             name[2] = "F10";
         }
         NewsforImpleEngine vo;
-        List<Fragment> frag = new ArrayList<Fragment>();
+        frag = new ArrayList<Fragment>();
         Fragment f1 = new FragmentNewsList();
         Bundle b1 = new Bundle();
         b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
@@ -420,7 +421,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
              * chartTounching();
              * }
              */
-            Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
+            if(mScrollview.getScrollY() + mScrollview.getHeight() >=  mScrollview.computeVerticalScrollRange()){
+                    ((FragmentNewsList) frag.get(0)).loadMore();
+                    ((FragmentForOptionOnr) frag.get(1)).loadMore();
+            }
+            
         }
 
     };
