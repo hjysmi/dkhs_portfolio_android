@@ -69,11 +69,11 @@ public class InterceptScrollView extends ScrollView{
     protected void onScrollChanged(int x, int y, int oldx, int oldy) {  
         super.onScrollChanged(x, y, oldx, oldy);  
         if (scrollViewListener != null) {  
-            //scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
+            scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
         }  
     } 
     private boolean isIntercept = false;
-    
+       
    /* @Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		// TODO Auto-generated method stub
@@ -84,7 +84,13 @@ public class InterceptScrollView extends ScrollView{
     	}
 	}*/
 
-	/**
+	@Override
+    public int computeVerticalScrollRange() {
+        // TODO Auto-generated method stub
+        return super.computeVerticalScrollRange();
+    }
+
+    /**
      * 
      * @param isfocus true的时候表示拦截当前事件，不继续往下分发，交给自身的onTouchEvent进行处理。
      * false则不拦截，继续往下传，让子控件来处理。

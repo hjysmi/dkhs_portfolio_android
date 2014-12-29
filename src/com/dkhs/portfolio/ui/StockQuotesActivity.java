@@ -53,6 +53,7 @@ import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
+import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
@@ -129,7 +130,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private StockQuotesActivity layouts;
     private View viewHeader;
     private String symbolType;
-
+    private List<Fragment> frag;
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -164,19 +165,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         m.getDefaultDisplay().getMetrics(dm);
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         /*
-         * if (0 == position) {
+         * if (0 == position) { 
          * l.height = LayoutParams.MATCH_PARENT;
          * }
          */
         if (position < 3) {
             position = 3;
         }
-        l.height = position * getResources().getDimensionPixelOffset(R.dimen.layout_height);
+        l.height = position * getResources().getDimensionPixelSize(R.dimen.layout_height) + 70;
     }
 
     public void setLayoutHeights(int height) {
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
-        l.height = height;
+        l.height = height + 70;
+        scrollToTop();
     }
 
     @Override
@@ -223,64 +225,82 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initList() {
-        String[] name = new String[3];
-        if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
-            name = new String[2];
+        if(null != mStockCode && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))){
+            String[] name = new String[3];
+            name[0] = "涨幅榜";
+            name[1] = "跌幅榜";
+            name[2] = "换手率榜";
+            List<Fragment> fraglist = new ArrayList<Fragment>();
+            Fragment f1 = FragmentForStockSHC.newIntent();
+            fraglist.add(f1);
+            Fragment f2 = FragmentForStockSHC.newIntent();
+            fraglist.add(f2);
+            Fragment f3 = FragmentForStockSHC.newIntent();
+            fraglist.add(f3);
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist, stockLayout,
+                    getSupportFragmentManager());
+            mFragmentSelectAdapter.setScrollAble(false);
+            mFragmentSelectAdapter.setOutLaoyout(layouts);
+        }else{
+            String[] name = new String[3];
+            if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+                name = new String[2];
+            }
+            // name[0] = "新闻";
+            name[0] = "公告";
+            name[1] = "研报";
+            if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+                name[2] = "F10";
+            }
+            NewsforImpleEngine vo;
+            frag = new ArrayList<Fragment>();
+            Fragment f1 = new FragmentNewsList();
+            Bundle b1 = new Bundle();
+            b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+            vo = new NewsforImpleEngine();
+            vo.setSymbol(mStockBean.code);
+            vo.setContentType("10");
+            vo.setPageTitle("新闻正文");
+            // vo.setLayout(stockLayout);
+            b1.putSerializable(FragmentNewsList.VO, vo);
+            // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
+            f1.setArguments(b1);
+            // frag.add(f1);
+            Fragment f2 = new FragmentNewsList();
+            Bundle b2 = new Bundle();
+            b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+            vo = new NewsforImpleEngine();
+            vo.setSymbol(mStockBean.code);
+            vo.setContentType("20");
+            vo.setPageTitle("公告正文");
+            // vo.setLayout(stockLayout);
+            b2.putSerializable(FragmentNewsList.VO, vo);
+            // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
+            f2.setArguments(b2);
+            frag.add(f2);
+            Fragment f4 = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
+            Bundle b4 = new Bundle();
+            b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
+            vo = new NewsforImpleEngine();
+            vo.setSymbol(mStockBean.code);
+            vo.setPageTitle("研报正文");
+            // vo.setLayout(stockLayout);
+            b4.putSerializable(FragmentNewsList.VO, vo);
+            // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
+            // f4.setArguments(b4);
+            frag.add(f4);
+            if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+                Fragment f3 = new NewsFragment();
+                Bundle b3 = new Bundle();
+                b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
+                frag.add(f3);
+            }
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
+                    getSupportFragmentManager());
+            mFragmentSelectAdapter.setScrollAble(false);
+            mFragmentSelectAdapter.setOutLaoyout(layouts);
+            // views.setOnTouchListener(new OnView());
         }
-        // name[0] = "新闻";
-        name[0] = "公告";
-        name[1] = "研报";
-        if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
-            name[2] = "F10";
-        }
-        NewsforImpleEngine vo;
-        List<Fragment> frag = new ArrayList<Fragment>();
-        Fragment f1 = new FragmentNewsList();
-        Bundle b1 = new Bundle();
-        b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
-        vo = new NewsforImpleEngine();
-        vo.setSymbol(mStockBean.code);
-        vo.setContentType("10");
-        vo.setPageTitle("新闻正文");
-        // vo.setLayout(stockLayout);
-        b1.putSerializable(FragmentNewsList.VO, vo);
-        // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
-        f1.setArguments(b1);
-        // frag.add(f1);
-        Fragment f2 = new FragmentNewsList();
-        Bundle b2 = new Bundle();
-        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
-        vo = new NewsforImpleEngine();
-        vo.setSymbol(mStockBean.code);
-        vo.setContentType("20");
-        vo.setPageTitle("公告正文");
-        // vo.setLayout(stockLayout);
-        b2.putSerializable(FragmentNewsList.VO, vo);
-        // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
-        f2.setArguments(b2);
-        frag.add(f2);
-        Fragment f4 = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
-        Bundle b4 = new Bundle();
-        b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
-        vo = new NewsforImpleEngine();
-        vo.setSymbol(mStockBean.code);
-        vo.setPageTitle("研报正文");
-        // vo.setLayout(stockLayout);
-        b4.putSerializable(FragmentNewsList.VO, vo);
-        // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
-        // f4.setArguments(b4);
-        frag.add(f4);
-        if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
-            Fragment f3 = new NewsFragment();
-            Bundle b3 = new Bundle();
-            b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
-            frag.add(f3);
-        }
-        FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
-                getSupportFragmentManager());
-        mFragmentSelectAdapter.setScrollAble(false);
-        mFragmentSelectAdapter.setOutLaoyout(layouts);
-        // views.setOnTouchListener(new OnView());
     }
 
     private boolean isIndexType() {
@@ -420,7 +440,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
              * chartTounching();
              * }
              */
-            Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
+            if(mScrollview.getScrollY() + mScrollview.getHeight() >=  mScrollview.computeVerticalScrollRange() && null != frag){
+                    ((FragmentNewsList) frag.get(0)).loadMore();
+                    ((FragmentForOptionOnr) frag.get(1)).loadMore();
+            }
+            
         }
 
     };

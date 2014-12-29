@@ -160,8 +160,8 @@ public class FragmentForOptionOnr extends Fragment{
 		}
     };
 
-    private void loadMore() {
-        if (null != mLoadDataEngine) {
+    public void loadMore() {
+        if (null != mLoadDataEngine&& !isLoadingMore && getadble) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
@@ -208,6 +208,17 @@ public class FragmentForOptionOnr extends Fragment{
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
         }
+        int height = 0;
+        for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
+            View listItem = mOptionMarketAdapter.getView(i, null, mListView);
+            listItem.measure(0, 0); // 计算子项View 的宽高
+            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+            height += list_child_item_height; // 统计所有子项的总高度
+        }
+        if (null != context
+                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadble) {
+            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+        }
     }
 
 	@Override
@@ -221,10 +232,17 @@ public class FragmentForOptionOnr extends Fragment{
                     ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                 }
 			}else if(null != mDataList){
-				if (null != context
-                        && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&&getadble) {
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-                }
+			    int height = 0;
+		        for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
+		            View listItem = mOptionMarketAdapter.getView(i, null, mListView);
+		            listItem.measure(0, 0); // 计算子项View 的宽高
+		            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+		            height += list_child_item_height; // 统计所有子项的总高度
+		        }
+		        if (null != context
+		                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadble) {
+		            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+		        }
 			}
 		}else{
 			getadble = false;
