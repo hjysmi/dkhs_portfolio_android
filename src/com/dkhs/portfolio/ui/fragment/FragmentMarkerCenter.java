@@ -122,7 +122,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         ivCenter = (ImageView) view.findViewById(R.id.market_icon_center);
         marketIconUpDown.setVisibility(View.VISIBLE);
         if (mType == TYPE_STOCK_UP || mType == TYPE_STOCK_DOWN || mType == TYPE_STOCK_AMPLI_UP
-                || mType == TYPE_STOCK_TURN_UP || mType == TYPE_PLATEDETAIL_UP) {
+                || mType == TYPE_STOCK_TURN_UP || mType == TYPE_PLATEDETAIL_UP || mType == TYPE_INLAND_INDEX_UP) {
             marketLayoutUpanddown.setOnClickListener(this);
             marketTextIndex.setText(R.string.market_stock_name);
             marketTextEdition.setText(R.string.market_current_value);

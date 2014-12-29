@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2013. wyouflf (wyouflf@gmail.com)
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -82,8 +82,10 @@ public class HttpUtils {
         }
         HttpProtocolParams.setUserAgent(params, userAgent);
 
-        ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(10));
-        ConnManagerParams.setMaxTotalConnections(params, 10);
+        // ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(10));
+        // ConnManagerParams.setMaxTotalConnections(params, 10);
+        ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(1));
+        ConnManagerParams.setMaxTotalConnections(params, 1);
 
         HttpConnectionParams.setTcpNoDelay(params, true);
         HttpConnectionParams.setSocketBufferSize(params, 1024 * 8);
@@ -99,7 +101,8 @@ public class HttpUtils {
 
         httpClient.addRequestInterceptor(new HttpRequestInterceptor() {
             @Override
-            public void process(org.apache.http.HttpRequest httpRequest, HttpContext httpContext) throws org.apache.http.HttpException, IOException {
+            public void process(org.apache.http.HttpRequest httpRequest, HttpContext httpContext)
+                    throws org.apache.http.HttpException, IOException {
                 if (!httpRequest.containsHeader(HEADER_ACCEPT_ENCODING)) {
                     httpRequest.addHeader(HEADER_ACCEPT_ENCODING, ENCODING_GZIP);
                 }
@@ -108,7 +111,8 @@ public class HttpUtils {
 
         httpClient.addResponseInterceptor(new HttpResponseInterceptor() {
             @Override
-            public void process(HttpResponse response, HttpContext httpContext) throws org.apache.http.HttpException, IOException {
+            public void process(HttpResponse response, HttpContext httpContext) throws org.apache.http.HttpException,
+                    IOException {
                 final HttpEntity entity = response.getEntity();
                 if (entity == null) {
                     return;
@@ -126,7 +130,7 @@ public class HttpUtils {
         });
     }
 
-    // ************************************    default settings & fields ****************************
+    // ************************************ default settings & fields ****************************
 
     private String responseTextCharset = HTTP.UTF_8;
 
@@ -222,14 +226,14 @@ public class HttpUtils {
 
     // ***************************************** send request *******************************************
 
-    public <T> HttpHandler<T> send(HttpRequest.HttpMethod method, String url,
-                                   RequestCallBack<T> callBack) {
+    public <T> HttpHandler<T> send(HttpRequest.HttpMethod method, String url, RequestCallBack<T> callBack) {
         return send(method, url, null, callBack);
     }
 
     public <T> HttpHandler<T> send(HttpRequest.HttpMethod method, String url, RequestParams params,
-                                   RequestCallBack<T> callBack) {
-        if (url == null) throw new IllegalArgumentException("url may not be null");
+            RequestCallBack<T> callBack) {
+        if (url == null)
+            throw new IllegalArgumentException("url may not be null");
 
         HttpRequest request = new HttpRequest(method, url);
         return sendRequest(request, params, callBack);
@@ -239,8 +243,10 @@ public class HttpUtils {
         return sendSync(method, url, null);
     }
 
-    public ResponseStream sendSync(HttpRequest.HttpMethod method, String url, RequestParams params) throws HttpException {
-        if (url == null) throw new IllegalArgumentException("url may not be null");
+    public ResponseStream sendSync(HttpRequest.HttpMethod method, String url, RequestParams params)
+            throws HttpException {
+        if (url == null)
+            throw new IllegalArgumentException("url may not be null");
 
         HttpRequest request = new HttpRequest(method, url);
         return sendSyncRequest(request, params);
@@ -248,51 +254,50 @@ public class HttpUtils {
 
     // ***************************************** download *******************************************
 
-    public HttpHandler<File> download(String url, String target,
-                                      RequestCallBack<File> callback) {
+    public HttpHandler<File> download(String url, String target, RequestCallBack<File> callback) {
         return download(HttpRequest.HttpMethod.GET, url, target, null, false, false, callback);
     }
 
-    public HttpHandler<File> download(String url, String target,
-                                      boolean autoResume, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(String url, String target, boolean autoResume, RequestCallBack<File> callback) {
         return download(HttpRequest.HttpMethod.GET, url, target, null, autoResume, false, callback);
     }
 
-    public HttpHandler<File> download(String url, String target,
-                                      boolean autoResume, boolean autoRename, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(String url, String target, boolean autoResume, boolean autoRename,
+            RequestCallBack<File> callback) {
         return download(HttpRequest.HttpMethod.GET, url, target, null, autoResume, autoRename, callback);
     }
 
-    public HttpHandler<File> download(String url, String target,
-                                      RequestParams params, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(String url, String target, RequestParams params, RequestCallBack<File> callback) {
         return download(HttpRequest.HttpMethod.GET, url, target, params, false, false, callback);
     }
 
-    public HttpHandler<File> download(String url, String target,
-                                      RequestParams params, boolean autoResume, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(String url, String target, RequestParams params, boolean autoResume,
+            RequestCallBack<File> callback) {
         return download(HttpRequest.HttpMethod.GET, url, target, params, autoResume, false, callback);
     }
 
-    public HttpHandler<File> download(String url, String target,
-                                      RequestParams params, boolean autoResume, boolean autoRename, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(String url, String target, RequestParams params, boolean autoResume,
+            boolean autoRename, RequestCallBack<File> callback) {
         return download(HttpRequest.HttpMethod.GET, url, target, params, autoResume, autoRename, callback);
     }
 
-    public HttpHandler<File> download(HttpRequest.HttpMethod method, String url, String target,
-                                      RequestParams params, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(HttpRequest.HttpMethod method, String url, String target, RequestParams params,
+            RequestCallBack<File> callback) {
         return download(method, url, target, params, false, false, callback);
     }
 
-    public HttpHandler<File> download(HttpRequest.HttpMethod method, String url, String target,
-                                      RequestParams params, boolean autoResume, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(HttpRequest.HttpMethod method, String url, String target, RequestParams params,
+            boolean autoResume, RequestCallBack<File> callback) {
         return download(method, url, target, params, autoResume, false, callback);
     }
 
-    public HttpHandler<File> download(HttpRequest.HttpMethod method, String url, String target,
-                                      RequestParams params, boolean autoResume, boolean autoRename, RequestCallBack<File> callback) {
+    public HttpHandler<File> download(HttpRequest.HttpMethod method, String url, String target, RequestParams params,
+            boolean autoResume, boolean autoRename, RequestCallBack<File> callback) {
 
-        if (url == null) throw new IllegalArgumentException("url may not be null");
-        if (target == null) throw new IllegalArgumentException("target may not be null");
+        if (url == null)
+            throw new IllegalArgumentException("url may not be null");
+        if (target == null)
+            throw new IllegalArgumentException("target may not be null");
 
         HttpRequest request = new HttpRequest(method, url);
 
@@ -309,7 +314,7 @@ public class HttpUtils {
         return handler;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////////////////////
     private <T> HttpHandler<T> sendRequest(HttpRequest request, RequestParams params, RequestCallBack<T> callBack) {
 
         HttpHandler<T> handler = new HttpHandler<T>(httpClient, httpContext, responseTextCharset, callBack);
