@@ -82,10 +82,8 @@ public class HttpUtils {
         }
         HttpProtocolParams.setUserAgent(params, userAgent);
 
-        // ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(10));
-        // ConnManagerParams.setMaxTotalConnections(params, 10);
-        ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(1));
-        ConnManagerParams.setMaxTotalConnections(params, 1);
+        ConnManagerParams.setMaxConnectionsPerRoute(params, new ConnPerRouteBean(10));
+        ConnManagerParams.setMaxTotalConnections(params, 10);
 
         HttpConnectionParams.setTcpNoDelay(params, true);
         HttpConnectionParams.setSocketBufferSize(params, 1024 * 8);
@@ -138,7 +136,7 @@ public class HttpUtils {
 
     private final static int DEFAULT_CONN_TIMEOUT = 1000 * 15; // 15s
 
-    private final static int DEFAULT_RETRY_TIMES = 3;
+    private final static int DEFAULT_RETRY_TIMES = 0;
 
     private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     private static final String ENCODING_GZIP = "gzip";

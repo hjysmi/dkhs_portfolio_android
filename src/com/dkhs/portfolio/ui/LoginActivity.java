@@ -368,14 +368,14 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
-        public void onHttpFailure(int errCode, String errMsg) {
-            PromptManager.closeProgressDialog();
-            super.onHttpFailure(errCode, errMsg);
-        };
+        // public void onHttpFailure(int errCode, String errMsg) {
+        // PromptManager.closeProgressDialog();
+        // super.onHttpFailure(errCode, errMsg);
+        // };
 
         public void onFailure(int errCode, String errMsg) {
-            PromptManager.closeProgressDialog();
             super.onFailure(errCode, errMsg);
+            PromptManager.closeProgressDialog();
         };
 
         @Override
