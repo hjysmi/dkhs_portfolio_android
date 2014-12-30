@@ -39,10 +39,7 @@ import com.lidroid.xutils.exception.DbException;
  */
 public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
-    // private int width;
-    // private int height;
-    // private float density;
-    // private int densityDpi;
+
     private boolean isDebug = true;
 
     public static PortfolioApplication getInstance() {
@@ -60,18 +57,6 @@ public class PortfolioApplication extends Application {
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
-
-        // DisplayMetrics metric = getResources().getDisplayMetrics();
-        //
-        // width = metric.widthPixels; // 屏幕宽度（像素）
-        // height = metric.heightPixels; // 屏幕高度（像素）
-        // density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
-        // densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
-        //
-        // System.out.println("Devices width:" + width);
-        // System.out.println("Devices height:" + height);
-        // System.out.println("Devices density:" + density);
-        // System.out.println("Devices densityDpi:" + densityDpi);
 
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
@@ -125,7 +110,6 @@ public class PortfolioApplication extends Application {
                         util.copyDataBase();
                         PortfolioPreferenceManager.setLoadSearchStock();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 };
@@ -151,44 +135,8 @@ public class PortfolioApplication extends Application {
         }
     }
 
-    // public int getWidth() {
-    // return width;
-    // }
-    //
-    // public void setWidth(int width) {
-    // this.width = width;
-    // }
-    //
-    // public int getHeight() {
-    // return height;
-    // }
-    //
-    // public void setHeight(int height) {
-    // this.height = height;
-    // }
-    //
-    // public float getDensity() {
-    // return density;
-    // }
-    //
-    // public void setDensity(float density) {
-    // this.density = density;
-    // }
-    //
-    // public int getDensityDpi() {
-    // return densityDpi;
-    // }
-    //
-    // public void setDensityDpi(int densityDpi) {
-    // this.densityDpi = densityDpi;
-    // }
-    //
     public boolean isDebug() {
         return isDebug;
     }
-    //
-    // public void setDebug(boolean isDebug) {
-    // this.isDebug = isDebug;
-    // }
 
 }
