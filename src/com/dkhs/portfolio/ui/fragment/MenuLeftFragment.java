@@ -2,6 +2,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Type;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
@@ -21,10 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
@@ -45,6 +48,7 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class MenuLeftFragment extends Fragment implements OnClickListener {
@@ -74,6 +78,23 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
         // menuSetting.setOnClickListener(this);
         initView(view);
+        UserEntity user;
+        try {
+            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if(null == user){
+                btnLogin.setVisibility(View.VISIBLE);
+                tvUserName.setVisibility(View.GONE);
+            }else{
+                btnLogin.setVisibility(View.GONE);
+                tvUserName.setVisibility(View.VISIBLE);
+                tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+            }
+        }catch(Exception e){
+            btnLogin.setVisibility(View.GONE);
+            tvUserName.setVisibility(View.VISIBLE);
+        }
+        
+        
         // loadCombinationData();
         /*
          * mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_MAININDEX);
@@ -260,18 +281,13 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
     private void showUserInfo() {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+        if (!TextUtils.isEmpty(url)) {
             BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
             bitmapUtils.display(ivUserheader, url);
-            tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-            btnLogin.setVisibility(View.GONE);
-            tvUserName.setVisibility(View.VISIBLE);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
             b = UIUtils.toRoundBitmap(b);
             ivUserheader.setImageBitmap(b);
-            btnLogin.setVisibility(View.VISIBLE);
-            tvUserName.setVisibility(View.GONE);
         }
     }
 

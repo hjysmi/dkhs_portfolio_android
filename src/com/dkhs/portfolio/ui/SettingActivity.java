@@ -150,20 +150,34 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         // account = setAccount(account);
         settingTextAccountText.setText(account);
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+        UserEntity user;
+        try {
+            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if(null == user){
+                viewLogin.setVisibility(View.VISIBLE);
+                viewUserInfo.setVisibility(View.GONE);
+                findViewById(R.id.btn_exit).setVisibility(View.GONE);
+            }else{
+                btnLogin.setVisibility(View.GONE);
+                viewLogin.setVisibility(View.GONE);
+                viewUserInfo.setVisibility(View.VISIBLE);
+            }
+        }catch(Exception e){
+            btnLogin.setVisibility(View.GONE);
+            viewLogin.setVisibility(View.GONE);
+            viewUserInfo.setVisibility(View.VISIBLE);
+        }
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
             // url = DKHSUrl.BASE_DEV_URL + url;
             BitmapUtils bitmapUtils = new BitmapUtils(context);
             bitmapUtils.display(settingImageHead, url);
-            viewLogin.setVisibility(View.GONE);
-            viewUserInfo.setVisibility(View.VISIBLE);
+            
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
             b = UIUtils.toRoundBitmap(b);
             settingImageHead.setImageBitmap(b);
-            viewLogin.setVisibility(View.VISIBLE);
-            viewUserInfo.setVisibility(View.GONE);
-            findViewById(R.id.btn_exit).setVisibility(View.GONE);
+            
         }
     }
 
