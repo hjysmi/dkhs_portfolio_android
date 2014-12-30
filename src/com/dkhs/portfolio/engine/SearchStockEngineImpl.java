@@ -123,6 +123,7 @@ public class SearchStockEngineImpl {
                     .from(SearchStockBean.class)
                     .where("symbol_type", "=", "1")
                     .and(WhereBuilder.b("is_stop", "!=", "1"))
+                    .and(WhereBuilder.b("list_status", "!=", "7"))
                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                             .or("stock_code", "LIKE", "%" + key + "%").or("chi_spell", "LIKE", "%" + key + "%")));
             if (null != searchStockList) {
