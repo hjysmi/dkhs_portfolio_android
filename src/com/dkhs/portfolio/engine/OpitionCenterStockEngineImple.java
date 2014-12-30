@@ -138,13 +138,10 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
 
     }
 
-    public void loadDataFromCurrent(int num) {
-        if (num == 0) {
-            num = 10;
-        }
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, num), null, this);
-
-    }
+    // public void loadDataFromCurrent(int num) {
+    // // DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, num), null, this);
+    //
+    // }
 
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
@@ -183,5 +180,31 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         }
 
         return selectList;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        if (dataSize == 0) {
+            dataSize = 10;
+        }
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("exchange", VALUE_EXCHANGE);
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", dataSize + "");
+        params.addQueryStringParameter("symbol_type", VALUE_SYMBOL_TYPE);
+        params.addQueryStringParameter("symbol_stype", VALUE_SYMBOL_STYPE);
+
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+
     }
 }

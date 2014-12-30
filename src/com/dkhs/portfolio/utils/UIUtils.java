@@ -298,30 +298,32 @@ public class UIUtils {
         }
         return text;
     }
-    public static int getTextWidth(String text,int textSize){
-        Paint p= new Paint(); 
+
+    public static int getTextWidth(String text, int textSize) {
+        Paint p = new Paint();
         Rect rect = new Rect();
         p.setTextSize(textSize);
-        p.getTextBounds(text, 0, text.length(), rect); 
+        p.getTextBounds(text, 0, text.length(), rect);
         return rect.width();
     }
+
     public static boolean iStartLoginActivity(Context context) {
         try {
             UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if (user == null) {
-                PortfolioApplication.getInstance().exitApp();
-                Intent intent = new Intent(context, LoginActivity.class);
-                context.startActivity(intent);
+                // PortfolioApplication.getInstance().exitApp();
+                // Intent intent = new Intent(context, LoginActivity.class);
+
+                context.startActivity(LoginActivity.loginActivityByAnnoy(context));
                 return true;
             } else {
                 return false;
             }
         } catch (DbException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-            PortfolioApplication.getInstance().exitApp();
-            Intent intent = new Intent(context, LoginActivity.class);
-            context.startActivity(intent);
+            // PortfolioApplication.getInstance().exitApp();
+            // Intent intent = new Intent(context, LoginActivity.class);
+            context.startActivity(LoginActivity.loginActivityByAnnoy(context));
             return true;
         }
     }

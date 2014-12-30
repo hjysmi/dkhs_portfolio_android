@@ -154,4 +154,20 @@ public class FundDataEngine extends LoadSelectDataEngine {
         return selectList;
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("type", mFundsType);
+        params.addQueryStringParameter("sort", mOrderType.getType());
+        params.addQueryStringParameter("page_size", dataSize + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
+
+    }
+
 }

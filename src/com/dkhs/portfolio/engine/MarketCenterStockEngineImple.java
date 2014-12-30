@@ -23,7 +23,7 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     public final static String ORDER_DOWN = "percentage";
     public final static String ORDER_TURNOVER = "-turnover_rate";
 
-//    public final static String ORDER_TURNOVER = "amplitude";
+    // public final static String ORDER_TURNOVER = "amplitude";
     public final static String ACE = "percentage";
     public final static String DESC = "-percentage";
     public final static String CURRENT = "";
@@ -108,6 +108,20 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
 
     public void setStatus(int status) {
         Status = status;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        // TODO Auto-generated method stub
+
+        // params.addQueryStringParameter("page_size", dataSize + "");
+
     }
 
 }

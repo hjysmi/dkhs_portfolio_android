@@ -41,7 +41,8 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @version 1.0
  */
 public class OptionalStockEngineImpl extends LoadSelectDataEngine {
-	ILoadDataBackListener loadListener;
+    ILoadDataBackListener loadListener;
+
     public OptionalStockEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex) {
         super(loadListener);
         this.isShowIndex = isShowIndex;
@@ -241,28 +242,19 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
     }
 
-    public int getTotalcount() {
-        return totalcount;
-    }
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("page_size", dataSize + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
 
-    public void setTotalcount(int totalcount) {
-        this.totalcount = totalcount;
-    }
-
-    public int getTotalpage() {
-        return totalpage;
-    }
-
-    public void setTotalpage(int totalpage) {
-        this.totalpage = totalpage;
-    }
-
-    public int getCurrentpage() {
-        return currentpage;
-    }
-
-    public void setCurrentpage(int currentpage) {
-        this.currentpage = currentpage;
     }
 
     // public List<StockPriceBean> getResults() {

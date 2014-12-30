@@ -226,4 +226,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
             getLoadEngine().loadMore();
         }
     }
+    
+    public void refreshDataSize(int size){
+        
+    }
 }

@@ -7,9 +7,12 @@ import java.util.TimerTask;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -40,7 +43,7 @@ import com.umeng.analytics.MobclickAgent;
  * @author weiting
  * 
  */
-public class MarketCenterActivity extends ModelAcitivity implements OnClickListener {
+public class MarketCenterActivity extends RefreshModelActivity implements OnClickListener {
 
     public final static String INLAND_INDEX = "inland_index";
 
@@ -73,7 +76,7 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 5;
-    private boolean start = false;
+    private boolean isTimerStart = true;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -89,7 +92,7 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-        if (mMarketTimer == null && start) {
+        if (mMarketTimer == null && isTimerStart) {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
@@ -114,7 +117,7 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
      * @return void
      */
     private void initView() {
-
+        //
         Button addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
@@ -183,8 +186,22 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
         lvDown.setAdapter(mDownAdapter);
         lvHandover.setAdapter(mTurnOverAdapter);
         lvAmplit.setAdapter(mAmplitAdapter);
+        setRefreshButtonListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // if (mMarketTimer != null) {
+                // mMarketTimer.cancel();
+                // }
+                // mMarketTimer = new Timer(true);
+                // mMarketTimer.schedule(new RequestMarketTask(), 0, mPollRequestTime);
+                loadingAllData();
+            }
+        });
 
     }
+
+    private boolean isLoading;
 
     /**
      * @Title
@@ -225,6 +242,7 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
         @Override
         public void loadFinish(MoreDataBean<SectorBean> object) {
+            endAnimaRefresh();
             if (null != object) {
                 mSecotrList.clear();
                 List<SectorBean> sectorList = object.getResults();
@@ -248,6 +266,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
+            // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+            isLoading = false;
             if (null != dataList && !TextUtils.isEmpty(type)) {
                 if (type.equals(OpitionCenterStockEngineImple.ORDER_INCREASE)) {
                     mIncreaseDataList.clear();
@@ -275,6 +295,8 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
         @Override
         public void loadFail(ErrorBundle error) {
+            endAnimaRefresh();
+            isLoading = false;
 
         }
 
@@ -311,6 +333,16 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
                 startActivity(MarketListActivity.newIntent(this, LoadViewType.StockAmplit));
             }
                 break;
+
+            // case R.id.btn_right_second: {
+            //
+            //
+            // // rotateRefreshButton();
+            // // quoteHandler.removeCallbacks(runnable);
+            // // setupViewData();
+            // // quoteHandler.postDelayed(runnable, 6 * 1000);
+            // }
+            // break;
             default:
                 break;
         }
@@ -323,44 +355,33 @@ public class MarketCenterActivity extends ModelAcitivity implements OnClickListe
 
     @Override
     public void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPause(this);
     }
-
-    //
-    // @Override
-    // public void onResume() {
-    // // TODO Auto-generated method stub
-    // super.onResume();
-    // // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-    // MobclickAgent.onResume(this);
-    // }
 
     public class RequestMarketTask extends TimerTask {
 
         @Override
         public void run() {
-
-            loadAllData();
-            // if (loadDataListFragment instanceof FragmentSelectStockFund) {
-            //
-            // ((FragmentSelectStockFund) loadDataListFragment).refreshForMarker();
-            // }
+            if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
+                loadingAllData();
+            }
         }
     }
 
-    private void loadAllData() {
-        int i = 0;
-        for (LoadSelectDataEngine mLoadDataEngine : engineList) {
-            if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
-                mLoadDataEngine.loadData();
-                if (i == 0) {
-                    plateEngine.loadData();
-                }
-            }
-            i++;
+    private void loadingAllData() {
+        if (isLoading) {
+            return;
         }
+        isLoading = true;
+        for (LoadSelectDataEngine mLoadDataEngine : engineList) {
+            mLoadDataEngine.loadData();
+        }
+        startAnimaRefresh();
+        plateEngine.loadData();
+    }
+
+    public interface ILoadingFinishListener {
+        void loadingFinish();
     }
 }
