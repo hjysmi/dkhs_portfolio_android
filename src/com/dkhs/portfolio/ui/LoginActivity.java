@@ -76,7 +76,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private UserEngineImpl engine;
 
     public static final String EXTRA_PHONENUM = "extra_phone";
+    public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
     private boolean isDeBug = true;
+
+    private boolean isLoginByAnnoy = false;
 
     public static Intent getLoginActivity(Context context, String phoneNum) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -84,11 +87,17 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         return intent;
     }
 
+    public static Intent loginActivityByAnnoy(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(EXTRA_LOGINANNOY, true);
+        return intent;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        hideHead();
+
         // setBackTitle(R.string.login_title);
         // setTitle(R.string.login);
         // 默认为8030地址，即预发布地址
@@ -97,10 +106,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (extras != null) {
             handleExtras(extras);
         }
-        getBtnBack().setVisibility(View.GONE);
+
         engine = new UserEngineImpl();
 
         initViews();
+
         initDatas();
         setListener();
         LogUtils.customTagPrefix = "LoginActivity";
@@ -124,13 +134,21 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
      */
     private void initDatas() {
         mUserAccout = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-        if (!TextUtils.isEmpty(phoneNum)) {
-            etUserName.setText(phoneNum);
-        } else if (!TextUtils.isEmpty(mUserAccout)) {
-            etUserName.setText(mUserAccout);
-            setupLastUserInfo();
-        }
+        if (isLoginByAnnoy) {
+            setupDefalutUserInfo();
+            setTitle(R.string.login);
+            getBtnBack().setText(R.string.cancel);
+            getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        } else {
+            hideHead();
+            if (!TextUtils.isEmpty(phoneNum)) {
+                etUserName.setText(phoneNum);
+            } else if (!TextUtils.isEmpty(mUserAccout)) {
+                etUserName.setText(mUserAccout);
+                setupLastUserInfo();
+            }
 
+        }
     }
 
     private void setupLastUserInfo() {
@@ -151,6 +169,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
+        isLoginByAnnoy = extras.getBoolean(EXTRA_LOGINANNOY);
 
     }
 
@@ -161,6 +180,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     public void initViews() {
+        // if (!isLoginByAnnoy) {
+        // getBtnBack().setVisibility(View.GONE);
+        // } else {
+        // getBtnBack().setVisibility(View.VISIBLE);
+        // }
+
         etUserName = (EditText) findViewById(R.id.username);
         ivHeader = (ImageView) findViewById(R.id.iv_header);
 
@@ -177,17 +202,6 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         ivWeixin.setOnClickListener(this);
 
         tvRegister.setOnClickListener(this);
-        // cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
-        // cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
-        // cbRequestTestServer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-        //
-        // @Override
-        // public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //
-        // PortfolioPreferenceManager.setRequestByTestServer(isChecked);
-        // }
-        // });
-
         tvAnnoyLogin = (TextView) findViewById(R.id.tv_is_request_test);
         tvAnnoyLogin.setOnClickListener(new OnClickListener() {
 
@@ -402,6 +416,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(UserEntity entity) {
             PromptManager.closeProgressDialog();
+            PortfolioApplication.getInstance().exitApp();
             goMainPage();
         }
     };
