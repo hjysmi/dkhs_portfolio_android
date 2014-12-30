@@ -41,6 +41,7 @@ import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
+import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
@@ -277,6 +278,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
             mListView.onLoadMoreComplete();
+            if (null != loadingFinishListener) {
+                loadingFinishListener.loadingFinish();
+            }
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 mListView.setCanLoadMore(false);
                 mListView.setAutoLoadMore(false);
@@ -314,6 +318,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
+            }
+            if (null != loadingFinishListener) {
+                loadingFinishListener.loadingFinish();
             }
         }
 
@@ -389,7 +396,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
-            mLoadDataEngine.loadData();
+            mLoadDataEngine.refreshDatabySize(mDataList.size());
         }
     }
 
@@ -400,16 +407,18 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
                 timeMill = 0;
                 isRefresh = true;
-                if ((mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
-                        || mViewType == StockViewType.MARKET_INLAND_INDEX || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE)
-                        && null != mDataList) {
-                    ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-                }
-                if ((mViewType == StockViewType.MARKET_STOCK_UPRATIO || mViewType == StockViewType.MARKET_STOCK_DOWNRATIO)
-                        && null != mDataList) {
-                    ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-                }
-                // mLoadDataEngine.setLoadingDialog(getActivity());
+                // if ((mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
+                // || mViewType == StockViewType.MARKET_INLAND_INDEX || mViewType ==
+                // StockViewType.MARKET_INLAND_INDEX_ACE)
+                // && null != mDataList) {
+                // ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+                // }
+                // if ((mViewType == StockViewType.MARKET_STOCK_UPRATIO || mViewType ==
+                // StockViewType.MARKET_STOCK_DOWNRATIO)
+                // && null != mDataList) {
+                // ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+                // }
+                mLoadDataEngine.refreshDatabySize(mDataList.size());
             }
         } else {
             timeMill++;
@@ -559,4 +568,11 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine.loadMore();
         }
     }
+
+    private ILoadingFinishListener loadingFinishListener;
+
+    public void setLoadingFinishListener(ILoadingFinishListener finishListener) {
+        this.loadingFinishListener = finishListener;
+    }
+
 }

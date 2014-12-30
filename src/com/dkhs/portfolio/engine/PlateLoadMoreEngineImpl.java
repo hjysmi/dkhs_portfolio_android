@@ -97,4 +97,22 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mOrderType)) {
+            params.addQueryStringParameter("sort", mOrderType);
+
+        }
+        params.addQueryStringParameter("page_size", dataSize + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
+
+    }
+
 }

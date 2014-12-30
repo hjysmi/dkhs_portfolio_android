@@ -106,4 +106,21 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(userId)) {
+            params.addQueryStringParameter("user_id", userId);
+        }
+        params.addQueryStringParameter("page_size", dataSize + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+    }
+
 }

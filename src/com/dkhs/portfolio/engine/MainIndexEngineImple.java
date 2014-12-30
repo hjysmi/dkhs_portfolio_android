@@ -139,4 +139,21 @@ public class MainIndexEngineImple extends LoadSelectDataEngine {
         return selectList;
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("symbol_type", "5");
+        params.addQueryStringParameter("is_midx", "1");
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", dataSize + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
+
+    }
+
 }

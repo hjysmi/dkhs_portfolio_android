@@ -131,6 +131,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private View viewHeader;
     private String symbolType;
     private List<Fragment> frag;
+
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
 
@@ -165,7 +166,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         m.getDefaultDisplay().getMetrics(dm);
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         /*
-         * if (0 == position) { 
+         * if (0 == position) {
          * l.height = LayoutParams.MATCH_PARENT;
          * }
          */
@@ -225,7 +226,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initList() {
-        if(null != mStockCode && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))){
+        if (null != mStockCode
+                && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
             String[] name = new String[3];
             name[0] = "涨幅榜";
             name[1] = "跌幅榜";
@@ -237,11 +239,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             fraglist.add(f2);
             Fragment f3 = FragmentForStockSHC.newIntent();
             fraglist.add(f3);
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist, stockLayout,
-                    getSupportFragmentManager());
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist,
+                    stockLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
-        }else{
+        } else {
             String[] name = new String[3];
             if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
                 name = new String[2];
@@ -440,11 +442,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
              * chartTounching();
              * }
              */
-            if(mScrollview.getScrollY() + mScrollview.getHeight() >=  mScrollview.computeVerticalScrollRange() && null != frag){
-                    ((FragmentNewsList) frag.get(0)).loadMore();
-                    ((FragmentForOptionOnr) frag.get(1)).loadMore();
+            if (mScrollview.getScrollY() + mScrollview.getHeight() >= mScrollview.computeVerticalScrollRange()
+                    && null != frag) {
+                ((FragmentNewsList) frag.get(0)).loadMore();
+                ((FragmentForOptionOnr) frag.get(1)).loadMore();
             }
-            
+
         }
 
     };
@@ -640,7 +643,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
             }
             tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
-            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate() * 100));
+            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate()));
             tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
             tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         }

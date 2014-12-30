@@ -152,7 +152,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = loadDataListFragment.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
+            loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
     }

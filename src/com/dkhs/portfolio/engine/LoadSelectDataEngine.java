@@ -57,6 +57,11 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     public abstract void loadData();
 
     /**
+     * 刷新数据
+     */
+    public abstract void refreshDatabySize(int dataSize);
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
