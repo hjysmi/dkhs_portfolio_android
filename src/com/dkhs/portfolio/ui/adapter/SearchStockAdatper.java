@@ -69,18 +69,20 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
         viewHolder.mCheckbox.setOnCheckedChangeListener(this);
 
         System.out.println("SelectStockBean list status:" + item.list_status);
-        if (item.isStop) {
-            viewHolder.tvSuspend.setVisibility(View.VISIBLE);
-            viewHolder.tvSuspend.setText("停牌");
-            viewHolder.mCheckbox.setVisibility(View.GONE);
-            // viewHolder.tvIncreaseValue.setText("—");
-            // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
-        } else if (StockUitls.isNewStock(item.list_status)) {
-            viewHolder.tvSuspend.setVisibility(View.VISIBLE);
-            viewHolder.tvSuspend.setText("新股");
-            viewHolder.mCheckbox.setVisibility(View.GONE);
-        }
+        if (isCombination) {
+            if (item.isStop) {
+                viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+                viewHolder.tvSuspend.setText("停牌");
+                viewHolder.mCheckbox.setVisibility(View.GONE);
+                // viewHolder.tvIncreaseValue.setText("—");
+                // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+            } else if (StockUitls.isNewStock(item.list_status)) {
+                viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+                viewHolder.tvSuspend.setText("新股");
+                viewHolder.mCheckbox.setVisibility(View.GONE);
+            }
 
+        }
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
 
