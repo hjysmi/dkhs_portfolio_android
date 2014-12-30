@@ -28,6 +28,7 @@ import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
+import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.MarketListActivity;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
@@ -96,13 +97,32 @@ public class HotPlateFragment extends LoadMoreListFragment {
         getLoadEngine().loadData();
     }
 
+    private boolean isRefresh;
+
+    public void refreshData() {
+        isRefresh = true;
+        getLoadEngine().refreshDatabySize(mDataList.size());
+    }
+
+    private ILoadingFinishListener finishListener;
+
+    public void setLoadingFinishListener(ILoadingFinishListener finishlistener) {
+        this.finishListener = finishlistener;
+    }
+
     @Override
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
+        if (null != finishListener) {
+            finishListener.loadingFinish();
+        }
         if (null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
+            if (isRefresh) {
+                mDataList.clear();
+            }
             // add by zcm -----2014.12.15
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
@@ -122,8 +142,8 @@ public class HotPlateFragment extends LoadMoreListFragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            loadData();
-            dataHandler.postDelayed(this, 60 * 1000);
+            // loadData();
+            // dataHandler.postDelayed(this, 60 * 1000);
         }
     };
 
@@ -146,7 +166,7 @@ public class HotPlateFragment extends LoadMoreListFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
-            dataHandler.postDelayed(runnable, 60 * 1000);
+            // dataHandler.postDelayed(runnable, 60 * 1000);
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -154,11 +174,9 @@ public class HotPlateFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
-            System.out.println("getLoadEngine new FundsOrderEngineImpl");
             // orderEngine = new PlateEngineImpl(this);
             orderEngine = new PlateLoadMoreEngineImpl(this, mOrderType);
         }
-        System.out.println("getLoadEngine not new ");
         return orderEngine;
     }
 

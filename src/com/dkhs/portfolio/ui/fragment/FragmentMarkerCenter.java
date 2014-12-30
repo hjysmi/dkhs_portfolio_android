@@ -8,8 +8,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.MarketListActivity;
+import com.dkhs.portfolio.ui.MarketCenterActivity.RequestMarketTask;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
+import com.dkhs.portfolio.ui.RefreshModelActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -25,7 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class FragmentMarkerCenter extends BaseFragment implements OnClickListener {
+public class FragmentMarkerCenter extends BaseFragment implements OnClickListener, ILoadingFinishListener {
     private static final String KEY_TYPE = "type";
     public static final int TYPE_INLAND_INDEX_UP = 0x00;
     public static final int TYPE_INLAND_INDEX = 0x00;
@@ -56,7 +59,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private LinearLayout marketLayoutUpanddown;
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 5;
-    private boolean start = false;
+    private boolean start = true;
 
     private WeakReference<MarketListActivity> mWeakActivity;
 
@@ -142,6 +145,28 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         }
     }
 
+    public void refreshData() {
+        // System.out.println("刷新Fragment markercenter ");
+        startRefreshView();
+        if (loadDataListFragment instanceof FragmentSelectStockFund) {
+            ((FragmentSelectStockFund) loadDataListFragment).refreshNoCaseTime();
+        } else if (loadDataListFragment instanceof HotPlateFragment) {
+            ((HotPlateFragment) loadDataListFragment).refreshData();
+        }
+        // if (mMarketTimer != null) {
+        // mMarketTimer.cancel();
+        // }
+        // mMarketTimer = new Timer(true);
+        // mMarketTimer.schedule(new RequestMarketTask(), 0, mPollRequestTime);
+
+    }
+
+    private void startRefreshView() {
+        if (mWeakActivity != null && mWeakActivity.get() != null) {
+            mWeakActivity.get().startAnimaRefresh();
+        }
+    }
+
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
@@ -202,6 +227,12 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         }
         if (null != loadDataListFragment) {
             getChildFragmentManager().beginTransaction().replace(R.id.fragment_market, loadDataListFragment).commit();
+            if (loadDataListFragment instanceof FragmentSelectStockFund) {
+                ((FragmentSelectStockFund) loadDataListFragment).setLoadingFinishListener(this);
+            }
+            if (loadDataListFragment instanceof HotPlateFragment) {
+                ((HotPlateFragment) loadDataListFragment).setLoadingFinishListener(this);
+            }
         }
     }
 
@@ -375,9 +406,11 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
         @Override
         public void run() {
-            if (loadDataListFragment instanceof FragmentSelectStockFund) {
 
+            if (loadDataListFragment instanceof FragmentSelectStockFund) {
                 ((FragmentSelectStockFund) loadDataListFragment).refreshForMarker();
+            } else if (loadDataListFragment instanceof HotPlateFragment) {
+                ((HotPlateFragment) loadDataListFragment).refreshData();
             }
         }
     }
@@ -409,6 +442,19 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadingFinish() {
+        if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
+            ((RefreshModelActivity) getActivity()).endAnimaRefresh();
+        }
+
     }
 
 }

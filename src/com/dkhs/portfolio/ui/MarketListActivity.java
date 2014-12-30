@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
@@ -23,7 +25,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
  * @date 2014-12-22 下午5:47:35
  * @version 1.0
  */
-public class MarketListActivity extends ModelAcitivity {
+public class MarketListActivity extends RefreshModelActivity {
 
     public enum LoadViewType {
         /**
@@ -117,6 +119,18 @@ public class MarketListActivity extends ModelAcitivity {
         setContentView(R.layout.activity_market);
         setTitleByType(mLoadType);
         initView();
+
+        setRefreshButtonListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.layout_content);
+                if (null != fragment && fragment instanceof FragmentMarkerCenter) {
+                    ((FragmentMarkerCenter) fragment).refreshData();
+                }
+            }
+        });
+
     }
 
     private void replaceContentFragment(Fragment fragment) {
@@ -197,5 +211,7 @@ public class MarketListActivity extends ModelAcitivity {
                 break;
         }
     }
+
+    // public interface
 
 }
