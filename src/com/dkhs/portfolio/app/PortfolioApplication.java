@@ -40,6 +40,7 @@ public class PortfolioApplication extends Application {
     private int height;
     private float density;
     private int densityDpi;
+    private boolean isDebug = true;
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
@@ -163,6 +164,14 @@ public class PortfolioApplication extends Application {
 
     public void setDensityDpi(int densityDpi) {
         this.densityDpi = densityDpi;
+    }
+
+    public boolean isDebug() {
+        return isDebug;
+    }
+
+    public void setDebug(boolean isDebug) {
+        this.isDebug = isDebug;
     }
     
 }

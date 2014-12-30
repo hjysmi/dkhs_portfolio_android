@@ -38,7 +38,6 @@ public class SplashActivity extends ModelAcitivity {
 
     protected static final String TAG = "SplashActivity";
     private Context context;
-    private boolean isDebug = true;
     /**
      * Handler:跳转到不同界面
      */
@@ -71,7 +70,7 @@ public class SplashActivity extends ModelAcitivity {
 
         hideHead();
         init();
-        if (!isDebug) {
+        if (!PortfolioApplication.getInstance().isDebug()) {
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
         }
     }
@@ -82,7 +81,7 @@ public class SplashActivity extends ModelAcitivity {
             user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if (user != null) {
                 if (!TextUtils.isEmpty(user.getAccess_token())
-                        && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || isDebug)) {
+                        && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || PortfolioApplication.getInstance().isDebug())) {
                     user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                     GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                     GlobalParams.USERNAME = user.getUsername();
