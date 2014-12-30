@@ -59,6 +59,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             subType = extras.getString(SUB);
         }
         ((TextView) findViewById(R.id.tv_title)).setText("研报-" + name);
+        initView();
         initDate();
     }
 
@@ -186,10 +187,10 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             	}
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
-                    if (first) {
+                    /*if (first) {
                         initView();
                         first = false;
-                    }
+                    }*/
                     mOptionMarketAdapter.notifyDataSetChanged();
 //                    loadFinishUpdateView();
 
