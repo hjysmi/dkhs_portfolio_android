@@ -6,10 +6,10 @@
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="5dp"
+    android:paddingBottom="10dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="10dp" >
 
     <CheckBox
         android:id="@+id/cb_select_stock"
@@ -17,6 +17,16 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:button="@drawable/cb_add_item_selector" />
+
+    <TextView
+        android:id="@+id/tv_suspend"
+        style="@style/hw_wrap"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:singleLine="true"
+        android:text="停牌"
+        android:textSize="18sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_stock_name"
