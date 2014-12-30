@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName SelectFundAdatper
@@ -71,15 +72,29 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-        viewHolder.mCheckbox.setTag(item);
-        if (this instanceof AddStockItemAdapter) {
-            viewHolder.mCheckbox.setChecked(item.isFollowed);
-            // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+        if (!UIUtils.hasUserLogin()) {
+            final CheckBox cbBox = viewHolder.mCheckbox;
+            viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    cbBox.setChecked(false);
+                    UIUtils.iStartLoginActivity(context);
+
+                }
+            });
         } else {
-            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+
+            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+            viewHolder.mCheckbox.setTag(item);
+            if (this instanceof AddStockItemAdapter) {
+                viewHolder.mCheckbox.setChecked(item.isFollowed);
+                // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+            } else {
+                viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+            }
+            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         }
-        viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);

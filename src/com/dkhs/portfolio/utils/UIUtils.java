@@ -308,23 +308,44 @@ public class UIUtils {
     }
 
     public static boolean iStartLoginActivity(Context context) {
+        // try {
+        // UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+        // if (user == null) {
+        // // PortfolioApplication.getInstance().exitApp();
+        // // Intent intent = new Intent(context, LoginActivity.class);
+        //
+        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // return true;
+        // } else {
+        // return false;
+        // }
+        // } catch (DbException e) {
+        // e.printStackTrace();
+        // // PortfolioApplication.getInstance().exitApp();
+        // // Intent intent = new Intent(context, LoginActivity.class);
+        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // return true;
+        // }
+        if (!hasUserLogin()) {
+            context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean hasUserLogin() {
         try {
             UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if (user == null) {
-                // PortfolioApplication.getInstance().exitApp();
-                // Intent intent = new Intent(context, LoginActivity.class);
-
-                context.startActivity(LoginActivity.loginActivityByAnnoy(context));
-                return true;
-            } else {
                 return false;
+            } else {
+                return true;
             }
         } catch (DbException e) {
             e.printStackTrace();
-            // PortfolioApplication.getInstance().exitApp();
-            // Intent intent = new Intent(context, LoginActivity.class);
-            context.startActivity(LoginActivity.loginActivityByAnnoy(context));
-            return true;
+
+            return false;
         }
     }
 }
