@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -79,6 +80,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
 //                mLoadDataEngine.setLoadingDialog(context);
                 mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
+            }else{
+                iv.setText("暂无添加自选股");
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block

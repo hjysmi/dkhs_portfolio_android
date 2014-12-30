@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
@@ -25,6 +26,8 @@ import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class FragmentreportOneList extends Fragment implements OnLoadMoreListener {
@@ -60,6 +63,16 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
         subType = vo.getContentSubType();
         initDate();
+        UserEntity user;
+        try {
+            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if(null == user){
+                tv.setText("暂无添加自选股");
+            }
+        }catch(Exception e){
+            
+        }
+        
         return view;
     }
 

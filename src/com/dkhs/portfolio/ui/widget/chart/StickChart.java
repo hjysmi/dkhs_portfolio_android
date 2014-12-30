@@ -193,7 +193,11 @@ public class StickChart extends GridChart {
                     if (index > maxStickDataNum - 1) {
                         index = maxStickDataNum - 1;
                     }
-                    TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate  + index -1 - currentIndex).getDate()));
+                    int k = StickData.size() - mShowDate  + index -1 - currentIndex;
+                    if(k < 0){
+                        k = 0;
+                    }
+                    TitleX.add(String.valueOf(StickData.get(k).getDate()));
                     // 追�??�?
                     /*if(StickData.size() - mShowDate < 0){
                     	TitleX.add(String.valueOf(StickData.get(index).getDate()));
@@ -334,7 +338,7 @@ public class StickChart extends GridChart {
                 drawMA(canvas);
             }
             
-        } catch (NotFoundException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
