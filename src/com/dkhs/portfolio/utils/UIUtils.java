@@ -27,6 +27,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -239,6 +240,10 @@ public class UIUtils {
         return bitmap;
     }
 
+    public static DisplayMetrics getDisplayMetrics() {
+        return PortfolioApplication.getInstance().getResources().getDisplayMetrics();
+    }
+
     public static Bitmap getimage(String srcPath) {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         // 开始读入图片，此时把options.inJustDecodeBounds 设回true了
@@ -326,7 +331,7 @@ public class UIUtils {
         // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
         // return true;
         // }
-        if (!hasUserLogin()) {
+        if (!PortfolioApplication.hasUserLogin()) {
             context.startActivity(LoginActivity.loginActivityByAnnoy(context));
             return true;
         } else {
@@ -334,18 +339,5 @@ public class UIUtils {
         }
     }
 
-    public static boolean hasUserLogin() {
-        try {
-            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user == null) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-
-            return false;
-        }
-    }
+   
 }

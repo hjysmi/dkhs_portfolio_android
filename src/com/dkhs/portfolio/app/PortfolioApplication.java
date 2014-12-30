@@ -22,10 +22,13 @@ import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.service.LoadStockToDBService;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 
 /**
  * @ClassName PortfolioApplication
@@ -36,15 +39,16 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
  */
 public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
-    private int width;
-    private int height;
-    private float density;
-    private int densityDpi;
+    // private int width;
+    // private int height;
+    // private float density;
+    // private int densityDpi;
     private boolean isDebug = true;
+
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
-    
+
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
@@ -53,25 +57,23 @@ public class PortfolioApplication extends Application {
         if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();
         }
-        // LoadStockToDBService.requestDownload(this);
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
 
-        DisplayMetrics metric = getResources().getDisplayMetrics();
-
-        width = metric.widthPixels; // 屏幕宽度（像素）
-        height = metric.heightPixels; // 屏幕高度（像素）
-        density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
-        densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
-
-        System.out.println("Devices width:" + width);
-        System.out.println("Devices height:" + height);
-        System.out.println("Devices density:" + density);
-        System.out.println("Devices densityDpi:" + densityDpi);
+        // DisplayMetrics metric = getResources().getDisplayMetrics();
+        //
+        // width = metric.widthPixels; // 屏幕宽度（像素）
+        // height = metric.heightPixels; // 屏幕高度（像素）
+        // density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
+        // densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
+        //
+        // System.out.println("Devices width:" + width);
+        // System.out.println("Devices height:" + height);
+        // System.out.println("Devices density:" + density);
+        // System.out.println("Devices densityDpi:" + densityDpi);
 
         Intent demand = new Intent(this, ReLoadDataService.class);
-        // intent.putExtra("login", true);
         startService(demand);
 
     }
@@ -134,44 +136,59 @@ public class PortfolioApplication extends Application {
         }
     }
 
-    public int getWidth() {
-        return width;
+    public static boolean hasUserLogin() {
+        try {
+            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if (user == null) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+
+            return false;
+        }
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public float getDensity() {
-        return density;
-    }
-
-    public void setDensity(float density) {
-        this.density = density;
-    }
-
-    public int getDensityDpi() {
-        return densityDpi;
-    }
-
-    public void setDensityDpi(int densityDpi) {
-        this.densityDpi = densityDpi;
-    }
-
+    // public int getWidth() {
+    // return width;
+    // }
+    //
+    // public void setWidth(int width) {
+    // this.width = width;
+    // }
+    //
+    // public int getHeight() {
+    // return height;
+    // }
+    //
+    // public void setHeight(int height) {
+    // this.height = height;
+    // }
+    //
+    // public float getDensity() {
+    // return density;
+    // }
+    //
+    // public void setDensity(float density) {
+    // this.density = density;
+    // }
+    //
+    // public int getDensityDpi() {
+    // return densityDpi;
+    // }
+    //
+    // public void setDensityDpi(int densityDpi) {
+    // this.densityDpi = densityDpi;
+    // }
+    //
     public boolean isDebug() {
         return isDebug;
     }
+    //
+    // public void setDebug(boolean isDebug) {
+    // this.isDebug = isDebug;
+    // }
 
-    public void setDebug(boolean isDebug) {
-        this.isDebug = isDebug;
-    }
-    
 }

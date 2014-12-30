@@ -12,14 +12,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -61,7 +60,7 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        if (UIUtils.hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
 
             viewHolder.mCheckbox.setOnCheckedChangeListener(null);
             viewHolder.mCheckbox.setTag(item);

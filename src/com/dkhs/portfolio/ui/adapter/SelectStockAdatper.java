@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -72,7 +73,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        if (!UIUtils.hasUserLogin()) {
+        if (!PortfolioApplication.hasUserLogin()) {
             final CheckBox cbBox = viewHolder.mCheckbox;
             viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
 
