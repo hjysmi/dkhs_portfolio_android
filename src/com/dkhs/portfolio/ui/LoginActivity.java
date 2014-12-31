@@ -416,6 +416,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         protected void afterParseData(UserEntity entity) {
             PromptManager.closeProgressDialog();
             PortfolioApplication.getInstance().exitApp();
+            PortfolioApplication.getInstance().setLogin(true);
+
             goMainPage();
         }
     };

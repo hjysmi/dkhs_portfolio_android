@@ -41,6 +41,7 @@ public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
 
     private boolean isDebug = true;
+    private boolean isLogin;
 
     public static PortfolioApplication getInstance() {
         return mInstance;
@@ -137,6 +138,14 @@ public class PortfolioApplication extends Application {
 
     public boolean isDebug() {
         return isDebug;
+    }
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setLogin(boolean isLogin) {
+        this.isLogin = isLogin;
     }
 
 }
