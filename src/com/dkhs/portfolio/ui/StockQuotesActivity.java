@@ -45,6 +45,7 @@ import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
@@ -56,6 +57,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
 import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.NewsFragment;
@@ -148,7 +150,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
 
         processExtraData();
-
+        setupViewDatas();
+        
+        setupViewData();
+        initList();
     }
 
     private void processExtraData() {
@@ -226,18 +231,31 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initList() {
+        stockLayout.removeAllViews();
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
             String[] name = new String[3];
             name[0] = "涨幅榜";
             name[1] = "跌幅榜";
             name[2] = "换手率榜";
+            String exchange;
+            String listSector = null;
+            if(mStockCode.equals("SH000001")){
+                exchange = OpitionCenterStockEngineImple.VALUE_EXCHANGE_SAHNG;
+                listSector = null;
+            }else if(mStockCode.equals("SZ399001")){
+                exchange = OpitionCenterStockEngineImple.VALUE_SYMBOL_TYPE;
+                listSector = null;
+            }else{
+                exchange = OpitionCenterStockEngineImple.VALUE_EXCHANGE;
+                listSector =OpitionCenterStockEngineImple.VALUE_SYMBOL_SELECT;
+            }
             List<Fragment> fraglist = new ArrayList<Fragment>();
-            Fragment f1 = FragmentForStockSHC.newIntent();
+            Fragment f1 = FragmentForStockSHC.newIntent(exchange,StockViewType.MARKET_STOCK_UPRATIO,OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE,listSector,true);
             fraglist.add(f1);
-            Fragment f2 = FragmentForStockSHC.newIntent();
+            Fragment f2 = FragmentForStockSHC.newIntent(exchange,StockViewType.MARKET_STOCK_DOWNRATIO,OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE,listSector,true);
             fraglist.add(f2);
-            Fragment f3 = FragmentForStockSHC.newIntent();
+            Fragment f3 = FragmentForStockSHC.newIntent(exchange,StockViewType.STOCK_HANDOVER,null,listSector,false);
             fraglist.add(f3);
             FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist,
                     stockLayout, getSupportFragmentManager());
@@ -563,7 +581,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initTabPage() {
-
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
@@ -584,6 +601,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
+        pager.removeAllViews();
         pager.setCanScroll(false);
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
