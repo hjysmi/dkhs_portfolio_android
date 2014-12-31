@@ -23,10 +23,11 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
 
-    private final static String VALUE_EXCHANGE = "1,2";
-    private final static String VALUE_SYMBOL_TYPE = "1";
-    private final static String VALUE_SYMBOL_STYPE = "101";
-
+    public final static String VALUE_EXCHANGE = "1,2";
+    public final static String VALUE_EXCHANGE_SAHNG = "2";
+    public final static String VALUE_SYMBOL_TYPE = "1";
+    public final static String VALUE_SYMBOL_STYPE = "101";
+    public final static String VALUE_SYMBOL_SELECT = "6";
     public final static String ORDER_INCREASE = "-percentage";
     public final static String ORDER_DOWN = "percentage";
     public final static String ORDER_TURNOVER = "-turnover_rate";
@@ -38,6 +39,10 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     private StockViewType mStockType;
     private String mSectorId;
     private int mPageSize = 50;
+    private String symboltype = VALUE_SYMBOL_TYPE;
+    private String exchange = VALUE_EXCHANGE;
+    private String symbol_stype = VALUE_SYMBOL_STYPE;
+    private String list_sector;
 
     public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type) {
         super(loadListener);
@@ -58,7 +63,15 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         this.mPageSize = pagesize;
         getOrderType(type);
     }
-
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, int pagesize,String list_sector,String symbol_stype,String exchange) {
+        super(loadListener);
+        this.mStockType = type;
+        this.mPageSize = pagesize;
+        this.list_sector = list_sector;
+        this.symbol_stype = symbol_stype;
+        this.exchange = exchange;
+        getOrderType(type);
+    }
     private void getOrderType(StockViewType type) {
         switch (type) {
             case MARKET_STOCK_TURNOVER:
@@ -110,11 +123,15 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
             params.addQueryStringParameter("sector_id", mSectorId);
 
         }
-        params.addQueryStringParameter("exchange", VALUE_EXCHANGE);
+        params.addQueryStringParameter("exchange", exchange);
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", mPageSize + "");
-        params.addQueryStringParameter("symbol_type", VALUE_SYMBOL_TYPE);
-        params.addQueryStringParameter("symbol_stype", VALUE_SYMBOL_STYPE);
+        params.addQueryStringParameter("symbol_type", symboltype);
+        if(!TextUtils.isEmpty(symbol_stype))
+            params.addQueryStringParameter("symbol_stype", symbol_stype);
+        if(!TextUtils.isEmpty(list_sector)){
+            params.addQueryStringParameter("list_sector", list_sector);
+        }
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
@@ -128,12 +145,15 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
             params.addQueryStringParameter("sector_id", mSectorId);
 
         }
-        params.addQueryStringParameter("exchange", VALUE_EXCHANGE);
+        params.addQueryStringParameter("exchange", exchange);
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", mPageSize + "");
-        params.addQueryStringParameter("symbol_type", VALUE_SYMBOL_TYPE);
-        params.addQueryStringParameter("symbol_stype", VALUE_SYMBOL_STYPE);
-
+        params.addQueryStringParameter("symbol_type", symboltype);
+        if(!TextUtils.isEmpty(symbol_stype))
+        params.addQueryStringParameter("symbol_stype", symbol_stype);
+        if(!TextUtils.isEmpty(list_sector)){
+            params.addQueryStringParameter("list_sector", list_sector);
+        }
         DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
     }
