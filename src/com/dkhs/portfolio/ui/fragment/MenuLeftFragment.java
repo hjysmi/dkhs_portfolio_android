@@ -78,15 +78,6 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
         // menuSetting.setOnClickListener(this);
         initView(view);
-        if (PortfolioApplication.hasUserLogin()) {
-            btnLogin.setVisibility(View.GONE);
-            tvUserName.setVisibility(View.VISIBLE);
-            tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-        } else {
-            btnLogin.setVisibility(View.VISIBLE);
-            tvUserName.setVisibility(View.GONE);
-
-        }
 
         // loadCombinationData();
         /*
@@ -274,7 +265,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
     private void showUserInfo() {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (PortfolioApplication.hasUserLogin()&&!TextUtils.isEmpty(url)) {
+        if (PortfolioApplication.hasUserLogin() && !TextUtils.isEmpty(url)) {
             BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
             bitmapUtils.display(ivUserheader, url);
         } else {
@@ -282,6 +273,17 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
             b = UIUtils.toRoundBitmap(b);
             ivUserheader.setImageBitmap(b);
         }
+
+        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+            btnLogin.setVisibility(View.GONE);
+            tvUserName.setVisibility(View.VISIBLE);
+            tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+        } else {
+            btnLogin.setVisibility(View.VISIBLE);
+            tvUserName.setVisibility(View.GONE);
+
+        }
+
     }
 
 }

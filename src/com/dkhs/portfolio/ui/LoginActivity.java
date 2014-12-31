@@ -416,6 +416,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         protected void afterParseData(UserEntity entity) {
             PromptManager.closeProgressDialog();
             PortfolioApplication.getInstance().exitApp();
+            PortfolioApplication.getInstance().setLogin(true);
+
             goMainPage();
         }
     };
@@ -550,6 +552,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 case 2: {
                     // Toast.makeText(getApplicationContext(), "PlatformActionListener onError()", Toast.LENGTH_SHORT)
                     // .show();
+                    PromptManager.showToast("授权失败，请稍后重试.");
                 }
                     break;
                 case 3: {
