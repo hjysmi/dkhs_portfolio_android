@@ -157,7 +157,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 		            String path = cursor.getString(column_index);
 		            imageFile = new File(path);
 					//ContentResolver cr = this.getContentResolver();
-					Bitmap bitmap = BitmapFactory.decodeFile(path);
+					Bitmap bitmap = UIUtils.getimage(path);
 					bitmap = UIUtils.loadBitmap(bitmap, path);
 					feedImageLoad.setImageBitmap(bitmap);
 					bitmap = null;
