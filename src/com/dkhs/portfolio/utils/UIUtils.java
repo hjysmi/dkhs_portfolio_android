@@ -27,6 +27,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListAdapter;
@@ -239,6 +240,16 @@ public class UIUtils {
         return bitmap;
     }
 
+    public static DisplayMetrics getDisplayMetrics() {
+
+        // width = metric.widthPixels; // 屏幕宽度（像素）
+        // height = metric.heightPixels; // 屏幕高度（像素）
+        // density = metric.density; // 屏幕密度（0.75 / 1.0 / 1.5）
+        // densityDpi = metric.densityDpi; // 屏幕密度DPI（120 / 160 / 240）
+
+        return PortfolioApplication.getInstance().getResources().getDisplayMetrics();
+    }
+
     public static Bitmap getimage(String srcPath) {
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         // 开始读入图片，此时把options.inJustDecodeBounds 设回true了
@@ -308,23 +319,30 @@ public class UIUtils {
     }
 
     public static boolean iStartLoginActivity(Context context) {
-        try {
-            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user == null) {
-                // PortfolioApplication.getInstance().exitApp();
-                // Intent intent = new Intent(context, LoginActivity.class);
-
-                context.startActivity(LoginActivity.loginActivityByAnnoy(context));
-                return true;
-            } else {
-                return false;
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-            // PortfolioApplication.getInstance().exitApp();
-            // Intent intent = new Intent(context, LoginActivity.class);
+        // try {
+        // UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+        // if (user == null) {
+        // // PortfolioApplication.getInstance().exitApp();
+        // // Intent intent = new Intent(context, LoginActivity.class);
+        //
+        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // return true;
+        // } else {
+        // return false;
+        // }
+        // } catch (DbException e) {
+        // e.printStackTrace();
+        // // PortfolioApplication.getInstance().exitApp();
+        // // Intent intent = new Intent(context, LoginActivity.class);
+        // context.startActivity(LoginActivity.loginActivityByAnnoy(context));
+        // return true;
+        // }
+        if (!PortfolioApplication.hasUserLogin()) {
             context.startActivity(LoginActivity.loginActivityByAnnoy(context));
             return true;
+        } else {
+            return false;
         }
     }
+
 }

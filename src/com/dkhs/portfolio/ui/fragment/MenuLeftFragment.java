@@ -78,23 +78,16 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         // menuSetting = (RelativeLayout) view.findViewById(R.id.menu_setting);
         // menuSetting.setOnClickListener(this);
         initView(view);
-        UserEntity user;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if(null == user){
-                btnLogin.setVisibility(View.VISIBLE);
-                tvUserName.setVisibility(View.GONE);
-            }else{
-                btnLogin.setVisibility(View.GONE);
-                tvUserName.setVisibility(View.VISIBLE);
-                tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
-            }
-        }catch(Exception e){
+        if (PortfolioApplication.hasUserLogin()) {
             btnLogin.setVisibility(View.GONE);
             tvUserName.setVisibility(View.VISIBLE);
+            tvUserName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
+        } else {
+            btnLogin.setVisibility(View.VISIBLE);
+            tvUserName.setVisibility(View.GONE);
+
         }
-        
-        
+
         // loadCombinationData();
         /*
          * mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_MAININDEX);
@@ -281,7 +274,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
 
     private void showUserInfo() {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
-        if (!TextUtils.isEmpty(url)) {
+        if (PortfolioApplication.hasUserLogin()&&!TextUtils.isEmpty(url)) {
             BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
             bitmapUtils.display(ivUserheader, url);
         } else {
