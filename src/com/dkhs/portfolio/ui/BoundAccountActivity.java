@@ -74,6 +74,10 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
+            case R.id.bound_text_phone: {
+                startActivity(RLFActivity.settingPasswordIntent(this));
+            }
+                break;
             case R.id.bound_text_email:
                 Intent intent = new Intent(this, BoundEmailActivity.class);
                 startActivityForResult(intent, 5);
@@ -279,5 +283,7 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         MobclickAgent.onResume(this);
+        UserEngineImpl.queryThreePlatBind(bindsListener);
+
     }
 }

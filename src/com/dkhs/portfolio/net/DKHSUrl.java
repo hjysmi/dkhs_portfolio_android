@@ -143,6 +143,7 @@ public class DKHSUrl {
         String get_version = "/api/v1/apps/";
         // 添加用户反馈
         String add_feed = "/api/v1/apps/";
+        String bind_mobile = "/api/v1/accounts/bind_mobile/";
     }
 
     public interface MainPage {

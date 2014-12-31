@@ -6,6 +6,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
     public static final int REGIST_TYPE = 1001;
     public static final int FORGET_PSW_TYPE = 1002;
+    public static final int SETTING_PASSWORD_TYPE = 1003;
     private boolean isLoginByCaptcha = false;
 
     private static final int GET_CODE_UNABLE = 0;
@@ -63,37 +65,25 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private boolean codeAble = false;
     private TextView rltAgreement;
 
-    // @SuppressLint("HandlerLeak")
-    // private Handler handler = new Handler() {
-    // public void handleMessage(Message msg) {
-    // switch (msg.what) {
-    // case GET_CODE_ABLE:
-    // btn_get_code.setText(R.string.get_code);
-    // btn_get_code.setClickable(true);
-    // count = 0;
-    // btn_get_code.setBackgroundResource(R.drawable.button_normal_blue);
-    // mTimer.cancel();
-    // break;
-    // case GET_CODE_UNABLE:
-    // btn_get_code.setText((60 - count) + "秒");
-    // break;
-    // case GET_PHONE_NUMBER:
-    // if (!TextUtils.isEmpty(phoneNumber)) {
-    // if (phoneNumber.startsWith("+86")) {
-    // phoneNumber = phoneNumber.replace("+86", "");
-    // }
-    // etPhoneNum.setText(phoneNumber);
-    // }
-    // break;
-    // default:
-    // break;
-    // }
-    // };
-    // };
+    private boolean isSettingPsw;
+    public static final String EXTRA_SETTING_PASSWORD = "extra_setting_password";
+    public static final String EXTRA_ACTIVITY_TYPE = "activity_type";
+    public static final int REQUESTCODE_SET_PASSWROD = 999;
+
+    public static Intent settingPasswordIntent(Context context) {
+        Intent intent = new Intent(context, RLFActivity.class);
+        intent.putExtra(EXTRA_SETTING_PASSWORD, true);
+        intent.putExtra(EXTRA_ACTIVITY_TYPE, SETTING_PASSWORD_TYPE);
+        return intent;
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rlf_layout);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
         initViews();
         setListener();
         initData();
@@ -101,61 +91,38 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
     }
 
+    private void handleExtras(Bundle extras) {
+        isSettingPsw = extras.getBoolean(EXTRA_SETTING_PASSWORD);
+        current_type = getIntent().getIntExtra(EXTRA_ACTIVITY_TYPE, REGIST_TYPE);
+    }
+
     private void showCaptchaLoginDailog() {
         PromptManager.closeProgressDialog();
         isLoginByCaptcha = true;
-        final AlertDialog dpg = new AlertDialog.Builder(new ContextThemeWrapper(this,android.R.style.Theme_Holo_Light_Dialog_NoActionBar)).create();
+        final AlertDialog dpg = new AlertDialog.Builder(new ContextThemeWrapper(this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar)).create();
         dpg.setCancelable(false);
         dpg.setTitle(R.string.login_by_captcha);
         dpg.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				dpg.dismiss();
-				startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
-				finish();
-			}
-		});
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dpg.dismiss();
+                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+                finish();
+            }
+        });
         dpg.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
-        	
-        	@Override
-        	public void onClick(DialogInterface dialog, int which) {
-        		isLoginByCaptcha = false;
-        		dpg.dismiss();
-        	}
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                isLoginByCaptcha = false;
+                dpg.dismiss();
+            }
         });
         dpg.show();
-//        final AlertDialog dlg = new AlertDialog.Builder(this).create();
-//        dlg.show();
-//        dlg.setCancelable(false);
-//        Window window = dlg.getWindow();
-//        window.setContentView(R.layout.captcha_login_dialog_layout);
-//        Button login = (Button) window.findViewById(R.id.login);
-//        login.setClickable(true);
-//        login.setOnClickListener(new OnClickListener() {
-//            public void onClick(View v) {
-//
-//                dlg.dismiss();
-//                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
-//                finish();
-//                // if (NetUtil.checkNetWork(getApplicationContext())) {
-//                // // PromptManager.showToast(R.string.logining);
-//                // // engine.login(telephone, verify_code, ConstantValue.IS_CAPTCHA, listener);
-//                // } else {
-//                // PromptManager.showNoNetWork(getApplicationContext());
-//                // }
-//
-//            }
-//        });
-//        window.findViewById(R.id.cancel).setOnClickListener(new OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                isLoginByCaptcha = false;
-//                dlg.dismiss();
-//            }
-//        });
+
     }
 
     private String phoneNumber;
@@ -196,29 +163,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 setRegistAble();
             }
         });
-        // code.addTextChangedListener(new TextWatcher() {
-        //
-        // @Override
-        // public void onTextChanged(CharSequence s, int start, int before, int count) {
-        //
-        // }
-        //
-        // @Override
-        // public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        //
-        // }
-        //
-        // @Override
-        // public void afterTextChanged(Editable s) {
-        // if (s.length() == 6 && mobileAble) {
-        //
-        // codeAble = true;
-        // } else {
-        // codeAble = false;
-        // }
-        // setRegistAble();
-        // }
-        // });
+
     }
 
     private void setRegistAble() {
@@ -230,7 +175,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     }
 
     public void initViews() {
-        current_type = getIntent().getIntExtra("activity_type", REGIST_TYPE);
+
         rlfbutton = (Button) findViewById(R.id.rlbutton);
         etPhoneNum = (EditText) findViewById(R.id.et_mobile);
         rltAgreement = (TextView) findViewById(R.id.rlt_agreement);
@@ -248,6 +193,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             rlfbutton.setText(R.string.confirm);
             cbAgree.setVisibility(View.GONE);
 
+        } else if (current_type == SETTING_PASSWORD_TYPE) {
+            setTitle("绑定");
+            rlfbutton.setText("下一步");
         }
 
         cbAgree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -276,11 +224,14 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         // Intent intent = new Intent(this, .class);
         // intent2.putExtra(ActivityTermsPrivate.TYPE, ActivityTermsPrivate.TYPE_TERMS);
 
-        /*SpannableStringBuilder sp = new SpannableStringBuilder();
-        sp.append(str2);
-
-        sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.drawable.agreement_color_selector), this, null), 0,
-                str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);*/
+        /*
+         * SpannableStringBuilder sp = new SpannableStringBuilder();
+         * sp.append(str2);
+         * 
+         * sp.setSpan(new TextViewClickableSpan(getResources().getColor(R.drawable.agreement_color_selector), this,
+         * null), 0,
+         * str2.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+         */
         cbAgree.setText(str);
         // 设置TextView可点击
         cbAgree.setMovementMethod(LinkMovementMethod.getInstance());
@@ -308,7 +259,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 // return;
                 // }
 
-                if (current_type == REGIST_TYPE) {
+                if (current_type == REGIST_TYPE || current_type == SETTING_PASSWORD_TYPE) {
                     // // engine.register(telephone, verify_code, listener);
                     //
                     // Intent intent = new Intent(RLFActivity.this, SettingNameActivity.class);
@@ -325,9 +276,9 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
 
                 break;
             case R.id.rlt_agreement:
-            	Intent intent = new Intent(this,AgreementTextActivity.class);
-            	startActivity(intent);
-            	break;
+                Intent intent = new Intent(this, AgreementTextActivity.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
@@ -355,8 +306,14 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(Boolean object) {
             if (!object) {
-                startActivity(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(), null,
-                        false));
+                if (isSettingPsw) {
+                    startActivityForResult((VerificationActivity.newSettPswIntent(RLFActivity.this, etPhoneNum
+                            .getText().toString(), null)), REQUESTCODE_SET_PASSWROD);
+                } else {
+
+                    startActivity(VerificationActivity.newIntent(RLFActivity.this, etPhoneNum.getText().toString(),
+                            null, false));
+                }
             } else {
                 // Intent i = new Intent(RLFActivity.this, LoginActivity.class);
                 // startActivity(i);
@@ -485,21 +442,6 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private View rl_inviter;
     private UserEngineImpl engine;
 
-    // private void timerTask() {
-    // mTimer.schedule(new TimerTask() {
-    //
-    // @Override
-    // public void run() {
-    // if (count < 60) {
-    // handler.sendEmptyMessage(GET_CODE_UNABLE);
-    // count++;
-    // } else {
-    // handler.sendEmptyMessage(GET_CODE_ABLE);
-    // }
-    // }
-    // }, 0, 1000);
-    // }
-
     @Override
     public void onBackPressed() {
         // PromptManager.closeProgressDialog();
@@ -511,22 +453,40 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         super.onDestroy();
 
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_sign_account);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_sign_account);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            Bundle b = data.getExtras(); // data为B中回传的Intent
+            switch (requestCode) {
+                case REQUESTCODE_SET_PASSWROD: {
+                    finish();
+                }
+
+                    break;
+            }
+        }
+    }
+
 }

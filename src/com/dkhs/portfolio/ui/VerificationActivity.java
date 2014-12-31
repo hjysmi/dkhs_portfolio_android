@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.service.SMSBroadcastReceiver;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -39,6 +40,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     public static final String EXTRA_PHONENUM = "extra_phone";
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
+    public static final String EXTRA_SETPSW = "extra_set_psw";
     private String phoneNum;
     private String mVerifyCode;
     private Button rlfbutton;
@@ -48,6 +50,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
     private Context context;
     private UserEngineImpl engine;
     private SMSBroadcastReceiver mSMSBroadcastReceiver;
+    private boolean isSetPsw;
 
     private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
@@ -59,8 +62,17 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         return intent;
     }
 
+    public static Intent newSettPswIntent(Context context, String phoneNum, String code) {
+        Intent intent = new Intent(context, VerificationActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_SETPSW, true);
+        intent.putExtra(EXTRA_CODE, code);
+        return intent;
+    }
+
     private void handleExtras(Bundle extras) {
         phoneNum = extras.getString(EXTRA_PHONENUM);
+        isSetPsw = extras.getBoolean(EXTRA_SETPSW);
     }
 
     String strBefore;
@@ -174,8 +186,12 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 @Override
                 protected void afterParseData(Boolean object) {
                     if (object) {
-                        startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum, verifyCode,
-                                false));
+                        if (isSetPsw) {
+                            bindMobile();
+                        } else {
+                            startActivity(SettingNameActivity.newIntent(VerificationActivity.this, phoneNum,
+                                    verifyCode, false));
+                        }
                     } else {
                         PromptManager.showToast("验证码有误");
                     }
@@ -185,6 +201,19 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         if (v.getId() == R.id.btn_getCode) {
             getVerifyCode();
         }
+    }
+
+    private void bindMobile() {
+        new UserEngineImpl().bindMobile(phoneNum, verifyCode, new BasicHttpListener() {
+
+            @Override
+            public void onSuccess(String result) {
+                startActivityForResult(
+                        SettingNameActivity.newSetPSWIntent(VerificationActivity.this, phoneNum, verifyCode),
+                        RLFActivity.REQUESTCODE_SET_PASSWROD);
+
+            }
+        });
     }
 
     public Timer mTimer = new Timer();// 定时器
@@ -304,5 +333,21 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+
+            Bundle b = data.getExtras(); // data为B中回传的Intent
+            switch (requestCode) {
+                case RLFActivity.REQUESTCODE_SET_PASSWROD: {
+                    setResult(RESULT_OK, new Intent());
+                    finish();
+                }
+
+                    break;
+            }
+        }
     }
 }
