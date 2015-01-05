@@ -1,5 +1,5 @@
 /**
-  * @Title CombinationDetailActivity.java
+ * @Title CombinationDetailActivity.java
  * @Package com.dkhs.portfolio.ui
  * @Description TODO(用一句话描述该文件做什么)
  * @author zjz
@@ -119,8 +119,8 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void showShareButton() {
-        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_share_select), null, null,
-                null);
+        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_share_select), null,
+                null, null);
         btnShare.setVisibility(View.VISIBLE);
         btnMore.setVisibility(View.VISIBLE);
 
@@ -128,20 +128,20 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void hideMoreButton() {
         btnShare.setVisibility(View.GONE);
-        //btnMore.setVisibility(View.GONE);
+        // btnMore.setVisibility(View.GONE);
     }
 
     private void initView() {
 
         btnShare = getSecondRightButton();
         btnShare.setOnClickListener(this);
-        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_share_select), null, null,
-                null);
+        btnShare.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_share_select), null,
+                null, null);
         // btnShare.setBackgroundResource(R.drawable.ic_share);
         btnMore = getRightButton();
         btnMore.setOnClickListener(this);
-        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_more_select), null, null,
-                null);
+        btnMore.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_more_select), null,
+                null, null);
         // btnMore.setBackgroundResource(R.drawable.nav_more);
         btnPreBottom = findViewById(R.id.btn_trend);
         btnPreBottom.setEnabled(false);
@@ -361,7 +361,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                     case 4:
                         // 历史调仓记录
                         startActivity(HistoryPositionDetailActivity.newIntent(CombinationDetailActivity.this,
-                                mCombinationBean));
+                                mCombinationBean.getId()));
                         break;
                     case 5:
                         // 谁牛FAQ
@@ -510,19 +510,20 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
         }
     }
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onResume(this);
+    }
 }
