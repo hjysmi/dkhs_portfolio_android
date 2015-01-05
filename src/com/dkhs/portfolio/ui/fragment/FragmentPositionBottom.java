@@ -43,6 +43,8 @@ import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
@@ -90,6 +92,8 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     private String mCombinationId;
 
     private PositionDetail mPositionDetail;
+
+    private TextView tvHistory;
 
     private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
 
@@ -250,6 +254,8 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
         // initView(view);
         initPieView(view);
         initIncreaseList(view);
+        tvHistory = (TextView) view.findViewById(R.id.tv_history);
+        tvHistory.setOnClickListener(this);
         // initContributeView(view);
         // initAdjustHistoryView(view);
         // mScrollview = (ScrollView) view.findViewById(R.id.sc_content);
@@ -356,6 +362,12 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
 
             }
 
+                break;
+            case R.id.tv_history: {
+                // 历史调仓记录
+                startActivity(HistoryPositionDetailActivity.newIntent(getActivity(), mPositionDetail.getPortfolio()
+                        .getId()));
+            }
                 break;
 
             default:
