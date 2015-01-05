@@ -54,7 +54,7 @@ public class TimesharingplanChart extends TrendChart {
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
+        
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
         int mesasureWidth = measureWidth(widthMeasureSpec);

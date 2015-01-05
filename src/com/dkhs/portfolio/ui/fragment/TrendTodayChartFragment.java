@@ -173,7 +173,7 @@ public class TrendTodayChartFragment extends BaseFragment {
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(20);
+        machart.setAxisMarginLeft(10);
         machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);
@@ -253,14 +253,13 @@ public class TrendTodayChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
-            if(!UIUtils.roundAble(todayNetvalue.getTrade_status())){
-            	stopRequry();
+            if (!UIUtils.roundAble(todayNetvalue.getTrade_status())) {
+                stopRequry();
             }
             DrawLineDataEntity todayLine = null;
-            if (null != todayNetvalue && todayNetvalue.getChartlist() != null
-                    && todayNetvalue.getChartlist().size() > 0) {
+            // todayNetvalue.setChartlist(new ArrayList<NetValueEngine.TodayNetBean>());
+            if (null != todayNetvalue && todayNetvalue.getChartlist() != null) {
                 todayLine = new DrawLineDataEntity();
-                // getMaxOffetValue(lineData, histroyValue);
                 getMaxOffetValue(todayLine, todayNetvalue);
             }
 
@@ -294,7 +293,7 @@ public class TrendTodayChartFragment extends BaseFragment {
     }
 
     private void setTodayViewLoad() {
-        if (mTodayLineData.dataList != null && mTodayLineData.dataList.size() > 0) {
+        if (mTodayLineData.dataList != null) {
             setYTitle(mTodayLineData.begin, mTodayLineData.maxOffetvalue);
             mMaChart.setDashLinePointSize(mTodayLineData.dashLineSize);
             if (mMaChart.getDashLinePointSize() > 2) {
@@ -303,12 +302,13 @@ public class TrendTodayChartFragment extends BaseFragment {
                 setTipVisible(false);
             }
             setLineData(mTodayLineData.dataList);
-            String lasttime = mTodayLineData.endDay;
-            Calendar calender = TimeUtils.toCalendar(lasttime);
-            tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
-                    + calender.get(Calendar.DAY_OF_MONTH));
-            String timeStr = TimeUtils.getTimeString(lasttime);
-            tvTimeRight.setText(timeStr);
+
+            // String lasttime = mTodayLineData.endDay;
+            // Calendar calender = TimeUtils.toCalendar(lasttime);
+            // tvTimeLeft.setText(calender.get(Calendar.YEAR) + "-" + (calender.get(Calendar.MONTH) + 1) + "-"
+            // + calender.get(Calendar.DAY_OF_MONTH));
+            // String timeStr = TimeUtils.getTimeString(lasttime);
+            // tvTimeRight.setText(timeStr);
         }
         if (null != updateHandler) {
             System.out.println("send get current netvalue:" + mTodayLineData.end);
@@ -323,11 +323,16 @@ public class TrendTodayChartFragment extends BaseFragment {
      */
     private float getMaxOffetValue(DrawLineDataEntity lineData, TodayNetValue todayNetvalue) {
         List<TodayNetBean> dayNetValueList = todayNetvalue.getChartlist();
+        // List<TodayNetBean> dayNetValueList = new ArrayList<NetValueEngine.TodayNetBean>();
+
         lineData.dataList.clear();
         lineData.end = todayNetvalue.getEnd();
-        lineData.endDay = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
-        lineData.addupvalue = dayNetValueList.get(dayNetValueList.size() - 1).getChange();
-        lineData.netvalue = dayNetValueList.get(dayNetValueList.size() - 1).getPercentage();
+        if (dayNetValueList.size() > 0) {
+
+            lineData.endDay = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
+            lineData.addupvalue = dayNetValueList.get(dayNetValueList.size() - 1).getChange();
+            lineData.netvalue = dayNetValueList.get(dayNetValueList.size() - 1).getPercentage();
+        }
         int dashLineSize = 0;
         int i = 0;
         float baseNum = todayNetvalue.getLast_netvalue();
@@ -355,12 +360,12 @@ public class TrendTodayChartFragment extends BaseFragment {
         if (dashLineSize == 0) {
             dashLineSize = todayNetvalue.getChartlist().size();
         }
-        if (dashLineSize > 1) {
-            lineData.begin = 1;
-        } else {
-            // lineData.begin = todayNetvalue.getBegin();
-            lineData.begin = todayNetvalue.getLast_netvalue();
-        }
+        // if (dashLineSize > 1) {
+        // lineData.begin = 1;
+        // } else {
+        // lineData.begin = todayNetvalue.getBegin();
+        lineData.begin = todayNetvalue.getLast_netvalue();
+        // }
         lineData.dashLineSize = dashLineSize;
         float offetValue;
         maxNum = maxNum - baseNum;
@@ -434,72 +439,72 @@ public class TrendTodayChartFragment extends BaseFragment {
     /**
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
-    private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
-        List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-
-        lineData.dataList.clear();
-
-        lineData.end = historyNetValue.getEnd();
-        if (null != historyNetList && historyNetList.size() > 0) {
-
-            lineData.startDay = historyNetList.get(0).getDate();
-            lineData.endDay = historyNetList.get(historyNetList.size() - 1).getDate();
-        }
-        int dashLineSize = 0;
-        float baseNum = historyNetValue.getBegin();
-        float maxNum = baseNum, minNum = baseNum;
-        // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-        int dataLenght = historyNetList.size();
-        for (int i = 0; i < dataLenght; i++) {
-
-            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            float value = todayBean.getNetvalue();
-            // pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(value);
-            pointEntity.setTime("日期: " + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentage());
-            // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
-
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
-                }
-            }
-
-            lineData.dataList.add(pointEntity);
-
-            if (value > maxNum) {
-                maxNum = value;
-
-            } else if (value < minNum) {
-                minNum = value;
-            }
-        }
-        float offetValue;
-        maxNum = maxNum - baseNum;
-        minNum = baseNum - minNum;
-
-        offetValue = maxNum > minNum ? maxNum : minNum;
-        if (dashLineSize == 0) {
-            dashLineSize = dataLenght;
-        }
-
-        if (dashLineSize > 1) {
-            lineData.begin = 1;
-
-        } else {
-
-            lineData.begin = historyNetValue.getBegin();
-        }
-
-        // mMaChart.setDashLinePointSize(dashLineSize);
-        lineData.dashLineSize = dashLineSize;
-        lineData.maxOffetvalue = offetValue;
-        // historyNetValue.setMaxOffetValue(offetValue);
-        return offetValue;
-
-    }
+    // private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
+    // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+    //
+    // lineData.dataList.clear();
+    //
+    // lineData.end = historyNetValue.getEnd();
+    // if (null != historyNetList && historyNetList.size() > 0) {
+    //
+    // lineData.startDay = historyNetList.get(0).getDate();
+    // lineData.endDay = historyNetList.get(historyNetList.size() - 1).getDate();
+    // }
+    // int dashLineSize = 0;
+    // float baseNum = historyNetValue.getBegin();
+    // float maxNum = baseNum, minNum = baseNum;
+    // // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+    // int dataLenght = historyNetList.size();
+    // for (int i = 0; i < dataLenght; i++) {
+    //
+    // TrendLinePointEntity pointEntity = new TrendLinePointEntity();
+    // HistoryNetBean todayBean = historyNetList.get(i);
+    // float value = todayBean.getNetvalue();
+    // // pointEntity.setDesc(todayBean.getDate());
+    // pointEntity.setValue(value);
+    // pointEntity.setTime("日期: " + todayBean.getDate());
+    // pointEntity.setIncreaseRange(todayBean.getPercentage());
+    // // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+    //
+    // if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+    // if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+    // dashLineSize = i;
+    // }
+    // }
+    //
+    // lineData.dataList.add(pointEntity);
+    //
+    // if (value > maxNum) {
+    // maxNum = value;
+    //
+    // } else if (value < minNum) {
+    // minNum = value;
+    // }
+    // }
+    // float offetValue;
+    // maxNum = maxNum - baseNum;
+    // minNum = baseNum - minNum;
+    //
+    // offetValue = maxNum > minNum ? maxNum : minNum;
+    // if (dashLineSize == 0) {
+    // dashLineSize = dataLenght;
+    // }
+    //
+    // if (dashLineSize > 1) {
+    // lineData.begin = 1;
+    //
+    // } else {
+    //
+    // lineData.begin = historyNetValue.getBegin();
+    // }
+    //
+    // // mMaChart.setDashLinePointSize(dashLineSize);
+    // lineData.dashLineSize = dashLineSize;
+    // lineData.maxOffetvalue = offetValue;
+    // // historyNetValue.setMaxOffetValue(offetValue);
+    // return offetValue;
+    //
+    // }
 
     Runnable runnable = new Runnable() {
         @Override

@@ -126,4 +126,16 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
         return moreBean;
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        // TODO Auto-generated method stub
+
+    }
+
 }

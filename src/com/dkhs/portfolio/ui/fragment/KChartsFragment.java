@@ -88,6 +88,9 @@ public class KChartsFragment extends Fragment {
         initChartView();
         initVloumnChartView();
         mMyChartsView.setStick(mVolumnChartView);
+        mMyChartsView.setContext(getActivity());
+        mMyChartsView.setmStockBean(((StockQuotesActivity)getActivity()).getmStockBean());
+        mMyChartsView.setType(type);
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
         //mLargerButton.setVisibility(View.INVISIBLE);
        

@@ -510,17 +510,16 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             case R.id.btn_confirm:
             case R.id.btn_right: {
 
-                if (mPositionDetailBean != null) {
+                if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
+                        || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
+                    PromptManager.showToast("3-10位字符:支持中英文、数字。");
+                    return;
+                }
 
-                    if (StringFromatUtils.isContainsEmoji(etConbinationName.getText().toString())
-                            || StringFromatUtils.isContainsEmoji(etConbinationDesc.getText().toString())) {
-                        PromptManager.showToast("3-10位字符:支持中英文、数字。");
-                        return;
-                    }
-
-                    if (!isAdjustCombination) {
-                        createCombinationByServer();
-                    } else {
+                if (!isAdjustCombination) {
+                    createCombinationByServer();
+                } else {
+                    if (mPositionDetailBean != null) {
                         adjustPositionDetailToServer();
                     }
                 }

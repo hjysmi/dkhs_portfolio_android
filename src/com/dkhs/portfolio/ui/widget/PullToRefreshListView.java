@@ -130,11 +130,11 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
 	public void setAutoLoadMore(boolean pIsAutoLoadMore) {
 		mIsAutoLoadMore = pIsAutoLoadMore;
-		//add by zcm --- 2014.12.16
-		if(mEndRootView != null){
+		//modify by zcm --- 2014.12.22
+		if(!pIsAutoLoadMore &&mEndRootView != null){
 			removeFooterView(mEndRootView);
 		}
-		//add by zcm --- 2014.12.16
+		//modify by zcm --- 2014.12.22
 	}
 		
 	public boolean isMoveToFirstItemAfterRefresh() {
@@ -868,5 +868,8 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 				new SimpleDateFormat(DATE_FORMAT_STR, Locale.CHINA).format(new Date()));
 		super.setAdapter(adapter);
 	}
-	
+	@Override
+	public boolean performItemClick(View view, int position, long id) {
+		return super.performItemClick(view, position -1, id);
+	}
 }

@@ -51,7 +51,7 @@
         android:gravity="center"
         android:padding="6dp"
         android:singleLine="true"
-        android:textSize="23sp" />
+        android:textSize="@dimen/main_bottom_textsize" />
 
     <GridView
         android:id="@+id/gv_function"

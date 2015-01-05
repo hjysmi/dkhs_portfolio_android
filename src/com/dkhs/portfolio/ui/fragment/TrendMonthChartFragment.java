@@ -170,7 +170,7 @@ public class TrendMonthChartFragment extends BaseFragment {
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(20);
+        machart.setAxisMarginLeft(10);
         machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);
@@ -186,13 +186,13 @@ public class TrendMonthChartFragment extends BaseFragment {
         machart.setDisplayLongitude(true);
 
         setInitYTitle();
-        
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
             machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
     }
-    
+
     private void setInitYTitle() {
         List<String> ytitle = new ArrayList<String>();
         ytitle.add(StringFromatUtils.get4Point(0.99f));
@@ -269,11 +269,11 @@ public class TrendMonthChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            if(!UIUtils.roundAble(histroyValue.getTrade_status())){
-            	stopRequry();
+            if (!UIUtils.roundAble(histroyValue.getTrade_status())) {
+                stopRequry();
             }
             DrawLineDataEntity lineData = null;
-            if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
+            if (null != histroyValue && histroyValue.getChartlist() != null) {
                 lineData = new DrawLineDataEntity();
                 getMaxOffetValue(lineData, histroyValue);
             }
@@ -295,8 +295,8 @@ public class TrendMonthChartFragment extends BaseFragment {
         int dashLineSize;
         float begin;
         float end;
-        String startDay;
-        String endDay;
+        String startDay = "";
+        String endDay = "";
         float maxOffetvalue;
         float addupvalue;
         float netvalue;
@@ -431,12 +431,12 @@ public class TrendMonthChartFragment extends BaseFragment {
         if (dashLineSize == 0) {
             dashLineSize = dataLenght;
         }
-        if (dashLineSize > 1) {
-            lineData.begin = 1;
-        } else {
-            // lineData.begin = historyNetValue.getBegin();
-            lineData.begin = historyNetValue.getBegin();
-        }
+        // if (dashLineSize > 1) {
+        // lineData.begin = 1;
+        // } else {
+        // lineData.begin = historyNetValue.getBegin();
+        lineData.begin = historyNetValue.getBegin();
+        // }
         lineData.dashLineSize = dashLineSize;
         lineData.maxOffetvalue = offetValue;
         return offetValue;
@@ -484,20 +484,22 @@ public class TrendMonthChartFragment extends BaseFragment {
             super.setUserVisibleHint(isVisibleToUser);
         }
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_month);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_trend_month);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }

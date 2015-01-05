@@ -7,143 +7,66 @@
     <RelativeLayout
         android:id="@+id/menu_userinfo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <RelativeLayout
-            android:id="@+id/iv_header"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@null" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:gravity="center_horizontal"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/iv_userheader"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_centerInParent="true"
-                    android:background="@color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/tv_username"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="8dp"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_header"
-            android:orientation="horizontal"
-            android:visibility="gone" >
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/menu_icon_backleft"
-                android:gravity="center_vertical" >
-
-                <TextView
-                    android:id="@+id/tv_combin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:text="15"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_combin"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:text="组合"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/menu_icon_backright"
-                android:gravity="center_vertical"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/tv_stock"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="15"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tv_stock"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="5dp"
-                    android:text="自选股"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-            </RelativeLayout>
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/menu_setting"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:paddingBottom="15dip"
-        android:paddingLeft="22dip"
-        android:paddingTop="15dip" >
+        android:layout_marginTop="25dp"
+        android:background="@null" >
 
         <ImageView
-            android:id="@+id/btn_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:background="@drawable/menu_icon_setting" />
+            android:id="@+id/iv_userheader"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_launcher" />
 
         <TextView
+            android:id="@+id/tv_username"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/btn_setting"
-            android:paddingLeft="14dip"
-            android:text="设置"
-            android:textColor="@color/light_gray"
+            android:layout_below="@+id/iv_userheader"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="8dp"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@+id/iv_userheader"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/btn_blue_border"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:text="马上登录"
+            android:textColor="@color/blue"
             android:textSize="16sp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/btn_setting"
+        android:drawableLeft="@drawable/menu_icon_setting"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="设置"
+        android:textColor="@color/light_gray"
+        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/menu_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/menu_setting"
+        android:layout_above="@id/btn_setting"
         android:layout_below="@id/menu_userinfo"
+        android:layout_marginTop="10dp"
         android:cacheColorHint="@color/transparent"
         android:divider="@color/sliding_menu_divider_color"
         android:scrollbars="none" >

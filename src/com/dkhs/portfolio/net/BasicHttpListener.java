@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -106,8 +107,10 @@ public abstract class BasicHttpListener implements IHttpListener {
         // }
         // Toast.makeText(PortfolioApplication.getInstance(), errMsg, Toast.LENGTH_SHORT).show();
         LogUtils.e("Error code :" + errCode + ",message : " + errMsg);
-        if (errCode == 500 || errCode == 404) { // 服务器内部错误
-            PromptManager.showToast("数据请求失败,请稍后重试.");
+        if (errCode == 0) {
+            PromptManager.showToast(R.string.message_timeout);
+        } else if (errCode == 500 || errCode == 404) { // 服务器内部错误
+            PromptManager.showToast(R.string.message_server_error);
         } else if (errCode == 777 && fromYanbao) { // 服务器正确响应，错误参数需要提示用户
             parseToErrorBundle(errMsg);
         }
@@ -163,6 +166,4 @@ public abstract class BasicHttpListener implements IHttpListener {
         this.fromYanbao = fromYanbao;
     }
 
-    
-    
 }

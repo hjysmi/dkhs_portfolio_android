@@ -80,7 +80,7 @@ public class CompareIndexAdapter extends BaseAdapter {
         CompareFundItem item = mDataList.get(position);
         int colorId = ColorTemplate.COMPARE[position];
         if (position + 1 == mDataList.size()) {
-            colorId = R.color.def_0;
+            colorId = R.color.blue_line;
         }
         // viewHolder.cbSelect.setBackgroundColor(mContext.getResources().getColor(colorId));
         // viewHolder.cbSelect.setOnCheckedChangeListener(itemSelectChangeListener);

@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:scrollbars="none" >
 
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
@@ -32,11 +28,11 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="6px" />
+                    android:layout_height="6.5px" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1px"
+                    android:layout_height="0.5px"
                     android:background="@color/theme_gray_press"
                     android:orientation="vertical" >
                 </LinearLayout>
@@ -56,5 +52,3 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
-</HorizontalScrollView>

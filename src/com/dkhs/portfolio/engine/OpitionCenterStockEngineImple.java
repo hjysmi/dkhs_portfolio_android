@@ -10,49 +10,159 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
-    private final static String EXCHANGE = "1,2";
 
+    public final static String VALUE_EXCHANGE = "1,2";
+    public final static String VALUE_EXCHANGE_SAHNG = "2";
+    public final static String VALUE_SYMBOL_TYPE = "1";
+    public final static String VALUE_SYMBOL_STYPE = "101";
+    public final static String VALUE_SYMBOL_SELECT = "6";
     public final static String ORDER_INCREASE = "-percentage";
     public final static String ORDER_DOWN = "percentage";
     public final static String ORDER_TURNOVER = "-turnover_rate";
-    public final static String ACE = "percentage";
-    public final static String DESC = "-percentage";
-    private String orderType;
+    public final static String ORDER_TURNOVER_DOWN = "turnover_rate";
+    public final static String ORDER_AMPLITU = "-amplitude";
+    public final static String ORDER_AMPLITU_DOWN = "amplitude";
 
-    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, String type) {
+    private String orderType;
+    private StockViewType mStockType;
+    private String mSectorId;
+    private int mPageSize = 50;
+    private String symboltype = VALUE_SYMBOL_TYPE;
+    private String exchange = VALUE_EXCHANGE;
+    private String symbol_stype = VALUE_SYMBOL_STYPE;
+    private String list_sector;
+
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type) {
         super(loadListener);
-        this.orderType = type;
+        this.mStockType = type;
+        getOrderType(type);
+    }
+
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, String sectorId) {
+        super(loadListener);
+        this.mStockType = type;
+        this.mSectorId = sectorId;
+        getOrderType(type);
+    }
+
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, int pagesize) {
+        super(loadListener);
+        this.mStockType = type;
+        this.mPageSize = pagesize;
+        getOrderType(type);
+    }
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, int pagesize,String list_sector,String symbol_stype,String exchange) {
+        super(loadListener);
+        this.mStockType = type;
+        this.mPageSize = pagesize;
+        this.list_sector = list_sector;
+        this.symbol_stype = symbol_stype;
+        this.exchange = exchange;
+        getOrderType(type);
+    }
+    private void getOrderType(StockViewType type) {
+        switch (type) {
+            case MARKET_STOCK_TURNOVER:
+            case STOCK_HANDOVER: {
+                orderType = ORDER_TURNOVER;
+            }
+                break;
+            case STOCK_DRAWDOWN:
+            case MARKET_STOCK_DOWNRATIO: {
+                orderType = ORDER_DOWN;
+            }
+                break;
+            case STOCK_INCREASE:
+            case MARKET_STOCK_UPRATIO: {
+                orderType = ORDER_INCREASE;
+            }
+                break;
+            case MARKET_STOCK_AMPLIT: {
+                orderType = ORDER_AMPLITU;
+            }
+                break;
+            case MARKET_STOCK_AMPLIT_ACE: {
+                orderType = ORDER_AMPLITU_DOWN;
+            }
+                break;
+            case MARKET_STOCK_TURNOVER_ACE: {
+                orderType = ORDER_TURNOVER_DOWN;
+            }
+                break;
+            case MARKET_PLATE_LIST: {
+                orderType = ORDER_INCREASE;
+            }
+                break;
+            case MARKET_PLATE_LIST_ACE: {
+                orderType = ORDER_DOWN;
+            }
+                break;
+
+            default:
+                break;
+        }
     }
 
     @Override
     public void loadMore() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        params.add(valuePair);
-        DKHSClient.requestByGet(
-                MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket + "&page=" + (getCurrentpage() + 1), orderType,50),
-                null, this);
+
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("exchange", exchange);
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPageSize + "");
+        params.addQueryStringParameter("symbol_type", symboltype);
+        if(!TextUtils.isEmpty(symbol_stype))
+            params.addQueryStringParameter("symbol_stype", symbol_stype);
+        if(!TextUtils.isEmpty(list_sector)){
+            params.addQueryStringParameter("list_sector", list_sector);
+        }
+        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+
     }
 
     @Override
     public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType,50), null, this);
+
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("exchange", exchange);
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPageSize + "");
+        params.addQueryStringParameter("symbol_type", symboltype);
+        if(!TextUtils.isEmpty(symbol_stype))
+        params.addQueryStringParameter("symbol_stype", symbol_stype);
+        if(!TextUtils.isEmpty(list_sector)){
+            params.addQueryStringParameter("list_sector", list_sector);
+        }
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
     }
-    public void loadDataFromCurrent(int num) {
-    	if(num == 0){
-    		num = 10;
-    	}
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType,num), null, this);
 
-    }
+    // public void loadDataFromCurrent(int num) {
+    // // DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.opitionmarket, orderType, num), null, this);
+    //
+    // }
+
     @Override
     protected List<SelectStockBean> parseDateTask(String jsonData) {
         List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
@@ -69,15 +179,16 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    
-                    // SelectStockBean selectBean = new SelectStockBean();
-                    // selectBean.id = stockBean.getId();
-                    // selectBean.name = stockBean.getAbbrname();
-                    // selectBean.currentValue = stockBean.getCurrent();
-                    // selectBean.code = stockBean.getSymbol();
-                    // selectBean.percentage = stockBean.getPercentage();
-                    // selectBean.isFollowed = stockBean.isFollowed();
-                    // selectList.add(selectBean);
+
+                    if (!TextUtils.isEmpty(orderType)) {
+
+                        if (orderType.contains(ORDER_TURNOVER_DOWN)) {
+                            stockBean.setPercentage(stockBean.getTurnover_rate());
+                        } else if (orderType.contains(ORDER_AMPLITU_DOWN)) {
+                            stockBean.setPercentage(stockBean.getAmplitude());
+                        }
+                    }
+
                     selectList.add(SelectStockBean.copy(stockBean));
 
                 }
@@ -89,5 +200,31 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         }
 
         return selectList;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        if (dataSize == 0) {
+            dataSize = 10;
+        }
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("exchange", VALUE_EXCHANGE);
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", dataSize + "");
+        params.addQueryStringParameter("symbol_type", VALUE_SYMBOL_TYPE);
+        params.addQueryStringParameter("symbol_stype", VALUE_SYMBOL_STYPE);
+
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+
     }
 }

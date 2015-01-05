@@ -43,7 +43,7 @@ public class GridChart extends View {
 	private static final int DEFAULT_LOWER_LATITUDE_NUM = 1;
 
 	/** 默认经线数 */
-	public static final int DEFAULT_LOGITUDE_NUM = 3;
+	public static final int DEFAULT_LOGITUDE_NUM = 4;
 	public static  int PADDING_LEFT = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.padding_left);
 	/** 默认边框的颜色 */
 	public static final int DEFAULT_BORDER_COLOR = Color.RED;
@@ -204,7 +204,7 @@ public class GridChart extends View {
 		}
 		//-------------------------------------------------------------------------
 		
-		longitudeSpacing = (viewWidth - 2) / (DEFAULT_LOGITUDE_NUM + 1);
+		longitudeSpacing = (viewWidth - 2 - PADDING_LEFT) / (DEFAULT_LOGITUDE_NUM + 1);
 		latitudeSpacing = (viewHeight - 4 - DEFAULT_AXIS_TITLE_SIZE - topTitleHeight - mTabHight)
 				/ (upperLatitudeNum + lowerLatitudeNum + 2);
 		mUperChartHeight = latitudeSpacing * (upperLatitudeNum + 1);
@@ -298,10 +298,10 @@ public class GridChart extends View {
 		paint.setColor(mLongiLatitudeColor);
 		paint.setPathEffect(mDashEffect);
 		for (int i = 1; i <= DEFAULT_LOGITUDE_NUM; i++) {
-			canvas.drawLine(PADDING_LEFT + longitudeSpacing * i, topTitleHeight + 2, 1 + longitudeSpacing * i,
+			canvas.drawLine(PADDING_LEFT + longitudeSpacing * i, topTitleHeight + 2, 1 + longitudeSpacing * i +PADDING_LEFT,
 					UPER_CHART_BOTTOM, paint);
-			canvas.drawLine(PADDING_LEFT + longitudeSpacing * i, LOWER_CHART_TOP, 1 + longitudeSpacing * i,
-					viewHeight - 1, paint);
+			/*canvas.drawLine(PADDING_LEFT + longitudeSpacing * i, LOWER_CHART_TOP, 1 + longitudeSpacing * i + PADDING_LEFT,
+					viewHeight - 1, paint);*/
 		}
 
 	}

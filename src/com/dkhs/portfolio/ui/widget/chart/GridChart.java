@@ -240,8 +240,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		ps.getTextBounds(lent, 0, lent.length(), rects); 
 		PADDING_LEFT = rects.width();
 		//解决适配字体大小
-		longtitudeFontSize = DEFAULT_LONGTITUDE_FONT_SIZE;
-		longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
+		longtitudeFontSize = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font);
+		//longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
 		axisMarginBottom = DEFAULT_LATITUDE_FONT_SIZE;
 		latitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LATITUDE_FONT_SIZE);
 		mTitleHeight = longtitudeFontSize;
@@ -319,8 +319,10 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		PointF point = new PointF(clickPostX,clickPostY);
 		touchPoint = point;
 		// super.invalidate();
-		super.invalidate();
 		notifyEventAll(this);
+        postInvalidate();
+		super.invalidate();
+		
 	}
 	/**
 	 * 触摸事件
@@ -437,8 +439,8 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	protected void drawWithFingerClick(Canvas canvas) {
 		if(ismove){
 			Paint mPaint = new Paint();
-			mPaint.setColor(Color.LTGRAY);
-	
+			mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+			mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 			// 水平线长度
 			float lineHLength = getWidth() - 2f;
 			// 垂直线高度
@@ -576,9 +578,9 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 			mPaintFont.setTextSize(longtitudeFontSize);
 			mPaintFont.setAntiAlias(true);
 			if (counts > 1) {
-				float postOffset = (super.getWidth() - axisMarginLeft - 2 * axisMarginRight)
-						/ (counts - 1);
-				float offset = axisMarginLeft + axisMarginRight + PADDING_LEFT;
+				float postOffset = (super.getWidth() - 2 * axisMarginRight - PADDING_LEFT)
+						/ (counts -1);
+				float offset = 2 + PADDING_LEFT;
 				float sumTexts = 0l;
 				for(int i=0; i<counts; i++) {
 					sumTexts += mPaintFont.measureText(axisXTitles.get(i));
@@ -589,9 +591,21 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 				for (int i = 0; i < counts; i++) {
 					// 绘制线条
 					if (displayLongitude) {
-						canvas.drawLine(offset + i * postOffset, 0f, offset + i
+					    if(!(i == 0))
+						canvas.drawLine(offset + i * postOffset, axisMarginTop + mTitleHeight, offset + i
 								* postOffset, length, mPaintLine);
-					}
+						if(!(i == 0) && !( i == axisXTitles.size() -1)){
+						    Paint p= new Paint(); 
+		                    Rect rect = new Rect();
+		                    p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		                    p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect); 
+                            canvas.drawText(axisXTitles.get(i), 
+                                    i * postOffset + PADDING_LEFT - rect.width()/2, super
+                                    .getHeight()
+                                    - axisMarginBottom + longtitudeFontSize,
+                                    mPaintFont);
+                        }
+					}else
 					// 绘制刻度
 					if (displayAxisXTitle) {
 //						if (i < counts && i > 0) {
@@ -603,7 +617,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 									mPaintFont);
 						}else if( i == axisXTitles.size() -1){
 							canvas.drawText(axisXTitles.get(i), 
-									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + axisMarginLeft + PADDING_LEFT, super
+									i * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT, super
 									.getHeight()
 									- axisMarginBottom + longtitudeFontSize,
 									mPaintFont);
@@ -629,7 +643,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		// �?��Paint
 		Paint mPaintFont = new Paint();
 		mPaintFont.setColor(latitudeFontColor);
-		mPaintFont.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		mPaintFont.setTextSize(PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font));
 		mPaintFont.setAntiAlias(true);
 		if (null != axisYTitles) {
 			int counts = axisYTitles.size();

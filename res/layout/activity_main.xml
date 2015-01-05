@@ -30,5 +30,12 @@
             android:layout_gravity="right" />
         -->
     </android.support.v4.widget.DrawerLayout>
-
+	<ImageView 
+	    android:layout_height="match_parent"
+	    android:layout_width="match_parent"
+	    android:scaleType="fitXY"
+	    android:visibility="gone"
+	    android:id="@+id/main_intro_image"
+	    android:src="@drawable/main_intro_add"
+	    />
 </RelativeLayout>

@@ -24,9 +24,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -40,7 +38,10 @@ import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
+import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
@@ -49,7 +50,8 @@ import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
-import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -61,71 +63,81 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-8-29 上午9:36:16
  * @version 1.0
  */
-public class FragmentSelectStockFund extends Fragment implements ISelectChangeListener, OnClickListener {
+public class FragmentSelectStockFund extends Fragment implements ISelectChangeListener, OnClickListener,
+        OnLoadMoreListener {
     private static final String TAG = FragmentSelectStockFund.class.getSimpleName();
 
     private static final String ARGUMENT_LOAD_FUND = "isloadfund";
     private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
     private static final String ARGUMENT_LOAD_TYPE = "load_type";
+    private static final String ARGUMENT_SECTOR_ID = "sector_id";
 
-    private ListView mListView;
+    private PullToRefreshListView mListView;
     private BaseAdatperSelectStockFund mAdapterConbinStock;
-    private View mFootView;
     private boolean isLoadingMore;
-    // private BaseSelectActivity mActivity;
-
+    private boolean isRefresh;
     private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
-
     private boolean isFund;
-
     private boolean isItemClickBack;
-
-    private int mViewType;
+    private StockViewType mViewType;
     private boolean fromPosition = false;
     LoadSelectDataEngine mLoadDataEngine;
     private TextView tvEmptyText;
     public int timeMill;
     private boolean flush = false;
+    private String mSecotrId;
+    private boolean isLoading;
 
     /**
      * view视图类型
      */
-    public enum ViewType {
+    public enum StockViewType {
 
-        // // 搜索类型
-        // SEARCH_STOCK(-1),
-        // // 搜索类型
-        // SEARCH_FUND(-2),
-        // 股票，自选股
+        /** 股票，自选股 */
         STOCK_OPTIONAL(1),
-        // 股票，涨幅
+        /** 股票，涨幅 */
         STOCK_INCREASE(2),
-        // 股票，跌幅
+        /** 股票，跌幅 */
         STOCK_DRAWDOWN(3),
-        // 股票，跌幅
+        /** 股票，换手率 */
         STOCK_HANDOVER(4),
-        // 股票，自选股
-        STOCK_OPTIONAL_PRICE(8),
-        // 行情中心 指数排行榜查询 递减
-        STOC_INDEX_MARKET(9),
-        // 行情中心 国内指数不排序
-        STOC_INDEX_MARKET_CURRENT(13),
-        // 行情中心 指数排行榜查询 递减
-        STOC_INDEX_MARKET_ACE(10),
-        // 行情中心 个股排行榜查询 递减
-        STOC_INDEX_POSITION(11),
-        // 行情中心 个股排行榜查询 递减
-        STOC_INDEX_POSITION_ACE(12),
-        // 基金，主要指数
+
+        /** 基金，主要指数 */
         FUND_MAININDEX(5),
-        // 基金，指数
+        /** 基金，指数 */
         FUND_INDEX(6),
-        // 基金，基金股票
-        FUND_STOCK(7);
+        /** 基金，基金股票 */
+        FUND_STOCK(7),
+        /** 股票，自选股 */
+        STOCK_OPTIONAL_PRICE(8),
+
+        /** 行情中心，国内指数排行，高到低 */
+        MARKET_INLAND_INDEX(9),
+        /** 行情中心，国内指数排行榜查询，低到高 */
+        MARKET_INLAND_INDEX_ACE(10),
+        /** 行情中心, 国内指数不排序 */
+        MARKET_INLAND_INDEX_CURRENT(11),
+
+        /** 行情中心,个股排行，跌幅 */
+        MARKET_STOCK_DOWNRATIO(12),
+        /** 行情中心,个股排行，涨幅 */
+        MARKET_STOCK_UPRATIO(13),
+        /** 行情中心,个股换手排行榜查询 高到低 */
+        MARKET_STOCK_TURNOVER(14),
+        /** 行情中心,个股换手排行榜查询 低到高 */
+        MARKET_STOCK_TURNOVER_ACE(15),
+        /** 行情中心 ,个股振幅，高到低 */
+        MARKET_STOCK_AMPLIT(16),
+        /** 行情中心 ,个股振幅，低到高 */
+        MARKET_STOCK_AMPLIT_ACE(17),
+        /** 行情中心 ,板块列表，高到底 */
+        MARKET_PLATE_LIST(18),
+        /** 行情中心 ,个股振幅，低到高 */
+        MARKET_PLATE_LIST_ACE(19);
 
         private int typeId;
 
-        ViewType(int type) {
+        StockViewType(int type) {
             this.typeId = type;
         }
 
@@ -134,30 +146,40 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
     }
 
-    public static FragmentSelectStockFund getStockFragment(ViewType type) {
+    public static FragmentSelectStockFund getStockFragment(StockViewType type) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
-        args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
+        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static FragmentSelectStockFund getFundFragment(ViewType type) {
+    public static FragmentSelectStockFund getStockFragmentByPlate(StockViewType type, String plateId) {
+        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
+        args.putString(ARGUMENT_SECTOR_ID, plateId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static FragmentSelectStockFund getFundFragment(StockViewType type) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, true);
-        args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
+        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static FragmentSelectStockFund getItemClickBackFragment(ViewType type) {
+    public static FragmentSelectStockFund getItemClickBackFragment(StockViewType type) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
-        args.putInt(ARGUMENT_LOAD_TYPE, type.getTypeId());
+        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
         fragment.setArguments(args);
         return fragment;
     }
@@ -170,36 +192,55 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (null != bundle) {
             isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
             isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
-            mViewType = bundle.getInt(ARGUMENT_LOAD_TYPE);
+            mViewType = (StockViewType) bundle.getSerializable(ARGUMENT_LOAD_TYPE);
             fromPosition = bundle.getBoolean("fromPosition");
+            mSecotrId = bundle.getString(ARGUMENT_SECTOR_ID);
+
         }
         if (isItemClickBack) {
-            mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
+            if (mViewType == StockViewType.STOCK_HANDOVER) {
+
+                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList, true);
+            } else {
+                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
+            }
         } else if (isFund) {
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
-        } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET.typeId) {
+        } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
+                || mViewType == StockViewType.MARKET_INLAND_INDEX
+                || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
+                || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
+                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
             mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId) {
-            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) {
-            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
-        } else if (mViewType == ViewType.STOC_INDEX_POSITION.typeId) {
-            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
-        } else if (mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId) {
-            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
+        } else if (mViewType == StockViewType.MARKET_STOCK_AMPLIT || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
+            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList, true);
+        } else if (mViewType == StockViewType.STOCK_HANDOVER) {
+            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList, true);
+            mAdapterConbinStock.setFromShow(!fromPosition);
+
         } else {
             mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
             mAdapterConbinStock.setFromShow(!fromPosition);
-            System.out.println("new SelectStockAdatper");
         }
 
         mAdapterConbinStock.setCheckChangeListener(this);
-        // if (mViewType != ViewType.SEARCH_STOCK.getTypeId() || mViewType != ViewType.SEARCH_FUND.getTypeId()) {
         initData();
-        // }
 
+    }
+
+    private boolean isLoadStockType() {
+        if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
+                || mViewType == StockViewType.MARKET_STOCK_AMPLIT || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER
+                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
+                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
+            return true;
+        }
+        return false;
     }
 
     private void initData() {
@@ -212,20 +253,18 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     private void loadDataByFund() {
-        System.out.println("loadDataByFund view type:" + mViewType);
-        if (mViewType == ViewType.FUND_MAININDEX.typeId) {
+        if (mViewType == StockViewType.FUND_MAININDEX) {
             mLoadDataEngine = new MainIndexEngineImple(mSelectStockBackListener);
 
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET.typeId) {
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX) {
 
-        } else if (mViewType == ViewType.FUND_INDEX.typeId) {
+        } else if (mViewType == StockViewType.FUND_INDEX) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
-        } else if (mViewType == ViewType.FUND_STOCK.typeId) {
+        } else if (mViewType == StockViewType.FUND_STOCK) {
             mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
 
         }
         if (null != mLoadDataEngine) {
-            mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
 
         } else {
@@ -238,26 +277,51 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-            // typs = mLoadDataEngine.getStatu();
+            mListView.onLoadMoreComplete();
+            if (null != loadingFinishListener) {
+                loadingFinishListener.loadingFinish();
+            }
+            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                mListView.setCanLoadMore(false);
+                mListView.setAutoLoadMore(false);
+            } else {
+                mListView.setCanLoadMore(true);
+                mListView.setAutoLoadMore(true);
+                if (mLoadDataEngine.getCurrentpage() == 1)
+                    mListView.setOnLoadListener(FragmentSelectStockFund.this);
+            }
             if (flush) {
-                // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "没有更多的数据了",
+                // Toast.LENGTH_SHORT).show();
                 flush = false;
-                loadFinishUpdateView();
+                // loadFinishUpdateView();
                 return;
             }
             if (isRefresh) {
                 mDataList.clear();
                 isRefresh = false;
             }
-            loadFinishUpdateView();
+            // loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
                 mDataList.addAll(dataList);
                 mAdapterConbinStock.notifyDataSetChanged();
 
-            } else {
+            }
+            if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             }
 
+        }
+
+        @Override
+        public void loadFail(ErrorBundle error) {
+            LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            if (null == mDataList || mDataList.size() == 0) {
+                initNotice();
+            }
+            if (null != loadingFinishListener) {
+                loadingFinishListener.loadingFinish();
+            }
         }
 
     };
@@ -280,8 +344,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
     }
 
-    private boolean isRefresh;
-
     public void setOptionalOrderType(String type) {
         isRefresh = true;
         if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
@@ -295,48 +357,30 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private void loadDataByStock() {
 
-        if (mViewType == ViewType.STOCK_OPTIONAL.typeId) {
+        if (mViewType == StockViewType.STOCK_OPTIONAL) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
-        } else if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
-        } else if (mViewType == ViewType.STOCK_HANDOVER.typeId) {
-            mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
-                    QuetosStockEngineImple.ORDER_TURNOVER);
-        } else if (mViewType == ViewType.STOCK_DRAWDOWN.typeId) {
-            mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener, QuetosStockEngineImple.ORDER_DOWN);
-
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET.typeId) {
+        } else if (isLoadStockType() || mViewType == StockViewType.STOCK_HANDOVER
+                || mViewType == StockViewType.STOCK_DRAWDOWN || mViewType == StockViewType.STOCK_INCREASE) {
+            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener, mViewType, mSecotrId);
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.DESC);
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId) {
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.CURRENT);
-        } else if (mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId) {
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
-                    MarketCenterStockEngineImple.ACE);
-        } else if (mViewType == ViewType.STOC_INDEX_POSITION.typeId) {
-            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,
-                    MarketCenterStockEngineImple.DESC);
-        } else if (mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId) {
-            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
         } else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
 
-        mLoadDataEngine.setLoadingDialog(getActivity());
         mLoadDataEngine.loadData();
-        // for (int i = 0; i < 20; i++) {
-        // SelectStockBean csBean = new SelectStockBean();
-        // csBean.name = "个股名" + i;
-        // csBean.id = i + 100;
-        // csBean.currentValue = 9.15f + i;
-        // mDataList.add(csBean);
-        // }
-    }
 
-    private boolean isLoading;
+    }
 
     public void refresh() {
         isRefresh = true;
@@ -347,6 +391,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
     }
 
+    public void refreshNoCaseTime() {
+        isRefresh = true;
+        if (mLoadDataEngine != null && !isLoadingMore) {
+            // mDataList.clear();
+            isLoading = true;
+            mLoadDataEngine.refreshDatabySize(mDataList.size());
+        }
+    }
+
     public void refreshForMarker() {
 
         if (mLoadDataEngine != null && !isLoadingMore) {
@@ -354,16 +407,18 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
                 timeMill = 0;
                 isRefresh = true;
-                if ((mViewType == ViewType.STOC_INDEX_MARKET_CURRENT.typeId
-                        || mViewType == ViewType.STOC_INDEX_MARKET.typeId || mViewType == ViewType.STOC_INDEX_MARKET_ACE.typeId)
-                        && null != mDataList) {
-                    ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-                }
-                if ((mViewType == ViewType.STOC_INDEX_POSITION.typeId || mViewType == ViewType.STOC_INDEX_POSITION_ACE.typeId)
-                        && null != mDataList) {
-                    ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-                }
-                mLoadDataEngine.setLoadingDialog(getActivity());
+                // if ((mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
+                // || mViewType == StockViewType.MARKET_INLAND_INDEX || mViewType ==
+                // StockViewType.MARKET_INLAND_INDEX_ACE)
+                // && null != mDataList) {
+                // ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+                // }
+                // if ((mViewType == StockViewType.MARKET_STOCK_UPRATIO || mViewType ==
+                // StockViewType.MARKET_STOCK_DOWNRATIO)
+                // && null != mDataList) {
+                // ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
+                // }
+                mLoadDataEngine.refreshDatabySize(mDataList.size());
             }
         } else {
             timeMill++;
@@ -374,21 +429,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         }
     }
 
-    // public void refreshAll() {
-    // isRefresh = true;
-    // if (mLoadDataEngine != null) {
-    // // mDataList.clear();
-    // // if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
-    // // ((OptionalStockEngineImpl) mLoadDataEngine).loadAllData();
-    // // mLoadDataEngine.setLoadingDialog(getActivity());
-    // // } else {
-    //
-    // mLoadDataEngine.loadData();
-    // mLoadDataEngine.setLoadingDialog(getActivity());
-    // // }
-    // }
-    // }
-
     public void setCheckListener(ISelectChangeListener listener) {
         if (null != mAdapterConbinStock)
             mAdapterConbinStock.setCheckChangeListener(listener);
@@ -396,9 +436,6 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // View view = View.inflate(getActivity(), R.layout.fragment_selectstock, true);
-        // initView(view);
 
         LinearLayout wrapper = new LinearLayout(getActivity()); // for example
         inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
@@ -410,46 +447,29 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     private void initNotice() {
         switch (mViewType) {
-            case 1:
-                tvEmptyText.setText("暂无添加自选股");
+            case STOCK_OPTIONAL:
+
+            case STOCK_OPTIONAL_PRICE: {
+                tvEmptyText.setText(R.string.nodate_tip_optional);
+            }
                 break;
-            case 2:
-                tvEmptyText.setText("暂无添加自选股");
+            case FUND_INDEX:
+            case FUND_MAININDEX:
+            case FUND_STOCK: {
+                tvEmptyText.setText(R.string.nodate_tip_funds);
+            }
                 break;
-            case 3:
-                tvEmptyText.setText("暂无添加自选股");
+
+            case MARKET_INLAND_INDEX:
+            case MARKET_INLAND_INDEX_CURRENT:
+            case MARKET_INLAND_INDEX_ACE: {
+                tvEmptyText.setText(R.string.nodate_tip_inland_index);
+            }
                 break;
-            case 4:
-                tvEmptyText.setText("暂无添加自选股");
-                break;
-            case 5:
-                tvEmptyText.setText("暂无新建基金");
-                break;
-            case 6:
-                tvEmptyText.setText("暂无新建基金");
-                break;
-            case 7:
-                tvEmptyText.setText("暂无新建基金");
-                break;
-            case 8:
-                tvEmptyText.setText("暂无添加自选股");
-                break;
-            case 9:
-                tvEmptyText.setText("暂无国内指数数据");
-                break;
-            case 10:
-                tvEmptyText.setText("暂无国内指数数据");
-                break;
-            case 11:
-                tvEmptyText.setText("暂无沪深数据");
-                break;
-            case 12:
-                tvEmptyText.setText("暂无沪深数据");
-                break;
-            case 13:
-                tvEmptyText.setText("暂无国内指数数据");
-                break;
-            default:
+
+            default: {
+                tvEmptyText.setText(R.string.nodate_tip);
+            }
                 break;
         }
     }
@@ -468,46 +488,13 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
     }
 
     private void initView(View view) {
-        mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) view.findViewById(android.R.id.list);
-        mListView.setEmptyView(view.findViewById(android.R.id.empty));
-        // mListView.addFooterView(mFootView);
+
+        mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
-        // mListView.removeFooterView(mFootView);
-        mListView.setOnScrollListener(new OnScrollListener() {
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-
-                switch (scrollState) {
-                    case OnScrollListener.SCROLL_STATE_IDLE:
-
-                    {
-                        if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
-                            return;
-                        }
-                        // 判断是否滚动到底部
-                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-                            loadMore();
-
-                        }
-                    }
-
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-            }
-        });
-
-        if (mViewType == ViewType.STOCK_OPTIONAL_PRICE.typeId) {
+        if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
         } else if (isItemClickBack) {
-            // mListView.setOnItemClickListener(itemBackClick);
             mListView.setOnItemClickListener(itemBackClick);
         }
 
@@ -519,7 +506,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             SelectStockBean itemStock = mDataList.get(position);
             itemStock.isFollowed = true;
-            // Toast.makeText(getActivity(), "选择股票：" + itemStock.name, Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
+            // Toast.LENGTH_SHORT).show();
             getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
@@ -527,82 +515,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // System.out.println("OnItemClickListener itemBackClick ");
-            // SelectStockBean itemStock = mDataList.get(position);
-            // setSelectBack(itemStock);
 
             SelectStockBean itemStock = mDataList.get(position);
-            // itemStock.isFollowed = true;
-
             getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
             getActivity().finish();
         }
     };
-
-    private void loadMore() {
-        if (null != mLoadDataEngine) {
-            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                flush = true;
-                /*
-                 * PromptManager.showProgressDialog(getActivity(), "", true);
-                 * 
-                 * PromptManager.closeProgressDialog();
-                 * return;
-                 */
-            }
-            // mListView.addFooterView(mFootView);
-            // Thread thread = new Thread(null, loadMoreListItems);
-            // thread.start();
-
-            isLoadingMore = true;
-            if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
-                mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
-            mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadMore();
-        }
-    }
-
-    // Runnable to load the items
-    // private List<SelectStockBean> loadList;
-    // private Runnable loadMoreListItems = new Runnable() {
-    // @Override
-    // public void run() {
-    //
-    // loadList = new ArrayList<SelectStockBean>();
-    // try {
-    // Thread.sleep(1000);
-    // } catch (InterruptedException e) {
-    // }
-    // for (int i = 0; i < 20; i++) {
-    // SelectStockBean csBean = new SelectStockBean();
-    // csBean.name = "加载项" + i;
-    // csBean.id = i + 100;
-    // csBean.currentValue = 9.15f + i;
-    // loadList.add(csBean);
-    // }
-    // getActivity().runOnUiThread(returnRes);
-    // }
-    // };
-    //
-    // private Runnable returnRes = new Runnable() {
-    // @Override
-    // public void run() {
-    // if (loadList != null && loadList.size() > 0) {
-    // mDataList.addAll(loadList);
-    // }
-    // loadFinishUpdateView();
-    // }
-    // };
-
-    private void loadFinishUpdateView() {
-        // mAdapterConbinStock.notifyDataSetChanged();
-        isLoadingMore = false;
-        /*
-         * if (mListView != null) {
-         * mListView.removeFooterView(mFootView);
-         * }
-         */
-    }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -617,19 +535,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     public static final String ARGUMENT = "ARGUMENT";
 
-    private void setSelectBack(SelectStockBean type) {
-        Intent intent = new Intent();
-        intent.putExtra(ARGUMENT, type);
-        getActivity().setResult(-1, intent);
-
-        getActivity().finish();
-    }
-
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_select);
 
     @Override
     public void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
@@ -637,9 +546,33 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
     }
+
+    @Override
+    public void onLoadMore() {
+        if (null != mLoadDataEngine) {
+            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                flush = true;
+                /*
+                 * PromptManager.showProgressDialog(getActivity(), "", true);
+                 * 
+                 * PromptManager.closeProgressDialog(); return;
+                 */
+            }
+
+            if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
+                mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
+            mLoadDataEngine.loadMore();
+        }
+    }
+
+    private ILoadingFinishListener loadingFinishListener;
+
+    public void setLoadingFinishListener(ILoadingFinishListener finishListener) {
+        this.loadingFinishListener = finishListener;
+    }
+
 }

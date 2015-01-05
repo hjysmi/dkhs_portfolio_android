@@ -132,12 +132,14 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         // Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
         int index = 0;
-        if (mType.equalsIgnoreCase(TYPE_WEEK)) {
-            index = 1;
-        } else if (mType.equalsIgnoreCase(TYPE_All)) {
-            index = 3;
-        } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
-            index = 2;
+        if(null != mType){
+            if (mType.equalsIgnoreCase(TYPE_WEEK)) {
+                index = 1;
+            } else if (mType.equalsIgnoreCase(TYPE_All)) {
+                index = 3;
+            } else if (mType.equalsIgnoreCase(TYPE_MONTH)) {
+                index = 2;
+            }
         }
         startActivity(FundsOrderActivity.newIntent(getActivity(), index));
 

@@ -53,6 +53,8 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
@@ -265,17 +267,23 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void setColor(String type) {
         try {
             if (null != mPositionDetail) {
-            	updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
+                updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
                 if (type.equals(TrendTodayChartFragment.TREND_TYPE_TODAY)) {
                     netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
-                    netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
+                    // netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
+                    netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                            .getChng_pct_day()));
                     netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                             .getColorStateList(R.color.gray_textcolor));
-                    netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
+                    // netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
+                    netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                            .getChng_pct_week()));
                     netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                             .getColorStateList(R.color.gray_textcolor));
                     netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_month() + "%");
+                    netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                            .getChng_pct_month()));
                     netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                             .getColorStateList(R.color.gray_textcolor));
                     netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
@@ -397,11 +405,16 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     // }
 
     TrendChartFragment mtrendFragment = new TrendChartFragment();
-    
-    TrendTodayChartFragment todayFragment = TrendTodayChartFragment.newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
-    TrendSevenDayChartFragment sevendayFragment = TrendSevenDayChartFragment.newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
-    TrendMonthChartFragment monthFragment = TrendMonthChartFragment.newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
-    TrendHistoryChartFragment historyFragment = TrendHistoryChartFragment.newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
+
+    TrendTodayChartFragment todayFragment = TrendTodayChartFragment
+            .newInstance(TrendTodayChartFragment.TREND_TYPE_TODAY);
+    TrendSevenDayChartFragment sevendayFragment = TrendSevenDayChartFragment
+            .newInstance(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY);
+    TrendMonthChartFragment monthFragment = TrendMonthChartFragment
+            .newInstance(TrendMonthChartFragment.TREND_TYPE_MONTH);
+    TrendHistoryChartFragment historyFragment = TrendHistoryChartFragment
+            .newInstance(TrendHistoryChartFragment.TREND_TYPE_HISTORY);
+
     // FragmentSwitchChart mSwitchFragment = null;
 
     public void showShare(boolean silent, String platform, boolean captureView) {
@@ -439,16 +452,14 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             final OnekeyShare oks = new OnekeyShare();
 
             oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
-            // oks.setAddress("12345678901");
-            // oks.setTitle(CustomShareFieldsPage.getString("title", context.getString(R.string.evenote_title)));
-            // oks.setTitleUrl(CustomShareFieldsPage.getString("titleUrl", "http://mob.com"));
-            // String customText = CustomShareFieldsPage.getString( "text", null);
-            oks.setTitle(mCombinationBean.getName() + " 今日收益率");
-            oks.setTitleUrl("https://www.dkhs.com/portfolio/wap/");
-            oks.setUrl("https://www.dkhs.com/portfolio/wap/");
 
-            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName()
-                    + "」的收益率走势曲线。你也来创建属于你的基金吧。https://www.dkhs.com/portfolio/wap/";
+            String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
+            oks.setTitleUrl(shareUrl);
+            oks.setUrl(shareUrl);
+            oks.setTitle(mCombinationBean.getName() + " 今日收益率");
+
+            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的基金吧。"
+                    + shareUrl;
 
             oks.setText(customText);
 
@@ -509,29 +520,29 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private Fragment lastFragment = null;
-    
+
     private void replaceFragment(Fragment newFragment) {
         FragmentTransaction trasection = getChildFragmentManager().beginTransaction();
-        if(lastFragment != null){
-        	if(lastFragment instanceof TrendTodayChartFragment){
-        		todayFragment.stopRequry();
-        	}else if(lastFragment instanceof TrendSevenDayChartFragment){
-        		sevendayFragment.stopRequry();
-        	}else if(lastFragment instanceof TrendMonthChartFragment){
-        		monthFragment.stopRequry();
-        	}else if(lastFragment instanceof TrendHistoryChartFragment){
-        		historyFragment.stopRequry();
-        	}
-        	trasection.hide(lastFragment);
-        	trasection.commit();
+        if (lastFragment != null) {
+            if (lastFragment instanceof TrendTodayChartFragment) {
+                todayFragment.stopRequry();
+            } else if (lastFragment instanceof TrendSevenDayChartFragment) {
+                sevendayFragment.stopRequry();
+            } else if (lastFragment instanceof TrendMonthChartFragment) {
+                monthFragment.stopRequry();
+            } else if (lastFragment instanceof TrendHistoryChartFragment) {
+                historyFragment.stopRequry();
+            }
+            trasection.hide(lastFragment);
+            trasection.commit();
         }
         if (!newFragment.isAdded()) {
             try {
                 // FragmentTransaction trasection =
                 getChildFragmentManager().beginTransaction();
-//                trasection.replace(R.id.rl_trend_layout, newFragment);
-//                trasection.addToBackStack(null);
-//                trasection.add(R.id.rl_trend_layout, newFragment);
+                // trasection.replace(R.id.rl_trend_layout, newFragment);
+                // trasection.addToBackStack(null);
+                // trasection.add(R.id.rl_trend_layout, newFragment);
                 trasection.add(R.id.rl_trend_layout, newFragment, String.valueOf(newFragment.getId()));
                 trasection.commit();
             } catch (Exception e) {
@@ -629,7 +640,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
             // replaceFragment(fragmentList.get(position));
             String type = TrendTodayChartFragment.TREND_TYPE_TODAY;
-            Fragment curFragment = null ;
+            Fragment curFragment = null;
             switch (position) {
                 case 0: {
                     type = TrendTodayChartFragment.TREND_TYPE_TODAY;
@@ -841,12 +852,14 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void setITouchListener(ITouchListener touchListener) {
         this.mTouchListener = touchListener;
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_fund_order_line);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
 }

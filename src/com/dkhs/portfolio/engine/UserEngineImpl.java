@@ -144,15 +144,18 @@ public class UserEngineImpl {
     public void checkMobile(String mobile, IHttpListener listener) {
         DKHSClient.requestByGet(listener, DKHSUrl.User.checkMobile, mobile);
     }
+
     public void checkVericode(String mobile, String captcha, IHttpListener listener) {
-    	RequestParams params = new RequestParams();
-    	params.addQueryStringParameter("mobile", mobile);
-    	params.addQueryStringParameter("captcha", captcha);
-    	DKHSClient.request(HttpMethod.GET, DKHSUrl.User.check_vericode, params, listener);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("mobile", mobile);
+        params.addQueryStringParameter("captcha", captcha);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.check_vericode, params, listener);
     }
-    public void boundEmail(String email,IHttpListener listener){
-    	DKHSClient.requestByGet(listener, DKHSUrl.User.boundemail, email);
+
+    public void boundEmail(String email, IHttpListener listener) {
+        DKHSClient.requestByGet(listener, DKHSUrl.User.boundemail, email);
     }
+
     public void setUserName(String username, ParseHttpListener<String> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("username", username);
@@ -194,7 +197,7 @@ public class UserEngineImpl {
     public void setUserHead(File file, ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("avatar", file);
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
+        DKHSClient.requestLong(HttpMethod.POST, DKHSUrl.User.setUserHead, params, listener);
     }
 
     public void getSettingMessage(ParseHttpListener<UserEntity> listener) {
@@ -232,6 +235,14 @@ public class UserEngineImpl {
             params.addBodyParameter("contact", contact);
         if (null != file)
             params.addBodyParameter("image", file);
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
+        DKHSClient.requestLong(HttpMethod.POST, DKHSUrl.User.add_feed, params, listener);
     }
+
+    public void bindMobile(String mobile, String captcha, BasicHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("mobile", mobile);
+        params.addBodyParameter("captcha", captcha);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.bind_mobile, params, listener);
+    }
+
 }

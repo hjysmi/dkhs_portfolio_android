@@ -12,16 +12,18 @@ import java.util.List;
 
 import android.content.Context;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.utils.StockUitls;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName SelectFundAdatper
@@ -48,6 +50,7 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
             viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
             viewHolder.tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
+            viewHolder.tvSuspend = (TextView) convertView.findViewById(R.id.tv_suspend);
             viewHolder.mCheckbox = (CheckBox) convertView.findViewById(R.id.cb_select_stock);
 
             convertView.setTag(viewHolder);
@@ -57,15 +60,43 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-        viewHolder.mCheckbox.setTag(item);
-        if (isCombination) {
-            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
-        } else {
-            viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
-        }
-        viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+        if (PortfolioApplication.hasUserLogin()) {
 
+            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+            viewHolder.mCheckbox.setTag(item);
+            if (isCombination) {
+                viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+            } else {
+                viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+            }
+            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+        } else {
+            final CheckBox cbBox = viewHolder.mCheckbox;
+            viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    cbBox.setChecked(false);
+                    UIUtils.iStartLoginActivity(mContext);
+
+                }
+            });
+        }
+        System.out.println("SelectStockBean list status:" + item.list_status);
+        if (isCombination) {
+            if (item.isStop) {
+                viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+                viewHolder.tvSuspend.setText("停牌");
+                viewHolder.mCheckbox.setVisibility(View.GONE);
+                // viewHolder.tvIncreaseValue.setText("—");
+                // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
+            } else if (StockUitls.isNewStock(item.list_status)) {
+                viewHolder.tvSuspend.setVisibility(View.VISIBLE);
+                viewHolder.tvSuspend.setText("新股");
+                viewHolder.mCheckbox.setVisibility(View.GONE);
+            }
+
+        }
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
 
@@ -76,6 +107,7 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
         TextView tvStockName;
         CheckBox mCheckbox;
         TextView tvStockNum;
+        TextView tvSuspend;
 
     }
 

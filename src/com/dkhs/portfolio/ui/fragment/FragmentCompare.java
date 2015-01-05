@@ -62,6 +62,8 @@ import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -305,16 +307,18 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
             oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
             oks.setTitle(mCombinationBean.getName() + "与公募基金PK业绩");
-            oks.setTitleUrl("https://www.dkhs.com/portfolio/wap/");
+
+            String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationBean.getId();
+            oks.setTitleUrl(shareUrl);
+            oks.setUrl(shareUrl);
 
             String customText = "这是我的基金「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
-                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。https://www.dkhs.com/portfolio/wap/";
+                    + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。" + shareUrl;
 
             oks.setText(customText);
             oks.setImagePath(SHARE_IMAGE);
             oks.setFilePath(SHARE_IMAGE);
             oks.setSilent(false);
-            oks.setUrl("https://www.dkhs.com/portfolio/wap/");
             oks.setShareFromQQAuthSupport(false);
 
             // 令编辑页面显示为Dialog模式
@@ -480,8 +484,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(5);
-        machart.setAxisMarginLeft(5);
-        machart.setAxisMarginRight(5);
+        machart.setAxisMarginLeft(10);
+        machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);
         machart.setLongtitudeFontColor(Color.GRAY);
@@ -1148,20 +1152,22 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         // compareListener.stopRequest(true);
         // historyNetValueListener.stopRequest(true);
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_compare);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_compare);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }

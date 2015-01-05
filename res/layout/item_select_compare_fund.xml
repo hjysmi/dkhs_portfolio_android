@@ -26,7 +26,6 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="right"
-        android:paddingLeft="14dp"
         android:textColor="@color/red"
         android:textSize="18sp"
         android:textStyle="bold" />

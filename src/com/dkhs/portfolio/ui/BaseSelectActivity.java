@@ -28,6 +28,7 @@ import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -139,14 +140,15 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            //btnAdd.setTextColor(Color.WHITE);
+            // btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
             btnAdd.setEnabled(false);
-            btnAdd.setText(R.string.add_text);
-            //modify by zcm ---2014.12.15
-            //btnAdd.setTextColor(Color.WHITE);
-            //modify by zcm ---2014.12.15
+            String name = getResources().getString(R.string.add_text) + "(0)";
+            btnAdd.setText(name);
+            // modify by zcm ---2014.12.15
+            // btnAdd.setTextColor(Color.WHITE);
+            // modify by zcm ---2014.12.15
         }
 
         initTabPage();
@@ -162,8 +164,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         btnAdd = getRightButton();
         btnBack = getBtnBack();
         btnAdd.setBackgroundDrawable(null);
+        mSearchStock = findViewById(R.id.rl_search_stock);
         etSearchKey = (EditText) findViewById(R.id.et_search_key);
-
         mStockPageView = findViewById(R.id.rl_stock_rowview);
         replaceSearchView();
         mSearchListView = findViewById(R.id.rl_stock_searchview);
@@ -341,12 +343,12 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-        	// add by zcm --- 2014.12.16
-        	if(!TextUtils.isEmpty(etSearchKey.getText().toString())){
-        		etSearchKey.setText("");
-        		return;
-        	}
-        	// add by zcm --- 2014.12.16
+            // add by zcm --- 2014.12.16
+            if (!TextUtils.isEmpty(etSearchKey.getText().toString())) {
+                etSearchKey.setText("");
+                return;
+            }
+            // add by zcm --- 2014.12.16
             if (null != fromCreate) {
                 Intent intent = new Intent();
                 setResult(999, intent);
@@ -362,15 +364,16 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public void notifySelectDataChange(boolean isUpdataFragment) {
         if (mSelectList.size() > 0) {
             btnAdd.setEnabled(true);
-            //btnAdd.setTextColor(Color.WHITE);
+            // btnAdd.setTextColor(Color.WHITE);
             btnAdd.setText(getString(R.string.add_postional_format, mSelectList.size()));
         } else {
+            String name = getResources().getString(R.string.add_text) + "(0)";
             btnAdd.setEnabled(false);
-            btnAdd.setText(R.string.add_text);
-           // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
-            //modify by zcm ---2014.12.17
-            //btnAdd.setTextColor(Color.WHITE);
-            //modify by zcm ---2014.12.17
+            btnAdd.setText(name);
+            // btnAdd.setTextColor(getResources().getColor(android.R.color.darker_gray));
+            // modify by zcm ---2014.12.17
+            // btnAdd.setTextColor(Color.WHITE);
+            // modify by zcm ---2014.12.17
 
         }
 
@@ -406,6 +409,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
     public static final int CRATE_TYPE_CUSTOM = 1;
     public static final int FROM_CREATE = 999;
     public static final String FROM_CREATE_TITLE = "first_create";
+    private View mSearchStock;
 
     private void setSelectBack(int type) {
         Intent intent = new Intent();

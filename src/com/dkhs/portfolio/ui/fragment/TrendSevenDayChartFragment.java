@@ -163,7 +163,7 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(20);
+        machart.setAxisMarginLeft(10);
         machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);
@@ -243,11 +243,11 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            if(!UIUtils.roundAble(histroyValue.getTrade_status())){
-            	stopRequry();
+            if (!UIUtils.roundAble(histroyValue.getTrade_status())) {
+                stopRequry();
             }
             DrawLineDataEntity lineData = null;
-            if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
+            if (null != histroyValue && histroyValue.getChartlist() != null) {
                 lineData = new DrawLineDataEntity();
                 getMaxOffetValue(lineData, histroyValue);
             }
@@ -270,8 +270,8 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         int dashLineSize;
         float begin;
         float end;
-        String startDay;
-        String endDay;
+        String startDay = "";
+        String endDay = "";
         float maxOffetvalue;
         float addupvalue;
         float netvalue;
@@ -400,12 +400,12 @@ public class TrendSevenDayChartFragment extends BaseFragment {
         if (dashLineSize == 0) {
             dashLineSize = dataLenght;
         }
-        if (dashLineSize > 1) {
-            lineData.begin = 1;
-        } else {
-            lineData.begin = historyNetValue.getBegin();
-            // lineData.begin = historyNetValue.getLast_netvalue();
-        }
+        // if (dashLineSize > 1) {
+        // lineData.begin = 1;
+        // } else {
+        lineData.begin = historyNetValue.getBegin();
+        // lineData.begin = historyNetValue.getLast_netvalue();
+        // }
         lineData.dashLineSize = dashLineSize;
         lineData.maxOffetvalue = offetValue;
         return offetValue;

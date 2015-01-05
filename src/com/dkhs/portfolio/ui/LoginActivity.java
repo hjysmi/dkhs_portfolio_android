@@ -68,17 +68,27 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private Button rlfbutton;
     private ImageView ivHeader;
     private String phoneNum;
-    private CheckBox cbRequestTestServer;
+    // private CheckBox cbRequestTestServer;
+    private TextView tvAnnoyLogin;
     private View ivWeibo, ivQQ, ivWeixin;
 
     private String mUserAccout;
     private UserEngineImpl engine;
 
     public static final String EXTRA_PHONENUM = "extra_phone";
-    private boolean isDeBug = true; 
+    public static final String EXTRA_LOGINANNOY = "extra_loginannoy";
+
+    private boolean isLoginByAnnoy = false;
+
     public static Intent getLoginActivity(Context context, String phoneNum) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        return intent;
+    }
+
+    public static Intent loginActivityByAnnoy(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(EXTRA_LOGINANNOY, true);
         return intent;
     }
 
@@ -86,19 +96,20 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        hideHead();
+
         // setBackTitle(R.string.login_title);
         // setTitle(R.string.login);
-        //默认为8030地址，即预发布地址
-        
+        // 默认为8030地址，即预发布地址
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
         }
-        getBtnBack().setVisibility(View.GONE);
+
         engine = new UserEngineImpl();
 
         initViews();
+
         initDatas();
         setListener();
         LogUtils.customTagPrefix = "LoginActivity";
@@ -107,11 +118,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // ShareSDK.registerPlatform(Laiwang.class);
         ShareSDK.setConnTimeout(5000);
         ShareSDK.setReadTimeout(10000);
-        if(isDeBug){
-        	Intent intent = new Intent(this,GettingUrlForAPPActivity.class);
+        if (PortfolioApplication.getInstance().isDebug()) {
+            Intent intent = new Intent(this, GettingUrlForAPPActivity.class);
             startActivity(intent);
-        }else{
-        	
+        } else {
+
         }
     }
 
@@ -122,13 +133,21 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
      */
     private void initDatas() {
         mUserAccout = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-        if (!TextUtils.isEmpty(phoneNum)) {
-            etUserName.setText(phoneNum);
-        } else if (!TextUtils.isEmpty(mUserAccout)) {
-            etUserName.setText(mUserAccout);
-            setupLastUserInfo();
-        }
+        if (isLoginByAnnoy) {
+            setupDefalutUserInfo();
+            setTitle(R.string.login);
+            getBtnBack().setText(R.string.cancel);
+            getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        } else {
+            hideHead();
+            if (!TextUtils.isEmpty(phoneNum)) {
+                etUserName.setText(phoneNum);
+            } else if (!TextUtils.isEmpty(mUserAccout)) {
+                etUserName.setText(mUserAccout);
+                setupLastUserInfo();
+            }
 
+        }
     }
 
     private void setupLastUserInfo() {
@@ -149,6 +168,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
+        isLoginByAnnoy = extras.getBoolean(EXTRA_LOGINANNOY);
 
     }
 
@@ -159,6 +179,12 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     public void initViews() {
+        // if (!isLoginByAnnoy) {
+        // getBtnBack().setVisibility(View.GONE);
+        // } else {
+        // getBtnBack().setVisibility(View.VISIBLE);
+        // }
+
         etUserName = (EditText) findViewById(R.id.username);
         ivHeader = (ImageView) findViewById(R.id.iv_header);
 
@@ -175,14 +201,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         ivWeixin.setOnClickListener(this);
 
         tvRegister.setOnClickListener(this);
-        cbRequestTestServer = (CheckBox) findViewById(R.id.cb_is_request_test);
-        cbRequestTestServer.setChecked(PortfolioPreferenceManager.isRequestByTestServer());
-        cbRequestTestServer.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        tvAnnoyLogin = (TextView) findViewById(R.id.tv_is_request_test);
+        tvAnnoyLogin.setOnClickListener(new OnClickListener() {
 
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-                PortfolioPreferenceManager.setRequestByTestServer(isChecked);
+            public void onClick(View v) {
+                GlobalParams.ACCESS_TOCKEN = "";
+                goMainPage();
             }
         });
 
@@ -356,14 +381,14 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private ParseHttpListener<UserEntity> listener = new ParseHttpListener<UserEntity>() {
 
-        public void onHttpFailure(int errCode, String errMsg) {
-            PromptManager.closeProgressDialog();
-            super.onHttpFailure(errCode, errMsg);
-        };
+        // public void onHttpFailure(int errCode, String errMsg) {
+        // PromptManager.closeProgressDialog();
+        // super.onHttpFailure(errCode, errMsg);
+        // };
 
         public void onFailure(int errCode, String errMsg) {
-            PromptManager.closeProgressDialog();
             super.onFailure(errCode, errMsg);
+            PromptManager.closeProgressDialog();
         };
 
         @Override
@@ -390,11 +415,19 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         @Override
         protected void afterParseData(UserEntity entity) {
             PromptManager.closeProgressDialog();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            PortfolioApplication.getInstance().exitApp();
+            PortfolioApplication.getInstance().setLogin(true);
+
+            goMainPage();
         }
     };
+
+    private void goMainPage() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private String userName;
 
     /**
@@ -519,6 +552,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 case 2: {
                     // Toast.makeText(getApplicationContext(), "PlatformActionListener onError()", Toast.LENGTH_SHORT)
                     // .show();
+                    PromptManager.showToast("授权失败，请稍后重试.");
                 }
                     break;
                 case 3: {
@@ -570,21 +604,22 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

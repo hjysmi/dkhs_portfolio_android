@@ -80,13 +80,21 @@ public class OptionlistAdapter extends BaseAdapter{
 			    Paint p= new Paint(); 
 				Rect rect = new Rect();
 				p.setTextSize( mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
-				p.getTextBounds(mOptionNewsBean.getTitle(), 0, mOptionNewsBean.getTitle().length(), rect); 
-				if(dm.widthPixels * 3 /2 -50  < rect.width()){
+				p.getTextBounds(mOptionNewsBean.getTitle() + "正正正正正", 0, mOptionNewsBean.getTitle().length() +5, rect); 
+				int soL = 0;
+				if(null != mOptionNewsBean.getSource()){
+					soL = mOptionNewsBean.getSource().getTitle().length() + 2;
+				}
+				if(dm.widthPixels * 3 /2 -40  < rect.width()){
 					int le = (int) (mOptionNewsBean.getTitle().length() -  mOptionNewsBean.getTitle().length() *(rect.width() - dm.widthPixels * 3 /2 + 50)/rect.width() - 3);
-					String text = mOptionNewsBean.getTitle().substring(0, le);
-					viewHolder.tvTextName.setText(text + "...");
+					String text = mOptionNewsBean.getTitle().substring(0, le - soL);
+					if(soL != 0){
+						viewHolder.tvTextName.setText("[" + mOptionNewsBean.getSource().getTitle() + "]" + text + "...");
+					}else{
+						viewHolder.tvTextName.setText(text + "...");
+					}
 				}else{
-					viewHolder.tvTextName.setText(mOptionNewsBean.getTitle());
+					viewHolder.tvTextName.setText("[" + mOptionNewsBean.getSource().getTitle() + "]" +mOptionNewsBean.getTitle());
 				}
 			//ViewTreeObserver observer = tv.getViewTreeObserver();
 			viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());

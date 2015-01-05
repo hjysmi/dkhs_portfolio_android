@@ -37,7 +37,7 @@ import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.ViewType;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -175,12 +175,12 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
 
         super.loadFinish(object);
         if (null != object.getResults()) {
-        	if(!UIUtils.roundAble(object.getStatu())){
-        		if (mCombinationTimer != null) {
+            if (!UIUtils.roundAble(object.getStatu())) {
+                if (mCombinationTimer != null) {
                     mCombinationTimer.cancel();
                     mCombinationTimer = null;
                 }
-        	}
+            }
             if (isRefresh) {
                 mDataList.clear();
                 isRefresh = false;
@@ -216,7 +216,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showLongClickDialog(mDataList.get(position).getId());
+                showLongClickDialog(mDataList.get(position - 1).getId());
                 return true;
             }
         });
@@ -413,13 +413,15 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         showDelDialog(combiantinBean);
 
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_list);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
 
 }

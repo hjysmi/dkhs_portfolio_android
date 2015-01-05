@@ -50,9 +50,9 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
 		btnCancle = getBtnBack();
 		btnSave = getRightButton();
 		
-		btnCancle.setText("取消");
-		btnCancle.setBackgroundDrawable(null);
-		btnCancle.setCompoundDrawables(null, null, null, null);
+		//btnCancle.setText("取消");
+		//btnCancle.setBackgroundDrawable(null);
+		//btnCancle.setCompoundDrawables(null, null, null, null);
 		btnSave.setText("保存");
 		btnSave.setBackgroundDrawable(null);
 	}

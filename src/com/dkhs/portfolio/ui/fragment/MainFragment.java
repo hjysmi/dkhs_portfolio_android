@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.test.UiThreadTest;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -235,7 +236,10 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+        if (!((UIUtils.getDisplayMetrics().heightPixels >= 1500 && (UIUtils.getDisplayMetrics().heightPixels < 1920)) || (UIUtils
+                .getDisplayMetrics().heightPixels < 1280))) {
+            comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+        }
         comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.dline_top).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
@@ -365,6 +369,9 @@ public class MainFragment extends Fragment implements OnClickListener {
             Intent intent = null;
             switch (position) {
                 case 0: {
+                    if (UIUtils.iStartLoginActivity(getActivity())) {
+                        return;
+                    }
                     goCombination();
                 }
                     break;
@@ -373,6 +380,9 @@ public class MainFragment extends Fragment implements OnClickListener {
                 // }
                 // break;
                 case 1: {
+                    if (UIUtils.iStartLoginActivity(getActivity())) {
+                        return;
+                    }
                     intent = new Intent(getActivity(), OptionalStockListActivity.class);
                 }
                     break;
@@ -739,10 +749,11 @@ public class MainFragment extends Fragment implements OnClickListener {
     }
 
     private void createCombination() {
-        Intent intent = PositionAdjustActivity.newIntent(getActivity(), null);
-        Bundle bun = new Bundle();
-        // bun.put
-        getActivity().startActivity(intent);
+        if (!UIUtils.iStartLoginActivity(getActivity())) {
+            Intent intent = PositionAdjustActivity.newIntent(getActivity(), null);
+            Bundle bun = new Bundle();
+            getActivity().startActivity(intent);
+        }
     }
 
     @Override
@@ -769,8 +780,8 @@ public class MainFragment extends Fragment implements OnClickListener {
                 break;
             case R.id.layout_add_combination:
             case R.id.iv_plus: {
-
-                intent = PositionAdjustActivity.newIntent(getActivity(), null);
+                createCombination();
+                // intent = PositionAdjustActivity.newIntent(getActivity(), null);
             }
                 break;
             case R.id.layout_first_combination: {

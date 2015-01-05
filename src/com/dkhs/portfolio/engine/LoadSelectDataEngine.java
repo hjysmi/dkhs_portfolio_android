@@ -13,6 +13,7 @@ import java.util.List;
 import android.content.Context;
 
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 
 /**
@@ -28,6 +29,7 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     private int totalpage;
     private int currentpage;
     private int statu = -1;
+
     public LoadSelectDataEngine(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;
     }
@@ -40,6 +42,8 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
 
     public interface ILoadDataBackListener {
         void loadFinish(List<SelectStockBean> object);
+
+        void loadFail(ErrorBundle error);
     }
 
     /**
@@ -53,6 +57,11 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     public abstract void loadData();
 
     /**
+     * 刷新数据
+     */
+    public abstract void refreshDatabySize(int dataSize);
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
@@ -62,9 +71,28 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     protected void afterParseData(List<SelectStockBean> object) {
         if (null != iLoadListener) {
             iLoadListener.loadFinish(object);
-            //iLoadListener.setStatu(getStatu());
+            // iLoadListener.setStatu(getStatu());
         }
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param errCode
+     * @param errMsg
+     * @return
+     */
+    @Override
+    public void onFailure(int errCode, String errMsg) {
+        // TODO Auto-generated method stub
+        super.onFailure(errCode, errMsg);
+        ErrorBundle error = new ErrorBundle();
+        error.setErrorCode(errCode);
+        error.setErrorMessage(errMsg);
+        if (null != iLoadListener) {
+            iLoadListener.loadFail(error);
+        }
     }
 
     /**
@@ -102,12 +130,12 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
         this.currentpage = currentpage;
     }
 
-	public int getStatu() {
-		return statu;
-	}
+    public int getStatu() {
+        return statu;
+    }
 
-	public void setStatu(int statu) {
-		this.statu = statu;
-	}
-    
+    public void setStatu(int statu) {
+        this.statu = statu;
+    }
+
 }

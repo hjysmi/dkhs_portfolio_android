@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -49,12 +50,14 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     public static final String EXTRA_PHONENUM = "extra_phone";
     public static final String EXTRA_CODE = "extra_code";
     public static final String EXTRA_ISRESETPSW = "extra_isresetpsw";
+    public static final String EXTRA_ISSETPSW = "extra_issetpsw";
     private String phoneNum;
     private String code;
     private Button rlfbutton;
 
     private UserEngineImpl engine;
     private boolean isResetPsw;
+    private boolean isSetPsw;
 
     public static Intent newIntent(Context context, String phoneNum, String code, boolean resetPsw) {
         Intent intent = new Intent(context, SettingNameActivity.class);
@@ -64,11 +67,20 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         return intent;
     }
 
+    public static Intent newSetPSWIntent(Context context, String phoneNum, String code) {
+        Intent intent = new Intent(context, SettingNameActivity.class);
+        intent.putExtra(EXTRA_PHONENUM, phoneNum);
+        intent.putExtra(EXTRA_ISSETPSW, true);
+        intent.putExtra(EXTRA_CODE, code);
+        return intent;
+    }
+
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
         code = extras.getString(EXTRA_CODE);
         isResetPsw = extras.getBoolean(EXTRA_ISRESETPSW);
+        isSetPsw = extras.getBoolean(EXTRA_ISSETPSW);
 
     }
 
@@ -141,11 +153,21 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length() > 0 && etUserName.getText().length() > 0) {
-                    rlfbutton.setEnabled(true);
-                } else {
-                    rlfbutton.setEnabled(false);
+                if (isSetPsw) {
+                    if (s.length() > 0) {
+                        rlfbutton.setEnabled(true);
+                    } else {
+                        rlfbutton.setEnabled(false);
 
+                    }
+                } else {
+
+                    if (s.length() > 0 && etUserName.getText().length() > 0) {
+                        rlfbutton.setEnabled(true);
+                    } else {
+                        rlfbutton.setEnabled(false);
+
+                    }
                 }
                 // 一定要加上此判断，否则会进入死循环
                 if (s.toString().equals(strBefore)) {
@@ -250,6 +272,12 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             etUserName.setVisibility(View.GONE);
             findViewById(R.id.rl_repassword).setVisibility(View.VISIBLE);
 
+        } else if (isSetPsw) {
+            setTitle("设置密码");
+            findViewById(R.id.ll_name).setVisibility(View.GONE);
+            TextView tvPsw = (TextView) findViewById(R.id.tv_psw);
+            tvPsw.setText("密码");
+
         } else {
             setTitle("设置昵称和密码");
             rlfbutton.setText("完成");
@@ -282,23 +310,55 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.rlbutton) {
-            if (!checkUserName() || !checkPassword()) {
-                return;
-            }
-            if (isResetPsw) {
-                if (!etPassword.getText().toString().equals(etRePassword.getText().toString())) {
-                    etPassword.requestFocus();
-                    etPassword.setError(Html.fromHtml("<font color='red'>两次密码输入不一致</font>"));
+            if (isSetPsw) {
+                if (!checkPassword()) {
                     return;
-                } else {
-
                 }
+                setPassword();
+                // engine.register(phoneNum, etPassword.getText().toString(), code,
+                // PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME),
+                // registerListener.setLoadingDialog(this, "正在绑定手机号", false));
+
             } else {
-                engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),
-                        registerListener.setLoadingDialog(this, "正在注册", false));
+
+                if (!checkUserName() || !checkPassword()) {
+                    return;
+                }
+                if (isResetPsw) {
+                    if (!etPassword.getText().toString().equals(etRePassword.getText().toString())) {
+                        etPassword.requestFocus();
+                        etPassword.setError(Html.fromHtml("<font color='red'>两次密码输入不一致</font>"));
+                        return;
+                    } else {
+
+                    }
+                } else {
+                    engine.register(phoneNum, etPassword.getText().toString(), code, etUserName.getText().toString(),
+                            registerListener.setLoadingDialog(this, "正在注册", false));
+                }
+
+            }
+        }
+    }
+
+    private void setPassword() {
+        engine.setPassword(phoneNum, etPassword.getText().toString(), code, new ParseHttpListener<Object>() {
+
+            @Override
+            protected Object parseDateTask(String jsonData) {
+                PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
+                return null;
             }
 
-        }
+            @Override
+            protected void afterParseData(Object object) {
+
+                setResult(RESULT_OK, new Intent());
+                finish();
+
+            }
+        }.setLoadingDialog(this, "正在绑定手机号", false));
+
     }
 
     private boolean checkUserName() {
@@ -388,29 +448,33 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-
-                Intent intent = new Intent(SettingNameActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                if (isSetPsw) {
+                    finish();
+                } else {
+                    Intent intent = new Intent(SettingNameActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting_password);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

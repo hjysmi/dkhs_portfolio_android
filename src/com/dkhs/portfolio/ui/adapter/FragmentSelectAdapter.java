@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 public class FragmentSelectAdapter {
 	private Context context;
@@ -76,7 +77,7 @@ public class FragmentSelectAdapter {
 		this.mFragmentManager = fragmentManager;
 		inflater = LayoutInflater.from(context);
 		offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
-		oneTextSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
+		oneTextSize = UIUtils.getTextWidth("正", context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
 		imageAddSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
 		initDate();
 		createView();
@@ -103,7 +104,7 @@ public class FragmentSelectAdapter {
 			}
 			offset = (dm.widthPixels - imageLength)/nameList.length/2;
 			for(int k = 0; k < textLayout.length; k++){
-				textLayout[k] = nameList[k].length() * oneTextSize + imageAddSize * 2 + offset * 2;
+				textLayout[k] = textWid[k]  + imageAddSize * 2 + offset * 2;
 			}
 		}
 	}
@@ -198,12 +199,16 @@ public class FragmentSelectAdapter {
 	};
 	public void scroll(int position){
 		iv.getLayoutParams().width = textWid[position] + imageAddSize * 2;
+		
 		int end = offset;
 		int start = offset;
 		/*Fragment f = fragmentList.get(position);
 		changeFrament(0,f,bundleList.get(position),fragmentList.get(position).toString());*/
 		for(int i = 0; i < position ; i++){
 			end = end + textLayout[i];
+			if(i <= textLayout.length - 1){
+			    end = end + (textLayout[i + 1] - textLayout[i])/2;
+			}
 		}
 		for(int i = 0; i < hisPosition ; i++){
 			start = start + textLayout[i];

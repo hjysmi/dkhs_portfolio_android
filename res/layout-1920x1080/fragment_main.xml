@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light" >
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:background="@color/title_color" >
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/nav_left_main_selector" />
+
+        <ImageView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/slogen" />
+
+        <ImageButton
+            android:id="@+id/btn_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@null"
+            android:scaleType="fitCenter" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_bottom_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:background="@color/theme_color"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textSize="23sp" />
+
+    <GridView
+        android:id="@+id/gv_function"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/tv_bottom_text"
+        android:listSelector="@drawable/transparent"
+        android:numColumns="3" />
+
+    <View
+        android:id="@+id/dline1"
+        style="@style/divider_line"
+        android:layout_above="@+id/gv_function"
+        android:layout_marginBottom="5dp" />
+
+    <RelativeLayout
+        android:id="@+id/slide_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/billboard_height"
+        android:layout_below="@+id/layout_title"
+        android:background="@drawable/small_slide" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_billboard"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" />
+
+        <LinearLayout
+            android:id="@+id/linearlayout_dot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10.0dip"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ViewStub
+        android:id="@+id/layout_add"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/slide_layout"
+        android:layout="@layout/layout_mian_add" />
+
+    <RelativeLayout
+        android:id="@+id/title_main_combination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/slide_layout"
+        android:background="@color/activity_bg_color"
+        android:padding="6dp"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="我的基金"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_combination_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:text="更多"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/dline_top"
+        style="@style/divider_line"
+        android:layout_below="@+id/title_main_combination"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/ll_myconbinlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/dline_top"
+        android:orientation="horizontal" >
+
+        <ViewStub
+            android:id="@+id/vs_fristcombination"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout="@layout/item_main_combination" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_width="1px"
+            android:layout_height="match_parent" />
+
+        <ViewStub
+            android:id="@+id/vs_twocombination"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout="@layout/item_main_combination" />
+
+        <ViewStub
+            android:id="@+id/vs_addcombination"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout="@layout/add_image" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/gv_mycombination"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/title_main_combination"
+        android:clickable="true"
+        android:gravity="center"
+        android:horizontalSpacing="1dp"
+        android:listSelector="#00000000"
+        android:numColumns="2"
+        android:scrollbars="none"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/divier_line"
+        style="@style/divider_line"
+        android:layout_width="1px"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/dline1"
+        android:layout_below="@+id/title_main_combination"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.util.List;
+
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
 
@@ -35,8 +37,8 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
         this.iLoadListener = backListener;
     }
 
-    public interface ILoadDataBackListener {
-        void loadFinish(MoreDataBean object);
+    public interface ILoadDataBackListener<T> {
+        void loadFinish(MoreDataBean<T> object);
     }
 
     /**
@@ -50,6 +52,11 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     public abstract void loadData();
 
     /**
+     * 刷新数据
+     */
+    public abstract void refreshDatabySize(int dataSize);
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param object
@@ -59,12 +66,12 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     protected void afterParseData(MoreDataBean object) {
 
         if (null != object) {
-            if (null != iLoadListener) {
-                iLoadListener.loadFinish(object);
-            }
             setTotalcount(object.getTotalCount());
             setTotalpage(object.getTotalPage());
             setCurrentpage(object.getCurrentPage());
+            if (null != iLoadListener) {
+                iLoadListener.loadFinish(object);
+            }
 
         }
     }

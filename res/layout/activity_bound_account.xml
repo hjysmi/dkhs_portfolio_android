@@ -49,7 +49,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:text="点击绑定"
-            android:textColor="@color/position_text_lgray"
+            android:textColor="@drawable/bound_button"
             android:textSize="@dimen/list_text_size" />
     </RelativeLayout>
 
@@ -206,4 +206,4 @@
     </RelativeLayout>
 
     <include layout="@layout/layout_line" />
-</LinearLayout>
+</LinearLayout>

@@ -191,6 +191,8 @@ public class StockQuotesChartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
+        mMaChart.setContext(getActivity());
+        mMaChart.setmStockBean(((StockQuotesActivity)getActivity()).getmStockBean());
         initMaChart(mMaChart);
         initView(view);
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
@@ -239,8 +241,8 @@ public class StockQuotesChartFragment extends Fragment {
         machart.setBorderColor(Color.TRANSPARENT);
         machart.setBackgroudColor(Color.WHITE);
         machart.setAxisMarginTop(5);
-        machart.setAxisMarginLeft(5);
-        machart.setAxisMarginRight(5);
+        machart.setAxisMarginLeft(10);
+        machart.setAxisMarginRight(10);
 
         machart.setLongtitudeFontSize(10);
         machart.setLongtitudeFontColor(Color.GRAY);

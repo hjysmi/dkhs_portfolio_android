@@ -74,6 +74,10 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
+            case R.id.bound_text_phone: {
+                startActivity(RLFActivity.settingPasswordIntent(this));
+            }
+                break;
             case R.id.bound_text_email:
                 Intent intent = new Intent(this, BoundEmailActivity.class);
                 startActivityForResult(intent, 5);
@@ -262,22 +266,24 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
         }
         super.onActivityResult(arg0, arg1, arg2);
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_dound_third_account);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_dound_third_account);
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+        UserEngineImpl.queryThreePlatBind(bindsListener);
+
+    }
 }

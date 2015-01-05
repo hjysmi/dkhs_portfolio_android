@@ -51,6 +51,8 @@ import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.DKHSClient;
+import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
@@ -109,6 +111,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private static final String ARGUMENT_COMBINTAION_ID = "combination_id";
     private Calendar mCurrentCalendar;
     private boolean isDefalutRequest = true;
+    private Calendar hisDate = null;
 
     public static FragmentPositionDetail newInstance(String combinationId) {
         FragmentPositionDetail fragment = new FragmentPositionDetail();
@@ -492,10 +495,11 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             oks.setNotification(R.drawable.ic_launcher, context.getString(R.string.app_name));
             oks.setTitle(mPositionDetail.getPortfolio().getName() + "持仓明细");
-            oks.setTitleUrl("https://www.dkhs.com/portfolio/wap/");
-            oks.setUrl("https://www.dkhs.com/portfolio/wap/");
+            String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationId;
+            oks.setTitleUrl(shareUrl);
+            oks.setUrl(shareUrl);
             String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
-                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧.https://www.dkhs.com/portfolio/wap/";
+                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧." + shareUrl;
             oks.setText(customText);
 
             oks.setImagePath(SHARE_IMAGE);
@@ -589,9 +593,13 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private int mDay;
 
     private void showPickerDate() {
+        if (null != hisDate) {
+            mYear = hisDate.get(Calendar.YEAR);
+            mMonth = hisDate.get(Calendar.MONTH);
+            mDay = hisDate.get(Calendar.DAY_OF_MONTH);
+        }
         dpg = new DatePickerDialog(new ContextThemeWrapper(getActivity(),
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar), null, mYear, mMonth, mDay);
-
         dpg.setTitle(R.string.dialog_select_time_title);
         dpg.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
 
@@ -617,8 +625,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
                 String queryDay = "";
                 if (calSelect.before(calCreate)) {
                     queryDay = TimeUtils.getTimeString(calCreate);
+                    hisDate = calCreate;
                 } else {
                     queryDay = TimeUtils.getTimeString(calSelect);
+                    hisDate = calSelect;
                 }
                 // if (calSelect.before(calToday)) {
                 // btnAdjust.setVisibility(View.GONE);
@@ -707,20 +717,22 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         // TODO Auto-generated method stub
 
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_adjust);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_adjust);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }

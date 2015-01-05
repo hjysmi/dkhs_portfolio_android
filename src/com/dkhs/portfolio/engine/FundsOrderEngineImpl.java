@@ -96,4 +96,21 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
 
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param dataSize
+     * @return
+     */
+    @Override
+    public void refreshDatabySize(int dataSize) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
+        params.add(valuePair);
+        NameValuePair valuePair2 = new BasicNameValuePair("page_size", dataSize + "");
+        params.add(valuePair2);
+        DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+
+    }
+
 }

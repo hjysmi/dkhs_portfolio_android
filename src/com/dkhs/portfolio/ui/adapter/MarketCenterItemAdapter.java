@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -16,20 +17,27 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
+import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
+    private boolean isDefColor = false;
+
     public MarketCenterItemAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         // TODO Auto-generated constructor stub
+    }
+
+    public MarketCenterItemAdapter(Context context, List<SelectStockBean> datas, boolean isDefColor) {
+        super(context, datas);
+        this.isDefColor = isDefColor;
     }
 
     private SelectStockBean mStockQuotesBean;
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
@@ -54,26 +62,20 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvTextNameNum.setText(mStockQuotesBean.code);
 
         float change = mStockQuotesBean.percentage;
-        if (change > 0) {
-            viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.red));
-            viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.red));
-        } else if (change == 0) {
-            viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.black));
-            viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.black));
+        ColorStateList textCsl = null;
+        if (isDefColor) {
+            textCsl = ColorTemplate.getTextColor(R.color.theme_color);
         } else {
-            viewHolder.tvTextPercent.setTextColor(mContext.getResources().getColor(R.color.green));
-            viewHolder.tvTextItemIndex.setTextColor(mContext.getResources().getColor(R.color.green));
+            textCsl = ColorTemplate.getUpOrDrownCSL(change);
         }
+        viewHolder.tvTextPercent.setTextColor(textCsl);
+        viewHolder.tvTextItemIndex.setTextColor(textCsl);
         if (StockUitls.isShangZhengB(mStockQuotesBean.code)) {
-
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get3Point(mStockQuotesBean.currentValue));
         } else {
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get2Point(mStockQuotesBean.currentValue));
         }
-        // viewHolder.tvTextItemIndex.setText( new DecimalFormat("##0.00").format(mStockQuotesBean.currentValue));
-        DecimalFormat fnum = new DecimalFormat("##0.00");
-        String dd = fnum.format(change);
-        viewHolder.tvTextPercent.setText(dd + "%");
+        viewHolder.tvTextPercent.setText(StringFromatUtils.get2PointPercent(change));
         viewHolder.tvLayoutTitle.setOnClickListener(new OnItemListener(position));
         return convertView;
     }

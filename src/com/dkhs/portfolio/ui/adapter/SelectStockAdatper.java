@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -27,6 +28,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName SelectFundAdatper
@@ -37,10 +39,17 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private Context context;
+    private boolean isDefColor;
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         this.context = context;
+    }
+
+    public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
+        super(context, datas);
+        this.context = context;
+        this.isDefColor = isdefcolor;
     }
 
     @Override
@@ -64,15 +73,29 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         SelectStockBean item = mDataList.get(position);
 
-        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-        viewHolder.mCheckbox.setTag(item);
-        if (this instanceof AddStockItemAdapter) {
-            viewHolder.mCheckbox.setChecked(item.isFollowed);
-            // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+        if (!PortfolioApplication.hasUserLogin()) {
+            final CheckBox cbBox = viewHolder.mCheckbox;
+            viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    cbBox.setChecked(false);
+                    UIUtils.iStartLoginActivity(context);
+
+                }
+            });
         } else {
-            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+
+            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+            viewHolder.mCheckbox.setTag(item);
+            if (this instanceof AddStockItemAdapter) {
+                viewHolder.mCheckbox.setChecked(item.isFollowed);
+                // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+            } else {
+                viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+            }
+            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         }
-        viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
@@ -99,7 +122,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             // viewHolder.tvIncreaseValue.setVisibility(View.VISIBLE);
         }
         ColorStateList textCsl = null;
-        if (StockUitls.isDelistStock(item.list_status) || item.isStop) {
+        if (StockUitls.isDelistStock(item.list_status) || item.isStop || isDefColor) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);

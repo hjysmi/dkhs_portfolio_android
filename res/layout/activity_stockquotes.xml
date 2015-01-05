@@ -39,7 +39,6 @@
             android:layout_height="310dp" />
 
         <!-- 底部资讯 -->
-
         <LinearLayout
             android:id="@+id/stock_layout"
             android:layout_width="match_parent"

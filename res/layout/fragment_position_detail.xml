@@ -34,7 +34,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/line"
-                android:background="@color/theme_gray"
+                android:addStatesFromChildren="true"
+                android:background="@drawable/gray_bg_selector"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="5dp"
@@ -59,66 +60,6 @@
                 android:layout_height="1px"
                 android:layout_below="@id/btn_detail_date"
                 android:background="@color/person_setting_line" />
-
-            <!--
-            <LinearLayout
-                android:id="@+id/lines"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btn_detail_date"
-                android:orientation="vertical" >
-
-                <include layout="@layout/layout_line" />
-
-                <include layout="@layout/layout_text_5dp" />
-            </LinearLayout>
-            -->
-
-
-            <!-- 组合信息 -->
-            <!--
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/border_gray"
-                android:visibility="gone" >
-
-                <TextView
-                    android:id="@+id/tv_conbination_name"
-                    style="@style/hw_wrap"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:padding="8dp"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tv_today_netvalue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="15dp"
-                    android:text="-"
-                    android:textColor="@color/red"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tv_netvalue_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginTop="3dp"
-                    android:layout_toLeftOf="@+id/tv_today_netvalue"
-                    android:text="@string/today_netvalue"
-                    android:textColor="@color/theme_color" />
-            </RelativeLayout>
-            -->
-
 
             <!-- 持仓配置 -->
 
@@ -156,7 +97,7 @@
 
             <include
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="180dp"
                 layout="@layout/layout_pieview" />
 
             <!-- 涨幅比列表 -->
@@ -168,7 +109,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" />
 
-            <View style="@style/divider_line" />
+            <View
+                style="@style/divider_line"
+                android:visibility="gone" />
             <!-- 净值贡献 -->
 
             <TextView
