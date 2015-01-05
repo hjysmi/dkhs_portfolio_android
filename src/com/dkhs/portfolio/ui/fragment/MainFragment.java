@@ -1,6 +1,8 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -22,6 +24,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -227,7 +230,10 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         }
     }
-
+    public boolean hasHardwareMenuKey() {
+            ViewConfiguration vc = ViewConfiguration.get(getActivity());
+        return vc.hasPermanentMenuKey();
+    }
     private View viewFirst;
     private View viewTwo;
     View viewAdd = null;
@@ -236,10 +242,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if (!((UIUtils.getDisplayMetrics().heightPixels >= 1500 && (UIUtils.getDisplayMetrics().heightPixels < 1920)) || (UIUtils
-                .getDisplayMetrics().heightPixels < 1280))) {
+        if (!((UIUtils.getDisplayMetrics().heightPixels >= 1500 && (UIUtils.getDisplayMetrics().heightPixels < 1920)) || ((UIUtils
+                .getDisplayMetrics().heightPixels < 1280)&&UIUtils
+                .getDisplayMetrics().heightPixels >960))) {
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         }
+        /*if(hasHardwareMenuKey()){
+            comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+        }*/
         comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.dline_top).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
