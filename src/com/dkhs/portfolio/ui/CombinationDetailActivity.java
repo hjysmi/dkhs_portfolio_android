@@ -316,7 +316,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
                 } else if (2 == mSelectedTabIndex && mFragmentDetail != null) {
                     mFragmentDetail.showShareImage();
                 }
-
+                MobclickAgent.onEvent(this, "share");
                 break;
             default:
                 break;
