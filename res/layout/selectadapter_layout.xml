@@ -15,6 +15,9 @@
             android:layout_height="wrap_content"
             android:background="@color/activity_bg_color"
             android:orientation="horizontal"
+            style="@style/gray_text_tabline"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
             android:paddingBottom="2dp"
             android:paddingTop="2dp" >
         </LinearLayout>
@@ -54,9 +57,10 @@
                     android:src="@color/red" />
             </LinearLayout>
         </RelativeLayout>
+        
     </LinearLayout>
     <!-- </HorizontalScrollView> -->
-
+	
     <LinearLayout
         android:id="@+id/selectadapter_parent_child"
         android:layout_width="match_parent"
