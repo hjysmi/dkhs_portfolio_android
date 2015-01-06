@@ -178,7 +178,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     					mListView.setOnLoadListener(FragmentreportOneList.this);
             	}
                 if (null != dataList && dataList.size() > 0) {
-                    mDataList.clear();
+                    //mDataList.clear();
                     mDataList.addAll(dataList);
                     if (first) {
                         initView(view);

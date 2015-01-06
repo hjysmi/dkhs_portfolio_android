@@ -369,5 +369,21 @@
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
     <string name="message_server_error">数据请求失败,请稍后重试.</string>
-
+	<string name="apk_1">安卓市场</string>
+	<string name="apk_2">安智市场</string>
+	<string name="apk_3">91助手</string>
+	<string name="apk_4">360手机助手</string>
+	<string name="apk_5">应用汇</string>
+	<string name="apk_6">小米应用商场</string>
+	<string name="apk_7">腾讯应用宝</string>
+	<string name="apk_8">木蚂蚁</string>
+	<string name="apk_9">优亿市场</string>
+	<string name="apk_10">豌豆夹</string>
+	<string name="apk_11">安粉网</string>
+	<string name="apk_12">魅族应用中心</string>
+	<string name="apk_13">联想乐商店</string>
+	<string name="apk_14">易用汇</string>
+	<string name="apk_15">百度手机助手</string>
+	<string name="apk_16">宝瓶网</string>
+	<string name="apk_17">搜狐应用中心</string>
 </resources>
