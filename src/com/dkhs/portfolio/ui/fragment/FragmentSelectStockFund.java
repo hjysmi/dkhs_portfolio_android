@@ -377,7 +377,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
-
+        if (null != loadingFinishListener) {
+            loadingFinishListener.startLoadingData();
+        }
         mLoadDataEngine.loadData();
 
     }
@@ -387,6 +389,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null && UIUtils.roundAble(mLoadDataEngine.getStatu()) && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
             mLoadDataEngine.loadData();
         }
     }
@@ -396,6 +401,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
             mLoadDataEngine.refreshDatabySize(mDataList.size());
         }
     }
@@ -418,6 +426,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 // && null != mDataList) {
                 // ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
                 // }
+                if (null != loadingFinishListener) {
+                    loadingFinishListener.startLoadingData();
+                }
                 mLoadDataEngine.refreshDatabySize(mDataList.size());
             }
         } else {
@@ -468,7 +479,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 break;
 
             default: {
-                tvEmptyText.setText(R.string.nodate_tip);
+                if (null != tvEmptyText) {
+                    tvEmptyText.setText(R.string.nodate_tip);
+                }
             }
                 break;
         }
@@ -566,6 +579,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             mLoadDataEngine.loadMore();
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
+
         }
     }
 

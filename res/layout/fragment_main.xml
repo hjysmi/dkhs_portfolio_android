@@ -104,20 +104,16 @@
 
     <RelativeLayout
         android:id="@+id/title_main_combination"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/gray_text_tabline"
         android:layout_below="@+id/slide_layout"
-        android:background="@color/activity_bg_color"
-        android:padding="6dp"
         android:visibility="gone" >
 
         <TextView
+            style="@style/gray_title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:text="我的基金"
-            android:textSize="15sp" />
+            android:text="我的基金" />
 
         <TextView
             android:id="@+id/btn_combination_more"
@@ -125,7 +121,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
             android:text="更多"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />

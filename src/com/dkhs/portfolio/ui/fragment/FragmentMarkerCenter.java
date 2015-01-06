@@ -147,7 +147,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
     public void refreshData() {
         // System.out.println("刷新Fragment markercenter ");
-        startRefreshView();
+        // startRefreshView();
         if (loadDataListFragment instanceof FragmentSelectStockFund) {
             ((FragmentSelectStockFund) loadDataListFragment).refreshNoCaseTime();
         } else if (loadDataListFragment instanceof HotPlateFragment) {
@@ -453,6 +453,19 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public void loadingFinish() {
         if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
             ((RefreshModelActivity) getActivity()).endAnimaRefresh();
+        }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void startLoadingData() {
+        if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
+            ((RefreshModelActivity) getActivity()).startAnimaRefresh();
         }
 
     }
