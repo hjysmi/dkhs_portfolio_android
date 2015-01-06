@@ -30,6 +30,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -80,7 +81,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
         // if (TextUtils.isEmpty(orderType)) {
         //
         // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=followed_at", null, this);
@@ -90,14 +91,14 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         // }
         // if (TextUtils.isEmpty(orderType)) {
         if (isLoading) {
-            return;
+            return null;
         }
         isLoading = true;
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
         // } else {
         // DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional + "?sort=" + orderType, null, this);
         //
@@ -195,17 +196,17 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         return tmp;
     }
 
-    public static void setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
+    public static HttpHandler setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("symbols_position", json);
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
+        return DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
     }
 
-    public static void loadAllData(IHttpListener listener) {
+    public static HttpHandler loadAllData(IHttpListener listener) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
 
     }
 
@@ -223,7 +224,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
@@ -231,12 +232,12 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         if (TextUtils.isEmpty(orderType)) {
             NameValuePair valuePair2 = new BasicNameValuePair("sort", "followed_at");
             params.add(valuePair2);
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
+            return DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
 
         } else {
             NameValuePair valuePair2 = new BasicNameValuePair("sort", orderType);
             params.add(valuePair2);
-            DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
+            return DKHSClient.requestByGet(DKHSUrl.StockSymbol.optional, null, params, this);
 
         }
 
@@ -249,11 +250,11 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", dataSize + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
 
     }
 

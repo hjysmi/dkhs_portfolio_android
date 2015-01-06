@@ -1,11 +1,8 @@
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,6 +15,7 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -63,7 +61,9 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         this.mPageSize = pagesize;
         getOrderType(type);
     }
-    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, int pagesize,String list_sector,String symbol_stype,String exchange) {
+
+    public OpitionCenterStockEngineImple(ILoadDataBackListener loadListener, StockViewType type, int pagesize,
+            String list_sector, String symbol_stype, String exchange) {
         super(loadListener);
         this.mStockType = type;
         this.mPageSize = pagesize;
@@ -72,6 +72,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         this.exchange = exchange;
         getOrderType(type);
     }
+
     private void getOrderType(StockViewType type) {
         switch (type) {
             case MARKET_STOCK_TURNOVER:
@@ -116,7 +117,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
 
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(mSectorId)) {
@@ -127,18 +128,18 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", mPageSize + "");
         params.addQueryStringParameter("symbol_type", symboltype);
-        if(!TextUtils.isEmpty(symbol_stype))
+        if (!TextUtils.isEmpty(symbol_stype))
             params.addQueryStringParameter("symbol_stype", symbol_stype);
-        if(!TextUtils.isEmpty(list_sector)){
+        if (!TextUtils.isEmpty(list_sector)) {
             params.addQueryStringParameter("list_sector", list_sector);
         }
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
     }
 
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
 
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(mSectorId)) {
@@ -149,12 +150,12 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", mPageSize + "");
         params.addQueryStringParameter("symbol_type", symboltype);
-        if(!TextUtils.isEmpty(symbol_stype))
-        params.addQueryStringParameter("symbol_stype", symbol_stype);
-        if(!TextUtils.isEmpty(list_sector)){
+        if (!TextUtils.isEmpty(symbol_stype))
+            params.addQueryStringParameter("symbol_stype", symbol_stype);
+        if (!TextUtils.isEmpty(list_sector)) {
             params.addQueryStringParameter("list_sector", list_sector);
         }
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
     }
 
@@ -209,7 +210,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         if (dataSize == 0) {
             dataSize = 10;
         }
@@ -224,7 +225,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         params.addQueryStringParameter("symbol_type", VALUE_SYMBOL_TYPE);
         params.addQueryStringParameter("symbol_stype", VALUE_SYMBOL_STYPE);
 
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
     }
 }
