@@ -383,5 +383,7 @@ public class MarketCenterActivity extends RefreshModelActivity implements OnClic
 
     public interface ILoadingFinishListener {
         void loadingFinish();
+
+        void startLoadingData();
     }
 }
