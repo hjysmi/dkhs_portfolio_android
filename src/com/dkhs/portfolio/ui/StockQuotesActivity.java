@@ -261,7 +261,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     stockLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
-        } else {
+        } else if(!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))){
             String[] name = new String[3];
             if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
                 name = new String[2];

@@ -14,17 +14,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
         android:orientation="horizontal"
-        android:padding="20dp" >
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:id="@+id/guide_layout">
 
         <Button
             android:id="@+id/btn_start_login"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:background="@drawable/btn_red_selector"
             android:text="登录注册"
             android:textColor="@color/white"
@@ -35,6 +38,8 @@
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:background="@drawable/btn_tiyan_selector"
             android:text="随便看看"
