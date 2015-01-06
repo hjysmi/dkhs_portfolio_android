@@ -708,7 +708,7 @@ public class MainFragment extends Fragment implements OnClickListener {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), 100, mPollRequestTime);
         }
-        if (mCombinationTimer == null) {
+        if (mCombinationTimer == null && PortfolioApplication.hasUserLogin()) {
             mCombinationTimer = new Timer(true);
             mCombinationTimer.schedule(new RequestCombinationTask(), 200, mCombinationRequestTime);
         }
