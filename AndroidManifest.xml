@@ -47,7 +47,7 @@
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Umeng" >
+            android:value="@string/apk_17" >
         </meta-data>
         <!-- android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" -->
 
