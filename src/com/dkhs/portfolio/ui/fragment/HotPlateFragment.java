@@ -94,6 +94,9 @@ public class HotPlateFragment extends LoadMoreListFragment {
 
     @Override
     public void loadData() {
+        if (null != finishListener) {
+            finishListener.startLoadingData();
+        }
         getLoadEngine().loadData();
     }
 
@@ -101,6 +104,9 @@ public class HotPlateFragment extends LoadMoreListFragment {
 
     public void refreshData() {
         isRefresh = true;
+        if (null != finishListener) {
+            finishListener.startLoadingData();
+        }
         getLoadEngine().refreshDatabySize(mDataList.size());
     }
 
