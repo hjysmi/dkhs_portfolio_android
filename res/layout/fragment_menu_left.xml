@@ -28,7 +28,7 @@
             android:layout_centerHorizontal="true"
             android:paddingTop="8dp"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:visibility="gone" />
 
         <Button

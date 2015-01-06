@@ -19,6 +19,7 @@ import com.dkhs.portfolio.ui.LoginActivity;
 import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.NoAccountMainActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * 
@@ -62,6 +63,7 @@ public class GuideViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(View view, int arg1) {
         ((ViewPager) view).addView(views.get(arg1), 0);
         if (arg1 == views.size() - 1) {
+            view.findViewById(R.id.guide_layout).getLayoutParams().height = (int) (UIUtils.getDisplayMetrics().heightPixels * 0.23);
             view.findViewById(R.id.btn_start_login).setOnClickListener(startClickListener);
             view.findViewById(R.id.btn_start_register).setOnClickListener(registerClickListener);
             view.findViewById(R.id.iv_start).setOnClickListener(startClickListener);
