@@ -468,7 +468,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 break;
 
             default: {
-                tvEmptyText.setText(R.string.nodate_tip);
+                if (null != tvEmptyText) {
+                    tvEmptyText.setText(R.string.nodate_tip);
+                }
             }
                 break;
         }
