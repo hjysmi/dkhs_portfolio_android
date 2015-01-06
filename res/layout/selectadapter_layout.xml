@@ -5,8 +5,7 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-            android:layout_height="32dp"
+        style="@style/gray_text_tabline"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:orientation="vertical" >
