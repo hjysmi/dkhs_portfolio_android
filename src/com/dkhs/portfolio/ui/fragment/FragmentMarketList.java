@@ -438,7 +438,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
                 }
-//                mLoadDataEngine.refreshDatabySize(mDataList.size());
+                // mLoadDataEngine.refreshDatabySize(mDataList.size());
                 mLoadDataEngine.loadData();
             }
         } else {
@@ -527,11 +527,12 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             @Override
             public void onRefresh() {
                 if (mLoadDataEngine.getCurrentpage() <= 1) {
-                    mLoadDataEngine.setCurrentpage(1);
+                    mLoadDataEngine.setCurrentpage(0);
                 } else {
                     mLoadDataEngine.setCurrentpage(mLoadDataEngine.getCurrentpage() - 2);
                 }
                 mLoadDataEngine.loadMore();
+                mLoadDataEngine.refreshDatabySize(dataSize)
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
                 }

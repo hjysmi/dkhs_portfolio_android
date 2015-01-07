@@ -971,7 +971,7 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
         if (null != mBootLastUpdatedTextView) {
 
             mBootLastUpdatedTextView.setText(getResources().getString(R.string.page_refresh_doing_end_refresh,
-                    mCurrentPage, mTotalPage));
+                    mCurrentPage < 1 ? 1 : mCurrentPage, mTotalPage));
         }
         if (null != mLastUpdatedTextView) {
 
