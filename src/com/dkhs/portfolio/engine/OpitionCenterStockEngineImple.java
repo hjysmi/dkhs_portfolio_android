@@ -37,6 +37,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     private StockViewType mStockType;
     private String mSectorId;
     private int mPageSize = 50;
+    private int mPageIndex = 1;
     private String symboltype = VALUE_SYMBOL_TYPE;
     private String exchange = VALUE_EXCHANGE;
     private String symbol_stype = VALUE_SYMBOL_STYPE;
@@ -146,6 +147,7 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
             params.addQueryStringParameter("sector_id", mSectorId);
 
         }
+        params.addQueryStringParameter("page", mPageIndex + "");
         params.addQueryStringParameter("exchange", exchange);
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", mPageSize + "");
@@ -157,6 +159,25 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
         }
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
+    }
+
+    public HttpHandler loadByPage(int pageIndex) {
+        RequestParams params = new RequestParams();
+        if (!TextUtils.isEmpty(mSectorId)) {
+            params.addQueryStringParameter("sector_id", mSectorId);
+
+        }
+        params.addQueryStringParameter("exchange", exchange);
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPageSize + "");
+        params.addQueryStringParameter("symbol_type", symboltype);
+        if (!TextUtils.isEmpty(symbol_stype))
+            params.addQueryStringParameter("symbol_stype", symbol_stype);
+        if (!TextUtils.isEmpty(list_sector)) {
+            params.addQueryStringParameter("list_sector", list_sector);
+        }
+        params.addQueryStringParameter("page", pageIndex + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
     }
 
     // public void loadDataFromCurrent(int num) {
@@ -227,5 +248,13 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
 
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.opitionmarket, params, this);
 
+    }
+
+    public int getmPageIndex() {
+        return mPageIndex;
+    }
+
+    public void setmPageIndex(int mPageIndex) {
+        this.mPageIndex = mPageIndex;
     }
 }

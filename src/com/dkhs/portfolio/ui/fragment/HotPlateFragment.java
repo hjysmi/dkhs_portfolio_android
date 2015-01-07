@@ -107,7 +107,7 @@ public class HotPlateFragment extends LoadMoreListFragment {
         if (null != finishListener) {
             finishListener.startLoadingData();
         }
-        getLoadEngine().refreshDatabySize(mDataList.size());
+        getLoadEngine().refreshDatabySize(getLoadEngine().getCurrentpage());
     }
 
     private ILoadingFinishListener finishListener;
@@ -127,8 +127,9 @@ public class HotPlateFragment extends LoadMoreListFragment {
             // add by zcm -----2014.12.15
             setListViewVisible();
             if (isRefresh) {
-                mDataList.clear();
+                // mDataList.clear();
             }
+            mDataList.clear();
             // add by zcm -----2014.12.15
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
