@@ -532,7 +532,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                     mLoadDataEngine.setCurrentpage(mLoadDataEngine.getCurrentpage() - 2);
                 }
                 mLoadDataEngine.loadMore();
-                mLoadDataEngine.refreshDatabySize(dataSize)
+                // mLoadDataEngine.refreshDatabySize(dataSize)
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
                 }
