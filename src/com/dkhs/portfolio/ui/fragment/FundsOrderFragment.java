@@ -67,7 +67,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     private FundsOrderAdapter mAdapter;
     private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
     private FundsOrderEngineImpl orderEngine;
-
+    private boolean isvisible = false;
     public static FundsOrderFragment getFragment(String orderType) {
         FundsOrderFragment fragment = new FundsOrderFragment();
         Bundle args = new Bundle();
@@ -118,7 +118,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
      */
     @Override
     public void loadData() {
-        getLoadEngine().loadData();
+        if(isvisible){
+            getLoadEngine().loadData();
+        }
     }
 
     @Override
@@ -185,7 +187,18 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
+            Bundle bundle = getArguments();
+
+            if (null != bundle) {
+                mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
+            }
+            isvisible = true;
+            loadData();
             dataHandler.postDelayed(runnable, 60 * 1000);
+            
+        }else{
+            isvisible = false;
+            dataHandler.removeCallbacks(runnable);
         }
         super.setUserVisibleHint(isVisibleToUser);
     }

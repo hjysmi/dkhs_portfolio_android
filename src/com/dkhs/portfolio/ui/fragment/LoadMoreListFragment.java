@@ -125,9 +125,18 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         // });
 
         // getLoadEngine().loadData();
-        loadData();
+        // loadData();
+        // loadData();
 
     }
+
+    /*@Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+        loadData();
+
+    }*/
 
     private void loadMore() {
         if (null != getLoadEngine()) {
@@ -226,8 +235,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
             getLoadEngine().loadMore();
         }
     }
-    
-    public void refreshDataSize(int size){
-        
+
+    public void refreshDataSize(int size) {
+
     }
 }

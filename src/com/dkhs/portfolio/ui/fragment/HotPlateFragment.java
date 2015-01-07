@@ -110,6 +110,13 @@ public class HotPlateFragment extends LoadMoreListFragment {
         getLoadEngine().refreshDatabySize(mDataList.size());
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+        loadData();
+    }
+
     private ILoadingFinishListener finishListener;
 
     public void setLoadingFinishListener(ILoadingFinishListener finishlistener) {
