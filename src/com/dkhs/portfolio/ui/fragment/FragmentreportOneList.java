@@ -45,7 +45,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     public final static String VO = "bigvo";
     private TextView tv;
     private String subType;
-
+    private boolean uservivible = false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -62,7 +62,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         Bundle bundle = getArguments();
         NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
         subType = vo.getContentSubType();
-        initDate();
+        //initDate();
         UserEntity user;
         try {
             user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
@@ -224,6 +224,9 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+	    /*if(uservivible){
+            initDate();
+        }*/
 		super.onResume();
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageStart(mPageName);
@@ -235,9 +238,11 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         if (isVisibleToUser) {
             // fragment可见时加载数据
             //initDate();
+            initDate();
         } else {
             // 不可见时不执行操作
         }
+        uservivible = isVisibleToUser;
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -245,4 +250,5 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 	public void onLoadMore() {
 		 mLoadDataEngine.loadMore();
 	}
+	
 }

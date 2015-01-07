@@ -66,14 +66,7 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
-        if (null != mLoadDataEngine) {
-
-        }
-        Bundle bundle = getArguments();
-        NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
-        if (null != vo && null != vo.getContentSubType() && vo.getContentSubType().equals("304")) {
-            initDate();
-        }
+        
         return view;
     }
 

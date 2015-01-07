@@ -119,19 +119,26 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == dataEngine) {
-            dataEngine = new UserCombinationEngineImpl(this,mUserId);
+            dataEngine = new UserCombinationEngineImpl(this, mUserId);
         }
         return dataEngine;
     }
-    
-    /**  
+
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
      */
     @Override
     public void loadData() {
-       getLoadEngine().loadData();
+        getLoadEngine().loadData();
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onActivityCreated(savedInstanceState);
+        loadData();
     }
 
     @Override
@@ -147,24 +154,26 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
                 user.setUsername(mUserName);
                 cBean.setCreateUser(user);
 
-                getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false,null));
+                getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false, null));
             }
         };
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_user_combination_list);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_user_combination_list);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }
