@@ -519,6 +519,13 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                     mBootProgressBar.setVisibility(View.VISIBLE);
                     mBootArrowImageView.setVisibility(View.GONE);
                     mEndRootView.setVisibility(View.VISIBLE);
+                    // if (mCurrentPage > 1) {
+                    mBootLastUpdatedTextView.setText(getResources().getString(R.string.page_pull_to_refresh_tip,
+                            mCurrentPage, mTotalPage));
+                    // } else {
+                    // mLastUpdatedTextView.setText(getResources().getString(R.string.page_pull_to_refresh_tip,
+                    // mCurrentPage, mTotalPage));
+                    // }
                     break;
                 case ENDINT_MANUAL_LOAD_DONE:// 手动刷新完成
 
@@ -527,7 +534,8 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                     mBootTipsTextView.setVisibility(View.VISIBLE);
                     mBootProgressBar.setVisibility(View.GONE);
                     mBootArrowImageView.setVisibility(View.VISIBLE);
-
+                    mBootLastUpdatedTextView.setText(getResources().getString(R.string.page_refresh_doing_end_refresh,
+                            mCurrentPage, mTotalPage));
                     mEndRootView.setVisibility(View.VISIBLE);
                     break;
                 case ENDINT_AUTO_LOAD_DONE:// 自动刷新完成
@@ -537,7 +545,8 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                     mBootTipsTextView.setVisibility(View.VISIBLE);
                     mBootProgressBar.setVisibility(View.GONE);
                     mBootArrowImageView.setVisibility(View.VISIBLE);
-
+                    mBootLastUpdatedTextView.setText(getResources().getString(R.string.page_refresh_doing_end_refresh,
+                            mCurrentPage, mTotalPage));
                     mEndRootView.setVisibility(View.VISIBLE);
                     break;
                 default:
