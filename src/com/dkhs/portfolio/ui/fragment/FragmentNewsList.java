@@ -71,10 +71,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // TODO Auto-generated method stub
         view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            initDate();
-        }
+        
         if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
@@ -92,6 +89,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
             vo = (NewsforImpleEngine) bundle.getSerializable(VO);
             // layouts = vo.getLayout();
             types = bundle.getInt(NEWS_TYPE);
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
+            mLoadDataEngine.setLoadingDialog(getActivity());
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setFromYanbao(false);
         }
 
     }
@@ -113,10 +114,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // }
 
         mListView.removeFooterView(mFootView);
-        mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-        mLoadDataEngine.setLoadingDialog(getActivity());
-        mLoadDataEngine.loadData();
-        mLoadDataEngine.setFromYanbao(false);
+        
         if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
@@ -325,6 +323,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
     		        }
     			}
     		}
+        	Bundle bundle = getArguments();
+            if (bundle != null) {
+                initDate();
+            }
         } else {
             // 不可见时不执行操作
         	getadle = false;

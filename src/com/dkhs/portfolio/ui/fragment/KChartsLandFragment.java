@@ -578,9 +578,16 @@ public class KChartsLandFragment extends Fragment {
                     //fragment可见时加载数据
             	mQuotesDataEngine = new QuotesEngineImpl();
             	List<OHLCEntity> ohlc = getOHLCDatas();
-                refreshChartsView(ohlc);
+            	if (mMarketTimer == null) {
+                    mMarketTimer = new Timer(true);
+                    mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+                }
     } else {
         //不可见时不执行操作
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
     }
             super.setUserVisibleHint(isVisibleToUser);
     }
@@ -589,10 +596,7 @@ public class KChartsLandFragment extends Fragment {
 
         super.onResume();
 
-        if (mMarketTimer == null) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
-        }
+        
         MobclickAgent.onPageStart(mPageName);
     }
 

@@ -126,21 +126,17 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
 
         // getLoadEngine().loadData();
         // loadData();
+        // loadData();
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param savedInstanceState
-     * @return
-     */
-    @Override
+    /*@Override
     public void onActivityCreated(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
         loadData();
-    }
+
+    }*/
 
     private void loadMore() {
         if (null != getLoadEngine()) {
