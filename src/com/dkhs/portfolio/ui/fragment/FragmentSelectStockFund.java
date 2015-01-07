@@ -52,6 +52,7 @@ import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnRefreshListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -504,6 +505,15 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
+        mListView.setCanRefresh(true);
+        mListView.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                // TODO Auto-generated method stub
+                // mListView.onRefreshComplete();
+            }
+        });
 
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
