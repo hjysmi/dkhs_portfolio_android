@@ -74,7 +74,7 @@ public class FragmentForOptionOnr extends Fragment{
 			((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
 		}
 		initView(view);
-		initDate();
+		
 		return view;
 	}
 
@@ -89,6 +89,12 @@ public class FragmentForOptionOnr extends Fragment{
     }
 	private void initDate(){
 			try {
+    			    Bundle extras = getArguments();
+    		        if(null != extras){
+    		            symbol = extras.getString(SYMBOL);
+    		            name = extras.getString(NAME);
+    		            subType = extras.getString(SUB);
+    		        }
 					NewsforImpleEngine vo = new NewsforImpleEngine();
 					vo.setSymbol(symbol);
 					vo.setContentSubType(subType);
@@ -225,6 +231,7 @@ public class FragmentForOptionOnr extends Fragment{
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		// TODO Auto-generated method stub
 		if(isVisibleToUser){
+		    initDate();
 			getadble = true;
 			if(null == mDataList || mDataList.size() < 2){
 				if (null != context
