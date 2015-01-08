@@ -59,6 +59,7 @@
     <dimen name="combina_up">21dp</dimen>
     <dimen name="main_bottom_textsize">23sp</dimen>
     <dimen name="mycombina_list_text_wid">90dp</dimen>
+    <dimen name="text_date_paddint">2dp</dimen>
 
     <integer name="select_touch_text">22</integer>
 

@@ -274,7 +274,7 @@ public class GridChart extends View {
 		if(!isDisplayAxisXTitle()) {
 			th -= DEFAULT_AXIS_TITLE_SIZE;
 		}
-		
+		th = (int) UPER_CHART_BOTTOM;
 //		canvas.drawLine(1, 1, viewWidth - 1, 1, paint);
 		canvas.drawLine(PADDING_LEFT, 1 + topTitleHeight , PADDING_LEFT, th, paint);
 		canvas.drawLine(viewWidth - 1, th, viewWidth - 1, 1 + topTitleHeight, paint);

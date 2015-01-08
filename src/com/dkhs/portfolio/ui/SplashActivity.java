@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -67,7 +69,9 @@ public class SplashActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         context = this;
-
+        /*if(UIUtils.hasSmartBar(getActionBar(),true)){
+            
+        }*/
         hideHead();
         init();
         if (!PortfolioApplication.getInstance().isDebug()) {

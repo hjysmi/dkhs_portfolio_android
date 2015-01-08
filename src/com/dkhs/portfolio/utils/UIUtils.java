@@ -11,9 +11,12 @@ package com.dkhs.portfolio.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +30,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -344,5 +348,24 @@ public class UIUtils {
             return false;
         }
     }
+    public static boolean hasSmartBar(ActionBar ac,boolean collapsable){
+        try {
+            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+            Method methods = Class.forName("android.app.ActionBar").getMethod(
+                    "setActionBarVisible", new Class[] { boolean.class });
+                methods.invoke(collapsable);
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        if (Build.DEVICE.equals("mx2")||Build.DEVICE.equals("mx3")||Build.DEVICE.equals("mx4")) {            
+            return true;         
+        } else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {            
+            return false;        
+        } 
+        return false;
+    }
+
 
 }
