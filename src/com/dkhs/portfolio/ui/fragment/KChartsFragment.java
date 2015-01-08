@@ -111,9 +111,9 @@ public class KChartsFragment extends Fragment {
             }
         });
         if(having){
-	        mSmallerButton.setClickable(false);
+	        //mSmallerButton.setClickable(false);
 	    	mSmallerButton.setSelected(true);
-	        mLargerButton.setClickable(false);
+	        //mLargerButton.setClickable(false);
 	    	mLargerButton.setSelected(true);
         }
         return view;
@@ -380,7 +380,7 @@ public class KChartsFragment extends Fragment {
                 }
             }
             if(len > 50 && having){
-            	mSmallerButton.setClickable(true);
+            	//mSmallerButton.setClickable(true);
             	mSmallerButton.setSelected(false);
             	having = false;
             }
@@ -519,20 +519,20 @@ public class KChartsFragment extends Fragment {
     private void changeButtonState() {
         if (mMyChartsView.isSmallest()) {
             //mLargerButton.setVisibility(View.INVISIBLE);
-        	mLargerButton.setClickable(false);
+        	//mLargerButton.setClickable(false);
         	mLargerButton.setSelected(true);
         } else {
             //mLargerButton.setVisibility(View.VISIBLE);
-        	mLargerButton.setClickable(true);
+        	//mLargerButton.setClickable(true);
         	mLargerButton.setSelected(false);
         }
         if (mMyChartsView.isLargest()) {
             //mSmallerButton.setVisibility(View.INVISIBLE);
-        	mSmallerButton.setClickable(false);
+        	//mSmallerButton.setClickable(false);
         	mSmallerButton.setSelected(true);
         } else {
             //mSmallerButton.setVisibility(View.VISIBLE);
-        	mSmallerButton.setClickable(true);
+        	//mSmallerButton.setClickable(true);
         	mSmallerButton.setSelected(false);
         }
     }
