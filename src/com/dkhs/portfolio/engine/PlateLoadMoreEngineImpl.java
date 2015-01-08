@@ -44,6 +44,7 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
     }
 
     private String mOrderType;
+    private int mpageSize = 50;
 
     public PlateLoadMoreEngineImpl(ILoadDataBackListener loadListener, String ordertype) {
         super(loadListener);
@@ -59,6 +60,7 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
 
         }
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        params.addQueryStringParameter("page_size", mpageSize + "");
         DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
     }
 
@@ -74,6 +76,7 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
             params.addQueryStringParameter("sort", mOrderType);
 
         }
+        params.addQueryStringParameter("page_size", mpageSize + "");
         DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
     }
 
@@ -97,6 +100,8 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
 
     }
 
+    private int pageSize = 50;
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -104,13 +109,14 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public void refreshDatabySize(int pageIndex) {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(mOrderType)) {
             params.addQueryStringParameter("sort", mOrderType);
 
         }
-        params.addQueryStringParameter("page_size", dataSize + "");
+        params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("page", pageIndex + "");
         DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
 
     }

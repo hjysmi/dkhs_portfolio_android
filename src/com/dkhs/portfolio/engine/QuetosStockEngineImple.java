@@ -23,6 +23,7 @@ import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -49,7 +50,7 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
 
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("exchange", "1,2");
@@ -57,18 +58,18 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
         params.addQueryStringParameter("symbol_type", "1");
         params.addQueryStringParameter("page_size", "50");
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.stocklist, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.stocklist, params, this);
     }
 
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
 
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("exchange", "1,2");
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("symbol_type", "1");
         params.addQueryStringParameter("page_size", "50");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.stocklist, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.stocklist, params, this);
 
     }
 
@@ -118,13 +119,13 @@ public class QuetosStockEngineImple extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("exchange", "1,2");
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("symbol_type", "1");
         params.addQueryStringParameter("page_size", dataSize + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.stocklist, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.stocklist, params, this);
 
     }
 
