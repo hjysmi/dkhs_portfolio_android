@@ -126,6 +126,12 @@ public class PositionAdjustHistoryAdapter extends BaseAdapter {
         AdjustListBean item = mDataList.get(position);
         viewHolder.tvAdjustTime.setText(TimeUtils.getHourString(item.time));
         viewHolder.llAdjustContent.removeAllViews();
+        if (item.contentView != null) {
+            ViewGroup p = (ViewGroup) item.contentView.getParent();
+            if (p != null) {
+                p.removeView(item.contentView);
+            }
+        }
         viewHolder.llAdjustContent.addView(item.contentView);
         // viewHolder.colorView.setBackgroundColor(item.getDutyColor());
 

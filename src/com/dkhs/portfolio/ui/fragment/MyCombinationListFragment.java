@@ -343,7 +343,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
         builder.setMessage(R.string.dialog_message_delete_combination);
-        builder.setTitle(R.string.tips);
+        // builder.setTitle(R.string.tips);
 
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 

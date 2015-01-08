@@ -210,20 +210,20 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     public void onClick(View v) {
         int id = v.getId();
         if (id == RIGHTBUTTON_ID) {
-        	listFragment.setListDelStatus(false);
-        	btnMore.setVisibility(View.GONE);
-        	btnTwo.setVisibility(View.VISIBLE);
-            //clickRightButton();
+            listFragment.setListDelStatus(false);
+            btnMore.setVisibility(View.GONE);
+            btnTwo.setVisibility(View.VISIBLE);
+            // clickRightButton();
         } else if (id == SECONDRIGHTBUTTON_ID) {
-        	addNewCombination();
-            //clickSecondButton();
+            addNewCombination();
+            // clickSecondButton();
         } else if (id == R.id.tv_add_combina) {
             // mCombinationAdapter.addItem();
             // mPopMoreWindow.dismiss();
 
             addNewCombination();
         } else if (id == R.id.tv_delete_combina) {
-        	btnTwo.setVisibility(View.GONE);
+            btnTwo.setVisibility(View.GONE);
             btnMore.setText("取消");
             btnMore.setTag("del");
             btnMore.setBackgroundDrawable(null);
@@ -265,16 +265,17 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     public void setButtonCancel() {
-        //btnMore.setText(R.string.cancel);
-        //btnMore.setTag("cancel");
-        //btnMore.setBackgroundDrawable(null);
-    	btnMore.setVisibility(View.VISIBLE);
-    	btnTwo.setVisibility(View.GONE);
+        // btnMore.setText(R.string.cancel);
+        // btnMore.setTag("cancel");
+        // btnMore.setBackgroundDrawable(null);
+        btnMore.setVisibility(View.VISIBLE);
+        btnTwo.setVisibility(View.GONE);
+        btnMore.setText("取消");
         // btnRefresh.setVisibility(View.GONE);
     }
 
     public void setButtonFinish() {
-    	btnMore.setText("完成");
+        btnMore.setText("完成");
     }
 
     private void setButtonRefresh() {
@@ -338,19 +339,20 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         setButtonAdd();
 
     }
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onResume(this);
+    }
 }
