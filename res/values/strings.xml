@@ -106,6 +106,7 @@
     <string name="create_time">成立时间 </string>
     <string name="create_time_format">成立时间 :%1$s</string>
     <string name="descrition_format">简介:%1$s</string>
+    <string name="position_from_to">从%1$s调至%2$s</string>
     <string name="select_fund">选择参照基金 </string>
     <string name="select_stock">添加个股 </string>
     <string name="create_funds">创建基金 </string>
