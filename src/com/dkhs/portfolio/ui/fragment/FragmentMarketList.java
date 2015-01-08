@@ -50,6 +50,7 @@ import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnLoadMoreListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnRefreshListener;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -84,64 +85,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     protected boolean flush = false;
     protected String mSecotrId;
     protected boolean isLoading;
-
-    // /**
-    // * view视图类型
-    // */
-    // public enum StockViewType {
-    //
-    // /** 股票，自选股 */
-    // STOCK_OPTIONAL(1),
-    // /** 股票，涨幅 */
-    // STOCK_INCREASE(2),
-    // /** 股票，跌幅 */
-    // STOCK_DRAWDOWN(3),
-    // /** 股票，换手率 */
-    // STOCK_HANDOVER(4),
-    //
-    // /** 基金，主要指数 */
-    // FUND_MAININDEX(5),
-    // /** 基金，指数 */
-    // FUND_INDEX(6),
-    // /** 基金，基金股票 */
-    // FUND_STOCK(7),
-    // /** 股票，自选股 */
-    // STOCK_OPTIONAL_PRICE(8),
-    //
-    // /** 行情中心，国内指数排行，高到低 */
-    // MARKET_INLAND_INDEX(9),
-    // /** 行情中心，国内指数排行榜查询，低到高 */
-    // MARKET_INLAND_INDEX_ACE(10),
-    // /** 行情中心, 国内指数不排序 */
-    // MARKET_INLAND_INDEX_CURRENT(11),
-    //
-    // /** 行情中心,个股排行，跌幅 */
-    // MARKET_STOCK_DOWNRATIO(12),
-    // /** 行情中心,个股排行，涨幅 */
-    // MARKET_STOCK_UPRATIO(13),
-    // /** 行情中心,个股换手排行榜查询 高到低 */
-    // MARKET_STOCK_TURNOVER(14),
-    // /** 行情中心,个股换手排行榜查询 低到高 */
-    // MARKET_STOCK_TURNOVER_ACE(15),
-    // /** 行情中心 ,个股振幅，高到低 */
-    // MARKET_STOCK_AMPLIT(16),
-    // /** 行情中心 ,个股振幅，低到高 */
-    // MARKET_STOCK_AMPLIT_ACE(17),
-    // /** 行情中心 ,板块列表，高到底 */
-    // MARKET_PLATE_LIST(18),
-    // /** 行情中心 ,个股振幅，低到高 */
-    // MARKET_PLATE_LIST_ACE(19);
-    //
-    // private int typeId;
-    //
-    // StockViewType(int type) {
-    // this.typeId = type;
-    // }
-    //
-    // public int getTypeId() {
-    // return typeId;
-    // }
-    // }
+    private HttpHandler mHttpHandler;
 
     public static FragmentMarketList getStockFragment(StockViewType type) {
         FragmentMarketList fragment = new FragmentMarketList();
@@ -201,18 +145,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     private void setListViewAdapter() {
-        if (isItemClickBack) {
-            if (mViewType == StockViewType.STOCK_HANDOVER) {
-
-                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList, true);
-            } else {
-                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
-            }
-        } else if (isFund) {
-            mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
-        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
-            mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
-        } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
+        if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
                 || mViewType == StockViewType.MARKET_INLAND_INDEX
                 || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
                 || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
@@ -222,16 +155,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 || mViewType == StockViewType.MARKET_STOCK_TURNOVER
                 || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
             mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList, true);
-        } else if (mViewType == StockViewType.STOCK_HANDOVER) {
-            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList, true);
-            mAdapterConbinStock.setFromShow(!fromPosition);
-
-        } else {
-            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
-            mAdapterConbinStock.setFromShow(!fromPosition);
         }
-
-        mAdapterConbinStock.setCheckChangeListener(this);
     }
 
     private boolean isLoadStockType() {
@@ -246,32 +170,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     private void initData() {
-        if (isFund) {
-            loadDataByFund();
-        } else {
-            loadDataByStock();
-        }
 
-    }
-
-    private void loadDataByFund() {
-        if (mViewType == StockViewType.FUND_MAININDEX) {
-            mLoadDataEngine = new MainIndexEngineImple(mSelectStockBackListener);
-
-        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX) {
-
-        } else if (mViewType == StockViewType.FUND_INDEX) {
-            mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_INDEX);
-        } else if (mViewType == StockViewType.FUND_STOCK) {
-            mLoadDataEngine = new FundDataEngine(mSelectStockBackListener, FundDataEngine.TYPE_STOCK);
-
-        }
-        if (null != mLoadDataEngine) {
-            mLoadDataEngine.loadData();
-
-        } else {
-            LogUtils.d("LoadDataEngine is null");
-        }
+        loadDataByStock();
 
     }
 
@@ -303,18 +203,21 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 // loadFinishUpdateView();
                 return;
             }
+
+            // loadFinishUpdateView();
+            if (null != dataList && dataList.size() > 0 && isAdded()) {
+                mDataList.clear();
+                mDataList.addAll(dataList);
+                mAdapterConbinStock.notifyDataSetChanged();
+                // mDataList = dataList;
+
+            }
             if (isRefresh) {
                 // mDataList.clear();
                 isRefresh = false;
-            }
-            mDataList.clear();
-            // loadFinishUpdateView();
-            if (null != dataList && dataList.size() > 0 && isAdded()) {
-                mDataList.addAll(dataList);
-                mAdapterConbinStock.notifyDataSetChanged();
-                mListView.setSelection(1);
-                // mDataList = dataList;
+            } else {
 
+                mListView.setSelection(1);
             }
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
@@ -337,19 +240,14 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
     public void setOrderType(OrderType orderType) {
         isRefresh = true;
-        if (mLoadDataEngine instanceof FundDataEngine) {
-            ((FundDataEngine) mLoadDataEngine).setOrderType(orderType);
-            // mDataList.clear();
 
-            mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
-        }
         if (mLoadDataEngine instanceof MainIndexEngineImple) {
             ((MainIndexEngineImple) mLoadDataEngine).setOrderType(orderType);
             // mDataList.clear();
 
             mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
+            cancelHttpHandler();
+            mHttpHandler = mLoadDataEngine.loadData();
         }
     }
 
@@ -359,8 +257,15 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
             mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
+            cancelHttpHandler();
+            mHttpHandler = mLoadDataEngine.loadData();
 
+        }
+    }
+
+    private void cancelHttpHandler() {
+        if (mHttpHandler != null) {
+            mHttpHandler.cancel();
         }
     }
 
@@ -389,7 +294,9 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         if (null != loadingFinishListener) {
             loadingFinishListener.startLoadingData();
         }
-        mLoadDataEngine.loadData();
+
+        cancelHttpHandler();
+        mHttpHandler = mLoadDataEngine.loadData();
 
     }
 
@@ -401,7 +308,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
-            mLoadDataEngine.loadData();
+            cancelHttpHandler();
+            mHttpHandler = mLoadDataEngine.loadData();
         }
     }
 
@@ -413,7 +321,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
-            mLoadDataEngine.refreshDatabySize(mDataList.size());
+            cancelHttpHandler();
+            mHttpHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
         }
     }
 
@@ -438,8 +347,14 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
                 }
-                // mLoadDataEngine.refreshDatabySize(mDataList.size());
-                mLoadDataEngine.loadData();
+                cancelHttpHandler();
+                if (mLoadDataEngine instanceof OpitionCenterStockEngineImple) {
+                    mHttpHandler = ((OpitionCenterStockEngineImple) mLoadDataEngine).loadByPage(mLoadDataEngine
+                            .getCurrentpage());
+                } else {
+                    mHttpHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
+                }
+                // mLoadDataEngine.loadData();
             }
         } else {
             timeMill++;
@@ -448,11 +363,6 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 isLoadingMore = false;
             }
         }
-    }
-
-    public void setCheckListener(ISelectChangeListener listener) {
-        if (null != mAdapterConbinStock)
-            mAdapterConbinStock.setCheckChangeListener(listener);
     }
 
     @Override
@@ -531,7 +441,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 } else {
                     mLoadDataEngine.setCurrentpage(mLoadDataEngine.getCurrentpage() - 2);
                 }
-                mLoadDataEngine.loadMore();
+                cancelHttpHandler();
+                mHttpHandler = mLoadDataEngine.loadMore();
                 // mLoadDataEngine.refreshDatabySize(dataSize)
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
@@ -606,7 +517,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             // mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             // }
 
-            mLoadDataEngine.loadMore();
+            cancelHttpHandler();
+            mHttpHandler = mLoadDataEngine.loadMore();
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }

@@ -199,7 +199,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             }
                 break;
             case TYPE_STOCK_TURN_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund
+                loadDataListFragment = FragmentMarketList
                         .getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
             }
                 break;
