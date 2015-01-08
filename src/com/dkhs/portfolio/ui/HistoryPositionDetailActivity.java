@@ -8,6 +8,8 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,7 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
         adapter = new MyAdapter();
         mListView.setAdapter(adapter);
         mListView.setGroupIndicator(null);
+        mListView.setChildDivider(new ColorDrawable(Color.TRANSPARENT));
         netValueEngine = new NetValueEngine(mCombinationId);
         listener = new MyIhttpListener();
         // add by zcm --- 2014.12.17

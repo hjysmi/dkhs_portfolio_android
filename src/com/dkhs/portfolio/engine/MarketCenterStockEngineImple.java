@@ -15,6 +15,7 @@ import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.lidroid.xutils.http.HttpHandler;
 
 public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     private final static String EXCHANGE = "1,2";
@@ -46,23 +47,24 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page="
+        return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page="
                 + (getCurrentpage() + 1), orderType, mPagesize), null, this);
     }
 
     @Override
-    public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, mPagesize), null,
-                this);
+    public HttpHandler loadData() {
+        return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, mPagesize),
+                null, this);
 
     }
 
-    public void loadDataFromCurrent(int num) {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, num), null, this);
+    public HttpHandler loadDataFromCurrent(int num) {
+        return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, num), null,
+                this);
 
     }
 
@@ -117,9 +119,9 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         // TODO Auto-generated method stub
-
+        return null;
         // params.addQueryStringParameter("page_size", dataSize + "");
 
     }

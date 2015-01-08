@@ -92,7 +92,7 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         } else {
             viewHolder.tvTextPercent.setTextColor(textCsl);
             viewHolder.tvTextPercent.setTypeface(Typeface.DEFAULT_BOLD);
-            viewHolder.tvTextPercent.setText(StringFromatUtils.get2Point(mStockQuotesBean.change));
+            viewHolder.tvTextPercent.setText(StringFromatUtils.get2PointPercent(change));
         }
 
         return convertView;

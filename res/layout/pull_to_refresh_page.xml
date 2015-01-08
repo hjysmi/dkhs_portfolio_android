@@ -10,7 +10,7 @@
     <!-- 内容 -->
 
     <RelativeLayout
-        android:id="@+id/head_contentLayout"
+        android:id="@+id/boot_contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="8dp"
@@ -28,7 +28,7 @@
             <!-- 箭头 -->
 
             <ImageView
-                android:id="@+id/head_arrowImageView"
+                android:id="@+id/boot_arrowImageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -38,7 +38,7 @@
             <!-- 进度条 -->
 
             <ProgressBar
-                android:id="@+id/head_progressBar"
+                android:id="@+id/boot_progressBar"
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,21 +59,21 @@
             <!-- 提示 -->
 
             <TextView
-                android:id="@+id/head_tipsTextView"
+                android:id="@+id/boot_tipsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/p2refresh_release_refresh"
+                android:text="@string/page_pull_to_next_refresh"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <!-- 最近更新 -->
 
             <TextView
-                android:id="@+id/head_lastUpdatedTextView"
+                android:id="@+id/boot_lastUpdatedTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:text="@string/p2refresh_refresh_lasttime"
+                android:text="当前第%页/共131页"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
         </LinearLayout>

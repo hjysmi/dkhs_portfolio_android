@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 
@@ -34,6 +35,8 @@ import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.HotPlateAdapter;
+import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView;
+import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnRefreshListener;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -43,7 +46,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-10-29 下午4:03:33
  * @version 1.0
  */
-public class HotPlateFragment extends LoadMoreListFragment {
+public class HotPlateFragment extends LoadPageMoreListFragment {
 
     private static final String ARGUMENT_ORDER_TYPE = "order_type";
     // public static final String ORDER_TYPE_DAY = "chng_pct_day";
@@ -84,6 +87,38 @@ public class HotPlateFragment extends LoadMoreListFragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
+    private PullToRefreshPageListView mListView;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param listview
+     * @return
+     */
+    @Override
+    public void setListViewInit(PullToRefreshPageListView listview) {
+        // TODO Auto-generated method stub
+        super.setListViewInit(listview);
+        mListView = listview;
+        mListView.setCanRefresh(true);
+        mListView.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                if (orderEngine.getCurrentpage() <= 1) {
+                    orderEngine.refreshDatabySize(1);
+                } else {
+                    // orderEngine.setCurrentpage(orderEngine.getCurrentpage() - 2);
+                    orderEngine.refreshDatabySize(orderEngine.getCurrentpage() - 1);
+                }
+                // orderEngine.loadMore();
+                if (null != finishListener) {
+                    finishListener.startLoadingData();
+                }
+            }
+        });
+    }
+
     @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
@@ -107,7 +142,7 @@ public class HotPlateFragment extends LoadMoreListFragment {
         if (null != finishListener) {
             finishListener.startLoadingData();
         }
-        getLoadEngine().refreshDatabySize(mDataList.size());
+        getLoadEngine().refreshDatabySize(getLoadEngine().getCurrentpage());
     }
 
     @Override
@@ -125,6 +160,11 @@ public class HotPlateFragment extends LoadMoreListFragment {
 
     @Override
     public void loadFinish(MoreDataBean object) {
+        mListView.onLoadMoreComplete();
+        mListView.onRefreshComplete();
+        // mLoadDataEngine.getTotalpage()
+        mListView.setCurrentPage(orderEngine.getCurrentpage());
+        mListView.setTotalPage(orderEngine.getTotalpage());
 
         super.loadFinish(object);
         if (null != finishListener) {
@@ -134,8 +174,9 @@ public class HotPlateFragment extends LoadMoreListFragment {
             // add by zcm -----2014.12.15
             setListViewVisible();
             if (isRefresh) {
-                mDataList.clear();
+                // mDataList.clear();
             }
+            mDataList.clear();
             // add by zcm -----2014.12.15
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
