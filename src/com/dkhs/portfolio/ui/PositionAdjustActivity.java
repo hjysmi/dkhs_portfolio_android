@@ -1034,19 +1034,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
 
         builder.setMessage(R.string.adjust_back_message)
-                .setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        finish();
 
                     }
-                }).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         dialog.dismiss();
+                        finish();
 
                     }
                 });

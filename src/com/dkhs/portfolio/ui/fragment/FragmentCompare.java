@@ -386,6 +386,8 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         btnEndTime.setOnClickListener(this);
         btnSelectFund.setOnClickListener(this);
         btnCompare.setOnClickListener(this);
+        view.findViewById(R.id.ll_fo_time).setOnClickListener(this);
+        view.findViewById(R.id.ll_to_time).setOnClickListener(this);
 
         mGridAdapter = new CompareIndexAdapter(getActivity(), mCompareItemList);
         mGridView = (GridView) view.findViewById(R.id.gv_comparison);
@@ -512,6 +514,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
+            case R.id.ll_fo_time:
             case R.id.tv_compare_ftime: {
                 isPickStartDate = true;
                 showPickerDate();
