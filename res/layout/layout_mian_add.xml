@@ -3,6 +3,7 @@
     android:id="@+id/layout_add_combination"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:addStatesFromChildren="true"
     android:background="@drawable/lv_white_selector"
     android:gravity="center" >
 
