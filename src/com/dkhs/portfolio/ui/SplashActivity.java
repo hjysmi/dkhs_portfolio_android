@@ -69,9 +69,6 @@ public class SplashActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         context = this;
-        /*if(UIUtils.hasSmartBar(getActionBar(),true)){
-            
-        }*/
         hideHead();
         init();
         if (!PortfolioApplication.getInstance().isDebug()) {
