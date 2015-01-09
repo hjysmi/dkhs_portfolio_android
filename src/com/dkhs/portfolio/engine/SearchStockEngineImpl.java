@@ -49,15 +49,17 @@ public class SearchStockEngineImpl {
         String loadStockUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=1&exchange=1,2";
         String loadFundUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=3&exchange=1,2,12";
         String loadIndexUrl = DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2";
-        // StringBuilder loadUrl = new StringBuilder(DKHSUrl.StockSymbol.profile + "?symbol_type=5&exchange=1,2");
-        // "last_datetime"
-        // lastLoadTime = 2014-11-21T07:15:53Z
+
+        // DKHSClient.requestLong(HttpMethod.GET, loadStockUrl, null, stockProfiListener);
+        // DKHSClient.requestLong(HttpMethod.GET, loadFundUrl, null, stockProfiListener);
+        // DKHSClient.requestLong(HttpMethod.GET, loadIndexUrl, null, stockProfiListener);
+
         String lastLoadTime = PortfolioPreferenceManager
                 .getStringValue(PortfolioPreferenceManager.KEY_LAST_LOAD_DATETIME);
         StringBuilder sbLastDate = new StringBuilder("&last_datetime=");
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            sbLastDate.append("2014-12-08T07:15:53Z");
+            sbLastDate.append("2015-01-09T05:41:39Z");
         } else {
 
             sbLastDate.append(lastLoadTime);
