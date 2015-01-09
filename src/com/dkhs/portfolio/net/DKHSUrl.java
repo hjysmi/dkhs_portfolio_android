@@ -101,7 +101,7 @@ public class DKHSUrl {
         // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
         String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type={1}";
-        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=30&user_id={0}&content_type=30&content_subtype={1}";
+        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=50&user_id={0}&content_type=30&content_subtype={1}";
         String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30&content_subtype={1}";
         String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=50&content_type=30&content_subtype={0}";
         String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=50&portfolio_id={0}&content_type={1}";

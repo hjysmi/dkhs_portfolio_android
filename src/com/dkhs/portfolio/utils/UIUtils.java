@@ -348,21 +348,17 @@ public class UIUtils {
             return false;
         }
     }
-    public static boolean hasSmartBar(ActionBar ac,boolean collapsable){
-        try {
+    public static boolean hasSmartBar(){
+        /*try {
             Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
-            Method methods = Class.forName("android.app.ActionBar").getMethod(
-                    "setActionBarVisible", new Class[] { boolean.class });
-                methods.invoke(collapsable);
+            
             return ((Boolean) method.invoke(null)).booleanValue();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-        if (Build.DEVICE.equals("mx2")||Build.DEVICE.equals("mx3")||Build.DEVICE.equals("mx4")) {            
+        }*/
+        if (Build.DEVICE.equals("mx2")||Build.DEVICE.equals("mx3")||Build.DEVICE.equals("mx4pro")) {            
             return true;         
-        } else if (Build.DEVICE.equals("mx") || Build.DEVICE.equals("m9")) {            
-            return false;        
         } 
         return false;
     }
