@@ -148,8 +148,8 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public void refreshData() {
         // System.out.println("刷新Fragment markercenter ");
         // startRefreshView();
-        if (loadDataListFragment instanceof FragmentSelectStockFund) {
-            ((FragmentSelectStockFund) loadDataListFragment).refreshNoCaseTime();
+        if (loadDataListFragment instanceof FragmentMarketList) {
+            ((FragmentMarketList) loadDataListFragment).refreshNoCaseTime();
         } else if (loadDataListFragment instanceof HotPlateFragment) {
             ((HotPlateFragment) loadDataListFragment).refreshData();
         }

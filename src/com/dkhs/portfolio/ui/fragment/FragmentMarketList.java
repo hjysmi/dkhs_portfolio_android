@@ -321,8 +321,10 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
+            // cancelHttpHandler();
+            // mHttpHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
             cancelHttpHandler();
-            mHttpHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
+            mHttpHandler = mLoadDataEngine.loadData();
         }
     }
 
