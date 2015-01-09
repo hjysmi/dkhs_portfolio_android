@@ -8,27 +8,26 @@
  */
 package com.dkhs.portfolio.app;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
-import android.util.DisplayMetrics;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Log;
 
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.service.LoadStockToDBService;
 import com.dkhs.portfolio.service.ReLoadDataService;
+import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.umeng.analytics.AnalyticsConfig;
 
 /**
  * @ClassName PortfolioApplication
@@ -50,6 +49,8 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         // TODO Auto-generated method stub
+        // setMetaData(ChannelUtil.getChannel(this));
+        AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         super.onCreate();
         mInstance = this;
         if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
@@ -62,6 +63,16 @@ public class PortfolioApplication extends Application {
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
+    }
+
+    private void setMetaData(String changevalue) {
+        ApplicationInfo appi;
+        try {
+            appi = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            appi.metaData.putString("UMENG_CHANNEL", changevalue);
+        } catch (NameNotFoundException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private List<Activity> lists = new ArrayList<Activity>();
