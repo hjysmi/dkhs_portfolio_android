@@ -78,7 +78,7 @@ public class GridChart extends View {
 	private float mUperChartHeight;
 
 	/** 是否显示下表Tabs */
-	private boolean showLowerChartTabs = true;
+	private boolean showLowerChartTabs = false;
 
 	/** 是否显示顶部Titles */
 	private boolean showTopTitles;
@@ -274,7 +274,7 @@ public class GridChart extends View {
 		if(!isDisplayAxisXTitle()) {
 			th -= DEFAULT_AXIS_TITLE_SIZE;
 		}
-		th = (int) UPER_CHART_BOTTOM;
+		//th = (int) UPER_CHART_BOTTOM;
 //		canvas.drawLine(1, 1, viewWidth - 1, 1, paint);
 		canvas.drawLine(PADDING_LEFT, 1 + topTitleHeight , PADDING_LEFT, th, paint);
 		canvas.drawLine(viewWidth - 1, th, viewWidth - 1, 1 + topTitleHeight, paint);

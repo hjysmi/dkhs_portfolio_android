@@ -190,7 +190,7 @@ public class KChartsFragment extends Fragment {
         // 最大经线数
         // mVolumnChartView.setLongtitudeNum(3);
         // 最大价格
-        mVolumnChartView.setMaxValue(10000);
+        mVolumnChartView.setMaxValue(0);
         // 最小价格
         // mVolumnChartView.setMinValue(100);
 

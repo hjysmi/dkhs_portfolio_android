@@ -88,7 +88,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 	/** 默认经线刻度字体颜色 **/
 	private int DEFAULT_LONGTITUDE_FONT_SIZE = 12;
 	/** 默认XY轴字体大小 **/
-	public static int DEFAULT_AXIS_TITLE_SIZE = 12;
+	public static int DEFAULT_AXIS_TITLE_SIZE = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font);
 	/** 默认经线刻度字体颜色 **/
 	private int DEFAULT_LATITUDE_FONT_COLOR = Color.RED;;
 
@@ -236,11 +236,11 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		String lent = "2222.2正";
 		Paint ps= new Paint(); 
 		Rect rects = new Rect();
-		ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 		ps.getTextBounds(lent, 0, lent.length(), rects); 
 		PADDING_LEFT = rects.width();
 		//解决适配字体大小
-		longtitudeFontSize = PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font);
+		longtitudeFontSize = DEFAULT_AXIS_TITLE_SIZE;
 		//longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
 		axisMarginBottom = DEFAULT_LATITUDE_FONT_SIZE;
 		latitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LATITUDE_FONT_SIZE);
@@ -440,7 +440,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		if(ismove){
 			Paint mPaint = new Paint();
 			mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
-			mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
+			mPaint.setStrokeWidth(getResources().getDimensionPixelSize(R.dimen.line_ten_width));
 			// 水平线长度
 			float lineHLength = getWidth() - 2f;
 			// 垂直线高度
@@ -597,7 +597,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 						if(!(i == 0) && !( i == axisXTitles.size() -1)){
 						    Paint p= new Paint(); 
 		                    Rect rect = new Rect();
-		                    p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+		                    p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 		                    p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect); 
                             canvas.drawText(axisXTitles.get(i), 
                                     i * postOffset + PADDING_LEFT - rect.width()/2, super
@@ -643,7 +643,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 		// �?��Paint
 		Paint mPaintFont = new Paint();
 		mPaintFont.setColor(latitudeFontColor);
-		mPaintFont.setTextSize(PortfolioApplication.getInstance().getResources().getDimensionPixelSize(R.dimen.title_text_font));
+		mPaintFont.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 		mPaintFont.setAntiAlias(true);
 		if (null != axisYTitles) {
 			int counts = axisYTitles.size();
@@ -704,9 +704,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 								}
 								totals = totals + "亿";
 							}
+							if(totals.equals("0.00")){
+                                totals = "—";
+                            }
 							Paint ps= new Paint(); 
 							Rect rects = new Rect();
-							ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+							ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 							ps.getTextBounds(totals, 0, totals.length(), rects); 
 							canvas.drawText( totals, PADDING_LEFT - rects.width(), mTitleHeight + 20,
 									mPaintFont);
@@ -718,7 +721,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify,ITo
 							if (i < counts && i > 0) {
 								Paint ps= new Paint(); 
 								Rect rects = new Rect();
-								ps.setTextSize( getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+								ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
 								ps.getTextBounds(axisYTitles.get(i), 0, axisYTitles.get(i).length(), rects); 
 								canvas.drawText(axisYTitles.get(i), PADDING_LEFT - rects.width(), offset - i
 										* postOffset + latitudeFontSize / 2f,

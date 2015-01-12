@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:textSize="@dimen/land_text_size"
-                android:text="39.93" />
+                android:text="-" />
         </LinearLayout>
 
         <LinearLayout
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="9.63万手"
+                android:text="-"
                 android:textSize="@dimen/land_text_size"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:text="12:05"
+                android:text="-"
                 android:textSize="@dimen/land_text_size"
                 android:textColor="@color/black" />
         </LinearLayout>
