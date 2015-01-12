@@ -178,6 +178,9 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        landKlinTextValum = (TextView) findViewById(R.id.land_klin_text_valum);
 	        landKlinTextData = (TextView) findViewById(R.id.land_klin_text_data);
 	        hsTitle.setSelectIndex(type);
+	        if(null != mStockBean){
+	            landKlinTextTitle.setText(mStockBean.name);
+	        }
 	        // stockLayout.setOnTouchListener(new OnLayoutlistener());
 	       // initTabPage();
 	        // setupViewData();
