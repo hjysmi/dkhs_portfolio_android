@@ -458,6 +458,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
     protected void initNotice() {
+        if (null == tvEmptyText) {
+            return;
+        }
         switch (mViewType) {
             case STOCK_OPTIONAL:
 
@@ -480,9 +483,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 break;
 
             default: {
-                if (null != tvEmptyText) {
-                    tvEmptyText.setText(R.string.nodate_tip);
-                }
+                tvEmptyText.setText(R.string.nodate_tip);
             }
                 break;
         }
