@@ -323,7 +323,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	                double volume = object.getVolume()/100;
 	                String vo = "";
 	                if (volume < 10000) {
-	                    vo = volume + "手";
+	                    vo = new DecimalFormat("0.00").format(volume) + "手";
 	                } else if(volume > 10000 && volume < 100000000){
 	                    volume = volume/10000;
 	                    vo = new DecimalFormat("0.00").format(volume) + "万手";

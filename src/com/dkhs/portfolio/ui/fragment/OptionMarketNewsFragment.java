@@ -193,6 +193,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     					mListView.setOnLoadListener(OptionMarketNewsFragment.this);
             	}
                 if (null != dataList && dataList.size() > 0) {
+                    mDataList.clear();
                     mDataList.addAll(dataList);
                     /*if (first) {
                         initView();
