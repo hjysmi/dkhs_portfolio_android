@@ -420,7 +420,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						}else{
 							t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						}
-						if(t.equals("-1.00")){
+						if(t.equals("-1.00") || t.equals("-1")){
 						    t = "—";
 						}
 						if(t.length() > 6){
@@ -442,7 +442,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						}else{
 							t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						}
-						if(t.equals("-1.00")){
+						if(t.equals("-1.00") || t.equals("-1")){
                             t = "—";
                         }
 						if(t.length() > 6){
@@ -466,7 +466,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}else{
 				t = new DecimalFormat("0.00").format(mMaxPrice);
 			}
-			if(t.equals("-1.00")){
+			if(t.equals("-1.00") || t.equals("-1")){
                 t = "—";
             }
 			if(t.length() > 6){
