@@ -422,9 +422,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 t = t.substring(0, 5);
                             }
                         }
-                        if (t.equals("-1.00") || t.equals("-1")) {
-                            t = "—";
-                        }
+                        t = UIUtils.nongNet(t);
                         Paint p = new Paint();
                         Rect rect = new Rect();
                         p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
@@ -444,9 +442,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 t = t.substring(0, 5);
                             }
                         }
-                        if (t.equals("-1.00") || t.equals("-1")) {
-                            t = "—";
-                        }
+                        t = UIUtils.nongNet(t);
                         Paint p = new Paint();
                         Rect rect = new Rect();
                         p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
@@ -468,9 +464,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     t = t.substring(0, 5);
                 }
             }
-            if (t.equals("-1.00") || t.equals("-1")) {
-                t = "—";
-            }
+            t = UIUtils.nongNet(t);
             Paint p = new Paint();
             Rect rect = new Rect();
             p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);

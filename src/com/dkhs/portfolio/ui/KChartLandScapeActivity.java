@@ -320,18 +320,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	                landKlinTextTitle.setText(object.getName());
 	                landKlinTextPrice.setText(object.getCurrent()+"");
 	                landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
-	                double volume = object.getVolume()/100;
-	                String vo = "";
-	                if (volume < 10000) {
-	                    vo = new DecimalFormat("0.00").format(volume) + "手";
-	                } else if(volume > 10000 && volume < 100000000){
-	                    volume = volume/10000;
-	                    vo = new DecimalFormat("0.00").format(volume) + "万手";
-	                }else{
-	                    volume = volume/100000000;
-	                    vo = new DecimalFormat("0.00").format(volume) + "亿手";
-	                }
-	                landKlinTextValum.setText(vo);
+	                landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
 	                landKlinTextData.setText(TimeUtils.getTimeString(object.getMoment()));
 	            }
 
