@@ -26,6 +26,7 @@
         android:text="正在加载中..."
         android:textColor="#ffffff"
         android:textSize="20sp"
+        android:visibility="gone"
         android:layout_marginTop="30dip"
         android:layout_centerHorizontal="true"/>
 

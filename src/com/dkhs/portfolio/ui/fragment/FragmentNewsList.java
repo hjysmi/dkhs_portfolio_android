@@ -16,6 +16,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +58,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private TextView tv;
     private boolean getadle = false;
     private OptionForOnelistAdapter mOptionlistAdapter;
-
+    private RelativeLayout pb;
     // private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,7 +91,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             // layouts = vo.getLayout();
             types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            //mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
             mLoadDataEngine.setFromYanbao(false);
         }
@@ -100,6 +101,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != mDataList && mDataList.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
         mDataList = new ArrayList<OptionNewsBean>();
         
         mListView = (ListView) view.findViewById(android.R.id.list);
@@ -179,7 +184,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            //mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadMore();
             mLoadDataEngine.setFromYanbao(false);
         }
@@ -190,6 +195,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
                     /*if (null != context

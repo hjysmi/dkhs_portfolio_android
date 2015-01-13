@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -88,7 +89,7 @@ public class StockQuotesChartLandFragment extends Fragment {
     LineEntity fenshiPiceLine;
 
     private SelectStockBean mSelectStockBean;
-
+    private RelativeLayout pb;
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartLandFragment newInstance(String trendType, String stockCode) {
     	StockQuotesChartLandFragment fragment = new StockQuotesChartLandFragment();
@@ -216,6 +217,8 @@ public class StockQuotesChartLandFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart_land, null);
         mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         initMaChart(mMaChart);
         initView(view);
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
@@ -483,6 +486,7 @@ public class StockQuotesChartLandFragment extends Fragment {
                     }
 
                 }
+                pb.setVisibility(View.GONE);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -765,7 +769,7 @@ public class StockQuotesChartLandFragment extends Fragment {
             if (mQuotesDataEngine == null) {
                 return;
             }
-            todayListener.setLoadingDialog(getActivity());
+            //todayListener.setLoadingDialog(getActivity());
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
