@@ -357,7 +357,7 @@ public class UIUtils {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }*/
-        if (Build.DEVICE.equals("mx4pro")) {            
+        if (Build.DEVICE.equals("mx2")||Build.DEVICE.equals("mx3")||Build.DEVICE.equals("mx4pro")) {            
             return true;         
         } 
         return false;
