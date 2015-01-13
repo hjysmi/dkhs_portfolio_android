@@ -242,7 +242,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if (!((UIUtils.getDisplayMetrics().heightPixels >= 1500 && (UIUtils.getDisplayMetrics().heightPixels < 1920)) || ((UIUtils
+        if (!(((UIUtils
                 .getDisplayMetrics().heightPixels < 1280)&&UIUtils
                 .getDisplayMetrics().heightPixels >960))) {
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);

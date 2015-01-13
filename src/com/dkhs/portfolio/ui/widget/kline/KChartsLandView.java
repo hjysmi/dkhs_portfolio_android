@@ -410,7 +410,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 for (int i = 0; i < len; i++) {
                     if (i == 0) {
                         String t;
-
                         if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
                             t = new DecimalFormat("0").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
                         } else {
@@ -423,7 +422,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 t = t.substring(0, 5);
                             }
                         }
-                        if (t.equals("-1.00")) {
+                        if (t.equals("-1.00") || t.equals("-1")) {
                             t = "—";
                         }
                         Paint p = new Paint();
@@ -445,7 +444,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 t = t.substring(0, 5);
                             }
                         }
-                        if (t.equals("-1.00")) {
+                        if (t.equals("-1.00") || t.equals("-1")) {
                             t = "—";
                         }
                         Paint p = new Paint();
@@ -469,7 +468,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     t = t.substring(0, 5);
                 }
             }
-            if (t.equals("-1.00")) {
+            if (t.equals("-1.00") || t.equals("-1")) {
                 t = "—";
             }
             Paint p = new Paint();
