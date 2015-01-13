@@ -18,6 +18,7 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     // this.mAdapter = mAdapter;
     // this.mLoadDataEngine = engine;
     // }
-
+    private RelativeLayout pb;
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -92,6 +93,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         // mListView.setEmptyView(tvEmptyText);
         // mListView.addFooterView(mFootView);
         mListView.setAdapter(getListAdapter());
@@ -194,6 +197,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
      */
     @Override
     public void loadFinish(MoreDataBean object) {
+        pb.setVisibility(View.GONE);
         if (isAdded()) {
             mListView.onLoadMoreComplete();
             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {

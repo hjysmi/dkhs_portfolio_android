@@ -127,6 +127,10 @@
             android:text="@string/data_deficient"
             android:textSize="32sp"
             android:visibility="gone" />
+        <include layout="@layout/progressbar"
+        android:id="@android:id/progress"
+	    android:visibility="gone"
+        />
     </RelativeLayout>
 
     <TextView

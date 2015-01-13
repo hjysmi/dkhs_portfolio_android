@@ -3,13 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-
-    <com.dkhs.portfolio.ui.widget.TimesharingplanChart
+	<RelativeLayout 
+	    android:layout_height="fill_parent"
+	    android:layout_width="1dp"
+	    android:layout_weight="3"
+	    android:layout_marginBottom="8dp"
+	    >
+	    <com.dkhs.portfolio.ui.widget.TimesharingplanChart
         android:id="@+id/timesharingchart"
-        android:layout_width="1dp"
-        android:layout_height="fill_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="3" />
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+	    <include layout="@layout/progressbar"
+        android:id="@android:id/progress"
+	    android:visibility="gone"
+        />
+	</RelativeLayout>
+    
 
     <RelativeLayout
         android:id="@+id/rl_fiverange"

@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
@@ -50,7 +51,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     private String symbol;
     private String type;
     private String name;
-
+    private RelativeLayout pb;
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -60,6 +61,8 @@ public class OptionListAcitivity extends ModelAcitivity {
         mDataList = new ArrayList<OptionNewsBean>();
 
         iv = (TextView) findViewById(android.R.id.empty);
+        pb = (RelativeLayout) findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
@@ -96,7 +99,7 @@ public class OptionListAcitivity extends ModelAcitivity {
                 vo.setContentType(type);
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.NEWSFOREACH, vo);
-                mLoadDataEngine.setLoadingDialog(context);
+                //mLoadDataEngine.setLoadingDialog(context);
                 mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
             }
@@ -177,7 +180,7 @@ public class OptionListAcitivity extends ModelAcitivity {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.setLoadingDialog(context);
+            //mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadMore();
         }
     }
@@ -187,6 +190,7 @@ public class OptionListAcitivity extends ModelAcitivity {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
                     if (first) {

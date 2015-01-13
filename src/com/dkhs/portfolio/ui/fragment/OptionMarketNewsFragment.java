@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     public final static String LAYOUT = "layout";
     private NewsforImpleEngine vo;
     private boolean uservivible = false;
+    private RelativeLayout pb;
     
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,6 +61,10 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     	context = getActivity();
     	mDataList = new ArrayList<OptionNewsBean>();
         iv = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != mDataList && mDataList.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
         // iv.setText("暂无公告");
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -174,6 +180,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
             	mListView.onLoadMoreComplete();
             	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
     					.getTotalpage()) {
