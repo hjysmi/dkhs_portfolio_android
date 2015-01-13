@@ -428,7 +428,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 								t = t.substring(0,5);
 							}
 						}
-						if(t.equals("-1.00")){
+						if(t.equals("-1.00") || t.equals("-1")){
                             t = "—";
                         }
 						Paint p= new Paint(); 
@@ -450,7 +450,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 								t = t.substring(0,5);
 							}
 						}
-						if(t.equals("-1.00")){
+						if(t.equals("-1.00") || t.equals("-1")){
                             t = "—";
                         }
 						Paint p= new Paint(); 
@@ -474,7 +474,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 					t = t.substring(0,5);
 				}
 			}
-			if(t.equals("-1.00")){
+			if(t.equals("-1.00") || t.equals("-1")){
                 t = "—";
             }
 			Paint p= new Paint(); 
