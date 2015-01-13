@@ -1,11 +1,4 @@
-/**
- * @Title UiUtils.java
- * @Package com.dkhs.portfolio.ui
- * @Description TODO(用一句话描述该文件做什么)
- * @author zjz
- * @date 2014-8-25 下午3:43:24
- * @version V1.0
- */
+
 package com.dkhs.portfolio.utils;
 
 import java.io.ByteArrayInputStream;
@@ -297,6 +290,7 @@ public class UIUtils {
 
     public static String getValue(double volume) {
         String text = null;
+        volume = volume / 100;
         try {
             if (volume < 10000) {
                 text = new DecimalFormat("0.00").format(volume);
@@ -313,7 +307,30 @@ public class UIUtils {
         }
         return text;
     }
-
+    /**
+     * 匹配K线图无网络时经线标题值
+     * @param value
+     * @return
+     */
+    public static String nongNet(String value){
+        if(value.equals("-1.00") || value.equals("-1")){
+            value = "—";
+        }
+        return value;
+    }
+    public static String getshou(double volume){
+        String text = null;
+        if (volume < 10000) {
+            text = new DecimalFormat("0.00").format(volume) + "手";
+        } else if(volume > 10000 && volume < 100000000){
+            volume = volume/10000;
+            text = new DecimalFormat("0.00").format(volume) + "万手";
+        }else{
+            volume = volume/100000000;
+            text = new DecimalFormat("0.00").format(volume) + "亿手";
+        }
+        return text;
+    }
     public static int getTextWidth(String text, int textSize) {
         Paint p = new Paint();
         Rect rect = new Rect();

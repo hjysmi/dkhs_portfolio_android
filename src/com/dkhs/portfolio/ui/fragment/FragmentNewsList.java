@@ -73,7 +73,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
         
-        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+        if (null != context && context instanceof StockQuotesActivity&& getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
@@ -111,7 +111,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         mListView.setEmptyView(tv);
         mListView.addFooterView(mFootView);
         // mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
-        // if(null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")){
+        // if(null != context && context instanceof StockQuotesActivity){
         mOptionlistAdapter = new OptionForOnelistAdapter(context, mDataList);
         mListView.setAdapter(mOptionlistAdapter);
         // }else{
@@ -120,7 +120,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
         mListView.removeFooterView(mFootView);
         
-        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+        if (null != context && context instanceof StockQuotesActivity&& getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         mListView.setOnScrollListener(new OnScrollListener() {
@@ -202,7 +202,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     }
                     mDataList.addAll(dataList);
                     /*if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                            && context instanceof StockQuotesActivity && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
                     }*/
                     if (first || vo.getContentType().equals("20")) {
@@ -220,7 +220,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
                     }
                     if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                            && context instanceof StockQuotesActivity && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
                 }
@@ -249,7 +249,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
             height += list_child_item_height; // 统计所有子项的总高度
         }
         if (null != context
-                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                && context instanceof StockQuotesActivity && getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
         }
     }
@@ -281,19 +281,19 @@ public class FragmentNewsList extends Fragment implements Serializable {
             mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
             mLoadDataEngine.setFromYanbao(false);
-            if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
+            if (null != context && context instanceof StockQuotesActivity) {
                 ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
             }*/
         	if(isVisibleToUser){
         		getadle = true;
     			if(null == mDataList || mDataList.size() < 2){
     				if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+                            && context instanceof StockQuotesActivity&& getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
     			}else if(null != mDataList){
     		        if (null != context
-    		                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+    		                && context instanceof StockQuotesActivity && getadle) {
     		            int height = 0;
                         for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
                             View listItem = mOptionlistAdapter.getView(i, null, mListView);

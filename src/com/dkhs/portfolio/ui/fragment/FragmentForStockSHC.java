@@ -89,7 +89,7 @@ public class FragmentForStockSHC  extends Fragment{
             initDate();
         }
         initView(view);
-        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+        if (null != context && context instanceof StockQuotesActivity&& getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         return view;
@@ -170,7 +170,7 @@ public class FragmentForStockSHC  extends Fragment{
                 height += list_child_item_height; // 统计所有子项的总高度
             }
             if (null != context
-                    && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                    && context instanceof StockQuotesActivity && getadle) {
                 ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
             }
         } catch (Exception e) {
@@ -226,7 +226,7 @@ public class FragmentForStockSHC  extends Fragment{
                 getadle = true;
                 if(null == mDataList || mDataList.size() < 2){
                     if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+                            && context instanceof StockQuotesActivity&& getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
                 }else if(null != mDataList){
@@ -238,7 +238,7 @@ public class FragmentForStockSHC  extends Fragment{
                         height += list_child_item_height; // 统计所有子项的总高度
                     }
                     if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                            && context instanceof StockQuotesActivity && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
                     }
                 }
