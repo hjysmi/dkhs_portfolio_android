@@ -191,6 +191,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
                 if (null != dataList && dataList.size() > 0) {
+                    if(!isLoadingMore){
+                        mDataList.clear();
+                    }
                     mDataList.addAll(dataList);
                     /*if (null != context
                             && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
@@ -219,33 +222,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            try {
-				if (null != dataList) {
-				    mDataList.addAll(dataList);
-				    /*if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
-				        ((StockQuotesActivity) getActivity()).setLayoutHeight(mDataList.size());
-				    }*/
-				    if (first) {
-				        //initView(view);
-				        first = false;
-				    }
-				    // layouts.getLayoutParams().height = dataList.size() * 150;
-				    // mOptionMarketAdapter.notifyDataSetChanged();
-				    if (null != mOptionlistAdapter) {
-				        mOptionlistAdapter.notifyDataSetChanged();
-				    }
-				    loadFinishUpdateView();
-
-				} else {
-				    if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
-				        ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-				    }
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
         }
 
     };
@@ -310,15 +286,15 @@ public class FragmentNewsList extends Fragment implements Serializable {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
     			}else if(null != mDataList){
-    			    int height = 0;
-    		        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-    		            View listItem = mOptionlistAdapter.getView(i, null, mListView);
-    		            listItem.measure(0, 0); // 计算子项View 的宽高
-    		            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
-    		            height += list_child_item_height; // 统计所有子项的总高度
-    		        }
     		        if (null != context
     		                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+    		            int height = 0;
+                        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+                            View listItem = mOptionlistAdapter.getView(i, null, mListView);
+                            listItem.measure(0, 0); // 计算子项View 的宽高
+                            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+                            height += list_child_item_height; // 统计所有子项的总高度
+                        }
     		            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
     		        }
     			}
