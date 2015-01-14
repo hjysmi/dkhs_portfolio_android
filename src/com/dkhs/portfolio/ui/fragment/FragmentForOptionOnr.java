@@ -195,7 +195,7 @@ public class FragmentForOptionOnr extends Fragment{
 				    
 				}else{
 					if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&&getadble) {
+                            && context instanceof StockQuotesActivity&&getadble) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
 				    iv.setText("暂无研报");
@@ -222,7 +222,7 @@ public class FragmentForOptionOnr extends Fragment{
             height += list_child_item_height; // 统计所有子项的总高度
         }
         if (null != context
-                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadble) {
+                && context instanceof StockQuotesActivity && getadble) {
             ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
         }
     }
@@ -235,7 +235,7 @@ public class FragmentForOptionOnr extends Fragment{
 			getadble = true;
 			if(null == mDataList || mDataList.size() < 2){
 				if (null != context
-                        && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadble) {
+                        && context instanceof StockQuotesActivity&& getadble) {
                     ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                 }
 			}else if(null != mDataList){
@@ -247,7 +247,7 @@ public class FragmentForOptionOnr extends Fragment{
 		            height += list_child_item_height; // 统计所有子项的总高度
 		        }
 		        if (null != context
-		                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadble) {
+		                && context instanceof StockQuotesActivity && getadble) {
 		            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 		        }
 			}
