@@ -90,6 +90,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected String mSecotrId;
     protected boolean isLoading;
     private RelativeLayout pb;
+
     /**
      * view视图类型
      */
@@ -312,6 +313,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
+            } else {
+
             }
 
         }
@@ -407,7 +410,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
-            mLoadDataEngine.refreshDatabySize(mDataList.size());
+            // mLoadDataEngine.refreshDatabySize(mDataList.size());
+            mLoadDataEngine.loadData();
         }
     }
 
@@ -455,11 +459,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
         tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
         pb = (RelativeLayout) wrapper.findViewById(android.R.id.progress);
-        if(!(null != mDataList && mDataList.size() > 0)){
+        if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
         initView(wrapper);
         return wrapper;
+    }
+
+    private void hideNotice() {
+        if (null == tvEmptyText) {
+            return;
+        }
+        tvEmptyText.setVisibility(View.GONE);
     }
 
     protected void initNotice() {
@@ -575,11 +586,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
-        if(!isVisibleToUser){
-            if(null != pb)
+        if (!isVisibleToUser) {
+            if (null != pb)
                 pb.setVisibility(View.GONE);
         }
-        if(null != mDataList && mDataList.size() > 0){
+        if (null != mDataList && mDataList.size() > 0) {
             pb.setVisibility(View.GONE);
         }
         super.setUserVisibleHint(isVisibleToUser);
