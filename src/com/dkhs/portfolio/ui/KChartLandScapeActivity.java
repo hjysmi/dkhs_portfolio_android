@@ -105,6 +105,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	    private String symbolType;
 	    public static final String TYPE = "type";
 	    private int type;
+	    private String checkValue = "0";
 	    public static Intent newIntent(Context context, SelectStockBean bean,int type) {
 	        Intent intent = new Intent(context, KChartLandScapeActivity.class);
 	        intent.putExtra(TYPE, type);
@@ -571,4 +572,13 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                     break;
             }
 		}
+
+        public String getCheckValue() {
+            return checkValue;
+        }
+
+        public void setCheckValue(String checkValue) {
+            this.checkValue = checkValue;
+        }
+		
 }

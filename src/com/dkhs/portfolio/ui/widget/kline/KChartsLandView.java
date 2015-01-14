@@ -1207,6 +1207,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setOHLCData(List<OHLCEntity> OHLCData) {
         if (OHLCData == null || OHLCData.size() <= 0) {
+            mMaxPrice = -1;
+            mMinPrice = -1;
             return;
         }
         this.mOHLCData = OHLCData;
