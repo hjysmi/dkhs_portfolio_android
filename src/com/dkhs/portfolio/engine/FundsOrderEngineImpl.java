@@ -24,6 +24,9 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName FundsOrderEngineImpl
@@ -46,15 +49,23 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
     public static final String ORDER_ALL = "-net_value";
 
     private String mOrderType = ORDER_WEEK;
+    private int pageIndex = 1;
+    private int pageSize = 99;
 
     @Override
-    public void loadMore() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
-        params.add(valuePair);
-        NameValuePair valuePair2 = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        params.add(valuePair2);
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+    public HttpHandler loadMore() {
+        // List<NameValuePair> params = new ArrayList<NameValuePair>();
+        // NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
+        // params.add(valuePair);
+        // NameValuePair valuePair2 = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
+        // params.add(valuePair2);
+        // return DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+        //
+
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("sort", mOrderType);
+        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.rankingList, params, this);
     }
 
     /**
@@ -63,11 +74,17 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void loadData() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
-        params.add(valuePair);
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+    public HttpHandler loadData() {
+        // List<NameValuePair> params = new ArrayList<NameValuePair>();
+        // NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
+        // params.add(valuePair);
+        // return DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+        //
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("sort", mOrderType);
+        params.addQueryStringParameter("page_size", pageSize + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.rankingList, params, this);
+
     }
 
     /**
@@ -103,13 +120,19 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
-        params.add(valuePair);
-        NameValuePair valuePair2 = new BasicNameValuePair("page_size", dataSize + "");
-        params.add(valuePair2);
-        DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+    public HttpHandler refreshDatabySize(int dataSize) {
+        // List<NameValuePair> params = new ArrayList<NameValuePair>();
+        // NameValuePair valuePair = new BasicNameValuePair("sort", mOrderType);
+        // params.add(valuePair);
+        // NameValuePair valuePair2 = new BasicNameValuePair("page_size", dataSize + "");
+        // params.add(valuePair2);
+        // return DKHSClient.requestByGet(DKHSUrl.Portfolio.rankingList, null, params, this);
+        //
+
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("sort", mOrderType);
+        params.addQueryStringParameter("page_size", pageSize + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.rankingList, params, this);
 
     }
 
