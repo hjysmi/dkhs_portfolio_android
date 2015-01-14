@@ -68,6 +68,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
     private FundsOrderEngineImpl orderEngine;
     private boolean isvisible = false;
+
     public static FundsOrderFragment getFragment(String orderType) {
         FundsOrderFragment fragment = new FundsOrderFragment();
         Bundle args = new Bundle();
@@ -118,8 +119,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
      */
     @Override
     public void loadData() {
-        if(isvisible){
-            getLoadEngine().loadData();
+        if (isvisible) {
+            setHttpHandler(getLoadEngine().loadData());
         }
     }
 
@@ -127,11 +128,16 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
+
         if (null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
             // add by zcm -----2014.12.15
             // mDataList = object.getResults();
+            if (isRefresh) {
+                mDataList.clear();
+                isRefresh = false;
+            }
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
@@ -157,13 +163,22 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
+    private boolean isRefresh;
 
-    };
+    Handler dataHandler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            loadData();
+            // loadData();
+            // if (isvisible) {
+
+            if (mDataList.isEmpty()) {
+                loadData();
+            } else {
+                setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
+                isRefresh = true;
+            }
+            // }
             dataHandler.postDelayed(this, 60 * 1000);
         }
     };
@@ -193,10 +208,10 @@ public class FundsOrderFragment extends LoadMoreListFragment {
                 mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
             }
             isvisible = true;
-            loadData();
-            dataHandler.postDelayed(runnable, 60 * 1000);
-            
-        }else{
+            // loadData();
+            dataHandler.postDelayed(runnable, 60);
+
+        } else {
             isvisible = false;
             dataHandler.removeCallbacks(runnable);
         }
@@ -206,10 +221,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
-            System.out.println("getLoadEngine new FundsOrderEngineImpl");
             orderEngine = new FundsOrderEngineImpl(this, mOrderType);
         }
-        System.out.println("getLoadEngine not new ");
         return orderEngine;
     }
 
