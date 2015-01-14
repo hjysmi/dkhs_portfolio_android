@@ -539,7 +539,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
                 viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
                 viewPager.setOnPageChangeListener(scrollPageChangeListener);
-                viewPager.setOffscreenPageLimit(2);
+                viewPager.setOffscreenPageLimit(6);
 
                 viewPager.setCurrentItem(1);
                 // viewPager.setCurrentItem(0);
