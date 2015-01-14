@@ -102,6 +102,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
             view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
         }
+        if(TextUtils.isEmpty(symbolType)){
+            symbolType = getArguments().getString(SYMBOLETYPE);
+            if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
+                view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
+            }
+        }
         if (!(null != ohlcs && ohlcs.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
