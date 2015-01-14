@@ -35,6 +35,12 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         return mScrollTopFragment;
     }
 
+    public void updataValue(float value) {
+        if (null != tvIncreaseValue) {
+            tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(value));
+        }
+    }
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -93,10 +99,12 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         return view;
     }
 
+    private TextView tvIncreaseValue;
+
     private void initView(View view) {
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_top);
         TextView tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
-        TextView tvIncreaseValue = (TextView) view.findViewById(R.id.tv_top_value);
+        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_top_value);
 
         if (!TextUtils.isEmpty(mType)) {
             if (mType.equalsIgnoreCase(TYPE_DAY)) {
@@ -132,7 +140,7 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         // Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
         int index = 0;
-        if(null != mType){
+        if (null != mType) {
             if (mType.equalsIgnoreCase(TYPE_WEEK)) {
                 index = 1;
             } else if (mType.equalsIgnoreCase(TYPE_All)) {
