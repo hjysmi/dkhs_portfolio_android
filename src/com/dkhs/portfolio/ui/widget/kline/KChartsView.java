@@ -396,8 +396,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			
 			//textPaint.setColor(Color.DKGRAY);
 			canvas.drawText("成交量:", left + 1, top + textTextHeight * 7+ textMargin * 8, textPaint);
-				double volume = mOHLCData.get(selectIndext).getVolume()/100;
-				canvas.drawText(UIUtils.getValue(volume), left + 1
+				canvas.drawText(UIUtils.getValue(mOHLCData.get(selectIndext).getVolume()), left + 1
 						+ DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight * 7+ textMargin * 8,
 						textPaint);
 		}

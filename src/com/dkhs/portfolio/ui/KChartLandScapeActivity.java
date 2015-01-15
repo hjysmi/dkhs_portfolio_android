@@ -105,6 +105,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	    private String symbolType;
 	    public static final String TYPE = "type";
 	    private int type;
+	    private String checkValue = "0";
 	    public static Intent newIntent(Context context, SelectStockBean bean,int type) {
 	        Intent intent = new Intent(context, KChartLandScapeActivity.class);
 	        intent.putExtra(TYPE, type);
@@ -177,7 +178,8 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	        landKlinTextPrice = (TextView) findViewById(R.id.land_klin_text_price);
 	        landKlinTextValum = (TextView) findViewById(R.id.land_klin_text_valum);
 	        landKlinTextData = (TextView) findViewById(R.id.land_klin_text_data);
-	        hsTitle.setSelectIndex(type);
+	        if(type != 0)
+	            hsTitle.setSelectIndex(type);
 	        if(null != mStockBean){
 	            landKlinTextTitle.setText(mStockBean.name);
 	        }
@@ -571,4 +573,13 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                     break;
             }
 		}
+
+        public String getCheckValue() {
+            return checkValue;
+        }
+
+        public void setCheckValue(String checkValue) {
+            this.checkValue = checkValue;
+        }
+		
 }
