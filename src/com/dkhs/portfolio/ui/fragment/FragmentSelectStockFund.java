@@ -314,7 +314,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             } else {
-
+                hideNotice();
             }
 
         }
@@ -324,6 +324,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
+            } else {
+                hideNotice();
             }
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
@@ -477,6 +479,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (null == tvEmptyText) {
             return;
         }
+        tvEmptyText.setVisibility(View.VISIBLE);
         switch (mViewType) {
             case STOCK_OPTIONAL:
 

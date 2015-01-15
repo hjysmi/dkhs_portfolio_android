@@ -495,4 +495,11 @@ public class TrendHistoryChartFragment extends BaseFragment {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
     }
+
+    @Override
+    public void onDestroyView() {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
 }

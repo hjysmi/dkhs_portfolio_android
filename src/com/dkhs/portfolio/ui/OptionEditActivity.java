@@ -119,6 +119,10 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.btn_right:
+                if (null == optionEditList || optionEditList.getList().isEmpty()) {
+                    finish();
+                    return;
+                }
                 try {
                     List<SelectStockBean> list = optionEditList.getList();
                     // JSONArray jsonArray = JSONArray.fromObject(list);
