@@ -32,12 +32,32 @@
             android:layout_height="wrap_content" />
 
         <View style="@style/divider_line" />
-
-        <com.dkhs.portfolio.ui.widget.ScrollViewPager
-            android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="310dp" />
-
+		<RelativeLayout 
+		    android:layout_height="315dp"
+		    android:layout_width="match_parent"
+		    >
+	        <com.dkhs.portfolio.ui.widget.ScrollViewPager
+	            android:id="@+id/pager"
+	            android:paddingTop="5dp"
+	            android:layout_width="fill_parent"
+	            android:layout_height="315dp" />
+	        <Button 
+	            android:layout_height="15dp"
+	            android:layout_width="wrap_content"
+	            android:text="不复权  ▼"
+	            android:background="@drawable/button_check_red"
+	            android:id="@+id/klin_virtul_check"
+	            android:paddingLeft="8dp"
+	            android:paddingRight="8dp"
+	            android:paddingBottom="2dp"
+	            android:visibility="gone"
+	            android:layout_marginRight="10dp"
+	            android:gravity="center_vertical"
+	            android:textSize="10sp"
+	            android:textColor="@color/white"
+	            android:layout_alignParentRight="true"
+	            />
+		</RelativeLayout>
         <!-- 底部资讯 -->
         <LinearLayout
             android:id="@+id/stock_layout"
