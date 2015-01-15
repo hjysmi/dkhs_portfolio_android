@@ -74,6 +74,8 @@ public class MainFragment extends Fragment implements OnClickListener {
     // private MarqueeText tvBottomText;
     private TextView tvBottomText;
     //
+
+    // private View slideLayout;
     private ViewPager viewPager;
     private LinearLayout dotLayout;
     // private List<ImageView> imageViews;
@@ -124,6 +126,29 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onCreate(savedInstanceState);
         dataEngine = new MainpageEngineImpl();
 
+        // float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
+        cumulativeFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
+        dayFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
+        weekFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, 0);
+        monthFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, 0);
+        cumulativeFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
+        dayFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
+        fList.add(cumulativeFragmentTemp);
+        fList.add(dayFragment);
+        fList.add(weekFragment);
+        fList.add(monthFragment);
+        fList.add(cumulativeFragment);
+        fList.add(dayFragmentTemp);
+        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
+        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
+        // .getIncreasePercent()));
+        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
+        // .getIncreasePercent()));
+        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
+        // .getIncreasePercent()));
+        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
+        // .getIncreasePercent()));
+
     }
 
     @Override
@@ -138,7 +163,6 @@ public class MainFragment extends Fragment implements OnClickListener {
     private void initView(View view) {
 
         view.findViewById(R.id.btn_back).setOnClickListener(this);
-
         ImageButton btnRight = (ImageButton) view.findViewById(R.id.btn_right);
         btnRight.setImageResource(R.drawable.btn_add_select);
         btnRight.setOnClickListener(this);
@@ -166,9 +190,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         //
         viewPager = (ViewPager) view.findViewById(R.id.vp_billboard);
         setViewPageScroll();
+        viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
+        viewPager.setOnPageChangeListener(scrollPageChangeListener);
+        viewPager.setOffscreenPageLimit(6);
 
+        viewPager.setCurrentItem(1);
         dataEngine.getChampionList(championDataListener);
-
+        viewPager.setVisibility(View.GONE);
+        dotLayout.setVisibility(View.GONE);
         // view.findViewById(R.id.order_layout).setOnClickListener(new OnClickListener() {
         //
         // @Override
@@ -230,10 +259,12 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         }
     }
+
     public boolean hasHardwareMenuKey() {
-            ViewConfiguration vc = ViewConfiguration.get(getActivity());
+        ViewConfiguration vc = ViewConfiguration.get(getActivity());
         return vc.hasPermanentMenuKey();
     }
+
     private View viewFirst;
     private View viewTwo;
     View viewAdd = null;
@@ -242,14 +273,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if (!(((UIUtils
-                .getDisplayMetrics().heightPixels < 1280)&&UIUtils
-                .getDisplayMetrics().heightPixels >960))) {
+        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960))) {
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         }
-        /*if(hasHardwareMenuKey()){
-            comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
-        }*/
+        /*
+         * if(hasHardwareMenuKey()){
+         * comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
+         * }
+         */
         comtentView.findViewById(R.id.divier_line).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.dline_top).setVisibility(View.VISIBLE);
         comtentView.findViewById(R.id.title_main_combination).setOnClickListener(this);
@@ -510,6 +541,12 @@ public class MainFragment extends Fragment implements OnClickListener {
     };
 
     List<Fragment> fList = new ArrayList<Fragment>();
+    private ScrollTopFragment cumulativeFragmentTemp;
+    private ScrollTopFragment dayFragment;
+    private ScrollTopFragment weekFragment;
+    private ScrollTopFragment monthFragment;
+    private ScrollTopFragment cumulativeFragment;
+    private ScrollTopFragment dayFragmentTemp;
     ParseHttpListener championDataListener = new ParseHttpListener<ChampionCollectionBean>() {
 
         @Override
@@ -522,27 +559,14 @@ public class MainFragment extends Fragment implements OnClickListener {
         protected void afterParseData(ChampionCollectionBean object) {
             // = new ArrayList<Fragment>();
             if (null != object) {
-                fList.clear();
-
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
-                        .getIncreasePercent()));
-                float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
-                        .getIncreasePercent()));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
-                        .getIncreasePercent()));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
-                        .getIncreasePercent()));
-                fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
-                        .getIncreasePercent()));
-
-                viewPager.setAdapter(new ScrollFragmentAdapter(getChildFragmentManager(), fList));
-                viewPager.setOnPageChangeListener(scrollPageChangeListener);
-                viewPager.setOffscreenPageLimit(6);
-
-                viewPager.setCurrentItem(1);
-                // viewPager.setCurrentItem(0);
+                viewPager.setVisibility(View.VISIBLE);
+                dotLayout.setVisibility(View.VISIBLE);
+                cumulativeFragment.updataValue(object.getCumulative().getIncreasePercent());
+                cumulativeFragmentTemp.updataValue(object.getCumulative().getIncreasePercent());
+                dayFragment.updataValue(object.getDay().getIncreasePercent());
+                dayFragmentTemp.updataValue(object.getDay().getIncreasePercent());
+                weekFragment.updataValue(object.getWeek().getIncreasePercent());
+                monthFragment.updataValue(object.getMonth().getIncreasePercent());
             }
         }
     };
@@ -736,6 +760,7 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         @Override
         public void run() {
+            dataEngine.getChampionList(championDataListener);
             mHandler.sendEmptyMessage(MSG_CHANGE_PAGER);
         }
     }

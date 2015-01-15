@@ -989,5 +989,12 @@ public class TrendChartFragment extends BaseFragment {
             }
         }
     }
+    
+    @Override
+    public void onDestroyView() {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
 
 }
