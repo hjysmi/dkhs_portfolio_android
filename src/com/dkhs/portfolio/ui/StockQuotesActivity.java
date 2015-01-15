@@ -133,6 +133,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private View viewHeader;
     private String symbolType;
     private List<Fragment> frag;
+    private Button klinVirtulCheck;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -346,6 +347,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvLow = (TextView) viewHeader.findViewById(R.id.tv_lowest_value);
             tvOpen = (TextView) viewHeader.findViewById(R.id.tv_today_open_value);
             tvChange = (TextView) viewHeader.findViewById(R.id.tv_up_price);
+            
 
             tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
             tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
@@ -362,6 +364,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         }
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
+        klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
+        klinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -475,6 +479,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void onSelectPosition(int position) {
             if (null != pager) {
                 pager.setCurrentItem(position);
+                if(position == 0){
+                    klinVirtulCheck.setVisibility(View.GONE);
+                }else{
+                    klinVirtulCheck.setVisibility(View.VISIBLE);
+                }
             }
         }
     };
@@ -833,6 +842,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 setupViewData();
                 quoteHandler.postDelayed(runnable, 6 * 1000);
             }
+                break;
+            case R.id.klin_virtul_check:
+                Intent intent = new Intent(this,ChangeCheckType.class);
+                startActivityForResult(intent, 0);
                 break;
             default:
                 break;
