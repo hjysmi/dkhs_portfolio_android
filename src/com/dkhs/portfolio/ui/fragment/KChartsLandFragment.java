@@ -22,9 +22,11 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
@@ -115,6 +117,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         if (!(null != ohlcs && ohlcs.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
+        ohlcs = new ArrayList<OHLCEntity>();
         initChartView();
         initVloumnChartView();
         mMyChartsView.setStick(mVolumnChartView);
@@ -285,7 +288,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             OHLCEntity entity = null;
             for (int i = ohlc.size() - 1; i >= 0; i--) {
                 entity = ohlc.get(i);
-                temp = new StickEntity(entity.getVolume(), 0, entity.getDate());
+                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
             }
@@ -393,9 +396,13 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
         try {
             JSONArray ja = new JSONArray(jsonObject);
+            List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+            for(int i = entity.size() - 1; i >= 0; i--){
+                entitys.add(entity.get(i));
+            }
             int len = ja.length();
-
-            if (len > 0) {
+            
+            /*if (len > 0) {
                 JSONObject jo = null;
                 OHLCEntity ohlc = null;
                 for (int i = len - 1; i >= 0; i--) {
@@ -418,10 +425,16 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                             ohlc.setChange(jo.getDouble("change"));
                         if (jo.has("percentage"))
                             ohlc.setPercentage(jo.getDouble("percentage"));
+                        if (jo.has("macd"))
+                            ohlc.setMacd(jo.getDouble("macd"));
+                        if (jo.has("diff"))
+                            ohlc.setDiff(jo.getDouble("diff"));
+                        if (jo.has("dea"))
+                            ohlc.setDea(jo.getDouble("dea"));
                         entitys.add(ohlc);
                     }
                 }
-            }
+            }*/
             if (len > 50 && having) {
                 mSmallerButton.setClickable(true);
                 mSmallerButton.setSelected(false);
@@ -441,7 +454,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
      */
     private List<OHLCEntity> getTestDatas() {
         List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
-        ohlc.add(new OHLCEntity(100, 246, 248, 235, 235, "20110825"));
+        /*ohlc.add(new OHLCEntity(100, 246, 248, 235, 235, "20110825"));
         ohlc.add(new OHLCEntity(2312, 240, 242, 236, 242, "20110824"));
         ohlc.add(new OHLCEntity(111, 236, 240, 235, 240, "20110823"));
         ohlc.add(new OHLCEntity(111, 232, 236, 231, 236, "20110822"));
@@ -542,7 +555,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         ohlc.add(new OHLCEntity(111, 276, 280, 276, 280, "20110407"));
         ohlc.add(new OHLCEntity(111, 273, 276, 272, 276, "20110406"));
         ohlc.add(new OHLCEntity(151, 275, 276, 271, 272, "20110404"));
-        ohlc.add(new OHLCEntity(114, 275, 276, 273, 275, "20110401"));
+        ohlc.add(new OHLCEntity(114, 275, 276, 273, 275, "20110401"));*/
         return ohlc;
     }
 

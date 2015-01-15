@@ -407,6 +407,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		Paint textPaint = new Paint();
 		textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
 		textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+		if(null == symbolType){
+		    return;
+		}
 		if(isDisplayAxisYTitle()) {
 			// Y轴Titles
 			int len = getUpperLatitudeNum() +1;
