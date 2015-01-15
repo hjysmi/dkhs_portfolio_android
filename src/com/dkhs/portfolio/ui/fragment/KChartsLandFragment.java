@@ -67,6 +67,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     private TextView tvUnCheck;
     private TextView tvBeforeCheck;
     private TextView tvAfterCheck;
+    private TextView tvTurnover;
+    private TextView tvMacd;
 
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
         KChartsLandFragment fg = new KChartsLandFragment();

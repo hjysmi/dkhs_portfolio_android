@@ -45,19 +45,21 @@
 
                         <TextView
                             style="@style/edit_style_land_kilne"
-                            android:text="VOL" />
+                            android:id="@+id/kline_turnover"
+                            android:text="成交量" />
 
                         <TextView
                             style="@style/edit_style_land_kilne"
+                            android:id="@+id/klin_macd"
                             android:text="MACD" />
 
-                        <TextView
+                        <!-- <TextView
                             style="@style/edit_style_land_kilne"
                             android:text="KDJ" />
 
                         <TextView
                             style="@style/edit_style_land_kilne"
-                            android:text="RSI" />
+                            android:text="RSI" /> -->
                     </LinearLayout>
                 </ScrollView>
             </LinearLayout>
