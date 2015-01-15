@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
@@ -105,7 +106,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 	    private String symbolType;
 	    public static final String TYPE = "type";
 	    private int type;
-	    private String checkValue = "0";
+	    private String checkValue = PortfolioApplication.getInstance().getCheckValue();
 	    public static Intent newIntent(Context context, SelectStockBean bean,int type) {
 	        Intent intent = new Intent(context, KChartLandScapeActivity.class);
 	        intent.putExtra(TYPE, type);
@@ -566,6 +567,9 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 			// TODO Auto-generated method stub
 			switch (v.getId()) {
                 case R.id.lank_klind_exit:
+                    Intent intent = new Intent();
+                    intent.putExtra(ChangeCheckType.CHECK_TYPE, checkValue);
+                    setResult(RESULT_OK, intent);
                     finish();
                     break;
 
