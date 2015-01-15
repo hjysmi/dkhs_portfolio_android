@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     private TextView tv;
     private String subType;
     private boolean uservivible = false;
+    private RelativeLayout pb;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -58,6 +60,10 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
         tv = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != mDataList && mDataList.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
         initView(view);
         Bundle bundle = getArguments();
         NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
@@ -68,6 +74,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
             user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if(null == user){
                 tv.setText("暂无添加自选股");
+                pb.setVisibility(View.GONE);
             }
         }catch(Exception e){
             
@@ -167,6 +174,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
             	mListView.onLoadMoreComplete();
+            	pb.setVisibility(View.GONE);
             	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
     					.getTotalpage()) {
             		mListView.setCanLoadMore(false);

@@ -9,7 +9,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:visibility="gone"
 				android:layout_marginLeft="10dp"
 				android:layout_marginRight="10dp"
 				android:layout_marginTop="10dp"
@@ -19,14 +18,17 @@
 
                 <TextView
                     style="@style/edit_style_land_kilne"
+                    android:id="@+id/klin_uncheck"
                     android:text="不复权" />
 
                 <TextView
                     style="@style/edit_style_land_kilne"
+                    android:id="@+id/klin_before_check"
                     android:text="前复权" />
 
                 <TextView
                     style="@style/edit_style_land_kilne"
+                    android:id="@+id/klin_after_check"
                     android:text="后复权" />
 
                 <include layout="@layout/layout_line" />
@@ -113,5 +115,8 @@
                 android:src="@drawable/btn_zoom_out_select" />
         </LinearLayout>
     </RelativeLayout>
-
+	<include layout="@layout/progressbar"
+        android:id="@android:id/progress"
+	    android:visibility="gone"
+        />
 </RelativeLayout>

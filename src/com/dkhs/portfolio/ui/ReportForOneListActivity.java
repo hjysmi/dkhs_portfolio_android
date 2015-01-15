@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     private String symbol;
     private String name;
     private String subType;
+    private RelativeLayout pb;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -51,6 +53,8 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         mDataList = new ArrayList<OptionNewsBean>();
 
         iv = (TextView) findViewById(android.R.id.empty);
+        pb = (RelativeLayout) findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
@@ -164,7 +168,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.setLoadingDialog(context);
+            //mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadMore();
         }
     }
@@ -174,6 +178,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
             	mListView.onLoadMoreComplete();
             	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
     					.getTotalpage()) {

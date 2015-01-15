@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -47,6 +48,7 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     private TextView tv;
+    private RelativeLayout pb;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,10 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
         view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
         tv = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != mDataList && mDataList.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
 
         Log.e("context", context.getClass().getName() + "");
         if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")) {
@@ -164,6 +170,7 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
                 mListView.onLoadMoreComplete();
                 if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                     mListView.setCanLoadMore(false);
