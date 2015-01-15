@@ -1,54 +1,25 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.BitmapUtils;
-import com.umeng.analytics.MobclickAgent;
-
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.MediaStore.Audio.Media;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.umeng.analytics.MobclickAgent;
 
 public class ChangeCheckType extends Activity implements OnClickListener {
 	private Context context;
+	public static String CHECK_TYPE = "checktype";
+	private String checkValue;
+	private TextView tvUnCheck;
+	private TextView tvBeforeCheck;
+	private TextView tvAfterCheck;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,33 +27,67 @@ public class ChangeCheckType extends Activity implements OnClickListener {
 		getWindow().setLayout(LayoutParams.MATCH_PARENT,
 				LayoutParams.MATCH_PARENT);
 		context = this;
+		checkValue = getIntent().getExtras().getString(CHECK_TYPE);
 		initView();
 		setListener();
 	}
 
 	private void initView() {
-
+	    tvUnCheck = (TextView) findViewById(R.id.dialog_button_uncheck);
+	    tvBeforeCheck = (TextView) findViewById(R.id.dialog_button_before_checn);
+	    tvAfterCheck = (TextView) findViewById(R.id.dialog_button_after_check);
+	    setSelect();
 	}
-
+	private void setSelect(){
+	    if(checkValue.equals("0")){
+            tvUnCheck.setSelected(true);
+            tvBeforeCheck.setSelected(false);
+            tvAfterCheck.setSelected(false);
+        }else if(checkValue.equals("1")){
+            tvUnCheck.setSelected(false);
+            tvBeforeCheck.setSelected(true);
+            tvAfterCheck.setSelected(false);
+        }else{
+            tvUnCheck.setSelected(false);
+            tvBeforeCheck.setSelected(false);
+            tvAfterCheck.setSelected(true);
+        }
+	}
 	private void setListener() {
-		findViewById(R.id.dialog_button_uncheck).setOnClickListener(this);
-		findViewById(R.id.dialog_button_before_checn).setOnClickListener(this);
-		findViewById(R.id.dialog_button_after_check).setOnClickListener(this);
+	    tvUnCheck.setOnClickListener(this);
+	    tvBeforeCheck.setOnClickListener(this);
+	    tvAfterCheck.setOnClickListener(this);
 		findViewById(R.id.dialog_button_cancle).setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
+	    Intent intent;
 		switch (v.getId()) {
 		case R.id.dialog_button_uncheck:
-			
+		    if(!tvUnCheck.isSelected()){
+    			intent = new Intent();
+    			intent.putExtra(CHECK_TYPE, "0");
+    			setResult(RESULT_OK, intent);
+    			finish();
+		    }
 			break;
 		case R.id.dialog_button_before_checn:
-
+		    if(!tvBeforeCheck.isSelected()){
+    		    intent = new Intent();
+                intent.putExtra(CHECK_TYPE, "1");
+                setResult(RESULT_OK, intent);
+                finish();
+	        }
 			break;
 		case R.id.dialog_button_after_check:
-
+		    if(!tvAfterCheck.isSelected()){
+    		    intent = new Intent();
+                intent.putExtra(CHECK_TYPE, "2");
+                setResult(RESULT_OK, intent);
+                finish();
+		    }
             break;
 		case R.id.dialog_button_cancle:
 			finish();

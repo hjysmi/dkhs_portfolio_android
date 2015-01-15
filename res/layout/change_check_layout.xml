@@ -17,47 +17,47 @@
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-            <Button
+            <TextView
                 android:id="@+id/dialog_button_uncheck"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/dialog_black_selector"
+                android:background="@drawable/check_select"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="不复权"
-                android:textColor="@android:color/black"
+                android:textColor="@drawable/kline_text_color_selector"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <Button
+            <TextView
                 android:id="@+id/dialog_button_before_checn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/dialog_black_selector"
+                android:background="@drawable/check_select"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="前复权"
-                android:textColor="@android:color/black"
+                android:textColor="@drawable/kline_text_color_selector"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-			<Button
+			<TextView
                 android:id="@+id/dialog_button_after_check"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/dialog_black_selector"
+                android:background="@drawable/check_select"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="后复权"
-                android:textColor="@android:color/black"
+                android:textColor="@drawable/kline_text_color_selector"
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <Button

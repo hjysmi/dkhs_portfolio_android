@@ -1163,6 +1163,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
 	public void setOHLCData(List<OHLCEntity> OHLCData) {
 		if (OHLCData == null || OHLCData.size() <= 0) {
+		    mMaxPrice = -1;
+            mMinPrice = -1;
 			return;
 		}
 		this.mOHLCData = OHLCData;

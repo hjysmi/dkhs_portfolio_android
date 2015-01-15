@@ -729,7 +729,9 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     pb.setVisibility(View.VISIBLE);
                     ((KChartLandScapeActivity) getActivity()).setCheckValue(UNCHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    PortfolioApplication.getInstance().setChange(true);
+                    PortfolioApplication.getInstance().setCheckValue(UNCHEK);
                 }
                 break;
             case R.id.klin_before_check:
@@ -745,7 +747,9 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     pb.setVisibility(View.VISIBLE);
                     ((KChartLandScapeActivity) getActivity()).setCheckValue(BEFORECHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    PortfolioApplication.getInstance().setChange(true);
+                    PortfolioApplication.getInstance().setCheckValue(BEFORECHEK);
                 }
                 break;
             case R.id.klin_after_check:
@@ -761,7 +765,9 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     pb.setVisibility(View.VISIBLE);
                     ((KChartLandScapeActivity) getActivity()).setCheckValue(AFTERCHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    PortfolioApplication.getInstance().setChange(true);
+                    PortfolioApplication.getInstance().setCheckValue(AFTERCHEK);
                 }
                 break;
             case R.id.kline_turnover:

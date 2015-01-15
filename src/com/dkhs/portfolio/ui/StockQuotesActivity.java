@@ -38,6 +38,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import cn.sharesdk.framework.authorize.g;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -96,6 +97,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     protected static final int MSG_WHAT_AFTER_REQUEST = 97;
     private final int REQUESTCODE_SELECT_STOCK = 901;
+    private final int REQUEST_CHECK = 888;
 
     private TextView tvCurrent;
     private TextView tvHigh;
@@ -134,10 +136,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private String symbolType;
     private List<Fragment> frag;
     private Button klinVirtulCheck;
-
+    private String checkValue = "0";
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
-
+        PortfolioApplication.getInstance().setCheckValue("0");
         intent.putExtra(EXTRA_STOCK, bean);
 
         return intent;
@@ -759,10 +761,28 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         setAddOptionalButton();
                     }
                     break;
+                case REQUEST_CHECK:
+                    checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
+                    reGetDate();
+                    break;
             }
         }
     }
-
+    private void reGetDate(){
+        if(checkValue.equals("0")){
+            klinVirtulCheck.setText("不复权");
+            PortfolioApplication.getInstance().setCheckValue("0");
+        }else if(checkValue.equals("1")){
+            klinVirtulCheck.setText("前复权");
+            PortfolioApplication.getInstance().setCheckValue("1");
+        }else{
+            klinVirtulCheck.setText("后复权");
+            PortfolioApplication.getInstance().setCheckValue("2");
+        }
+        if(fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment){
+            ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
+        }
+    }
     private void updateStockInfo() {
         setTitle(mStockBean.name + "(" + mStockBean.code + ")");
         // setTitleTipString(mStockBean.code);
@@ -845,14 +865,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 break;
             case R.id.klin_virtul_check:
                 Intent intent = new Intent(this,ChangeCheckType.class);
-                startActivityForResult(intent, 0);
+                Bundle b = new Bundle();
+                b.putString(ChangeCheckType.CHECK_TYPE, checkValue);
+                intent.putExtras(b);
+                startActivityForResult(intent, REQUEST_CHECK);
                 break;
             default:
                 break;
         }
 
     }
-
     private void rotateRefreshButton() {
         // RotateAnimation ani = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f,
         // Animation.RELATIVE_TO_SELF,
@@ -976,5 +998,19 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        if(PortfolioApplication.getInstance().isChange()){
+            PortfolioApplication.getInstance().setChange(false);
+            checkValue = PortfolioApplication.getInstance().getCheckValue();
+            reGetDate();
+        }
     }
+
+    public String getCheckValue() {
+        return checkValue;
+    }
+
+    public void setCheckValue(String checkValue) {
+        this.checkValue = checkValue;
+    }
+    
 }
