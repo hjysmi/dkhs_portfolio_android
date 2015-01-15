@@ -392,8 +392,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
             // textPaint.setColor(Color.DKGRAY);
             canvas.drawText("成交量:", left + 1, top + textTextHeight * 7 + textMargin * 8, textPaint);
-            double volume = mOHLCData.get(selectIndext).getVolume() / 100;
-            canvas.drawText(UIUtils.getValue(volume), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight
+            canvas.drawText(UIUtils.getValue(mOHLCData.get(selectIndext).getVolume()), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight
                     * 7 + textMargin * 8, textPaint);
         }
 
@@ -555,14 +554,14 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
                     mVolumnChartView.setCurrentIndex(selectIndext);
                     mVolumnChartView.setmShowDate(mShowDataNum);
-                    if (selectIndext - mDataStartIndext > lineEntity.getLineData().size() - 1
-                            || selectIndext - mDataStartIndext < 0) {
+                    if (selectIndext  > lineEntity.getLineData().size() - 1
+                            || selectIndext < 0) {
                         text = lineEntity.getTitle() + ":0.00";
                     } else
                         text = lineEntity.getTitle()
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
-                                        selectIndext - mDataStartIndext));
+                                        selectIndext ));
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -642,14 +641,14 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             / (mCandleWidth + 3) + mDataStartIndext);
 
                     mVolumnChartView.setCurrentIndex(selectIndext);
-                    if (selectIndext - mDataStartIndext > lineEntity.getLineData().size() - 1
-                            || selectIndext - mDataStartIndext < 0) {
+                    if (selectIndext > lineEntity.getLineData().size() - 1
+                            || selectIndext  < 0) {
                         text = lineEntity.getTitle() + ":0.00";
                     } else
                         text = lineEntity.getTitle()
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
-                                        selectIndext - mDataStartIndext));
+                                        selectIndext));
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -1207,6 +1206,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setOHLCData(List<OHLCEntity> OHLCData) {
         if (OHLCData == null || OHLCData.size() <= 0) {
+            mMaxPrice = -1;
+            mMinPrice = -1;
             return;
         }
         this.mOHLCData = OHLCData;
