@@ -1,11 +1,4 @@
-/**
- * @Title UiUtils.java
- * @Package com.dkhs.portfolio.ui
- * @Description TODO(用一句话描述该文件做什么)
- * @author zjz
- * @date 2014-8-25 下午3:43:24
- * @version V1.0
- */
+
 package com.dkhs.portfolio.utils;
 
 import java.io.ByteArrayInputStream;

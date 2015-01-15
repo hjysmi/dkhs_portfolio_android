@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
@@ -62,6 +63,7 @@ public class KChartsFragment extends Fragment {
 	List<OHLCEntity> ohlcs;
 	private boolean having = true;
 	private String symbolType;
+	private RelativeLayout pb;
     public static KChartsFragment getKChartFragment(Integer type, String stockcode,String symbolType) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
@@ -84,7 +86,10 @@ public class KChartsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kcharts, null);
         mMyChartsView = (KChartsView) view.findViewById(R.id.my_charts_view);
         mVolumnChartView = (StickChart) view.findViewById(R.id.chart_volumn);
-
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != ohlcs && ohlcs.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
         initChartView();
         initVloumnChartView();
         mMyChartsView.setStick(mVolumnChartView);
@@ -283,7 +288,7 @@ public class KChartsFragment extends Fragment {
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener);
             if(first){
-            	PromptManager.showProgressDialog(getActivity(), "", true);
+            	//PromptManager.showProgressDialog(getActivity(), "", true);
             	first = false;
             }
         } catch (Exception e) {
@@ -317,6 +322,7 @@ public class KChartsFragment extends Fragment {
         @Override
         public void onSuccess(String result) {
             try {
+                pb.setVisibility(View.GONE);
                 List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
                  ohlcs = new ArrayList<OHLCEntity>();
                 for(int i = ohlc.size() -1; i >= 0; i--){
@@ -327,12 +333,13 @@ public class KChartsFragment extends Fragment {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            PromptManager.closeProgressDialog();
+            //PromptManager.closeProgressDialog();
         }
 
         public void onFailure(int errCode, String errMsg) {
             // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-        	PromptManager.closeProgressDialog();
+        	//PromptManager.closeProgressDialog();
+            pb.setVisibility(View.GONE);
         };
     };
 
@@ -632,12 +639,13 @@ public class KChartsFragment extends Fragment {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            PromptManager.closeProgressDialog();
+            //PromptManager.closeProgressDialog();
         }
 
         public void onFailure(int errCode, String errMsg) {
             // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-        	PromptManager.closeProgressDialog();
+        	//PromptManager.closeProgressDialog();
+            pb.setVisibility(View.GONE);
         };
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);

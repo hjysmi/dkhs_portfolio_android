@@ -12,6 +12,8 @@ import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -49,6 +51,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
     private TextView iv;
+    private RelativeLayout pb;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -59,6 +62,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
         mDataList = new ArrayList<OptionNewsBean>();
         setTitle(R.string.function_notice);
         iv = (TextView) findViewById(android.R.id.empty);
+        pb = (RelativeLayout) findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         initView();
         // iv.setText("暂无公告");
         initDate();
@@ -82,6 +87,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
                 mLoadDataEngine.setFromYanbao(false);
             }else{
                 iv.setText("暂无添加自选股");
+                pb.setVisibility(View.GONE);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -175,6 +181,7 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
             	mListView.onLoadMoreComplete();
             	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
     					.getTotalpage()) {
