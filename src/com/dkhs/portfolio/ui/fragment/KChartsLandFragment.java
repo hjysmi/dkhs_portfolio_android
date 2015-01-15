@@ -100,6 +100,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         tvUnCheck = (TextView) view.findViewById(R.id.klin_uncheck);
         tvBeforeCheck = (TextView) view.findViewById(R.id.klin_before_check);
         tvAfterCheck = (TextView) view.findViewById(R.id.klin_after_check);
+        tvTurnover = (TextView) view.findViewById(R.id.kline_turnover);
+        tvMacd = (TextView) view.findViewById(R.id.klin_macd);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
             view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
@@ -119,9 +121,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
         // mLargerButton.setVisibility(View.INVISIBLE);
         tvUnCheck.setSelected(true);
+        tvTurnover.setSelected(true);
         tvUnCheck.setOnClickListener(this);
         tvBeforeCheck.setOnClickListener(this);
         tvAfterCheck.setOnClickListener(this);
+        tvTurnover.setOnClickListener(this);
+        tvMacd.setOnClickListener(this);
         mLargerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -758,6 +763,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     String mtype = getKLineType();
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,((KChartLandScapeActivity) getActivity()).getCheckValue());
                 }
+                break;
+            case R.id.kline_turnover:
+                
+                break;
+            case R.id.klin_macd:
+                
                 break;
             default:
                 break;
