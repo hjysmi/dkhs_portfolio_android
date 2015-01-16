@@ -1,8 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -17,16 +15,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.test.UiThreadTest;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
@@ -47,15 +43,15 @@ import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
-import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.ValueChangeEvent;
 import com.dkhs.portfolio.ui.widget.FixedSpeedScroller;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -65,6 +61,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.otto.Produce;
 import com.umeng.analytics.MobclickAgent;
 
 public class MainFragment extends Fragment implements OnClickListener {
@@ -127,27 +124,18 @@ public class MainFragment extends Fragment implements OnClickListener {
         dataEngine = new MainpageEngineImpl();
 
         // float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
-        cumulativeFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
-        dayFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
-        weekFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, 0);
-        monthFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, 0);
-        cumulativeFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
-        dayFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
+        Fragment cumulativeFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
+        Fragment dayFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
+        Fragment weekFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, 0);
+        Fragment monthFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, 0);
+        Fragment cumulativeFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
+        Fragment dayFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
         fList.add(cumulativeFragmentTemp);
         fList.add(dayFragment);
         fList.add(weekFragment);
         fList.add(monthFragment);
         fList.add(cumulativeFragment);
         fList.add(dayFragmentTemp);
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
-        // .getIncreasePercent()));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
-        // .getIncreasePercent()));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
-        // .getIncreasePercent()));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
-        // .getIncreasePercent()));
 
     }
 
@@ -541,12 +529,12 @@ public class MainFragment extends Fragment implements OnClickListener {
     };
 
     List<Fragment> fList = new ArrayList<Fragment>();
-    private ScrollTopFragment cumulativeFragmentTemp;
-    private ScrollTopFragment dayFragment;
-    private ScrollTopFragment weekFragment;
-    private ScrollTopFragment monthFragment;
-    private ScrollTopFragment cumulativeFragment;
-    private ScrollTopFragment dayFragmentTemp;
+    // private ScrollTopFragment cumulativeFragmentTemp;
+    // private ScrollTopFragment dayFragment;
+    // private ScrollTopFragment weekFragment;
+    // private ScrollTopFragment monthFragment;
+    // private ScrollTopFragment cumulativeFragment;
+    // private ScrollTopFragment dayFragmentTemp;
     ParseHttpListener championDataListener = new ParseHttpListener<ChampionCollectionBean>() {
 
         @Override
@@ -561,12 +549,19 @@ public class MainFragment extends Fragment implements OnClickListener {
             if (null != object) {
                 viewPager.setVisibility(View.VISIBLE);
                 dotLayout.setVisibility(View.VISIBLE);
-                cumulativeFragment.updataValue(object.getCumulative().getIncreasePercent());
-                cumulativeFragmentTemp.updataValue(object.getCumulative().getIncreasePercent());
-                dayFragment.updataValue(object.getDay().getIncreasePercent());
-                dayFragmentTemp.updataValue(object.getDay().getIncreasePercent());
-                weekFragment.updataValue(object.getWeek().getIncreasePercent());
-                monthFragment.updataValue(object.getMonth().getIncreasePercent());
+
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_All, object.getCumulative().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_DAY, object.getDay().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_MONTH, object.getMonth().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_All, object.getCumulative().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_DAY, object.getDay().getIncreasePercent()));
             }
         }
     };
@@ -717,6 +712,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        // BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -724,6 +720,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onResume();
         System.out.println("=========onResume=========");
         MobclickAgent.onPageStart(mPageName);
+        // BusProvider.getInstance().register(this);
         if (mScollTimer == null) { // 保证只有一个 定时任务
             mScollTimer = new Timer(true);
             mScollTimer.schedule(new ScrollPageTask(), 2000, 2000);
