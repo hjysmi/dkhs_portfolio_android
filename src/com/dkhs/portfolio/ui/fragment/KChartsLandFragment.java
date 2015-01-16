@@ -294,7 +294,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 }else{
                     k = -i;
                 }
-                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),k,entity.getDiff(),entity.getDea());
+                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
             }

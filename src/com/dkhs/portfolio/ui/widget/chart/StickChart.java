@@ -417,6 +417,8 @@ public class StickChart extends GridChart {
                 float lowY = 0;
                 float stickY = 0;
                 float diff = 0;
+                float stickDea = 0;
+                float dea;
                 if(StickData.size() < maxStickDataNum){
                     mShowDate = maxStickDataNum;
                     stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
@@ -458,19 +460,31 @@ public class StickChart extends GridChart {
                         } else {
                             canvas.drawLine(stickX, highY + mTitleHeight, stickX, lowY + mTitleHeight, mPaintStick);
                         }
-                        if(ohlc.getMacd() < 0){
-                            diff = (float) (0.5f - (ohlc.getMacd()) / (maxValue - minValue))
+                        if(ohlc.getDea() < 0){
+                            dea = (float) (0.5f - (ohlc.getDea()) / (maxValue - minValue))
                                     * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                     .getAxisMarginTop() + mTitleHeight;
                         }else{
-                            diff = (float) (1f - (ohlc.getMacd() - minValue) / (maxValue - minValue))
+                            dea = (float) (1f - (ohlc.getDea() - minValue) / (maxValue - minValue))
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop() + mTitleHeight;
+                        }
+                        if(ohlc.getDiff() < 0){
+                            diff = (float) (0.5f - (ohlc.getDiff()) / (maxValue - minValue))
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop() + mTitleHeight;
+                        }else{
+                            diff = (float) (1f - (ohlc.getDiff() - minValue) / (maxValue - minValue))
                                     * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                     .getAxisMarginTop() + mTitleHeight;
                         }
                         if(i != num){
                             paint.setColor(getResources().getColor(R.color.gray));
-                            canvas.drawLine(stickX - 3 - stickWidth/2, stickY, stickX  + stickWidth/2, diff, paint);                
+                            canvas.drawLine(stickX - 3 - stickWidth/2, stickY, stickX  + stickWidth/2, diff, paint);        
+                            paint.setColor(getResources().getColor(R.color.yellow));
+                            canvas.drawLine(stickX - 3 - stickWidth/2, stickDea, stickX  + stickWidth/2, dea, paint);        
                         }
+                        stickDea = dea;
                         stickY = diff;
                         
                         // X位移
