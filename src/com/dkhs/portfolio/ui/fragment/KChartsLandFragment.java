@@ -286,9 +286,15 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             List<StickEntity> volumns = new ArrayList<StickEntity>();
             StickEntity temp = null;
             OHLCEntity entity = null;
+            double k = 0;
             for (int i = ohlc.size() - 1; i >= 0; i--) {
                 entity = ohlc.get(i);
-                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
+                if(i%2 == 0){
+                    k = i;
+                }else{
+                    k = -i;
+                }
+                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),k,entity.getDiff(),entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
             }
@@ -784,10 +790,22 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.kline_turnover:
-                
+                if(!tvTurnover.isSelected()){
+                    tvTurnover.setSelected(true);
+                    tvMacd.setSelected(false);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                    mVolumnChartView.setLatitudeNum(1);
+                    refreshVolumnCharts();
+                }
                 break;
             case R.id.klin_macd:
-                
+                if(!tvMacd.isSelected()){
+                    tvTurnover.setSelected(false);
+                    tvMacd.setSelected(true);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                    mVolumnChartView.setLatitudeNum(3);
+                    refreshVolumnCharts();
+                }
                 break;
             default:
                 break;

@@ -59,11 +59,15 @@ public class StickChart extends GridChart {
 
     /** K线显示�?��价格 */
     protected float minValue;
+    /**K线显示MACD负值*/
+    protected float loseValue;
     /** MA数据 */
     private List<MALineEntity> MALineData;
     private int currentIndex;
     // ///////////////�??函数///////////////
     private int mShowDate;
+    
+    
     public StickChart(Context context) {
         super(context);
     }
@@ -102,19 +106,35 @@ public class StickChart extends GridChart {
     @Override
     protected void onDraw(Canvas canvas) {
         currentIndex = index;
-        setMaxValue();
-        try {
-			initAxisY();
-			initAxisX();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        super.onDraw(canvas);
-
-        drawSticks(canvas);
-
-        // 绘制十字坐�?,防止被盖住
+        switch (checkType) {
+            case CHECK_COLUME:
+                setMaxValue();
+                try {
+                    initAxisY();
+                    initAxisX();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                super.onDraw(canvas);
+                drawSticks(canvas);
+                break;
+            case CHECK_MACD:
+                setMACDMaxValue();
+                try {
+                    initMACDY();
+                    initAxisX();
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                super.onDraw(canvas);
+                drawMADC(canvas);
+                break;
+            default:
+                break;
+        }
+     // 绘制十字坐�?,防止被盖住
         if (isDisplayCrossXOnTouch() || isDisplayCrossYOnTouch()) {
             drawWithFingerClick(canvas);
         }
@@ -127,6 +147,24 @@ public class StickChart extends GridChart {
                     maxValue = (float) StickData.get(i).getHigh();
                 }
             }
+        }
+    }
+    public void setMACDMaxValue(){
+        if(null != StickData){
+            maxValue = 0;
+            for(int i = StickData.size() - mShowDate - currentIndex; i < StickData.size()-currentIndex; i++){
+                if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
+                    maxValue = (float) Math.abs(StickData.get(i).getMacd());
+                }
+                if(i >=0 && Math.abs(StickData.get(i).getDiff()) > maxValue){
+                    maxValue = (float) Math.abs(StickData.get(i).getDiff());
+                }
+                if(i >=0 && Math.abs(StickData.get(i).getDea()) > maxValue){
+                    maxValue = (float) Math.abs(StickData.get(i).getDea());
+                }
+            }
+            minValue = -maxValue;
+            //loseValue = -maxValue;
         }
     }
     /**
@@ -262,7 +300,16 @@ public class StickChart extends GridChart {
 
         super.setAxisYTitles(TitleY);
     }
-
+    protected void initMACDY() {
+        List<String> TitleY = new ArrayList<String>();
+        String value = maxValue + "";
+        TitleY.add(value);
+        value = "0";
+        TitleY.add(value);
+        value = minValue + "";
+        TitleY.add(value);
+        super.setAxisYTitles(TitleY);
+    }
     @Override
     protected void drawMaxYValue(Paint paint, Canvas canvas) {
         super.drawMaxYValue(paint, canvas);
@@ -307,7 +354,7 @@ public class StickChart extends GridChart {
             		stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
             		num = 0;
             	}
-                for (int i = num; i < StickData.size(); i++) {
+                for (int i = num; i < StickData.size() && i < num + mShowDate; i++) {
                     if(i >=0){
                         StickEntity ohlc = StickData.get(i);
     
@@ -343,7 +390,100 @@ public class StickChart extends GridChart {
             e.printStackTrace();
         }
     }
-
+    /**
+     * 绘制MACD线
+     * @param canvas
+     */
+    protected void drawMADC(Canvas canvas) {
+        // 初始化颜色 linbing
+        try {
+            stickFillColorUp = Color.RED;
+            stickFillColorDown = getResources().getColor(R.color.dark_green);
+            if(maxStickDataNum < 50){
+                maxStickDataNum = 50;
+            }
+            // 蜡烛棒宽度
+            float stickWidth = 0;
+            if(mShowDate > 0){
+                stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
+            }
+            Paint mPaintStick = new Paint();
+            
+            if (null != StickData) {
+                float stickX = 3 + PADDING_LEFT;
+                // 判断显示为方柱或显示为线条
+                int num = StickData.size() - mShowDate - currentIndex;
+                float highY = 0;
+                float lowY = 0;
+                float stickY = 0;
+                float diff = 0;
+                if(StickData.size() < maxStickDataNum){
+                    mShowDate = maxStickDataNum;
+                    stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
+                    num = 0;
+                }
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+                paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
+                for (int i = num; i < StickData.size() && i < num + mShowDate; i++) {
+                    if(i >=0){
+                        StickEntity ohlc = StickData.get(i);
+    
+                        if (ohlc.getMacd() >= 0) {
+                            mPaintStick.setColor(stickFillColorUp);
+                        } else {
+                            mPaintStick.setColor(stickFillColorDown);
+                        }
+                        if(ohlc.getMacd() < 0){
+                            highY = (float) ((0.5f)
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop());
+                             lowY = (float) ((0.5f + (Math.abs(ohlc.getMacd())) / (maxValue*2))
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop());
+                        }else{
+                            highY = (float) ((1f -  (ohlc.getMacd() - minValue) / (maxValue*2))
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop());
+                            
+                             lowY = (float) ((0.5f)
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop());
+                        }
+                        // 绘制蜡烛
+                        if (stickWidth >= 2f) {
+                            canvas.drawRect(stickX, highY + mTitleHeight, stickX + stickWidth, lowY + mTitleHeight,
+                                    mPaintStick);
+                        } else {
+                            canvas.drawLine(stickX, highY + mTitleHeight, stickX, lowY + mTitleHeight, mPaintStick);
+                        }
+                        if(ohlc.getMacd() < 0){
+                            diff = (float) (0.5f - (ohlc.getMacd()) / (maxValue - minValue))
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop() + mTitleHeight;
+                        }else{
+                            diff = (float) (1f - (ohlc.getMacd() - minValue) / (maxValue - minValue))
+                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                    .getAxisMarginTop() + mTitleHeight;
+                        }
+                        if(i != num){
+                            paint.setColor(getResources().getColor(R.color.gray));
+                            canvas.drawLine(stickX - 3 - stickWidth/2, stickY, stickX  + stickWidth/2, diff, paint);                
+                        }
+                        stickY = diff;
+                        
+                        // X位移
+                        stickX = stickX + 3 + stickWidth;
+                    }
+                }
+            }
+            
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
     public void drawMA(Canvas canvas) {
         try {
             String text = "";
