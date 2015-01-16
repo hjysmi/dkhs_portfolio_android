@@ -8,24 +8,16 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SectorBean;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -44,6 +36,7 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
     }
 
     private String mOrderType;
+    private int mpageSize = 50;
 
     public PlateLoadMoreEngineImpl(ILoadDataBackListener loadListener, String ordertype) {
         super(loadListener);
@@ -52,14 +45,15 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(mOrderType)) {
             params.addQueryStringParameter("sort", mOrderType);
 
         }
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
+        params.addQueryStringParameter("page_size", mpageSize + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
     }
 
     /**
@@ -68,13 +62,14 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(mOrderType)) {
             params.addQueryStringParameter("sort", mOrderType);
 
         }
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
+        params.addQueryStringParameter("page_size", mpageSize + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
     }
 
     @Override
@@ -97,6 +92,8 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
 
     }
 
+    private int pageSize = 50;
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -104,14 +101,15 @@ public class PlateLoadMoreEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int pageIndex) {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(mOrderType)) {
             params.addQueryStringParameter("sort", mOrderType);
 
         }
-        params.addQueryStringParameter("page_size", dataSize + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
+        params.addQueryStringParameter("page_size", pageSize + "");
+        params.addQueryStringParameter("page", pageIndex + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Plate.hotPlate, params, this);
 
     }
 

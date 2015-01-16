@@ -106,6 +106,7 @@
     <string name="create_time">成立时间 </string>
     <string name="create_time_format">成立时间 :%1$s</string>
     <string name="descrition_format">简介:%1$s</string>
+    <string name="position_from_to">从%1$s调至%2$s</string>
     <string name="select_fund">选择参照基金 </string>
     <string name="select_stock">添加个股 </string>
     <string name="create_funds">创建基金 </string>
@@ -268,9 +269,13 @@
     <string name="p2refresh_end_click_load_more">点击加载</string>
     <string name="p2refresh_release_refresh">松开刷新</string>
     <string name="p2refresh_pull_to_refresh">下拉刷新</string>
+    <string name="page_pull_to_pre_refresh">下拉可翻到上一页</string>
+    <string name="page_pull_to_next_refresh">上拉可翻到下一页</string>
     <string name="p2refresh_doing_head_refresh">正在刷新&#8230;</string>
     <string name="p2refresh_doing_end_refresh">加载中&#8230;</string>
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
+    <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
+    <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
     <string name="about_dus_1">①打造最佳理财服务，寻找牛股票基金！</string>
     <string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
     <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
@@ -369,5 +374,24 @@
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
     <string name="message_server_error">数据请求失败,请稍后重试.</string>
+
+    <!-- 打包渠道名称 -->
+    <string name="anzhuo">安卓市场</string>
+    <string name="anzhi">安智市场</string>
+    <string name="com91">91助手</string>
+    <string name="cn360">360手机助手</string>
+    <string name="yingyonghui">应用汇</string>
+    <string name="xiaomi">小米应用商场</string>
+    <string name="yingyongbao">腾讯应用宝</string>
+    <string name="mumayi">木蚂蚁</string>
+    <string name="yiyou">优亿市场</string>
+    <string name="wandoujia">豌豆夹</string>
+    <string name="anfen">安粉网</string>
+    <string name="meizu">魅族应用中心</string>
+    <string name="lenovomm">联想乐商店</string>
+    <string name="yiyonghui">易用汇</string>
+    <string name="baidu">百度手机助手</string>
+    <string name="baoping">宝瓶网</string>
+    <string name="sohu">搜狐应用中心</string>
 
 </resources>

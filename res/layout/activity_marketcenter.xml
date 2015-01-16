@@ -10,22 +10,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_gray"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp" >
+        <RelativeLayout style="@style/gray_text_tabline" >
 
             <TextView
                 android:id="@+id/tv_mainindex"
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/market_title_index"
-                android:textSize="14sp" />
+                android:text="@string/market_title_index" />
 
             <ImageButton
                 android:id="@+id/btn_more_index"
@@ -46,21 +39,14 @@
             android:padding="5dp"
             android:verticalSpacing="5dp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_gray"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp" >
+        <RelativeLayout style="@style/gray_text_tabline" >
 
             <TextView
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/market_title_hot"
-                android:textSize="14sp" />
+                android:text="@string/market_title_hot" />
 
             <ImageButton
                 android:id="@+id/btn_more_plate"
@@ -81,21 +67,14 @@
             android:padding="5dp"
             android:verticalSpacing="5dp" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_gray"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp" >
+        <RelativeLayout style="@style/gray_text_tabline" >
 
             <TextView
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/market_title_up"
-                android:textSize="14sp" />
+                android:text="@string/market_title_up" />
 
             <ImageButton
                 android:id="@+id/btn_more_incease"
@@ -113,21 +92,14 @@
             android:layout_height="wrap_content" >
         </com.dkhs.portfolio.ui.widget.ListViewEx>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_gray"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp" >
+        <RelativeLayout style="@style/gray_text_tabline" >
 
             <TextView
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/market_title_down"
-                android:textSize="14sp" />
+                android:text="@string/market_title_down" />
 
             <ImageButton
                 android:id="@+id/btn_more_down"
@@ -144,21 +116,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_gray"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp" >
+        <RelativeLayout style="@style/gray_text_tabline" >
 
             <TextView
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/market_title_turnover"
-                android:textSize="14sp" />
+                android:text="@string/market_title_turnover" />
 
             <ImageButton
                 android:id="@+id/btn_more_handover"
@@ -175,21 +140,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/theme_gray"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="6dp"
-            android:paddingTop="4dp" >
+        <RelativeLayout style="@style/gray_text_tabline" >
 
             <TextView
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/market_title_ampli"
-                android:textSize="14sp" />
+                android:text="@string/market_title_ampli" />
 
             <ImageButton
                 android:id="@+id/btn_more_amplitude"

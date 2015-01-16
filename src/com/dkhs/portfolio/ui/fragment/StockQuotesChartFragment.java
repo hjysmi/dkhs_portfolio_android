@@ -27,6 +27,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
+import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
@@ -128,10 +129,31 @@ public class StockQuotesChartFragment extends Fragment {
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
         mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
         mSellAdapter = new FiveRangeAdapter(getActivity(), false);
+        mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
+        mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
 
     }
-
+    private List<FiveRangeItem> getDates(int k){
+        List<FiveRangeItem> list = new ArrayList<FiveRangeItem>();
+        FiveRangeItem fr;
+        int tmp;
+        tmp = k + 6;;
+        for(int i = 0; i < 5; i++){
+            fr = new FiveRangeItem();
+            fr.price = 0;
+            if(k > 0){
+                fr.tag =  k + "";
+                k--;
+            }else{
+                fr.tag = tmp + "";
+                tmp++;
+            }
+            fr.vol = 0;
+            list.add(fr);
+        }
+        return list;
+    }
     private void handleExtras(Bundle extras) {
         mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);

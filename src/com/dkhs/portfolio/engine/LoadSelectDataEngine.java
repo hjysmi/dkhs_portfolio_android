@@ -15,6 +15,7 @@ import android.content.Context;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.lidroid.xutils.http.HttpHandler;
 
 /**
  * @ClassName LoadSelectDataEngine
@@ -49,17 +50,17 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
     /**
      * 加载更多
      */
-    public abstract void loadMore();
+    public abstract HttpHandler loadMore();
 
     /**
      * 加载数据
      */
-    public abstract void loadData();
+    public abstract HttpHandler loadData();
 
     /**
      * 刷新数据
      */
-    public abstract void refreshDatabySize(int dataSize);
+    public abstract HttpHandler refreshDatabySize(int dataSize);
 
     /**
      * @Title

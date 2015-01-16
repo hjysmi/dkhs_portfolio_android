@@ -1,16 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
-    </style>
+    <style name="AppBaseTheme" parent="@android:style/Theme.Light.NoTitleBar"></style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
@@ -191,7 +181,8 @@
         <item name="android:textSize">12sp</item>
         <item name="android:text">-</item>
     </style>
-	<style name="edit_style_land_kilne">
+
+    <style name="edit_style_land_kilne">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:textColor">@color/theme_color</item>
@@ -200,13 +191,26 @@
         <item name="android:paddingTop">10dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:gravity">left|center_vertical</item>
-        
     </style>
+
     <style name="AnimationFade">
 
         <!-- PopupWindow左右弹出的效果 -->
         <item name="android:windowEnterAnimation">@anim/menu_in</item>
         <item name="android:windowExitAnimation">@anim/menu_out</item>
+    </style>
+
+    <style name="gray_text_tabline">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/gray_tab_height</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:background">@color/activity_bg_color</item>
+    </style>
+
+    <style name="gray_title_text">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/title_tab_text_size</item>
     </style>
 
 </resources>

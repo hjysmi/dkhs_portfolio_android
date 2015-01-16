@@ -399,6 +399,16 @@ public class NewsFragment extends Fragment {
                         PromptManager.closeProgressDialog();
                         
                     }
+
+                    @Override
+                    public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                        // TODO Auto-generated method stub
+                        //<html><body><h1><strong>找不到网页</strong></h1></body></html>
+                        String data = "<h1><strong>找不到网页</strong></h1>";
+                        view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\""); 
+                        //super.onReceivedError(view, errorCode, description, failingUrl);
+                    }
+                    
                 });
 
                 // String text = group.get(KEY_TEXT);

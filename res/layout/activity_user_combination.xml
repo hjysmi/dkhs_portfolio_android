@@ -58,38 +58,33 @@
 
     <LinearLayout
         android:id="@+id/ll_combination_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/theme_gray"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="10dp" >
+        style="@style/gray_text_tabline"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
 
         <TextView
+            style="@style/gray_title_text"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="基金名称"
-            android:textSize="15sp" />
+            android:text="基金名称" />
 
         <TextView
+            style="@style/gray_title_text"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="创建时间"
-            android:textSize="15sp" />
+            android:text="创建时间" />
 
         <TextView
+            style="@style/gray_title_text"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/add_up_value"
-            android:textSize="15sp" />
+            android:text="@string/add_up_value" />
     </LinearLayout>
 
     <View style="@style/divider_line" />
@@ -97,6 +92,7 @@
     <RelativeLayout
         android:id="@+id/rl_combination_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="-1dp" />
 
 </LinearLayout>

@@ -13,6 +13,7 @@ import android.graphics.Paint.FontMetrics;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -545,8 +546,13 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = 2;
 
-        FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+        /*FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);*/
+        Paint p= new Paint(); 
+        Rect rects = new Rect();
+        p.setTextSize(getLatitudeFontSize());
+        p.getTextBounds("正", 0, "正".length(), rects); 
+        int textTextHeight = rects.height();
 
         // if (lineData.size() > 3) {
         viewHeight = (textTextHeight + textMargin) * (6) + textMargin;
@@ -640,8 +646,11 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = (int) (getResources().getDimensionPixelOffset(R.dimen.float_text_margin) * 1.5);
 
-        FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+        Paint p= new Paint(); 
+        Rect rects = new Rect();
+        p.setTextSize(getLatitudeFontSize());
+        p.getTextBounds("正", 0, "正".length(), rects); 
+        int textTextHeight = rects.height();
         viewHeight = (textTextHeight + textMargin) * 3 + textMargin;
         if (lineData.size() > 3) {
             viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin ;
@@ -749,9 +758,13 @@ public class TrendChart extends TrendGridChart {
         /******* draw text ********/
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
-        FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-
+        /*FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);*/
+        Paint p= new Paint(); 
+        Rect rects = new Rect();
+        p.setTextSize(getLatitudeFontSize());
+        p.getTextBounds("正", 0, "正".length(), rects); 
+        int textTextHeight = rects.height();
         float preYpoint = textTextHeight + textMargin + marginTop;
         selectPaint.reset();
         selectPaint.setColor(Color.BLACK);
@@ -820,8 +833,13 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
-        FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+        /*FontMetrics fm = selectPaint.getFontMetrics();
+        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);*/
+        Paint p= new Paint(); 
+        Rect rects = new Rect();
+        p.setTextSize(getLatitudeFontSize());
+        p.getTextBounds("正", 0, "正".length(), rects); 
+        int textTextHeight = rects.height();
         int size = 0;
         for (int i = 0; i < lineData.size(); i++) {
             if (lineData.get(i).isDisplay()){

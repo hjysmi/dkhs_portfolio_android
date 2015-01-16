@@ -147,9 +147,9 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
 
     public void refreshData() {
         // System.out.println("刷新Fragment markercenter ");
-        startRefreshView();
-        if (loadDataListFragment instanceof FragmentSelectStockFund) {
-            ((FragmentSelectStockFund) loadDataListFragment).refreshNoCaseTime();
+        // startRefreshView();
+        if (loadDataListFragment instanceof FragmentMarketList) {
+            ((FragmentMarketList) loadDataListFragment).refreshNoCaseTime();
         } else if (loadDataListFragment instanceof HotPlateFragment) {
             ((HotPlateFragment) loadDataListFragment).refreshData();
         }
@@ -170,36 +170,36 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
-                loadDataListFragment = FragmentSelectStockFund
+                loadDataListFragment = FragmentMarketList
                         .getStockFragment(StockViewType.MARKET_INLAND_INDEX_CURRENT);
             }
                 break;
             case TYPE_INLAND_INDEX_DWON: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_INLAND_INDEX_ACE);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_INLAND_INDEX_ACE);
             }
                 break;
             case TYPE_STOCK_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_UPRATIO);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_STOCK_UPRATIO);
             }
                 break;
             case TYPE_STOCK_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_DOWNRATIO);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_STOCK_DOWNRATIO);
             }
                 break;
             case TYPE_STOCK_AMPLI_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_AMPLIT_ACE);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_STOCK_AMPLIT_ACE);
             }
                 break;
             case TYPE_STOCK_AMPLI_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_AMPLIT);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_STOCK_AMPLIT);
             }
                 break;
             case TYPE_STOCK_TURN_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.MARKET_STOCK_TURNOVER);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_STOCK_TURNOVER);
             }
                 break;
             case TYPE_STOCK_TURN_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund
+                loadDataListFragment = FragmentMarketList
                         .getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
             }
                 break;
@@ -212,12 +212,12 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             }
                 break;
             case TYPE_PLATEDETAIL_UP: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragmentByPlate(StockViewType.MARKET_PLATE_LIST,
+                loadDataListFragment = FragmentMarketList.getStockFragmentByPlate(StockViewType.MARKET_PLATE_LIST,
                         mPlateId);
             }
                 break;
             case TYPE_PLATEDETAIL_DOWN: {
-                loadDataListFragment = FragmentSelectStockFund.getStockFragmentByPlate(
+                loadDataListFragment = FragmentMarketList.getStockFragmentByPlate(
                         StockViewType.MARKET_PLATE_LIST_ACE, mPlateId);
             }
                 break;
@@ -227,8 +227,8 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         }
         if (null != loadDataListFragment) {
             getChildFragmentManager().beginTransaction().replace(R.id.fragment_market, loadDataListFragment).commit();
-            if (loadDataListFragment instanceof FragmentSelectStockFund) {
-                ((FragmentSelectStockFund) loadDataListFragment).setLoadingFinishListener(this);
+            if (loadDataListFragment instanceof FragmentMarketList) {
+                ((FragmentMarketList) loadDataListFragment).setLoadingFinishListener(this);
             }
             if (loadDataListFragment instanceof HotPlateFragment) {
                 ((HotPlateFragment) loadDataListFragment).setLoadingFinishListener(this);
@@ -407,8 +407,8 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
         @Override
         public void run() {
 
-            if (loadDataListFragment instanceof FragmentSelectStockFund) {
-                ((FragmentSelectStockFund) loadDataListFragment).refreshForMarker();
+            if (loadDataListFragment instanceof FragmentMarketList) {
+                ((FragmentMarketList) loadDataListFragment).refreshForMarker();
             } else if (loadDataListFragment instanceof HotPlateFragment) {
                 ((HotPlateFragment) loadDataListFragment).refreshData();
             }
@@ -453,6 +453,19 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     public void loadingFinish() {
         if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
             ((RefreshModelActivity) getActivity()).endAnimaRefresh();
+        }
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void startLoadingData() {
+        if (null != getActivity() && getActivity() instanceof RefreshModelActivity) {
+            ((RefreshModelActivity) getActivity()).startAnimaRefresh();
         }
 
     }

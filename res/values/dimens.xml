@@ -48,6 +48,7 @@
     <dimen name="line_weight_stroke_width">2dp</dimen>
     <dimen name="line_kline">3px</dimen>
     <dimen name="list_text_size">16sp</dimen>
+    <dimen name="title_tab_text_size">15sp</dimen>
     <dimen name="news_text_title_size">20sp</dimen>
     <dimen name="select_offset">10dp</dimen>
     <dimen name="select_text">15dp</dimen>
@@ -58,13 +59,17 @@
     <dimen name="combina_up">21dp</dimen>
     <dimen name="main_bottom_textsize">23sp</dimen>
     <dimen name="mycombina_list_text_wid">90dp</dimen>
+    <dimen name="text_date_paddint">2dp</dimen>
 
     <integer name="select_touch_text">22</integer>
-	<dimen name="gridview_height">30dp</dimen>
+
+    <dimen name="gridview_height">30dp</dimen>
     <dimen name="weight">80dp</dimen>
     <dimen name="title_2text_length">50dp</dimen>
     <dimen name="layout_height">70dp</dimen>
     <dimen name="layout_height_all">420dp</dimen>
-	<dimen name="adapter_line_height">7px</dimen>
-	<dimen name="padding_left">90px</dimen>
+    <dimen name="adapter_line_height">7px</dimen>
+    <dimen name="padding_left">90px</dimen>
+    <dimen name="gray_tab_height">32dp</dimen>
+
 </resources>

@@ -49,6 +49,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
     private NewsforImpleEngine vo;
+    private boolean uservivible = false;
     
     @Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,11 +65,15 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
         	vo = (NewsforImpleEngine) bundle.getSerializable(VO);
         }
         initView();
-        initDate();
+        //initDate();
 		return view;
 	}
 	private void initDate() {
         try {
+                Bundle bundle = getArguments();
+                if (bundle != null) {
+                    vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+                }
                 NewsforImpleEngine vos = new NewsforImpleEngine();
                 vos.setPortfolioId(vo.getPortfolioId());
                 vos.setContentType(vo.getContentType());
@@ -181,6 +186,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     					mListView.setOnLoadListener(OptionMarketNewsFragment.this);
             	}
                 if (null != dataList && dataList.size() > 0) {
+                    mDataList.clear();
                     mDataList.addAll(dataList);
                     /*if (first) {
                         initView();
@@ -220,6 +226,9 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
+	    /*if(uservivible){
+	        initDate();
+	    }*/
 		super.onResume();
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageStart(mPageName);
@@ -234,4 +243,14 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
 	            mLoadDataEngine.loadMore();
 	        }
 	}
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        uservivible = isVisibleToUser;
+        if(isVisibleToUser){
+            initDate();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+	
 }

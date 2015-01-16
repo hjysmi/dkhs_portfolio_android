@@ -143,6 +143,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		drawTitles(canvas);
 		if (mOHLCData == null || mOHLCData.size() <= 0) {
 			return;
 		}
@@ -419,7 +420,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						}else{
 							t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						}
-						
+						t = UIUtils.nongNet(t);
 						if(t.length() > 6){
 							t = t.substring(0, 6);
 							if(t.substring(5, 6).equals(".")){
@@ -439,6 +440,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						}else{
 							t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
 						}
+						t = UIUtils.nongNet(t);
 						if(t.length() > 6){
 							t = t.substring(0, 6);
 							if(t.substring(5, 6).equals(".")){
@@ -460,6 +462,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}else{
 				t = new DecimalFormat("0.00").format(mMaxPrice);
 			}
+			t = UIUtils.nongNet(t);
 			if(t.length() > 6){
 				t = t.substring(0, 6);
 				if(t.substring(5, 6).equals(".")){

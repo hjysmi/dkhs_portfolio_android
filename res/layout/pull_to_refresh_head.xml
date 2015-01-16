@@ -3,9 +3,9 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:orientation="horizontal"
-    android:layout_gravity="center_vertical">
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="horizontal" >
 
     <!-- 内容 -->
 
@@ -13,8 +13,8 @@
         android:id="@+id/head_contentLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp" >
 
         <!-- 箭头图像、进度条 -->
 
@@ -22,8 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true" 
-            android:layout_marginLeft="30dp">
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp" >
 
             <!-- 箭头 -->
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/arrow" />
+                android:src="@drawable/arrow_up" />
 
             <!-- 进度条 -->
 

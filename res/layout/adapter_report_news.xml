@@ -35,7 +35,7 @@
                 android:layout_below="@id/adapter_market_title_num"
                 android:singleLine="true"
                 android:text=""
-                android:paddingTop="5dp"
+                android:paddingTop="@dimen/text_date_paddint"
                 android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/setting_text_phone" />
         </RelativeLayout>

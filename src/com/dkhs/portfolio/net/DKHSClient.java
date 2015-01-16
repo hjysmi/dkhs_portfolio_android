@@ -32,6 +32,7 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
@@ -49,32 +50,35 @@ public class DKHSClient {
 
     // static HttpUtils mHttpUtils = new HttpUtils();
 
-    public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+    public static HttpHandler
+            request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
-        requestServer(new HttpUtils(), method, url, params, listener, true);
-
-    }
-
-    public static void request(HttpMethod method, String url, RequestParams params, final IHttpListener listener,
-            boolean isShowTip) {
-
-        requestServer(new HttpUtils(), method, url, params, listener, isShowTip);
+        return requestServer(new HttpUtils(), method, url, params, listener, true);
 
     }
 
-    public static void requestNotTip(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+    public static HttpHandler request(HttpMethod method, String url, RequestParams params,
+            final IHttpListener listener, boolean isShowTip) {
 
-        requestServer(new HttpUtils(), method, url, params, listener, false);
-
-    }
-
-    public static void requestLong(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
-
-        requestServer(new HttpUtils(10 * 60 * 1000), method, url, params, listener, false);
+        return requestServer(new HttpUtils(), method, url, params, listener, isShowTip);
 
     }
 
-    private static void requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
+    public static HttpHandler requestNotTip(HttpMethod method, String url, RequestParams params,
+            final IHttpListener listener) {
+
+        return requestServer(new HttpUtils(), method, url, params, listener, false);
+
+    }
+
+    public static HttpHandler requestLong(HttpMethod method, String url, RequestParams params,
+            final IHttpListener listener) {
+
+        return requestServer(new HttpUtils(10 * 60 * 1000), method, url, params, listener, false);
+
+    }
+
+    private static HttpHandler requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
             final IHttpListener listener, boolean isShowTip) {
         // HttpUtils mHttpUtils = new HttpUtils();
         if (NetUtil.checkNetWork()) {
@@ -130,7 +134,8 @@ public class DKHSClient {
             if (null != listener) {
                 listener.beforeRequest();
             }
-            mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
+            // mHttpUtils.sendSync(method, requestUrl)
+            return mHttpUtils.send(method, requestUrl, params, new RequestCallBack<String>() {
 
                 @Override
                 public void onSuccess(ResponseInfo<String> responseInfo) {
@@ -174,36 +179,37 @@ public class DKHSClient {
             } else {
                 // Not on UI thread.
             }
+            return null;
         }
     }
 
-    public static void requestByPost(String url, RequestParams params, final IHttpListener listener) {
+    public static HttpHandler requestByPost(String url, RequestParams params, final IHttpListener listener) {
 
-        request(HttpMethod.POST, getAbsoluteUrl(url), params, listener);
+        return request(HttpMethod.POST, getAbsoluteUrl(url), params, listener);
     }
 
-    public static void requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener) {
+    public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener) {
 
-        requestByGet(urlPrefix, urlPath, null, listener, true);
+        return requestByGet(urlPrefix, urlPath, null, listener, true);
     }
 
-    public static void
-            requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener, boolean isShowTip) {
+    public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, final IHttpListener listener,
+            boolean isShowTip) {
 
-        requestByGet(urlPrefix, urlPath, null, listener, isShowTip);
+        return requestByGet(urlPrefix, urlPath, null, listener, isShowTip);
     }
 
-    public static void requestByGet(final IHttpListener listener, String urlPrefix, Object... params) {
+    public static HttpHandler requestByGet(final IHttpListener listener, String urlPrefix, Object... params) {
 
-        requestByGet(MessageFormat.format(urlPrefix, params), null, null, listener, true);
+        return requestByGet(MessageFormat.format(urlPrefix, params), null, null, listener, true);
     }
 
-    public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
+    public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
             final IHttpListener listener) {
-        requestByGet(urlPrefix, urlPath, params, listener, true);
+        return requestByGet(urlPrefix, urlPath, params, listener, true);
     }
 
-    public static void requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
+    public static HttpHandler requestByGet(String urlPrefix, String[] urlPath, List<NameValuePair> params,
             final IHttpListener listener, boolean isShowTip) {
 
         StringBuilder sbParams = new StringBuilder(urlPrefix);
@@ -227,7 +233,7 @@ public class DKHSClient {
             // sbParams.setCharAt(0, '?');// 将第一个的 &替换为 ？
         }
 
-        request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener, isShowTip);
+        return request(HttpMethod.GET, getAbsoluteUrl(sbParams.toString()), null, listener, isShowTip);
     }
 
     public static String getAbsoluteUrl(String relativeUrl) {

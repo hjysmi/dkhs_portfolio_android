@@ -1,54 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/gray_tab_height"
+    android:orientation="vertical" >
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/selectadapter_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:background="@color/activity_bg_color"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp" >
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/activity_bg_color" >
 
         <LinearLayout
-            android:id="@+id/selectadapter_parent_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:background="@color/activity_bg_color"
-            android:orientation="horizontal" >
+            android:layout_height="@dimen/adapter_line_height"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="6.5px" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5px"
+                android:background="@color/theme_gray_press"
+                android:orientation="vertical" >
+            </LinearLayout>
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/activity_bg_color" >
+            android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/selectadapter_parent_icon"
+                android:layout_width="80dp"
                 android:layout_height="@dimen/adapter_line_height"
-                android:orientation="vertical" >
+                android:scaleType="fitXY"
+                android:src="@color/red" />
+        </LinearLayout>
+    </RelativeLayout>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="6.5px" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5px"
-                    android:background="@color/theme_gray_press"
-                    android:orientation="vertical" >
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/selectadapter_parent_icon"
-                    android:layout_width="80dp"
-                    android:layout_height="@dimen/adapter_line_height"
-                    android:scaleType="fitXY"
-                    android:src="@color/red" />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
+</LinearLayout>

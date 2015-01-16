@@ -130,6 +130,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 				DKHSClient.requestByGet(
 						MessageFormat.format(DKHSUrl.News.reportnewstwo, vo.getContentSubType()),
 						null, this);
+				break;
 			case GROUP_FOR_ONE:
 				DKHSClient.requestByGet(
 						MessageFormat.format(DKHSUrl.News.reportnewsforone, vo.getSymbol(),vo.getContentSubType()),

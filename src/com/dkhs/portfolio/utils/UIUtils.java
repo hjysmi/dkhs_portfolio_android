@@ -11,9 +11,12 @@ package com.dkhs.portfolio.utils;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +30,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -293,6 +297,7 @@ public class UIUtils {
 
     public static String getValue(double volume) {
         String text = null;
+        volume = volume / 100;
         try {
             if (volume < 10000) {
                 text = new DecimalFormat("0.00").format(volume);
@@ -309,7 +314,30 @@ public class UIUtils {
         }
         return text;
     }
-
+    /**
+     * 匹配K线图无网络时经线标题值
+     * @param value
+     * @return
+     */
+    public static String nongNet(String value){
+        if(value.equals("-1.00") || value.equals("-1")){
+            value = "—";
+        }
+        return value;
+    }
+    public static String getshou(double volume){
+        String text = null;
+        if (volume < 10000) {
+            text = new DecimalFormat("0.00").format(volume) + "手";
+        } else if(volume > 10000 && volume < 100000000){
+            volume = volume/10000;
+            text = new DecimalFormat("0.00").format(volume) + "万手";
+        }else{
+            volume = volume/100000000;
+            text = new DecimalFormat("0.00").format(volume) + "亿手";
+        }
+        return text;
+    }
     public static int getTextWidth(String text, int textSize) {
         Paint p = new Paint();
         Rect rect = new Rect();
@@ -344,5 +372,20 @@ public class UIUtils {
             return false;
         }
     }
+    public static boolean hasSmartBar(){
+        /*try {
+            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+            
+            return ((Boolean) method.invoke(null)).booleanValue();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }*/
+        if (Build.DEVICE.equals("mx2")||Build.DEVICE.equals("mx3")||Build.DEVICE.equals("mx4pro")) {            
+            return true;         
+        } 
+        return false;
+    }
+
 
 }

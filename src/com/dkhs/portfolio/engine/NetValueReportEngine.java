@@ -22,6 +22,7 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.http.HttpHandler;
 
 /**
  * @ClassName NetValueEngine
@@ -87,12 +88,13 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
     }
 
     @Override
-    public void loadMore() {
-
+    public HttpHandler loadMore() {
+        return null;
     }
 
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
+        return null;
         // requerySevenDayReport();
     }
 
@@ -133,8 +135,9 @@ public class NetValueReportEngine extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         // TODO Auto-generated method stub
+        return null;
 
     }
 

@@ -111,9 +111,9 @@ public class KChartsFragment extends Fragment {
             }
         });
         if(having){
-	        mSmallerButton.setClickable(false);
+	        //mSmallerButton.setClickable(false);
 	    	mSmallerButton.setSelected(true);
-	        mLargerButton.setClickable(false);
+	        //mLargerButton.setClickable(false);
 	    	mLargerButton.setSelected(true);
         }
         return view;
@@ -190,7 +190,7 @@ public class KChartsFragment extends Fragment {
         // 最大经线数
         // mVolumnChartView.setLongtitudeNum(3);
         // 最大价格
-        mVolumnChartView.setMaxValue(10000);
+        mVolumnChartView.setMaxValue(0);
         // 最小价格
         // mVolumnChartView.setMinValue(100);
 
@@ -380,7 +380,7 @@ public class KChartsFragment extends Fragment {
                 }
             }
             if(len > 50 && having){
-            	mSmallerButton.setClickable(true);
+            	//mSmallerButton.setClickable(true);
             	mSmallerButton.setSelected(false);
             	having = false;
             }
@@ -519,20 +519,20 @@ public class KChartsFragment extends Fragment {
     private void changeButtonState() {
         if (mMyChartsView.isSmallest()) {
             //mLargerButton.setVisibility(View.INVISIBLE);
-        	mLargerButton.setClickable(false);
+        	//mLargerButton.setClickable(false);
         	mLargerButton.setSelected(true);
         } else {
             //mLargerButton.setVisibility(View.VISIBLE);
-        	mLargerButton.setClickable(true);
+        	//mLargerButton.setClickable(true);
         	mLargerButton.setSelected(false);
         }
         if (mMyChartsView.isLargest()) {
             //mSmallerButton.setVisibility(View.INVISIBLE);
-        	mSmallerButton.setClickable(false);
+        	//mSmallerButton.setClickable(false);
         	mSmallerButton.setSelected(true);
         } else {
             //mSmallerButton.setVisibility(View.VISIBLE);
-        	mSmallerButton.setClickable(true);
+        	//mSmallerButton.setClickable(true);
         	mSmallerButton.setSelected(false);
         }
     }
@@ -568,9 +568,16 @@ public class KChartsFragment extends Fragment {
                     //fragment可见时加载数据
             	mQuotesDataEngine = new QuotesEngineImpl();
             	List<OHLCEntity> ohlc = getOHLCDatas();
-                refreshChartsView(ohlc);
+            	if (mMarketTimer == null) {
+                    mMarketTimer = new Timer(true);
+                    mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+                }
     } else {
         //不可见时不执行操作
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
     }
             super.setUserVisibleHint(isVisibleToUser);
     }
@@ -579,10 +586,6 @@ public class KChartsFragment extends Fragment {
 
         super.onResume();
 
-        if (mMarketTimer == null) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
-        }
         MobclickAgent.onPageStart(mPageName);
     }
 

@@ -122,16 +122,16 @@ public class FragmentSelectAdapter {
 		iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
 		//selectScroll = (HorizontalScrollView) view.findViewById(R.id.select_scroll);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
-		ll.setLayoutParams(new LinearLayout.LayoutParams(totalLength, LayoutParams.WRAP_CONTENT));
+		ll.setLayoutParams(new LinearLayout.LayoutParams(totalLength, context.getResources().getDimensionPixelSize(R.dimen.gray_tab_height)-7));
 		//ll.setOnTouchListener(new OnmyLayout());
 		tvList = new TextView[nameList.length];
 		for(int i = 0; i < nameList.length; i++){
 			TextView tv = new TextView(context);
 			tv.setTextColor(context.getResources().getColor(R.color.black));
-			tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
-			tv.setPadding(0, 10, 0, 5);
+			tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
+			//tv.setPadding(0, 10, 0, 5);
 			
-			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.WRAP_CONTENT));
+			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.MATCH_PARENT));
 			tv.setGravity(Gravity.CENTER);
 			tv.setText(nameList[i]);
 			tv.setOnClickListener(new OnItemListener(i));

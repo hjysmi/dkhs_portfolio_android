@@ -57,14 +57,14 @@ public class TimesharingplanChart extends TrendChart {
         
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-        int mesasureWidth = measureWidth(widthMeasureSpec);
+       /* int mesasureWidth = measureWidth(widthMeasureSpec);
         int screenWidth = measureWidth((int) DisplayUtil.getWindowSizePoint().x);
 
         // setMeasuredDimension(mesasureWidth, (int)
         // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
         // System.out.println("mesasureWidth:" + mesasureWidth);
         // System.out.println("screenWidth:" + screenWidth);
-        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));
+        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));*/
     }
 
     private int measureWidth(int measureSpec) {

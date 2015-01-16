@@ -21,6 +21,8 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.utils.NetUtil;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
 /**
@@ -52,17 +54,21 @@ public class AddStockItemAdapter extends SelectStockAdatper {
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
-        if (null != csBean) {
+        if (NetUtil.checkNetWork()) {
 
-            if (isChecked) {
-                new QuotesEngineImpl().symbolfollow(csBean.id, followListener);
-            } else {
-                new QuotesEngineImpl().delfollow(csBean.id, delFollowListener);
-                System.out.println("remove optional :" + csBean.name + " id:" + csBean.id);
+            if (null != csBean) {
+
+                if (isChecked) {
+                    new QuotesEngineImpl().symbolfollow(csBean.id, followListener);
+                } else {
+                    new QuotesEngineImpl().delfollow(csBean.id, delFollowListener);
+                }
             }
-        }
 
-        // System.out.println("remove mSelectIdList lenght:" + BaseSelectActivity.mSelectList.size());
+        } else {
+            buttonView.setChecked(!isChecked);
+            PromptManager.showNoNetWork();
+        }
 
     }
 

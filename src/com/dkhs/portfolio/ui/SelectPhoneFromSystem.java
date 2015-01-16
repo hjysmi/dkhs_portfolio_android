@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -36,6 +39,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Audio.Media;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -47,6 +51,7 @@ public class SelectPhoneFromSystem extends Activity implements OnClickListener {
 	private File file_go;
 	private UserEngineImpl mUserEngineImpl;
 	private Context context;
+	private Uri photoUri;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,8 +138,16 @@ public class SelectPhoneFromSystem extends Activity implements OnClickListener {
 			try {
 				String file_str = Environment.getExternalStorageDirectory()
 						.getPath();
-				Uri uri = data.getData();
-                
+				Uri uri = null;
+				if(null != data){
+				    uri = data.getData();
+				}
+                if(null == uri && photoUri != null){
+                    uri = photoUri;
+                }
+                if(uri == null){
+                    return;
+                }
                 String[] proj = {MediaStore.Images.Media.DATA};
                 Cursor cursor = managedQuery(uri, proj, null, null, null); 
                 int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -213,11 +226,22 @@ public class SelectPhoneFromSystem extends Activity implements OnClickListener {
 				mars_file.mkdirs();
 			}
 
-			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			//Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			// 并设置拍照的存在方式为外部存储和存储的路径；
 
 			//intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file_go));
 			// 跳转到拍照界面;
+			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+			SimpleDateFormat timeStampFormat = new SimpleDateFormat(
+			"yyyy_MM_dd_HH_mm_ss");
+			String filename = timeStampFormat.format(new Date());
+			ContentValues values = new ContentValues();
+			values.put(Media.TITLE, filename);
+
+			photoUri = getContentResolver().insert(
+			MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+			intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
 			startActivityForResult(intent, 0x1);
 		} else {
 			Toast.makeText(this, "请先安装好sd卡", Toast.LENGTH_LONG).show();
