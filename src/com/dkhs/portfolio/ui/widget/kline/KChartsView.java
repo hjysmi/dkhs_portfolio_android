@@ -407,6 +407,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		Paint textPaint = new Paint();
 		textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
 		textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+		if(null == symbolType){
+		    return;
+		}
 		if(isDisplayAxisYTitle()) {
 			// Y轴Titles
 			int len = getUpperLatitudeNum() +1;
@@ -1163,6 +1166,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
 	public void setOHLCData(List<OHLCEntity> OHLCData) {
 		if (OHLCData == null || OHLCData.size() <= 0) {
+		    mMaxPrice = -1;
+            mMinPrice = -1;
 			return;
 		}
 		this.mOHLCData = OHLCData;
