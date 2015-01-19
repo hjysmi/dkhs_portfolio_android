@@ -15,6 +15,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -50,9 +52,11 @@ import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
+import com.dkhs.portfolio.ui.adapter.RVMainFunctionAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.ValueChangeEvent;
 import com.dkhs.portfolio.ui.widget.FixedSpeedScroller;
+import com.dkhs.portfolio.ui.widget.GridLayoutManager;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -61,10 +65,12 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Produce;
 import com.umeng.analytics.MobclickAgent;
 
-public class MainFragment extends Fragment implements OnClickListener {
+public class MainFragment extends BaseFragment implements OnClickListener {
 
     private ITitleButtonListener mTitleClickListener;
 
@@ -79,23 +85,18 @@ public class MainFragment extends Fragment implements OnClickListener {
     private int[] imageResId;
     private int currentItem = 0;
 
+    @ViewInject(R.id.gv_function)
     private GridView gvFunction;
     private GridView gvCombination;
 
+    // private RecyclerView rvFunction;
+
     private View comtentView;
-    // private View viewOnecombination;
-    // private View viewTwocombination;
+
     private View viewAddcombination;
     private View mConbinlayout;
 
     private MainpageEngineImpl dataEngine;
-
-    // private View viewOptionalStock;
-    // private View viewMyCombination;
-    // private View viewStockRanking;
-    // private View viewPlateRanking;
-    // private View viewFundRanking;
-    // private View viewPortfolioRanking;
 
     private static final int MSG_CHANGE_PAGER = 172;
 
@@ -141,12 +142,28 @@ public class MainFragment extends Fragment implements OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("=========onCreateView=========");
         View view = inflater.inflate(R.layout.fragment_main, null);
-        comtentView = view;
-        initView(view);
         return view;
     }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        // ViewUtils.inject(view);
+        ViewUtils.inject(this, view); // 注入view和事件
+        comtentView = view;
+        initView(view);
+    }
+
+    private RVMainFunctionAdapter mainFunctionAdatper;
 
     private void initView(View view) {
 
@@ -166,11 +183,12 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         gvCombination = (GridView) view.findViewById(R.id.gv_mycombination);
 
-        gvFunction = (GridView) view.findViewById(R.id.gv_function);
-        // gvFunction.getLayoutParams().height =
-        // getResources().getDisplayMetrics().widthPixels / 3 * 2;
+        // gvFunction = (GridView) view.findViewById(R.id.gv_function);
+        // // getResources().getDisplayMetrics().widthPixels / 3 * 2;
         gvFunction.setAdapter(new MainFunctionAdapter(getActivity()));
         gvFunction.setOnItemClickListener(functionClick);
+        gvFunction.setOnItemClickListener(functionClick);
+        // mainFunctionAdatper.SetOnItemClickListener(functionClick);
 
         // 初始化界面控件实例
         dotLayout = (LinearLayout) view.findViewById(R.id.linearlayout_dot);
@@ -393,8 +411,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // PromptManager.showToastTest("click Postion:" + position);
-
             Intent intent = null;
             switch (position) {
                 case 0: {
