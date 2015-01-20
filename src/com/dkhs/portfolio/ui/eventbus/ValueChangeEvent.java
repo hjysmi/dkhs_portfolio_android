@@ -6,6 +6,7 @@
  * @date 2015-1-16 下午2:06:27
  * @version V1.0
  */
+
 package com.dkhs.portfolio.ui.eventbus;
 
 /**
@@ -16,11 +17,12 @@ package com.dkhs.portfolio.ui.eventbus;
  * @version 1.0
  */
 public class ValueChangeEvent {
-    public float value;
-    public String type;
 
-    public ValueChangeEvent(String type, float value) {
-        this.value = value;
-        this.type = type;
-    }
+	public float	value;
+	public String	type;
+
+	public ValueChangeEvent(String type, float value) {
+		this.value = value;
+		this.type = type;
+	}
 }
