@@ -46,10 +46,14 @@ public class DKHSUrl {
         String ispublic = "/api/v1/portfolio/{0}/set_public/";
         // 设置组合是否参与排行
         String setrank = "/api/v1/portfolio/{0}/set_rank/";
+
+        // 首页冠军榜
         String champion = "/api/v1/portfolio/champion/";
 
         // 组合排行榜
         String rankingList = "/api/v1/portfolio/ranking_list/";
+
+        // 组合置顶
         String set_top = "/api/v1/portfolio/{0}/set_top/";
 
     }
@@ -153,5 +157,11 @@ public class DKHSUrl {
     public interface Plate {
         String hotPlate = "/api/v1/symbols/sectors/?sector_root_id=26";
     }
+
+    public static String[] storeURLList = { DKHSUrl.Plate.hotPlate, DKHSUrl.Portfolio.portfolio,
+            DKHSUrl.StockSymbol.optional, DKHSUrl.Portfolio.champion, DKHSUrl.Portfolio.rankingList,
+            DKHSUrl.StockSymbol.opitionmarket, DKHSUrl.StockSymbol.stocklist,
+
+    };
 
 }
