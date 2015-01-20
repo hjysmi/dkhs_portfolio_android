@@ -382,6 +382,11 @@ public class UIUtils {
         } 
         return false;
     }
-
+    public static boolean isSymbleIndex(String type){
+        if(type.equals("5")){
+            return true;
+        }
+        return false;
+    }
 
 }

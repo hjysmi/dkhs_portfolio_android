@@ -86,9 +86,8 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
 	    protected static final int MSG_WHAT_AFTER_REQUEST = 97;
 	    private final int REQUESTCODE_SELECT_STOCK = 901;
-
-
-
+	    
+	    private int stickType = 0;
 	    private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
 
 	    private QuotesEngineImpl mQuotesEngine;
@@ -584,6 +583,14 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
         public void setCheckValue(String checkValue) {
             this.checkValue = checkValue;
+        }
+
+        public int getStickType() {
+            return stickType;
+        }
+
+        public void setStickType(int stickType) {
+            this.stickType = stickType;
         }
 		
 }

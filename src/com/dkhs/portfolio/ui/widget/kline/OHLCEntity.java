@@ -16,11 +16,13 @@ public class OHLCEntity {
 	private double macd;
     private double diff;
     private double dea;
+    @SerializedName("div_info")
+    private String info;
 	public OHLCEntity() {
 		super();
 	}
 
-	public OHLCEntity(double volumn,double open, double high, double low, double close, String date,double macd,double diff,double dea) {
+	public OHLCEntity(double volumn,double open, double high, double low, double close, String date,double macd,double diff,double dea,String info) {
 		super();
 		this.volume = volumn;
 		this.open = open;
@@ -31,6 +33,7 @@ public class OHLCEntity {
 		this.macd = macd;
         this.diff = diff;
         this.dea = dea;
+        this.info = info;
 	}
 	
 	public double getChange() {
@@ -127,6 +130,14 @@ public class OHLCEntity {
 
     public void setDea(double dea) {
         this.dea = dea;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
     }
 	
 }

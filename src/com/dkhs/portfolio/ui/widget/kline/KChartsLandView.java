@@ -225,6 +225,41 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 startX = (float) (width - 3 - (mCandleWidth + 3) * (selectIndext - mDataStartIndext)
                         - (mCandleWidth - 1) / 2 - addNum * (mCandleWidth + 3));
             }
+            Paint textPaint = new Paint();
+            textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            // textPaint.setColor(Color.DKGRAY);
+            // textPaint.setFakeBoldText(true);
+            textPaint.setAntiAlias(true);
+            if(null != mOHLCData.get(selectIndext).getInfo() &&mOHLCData.get(selectIndext).getInfo().length() > 0){
+                p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                p.getTextBounds(mOHLCData.get(selectIndext).getInfo(), 0, mOHLCData.get(selectIndext).getInfo().length(), rects);
+                left = 3.0f + PADDING_LEFT + 10 + textMargin;
+                top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin * 2 + textTextHeight;
+                right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
+                float leftInfo = 3.0f + PADDING_LEFT + 10;
+                bottom = 5.0f + 10 * textTextHeight + textMargin * 11;
+                if ((bottom + top) >= getHeight()) {
+                    //textMargin = (int) (textMargin - ((bottom) - getHeight()) / 9);
+                    left = 3.0f + PADDING_LEFT + 10 + textMargin;
+                    top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin * 2 + textTextHeight;
+                    right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
+                    bottom = 5.0f + 10 * textTextHeight + textMargin * 11;
+                }
+                if (mOHLCData.size() < MIN_CANDLE_NUM) {
+                    if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f + PADDING_LEFT)) {
+                        right = width - 12.0f + PADDING_LEFT;
+                        left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
+                        leftInfo = width - 12.0f - rects.width();
+                    }
+                } else {
+                    if (mStartX < width / 2.0f) {
+                        right = width - 12.0f + PADDING_LEFT;
+                        left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
+                        leftInfo = width - 12.0f - rects.width() + PADDING_LEFT;
+                    }
+                }
+                canvas.drawText(mOHLCData.get(selectIndext).getInfo(), leftInfo + 1, top - textMargin - textTextHeight, textPaint);
+            }
             // 绘制点击线条及详情区域
             Paint paint = new Paint();
             paint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
@@ -235,28 +270,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             canvas.drawLine(startX + PADDING_LEFT, 2.0f + DEFAULT_AXIS_TITLE_SIZE, startX + PADDING_LEFT,
                     UPER_CHART_BOTTOM, paint);
             canvas.drawLine(PADDING_LEFT, cl, this.getWidth(), cl, paint);// 十字光标横线
-            /*
-             * if(mOHLCData.size() < MIN_CANDLE_NUM){
-             * canvas.drawLine((int)(mStartX - addNum * (mCandleWidth + 3)), getHeight() - 2.0f, (int)(mStartX - addNum
-             * * (mCandleWidth + 3)), LOWER_CHART_TOP, paint);
-             * }else{
-             * canvas.drawLine(mStartX, getHeight() - 2.0f, mStartX, LOWER_CHART_TOP, paint);
-             * }
-             */
 
-            Rect rect = new Rect((int) left, (int) top, (int) (right + 4), (int) (bottom));
-            // 由于图片的实际尺寸比显示出来的图像要大一些，因此需要适当更改下大小，以达到较好的效果
-            Paint paint1 = new Paint();
-            paint1.setColor(Color.WHITE);
-            paint1.setAntiAlias(true);// 去除锯齿。
-            paint1.setShadowLayer(5f, 5.0f, 5.0f, Color.BLACK); // 设置阴影层，这是关键。
-            paint1.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-            RectF rectF = new RectF(rect);
             paint.setColor(Color.WHITE);
-            // canvas.drawRoundRect(rectF, 10f, 10f, paint1);
-            RectF rectF2 = new RectF((int) left, (int) top, (int) (right), (int) (bottom));
             paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-            // canvas.drawRoundRect(rectF2, 10f, 10f, paint);
             Paint selectPaint = new Paint();
             selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
             selectPaint.setStyle(Paint.Style.FILL);// 充满
@@ -271,18 +287,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
             Paint borderPaint = new Paint();
             borderPaint.setColor(Color.LTGRAY);
-            borderPaint.setStrokeWidth(2);
-            // canvas.drawLine(left, top, left, bottom, borderPaint);
-            // canvas.drawLine(left, top, right, top, borderPaint);
-            // canvas.drawLine(right, bottom, right, top, borderPaint);
-            // canvas.drawLine(right, bottom, left, bottom, borderPaint);
 
             // 绘制详情文字
-            Paint textPaint = new Paint();
-            textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            // textPaint.setColor(Color.DKGRAY);
-            // textPaint.setFakeBoldText(true);
-            textPaint.setAntiAlias(true);
+            
+            
             canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top + textMargin, textPaint);
 
             canvas.drawText("开盘:", left + 1, top + textTextHeight + textMargin * 2, textPaint);
@@ -537,6 +545,19 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         canvas.drawRect(left, close, right, open, redPaint);
                         canvas.drawLine(startX, high, startX, low, redPaint);
                     }
+                    if(null != entity.getInfo() && entity.getInfo().length() > 0){
+                        Paint p = new Paint();
+                        p.setAntiAlias(true);
+                        p.setStyle(Paint.Style.FILL);
+                        p.setColor(getResources().getColor(R.color.ma10_color));
+                        float wid = 0;
+                        if(mCandleWidth < 3f){
+                            mCandleWidth = 3f;
+                        }else{
+                            wid = (float) (mCandleWidth/2);
+                        }
+                        canvas.drawCircle(startX, (float)(UPER_CHART_BOTTOM - mCandleWidth), wid, p);
+                    }
                 }
                 // 绘制上部曲线图及上部分MA值
                 // float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
@@ -623,6 +644,19 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     } else {
                         canvas.drawRect(left, open, right, close, redPaint);
                         canvas.drawLine(startX, high, startX, low, redPaint);
+                    }
+                    if(null != entity.getInfo() && entity.getInfo().length() > 0){
+                        Paint p = new Paint();
+                        p.setAntiAlias(true);
+                        p.setStyle(Paint.Style.FILL);
+                        p.setColor(getResources().getColor(R.color.ma10_color));
+                        float wid = 0;
+                        if(mCandleWidth < 3f){
+                            mCandleWidth = 3f;
+                        }else{
+                            wid = (float) (mCandleWidth/2);
+                        }
+                        canvas.drawCircle(startX, (float)(UPER_CHART_BOTTOM - mCandleWidth), wid, p);
                     }
                 }
 

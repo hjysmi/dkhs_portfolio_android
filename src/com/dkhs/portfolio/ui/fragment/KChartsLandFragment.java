@@ -105,12 +105,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         tvTurnover = (TextView) view.findViewById(R.id.kline_turnover);
         tvMacd = (TextView) view.findViewById(R.id.klin_macd);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
+        if (!TextUtils.isEmpty(symbolType) && UIUtils.isSymbleIndex(symbolType)) {
             view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
         }
         if(TextUtils.isEmpty(symbolType)){
             symbolType = getArguments().getString(SYMBOLETYPE);
-            if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
+            if (!TextUtils.isEmpty(symbolType) && UIUtils.isSymbleIndex(symbolType)) {
                 view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
             }
         }
@@ -648,6 +648,19 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
                 }
+                if(((KChartLandScapeActivity) getActivity()).getStickType() == (StickChart.CHECK_COLUME)){
+                    tvTurnover.setSelected(true);
+                    tvMacd.setSelected(false);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
+                    mVolumnChartView.setLatitudeNum(1);
+                }else if(((KChartLandScapeActivity) getActivity()).getStickType() == (StickChart.CHECK_MACD)){
+                    tvTurnover.setSelected(false);
+                    tvMacd.setSelected(true);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                    mVolumnChartView.setLatitudeNum(3);
+                }
             }
         } else {
             // 不可见时不执行操作
@@ -794,6 +807,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvTurnover.setSelected(true);
                     tvMacd.setSelected(false);
                     mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
                     mVolumnChartView.setLatitudeNum(1);
                     refreshVolumnCharts();
                 }
@@ -803,6 +817,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvTurnover.setSelected(false);
                     tvMacd.setSelected(true);
                     mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
                     mVolumnChartView.setLatitudeNum(3);
                     refreshVolumnCharts();
                 }

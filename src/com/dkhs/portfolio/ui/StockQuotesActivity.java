@@ -264,15 +264,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     stockLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
-        } else if(!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))){
+        } else if(!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))){
             String[] name = new String[3];
-            if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            if ((null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name = new String[2];
             }
             // name[0] = "新闻";
             name[0] = "公告";
             name[1] = "研报";
-            if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name[2] = "F10";
             }
             NewsforImpleEngine vo;
@@ -484,7 +484,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 if(position == 0){
                     klinVirtulCheck.setVisibility(View.GONE);
                 }else{
-                    klinVirtulCheck.setVisibility(View.VISIBLE);
+                    if(null != mStockBean && !UIUtils.isSymbleIndex(mStockBean.symbol_type)){
+                        klinVirtulCheck.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }

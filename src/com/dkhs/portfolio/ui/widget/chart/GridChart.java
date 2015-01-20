@@ -195,10 +195,10 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     private boolean displayCrossYOnTouch = DEFAULT_DISPLAY_CROSS_Y_ON_TOUCH;
 
     /** 选中位置X坐�? */
-    private float clickPostX = 0f;
+    protected float clickPostX = 0f;
 
     /** 选中位置X坐�? */
-    private float clickPostY = 0f;
+    protected float clickPostY = 0f;
 
     /** 通知对象列表 */
     private List<ITouchEventResponse> notifyList;
@@ -212,7 +212,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     public static int index;
 
     protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; // 标题的高度
-    private boolean ismove;
+    public boolean ismove;
     public static float titalWid = 0;
     public static final int CHECK_COLUME = 0;
     public static final int CHECK_MACD = 1;
@@ -731,17 +731,19 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                             / (counts - 1);
                     offset = super.getHeight() - axisMarginBottom - axisMarginTop - mTitleHeight;
                     float k = mTitleHeight;
+                    String text;
                     for (int i = 0; i < counts; i++) {
+                        text = new DecimalFormat("0.00").format(Double.parseDouble(axisYTitles.get(i)));
                         Paint ps = new Paint();
                         Rect rects = new Rect();
                         ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        ps.getTextBounds(axisYTitles.get(i), 0, axisYTitles.get(i).length(), rects);
+                        ps.getTextBounds(text, 0, text.length(), rects);
                         if (i == counts - 1 || i == 0) {
                             k = mTitleHeight + rects.height();
                         } else {
                             k = mTitleHeight + rects.height() / 2;
                         }
-                        canvas.drawText(axisYTitles.get(i), PADDING_LEFT - rects.width(), k + i * postOffset,
+                        canvas.drawText(text, PADDING_LEFT - rects.width(), k + i * postOffset,
                                 mPaintFont);
                     }
                     break;

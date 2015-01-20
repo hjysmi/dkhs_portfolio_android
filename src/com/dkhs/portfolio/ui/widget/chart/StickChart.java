@@ -105,7 +105,7 @@ public class StickChart extends GridChart {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        currentIndex = index;
+        //currentIndex = index;
         switch (checkType) {
             case CHECK_COLUME:
                 setMaxValue();
@@ -130,6 +130,7 @@ public class StickChart extends GridChart {
                 }
                 super.onDraw(canvas);
                 drawMADC(canvas);
+                drawDiff(canvas);
                 break;
             default:
                 break;
@@ -142,7 +143,7 @@ public class StickChart extends GridChart {
     public void setMaxValue(){
         if(null != StickData){
             maxValue = 0;
-            for(int i = StickData.size() - mShowDate - currentIndex; i < StickData.size()-currentIndex; i++){
+            for(int i = StickData.size() - mShowDate - index; i < StickData.size()-index; i++){
                 if(i >=0 && StickData.get(i).getHigh() > maxValue){
                     maxValue = (float) StickData.get(i).getHigh();
                 }
@@ -152,7 +153,7 @@ public class StickChart extends GridChart {
     public void setMACDMaxValue(){
         if(null != StickData){
             maxValue = 0;
-            for(int i = StickData.size() - mShowDate - currentIndex; i < StickData.size()-currentIndex; i++){
+            for(int i = StickData.size() - mShowDate - index; i < StickData.size()-index; i++){
                 if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
                     maxValue = (float) Math.abs(StickData.get(i).getMacd());
                 }
@@ -231,7 +232,7 @@ public class StickChart extends GridChart {
                     if (index > maxStickDataNum - 1) {
                         index = maxStickDataNum - 1;
                     }
-                    int k = StickData.size() - mShowDate  + index -1 - currentIndex;
+                    int k = StickData.size() - mShowDate  -1 ;
                     if(k < 0){
                         k = 0;
                     }
@@ -348,7 +349,7 @@ public class StickChart extends GridChart {
                 	stickX = (maxStickDataNum - StickData.size()) * (stickWidth + 3);
                 }*/
                 // 判断显示为方柱或显示为线条
-            	int num = StickData.size() - mShowDate - currentIndex;
+            	int num = StickData.size() - mShowDate - index;
             	if(StickData.size() < maxStickDataNum){
             		mShowDate = maxStickDataNum;
             		stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
@@ -412,7 +413,7 @@ public class StickChart extends GridChart {
             if (null != StickData) {
                 float stickX = 3 + PADDING_LEFT;
                 // 判断显示为方柱或显示为线条
-                int num = StickData.size() - mShowDate - currentIndex;
+                int num = StickData.size() - mShowDate - index;
                 float highY = 0;
                 float lowY = 0;
                 float stickY = 0;
@@ -479,9 +480,9 @@ public class StickChart extends GridChart {
                                     .getAxisMarginTop() + mTitleHeight;
                         }
                         if(i != num){
-                            paint.setColor(getResources().getColor(R.color.gray));
+                            paint.setColor(getResources().getColor(R.color.ma5_color));
                             canvas.drawLine(stickX - 3 - stickWidth/2, stickY, stickX  + stickWidth/2, diff, paint);        
-                            paint.setColor(getResources().getColor(R.color.yellow));
+                            paint.setColor(getResources().getColor(R.color.ma10_color));
                             canvas.drawLine(stickX - 3 - stickWidth/2, stickDea, stickX  + stickWidth/2, dea, paint);        
                         }
                         stickDea = dea;
@@ -497,6 +498,59 @@ public class StickChart extends GridChart {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+    public void drawDiff(Canvas canvas){
+        int wid = 0;
+        if(null == StickData){
+            return;
+        }
+        if(ismove){
+            float stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
+            int selectIndext = (int) ((getWidth() - 2.0f - clickPostX - PADDING_LEFT) / (stickWidth + 3) + index);
+            if((StickData.size() - selectIndext - 1)>= 0 && (StickData.size() - selectIndext -1)< StickData.size()){
+                Paint paint = new Paint();
+                paint.setAntiAlias(true);
+                paint.setColor(getResources().getColor(R.color.ma5_color));
+                paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                Paint p = new Paint();
+                p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                Rect rect = new Rect();
+                String k = "diff:" + StickData.get(StickData.size() - selectIndext - 1).getDiff();
+                p.getTextBounds(k, 0, k.length() , rect);
+                canvas.drawText(k,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+                wid = rect.width() + 32;
+                String dea = "dea:" + StickData.get(StickData.size() - selectIndext - 1).getDea();
+                p.getTextBounds(dea, 0, dea.length() , rect);
+                paint.setColor(getResources().getColor(R.color.ma10_color));
+                canvas.drawText(dea,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+                wid = wid + rect.width() + 32;
+                String macd = "macd:" + StickData.get(StickData.size() - selectIndext - 1).getMacd();
+                p.getTextBounds(macd, 0, macd.length() , rect);
+                paint.setColor(getResources().getColor(R.color.ma20_color));
+                canvas.drawText(macd,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+            }
+        }else{
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setColor(getResources().getColor(R.color.ma5_color));
+            paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+            Paint p = new Paint();
+            p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+            Rect rect = new Rect();
+            String k = "diff:" + StickData.get(StickData.size() - 1 - index).getDiff();
+            p.getTextBounds("diff:" + StickData.get(StickData.size() -1 - index).getDiff(), 0, k.length() , rect);
+            canvas.drawText("diff:" + StickData.get(StickData.size() -1 - index).getDiff(),  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+            wid = rect.width() + 32;
+            String dea = "dea:" + StickData.get(StickData.size() - index - 1).getDea();
+            p.getTextBounds(dea, 0, dea.length() , rect);
+            paint.setColor(getResources().getColor(R.color.ma10_color));
+            canvas.drawText(dea,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+            wid = wid + rect.width() + 32;
+            String macd = "macd:" + StickData.get(StickData.size() - index - 1).getMacd();
+            p.getTextBounds(macd, 0, macd.length() , rect);
+            paint.setColor(getResources().getColor(R.color.ma20_color));
+            canvas.drawText(macd,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+    }
     }
     public void drawMA(Canvas canvas) {
         try {
@@ -516,7 +570,13 @@ public class StickChart extends GridChart {
                 paint.setAntiAlias(true);
                 paint.setColor(lineEntity.getLineColor());
                 paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-                int k = lineEntity.getLineData().size() - 1 - currentIndex;
+                int k;
+                if(ismove){
+                    k = lineEntity.getLineData().size() - 1 - currentIndex;
+                }else{
+                    k = lineEntity.getLineData().size() - 1 - index;
+                }
+                
                 if(k < 0){
                 	k = lineEntity.getLineData().size() - 1;
                 }
@@ -561,12 +621,12 @@ public class StickChart extends GridChart {
                 	addWid = (int) (19 * (stickWidth + 3));
                 }
                 //startX = startX + addWid + stickWidth / 2;
-                int s = lineEntity.getLineData().size()- currentIndex;
+                int s = lineEntity.getLineData().size()- index;
                 if(lineEntity.getLineData().size() < mShowDate){
                 	s =0;
                 	startX = addWid + PADDING_LEFT;
                 }else{
-                	s = lineEntity.getLineData().size() - mShowDate - currentIndex;
+                	s = lineEntity.getLineData().size() - mShowDate - index;
                 }
                 paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                 for (int i = s; i < lineEntity.getLineData().size() && i < s+mShowDate; i++) {
@@ -661,30 +721,36 @@ public class StickChart extends GridChart {
      * @return
      */
     private List<Float> initMA(List<StickEntity> entityList, int days) {
-        if (days < 2 || entityList == null || entityList.size() <= 0) {
-            return null;
-        }
-        List<Float> MAValues = new ArrayList<Float>();
+        List<Float> result = null;
+        try {
+            if (days < 2 || entityList == null || entityList.size() <= 0) {
+                return null;
+            }
+            List<Float> MAValues = new ArrayList<Float>();
 
-        float sum = 0;
-		float avg = 0;
-		for (int i = entityList.size() - 1; i >= 0; i--) {
-			sum = 0;
-			avg = 0;
-			if (i - days >= -1) {
-				for(int k = 0; k < days; k++){
-					sum = (float) (sum + entityList.get(i-k).getHigh());
-				}
-				avg = sum / days;
-			} else{
-				break;
-			}
-			MAValues.add(avg);
-		}
+            float sum = 0;
+            float avg = 0;
+            for (int i = entityList.size() - 1; i >= 0; i--) {
+            	sum = 0;
+            	avg = 0;
+            	if (i - days >= -1) {
+            		for(int k = 0; k < days; k++){
+            			sum = (float) (sum + entityList.get(i-k).getHigh());
+            		}
+            		avg = sum / days;
+            	} else{
+            		break;
+            	}
+            	MAValues.add(avg);
+            }
 
-        List<Float> result = new ArrayList<Float>();
-        for (int j = MAValues.size() - 1; j >= 0; j--) {
-            result.add(MAValues.get(j));
+            result = new ArrayList<Float>();
+            for (int j = MAValues.size() - 1; j >= 0; j--) {
+                result.add(MAValues.get(j));
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
         return result;
     }
