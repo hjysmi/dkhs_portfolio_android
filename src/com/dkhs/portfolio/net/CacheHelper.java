@@ -42,29 +42,30 @@ public class CacheHelper {
 
     public void isCacheUrl(String url) {
         // isCacheUrl =
-        System.out.println("isCacheUrl :"+url);
         for (String storeurl : DKHSUrl.storeURLList) {
             if (url.equals(storeurl)) {
                 isCacheUrl = true;
             }
         }
-        System.out.println("isCacheUrl :"+url);
     }
 
-    public void queryURLStore(String autho, final IHttpListener listener) {
-        System.out.println("queryURLStore url:" + mQueryUrl);
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
-        try {
-            UrlStoreBean storeBean = db.findFirst(Selector.from(UrlStoreBean.class).where("url", "=", mQueryUrl)
-                    .and("authorization", "=", autho));
-            if (null != storeBean && !TextUtils.isEmpty(storeBean.getResponseJson())) {
-                if (null != listener && !listener.isStopRequest()) {
-                    listener.onHttpSuccess(storeBean.getResponseJson());
+    public void queryURLStore(final String autho, final IHttpListener listener) {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    UrlStoreBean storeBean = db.findFirst(Selector.from(UrlStoreBean.class)
+                            .where("url", "=", mQueryUrl).and("authorization", "=", autho));
+                    if (null != storeBean && !TextUtils.isEmpty(storeBean.getResponseJson())) {
+                        if (null != listener && !listener.isStopRequest()) {
+                            listener.onHttpSuccess(storeBean.getResponseJson());
+                        }
+                    }
+                } catch (DbException e) {
+                    e.printStackTrace();
                 }
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-        }
+            };
+        }.start();
     }
 
     private String getQueryUrl(HttpMethod method, String url, RequestParams params) {
@@ -89,19 +90,23 @@ public class CacheHelper {
         return sbUrlKey.toString();
     }
 
-    public void storeURLResponse(String autho, String repsonJson) {
-        UrlStoreBean storeBean = new UrlStoreBean();
-        storeBean.setAuthorization(autho);
-        storeBean.setUrl(mQueryUrl);
-        storeBean.setResponseJson(repsonJson);
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
-        try {
-            db.replace(storeBean);
-            System.out.println("storeURLResponse url:" + mQueryUrl);
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void storeURLResponse(final String autho, final String repsonJson) {
+        new Thread() {
+            public void run() {
+                UrlStoreBean storeBean = new UrlStoreBean();
+                storeBean.setAuthorization(autho);
+                storeBean.setUrl(mQueryUrl);
+                storeBean.setResponseJson(repsonJson);
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    db.replace(storeBean);
+                    System.out.println("storeURLResponse url:" + mQueryUrl);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+        }.start();
     }
 
     public boolean isCacheUrl() {
