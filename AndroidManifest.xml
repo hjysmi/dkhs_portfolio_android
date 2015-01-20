@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="7"
-    android:versionName="1.2.0116" >
+    android:versionName="1.2.0119" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -37,7 +37,7 @@
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
         android:allowTaskReparenting="false"
-        android:hardwareAccelerated="false"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
@@ -144,7 +144,7 @@
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。 
-            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -153,14 +153,14 @@
             <!--
             	QZoneWebShareAdapter表示一个继承自cn.sharesdk.tencent.qzone.QZoneWebShareAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获QQ空间网页分享权页面的各种UI控件。 
-            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="QZoneWebShareAdapter"
                 android:value="cn.sharesdk.demo.MyQZoneWebShareAdapter" />
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
-            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
             -->
             <intent-filter>
                 <data android:scheme="db-7janx53ilz11gbs" />
@@ -174,7 +174,7 @@
             <!--
             	如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
             	事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
-            	则分享结束以后不能得到正确的回调
+            	则分享结束以后不能得到正确的回调
             -->
             <intent-filter>
                 <data android:scheme="tencent1103511496" />
