@@ -8,6 +8,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.R.color;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -400,8 +401,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
             // textPaint.setColor(Color.DKGRAY);
             canvas.drawText("成交量:", left + 1, top + textTextHeight * 7 + textMargin * 8, textPaint);
-            canvas.drawText(UIUtils.getValue(mOHLCData.get(selectIndext).getVolume()), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight
-                    * 7 + textMargin * 8, textPaint);
+            canvas.drawText(UIUtils.getValue(mOHLCData.get(selectIndext).getVolume()), left + 1
+                    + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight * 7 + textMargin * 8, textPaint);
         }
 
     }
@@ -575,14 +576,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
                     mVolumnChartView.setCurrentIndex(selectIndext);
                     mVolumnChartView.setmShowDate(mShowDataNum);
-                    if (selectIndext  > lineEntity.getLineData().size() - 1
-                            || selectIndext < 0) {
+                    if (selectIndext > lineEntity.getLineData().size() - 1 || selectIndext < 0) {
                         text = lineEntity.getTitle() + ":0.00";
                     } else
-                        text = lineEntity.getTitle()
-                                + ":"
-                                + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
-                                        selectIndext ));
+                        text = lineEntity.getTitle() + ":"
+                                + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext));
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -675,14 +673,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             / (mCandleWidth + 3) + mDataStartIndext);
 
                     mVolumnChartView.setCurrentIndex(selectIndext);
-                    if (selectIndext > lineEntity.getLineData().size() - 1
-                            || selectIndext  < 0) {
+                    if (selectIndext > lineEntity.getLineData().size() - 1 || selectIndext < 0) {
                         text = lineEntity.getTitle() + ":0.00";
                     } else
-                        text = lineEntity.getTitle()
-                                + ":"
-                                + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
-                                        selectIndext));
+                        text = lineEntity.getTitle() + ":"
+                                + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext));
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -875,6 +870,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     int currentShow = mShowDataNum;
     float longs;
 
+    private long firstClick;
+    private long lastClick;
+    // 计算点击的次数
+    private int count;
+
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
         e = event;
@@ -927,6 +927,23 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     }
                 });
                 t.start();
+
+                // 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
+                if (firstClick != 0 && System.currentTimeMillis() - firstClick > 300) {
+                    count = 0;
+                }
+                count++;
+                if (count == 1) {
+                    firstClick = System.currentTimeMillis();
+                } else if (count == 2) {
+                    lastClick = System.currentTimeMillis();
+                    // 两次点击小于300ms 也就是连续点击
+                    if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
+                        if (null != mDoubleClicklistener) {
+                            mDoubleClicklistener.OnDoubleClick(this);
+                        }
+                    }
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 if (null != mTouchListener) {
@@ -1381,6 +1398,16 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    private OnDoubleClickListener mDoubleClicklistener;
+
+    public OnDoubleClickListener getDoubleClicklistener() {
+        return mDoubleClicklistener;
+    }
+
+    public void setDoubleClicklistener(OnDoubleClickListener mDoubleClicklistener) {
+        this.mDoubleClicklistener = mDoubleClicklistener;
     }
 
 }

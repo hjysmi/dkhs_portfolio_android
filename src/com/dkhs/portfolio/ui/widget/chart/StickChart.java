@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.kline.MALineEntity;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
@@ -66,8 +67,7 @@ public class StickChart extends GridChart {
     private int currentIndex;
     // ///////////////�??函数///////////////
     private int mShowDate;
-    
-    
+
     public StickChart(Context context) {
         super(context);
     }

@@ -30,6 +30,9 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
+import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
@@ -179,6 +182,14 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(mStockCode);
+        mMyChartsView.setDoubleClicklistener(new OnDoubleClickListener() {
+
+            @Override
+            public void OnDoubleClick(View view) {
+                // TODO Auto-generated method stub
+                BusProvider.getInstance().post(new DoubleclickEvent());
+            }
+        });
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
@@ -331,7 +342,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 mMyChartsView.setSymbol(mStockCode);
             }
             String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+            mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
+                    ((KChartLandScapeActivity) getActivity()).getCheckValue());
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
                 first = false;
@@ -676,7 +688,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     public void onResume() {
 
         super.onResume();
-
+        BusProvider.getInstance().register(this);
         MobclickAgent.onPageStart(mPageName);
     }
 
@@ -740,6 +752,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
+        BusProvider.getInstance().unregister(this);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
     }
