@@ -22,6 +22,7 @@
     <color name="green_bg">#c4ffc4</color>
     <color name="white">#ffffffff</color>
     <color name="gray">#4d4c4d</color>
+    <color name="yellow">#ffff00</color>
     <color name="text_press">#a0a0a0</color>
     <color name="def_0">#2f74ff</color>
     <color name="def_1">#9933cc</color>

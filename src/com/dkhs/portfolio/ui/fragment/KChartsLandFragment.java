@@ -30,6 +30,9 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
+import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
@@ -105,12 +108,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         tvTurnover = (TextView) view.findViewById(R.id.kline_turnover);
         tvMacd = (TextView) view.findViewById(R.id.klin_macd);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
+        if (!TextUtils.isEmpty(symbolType) && UIUtils.isSymbleIndex(symbolType)) {
             view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
         }
         if(TextUtils.isEmpty(symbolType)){
             symbolType = getArguments().getString(SYMBOLETYPE);
-            if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
+            if (!TextUtils.isEmpty(symbolType) && UIUtils.isSymbleIndex(symbolType)) {
                 view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
             }
         }
@@ -179,6 +182,14 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(mStockCode);
+        mMyChartsView.setDoubleClicklistener(new OnDoubleClickListener() {
+
+            @Override
+            public void OnDoubleClick(View view) {
+                // TODO Auto-generated method stub
+                BusProvider.getInstance().post(new DoubleclickEvent());
+            }
+        });
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
@@ -286,8 +297,14 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             List<StickEntity> volumns = new ArrayList<StickEntity>();
             StickEntity temp = null;
             OHLCEntity entity = null;
+            double k = 0;
             for (int i = ohlc.size() - 1; i >= 0; i--) {
                 entity = ohlc.get(i);
+                if(i%2 == 0){
+                    k = i;
+                }else{
+                    k = -i;
+                }
                 temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
@@ -325,7 +342,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 mMyChartsView.setSymbol(mStockCode);
             }
             String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+            mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
+                    ((KChartLandScapeActivity) getActivity()).getCheckValue());
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
                 first = false;
@@ -642,6 +660,19 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
                 }
+                if(((KChartLandScapeActivity) getActivity()).getStickType() == (StickChart.CHECK_COLUME)){
+                    tvTurnover.setSelected(true);
+                    tvMacd.setSelected(false);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
+                    mVolumnChartView.setLatitudeNum(1);
+                }else if(((KChartLandScapeActivity) getActivity()).getStickType() == (StickChart.CHECK_MACD)){
+                    tvTurnover.setSelected(false);
+                    tvMacd.setSelected(true);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                    mVolumnChartView.setLatitudeNum(3);
+                }
             }
         } else {
             // 不可见时不执行操作
@@ -657,7 +688,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     public void onResume() {
 
         super.onResume();
-
+        BusProvider.getInstance().register(this);
         MobclickAgent.onPageStart(mPageName);
     }
 
@@ -721,6 +752,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
+        BusProvider.getInstance().unregister(this);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
     }
@@ -784,10 +816,24 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 }
                 break;
             case R.id.kline_turnover:
-                
+                if(!tvTurnover.isSelected()){
+                    tvTurnover.setSelected(true);
+                    tvMacd.setSelected(false);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
+                    mVolumnChartView.setLatitudeNum(1);
+                    refreshVolumnCharts();
+                }
                 break;
             case R.id.klin_macd:
-                
+                if(!tvMacd.isSelected()){
+                    tvTurnover.setSelected(false);
+                    tvMacd.setSelected(true);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                    mVolumnChartView.setLatitudeNum(3);
+                    refreshVolumnCharts();
+                }
                 break;
             default:
                 break;
