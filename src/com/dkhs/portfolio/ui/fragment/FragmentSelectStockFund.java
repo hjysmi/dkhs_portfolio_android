@@ -301,7 +301,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 // loadFinishUpdateView();
                 return;
             }
-            if (isRefresh) {
+            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
                 mDataList.clear();
                 isRefresh = false;
             }
