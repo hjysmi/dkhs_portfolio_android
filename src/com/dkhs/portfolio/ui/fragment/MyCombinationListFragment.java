@@ -181,10 +181,10 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
                     mCombinationTimer = null;
                 }
             }
-            if (isRefresh) {
-                mDataList.clear();
-                isRefresh = false;
-            }
+            // if (isRefresh) {
+            mDataList.clear();
+            isRefresh = false;
+            // }
 
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
