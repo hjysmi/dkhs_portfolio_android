@@ -568,18 +568,10 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
     private void setLandViewBack() {
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        new Handler().postDelayed(new Runnable() {
-
-            public void run() {
-                Intent intent = new Intent();
-                intent.putExtra(ChangeCheckType.CHECK_TYPE, checkValue);
-                setResult(RESULT_OK, intent);
-                finish();
-
-            }
-
-        }, 500);
+        Intent intent = new Intent();
+        intent.putExtra(ChangeCheckType.CHECK_TYPE, checkValue);
+        setResult(RESULT_OK, intent);
+        finish();
 
     }
 
