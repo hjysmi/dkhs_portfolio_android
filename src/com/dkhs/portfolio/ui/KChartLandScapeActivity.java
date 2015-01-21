@@ -61,6 +61,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         // TODO Auto-generated method stub
         requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        super.onCreate(arg0);
         setContentView(R.layout.activity_landscape_kchart);
         context = this;
         DisplayMetrics dm = new DisplayMetrics();
@@ -72,7 +73,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         processExtraData();
         initView();
         setupViewDatas();
-        super.onCreate(arg0);
     }
 
     /**
@@ -567,10 +567,20 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
     }
 
     private void setLandViewBack() {
-        Intent intent = new Intent();
-        intent.putExtra(ChangeCheckType.CHECK_TYPE, checkValue);
-        setResult(RESULT_OK, intent);
-        finish();
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        new Handler().postDelayed(new Runnable() {
+
+            public void run() {
+                Intent intent = new Intent();
+                intent.putExtra(ChangeCheckType.CHECK_TYPE, checkValue);
+                setResult(RESULT_OK, intent);
+                finish();
+
+            }
+
+        }, 500);
+
     }
 
     public String getCheckValue() {
