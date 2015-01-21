@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui.widget.kline;
 
+import com.google.gson.annotations.SerializedName;
+
 public class OHLCEntity {
 
 	private double volume; //成交量
@@ -7,15 +9,20 @@ public class OHLCEntity {
 	private double high;// 最高价
 	private double low;// 最低价
 	private double close;// 收盘价
+	@SerializedName("tradedate")
 	private String date;// 日期，如：2013-09-18
 	private double change;
 	private double percentage;
-
+	private double macd;
+    private double diff;
+    private double dea;
+    @SerializedName("div_info")
+    private String info;
 	public OHLCEntity() {
 		super();
 	}
 
-	public OHLCEntity(double volumn,double open, double high, double low, double close, String date) {
+	public OHLCEntity(double volumn,double open, double high, double low, double close, String date,double macd,double diff,double dea,String info) {
 		super();
 		this.volume = volumn;
 		this.open = open;
@@ -23,6 +30,10 @@ public class OHLCEntity {
 		this.low = low;
 		this.close = close;
 		this.date = date;
+		this.macd = macd;
+        this.diff = diff;
+        this.dea = dea;
+        this.info = info;
 	}
 	
 	public double getChange() {
@@ -96,5 +107,37 @@ public class OHLCEntity {
 	public void setVolume(double volume) {
 		this.volume = volume;
 	}
+
+    public double getMacd() {
+        return macd;
+    }
+
+    public void setMacd(double macd) {
+        this.macd = macd;
+    }
+
+    public double getDiff() {
+        return diff;
+    }
+
+    public void setDiff(double diff) {
+        this.diff = diff;
+    }
+
+    public double getDea() {
+        return dea;
+    }
+
+    public void setDea(double dea) {
+        this.dea = dea;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
 	
 }

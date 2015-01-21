@@ -22,7 +22,7 @@ import android.view.View;
  * 
  */
 public class GridChart extends View {
-
+    public static int CANDLE_PADDING = 3;
 	// ////////////默认值////////////////
 	/** 默认背景色 */
 	public static final int DEFAULT_BACKGROUD = android.R.color.white;

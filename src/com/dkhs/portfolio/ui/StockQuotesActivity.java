@@ -38,6 +38,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import cn.sharesdk.framework.authorize.g;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -96,6 +97,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     protected static final int MSG_WHAT_AFTER_REQUEST = 97;
     private final int REQUESTCODE_SELECT_STOCK = 901;
+    private final int REQUEST_CHECK = 888;
 
     private TextView tvCurrent;
     private TextView tvHigh;
@@ -133,10 +135,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private View viewHeader;
     private String symbolType;
     private List<Fragment> frag;
-
+    private Button klinVirtulCheck;
+    private String checkValue = "0";
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
-
+        PortfolioApplication.getInstance().setCheckValue("0");
         intent.putExtra(EXTRA_STOCK, bean);
 
         return intent;
@@ -261,15 +264,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     stockLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
-        } else if(!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))){
+        } else if(!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))){
             String[] name = new String[3];
-            if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            if ((null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name = new String[2];
             }
             // name[0] = "新闻";
             name[0] = "公告";
             name[1] = "研报";
-            if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name[2] = "F10";
             }
             NewsforImpleEngine vo;
@@ -346,6 +349,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvLow = (TextView) viewHeader.findViewById(R.id.tv_lowest_value);
             tvOpen = (TextView) viewHeader.findViewById(R.id.tv_today_open_value);
             tvChange = (TextView) viewHeader.findViewById(R.id.tv_up_price);
+            
 
             tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
             tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
@@ -362,6 +366,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         }
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
+        klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
+        klinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -475,6 +481,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void onSelectPosition(int position) {
             if (null != pager) {
                 pager.setCurrentItem(position);
+                if(position == 0){
+                    klinVirtulCheck.setVisibility(View.GONE);
+                }else{
+                    if(null != mStockBean && !UIUtils.isSymbleIndex(mStockBean.symbol_type)){
+                        klinVirtulCheck.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     };
@@ -750,10 +763,28 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         setAddOptionalButton();
                     }
                     break;
+                case REQUEST_CHECK:
+                    checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
+                    reGetDate();
+                    break;
             }
         }
     }
-
+    private void reGetDate(){
+        if(checkValue.equals("0")){
+            klinVirtulCheck.setText("不复权  ▼");
+            PortfolioApplication.getInstance().setCheckValue("0");
+        }else if(checkValue.equals("1")){
+            klinVirtulCheck.setText("前复权  ▼");
+            PortfolioApplication.getInstance().setCheckValue("1");
+        }else{
+            klinVirtulCheck.setText("后复权  ▼");
+            PortfolioApplication.getInstance().setCheckValue("2");
+        }
+        if(fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment){
+            ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
+        }
+    }
     private void updateStockInfo() {
         setTitle(mStockBean.name + "(" + mStockBean.code + ")");
         // setTitleTipString(mStockBean.code);
@@ -834,12 +865,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 quoteHandler.postDelayed(runnable, 6 * 1000);
             }
                 break;
+            case R.id.klin_virtul_check:
+                Intent intent = new Intent(this,ChangeCheckType.class);
+                Bundle b = new Bundle();
+                b.putString(ChangeCheckType.CHECK_TYPE, checkValue);
+                intent.putExtras(b);
+                startActivityForResult(intent, REQUEST_CHECK);
+                break;
             default:
                 break;
         }
 
     }
-
     private void rotateRefreshButton() {
         // RotateAnimation ani = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f,
         // Animation.RELATIVE_TO_SELF,
@@ -963,5 +1000,19 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        if(PortfolioApplication.getInstance().isChange()){
+            PortfolioApplication.getInstance().setChange(false);
+            checkValue = PortfolioApplication.getInstance().getCheckValue();
+            reGetDate();
+        }
     }
+
+    public String getCheckValue() {
+        return checkValue;
+    }
+
+    public void setCheckValue(String checkValue) {
+        this.checkValue = checkValue;
+    }
+    
 }

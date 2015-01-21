@@ -119,6 +119,7 @@ public class FragmentSelectAdapter {
 		pager = (ScrollViewPager) view.findViewById(R.id.selectadapter_pager);
         pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
+        pager.setOffscreenPageLimit(4);
 		iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
 		//selectScroll = (HorizontalScrollView) view.findViewById(R.id.select_scroll);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);

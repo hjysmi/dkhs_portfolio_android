@@ -13,8 +13,10 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
@@ -64,6 +66,7 @@ public class KChartsFragment extends Fragment {
 	private boolean having = true;
 	private String symbolType;
 	private RelativeLayout pb;
+	private String checkValue = "0";
     public static KChartsFragment getKChartFragment(Integer type, String stockcode,String symbolType) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
@@ -90,6 +93,7 @@ public class KChartsFragment extends Fragment {
         if(!(null != ohlcs && ohlcs.size() > 0)){
             pb.setVisibility(View.VISIBLE);
         }
+        ohlcs = new ArrayList<OHLCEntity>();
         initChartView();
         initVloumnChartView();
         mMyChartsView.setStick(mVolumnChartView);
@@ -257,7 +261,7 @@ public class KChartsFragment extends Fragment {
             OHLCEntity entity = null;
             for (int i = ohlc.size() - 1; i >= 0; i--) {
                 entity = ohlc.get(i);
-                temp = new StickEntity(entity.getVolume(), 0, entity.getDate());
+                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
             }
@@ -286,7 +290,7 @@ public class KChartsFragment extends Fragment {
         // 获取K线类型，日，周，月
         try {
             String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener);
+            mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener,getCheckValue());
             if(first){
             	//PromptManager.showProgressDialog(getActivity(), "", true);
             	first = false;
@@ -297,7 +301,16 @@ public class KChartsFragment extends Fragment {
         }
         return null;
     }
-
+    public void regetDate(String checkValue){
+        setCheckValue(checkValue);
+        ohlcs.clear();
+        refreshChartsView(ohlcs);
+        List<StickEntity> volumns = new ArrayList<StickEntity>();
+        mVolumnChartView.setStickData(volumns);
+        mVolumnChartView.postInvalidate();
+        pb.setVisibility(View.VISIBLE);
+        getOHLCDatas();
+    }
     /**
      * 获取K线类型，日，周，月
      * 
@@ -357,9 +370,13 @@ public class KChartsFragment extends Fragment {
 
         try {
             JSONArray ja = new JSONArray(jsonObject);
+            List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+            for(int i = entity.size() - 1; i >= 0; i--){
+                entitys.add(entity.get(i));
+            }
             int len = ja.length();
             
-            if (len > 0) {
+           /* if (len > 0) {
                 JSONObject jo = null;
                 OHLCEntity ohlc = null;
                 for (int i = len - 1; i >= 0; i--) {
@@ -382,10 +399,16 @@ public class KChartsFragment extends Fragment {
                             ohlc.setChange(jo.getDouble("change"));
                         if (jo.has("percentage"))
                             ohlc.setPercentage(jo.getDouble("percentage"));
+                        if (jo.has("macd"))
+                            ohlc.setMacd(jo.getDouble("macd"));
+                        if (jo.has("diff"))
+                            ohlc.setDiff(jo.getDouble("diff"));
+                        if (jo.has("dea"))
+                            ohlc.setDea(jo.getDouble("dea"));
                         entitys.add(ohlc);
                     }
                 }
-            }
+            }*/
             if(len > 50 && having){
             	//mSmallerButton.setClickable(true);
             	mSmallerButton.setSelected(false);
@@ -405,7 +428,7 @@ public class KChartsFragment extends Fragment {
      */
     private List<OHLCEntity> getTestDatas() {
         List<OHLCEntity> ohlc = new ArrayList<OHLCEntity>();
-        ohlc.add(new OHLCEntity(100, 246, 248, 235, 235, "20110825"));
+        /*ohlc.add(new OHLCEntity(100, 246, 248, 235, 235, "20110825"));
         ohlc.add(new OHLCEntity(2312, 240, 242, 236, 242, "20110824"));
         ohlc.add(new OHLCEntity(111, 236, 240, 235, 240, "20110823"));
         ohlc.add(new OHLCEntity(111, 232, 236, 231, 236, "20110822"));
@@ -506,7 +529,7 @@ public class KChartsFragment extends Fragment {
         ohlc.add(new OHLCEntity(111, 276, 280, 276, 280, "20110407"));
         ohlc.add(new OHLCEntity(111, 273, 276, 272, 276, "20110406"));
         ohlc.add(new OHLCEntity(151, 275, 276, 271, 272, "20110404"));
-        ohlc.add(new OHLCEntity(114, 275, 276, 273, 275, "20110401"));
+        ohlc.add(new OHLCEntity(114, 275, 276, 273, 275, "20110401"));*/
         return ohlc;
     }
 
@@ -573,6 +596,7 @@ public class KChartsFragment extends Fragment {
             // TODO Auto-generated method stub
             if (isVisibleToUser) {
                     //fragment可见时加载数据
+                checkValue = PortfolioApplication.getInstance().getCheckValue();
             	mQuotesDataEngine = new QuotesEngineImpl();
             	List<OHLCEntity> ohlc = getOHLCDatas();
             	if (mMarketTimer == null) {
@@ -616,7 +640,7 @@ public class KChartsFragment extends Fragment {
         		mMarketTimer.cancel();
             }
         	String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode,"1", mKlineHttpListenerFlush);
+            mQuotesDataEngine.queryKLine(mtype, mStockCode,"1", mKlineHttpListenerFlush,getCheckValue());
         }
     }
     private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
@@ -627,7 +651,7 @@ public class KChartsFragment extends Fragment {
                 List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
                 if(null == ohlcs || ohlcs.size() == 0){
                 	String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener);
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode,"0", mKlineHttpListener,getCheckValue());
                 }else{
 	               if(ohlc.size() > 0){
 	            	   ohlcs.add(0, ohlc.get(0));
@@ -656,4 +680,13 @@ public class KChartsFragment extends Fragment {
 		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
 		MobclickAgent.onPageEnd(mPageName);
 	}
+
+    public String getCheckValue() {
+        return checkValue;
+    }
+
+    public void setCheckValue(String checkValue) {
+        this.checkValue = checkValue;
+    }
+    
 }
