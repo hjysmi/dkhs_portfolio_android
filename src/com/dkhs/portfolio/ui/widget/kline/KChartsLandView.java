@@ -231,16 +231,17 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             // textPaint.setColor(Color.DKGRAY);
             // textPaint.setFakeBoldText(true);
             textPaint.setAntiAlias(true);
-            if(null != mOHLCData.get(selectIndext).getInfo() &&mOHLCData.get(selectIndext).getInfo().length() > 0){
+            if (null != mOHLCData.get(selectIndext).getInfo() && mOHLCData.get(selectIndext).getInfo().length() > 0) {
                 p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                p.getTextBounds(mOHLCData.get(selectIndext).getInfo(), 0, mOHLCData.get(selectIndext).getInfo().length(), rects);
+                p.getTextBounds(mOHLCData.get(selectIndext).getInfo(), 0, mOHLCData.get(selectIndext).getInfo()
+                        .length(), rects);
                 left = 3.0f + PADDING_LEFT + 10 + textMargin;
                 top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin * 2 + textTextHeight;
                 right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
                 float leftInfo = 3.0f + PADDING_LEFT + 10;
                 bottom = 5.0f + 10 * textTextHeight + textMargin * 11;
                 if ((bottom + top) >= getHeight()) {
-                    //textMargin = (int) (textMargin - ((bottom) - getHeight()) / 9);
+                    // textMargin = (int) (textMargin - ((bottom) - getHeight()) / 9);
                     left = 3.0f + PADDING_LEFT + 10 + textMargin;
                     top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin * 2 + textTextHeight;
                     right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
@@ -259,7 +260,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         leftInfo = width - 12.0f - rects.width() + PADDING_LEFT;
                     }
                 }
-                canvas.drawText(mOHLCData.get(selectIndext).getInfo(), leftInfo + 1, top - textMargin - textTextHeight, textPaint);
+                canvas.drawText(mOHLCData.get(selectIndext).getInfo(), leftInfo + 1, top - textMargin - textTextHeight,
+                        textPaint);
             }
             // 绘制点击线条及详情区域
             Paint paint = new Paint();
@@ -290,8 +292,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             borderPaint.setColor(Color.LTGRAY);
 
             // 绘制详情文字
-            
-            
+
             canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top + textMargin, textPaint);
 
             canvas.drawText("开盘:", left + 1, top + textTextHeight + textMargin * 2, textPaint);
@@ -546,18 +547,18 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         canvas.drawRect(left, close, right, open, redPaint);
                         canvas.drawLine(startX, high, startX, low, redPaint);
                     }
-                    if(null != entity.getInfo() && entity.getInfo().length() > 0){
+                    if (null != entity.getInfo() && entity.getInfo().length() > 0) {
                         Paint p = new Paint();
                         p.setAntiAlias(true);
                         p.setStyle(Paint.Style.FILL);
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
-                        if(mCandleWidth < 3f){
+                        if (mCandleWidth < 3f) {
                             mCandleWidth = 3f;
-                        }else{
-                            wid = (float) (mCandleWidth/2);
+                        } else {
+                            wid = (float) (mCandleWidth / 2);
                         }
-                        canvas.drawCircle(startX, (float)(UPER_CHART_BOTTOM - mCandleWidth), wid, p);
+                        canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, p);
                     }
                 }
                 // 绘制上部曲线图及上部分MA值
@@ -643,18 +644,18 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         canvas.drawRect(left, open, right, close, redPaint);
                         canvas.drawLine(startX, high, startX, low, redPaint);
                     }
-                    if(null != entity.getInfo() && entity.getInfo().length() > 0){
+                    if (null != entity.getInfo() && entity.getInfo().length() > 0) {
                         Paint p = new Paint();
                         p.setAntiAlias(true);
                         p.setStyle(Paint.Style.FILL);
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
-                        if(mCandleWidth < 3f){
+                        if (mCandleWidth < 3f) {
                             mCandleWidth = 3f;
-                        }else{
-                            wid = (float) (mCandleWidth/2);
+                        } else {
+                            wid = (float) (mCandleWidth / 2);
                         }
-                        canvas.drawCircle(startX, (float)(UPER_CHART_BOTTOM - mCandleWidth), wid, p);
+                        canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, p);
                     }
                 }
 
@@ -927,20 +928,21 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     }
                 });
                 t.start();
-
-                // 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
-                if (firstClick != 0 && System.currentTimeMillis() - firstClick > 300) {
-                    count = 0;
-                }
-                count++;
-                if (count == 1) {
-                    firstClick = System.currentTimeMillis();
-                } else if (count == 2) {
-                    lastClick = System.currentTimeMillis();
-                    // 两次点击小于300ms 也就是连续点击
-                    if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
-                        if (null != mDoubleClicklistener) {
-                            mDoubleClicklistener.OnDoubleClick(this);
+                if (event.getPointerCount() == 1) {
+                    // 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
+                    if (firstClick != 0 && System.currentTimeMillis() - firstClick > 300) {
+                        count = 0;
+                    }
+                    count++;
+                    if (count == 1) {
+                        firstClick = System.currentTimeMillis();
+                    } else if (count == 2) {
+                        lastClick = System.currentTimeMillis();
+                        // 两次点击小于300ms 也就是连续点击
+                        if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
+                            if (null != mDoubleClicklistener) {
+                                mDoubleClicklistener.OnDoubleClick(this);
+                            }
                         }
                     }
                 }
