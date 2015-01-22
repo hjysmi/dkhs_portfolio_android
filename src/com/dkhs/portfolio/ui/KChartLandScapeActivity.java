@@ -56,49 +56,23 @@ import com.umeng.analytics.MobclickAgent;
 
 public class KChartLandScapeActivity extends FragmentActivity implements OnClickListener, ITouchListener, Serializable {
 
-    @Override
-    protected void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
-        requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_landscape_kchart);
-        context = this;
-        DisplayMetrics dm = new DisplayMetrics();
-        WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        m.getDefaultDisplay().getMetrics(dm);
-        mQuotesEngine = new QuotesEngineImpl();
-
-        // handle intent extras
-        processExtraData();
-        initView();
-        setupViewDatas();
-        super.onCreate(arg0);
-    }
-
     /**
 		 * 
 		 */
     // private LinearLayout landKlineLayout;
     private static final long serialVersionUID = 15121212311111156L;
-
     private SelectStockBean mStockBean;
-
     public static final String EXTRA_STOCK = "extra_stock";
-
     protected static final int MSG_WHAT_BEFORE_REQUEST = 99;
-
     protected static final int MSG_WHAT_AFTER_REQUEST = 97;
     private final int REQUESTCODE_SELECT_STOCK = 901;
-
     private int stickType = 0;
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
-
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
     private long mStockId;
     private String mStockCode;
     private Context context;
-
     private HScrollTitleView hsTitle;
     // privaet view
     private ScrollViewPager pager;
@@ -114,28 +88,40 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         Intent intent = new Intent(context, KChartLandScapeActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(EXTRA_STOCK, bean);
-
         return intent;
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-
         super.onNewIntent(intent);
-
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
-
         processExtraData();
-
     }
 
     private void processExtraData() {
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
         }
+    }
 
+    @Override
+    protected void onCreate(Bundle arg0) {
+        // TODO Auto-generated method stub
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        // requestWindowFeature(Window.FEATURE_NO_TITLE);// 隐藏标题
+        // getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        super.onCreate(arg0);
+        setContentView(R.layout.activity_landscape_kchart);
+        context = this;
+        DisplayMetrics dm = new DisplayMetrics();
+        WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        m.getDefaultDisplay().getMetrics(dm);
+        mQuotesEngine = new QuotesEngineImpl();
+        // handle intent extras
+        processExtraData();
+        initView();
+        setupViewDatas();
     }
 
     /**
@@ -145,7 +131,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
      */
     private void setupViewDatas() {
         if (null != mStockBean) {
-
             mStockId = mStockBean.id;
             mStockCode = mStockBean.code;
             symbolType = mStockBean.symbol_type;
@@ -153,7 +138,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         }
         // setAddOptionalButton();
         initTabPage();
-
     }
 
     private void handleExtras(Bundle extras) {
@@ -190,7 +174,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
         // initTabPage();
         // setupViewData();
-
         // scrollview + listview 会滚动到底部，需要滚动到头部
         // setAddOptionalButton();
     }
@@ -202,23 +185,20 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
     }
 
     Handler requestUiHandler = new Handler() {
+
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MSG_WHAT_BEFORE_REQUEST: {
                 }
-
                     break;
                 case MSG_WHAT_AFTER_REQUEST: {
                 }
-
                     break;
-
                 default:
                     break;
             }
         };
     };
-
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
         @Override
@@ -226,17 +206,13 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             if (null != pager) {
                 /*
                  * if(position == 0){
-                 * landKlineLayout.setVisibility(View.GONE);
-                 * }else{
-                 * landKlineLayout.setVisibility(View.VISIBLE);
-                 * }
+                 * landKlineLayout.setVisibility(View.GONE); }else{
+                 * landKlineLayout.setVisibility(View.VISIBLE); }
                  */
                 pager.setCurrentItem(position);
-
             }
         }
     };
-
     ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
 
         @Override
@@ -245,7 +221,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             try {
                 JSONArray jsonArray = new JSONArray(jsonData);
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
-
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
                 if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
                     quoteHandler.removeCallbacks(runnable);
@@ -254,12 +229,12 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
                 int i = 0;
                 for (; i < 5; i++) {
-                    // String buyPrice : stockQuotesBean.getBuyPrice().getBuyPrice()
+                    // String buyPrice :
+                    // stockQuotesBean.getBuyPrice().getBuyPrice()
                     FiveRangeItem buyItem = new FiveRangeItem();
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
                         String buyPrice = stockQuotesBean.getBuyPrice().getBuyPrice().get(i);
                         if (isFloatText(buyPrice)) {
-
                             buyItem.price = Float.parseFloat(buyPrice);
                         } else {
                             buyItem.price = 0;
@@ -268,34 +243,29 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                         if (isFloatText(volText)) {
                             buyItem.vol = Integer.parseInt(volText);
                         } else {
-
                             buyItem.vol = 0;
                         }
                     } else {
                         buyItem.vol = 0;
-
                     }
                     buyItem.tag = "" + (i + 1);
                     buyList.add(buyItem);
                 }
-
                 for (int j = 4; j >= 0; j--) {
                     FiveRangeItem sellItem = new FiveRangeItem();
                     if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
                         String sellPrice = stockQuotesBean.getSellPrice().getSellPrice().get(j);
                         if (isFloatText(sellPrice)) {
-
                             sellItem.price = Float.parseFloat(sellPrice);
                         } else {
                             sellItem.price = 0;
                         }
-
-                        // sellItem.price = Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
+                        // sellItem.price =
+                        // Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
                         String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
                         if (isFloatText(sellVol)) {
                             sellItem.vol = Integer.parseInt(sellVol);
                         } else {
-
                             sellItem.vol = 0;
                         }
                     } else {
@@ -304,11 +274,9 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
                 }
-
                 stockQuotesBean.setBuyList(buyList);
                 stockQuotesBean.setSellList(sellList);
             } catch (Exception e) {
-
                 e.printStackTrace();
             }
             return stockQuotesBean;
@@ -326,7 +294,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                 landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
                 landKlinTextData.setText(TimeUtils.getTimeString(object.getMoment()));
             }
-
         }
     };
 
@@ -341,9 +308,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
     }
 
     private void initTabPage() {
-
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-
         mStockQuotesChartFragment = StockQuotesChartLandFragment.newInstance(
                 StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
@@ -367,7 +332,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         // indicator.setViewPager(pager);
-
     }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
@@ -375,7 +339,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         private List<Fragment> fragmentList;
 
         // private String[] titleList;
-
         public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2) {
             super(fm);
             this.fragmentList = fragmentList2;
@@ -384,7 +347,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
 
         @Override
         public Fragment getItem(int arg0) {
-
             return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
         }
 
@@ -398,7 +360,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         public int getCount() {
             return fragmentList == null ? 0 : fragmentList.size();
         }
-
     }
 
     @Override
@@ -407,7 +368,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-
                     SelectStockBean selectBean = (SelectStockBean) data
                             .getSerializableExtra(FragmentSelectStockFund.ARGUMENT);
                     if (null != selectBean) {
@@ -432,22 +392,19 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             mStockQuotesBean.setFollowed(!mStockQuotesBean.isFollowed());
         }
     };
-
     Handler quoteHandler = new Handler();
 
     // Handler quoteHandler = new Handler();
-
     public void onStop() {
         super.onStop();
         quoteHandler.removeCallbacks(runnable);// 关闭定时器处理
-
     }
 
     Runnable runnable = new Runnable() {
+
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
-
             setupViewData();
             quoteHandler.postDelayed(this, 5 * 1000);// 隔60s再执行一次
         }
@@ -460,7 +417,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
      */
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         listener.stopRequest(true);
     }
@@ -475,7 +431,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         if (mScrollview != null) {
             mScrollview.setIsfocus(true);
         }
-
     }
 
     /**
@@ -488,7 +443,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         if (mScrollview != null) {
             mScrollview.setIsfocus(false);
         }
-
     }
 
     class OnLayoutlistener implements OnTouchListener {
@@ -508,7 +462,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             }
             return true;
         }
-
     }
 
     class OnView implements OnTouchListener {
@@ -519,7 +472,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             loseTouching();
             return true;
         }
-
     }
 
     public StockQuotesBean getmStockQuotesBean() {
@@ -542,15 +494,14 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
-        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        }
+        // if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
+        //
+        // }
         super.onResume();
         quoteHandler.postDelayed(runnable, 6);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
         BusProvider.getInstance().register(this);
-
     }
 
     @Override
@@ -560,7 +511,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             case R.id.lank_klind_exit:
                 setLandViewBack();
                 break;
-
             default:
                 break;
         }
