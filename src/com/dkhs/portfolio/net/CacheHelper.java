@@ -99,7 +99,10 @@ public class CacheHelper {
                 storeBean.setResponseJson(repsonJson);
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
                 try {
-                    db.replace(storeBean);
+                    // db.delete(storeBean);
+                    // db.replace(storeBean);
+                    db.saveOrUpdate(storeBean);
+                    // db.update(storeBean, "responseJson");
                     System.out.println("storeURLResponse url:" + mQueryUrl);
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
