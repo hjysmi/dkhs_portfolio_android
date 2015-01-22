@@ -13,60 +13,33 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
-import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
-import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.net.BasicHttpListener;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
-import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
-import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
-import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
-import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
-import com.lidroid.xutils.view.annotation.ViewInject;
-import com.umeng.analytics.MobclickAgent;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
+import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
+import com.dkhs.portfolio.utils.UIUtils;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName FundsOrderFragment
@@ -75,7 +48,8 @@ import android.widget.AbsListView.OnScrollListener;
  * @date 2014-10-29 下午4:03:33
  * @version 1.0
  */
-public class MyCombinationListFragment extends LoadMoreListFragment implements OnItemClickListener, IDelButtonListener {
+public class MyCombinationListFragment extends RefreshLoadMoreListFragment implements OnItemClickListener,
+        IDelButtonListener {
 
     private String mOrderType;
     private CombinationAdapter mAdapter;
@@ -119,9 +93,17 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+            @Override
+            public void onRefresh() {
+                refresh();
+
+            }
+        });
     }
 
     @Override
@@ -174,6 +156,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
+        mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {

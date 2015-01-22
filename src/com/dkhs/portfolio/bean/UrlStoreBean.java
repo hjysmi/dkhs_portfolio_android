@@ -19,18 +19,19 @@ import com.lidroid.xutils.db.annotation.Id;
  */
 public class UrlStoreBean {
     private String authorization;
+    @Id
     private String url;
     private String responseJson;
-    @Id
-    private int id;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    // private int id;
+    //
+    // public int getId() {
+    // return id;
+    // }
+    //
+    // public void setId(int id) {
+    // this.id = id;
+    // }
 
     public String getAuthorization() {
         return authorization;
