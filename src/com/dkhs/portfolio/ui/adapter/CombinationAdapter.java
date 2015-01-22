@@ -128,12 +128,12 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
             // viewHolder.btnEidt.setVisibility(View.VISIBLE);
 
         }
-        if (TextUtils.isEmpty(item.getDescription().trim())) {
+        if (TextUtils.isEmpty(item.getDefDescription().trim())) {
             viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format,
                     mContext.getString(R.string.desc_def_text)));
         } else {
 
-            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
+            viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDefDescription()));
         }
 
         // row.setLayoutParams(mItemViewLayoutParams);
