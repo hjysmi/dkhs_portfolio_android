@@ -173,7 +173,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // btnEditName.setOnClickListener(this);
         QueryCombinationListener listener = new QueryCombinationListener();
         mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
-        //listener.setLoadingDialog(getActivity());
+        // listener.setLoadingDialog(getActivity());
         initTabPage(view);
 
         // if(null!=mCombinationBean&&
@@ -195,11 +195,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             if (isChecked) {
                 QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
-                //listener.setLoadingDialog(getActivity());
+                // listener.setLoadingDialog(getActivity());
             } else {
                 QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
-                //listener.setLoadingDialog(getActivity());
+                // listener.setLoadingDialog(getActivity());
             }
         }
 
@@ -370,7 +370,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
                     netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
                             .getColorStateList(R.color.gray_textcolor));
-                    netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_three_month() + "%");
+                    netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_month() + "%");
                     netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
                     netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
