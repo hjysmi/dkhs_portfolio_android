@@ -584,7 +584,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if(mCandleWidth < 3f){
-                            mCandleWidth = 3f;
+                            //mCandleWidth = 3f;
+                            wid = 3f;
                         }else{
                             wid = (float) (mCandleWidth/2);
                         }
@@ -688,7 +689,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if(mCandleWidth < 3f){
-                            mCandleWidth = 3f;
+                            //mCandleWidth = 3f;
+                            wid = 3f;
                         }else{
                             wid = (float) (mCandleWidth/2);
                         }

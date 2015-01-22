@@ -554,7 +554,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if (mCandleWidth < 3f) {
-                            mCandleWidth = 3f;
+                            //mCandleWidth = 3f;
+                            wid = 3f;
                         } else {
                             wid = (float) (mCandleWidth / 2);
                         }
@@ -651,7 +652,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if (mCandleWidth < 3f) {
-                            mCandleWidth = 3f;
+                            //mCandleWidth = 3f;
+                            wid = 3f;
                         } else {
                             wid = (float) (mCandleWidth / 2);
                         }
