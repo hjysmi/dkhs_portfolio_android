@@ -279,7 +279,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960))) {
+        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960) || (((UIUtils.getDisplayMetrics().heightPixels < 1920) && UIUtils.getDisplayMetrics().heightPixels > 1280)))) {
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         }
         /*

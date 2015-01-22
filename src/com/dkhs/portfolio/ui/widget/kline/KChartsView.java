@@ -561,7 +561,12 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						canvas.drawRect(left,open, right,  close, greenPaint);
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
-					    double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+					    double hisClose;
+                        if(mOHLCData.size() > 1 && (mDataStartIndext + i +1 < mOHLCData.size())){
+                            hisClose = mOHLCData.get(mDataStartIndext + i +1).getClose();
+                        }else{
+                            hisClose = 1;
+                        }
                         if(entity.getOpen() > hisClose){
                             canvas.drawLine(left, open, right, open, redPaint);
                             canvas.drawLine(startX, high, startX, low, redPaint);
@@ -663,7 +668,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
 					    double hisClose;
-                        if(mOHLCData.size() > 1){
+                        if(mOHLCData.size() > 1 && (mDataStartIndext + i +1 < mOHLCData.size())){
                             hisClose = mOHLCData.get(mDataStartIndext + i +1).getClose();
                         }else{
                             hisClose = 1;
