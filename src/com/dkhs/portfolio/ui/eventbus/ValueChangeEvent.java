@@ -18,11 +18,11 @@ package com.dkhs.portfolio.ui.eventbus;
  */
 public class ValueChangeEvent {
 
-	public float	value;
-	public String	type;
+    public float value;
+    public String type;
 
-	public ValueChangeEvent(String type, float value) {
-		this.value = value;
-		this.type = type;
-	}
+    public ValueChangeEvent(String type, float value) {
+        this.value = value;
+        this.type = type;
+    }
 }

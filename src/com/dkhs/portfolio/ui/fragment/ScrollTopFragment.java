@@ -40,7 +40,7 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
     @Subscribe
     public void updataValue(ValueChangeEvent event) {
         if (null != event) {
-            if (null != tvIncreaseValue) {
+            if (null != tvIncreaseValue && !TextUtils.isEmpty(mType) && !TextUtils.isEmpty(event.type)) {
                 if (mType.equalsIgnoreCase(event.type)) {
                     tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(event.value));
                 }
