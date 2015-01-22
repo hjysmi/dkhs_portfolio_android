@@ -9,8 +9,9 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.lidroid.xutils.http.HttpHandler;
 
@@ -37,11 +37,11 @@ import com.lidroid.xutils.http.HttpHandler;
 public abstract class RefreshLoadMoreListFragment extends BaseFragment implements ILoadDataBackListener,
         OnLoadMoreListener {
 
-    PullToRefreshListView mListView;
+    // PullToRefreshListView mListView;
 
     private TextView tvEmptyText;
     public SwipeRefreshLayout mSwipeLayout;
-
+    public RecyclerView recyclerView;
     private HttpHandler mHttpHandler;
 
     @Override
@@ -68,29 +68,32 @@ public abstract class RefreshLoadMoreListFragment extends BaseFragment implement
     }
 
     // add by zcm -----2014.12.15
-    public void setListViewVisible() {
-        if (mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)
-            return;
-        mListView.setVisibility(View.VISIBLE);
-        tvEmptyText.setVisibility(View.GONE);
-    }
+    // public void setListViewVisible() {
+    // if (mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)
+    // return;
+    // mListView.setVisibility(View.VISIBLE);
+    // tvEmptyText.setVisibility(View.GONE);
+    // }
 
     // add by zcm -----2014.12.15
 
-    public void setEmptyText(String text) {
-        mListView.setVisibility(View.GONE);
-        tvEmptyText.setText(text);
-        tvEmptyText.setVisibility(View.VISIBLE);
-    }
+    // public void setEmptyText(String text) {
+    // mListView.setVisibility(View.GONE);
+    // tvEmptyText.setText(text);
+    // tvEmptyText.setVisibility(View.VISIBLE);
+    // }
 
     private void initLoadMoreList(View view) {
 
-        mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
 
-        mListView.setAdapter(getListAdapter());
-        mListView.setOnItemClickListener(getItemClickListener());
-        setListViewInit(mListView);
+        // mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+        // mListView.setAdapter(getListAdapter());
+        // mListView.setOnItemClickListener(getItemClickListener());
+        // setListViewInit(mListView);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_vertical);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(layoutManager);
 
     }
 
@@ -106,11 +109,11 @@ public abstract class RefreshLoadMoreListFragment extends BaseFragment implement
     //
     // }
 
-    abstract ListAdapter getListAdapter();
+    // abstract ListAdapter getListAdapter();
 
     abstract LoadMoreDataEngine getLoadEngine();
 
-    abstract OnItemClickListener getItemClickListener();
+    // abstract OnItemClickListener getItemClickListener();
 
     public void setListViewInit(ListView listview) {
 
@@ -129,25 +132,25 @@ public abstract class RefreshLoadMoreListFragment extends BaseFragment implement
     @Override
     public void loadFinish(MoreDataBean object) {
         if (isAdded()) {
-            mListView.onLoadMoreComplete();
-            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
-                mListView.setCanLoadMore(false);
-                mListView.setAutoLoadMore(false);
-            } else {
-                mListView.setCanLoadMore(true);
-                mListView.setAutoLoadMore(true);
-                if (getLoadEngine().getCurrentpage() == 1)
-                    mListView.setOnLoadListener(RefreshLoadMoreListFragment.this);
-            }
+            // mListView.onLoadMoreComplete();
+            // if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+            // mListView.setCanLoadMore(false);
+            // mListView.setAutoLoadMore(false);
+            // } else {
+            // mListView.setCanLoadMore(true);
+            // mListView.setAutoLoadMore(true);
+            // if (getLoadEngine().getCurrentpage() == 1)
+            // mListView.setOnLoadListener(RefreshLoadMoreListFragment.this);
+            // }
             // loadFinishUpdateView();
         }
 
     }
 
     public void setListItemClick(OnItemClickListener listener) {
-        if (null != listener && null != mListView) {
-            mListView.setOnItemClickListener(listener);
-        }
+        // if (null != listener && null != mListView) {
+        // mListView.setOnItemClickListener(listener);
+        // }
     }
 
     @Override
