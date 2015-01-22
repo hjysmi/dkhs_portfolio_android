@@ -52,6 +52,11 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
         combination_name.setText(mCombinationBean.getName());
         combination_desc.setText(TextUtils.isEmpty(mCombinationBean.getDescription()) ? "" : mCombinationBean
                 .getDescription());
+        String text = TextUtils.isEmpty(mCombinationBean.getDescription()) ? "" : mCombinationBean
+                .getDescription();
+        if(text.equals("还没有描述内容呢")){
+            combination_desc.setText("");
+        }
     }
 
     public static final String EXTRA_COMBINATION = "extra_combination";

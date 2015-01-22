@@ -663,7 +663,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2 - (i + addNum) * CANDLE_PADDING + PADDING_LEFT);
 
 					if (open < close) {
-						canvas.drawRect(left, close, right, open, greenPaint);
+						canvas.drawRect(left, open, right, close, greenPaint);
 						
 						canvas.drawLine(startX, high, startX, low, greenPaint);
 					} else if (open == close) {
@@ -684,7 +684,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                             canvas.drawLine(startX, high, startX, low, grayPaint);
                         }
 					} else {
-						canvas.drawRect(left, open, right, close, redPaint);
+						canvas.drawRect(left, close, right, open, redPaint);
 						canvas.drawLine(startX, high, startX, low, redPaint);
 					}
 					if(null != entity.getInfo() && entity.getInfo().length() > 0){
