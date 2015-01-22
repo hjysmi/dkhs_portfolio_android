@@ -614,7 +614,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     }
                 }
                 if (null != e && !showDetails) {
-                    e.setLocation(getWidth() - 6, 0);
+                    e.setLocation(getWidth() - 3 - PADDING_LEFT, 0);
                     mVolumnChartView.onSet(e, ismove, mDataStartIndext);
                 }
             } else {
@@ -715,7 +715,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     }
                 }
                 if (null != e && !showDetails) {
-                    e.setLocation(getWidth() - 6, 0);
+                    e.setLocation(getWidth() - 3 - PADDING_LEFT, 0);
                     mVolumnChartView.onSet(e, ismove, mDataStartIndext);
                 }
             }
