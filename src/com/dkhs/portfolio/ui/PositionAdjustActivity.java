@@ -286,7 +286,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             etConbinationName.setText(mPositionDetailBean.getPortfolio().getName());
-            etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDescription());
+            etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDefDescription());
             // viewCombinationInfo.setVisibility(View.VISIBLE);
             positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
             positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
@@ -612,7 +612,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         List<SubmitSymbol> submitList = generateSymbols();
         isModifyPosition = submitList.size() > 0;
         isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
-                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDescription());
+                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDefDescription());
         if (!isModifyPosition && !isModiyName) {
 
             PromptManager.showToast("持仓信息没有修改");

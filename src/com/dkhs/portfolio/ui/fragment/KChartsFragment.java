@@ -62,7 +62,7 @@ public class KChartsFragment extends Fragment {
     private boolean first = true;
     private Timer mMarketTimer;
 	private static final long mPollRequestTime = 1000 * 5;
-	List<OHLCEntity> ohlcs;
+	List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
 	private boolean having = true;
 	private String symbolType;
 	private RelativeLayout pb;

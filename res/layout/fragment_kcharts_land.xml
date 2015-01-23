@@ -45,7 +45,7 @@
                 <TextView
                     android:id="@+id/kline_turnover"
                     style="@style/edit_style_land_kilne"
-                    android:text="成交量" />
+                    android:text="VOL" />
 
                 <TextView
                     android:id="@+id/klin_macd"

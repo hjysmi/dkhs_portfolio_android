@@ -18,7 +18,7 @@
             android:text="@string/combination_name"
             android:textSize="16sp" />
 
-        <EditText
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_myconbina_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:text="@string/combination_desc"
             android:textSize="16sp" />
 
-        <EditText
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:id="@+id/et_myconbina_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

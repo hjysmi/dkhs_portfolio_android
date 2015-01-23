@@ -90,10 +90,14 @@ public class CombinationBean implements Serializable {
         this.id = id;
     }
 
-    public String getDescription() {
+    public String getDefDescription() {
         if (TextUtils.isEmpty(description)) {
             return PortfolioApplication.getInstance().getResources().getString(R.string.desc_def_text);
         }
+        return description;
+    }
+
+    public String getDescription() {
         return description;
     }
 
