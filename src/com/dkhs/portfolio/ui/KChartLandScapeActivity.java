@@ -210,7 +210,6 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                  * landKlineLayout.setVisibility(View.VISIBLE); }
                  */
                 pager.setCurrentItem(position);
-                PortfolioApplication.getInstance().setkLinePosition(position);
             }
         }
     };
