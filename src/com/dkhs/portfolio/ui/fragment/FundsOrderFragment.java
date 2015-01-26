@@ -36,6 +36,7 @@ import com.umeng.analytics.MobclickAgent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,7 +129,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-
+        mSwipeLayout.setRefreshing(false);
         if (null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
@@ -242,5 +243,24 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    OnRefreshListener setOnRefreshListener() {
+        // TODO Auto-generated method stub
+        return new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
+                isRefresh = true;
+            }
+        };
+    }
 
 }

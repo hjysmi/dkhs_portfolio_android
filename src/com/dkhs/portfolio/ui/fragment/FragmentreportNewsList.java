@@ -6,7 +6,10 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.test.UiThreadTest;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +30,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.YanbaoNewsActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
@@ -50,6 +53,8 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
     private TextView tv;
     private RelativeLayout pb;
 
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -63,7 +68,7 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
         context = getActivity();
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if(!(null != mDataList && mDataList.size() > 0)){
+        if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
 
@@ -72,7 +77,7 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
-        
+
         return view;
     }
 
@@ -96,6 +101,21 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
         // mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                }, 1000);
+
+            }
+        });
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
 
         // mListView.removeFooterView(mFootView);
         // mListView.setOnScrollListener(new OnScrollListener() {
@@ -137,11 +157,11 @@ public class FragmentreportNewsList extends Fragment implements OnLoadMoreListen
             try {
                 Intent intent;
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                    intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(),
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
                             mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
                                     .getSymbols().get(0).getAbbrName());
                 } else {
-                    intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null, null);
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null);
                 }
                 startActivity(intent);
             } catch (Exception e) {
