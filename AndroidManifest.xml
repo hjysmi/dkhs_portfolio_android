@@ -83,7 +83,7 @@
         <activity android:name="com.dkhs.portfolio.ui.OptionalStockListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SelectAddOptionalActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MarketCenterActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.OptionMarketNewsActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.NoticesActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.VerificationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NewsActivity" />
@@ -92,7 +92,7 @@
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.YanbaoNewsActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.YanbaoDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OrderFundDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.UserCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.FeedBackActivity" />
