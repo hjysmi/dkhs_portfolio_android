@@ -4,13 +4,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.dkhs.portfolio.ui.widget.PullToRefreshListView
-        android:id="@android:id/list"
-        style="@style/listViewStyle"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:drawSelectorOnTop="false" />
+        android:layout_height="match_parent" >
+
+        <com.dkhs.portfolio.ui.widget.PullToRefreshListView
+            android:id="@android:id/list"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawSelectorOnTop="false" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@android:id/empty"

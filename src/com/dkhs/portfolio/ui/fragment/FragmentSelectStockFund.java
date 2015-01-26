@@ -14,6 +14,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -281,6 +282,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
             mListView.onLoadMoreComplete();
+            mSwipeLayout.setRefreshing(false);
             pb.setVisibility(View.GONE);
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
@@ -301,9 +303,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 // loadFinishUpdateView();
                 return;
             }
-            if (isRefresh) {
+            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
                 mDataList.clear();
                 isRefresh = false;
+
             }
             // loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
@@ -454,6 +457,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mAdapterConbinStock.setCheckChangeListener(listener);
     }
 
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -531,6 +536,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
+
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        // mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                refreshNoCaseTime();
+
+            }
+        });
 
     }
 

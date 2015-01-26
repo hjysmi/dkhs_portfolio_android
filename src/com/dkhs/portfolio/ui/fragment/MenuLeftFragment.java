@@ -40,7 +40,7 @@ import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
+import com.dkhs.portfolio.ui.NoticesActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
@@ -224,7 +224,7 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
                     intent = new Intent(getActivity(), FundsOrderActivity.class);
                     break;
                 case 4:
-                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
+                    intent = new Intent(getActivity(), NoticesActivity.class);
                     break;
                 case 5:
                     intent = new Intent(getActivity(), YanBaoActivity.class);

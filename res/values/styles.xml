@@ -11,6 +11,11 @@
         <item name="com.dkhs.portfolio:switchStyle">@style/switch_light</item>
     </style>
 
+    <!-- Activity透明主题 -->
+    <style name="TranslucenTheme" parent="@style/AppBaseTheme">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="hw_wrap">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

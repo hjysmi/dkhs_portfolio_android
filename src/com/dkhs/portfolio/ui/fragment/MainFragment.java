@@ -47,7 +47,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
+import com.dkhs.portfolio.ui.NoticesActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
@@ -436,7 +436,7 @@ public class MainFragment extends BaseFragment implements OnClickListener {
                 }
                     break;
                 case 3: {
-                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
+                    intent = new Intent(getActivity(), NoticesActivity.class);
 
                 }
                     break;
