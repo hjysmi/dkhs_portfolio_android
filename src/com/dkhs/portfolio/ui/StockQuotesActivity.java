@@ -85,8 +85,8 @@ import com.umeng.analytics.MobclickAgent;
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, ITouchListener, Serializable {
 
     /**
-	 * 
-	 */
+     * 
+     */
     private static final long serialVersionUID = 15121212311111156L;
 
     private SelectStockBean mStockBean;
@@ -1004,6 +1004,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             PortfolioApplication.getInstance().setChange(false);
             checkValue = PortfolioApplication.getInstance().getCheckValue();
             reGetDate();
+        }
+        if(PortfolioApplication.getInstance().getkLinePosition() != -1){
+            hsTitle.setSelectIndex(PortfolioApplication.getInstance().getkLinePosition());
+            PortfolioApplication.getInstance().setkLinePosition(-1);
         }
     }
 
