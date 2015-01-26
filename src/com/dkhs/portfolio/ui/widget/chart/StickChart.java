@@ -227,12 +227,15 @@ public class StickChart extends GridChart {
             if (null != StickData) {
                 float average = mShowDate / (longtitudeNum + 1);
                 // �?��刻度
-                for (int i = 0; i <= longtitudeNum +1; i++) {
+                for (int i = longtitudeNum + 1; i >= 0; i--) {
                     int index = (int) Math.floor(i * average);
                     if (index > maxStickDataNum - 1) {
                         index = maxStickDataNum - 1;
                     }
-                    int k = StickData.size() - mShowDate  -1 ;
+                    int k = StickData.size() - index  -1 ;
+                    if(longtitudeNum + 1 == i){
+                        k += 1;
+                    }
                     if(k < 0){
                         k = 0;
                     }
@@ -507,6 +510,9 @@ public class StickChart extends GridChart {
         if(ismove){
             float stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
             int selectIndext = (int) ((getWidth() - 2.0f - clickPostX - PADDING_LEFT) / (stickWidth + 3) + index);
+            if(selectIndext < 0){
+                selectIndext += 4;
+            }
             if((StickData.size() - selectIndext - 1)>= 0 && (StickData.size() - selectIndext -1)< StickData.size()){
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
