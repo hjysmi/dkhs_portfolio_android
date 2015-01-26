@@ -136,4 +136,12 @@
         android:focusableInTouchMode="false"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/iv_additem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/gray_main_plus_selector"
+        android:visibility="gone" />
+
 </RelativeLayout>
