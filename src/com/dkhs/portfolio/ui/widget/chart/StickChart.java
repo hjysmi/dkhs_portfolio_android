@@ -224,7 +224,7 @@ public class StickChart extends GridChart {
     protected void initAxisX() {
         List<String> TitleX = new ArrayList<String>();
         try {
-            if (null != StickData) {
+            if (null != StickData && StickData.size() > 0) {
                 float average = mShowDate / (longtitudeNum + 1);
                 // �?��刻度
                 for (int i = longtitudeNum + 1; i >= 0; i--) {
@@ -504,7 +504,7 @@ public class StickChart extends GridChart {
     }
     public void drawDiff(Canvas canvas){
         int wid = 0;
-        if(null == StickData){
+        if(null == StickData || StickData.size() == 0){
             return;
         }
         if(ismove){
