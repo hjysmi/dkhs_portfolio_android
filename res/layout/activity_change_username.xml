@@ -15,7 +15,7 @@
     android:paddingRight="20dp"
         android:background="@drawable/edittext_bg"
         >
-    <EditText 
+    <com.dkhs.portfolio.ui.widget.ClearableEditText 
         android:id="@+id/change_edit_name"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

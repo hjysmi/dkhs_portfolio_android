@@ -532,7 +532,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
                         canvas.drawLine(startX, high, startX, low, greenPaint);
                     } else if (open == close) {
-                        double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+                        double hisClose;
+                        if(mOHLCData.size() > 1 && (mDataStartIndext + i +1 < mOHLCData.size())){
+                            hisClose = mOHLCData.get(mDataStartIndext + i +1).getClose();
+                        }else{
+                            hisClose = 1;
+                        }
                         if (entity.getOpen() > hisClose) {
                             canvas.drawLine(left, open, right, open, redPaint);
                             canvas.drawLine(startX, high, startX, low, redPaint);
@@ -554,7 +559,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if (mCandleWidth < 3f) {
-                            mCandleWidth = 3f;
+                            //mCandleWidth = 3f;
+                            wid = 3f;
                         } else {
                             wid = (float) (mCandleWidth / 2);
                         }
@@ -625,11 +631,16 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     float startX = (float) (width - 3 - mCandleWidth * (i + addNum) - (mCandleWidth - 1) / 2
                             - (i + addNum) * 3 + PADDING_LEFT);
                     if (open < close) {
-                        canvas.drawRect(left, close, right, open, greenPaint);
+                        canvas.drawRect(left, open, right, close, greenPaint);
 
                         canvas.drawLine(startX, high, startX, low, greenPaint);
                     } else if (open == close) {
-                        double hisClose = mOHLCData.get(mDataStartIndext + i + 1).getClose();
+                        double hisClose;
+                        if(mOHLCData.size() > 1 && (mDataStartIndext + i +1 < mOHLCData.size())){
+                            hisClose = mOHLCData.get(mDataStartIndext + i +1).getClose();
+                        }else{
+                            hisClose = 1;
+                        }
                         if (entity.getOpen() > hisClose) {
                             canvas.drawLine(left, open, right, open, redPaint);
                             canvas.drawLine(startX, high, startX, low, redPaint);
@@ -641,7 +652,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             canvas.drawLine(startX, high, startX, low, grayPaint);
                         }
                     } else {
-                        canvas.drawRect(left, open, right, close, redPaint);
+                        canvas.drawRect(left, close, right, open, redPaint);
                         canvas.drawLine(startX, high, startX, low, redPaint);
                     }
                     if (null != entity.getInfo() && entity.getInfo().length() > 0) {
@@ -651,7 +662,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         p.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if (mCandleWidth < 3f) {
-                            mCandleWidth = 3f;
+                            //mCandleWidth = 3f;
+                            wid = 3f;
                         } else {
                             wid = (float) (mCandleWidth / 2);
                         }
