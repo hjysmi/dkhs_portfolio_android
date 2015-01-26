@@ -930,6 +930,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             checkValue = PortfolioApplication.getInstance().getCheckValue();
             reGetDate();
         }
+        if(PortfolioApplication.getInstance().getkLinePosition() != -1){
+            hsTitle.setSelectIndex(PortfolioApplication.getInstance().getkLinePosition());
+            PortfolioApplication.getInstance().setkLinePosition(-1);
+        }
     }
 
     public String getCheckValue() {
