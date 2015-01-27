@@ -388,5 +388,8 @@ public class UIUtils {
         }
         return false;
     }
-
+    public static String formatDate(String tmp,double value){
+        String st = new DecimalFormat(tmp).format(value);
+        return st;
+    }
 }

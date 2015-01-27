@@ -221,7 +221,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			}
 			Paint textPaint = new Paint();
             textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            // textPaint.setColor(Color.DKGRAY);
+            textPaint.setColor(Color.RED);
             // textPaint.setFakeBoldText(true);
             textPaint.setAntiAlias(true);
             if(null != mOHLCData.get(selectIndext).getInfo() &&mOHLCData.get(selectIndext).getInfo().length() > 0){
@@ -306,7 +306,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 			
 			// 绘制详情文字
 			textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-			//textPaint.setColor(Color.DKGRAY);
+			textPaint.setColor(Color.DKGRAY);
 			//textPaint.setFakeBoldText(true);
 			textPaint.setAntiAlias(true);
 			canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top

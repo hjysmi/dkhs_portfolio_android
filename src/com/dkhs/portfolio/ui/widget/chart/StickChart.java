@@ -8,6 +8,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.kline.MALineEntity;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import android.content.Context;
 import android.content.res.Resources.NotFoundException;
@@ -507,6 +508,7 @@ public class StickChart extends GridChart {
         if(null == StickData || StickData.size() == 0){
             return;
         }
+        String tmp = "0.0000";
         if(ismove){
             float stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
             int selectIndext = (int) ((getWidth() - 2.0f - clickPostX - PADDING_LEFT) / (stickWidth + 3) + index);
@@ -524,16 +526,16 @@ public class StickChart extends GridChart {
                 Paint p = new Paint();
                 p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                 Rect rect = new Rect();
-                String k = "DIFF:" + StickData.get(StickData.size() - selectIndext - 1).getDiff();
+                String k = "DIFF:" + UIUtils.formatDate(tmp,StickData.get(StickData.size() - selectIndext - 1).getDiff());
                 p.getTextBounds(k, 0, k.length() , rect);
                 canvas.drawText(k,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
                 wid = rect.width() + 32;
-                String dea = "DEA:" + StickData.get(StickData.size() - selectIndext - 1).getDea();
+                String dea = "DEA:" +  UIUtils.formatDate(tmp,StickData.get(StickData.size() - selectIndext - 1).getDea());
                 p.getTextBounds(dea, 0, dea.length() , rect);
                 paint.setColor(getResources().getColor(R.color.ma10_color));
                 canvas.drawText(dea,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
                 wid = wid + rect.width() + 32;
-                String macd = "MACD:" + StickData.get(StickData.size() - selectIndext - 1).getMacd();
+                String macd = "MACD:" +  UIUtils.formatDate(tmp,StickData.get(StickData.size() - selectIndext - 1).getMacd());
                 p.getTextBounds(macd, 0, macd.length() , rect);
                 paint.setColor(getResources().getColor(R.color.ma20_color));
                 canvas.drawText(macd,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
@@ -550,16 +552,16 @@ public class StickChart extends GridChart {
             if(num < 0){
                 num = 0;
             }
-            String k = "DIFF:" + StickData.get(num).getDiff();
-            p.getTextBounds("DIFF:" + StickData.get(StickData.size() -1 - index).getDiff(), 0, k.length() , rect);
-            canvas.drawText("DIFF:" + StickData.get(StickData.size() -1 - index).getDiff(),  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+            String k = "DIFF:" +  UIUtils.formatDate(tmp,StickData.get(StickData.size() -1 - index).getDiff());
+            p.getTextBounds(k, 0, k.length() , rect);
+            canvas.drawText(k,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
             wid = rect.width() + 32;
-            String dea = "DEA:" + StickData.get(StickData.size() - index - 1).getDea();
+            String dea = "DEA:" + UIUtils.formatDate(tmp,StickData.get(StickData.size() - index - 1).getDea());
             p.getTextBounds(dea, 0, dea.length() , rect);
             paint.setColor(getResources().getColor(R.color.ma10_color));
             canvas.drawText(dea,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
             wid = wid + rect.width() + 32;
-            String macd = "MACD:" + StickData.get(StickData.size() - index - 1).getMacd();
+            String macd = "MACD:" + UIUtils.formatDate(tmp,StickData.get(StickData.size() - index - 1).getMacd());
             p.getTextBounds(macd, 0, macd.length() , rect);
             paint.setColor(getResources().getColor(R.color.ma20_color));
             canvas.drawText(macd,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
