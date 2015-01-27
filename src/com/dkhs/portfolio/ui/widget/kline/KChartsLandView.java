@@ -228,7 +228,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             }
             Paint textPaint = new Paint();
             textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            // textPaint.setColor(Color.DKGRAY);
+            textPaint.setColor(Color.RED);
             // textPaint.setFakeBoldText(true);
             textPaint.setAntiAlias(true);
             if (null != mOHLCData.get(selectIndext).getInfo() && mOHLCData.get(selectIndext).getInfo().length() > 0) {
@@ -290,9 +290,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
             Paint borderPaint = new Paint();
             borderPaint.setColor(Color.LTGRAY);
-
+            
             // 绘制详情文字
-
+            textPaint.setColor(Color.DKGRAY);
             canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top + textMargin, textPaint);
 
             canvas.drawText("开盘:", left + 1, top + textTextHeight + textMargin * 2, textPaint);
