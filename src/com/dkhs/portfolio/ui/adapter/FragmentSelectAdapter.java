@@ -1,18 +1,13 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -119,6 +114,7 @@ public class FragmentSelectAdapter {
 		pager = (ScrollViewPager) view.findViewById(R.id.selectadapter_pager);
         pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
+        pager.setOffscreenPageLimit(4);
 		iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
 		//selectScroll = (HorizontalScrollView) view.findViewById(R.id.select_scroll);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
@@ -226,7 +222,7 @@ public class FragmentSelectAdapter {
 		animation.setDuration(300);
 		iv.startAnimation(animation);
 	}
-	private class OrderFragmentAdapter extends FragmentPagerAdapter {
+	private class OrderFragmentAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> fragmentList;
 

@@ -144,10 +144,12 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         m.getDefaultDisplay().getMetrics(dm);
         LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
         if (nameList.length * indiatorWidth <= dm.widthPixels) {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
             offset = (dm.widthPixels / nameList.length - indiatorWidth) / 2;
         } else {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, getContext()
+                    .getResources().getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
         }
         tvList = new TextView[nameList.length];
         for (int i = 0; i < nameList.length; i++) {

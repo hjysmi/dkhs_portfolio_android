@@ -76,6 +76,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
 	}
 	private void initDate() {
         try {
+                initView();
                 Bundle bundle = getArguments();
                 if (bundle != null) {
                     vo = (NewsforImpleEngine) bundle.getSerializable(VO);
@@ -96,6 +97,7 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     }
 
     private void initView() {
+        if(null != view){
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
 
@@ -103,34 +105,8 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
 //        mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
-
-//        mListView.removeFooterView(mFootView);
-//        mListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                switch (scrollState) {
-//                    case OnScrollListener.SCROLL_STATE_IDLE:
-//
-//                    {
-//                        // 判断是否滚动到底部
-//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-//                            loadMore();
-//
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
         mListView.setOnItemClickListener(itemBackClick);
+        }
 
     }
 

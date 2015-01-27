@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -21,10 +22,10 @@
                 android:id="@+id/land_klin_text_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="民生银行"
                 android:paddingLeft="20dp"
-                android:textSize="@dimen/land_text_size"
-                android:textColor="@color/black" />
+                android:text="民生银行"
+                android:textColor="@color/black"
+                android:textSize="@dimen/land_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -39,8 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
-                android:textSize="@dimen/land_text_size"
-                android:text="-" />
+                android:text="-"
+                android:textSize="@dimen/land_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -56,8 +57,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="成交量"
-                android:textSize="@dimen/land_text_size"
-                android:textColor="@color/theme_gray_press" />
+                android:textColor="@color/theme_gray_press"
+                android:textSize="@dimen/land_text_size" />
 
             <TextView
                 android:id="@+id/land_klin_text_valum"
@@ -65,8 +66,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="-"
-                android:textSize="@dimen/land_text_size"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/land_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -82,8 +83,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="时间"
-                android:textSize="@dimen/land_text_size"
-                android:textColor="@color/theme_gray_press" />
+                android:textColor="@color/theme_gray_press"
+                android:textSize="@dimen/land_text_size" />
 
             <TextView
                 android:id="@+id/land_klin_text_data"
@@ -91,8 +92,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="5dp"
                 android:text="-"
-                android:textSize="@dimen/land_text_size"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/land_text_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -105,6 +106,9 @@
                 android:id="@+id/lank_klind_exit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"	
                 android:paddingRight="20dp"
                 android:src="@drawable/btn_del_item_selector" />
         </LinearLayout>
@@ -115,8 +119,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <View
-        style="@style/divider_line" />
+    <View style="@style/divider_line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -125,10 +128,8 @@
         <RelativeLayout
             android:id="@+id/land_kline_layouts"
             android:layout_width="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_height="match_parent" >
-
-            
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true" >
         </RelativeLayout>
 
         <com.dkhs.portfolio.ui.widget.ScrollViewPager

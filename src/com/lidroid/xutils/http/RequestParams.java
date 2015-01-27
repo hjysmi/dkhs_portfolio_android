@@ -339,4 +339,8 @@ public class RequestParams {
             this.header = new BasicHeader(name, value);
         }
     }
+
+    public List<NameValuePair> getBodyParams() {
+        return bodyParams;
+    }
 }

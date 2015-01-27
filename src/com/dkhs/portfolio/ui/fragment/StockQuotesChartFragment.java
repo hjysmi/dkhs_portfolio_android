@@ -89,6 +89,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private SelectStockBean mSelectStockBean;
     private RelativeLayout pb;
+
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartFragment newInstance(String trendType, String stockCode) {
         StockQuotesChartFragment fragment = new StockQuotesChartFragment();
@@ -135,18 +136,20 @@ public class StockQuotesChartFragment extends Fragment {
         // fenshiPiceLine.setLineData(lineDataList);
 
     }
-    private List<FiveRangeItem> getDates(int k){
+
+    private List<FiveRangeItem> getDates(int k) {
         List<FiveRangeItem> list = new ArrayList<FiveRangeItem>();
         FiveRangeItem fr;
         int tmp;
-        tmp = k + 6;;
-        for(int i = 0; i < 5; i++){
+        tmp = k + 6;
+        ;
+        for (int i = 0; i < 5; i++) {
             fr = new FiveRangeItem();
             fr.price = 0;
-            if(k > 0){
-                fr.tag =  k + "";
+            if (k > 0) {
+                fr.tag = k + "";
                 k--;
-            }else{
+            } else {
                 fr.tag = tmp + "";
                 tmp++;
             }
@@ -155,6 +158,7 @@ public class StockQuotesChartFragment extends Fragment {
         }
         return list;
     }
+
     private void handleExtras(Bundle extras) {
         mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
@@ -217,7 +221,7 @@ public class StockQuotesChartFragment extends Fragment {
         pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         mMaChart.setContext(getActivity());
-        mMaChart.setmStockBean(((StockQuotesActivity)getActivity()).getmStockBean());
+        mMaChart.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
         initMaChart(mMaChart);
         initView(view);
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
@@ -454,7 +458,7 @@ public class StockQuotesChartFragment extends Fragment {
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
                 StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-                if (null != m &&UIUtils.roundAble(m)) {
+                if (null != m && UIUtils.roundAble(m)) {
                     dataHandler.removeCallbacks(runnable);
                 }
 
@@ -767,7 +771,7 @@ public class StockQuotesChartFragment extends Fragment {
             if (mQuotesDataEngine == null) {
                 return;
             }
-            //todayListener.setLoadingDialog(getActivity());
+            // todayListener.setLoadingDialog(getActivity());
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);

@@ -379,6 +379,9 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     }
 
     protected void initNotice() {
+        if (null == tvEmptyText) {
+            return;
+        }
         switch (mViewType) {
             case STOCK_OPTIONAL:
 

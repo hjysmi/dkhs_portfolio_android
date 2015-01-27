@@ -115,6 +115,7 @@ public class ClearableEditText extends EditText implements OnFocusChangeListener
         }else{
         	 if (hasFocus) {
                  setClearIconVisible(getText().length() > 0);
+                 ((EditText)v).setSelection(((EditText) v).length());
              } else {
              	
                  setClearIconVisible(false);

@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.lidroid.xutils.view.annotation.event.OnTouch;
 
 public class TrendChart extends TrendGridChart {
     /** 显示数据线 */
@@ -82,6 +83,7 @@ public class TrendChart extends TrendGridChart {
     private boolean moves = false;
     private Context context;
     private SelectStockBean mStockBean = null;
+
     public TrendChart(Context context) {
         super(context);
         init();
@@ -148,8 +150,13 @@ public class TrendChart extends TrendGridChart {
     /** 当前被选中的坐标点 */
     private PointF touchPoint;
     float timeX = 0;
-	float timeY = 0;
+    float timeY = 0;
     private boolean isTouch;
+
+    private long firstClick;
+    private long lastClick;
+    // 计算点击的次数
+    private int count;
 
     /**
      * 触摸事件
@@ -161,54 +168,75 @@ public class TrendChart extends TrendGridChart {
             case MotionEvent.ACTION_DOWN:
                 moves = true;
                 timeX = event.getX();
-    			timeY = event.getY();
-    			if (null != mTouchListener) {
-	                mTouchListener.chartTounching();
-	            }
-    			if (null != mScrollview) {
+                timeY = event.getY();
+                if (null != mTouchListener) {
+                    mTouchListener.chartTounching();
+                }
+                if (null != mScrollview) {
                     mScrollview.setIsfocus(true);
                 }
                 Thread t = new Thread(new Runnable() {
-    				
-    				@Override
-    				public void run() {
-    					// TODO Auto-generated method stub
-    					try {
-    						Thread.sleep(300);
-    						if(moves){
-    							mCounter++;
-    			                isTouch = true;
-    			                moves = false;
-    			                if (null != mTouchListener) {
-    			                    mTouchListener.chartTounching();
-    			                }
-    			                if (null != mScrollview) {
-    			                    mScrollview.setIsfocus(true);
-    			                }
-    						}
-    					}catch(Exception e){
-    						
-    					}
-    				}
+
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        try {
+                            Thread.sleep(300);
+                            if (moves) {
+                                mCounter++;
+                                isTouch = true;
+                                moves = false;
+                                if (null != mTouchListener) {
+                                    mTouchListener.chartTounching();
+                                }
+                                if (null != mScrollview) {
+                                    mScrollview.setIsfocus(true);
+                                }
+                            }
+                        } catch (Exception e) {
+
+                        }
+                    }
                 });
                 t.start();
+
+                if (event.getPointerCount() == 1) {
+                    // 如果第二次点击 距离第一次点击时间过长 那么将第二次点击看为第一次点击
+                    if (firstClick != 0 && System.currentTimeMillis() - firstClick > 300) {
+                        count = 0;
+                    }
+
+                    count++;
+                    if (count == 1) {
+                        firstClick = System.currentTimeMillis();
+                    } else if (count == 2) {
+                        lastClick = System.currentTimeMillis();
+                        // 两次点击小于300ms 也就是连续点击
+                        if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
+                            if (null != mDoubleClicklistener) {
+                                mDoubleClicklistener.OnDoubleClick(this);
+                            }
+                        }
+                    }
+                }
+
                 break;
             case MotionEvent.ACTION_MOVE:
-            	float horizontalSpacing = event.getX() - timeX;
-    			float hor = event.getY() - timeY;
-    			if (Math.abs(horizontalSpacing) > 15 || Math.abs(hor) > 15 && !isTouch) {
-    				moves = false;
-    				if (null != mTouchListener) {
-    	                mTouchListener.loseTouching();
-    	            }
-    				if (null != mScrollview) {
+                float horizontalSpacing = event.getX() - timeX;
+                float hor = event.getY() - timeY;
+                if (Math.abs(horizontalSpacing) > 15 || Math.abs(hor) > 15 && !isTouch) {
+                    moves = false;
+                    if (null != mTouchListener) {
+                        mTouchListener.loseTouching();
+                    }
+                    if (null != mScrollview) {
                         mScrollview.setIsfocus(false);
                     }
-    			}
-            	break;
+                }
+                break;
             case MotionEvent.ACTION_UP:
-                if(moves &&!isTouch && null != mStockBean){
-                    Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean,0);
+                if (moves && !isTouch && null != mStockBean) {
+                    Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, 0);
                     context.startActivity(intent);
                 }
                 isTouch = false;
@@ -228,35 +256,37 @@ public class TrendChart extends TrendGridChart {
             default:
                 break;
         }
-        if(isTouch){
-	        /*if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
-	                && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {*/
-	        	
-	            /*
-	             * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
-	             */
-	            if (event.getPointerCount() == 1) {
-	            	if (null != mTouchListener) {
-	                    mTouchListener.chartTounching();
-	                }
-	                if (null != mScrollview) {
-	                    mScrollview.setIsfocus(true);
-	                }
-	                // 获取点击坐标
-	                clickPostX = event.getX();
-	                clickPostY = event.getY();
-	
-	                PointF point = new PointF(clickPostX, clickPostY);
-	                touchPoint = point;
-	                // super.invalidate();
-	                super.invalidate();
-	
-	                // 通知�?��其他�?联Chart
-	                // notifyEventAll(this);
-	
-	            } else if (event.getPointerCount() == 2) {
-	            }
-	        //}
+        if (isTouch) {
+            /*
+             * if (event.getY() > 0 && event.getY() < super.getBottom() - getAxisMarginBottom()
+             * && event.getX() > super.getLeft() + getAxisMarginLeft() && event.getX() < super.getRight()) {
+             */
+
+            /*
+             * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
+             */
+            if (event.getPointerCount() == 1) {
+                if (null != mTouchListener) {
+                    mTouchListener.chartTounching();
+                }
+                if (null != mScrollview) {
+                    mScrollview.setIsfocus(true);
+                }
+                // 获取点击坐标
+                clickPostX = event.getX();
+                clickPostY = event.getY();
+
+                PointF point = new PointF(clickPostX, clickPostY);
+                touchPoint = point;
+                // super.invalidate();
+                super.invalidate();
+
+                // 通知�?��其他�?联Chart
+                // notifyEventAll(this);
+
+            } else if (event.getPointerCount() == 2) {
+            }
+            // }
         }
 
         // return super.onTouchEvent(event);
@@ -546,24 +576,27 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = 2;
 
-        /*FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);*/
-        Paint p= new Paint(); 
+        /*
+         * FontMetrics fm = selectPaint.getFontMetrics();
+         * int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+         */
+        Paint p = new Paint();
         Rect rects = new Rect();
         p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects); 
+        p.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
 
         // if (lineData.size() > 3) {
         viewHeight = (textTextHeight + textMargin) * (6) + textMargin;
-        //设置悬浮框高度（国内指数高为5，其它全6）
-        if((LinePointEntity) lineData.get(0).getLineData().get(pointIndex)instanceof FSLinePointEntity){
-        	FSLinePointEntity fsPoints = (FSLinePointEntity) ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex));
-        	if(fsPoints.isIndexType()){
-        		viewHeight = (textTextHeight + textMargin) * (5) + textMargin;
+        // 设置悬浮框高度（国内指数高为5，其它全6）
+        if ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex) instanceof FSLinePointEntity) {
+            FSLinePointEntity fsPoints = (FSLinePointEntity) ((LinePointEntity) lineData.get(0).getLineData()
+                    .get(pointIndex));
+            if (fsPoints.isIndexType()) {
+                viewHeight = (textTextHeight + textMargin) * (5) + textMargin;
             }
         }
-        
+
         // }
 
         RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
@@ -646,17 +679,17 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = (int) (getResources().getDimensionPixelOffset(R.dimen.float_text_margin) * 1.5);
 
-        Paint p= new Paint(); 
+        Paint p = new Paint();
         Rect rects = new Rect();
         p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects); 
+        p.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
         viewHeight = (textTextHeight + textMargin) * 3 + textMargin;
         if (lineData.size() > 3) {
-            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin ;
+            viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
         }
 
-        RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop - 2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -745,7 +778,7 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setStyle(Paint.Style.FILL);// 充满
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
 
-        RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop - 2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -758,12 +791,14 @@ public class TrendChart extends TrendGridChart {
         /******* draw text ********/
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
-        /*FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);*/
-        Paint p= new Paint(); 
+        /*
+         * FontMetrics fm = selectPaint.getFontMetrics();
+         * int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+         */
+        Paint p = new Paint();
         Rect rects = new Rect();
         p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects); 
+        p.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
         float preYpoint = textTextHeight + textMargin + marginTop;
         selectPaint.reset();
@@ -833,26 +868,28 @@ public class TrendChart extends TrendGridChart {
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
-        /*FontMetrics fm = selectPaint.getFontMetrics();
-        int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);*/
-        Paint p= new Paint(); 
+        /*
+         * FontMetrics fm = selectPaint.getFontMetrics();
+         * int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
+         */
+        Paint p = new Paint();
         Rect rects = new Rect();
         p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects); 
+        p.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
         int size = 0;
         for (int i = 0; i < lineData.size(); i++) {
-            if (lineData.get(i).isDisplay()){
-            	size++;
-            	}
+            if (lineData.get(i).isDisplay()) {
+                size++;
             }
+        }
         if (lineData.size() > 2) {
             viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
-        }else if(lineData.size() == 2){
-        	viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
+        } else if (lineData.size() == 2) {
+            viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
         }
 
-        RectF oval3 = new RectF(startX, marginTop -2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
+        RectF oval3 = new RectF(startX, marginTop - 2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
@@ -1050,4 +1087,15 @@ public class TrendChart extends TrendGridChart {
     public void setmStockBean(SelectStockBean mStockBean) {
         this.mStockBean = mStockBean;
     }
+
+    private OnDoubleClickListener mDoubleClicklistener;
+
+    public OnDoubleClickListener getDoubleClicklistener() {
+        return mDoubleClicklistener;
+    }
+
+    public void setDoubleClicklistener(OnDoubleClickListener mDoubleClicklistener) {
+        this.mDoubleClicklistener = mDoubleClicklistener;
+    }
+
 }

@@ -145,11 +145,11 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             try {
                 Intent intent;
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                    intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(),
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
                             mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
                                     .getSymbols().get(0).getAbbrName());
                 } else {
-                    intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null, null);
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null);
                 }
                 startActivity(intent);
             } catch (Exception e) {

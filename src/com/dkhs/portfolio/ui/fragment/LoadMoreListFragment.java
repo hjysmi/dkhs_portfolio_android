@@ -10,17 +10,14 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -28,7 +25,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.http.HttpHandler;
 
 /**
  * @ClassName LoadMoreListActivity
@@ -40,22 +37,11 @@ import com.dkhs.portfolio.utils.UIUtils;
 public abstract class LoadMoreListFragment extends Fragment implements ILoadDataBackListener, OnLoadMoreListener {
 
     PullToRefreshListView mListView;
-    // private ListAdapter mAdapter;
-    // private BaseSelectActivity mActivity;
 
-    // private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
-
-    // private boolean isLoadingMore;
-    // private View mFootView;
     private TextView tvEmptyText;
 
-    // LoadMoreDataEngine mLoadDataEngine;
+    private HttpHandler mHttpHandler;
 
-    // public LoadMoreListFragment(ListAdapter mAdapter, LoadMoreDataEngine engine) {
-    // this.mAdapter = mAdapter;
-    // this.mLoadDataEngine = engine;
-    // }
-    private RelativeLayout pb;
     @Override
     public void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -65,13 +51,11 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.empty_listview, null);
         initLoadMoreList(view);
+
         // setListAdatper();
         return view;
     }
 
-    // public void setListAdatper(ListAdapter mAdapter){
-    // mListView.setAdapter(mAdapter);
-    // }
     // add by zcm -----2014.12.15
     public void setListViewVisible() {
         if (mListView.getVisibility() == View.VISIBLE && tvEmptyText.getVisibility() == View.GONE)
@@ -88,75 +72,38 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         tvEmptyText.setVisibility(View.VISIBLE);
     }
 
-    private void initLoadMoreList(View view) {
+    public SwipeRefreshLayout mSwipeLayout;
 
-        // mFootView = View.inflate(getActivity(), R.layout.layout_loading_more_footer, null);
+    private void initLoadMoreList(View view) {
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
-        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        pb.setVisibility(View.VISIBLE);
-        // mListView.setEmptyView(tvEmptyText);
-        // mListView.addFooterView(mFootView);
+
         mListView.setAdapter(getListAdapter());
         mListView.setOnItemClickListener(getItemClickListener());
         setListViewInit(mListView);
-        // mListView.removeFooterView(mFootView);
-        // mListView.setOnScrollListener(new OnScrollListener() {
-        //
-        // @Override
-        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-        //
-        // switch (scrollState) {
-        // case OnScrollListener.SCROLL_STATE_IDLE:
-        //
-        // {
-        // // 判断是否滚动到底部
-        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-        // loadMore();
-        //
-        // }
-        // }
-        //
-        // }
-        //
-        // }
-        //
-        // @Override
-        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        //
-        // }
-        // });
-
-        // getLoadEngine().loadData();
-        // loadData();
-        // loadData();
 
     }
 
-    /*@Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onActivityCreated(savedInstanceState);
-        loadData();
-
-    }*/
-
-    private void loadMore() {
-        if (null != getLoadEngine()) {
-            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
-                // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            // mListView.addFooterView(mFootView);
-            // isLoadingMore = true;
-            getLoadEngine().loadMore();
-        }
-
-    }
+    //
+    // private void loadMore() {
+    // if (null != getLoadEngine()) {
+    // if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+    // // Toast.makeText(getActivity(), "没有更多的数据了", Toast.LENGTH_SHORT).show();
+    // return;
+    // }
+    // getLoadEngine().loadMore();
+    // }
+    //
+    // }
 
     abstract ListAdapter getListAdapter();
 
     abstract LoadMoreDataEngine getLoadEngine();
+
+    abstract SwipeRefreshLayout.OnRefreshListener setOnRefreshListener();
 
     abstract OnItemClickListener getItemClickListener();
 
@@ -168,27 +115,6 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
 
     }
 
-    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
-    //
-    // @Override
-    // public void loadFinish(List<SelectStockBean> dataList) {
-    // if (null != dataList) {
-    // mDataList.addAll(dataList);
-    // mAdapterConbinStock.notifyDataSetChanged();
-    // loadFinishUpdateView();
-    // }
-    //
-    // }
-    //
-    // };
-
-    // public void loadFinishUpdateView() {
-    // isLoadingMore = false;
-    // if (mListView != null) {
-    // mListView.removeFooterView(mFootView);
-    // }
-    // }
-
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -197,7 +123,6 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
      */
     @Override
     public void loadFinish(MoreDataBean object) {
-        pb.setVisibility(View.GONE);
         if (isAdded()) {
             mListView.onLoadMoreComplete();
             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
@@ -211,16 +136,6 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
             }
             // loadFinishUpdateView();
         }
-        // if (null != dataList && isAdded()) {
-        // if (isRefresh) {
-        // // mDataList.clear();
-        //
-        // isRefresh = false;
-        // }
-        // // mDataList.addAll(dataList);
-        // mAdapterConbinStock.notifyDataSetChanged();
-        // loadFinishUpdateView();
-        // }
 
     }
 
@@ -236,11 +151,22 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
             if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
                 return;
             }
-            getLoadEngine().loadMore();
+            setHttpHandler(getLoadEngine().loadMore());
         }
     }
 
     public void refreshDataSize(int size) {
 
+    }
+
+    public HttpHandler getHttpHandler() {
+        return mHttpHandler;
+    }
+
+    public void setHttpHandler(HttpHandler mHttpHandler) {
+        if (null != this.mHttpHandler) {
+            mHttpHandler.cancel();
+        }
+        this.mHttpHandler = mHttpHandler;
     }
 }
