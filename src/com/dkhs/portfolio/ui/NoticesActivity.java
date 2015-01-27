@@ -6,13 +6,13 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,10 +26,8 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -40,7 +38,7 @@ import com.umeng.analytics.MobclickAgent;
  * @author weiting
  * 
  */
-public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMoreListener {
+public class NoticesActivity extends ModelAcitivity implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
@@ -52,6 +50,8 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
     boolean first = true;
     private TextView iv;
     private RelativeLayout pb;
+
+    public SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -82,10 +82,10 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
                 vo.setUserid(userId);
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, OpitionNewsEngineImple.NEWSALL,
                         vo);
-//                mLoadDataEngine.setLoadingDialog(context);
+                // mLoadDataEngine.setLoadingDialog(context);
                 mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
-            }else{
+            } else {
                 iv.setText("暂无添加自选股");
                 pb.setVisibility(View.GONE);
             }
@@ -101,36 +101,51 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
 
         mListView.setEmptyView(iv);
-//        mListView.addFooterView(mFootView);
+        // mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
-//        mListView.removeFooterView(mFootView);
-//        mListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                switch (scrollState) {
-//                    case OnScrollListener.SCROLL_STATE_IDLE:
-//
-//                    {
-//                        // 判断是否滚动到底部
-//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-//                            loadMore();
-//
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                }, 2000);
+
+            }
+        });
+        // mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
+        // mListView.removeFooterView(mFootView);
+        // mListView.setOnScrollListener(new OnScrollListener() {
+        //
+        // @Override
+        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        //
+        // switch (scrollState) {
+        // case OnScrollListener.SCROLL_STATE_IDLE:
+        //
+        // {
+        // // 判断是否滚动到底部
+        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+        // loadMore();
+        //
+        // }
+        // }
+        //
+        // }
+        //
+        // }
+        //
+        // @Override
+        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //
+        // }
+        // });
         mListView.setOnItemClickListener(itemBackClick);
 
     }
@@ -182,25 +197,24 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
                 pb.setVisibility(View.GONE);
-            	mListView.onLoadMoreComplete();
-            	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
-    					.getTotalpage()) {
-            		mListView.setCanLoadMore(false);
-    				mListView.setAutoLoadMore(false);
-            	}else{
-            		mListView.setCanLoadMore(true);
-    				mListView.setAutoLoadMore(true);
-    				if(mLoadDataEngine.getCurrentpage() == 1)
-    					mListView.setOnLoadListener(OptionMarketNewsActivity.this);
-            	}
+                mListView.onLoadMoreComplete();
+                if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                    mListView.setCanLoadMore(false);
+                    mListView.setAutoLoadMore(false);
+                } else {
+                    mListView.setCanLoadMore(true);
+                    mListView.setAutoLoadMore(true);
+                    if (mLoadDataEngine.getCurrentpage() == 1)
+                        mListView.setOnLoadListener(NoticesActivity.this);
+                }
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
-//                    if (first) {
-//                        initView();
-//                        first = false;
-//                    }
+                    // if (first) {
+                    // initView();
+                    // first = false;
+                    // }
                     mOptionMarketAdapter.notifyDataSetChanged();
-//                    loadFinishUpdateView();
+                    // loadFinishUpdateView();
 
                 } else {
                     iv.setText("暂无公告");
@@ -221,28 +235,30 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
             mListView.removeFooterView(mFootView);
         }
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	public void onLoadMore() {
-		if (null != mLoadDataEngine) {
+    @Override
+    public void onLoadMore() {
+        if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
@@ -251,5 +267,5 @@ public class OptionMarketNewsActivity extends ModelAcitivity implements OnLoadMo
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
         }
-	}
+    }
 }

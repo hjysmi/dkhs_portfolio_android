@@ -9,13 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.dkhs.portfolio.ui.widget.PullToRefreshListView
-            android:id="@android:id/list"
-            style="@style/listViewStyle"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:drawSelectorOnTop="false" />
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView

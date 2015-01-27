@@ -224,7 +224,7 @@ public class StickChart extends GridChart {
     protected void initAxisX() {
         List<String> TitleX = new ArrayList<String>();
         try {
-            if (null != StickData) {
+            if (null != StickData && StickData.size() > 0) {
                 float average = mShowDate / (longtitudeNum + 1);
                 // �?��刻度
                 for (int i = longtitudeNum + 1; i >= 0; i--) {
@@ -504,14 +504,17 @@ public class StickChart extends GridChart {
     }
     public void drawDiff(Canvas canvas){
         int wid = 0;
-        if(null == StickData){
+        if(null == StickData || StickData.size() == 0){
             return;
         }
         if(ismove){
             float stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
             int selectIndext = (int) ((getWidth() - 2.0f - clickPostX - PADDING_LEFT) / (stickWidth + 3) + index);
-            if(selectIndext < 0){
-                selectIndext += 4;
+            if(StickData.size() < mShowDate){
+                selectIndext = selectIndext - (mShowDate - StickData.size());
+                if(selectIndext < 0){
+                    selectIndext = 0;
+                }
             }
             if((StickData.size() - selectIndext - 1)>= 0 && (StickData.size() - selectIndext -1)< StickData.size()){
                 Paint paint = new Paint();
@@ -521,16 +524,16 @@ public class StickChart extends GridChart {
                 Paint p = new Paint();
                 p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                 Rect rect = new Rect();
-                String k = "diff:" + StickData.get(StickData.size() - selectIndext - 1).getDiff();
+                String k = "DIFF:" + StickData.get(StickData.size() - selectIndext - 1).getDiff();
                 p.getTextBounds(k, 0, k.length() , rect);
                 canvas.drawText(k,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
                 wid = rect.width() + 32;
-                String dea = "dea:" + StickData.get(StickData.size() - selectIndext - 1).getDea();
+                String dea = "DEA:" + StickData.get(StickData.size() - selectIndext - 1).getDea();
                 p.getTextBounds(dea, 0, dea.length() , rect);
                 paint.setColor(getResources().getColor(R.color.ma10_color));
                 canvas.drawText(dea,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
                 wid = wid + rect.width() + 32;
-                String macd = "macd:" + StickData.get(StickData.size() - selectIndext - 1).getMacd();
+                String macd = "MACD:" + StickData.get(StickData.size() - selectIndext - 1).getMacd();
                 p.getTextBounds(macd, 0, macd.length() , rect);
                 paint.setColor(getResources().getColor(R.color.ma20_color));
                 canvas.drawText(macd,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
@@ -543,16 +546,20 @@ public class StickChart extends GridChart {
             Paint p = new Paint();
             p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
             Rect rect = new Rect();
-            String k = "diff:" + StickData.get(StickData.size() - 1 - index).getDiff();
-            p.getTextBounds("diff:" + StickData.get(StickData.size() -1 - index).getDiff(), 0, k.length() , rect);
-            canvas.drawText("diff:" + StickData.get(StickData.size() -1 - index).getDiff(),  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+            int num = StickData.size() - 1 - index;
+            if(num < 0){
+                num = 0;
+            }
+            String k = "DIFF:" + StickData.get(num).getDiff();
+            p.getTextBounds("DIFF:" + StickData.get(StickData.size() -1 - index).getDiff(), 0, k.length() , rect);
+            canvas.drawText("DIFF:" + StickData.get(StickData.size() -1 - index).getDiff(),  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
             wid = rect.width() + 32;
-            String dea = "dea:" + StickData.get(StickData.size() - index - 1).getDea();
+            String dea = "DEA:" + StickData.get(StickData.size() - index - 1).getDea();
             p.getTextBounds(dea, 0, dea.length() , rect);
             paint.setColor(getResources().getColor(R.color.ma10_color));
             canvas.drawText(dea,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
             wid = wid + rect.width() + 32;
-            String macd = "macd:" + StickData.get(StickData.size() - index - 1).getMacd();
+            String macd = "MACD:" + StickData.get(StickData.size() - index - 1).getMacd();
             p.getTextBounds(macd, 0, macd.length() , rect);
             paint.setColor(getResources().getColor(R.color.ma20_color));
             canvas.drawText(macd,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);

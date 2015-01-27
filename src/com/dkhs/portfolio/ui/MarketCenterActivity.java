@@ -8,6 +8,7 @@ import java.util.TimerTask;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -77,6 +78,8 @@ public class MarketCenterActivity extends RefreshModelActivity implements OnClic
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 5;
     private boolean isTimerStart = true;
+
+    public SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -199,6 +202,18 @@ public class MarketCenterActivity extends RefreshModelActivity implements OnClic
             }
         });
 
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        // mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                loadingAllData();
+
+            }
+        });
+
     }
 
     private boolean isLoading;
@@ -243,6 +258,7 @@ public class MarketCenterActivity extends RefreshModelActivity implements OnClic
         @Override
         public void loadFinish(MoreDataBean<SectorBean> object) {
             endAnimaRefresh();
+            mSwipeLayout.setRefreshing(false);
             if (null != object) {
                 mSecotrList.clear();
                 List<SectorBean> sectorList = object.getResults();

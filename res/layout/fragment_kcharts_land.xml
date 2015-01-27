@@ -4,7 +4,7 @@
     android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/land_kline_layout"
+        android:id="@+id/land_kline_layout_all"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
@@ -14,8 +14,13 @@
         android:background="@drawable/layout_back"
         android:orientation="vertical"
         android:padding="10dp" >
-
-        <TextView
+		<LinearLayout 
+		    android:id="@+id/land_kline_layout"
+		    android:layout_height="wrap_content"
+		    android:layout_width="wrap_content"
+		    android:orientation="vertical"
+		    >
+		    <TextView
             android:id="@+id/klin_uncheck"
             style="@style/edit_style_land_kilne"
             android:text="不复权" />
@@ -31,6 +36,7 @@
             android:text="后复权" />
 
         <include layout="@layout/layout_line" />
+		</LinearLayout>
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -70,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/land_kline_layout" >
+        android:layout_toLeftOf="@id/land_kline_layout_all" >
 
         <com.dkhs.portfolio.ui.widget.chart.StickChart
             android:id="@+id/chart_volumn"

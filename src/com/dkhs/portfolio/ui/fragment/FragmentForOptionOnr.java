@@ -30,7 +30,7 @@ import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.YanbaoNewsActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
@@ -160,9 +160,9 @@ public class FragmentForOptionOnr extends Fragment{
 			try {
 				Intent intent;
 				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() >0){
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+					intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
 				}else{
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
+					intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null,null);
 				}
 				startActivity(intent);
 			} catch (Exception e) {

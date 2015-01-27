@@ -61,14 +61,14 @@ public class KChartsFragment extends Fragment {
     public static final boolean testInterface = false; // 测试，使用本地数据
     private boolean first = true;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 5;
-    List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
-    private boolean having = true;
-    private String symbolType;
-    private RelativeLayout pb;
-    private String checkValue = "0";
+	private static final long mPollRequestTime = 1000 * 5;
+	List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
+	private boolean having = true;
+	private String symbolType;
+	private RelativeLayout pb;
+	private String checkValue = "0";
+    public static KChartsFragment getKChartFragment(Integer type, String stockcode,String symbolType) {
 
-    public static KChartsFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
         fg.setStockCode(stockcode);
