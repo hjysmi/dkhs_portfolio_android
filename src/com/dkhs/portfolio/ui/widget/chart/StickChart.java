@@ -142,11 +142,16 @@ public class StickChart extends GridChart {
     }
     public void setMaxValue(){
         if(null != StickData){
-            maxValue = 0;
-            for(int i = StickData.size() - mShowDate - index; i < StickData.size()-index; i++){
-                if(i >=0 && StickData.get(i).getHigh() > maxValue){
-                    maxValue = (float) StickData.get(i).getHigh();
+            try {
+                maxValue = 0;
+                for(int i = StickData.size() - mShowDate - index; i < StickData.size()-index; i++){
+                    if(i >=0 && i < StickData.size() -1 && StickData.get(i).getHigh() > maxValue){
+                        maxValue = (float) StickData.get(i).getHigh();
+                    }
                 }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
     }
@@ -747,7 +752,7 @@ public class StickChart extends GridChart {
             	sum = 0;
             	avg = 0;
             	if (i - days >= -1) {
-            		for(int k = 0; k < days; k++){
+            		for(int k = 0; k < days && i-k < entityList.size() && i-k >= 0; k++){
             			sum = (float) (sum + entityList.get(i-k).getHigh());
             		}
             		avg = sum / days;

@@ -16,6 +16,16 @@ public class OHLCEntity {
 	private double macd;
     private double diff;
     private double dea;
+    private double ma5;
+    private double ma10;
+    private double ma20;
+    private double ma30;
+    @SerializedName("vol_ma5")
+    private double vol5;
+    @SerializedName("vol_ma10")
+    private double vol10;
+    @SerializedName("vol_ma20")
+    private double vol20;
     @SerializedName("div_info")
     private String info;
 	public OHLCEntity() {
@@ -138,6 +148,62 @@ public class OHLCEntity {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public double getMa5() {
+        return ma5;
+    }
+
+    public void setMa5(double ma5) {
+        this.ma5 = ma5;
+    }
+
+    public double getMa10() {
+        return ma10;
+    }
+
+    public void setMa10(double ma10) {
+        this.ma10 = ma10;
+    }
+
+    public double getMa20() {
+        return ma20;
+    }
+
+    public void setMa20(double ma20) {
+        this.ma20 = ma20;
+    }
+
+    public double getMa30() {
+        return ma30;
+    }
+
+    public void setMa30(double ma30) {
+        this.ma30 = ma30;
+    }
+
+    public double getVol5() {
+        return vol5;
+    }
+
+    public void setVol5(double vol5) {
+        this.vol5 = vol5;
+    }
+
+    public double getVol10() {
+        return vol10;
+    }
+
+    public void setVol10(double vol10) {
+        this.vol10 = vol10;
+    }
+
+    public double getVol20() {
+        return vol20;
+    }
+
+    public void setVol20(double vol20) {
+        this.vol20 = vol20;
     }
 	
 }
