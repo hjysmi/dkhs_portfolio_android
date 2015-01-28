@@ -110,6 +110,7 @@
     <color name="position_text_lgray">#acacac</color>
     <color name="darker_gray">#aaa</color>
     <color name="combition_gray">#979797</color>
+    <color name="share_bg">#88000000</color>
 
     <drawable name="red">#ff0000</drawable>
     <drawable name="gray">#4d4c4d</drawable>

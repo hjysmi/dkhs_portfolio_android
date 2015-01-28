@@ -1,80 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_bg"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
     <LinearLayout
+        android:id="@+id/makemessage_layout"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_horizontal" >
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/person_setting_backgroud"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/makemessage_layout"
+        <TextView
+            android:id="@+id/dialog_button_uncheck"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/person_setting_backgroud"
-            android:gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/check_select"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="不复权"
+            android:textColor="@drawable/kline_text_color_selector"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/dialog_button_uncheck"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/check_select"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="不复权"
-                android:textColor="@drawable/kline_text_color_selector"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/dialog_button_before_checn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/check_select"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="前复权"
+            android:textColor="@drawable/kline_text_color_selector"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/dialog_button_before_checn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/check_select"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="前复权"
-                android:textColor="@drawable/kline_text_color_selector"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-			<TextView
-                android:id="@+id/dialog_button_after_check"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/check_select"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="后复权"
-                android:textColor="@drawable/kline_text_color_selector"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-            <Button
-                android:id="@+id/dialog_button_cancle"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/btn_quxiao_selector"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="取消"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/dialog_button_after_check"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/check_select"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="后复权"
+            android:textColor="@drawable/kline_text_color_selector"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/dialog_button_cancle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/btn_quxiao_selector"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="取消"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </RelativeLayout>
