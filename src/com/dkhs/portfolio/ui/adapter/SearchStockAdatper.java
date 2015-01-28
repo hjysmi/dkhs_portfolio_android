@@ -94,6 +94,9 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
                 viewHolder.tvSuspend.setVisibility(View.VISIBLE);
                 viewHolder.tvSuspend.setText("新股");
                 viewHolder.mCheckbox.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvSuspend.setVisibility(View.GONE);
+                viewHolder.mCheckbox.setVisibility(View.VISIBLE);
             }
 
         }
