@@ -500,7 +500,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         if (null != type) {
             if (type.equals(FundsOrderEngineImpl.ORDER_DAY)) {
-                hsTitle.setSelectIndex(0);
+                // hsTitle.setSelectIndex(0);
+
             } else if (type.equals(FundsOrderEngineImpl.ORDER_WEEK)) {
                 hsTitle.setSelectIndex(1);
             } else if (type.equals(FundsOrderEngineImpl.ORDER_MONTH)) {
