@@ -14,29 +14,30 @@
         android:background="@drawable/layout_back"
         android:orientation="vertical"
         android:padding="10dp" >
-		<LinearLayout 
-		    android:id="@+id/land_kline_layout"
-		    android:layout_height="wrap_content"
-		    android:layout_width="wrap_content"
-		    android:orientation="vertical"
-		    >
-		    <TextView
-            android:id="@+id/klin_uncheck"
-            style="@style/edit_style_land_kilne"
-            android:text="不复权" />
 
-        <TextView
-            android:id="@+id/klin_before_check"
-            style="@style/edit_style_land_kilne"
-            android:text="前复权" />
+        <LinearLayout
+            android:id="@+id/land_kline_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-        <TextView
-            android:id="@+id/klin_after_check"
-            style="@style/edit_style_land_kilne"
-            android:text="后复权" />
+            <TextView
+                android:id="@+id/klin_uncheck"
+                style="@style/edit_style_land_kilne"
+                android:text="不复权" />
 
-        <include layout="@layout/layout_line" />
-		</LinearLayout>
+            <TextView
+                android:id="@+id/klin_before_check"
+                style="@style/edit_style_land_kilne"
+                android:text="前复权" />
+
+            <TextView
+                android:id="@+id/klin_after_check"
+                style="@style/edit_style_land_kilne"
+                android:text="后复权" />
+
+            <include layout="@layout/layout_line" />
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="wrap_content"
@@ -57,16 +58,6 @@
                     android:id="@+id/klin_macd"
                     style="@style/edit_style_land_kilne"
                     android:text="MACD" />
-
-                <!--
-                        <TextView
-                            style="@style/edit_style_land_kilne"
-                            android:text="KDJ" />
-
-                        <TextView
-                            style="@style/edit_style_land_kilne"
-                            android:text="RSI" />
-                -->
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

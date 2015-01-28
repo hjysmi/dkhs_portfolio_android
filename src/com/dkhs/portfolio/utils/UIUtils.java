@@ -388,5 +388,4 @@ public class UIUtils {
         }
         return false;
     }
-
 }
