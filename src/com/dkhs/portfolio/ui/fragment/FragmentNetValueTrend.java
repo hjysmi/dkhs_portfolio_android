@@ -505,6 +505,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 hsTitle.setSelectIndex(1);
             } else if (type.equals(FundsOrderEngineImpl.ORDER_MONTH)) {
                 hsTitle.setSelectIndex(2);
+            } else if (type.equals(FundsOrderEngineImpl.ORDER_ALL)) {
+                hsTitle.setSelectIndex(3);
             }
 
         }
