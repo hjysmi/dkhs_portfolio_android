@@ -3,33 +3,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal" >
-	<RelativeLayout 
-	    android:layout_height="fill_parent"
-	    android:layout_width="1dp"
-	    android:layout_weight="3"
-	    android:layout_marginBottom="8dp"
-	    >
-	    <com.dkhs.portfolio.ui.widget.TimesharingplanChart
-        android:id="@+id/timesharingchart"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-	    <include layout="@layout/progressbar"
-        android:id="@android:id/progress"
-	    android:visibility="gone"
-        />
-	</RelativeLayout>
-    
+
+    <RelativeLayout
+        android:layout_width="1dp"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_weight="3" >
+
+        <com.dkhs.portfolio.ui.widget.TimesharingplanChart
+            android:id="@+id/timesharingchart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+
+        <include
+            android:id="@android:id/progress"
+            layout="@layout/progressbar"
+            android:visibility="gone" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_fiverange"
-        android:layout_width="1dp"
+        android:layout_width="88dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:padding="5dp" >
 
         <RelativeLayout
             android:id="@+id/layout_sell"
-            android:layout_width="88dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp" >
@@ -54,7 +54,7 @@
         <View
             android:id="@+id/view_divider"
             style="@style/divider_line"
-            android:layout_width="88dp"
+            android:layout_width="match_parent"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/layout_sell"
             android:layout_marginBottom="2dp"
