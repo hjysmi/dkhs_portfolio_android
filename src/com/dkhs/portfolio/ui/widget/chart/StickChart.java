@@ -231,11 +231,11 @@ public class StickChart extends GridChart {
                 float average = mShowDate / (longtitudeNum + 1);
                 // �?��刻度
                 for (int i = longtitudeNum + 1; i >= 0; i--) {
-                    int index = (int) Math.floor(i * average);
-                    if (index > maxStickDataNum - 1) {
-                        index = maxStickDataNum - 1;
+                    int indexs = (int) Math.floor(i * average);
+                    if (indexs > maxStickDataNum - 1) {
+                        indexs = maxStickDataNum - 1;
                     }
-                    int k = StickData.size() - index  -1 ;
+                    int k = StickData.size() - indexs  -1  -index;
                     if(longtitudeNum + 1 == i){
                         k += 1;
                     }
