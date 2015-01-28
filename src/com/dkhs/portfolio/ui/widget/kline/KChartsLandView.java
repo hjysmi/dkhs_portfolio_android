@@ -569,7 +569,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 for (int j = 0; j < MALineData.size(); j++) {
                     MALineEntity lineEntity = MALineData.get(j);
 
-                    float startX = (float) (PADDING_LEFT + dragValue);
+                    float startX = (float) (PADDING_LEFT);
                     float startY = 0;
                     Paint paint = new Paint();
                     paint.setColor(lineEntity.getLineColor());
@@ -599,12 +599,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                     for (int i = 0; i < mShowDataNum && mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
                         if (i != 0) {
-                            canvas.drawLine(startX, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
-                                    - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT),
+                            canvas.drawLine((float) (startX + dragValue), startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
+                                    - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT + dragValue),
                                     (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate
                                             + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
                         }
-                        startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT + dragValue);
+                        startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT );
                         startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
                     }
                 }
@@ -975,10 +975,14 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         public void run() {
                             // TODO Auto-generated method stub
                             int tmp = (int) (dragValue/4);
-                            while(dragValue >= tmp){
+                            while(dragValue >= tmp && dragValue > 0){
                                 dragValue -= tmp;
                                 setCurrentData();
                                 postInvalidate();
+                                mVolumnChartView.setDragValue(dragValue);
+                                if(dragValue < tmp){
+                                    dragValue = 0;
+                                }
                                 try {
                                     Thread.sleep(50);
                                 } catch (InterruptedException e) {
@@ -1013,8 +1017,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
                         if(currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
                             dragValue = (currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) - mOHLCData.size())* (mCandleWidth + 3);
+                            mVolumnChartView.setDragValue(dragValue);
                         }else{
                             dragValue = 0;
+                            mVolumnChartView.setDragValue(0);
                         }
                         if (mDataStartIndext < 0) {
                             
