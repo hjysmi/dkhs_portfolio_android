@@ -95,7 +95,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private boolean firsttime = true;
     private String symbolType;
     private String symbol;
-
+    private double dragValue = 0;
+    private double hisDrag = 0;
     public KChartsLandView(Context context) {
         super(context);
         init();
@@ -520,13 +521,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     float high = (float) ((mMaxPrice - entity.getHigh()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
                     float low = (float) ((mMaxPrice - entity.getLow()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
 
-                    float left = (float) (width - 2 - mCandleWidth * (i + 1) - i * 3 + PADDING_LEFT);
-                    float right = (float) (width - 3 - mCandleWidth * i - i * 3 + PADDING_LEFT);
-                    float startX = (float) (width - 3 - mCandleWidth * i - (mCandleWidth - 1) / 2 - i * 3 + PADDING_LEFT);
-                    if (entity.getOpen() == 26.73) {
-                        float a = open;
-                        Log.e("asa", a + "");
-                    }
+                    float left = (float) (width - 2 - mCandleWidth * (i + 1) - i * 3 + PADDING_LEFT + dragValue);
+                    float right = (float) (width - 3 - mCandleWidth * i - i * 3 + PADDING_LEFT + dragValue);
+                    float startX = (float) (width - 3 - mCandleWidth * i - (mCandleWidth - 1) / 2 - i * 3 + PADDING_LEFT + dragValue);
                     if (open < close) {
                         canvas.drawRect(left, open, right, close, greenPaint);
 
@@ -565,6 +562,24 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         }
                         canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, p);
                     }
+                    if(dragValue >0){
+                        Paint paint = new Paint();
+                        paint.setColor(getResources().getColor(R.color.def_gray));
+                        paint.setAntiAlias(true);
+                        paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
+                        String text = "加载数据";
+                        Rect rect = new Rect();
+                        paint.getTextBounds(text, 0, text.length(), rect);
+                        float we = 0;
+                        if(rect.width() <= dragValue){
+                            we = (float) (PADDING_LEFT + dragValue - rect.width());
+                            canvas.drawText(text,we, getHeight()/2, paint);
+                        }else{
+                            int k = text.length() - (int) (text.length() * dragValue/rect.width());
+                            canvas.drawText(text,k,text.length(),PADDING_LEFT, getHeight()/2, paint);
+                        }
+                        
+                    }
                 }
                 // 绘制上部曲线图及上部分MA值
                 // float MATitleWidth = width / 10.0f * 10.0f / MALineData.size();
@@ -573,7 +588,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 for (int j = 0; j < MALineData.size(); j++) {
                     MALineEntity lineEntity = MALineData.get(j);
 
-                    float startX = PADDING_LEFT;
+                    float startX = (float) (PADDING_LEFT);
                     float startY = 0;
                     Paint paint = new Paint();
                     paint.setColor(lineEntity.getLineColor());
@@ -603,12 +618,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                     for (int i = 0; i < mShowDataNum && mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
                         if (i != 0) {
-                            canvas.drawLine(startX, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
-                                    - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT),
+                            canvas.drawLine((float) (startX + dragValue), startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
+                                    - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT + dragValue),
                                     (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate
                                             + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
                         }
-                        startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT);
+                        startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT );
                         startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
                     }
                 }
@@ -902,6 +917,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
+                if(dragValue == 0){
+                    hisDrag = 0;
+                }
                 currentDate = mDataStartIndext;
                 ismove = true;
                 go = true;
@@ -973,6 +991,50 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                      * mVolumnChartView.onSet(e,ismove,mDataStartIndext);
                      */
                     postInvalidate();
+                    Paint paint = new Paint();
+                    paint.setColor(getResources().getColor(R.color.def_gray));
+                    paint.setAntiAlias(true);
+                    paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
+                    String text = "加载数据";
+                    final Rect rect = new Rect();
+                    paint.getTextBounds(text, 0, text.length(), rect);
+                    Thread tk = new Thread(new Runnable() {
+                        
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
+                            int tmp = (int) (dragValue/4);
+                            boolean show = true;
+                            if(dragValue < rect.width()){
+                                show = false;
+                            }
+                            while(dragValue >= tmp && dragValue > 0 && dragValue != rect.width()){
+                                dragValue -= tmp;
+                                if(dragValue < rect.width() && show){
+                                    dragValue = rect.width();
+                                    hisDrag = dragValue;
+                                }
+                                if(!show){
+                                    hisDrag = 0;
+                                }
+                                setCurrentData();
+                                postInvalidate();
+                                mVolumnChartView.setDragValue(dragValue);
+                                if(dragValue < tmp){
+                                    dragValue = 0;
+                                }
+                                try {
+                                    Thread.sleep(50);
+                                } catch (InterruptedException e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    });
+                    if(dragValue != 0){
+                        tk.start();
+                    }
                 }
                 twoFingle = false;
                 break;
@@ -993,7 +1055,19 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             mStartY = event.getY();
                         }
                         mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
+                        if(currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
+                            dragValue = hisDrag + (currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) - mOHLCData.size())* (mCandleWidth + 3);
+                            mVolumnChartView.setDragValue(dragValue);
+                        }else{
+                            if(hisDrag > 0 && dragValue >0){
+                                dragValue =  hisDrag + horizontalSpacing;
+                            }else{
+                                dragValue = 0;
+                            }
+                            mVolumnChartView.setDragValue(dragValue);
+                        }
                         if (mDataStartIndext < 0) {
+                            
                             mDataStartIndext = 0;
                         }
                         /*

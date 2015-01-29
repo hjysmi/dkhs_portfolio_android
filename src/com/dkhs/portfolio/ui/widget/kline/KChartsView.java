@@ -1231,6 +1231,20 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		for (int j = MAValues.size() - 1; j >= 0; j--) {
 			result.add(MAValues.get(j));
 		}
+		/*List<Float> result = new ArrayList<Float>();
+		if(days == 5){
+		    for(int i = 0; i < entityList.size(); i++){
+		        result.add((float) entityList.get(i).getMa5());
+		    }
+		}else if (days == 10){
+		    for(int i = 0; i < entityList.size(); i++){
+                result.add((float) entityList.get(i).getMa10());
+            }
+		}else{
+		    for(int i = 0; i < entityList.size(); i++){
+                result.add((float) entityList.get(i).getMa20());
+            }
+		}*/
 		return result;
 	}
 
