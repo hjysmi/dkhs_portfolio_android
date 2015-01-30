@@ -20,7 +20,6 @@ import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
-import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView.DisplayDataChangeListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
@@ -234,7 +233,7 @@ public class KChartsFragment extends Fragment {
 
     private void refreshVolumnCharts() {
         try {
-            List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+            List<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
             if (volumns != null && volumns.size() > 0) {
                 mVolumnChartView.setStickData(volumns);
                 mVolumnChartView.postInvalidate();
@@ -251,24 +250,24 @@ public class KChartsFragment extends Fragment {
      * @param ohlc
      * @return
      */
-    private List<StickEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
+    private List<OHLCEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
         try {
             if (ohlc == null || ohlc.size() == 0) {
                 return null;
             }
 
-            List<StickEntity> volumns = new ArrayList<StickEntity>();
-            StickEntity temp = null;
+            /*List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+            OHLCEntity temp = null;
             OHLCEntity entity = null;
             for (int i = ohlc.size() - 1; i >= 0; i--) {
                 entity = ohlc.get(i);
-                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(), entity.getMacd(), entity.getDiff(),
+                temp = new OHLCEntity(entity.getVolume(), 0, entity.getDate(), entity.getMacd(), entity.getDiff(),
                         entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
-            }
+            }*/
 
-            return volumns;
+            return ohlc;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -308,7 +307,7 @@ public class KChartsFragment extends Fragment {
         setCheckValue(checkValue);
         ohlcs.clear();
         refreshChartsView(ohlcs);
-        List<StickEntity> volumns = new ArrayList<StickEntity>();
+        List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
         mVolumnChartView.setStickData(volumns);
         mVolumnChartView.postInvalidate();
         pb.setVisibility(View.VISIBLE);

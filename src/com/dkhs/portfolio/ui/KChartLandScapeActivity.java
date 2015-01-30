@@ -334,7 +334,9 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         // indicator.setViewPager(pager);
     }
-
+    public void loadMore(){
+        ((KChartsLandFragment) fragmentList.get(pager.getCurrentItem())).loadMordKline();
+    }
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragmentList;

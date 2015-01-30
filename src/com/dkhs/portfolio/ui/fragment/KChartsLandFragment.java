@@ -34,8 +34,8 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
-import com.dkhs.portfolio.ui.widget.chart.StickEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
+import com.dkhs.portfolio.ui.widget.kline.PageOHLCEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView.DisplayDataChangeListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -74,7 +74,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     private TextView tvAfterCheck;
     private TextView tvTurnover;
     private TextView tvMacd;
-
+    private int page = 1;
+    private boolean addmore = true;
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
         KChartsLandFragment fg = new KChartsLandFragment();
         Bundle b = new Bundle();
@@ -182,6 +183,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(mStockCode);
+        mMyChartsView.setContext(getActivity());
         mMyChartsView.setDoubleClicklistener(new OnDoubleClickListener() {
 
             @Override
@@ -255,11 +257,11 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
      */
     private void refreshChartsView(List<OHLCEntity> ohlc) {
         try {
-            mMyChartsView.setOHLCData(ohlc);
+            mMyChartsView.setOHLCData(ohlc,page);
             mMyChartsView.setShowLowerChartTabs(false);
             mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
             mMyChartsView.postInvalidate();
-
+            
             // 刷新成交量
             refreshVolumnCharts();
 
@@ -271,9 +273,9 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
     private void refreshVolumnCharts() {
         try {
-            List<StickEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+            List<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
             if (volumns != null && volumns.size() > 0) {
-                mVolumnChartView.setStickData(volumns);
+                mVolumnChartView.setStickData(volumns,page);
                 mVolumnChartView.postInvalidate();
             }
         } catch (Exception e) {
@@ -288,14 +290,14 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
      * @param ohlc
      * @return
      */
-    private List<StickEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
+    private List<OHLCEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
         try {
             if (ohlc == null || ohlc.size() == 0) {
                 return null;
             }
 
-            List<StickEntity> volumns = new ArrayList<StickEntity>();
-            StickEntity temp = null;
+            /*List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+            OHLCEntity temp = null;
             OHLCEntity entity = null;
             double k = 0;
             for (int i = ohlc.size() - 1; i >= 0; i--) {
@@ -305,12 +307,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 }else{
                     k = -i;
                 }
-                temp = new StickEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
+                temp = new OHLCEntity(entity.getVolume(), 0, entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
                 temp.setUp(entity.isup());
                 volumns.add(temp);
-            }
+            }*/
 
-            return volumns;
+            return ohlc;
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -343,7 +345,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             }
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                    ((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    ((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
                 first = false;
@@ -354,7 +356,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         }
         return null;
     }
-
+    public void loadMordKline(){
+        if(addmore){
+            page++;
+            getOHLCDatas();
+        }
+    }
     /**
      * 获取K线类型，日，周，月
      * 
@@ -411,14 +418,22 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         if (jsonObject == null || jsonObject.trim().length() == 0) {
             return entitys;
         }
-
+        List<OHLCEntity> entity;
         try {
-            JSONArray ja = new JSONArray(jsonObject);
-            List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+            if(!jsonObject.contains("current_page")){
+                entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+            }else{
+                PageOHLCEntity mPageOHLCEntity = DataParse.parseObjectJson(PageOHLCEntity.class, jsonObject);
+                page = mPageOHLCEntity.getPage();
+                entity = mPageOHLCEntity.getResults();
+            }
+            //JSONArray ja = new JSONArray(jsonObject);
+            //List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+            
             for(int i = entity.size() - 1; i >= 0; i--){
                 entitys.add(entity.get(i));
             }
-            int len = ja.length();
+            int len = entitys.size();
             
             /*if (len > 0) {
                 JSONObject jo = null;
@@ -725,7 +740,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
                 if (null == ohlcs || ohlcs.size() == 0) {
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
                 } else {
                     if (ohlc.size() > 0) {
                         ohlcs.add(0, ohlc.get(0));
@@ -763,54 +778,57 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
             case R.id.klin_uncheck:
                 if(!tvUnCheck.isSelected()){
+                    page = 1;
                     tvUnCheck.setSelected(true);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(false);
                     ohlcs.clear();
-                    List<StickEntity> volumns = new ArrayList<StickEntity>();
-                    mVolumnChartView.setStickData(volumns);
+                    List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+                    mVolumnChartView.setStickData(volumns,page);
                     mVolumnChartView.postInvalidate();
                     refreshChartsView(ohlcs);
                     pb.setVisibility(View.VISIBLE);
                     ((KChartLandScapeActivity) getActivity()).setCheckValue(UNCHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
                     PortfolioApplication.getInstance().setChange(true);
                     PortfolioApplication.getInstance().setCheckValue(UNCHEK);
                 }
                 break;
             case R.id.klin_before_check:
                 if(!tvBeforeCheck.isSelected()){
+                    page = 1;
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(true);
                     tvAfterCheck.setSelected(false);
                     ohlcs.clear();
                     refreshChartsView(ohlcs);
-                    List<StickEntity> volumns = new ArrayList<StickEntity>();
-                    mVolumnChartView.setStickData(volumns);
+                    List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+                    mVolumnChartView.setStickData(volumns,page);
                     mVolumnChartView.postInvalidate();
                     pb.setVisibility(View.VISIBLE);
                     ((KChartLandScapeActivity) getActivity()).setCheckValue(BEFORECHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
                     PortfolioApplication.getInstance().setChange(true);
                     PortfolioApplication.getInstance().setCheckValue(BEFORECHEK);
                 }
                 break;
             case R.id.klin_after_check:
                 if(!tvAfterCheck.isSelected()){
+                    page = 1;
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
                     ohlcs.clear();
                     refreshChartsView(ohlcs);
-                    List<StickEntity> volumns = new ArrayList<StickEntity>();
-                    mVolumnChartView.setStickData(volumns);
+                    List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+                    mVolumnChartView.setStickData(volumns,page);
                     mVolumnChartView.postInvalidate();
                     pb.setVisibility(View.VISIBLE);
                     ((KChartLandScapeActivity) getActivity()).setCheckValue(AFTERCHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
                     PortfolioApplication.getInstance().setChange(true);
                     PortfolioApplication.getInstance().setCheckValue(AFTERCHEK);
                 }
@@ -839,4 +857,13 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 break;
         }
     }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+    
 }

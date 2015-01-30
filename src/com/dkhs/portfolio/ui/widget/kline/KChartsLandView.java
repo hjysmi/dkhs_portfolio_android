@@ -8,6 +8,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.R.color;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -79,7 +80,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     /** MA数据 */
     private List<MALineEntity> MALineData;
-
+    String textforFlush = "加载数据";
     private String mTabTitle;
     private StickChart mVolumnChartView;
     // 下部表的数据
@@ -97,6 +98,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private String symbol;
     private double dragValue = 0;
     private double hisDrag = 0;
+    private Context context;
     public KChartsLandView(Context context) {
         super(context);
         init();
@@ -567,16 +569,15 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         paint.setColor(getResources().getColor(R.color.def_gray));
                         paint.setAntiAlias(true);
                         paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
-                        String text = "加载数据";
                         Rect rect = new Rect();
-                        paint.getTextBounds(text, 0, text.length(), rect);
+                        paint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
                         float we = 0;
                         if(rect.width() <= dragValue){
                             we = (float) (PADDING_LEFT + dragValue - rect.width());
-                            canvas.drawText(text,we, getHeight()/2, paint);
+                            canvas.drawText(textforFlush,we, getHeight()/2, paint);
                         }else{
-                            int k = text.length() - (int) (text.length() * dragValue/rect.width());
-                            canvas.drawText(text,k,text.length(),PADDING_LEFT, getHeight()/2, paint);
+                            int k = textforFlush.length() - (int) (textforFlush.length() * dragValue/rect.width());
+                            canvas.drawText(textforFlush,k,textforFlush.length(),PADDING_LEFT, getHeight()/2, paint);
                         }
                         
                     }
@@ -929,6 +930,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 timeX = event.getX();
                 timeY = event.getY();
                 Log.e("xyxyxyx", timeX + " ----" + timeY);
+                if(hisDrag == 0){
+                    textforFlush = "加载数据";
+                }
                 Thread t = new Thread(new Runnable() {
 
                     @Override
@@ -995,9 +999,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     paint.setColor(getResources().getColor(R.color.def_gray));
                     paint.setAntiAlias(true);
                     paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
-                    String text = "加载数据";
+                    textforFlush = "加载数据";
                     final Rect rect = new Rect();
-                    paint.getTextBounds(text, 0, text.length(), rect);
+                    paint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
                     Thread tk = new Thread(new Runnable() {
                         
                         @Override
@@ -1007,12 +1011,15 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             boolean show = true;
                             if(dragValue < rect.width()){
                                 show = false;
+                            }else{
+                                textforFlush = "加载中...";
                             }
                             while(dragValue >= tmp && dragValue > 0 && dragValue != rect.width()){
                                 dragValue -= tmp;
                                 if(dragValue < rect.width() && show){
                                     dragValue = rect.width();
                                     hisDrag = dragValue;
+                                    ((KChartLandScapeActivity) context).loadMore();
                                 }
                                 if(!show){
                                     hisDrag = 0;
@@ -1054,7 +1061,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             mStartX = event.getX() - PADDING_LEFT;
                             mStartY = event.getY();
                         }
-                        mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
+                        if(!(hisDrag > 0 && dragValue > 0)){
+                            horizontalSpacing = (float) (horizontalSpacing + hisDrag);
+                            mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
+                        }
                         if(currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
                             dragValue = hisDrag + (currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) - mOHLCData.size())* (mCandleWidth + 3);
                             mVolumnChartView.setDragValue(dragValue);
@@ -1312,7 +1322,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         if (days < 2 || entityList == null || entityList.size() <= 0) {
             return null;
         }
-        List<Float> MAValues = new ArrayList<Float>();
+        /*List<Float> MAValues = new ArrayList<Float>();
 
         float sum = 0;
         float avg = 0;
@@ -1333,6 +1343,20 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         List<Float> result = new ArrayList<Float>();
         for (int j = MAValues.size() - 1; j >= 0; j--) {
             result.add(MAValues.get(j));
+        }*/
+        List<Float> result = new ArrayList<Float>();
+        if(days == 5){
+            for(int i = 0; i < entityList.size(); i++){
+                result.add((float) entityList.get(i).getMa5());
+            }
+        }else if (days == 10){
+            for(int i = 0; i < entityList.size(); i++){
+                result.add((float) entityList.get(i).getMa10());
+            }
+        }else{
+            for(int i = 0; i < entityList.size(); i++){
+                result.add((float) entityList.get(i).getMa20());
+            }
         }
         return result;
     }
@@ -1341,13 +1365,23 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         return mOHLCData;
     }
 
-    public void setOHLCData(List<OHLCEntity> OHLCData) {
+    public void setOHLCData(List<OHLCEntity> OHLCData,int page) {
         if (OHLCData == null || OHLCData.size() <= 0) {
             mMaxPrice = -1;
             mMinPrice = -1;
             return;
         }
-        this.mOHLCData = OHLCData;
+        if(page > 1){
+            this.mOHLCData.addAll(OHLCData);
+            mDataStartIndext = (int) (mDataStartIndext + (hisDrag / (mCandleWidth + 3)));
+            hisDrag = 0;
+            dragValue = 0;
+            mVolumnChartView.setDragValue(dragValue);
+            setCurrentData();
+            postInvalidate();
+        }else{
+            this.mOHLCData = OHLCData;
+        }
         initMALineData();
         mMACDData = new MACDEntity(mOHLCData);
         mKDJData = new KDJEntity(mOHLCData);
@@ -1494,6 +1528,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setDoubleClicklistener(OnDoubleClickListener mDoubleClicklistener) {
         this.mDoubleClicklistener = mDoubleClicklistener;
+    }
+
+
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
 }
