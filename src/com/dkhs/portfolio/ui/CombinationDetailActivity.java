@@ -79,7 +79,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private FragmentNetValueTrend mFragmentTrend;
     private FragmentCompare mFragmentCompare;
     private FragmentPositionDetail mFragmentDetail;
-    private FragmentNews mFragmentNews;
+    // private FragmentNews mFragmentNews;
     public static final String EXTRA_COMBINATION = "extra_combination";
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {

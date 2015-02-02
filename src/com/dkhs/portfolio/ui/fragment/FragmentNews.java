@@ -38,9 +38,10 @@ import com.umeng.analytics.MobclickAgent;
  * @version 1.0
  */
 public class FragmentNews extends BaseFragment implements FragmentLifecycle {
-	public static final String DATA = "mCombinationBean";
-	private CombinationBean mCombinationBean;
-	private LinearLayout comLayout;
+    public static final String DATA = "mCombinationBean";
+    private CombinationBean mCombinationBean;
+    private LinearLayout comLayout;
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -53,8 +54,8 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         Bundle bunds = getArguments();
-        if(null != bunds){
-        	mCombinationBean = (CombinationBean) bunds.get(DATA);
+        if (null != bunds) {
+            mCombinationBean = (CombinationBean) bunds.get(DATA);
         }
         System.out.println("================FragmentNews onCreate()======================");
     }
@@ -68,55 +69,62 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
     }
 
     private void initTabPage(View view) {
-    	comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
+        comLayout = (LinearLayout) view.findViewById(R.id.com_layout);
         String[] titleArray = getResources().getStringArray(R.array.detail_news_titles);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        /*fragmentList.add(new FragmentDiscussFlow());
-        fragmentList.add(new TestFragment());*/
-        Fragment f1 = new FragmentNewsList();
-        Bundle b1 = new Bundle();
-        b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
-        NewsforImpleEngine vo = new NewsforImpleEngine();
-        vo.setPortfolioId(mCombinationBean.getId()+"");
-        vo.setContentType("10");
-        vo.setPageTitle("新闻正文");
-        b1.putSerializable(FragmentNewsList.VO, vo);
-        f1.setArguments(b1);
-        //fragmentList.add(f1);
+        /*
+         * fragmentList.add(new FragmentDiscussFlow());
+         * fragmentList.add(new TestFragment());
+         */
+        // Fragment f1 = new FragmentNewsList();
+        // Bundle b1 = new Bundle();
+        // b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
+        // NewsforImpleEngine vo = new NewsforImpleEngine();
+        // vo.setPortfolioId(mCombinationBean.getId()+"");
+        // vo.setContentType("10");
+        // vo.setPageTitle("新闻正文");
+        // b1.putSerializable(FragmentNewsList.VO, vo);
+        // f1.setArguments(b1);
+        // fragmentList.add(f1);
         Fragment f2 = new OptionMarketNewsFragment();
         Bundle b2 = new Bundle();
         NewsforImpleEngine vo2 = new NewsforImpleEngine();
-        vo2.setPortfolioId(mCombinationBean.getId()+"");
+        vo2.setPortfolioId(mCombinationBean.getId() + "");
         vo2.setContentType("20");
         b2.putSerializable(OptionMarketNewsFragment.VO, vo2);
         f2.setArguments(b2);
         fragmentList.add(f2);
+
         Fragment f3 = new FragmentreportOneList();
         Bundle b3 = new Bundle();
         b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         NewsforImpleEngine vo3 = new NewsforImpleEngine();
-        vo3.setPortfolioId(mCombinationBean.getId()+"");
+        vo3.setPortfolioId(mCombinationBean.getId() + "");
         vo3.setContentType("30");
-        
+
         vo3.setPageTitle("研报正文");
         b3.putSerializable(FragmentNewsList.VO, vo3);
         f3.setArguments(b3);
-        /*Fragment f3 = new FragmentreportOneList();
-        vo = new NewsforImpleEngine();
-        vo.setPortfolioId(mCombinationBean.getId());
-        vo.setContentType("30");
-        Bundle b3 = new Bundle();
-        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
-        b3.putSerializable(FragmentNewsList.VO, vo);
-        f3.setArguments(b3);*/
+        /*
+         * Fragment f3 = new FragmentreportOneList();
+         * vo = new NewsforImpleEngine();
+         * vo.setPortfolioId(mCombinationBean.getId());
+         * vo.setContentType("30");
+         * Bundle b3 = new Bundle();
+         * b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
+         * b3.putSerializable(FragmentNewsList.VO, vo);
+         * f3.setArguments(b3);
+         */
         fragmentList.add(f3);
-        new FragmentSelectAdapter(getActivity(),titleArray,fragmentList,comLayout,getFragmentManager());
-        /*ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
-        pager.setAdapter(new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray));
-
-        TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
-        indicator.setViewPager(pager);*/
+        new FragmentSelectAdapter(getActivity(), titleArray, fragmentList, comLayout, getFragmentManager());
+        /*
+         * ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
+         * pager.setAdapter(new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray));
+         * 
+         * TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
+         * indicator.setViewPager(pager);
+         */
 
     }
 
@@ -170,20 +178,22 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         // TODO Auto-generated method stub
 
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_text);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_text);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }
