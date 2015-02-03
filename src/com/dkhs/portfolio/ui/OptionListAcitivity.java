@@ -22,6 +22,9 @@ import com.umeng.analytics.MobclickAgent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
@@ -52,6 +55,9 @@ public class OptionListAcitivity extends ModelAcitivity {
     private String type;
     private String name;
     private RelativeLayout pb;
+
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -99,7 +105,7 @@ public class OptionListAcitivity extends ModelAcitivity {
                 vo.setContentType(type);
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.NEWSFOREACH, vo);
-                //mLoadDataEngine.setLoadingDialog(context);
+                // mLoadDataEngine.setLoadingDialog(context);
                 mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
             }
@@ -147,6 +153,21 @@ public class OptionListAcitivity extends ModelAcitivity {
         });
         mListView.setOnItemClickListener(itemBackClick);
 
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                }, 2000);
+
+            }
+        });
     }
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -180,7 +201,7 @@ public class OptionListAcitivity extends ModelAcitivity {
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            //mLoadDataEngine.setLoadingDialog(context);
+            // mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadMore();
         }
     }
@@ -219,22 +240,24 @@ public class OptionListAcitivity extends ModelAcitivity {
             mListView.removeFooterView(mFootView);
         }
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market_one);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market_one);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

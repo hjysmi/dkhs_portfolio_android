@@ -127,6 +127,8 @@ public class CombinationUserActivity extends ModelAcitivity {
 
     protected void updateUserView(UserEntity object) {
         BitmapUtils bitmapUtils = new BitmapUtils(this);
+        bitmapUtils.configDefaultLoadingImage(R.drawable.ic_user_head);
+        bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
         if (null != object.getAvatar_md() && object.getAvatar_md().length() > 35) {
             bitmapUtils.display(ivHeader, object.getAvatar_md());
         }

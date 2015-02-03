@@ -38,6 +38,7 @@
         android:id="@+id/mListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        style="@style/listViewStyle"
         android:listSelector="@android:color/transparent" />
 
     <RelativeLayout
