@@ -35,6 +35,8 @@ public class PortfolioPreferenceManager {
     public static final String KEY_LAST_LOAD_DATETIME = "key_last_load_datetime";
     public static final String KEY_APP_URL = "key_app_url";
     public static final String KEY_APP_INTRODUS = "key_app_INTRODUS";
+    public static final String KEY_KLIN_COMPLEX = "key_klin_complex";
+    public static final String KEY_KLIN_DEPUTY = "key_klin_DEPUTY";
     public static SharedPreferences getSharePreferences() {
         return PortfolioApplication.getInstance().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
     }
