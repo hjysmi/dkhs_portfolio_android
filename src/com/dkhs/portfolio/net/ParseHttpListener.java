@@ -51,6 +51,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         return this;
     }
 
+    public ParseHttpListener cancelLoadingDialog() {
+        this.mContext = null;
+        this.msg = "";// mContext.getString(R.string.loading);
+
+        return this;
+    }
+
     @Override
     public void beforeRequest() {
         if (null != mContext) {

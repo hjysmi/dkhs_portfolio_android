@@ -453,9 +453,10 @@ public class StockQuotesChartFragment extends Fragment {
             new Handler().postDelayed(new Runnable() {
 
                 public void run() {
-                    if (!StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
-
-                        viewFiveRange.setVisibility(View.VISIBLE);
+                    if (isAdded() && mStockBean != null && null != viewFiveRange) {
+                        if (!StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+                            viewFiveRange.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
