@@ -47,6 +47,7 @@ import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -334,7 +335,9 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         // indicator.setViewPager(pager);
     }
-
+    public void loadMore(){
+        ((KChartsLandFragment) fragmentList.get(pager.getCurrentItem())).loadMordKline();
+    }
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragmentList;
@@ -538,10 +541,12 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
     }
 
     public int getStickType() {
+        stickType = PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_KLIN_DEPUTY);
         return stickType;
     }
 
     public void setStickType(int stickType) {
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_DEPUTY, stickType);
         this.stickType = stickType;
     }
 }
