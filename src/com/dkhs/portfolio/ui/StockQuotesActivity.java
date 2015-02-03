@@ -70,6 +70,7 @@ import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -125,11 +126,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private String symbolType;
     private List<Fragment> frag;
     private Button klinVirtulCheck;
-    private String checkValue = "0";
+    private static String checkValue = "0";
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
-        PortfolioApplication.getInstance().setCheckValue("0");
         intent.putExtra(EXTRA_STOCK, bean);
         return intent;
     }
@@ -178,6 +178,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
+        checkValue = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX);
+        if(null == checkValue){
+            checkValue = "0";
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+        }
+        PortfolioApplication.getInstance().setCheckValue(checkValue);
         // DisplayMetrics dm = new DisplayMetrics();
         // WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         // m.getDefaultDisplay().getMetrics(dm);
@@ -190,6 +196,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
         // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
+        reGetDate();
     }
 
     /**
@@ -698,6 +705,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     break;
                 case REQUEST_CHECK:
                     checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
                     reGetDate();
                     break;
             }
@@ -925,6 +933,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (PortfolioApplication.getInstance().isChange()) {
             PortfolioApplication.getInstance().setChange(false);
             checkValue = PortfolioApplication.getInstance().getCheckValue();
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
             reGetDate();
         }
         if (PortfolioApplication.getInstance().getkLinePosition() != -1) {

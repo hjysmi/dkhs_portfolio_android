@@ -983,6 +983,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 if (null != mTouchListener) {
                     mTouchListener.loseTouching();
                 }
+                mVolumnChartView.setMaxStickDataNum(mShowDataNum);
                 if (!twoFingle) {
                     showDetails = false;
                     go = false;
@@ -1065,11 +1066,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             horizontalSpacing = (float) (horizontalSpacing + hisDrag);
                             mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
                         }
-                        if(currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
+                        if(mOHLCData.size() > MIN_CANDLE_NUM && currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
                             dragValue = hisDrag + (currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) - mOHLCData.size())* (mCandleWidth + 3);
                             mVolumnChartView.setDragValue(dragValue);
                         }else{
-                            if(hisDrag > 0 && dragValue >0){
+                            if(mOHLCData.size() > MIN_CANDLE_NUM &&  hisDrag > 0 && dragValue >0){
                                 dragValue =  hisDrag + horizontalSpacing;
                             }else{
                                 dragValue = 0;
@@ -1128,6 +1129,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     setCurrentData();
                     postInvalidate();
                     mVolumnChartView.onSet(e, false, mDataStartIndext);
+                    mVolumnChartView.setMaxStickDataNum(mShowDataNum);
                 }
                 break;
         }
@@ -1371,7 +1373,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             mMinPrice = -1;
             return;
         }
-        if(page > 1){
+        if(page > 1 && !(mOHLCData.get(0).getDate().equals(OHLCData.get(0).getDate()))){
             this.mOHLCData.addAll(OHLCData);
             mDataStartIndext = (int) (mDataStartIndext + (hisDrag / (mCandleWidth + 3)));
             hisDrag = 0;
@@ -1380,7 +1382,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             setCurrentData();
             postInvalidate();
         }else{
-            this.mOHLCData = OHLCData;
+            if(null != mOHLCData &&mOHLCData.size() < 1){
+                this.mOHLCData = OHLCData;
+            }
         }
         initMALineData();
         mMACDData = new MACDEntity(mOHLCData);

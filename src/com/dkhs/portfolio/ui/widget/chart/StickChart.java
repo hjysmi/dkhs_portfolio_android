@@ -149,6 +149,13 @@ public class StickChart extends GridChart {
                         maxValue = (float) StickData.get(i).getVolume();
                     }
                 }
+                if(mShowDate >= StickData.size()){
+                    for(int i = StickData.size() -1; i < StickData.size() && i >= index; i--){
+                        if(i >=0 && i < StickData.size() && null != StickData.get(i) && StickData.get(i).getVolume() > maxValue){
+                            maxValue = (float) StickData.get(i).getVolume();
+                        }
+                    }
+                }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -237,12 +244,15 @@ public class StickChart extends GridChart {
                     if (indexs > maxStickDataNum - 1) {
                         indexs = maxStickDataNum - 1;
                     }
-                    int k = indexs  -1  -index;
+                    int k = indexs  - 1 + index;
                     if(longtitudeNum + 1 == i){
                         k += 1;
                     }
                     if(k < 0){
                         k = 0;
+                    }
+                    if(k >= StickData.size()){
+                        k = StickData.size() -1;
                     }
                     TitleX.add(String.valueOf(StickData.get(k).getDate()));
                     // 追�??�?
@@ -361,7 +371,7 @@ public class StickChart extends GridChart {
             	if(StickData.size() < maxStickDataNum){
             		mShowDate = maxStickDataNum;
             		stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
-            		num = 0;
+            		num = StickData.size() -1;
             	}
                 for (int i = num; i < StickData.size() && i >= index && i >= 0; i--) {
                     if(i >=0){
@@ -611,7 +621,11 @@ public class StickChart extends GridChart {
             float startY5 = 0;
             float startY10 = 0;
             float startY20 = 0;
-            for (int j = mShowDate + index -1; j < StickData.size() && j >= 0 && j >= index; j--) {
+            int nums = mShowDate + index -1;
+            if(StickData.size() < mShowDate){
+                nums = StickData.size() - 1 + index;
+            }
+            for (int j = nums; j < StickData.size() && j >= 0 && j >= index; j--) {
                 //MALineEntity lineEntity = MALineData.get(j);
 
                 
