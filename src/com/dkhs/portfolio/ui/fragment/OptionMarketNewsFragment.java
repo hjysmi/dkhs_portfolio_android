@@ -6,7 +6,10 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,43 +55,44 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     private NewsforImpleEngine vo;
     private boolean uservivible = false;
     private RelativeLayout pb;
-    
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-    	view = inflater.inflate(R.layout.activity_option_market_news, null);
-    	context = getActivity();
-    	mDataList = new ArrayList<OptionNewsBean>();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        view = inflater.inflate(R.layout.activity_option_market_news, null);
+        context = getActivity();
+        mDataList = new ArrayList<OptionNewsBean>();
         iv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if(!(null != mDataList && mDataList.size() > 0)){
+        if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
         // iv.setText("暂无公告");
         Bundle bundle = getArguments();
         if (bundle != null) {
-        	vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+            vo = (NewsforImpleEngine) bundle.getSerializable(VO);
         }
         initView();
-        //initDate();
-		return view;
-	}
-	private void initDate() {
+        // initDate();
+        return view;
+    }
+
+    private void initDate() {
         try {
-                initView();
-                Bundle bundle = getArguments();
-                if (bundle != null) {
-                    vo = (NewsforImpleEngine) bundle.getSerializable(VO);
-                }
-                NewsforImpleEngine vos = new NewsforImpleEngine();
-                vos.setPortfolioId(vo.getPortfolioId());
-                vos.setContentType(vo.getContentType());
-                mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, OpitionNewsEngineImple.NEWS_GROUP_FOREACH,
-                        vos);
-//                mLoadDataEngine.setLoadingDialog(context);
-                mLoadDataEngine.loadData();
-                mLoadDataEngine.setFromYanbao(false);
+            initView();
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+            }
+            NewsforImpleEngine vos = new NewsforImpleEngine();
+            vos.setPortfolioId(vo.getPortfolioId());
+            vos.setContentType(vo.getContentType());
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
+                    OpitionNewsEngineImple.NEWS_GROUP_FOREACH, vos);
+            // mLoadDataEngine.setLoadingDialog(context);
+            mLoadDataEngine.loadData();
+            mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -97,15 +101,31 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
     }
 
     private void initView() {
-        if(null != view){
-        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
+        if (null != view) {
+            mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+            mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
 
-        mListView.setEmptyView(iv);
-//        mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
-        mListView.setAdapter(mOptionMarketAdapter);
-        mListView.setOnItemClickListener(itemBackClick);
+            mListView.setEmptyView(iv);
+            // mListView.addFooterView(mFootView);
+            mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+            mListView.setAdapter(mOptionMarketAdapter);
+            mListView.setOnItemClickListener(itemBackClick);
+
+            mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+            mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+
+                @Override
+                public void onRefresh() {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeLayout.setRefreshing(false);
+                        }
+                    }, 2000);
+
+                }
+            });
+            mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
         }
 
     }
@@ -157,26 +177,27 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
                 pb.setVisibility(View.GONE);
-            	mListView.onLoadMoreComplete();
-            	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
-    					.getTotalpage()) {
-            		mListView.setCanLoadMore(false);
-    				mListView.setAutoLoadMore(false);
-            	}else{
-            		mListView.setCanLoadMore(true);
-    				mListView.setAutoLoadMore(true);
-    				if(mLoadDataEngine.getCurrentpage() == 1)
-    					mListView.setOnLoadListener(OptionMarketNewsFragment.this);
-            	}
+                mListView.onLoadMoreComplete();
+                if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                    mListView.setCanLoadMore(false);
+                    mListView.setAutoLoadMore(false);
+                } else {
+                    mListView.setCanLoadMore(true);
+                    mListView.setAutoLoadMore(true);
+                    if (mLoadDataEngine.getCurrentpage() == 1)
+                        mListView.setOnLoadListener(OptionMarketNewsFragment.this);
+                }
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.clear();
                     mDataList.addAll(dataList);
-                    /*if (first) {
-                        initView();
-                        first = false;
-                    }*/
+                    /*
+                     * if (first) {
+                     * initView();
+                     * first = false;
+                     * }
+                     */
                     mOptionMarketAdapter.notifyDataSetChanged();
-//                    loadFinishUpdateView();
+                    // loadFinishUpdateView();
 
                 } else {
                     iv.setText("暂无公告");
@@ -197,43 +218,49 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
             mListView.removeFooterView(mFootView);
         }
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news_list);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-	    /*if(uservivible){
-	        initDate();
-	    }*/
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
-	@Override
-	public void onLoadMore() {
-		 if (null != mLoadDataEngine) {
-	            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-	                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
-	                return;
-	            }
-	            mLoadDataEngine.loadMore();
-	        }
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news_list);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        /*
+         * if(uservivible){
+         * initDate();
+         * }
+         */
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (null != mLoadDataEngine) {
+            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            mLoadDataEngine.loadMore();
+        }
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         uservivible = isVisibleToUser;
-        if(isVisibleToUser){
+        if (isVisibleToUser) {
             initDate();
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
-	
+
 }

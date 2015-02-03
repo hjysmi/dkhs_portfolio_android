@@ -31,6 +31,7 @@ import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
 
 public class HistoryPositionDetailActivity extends ModelAcitivity implements OnLoadMoreListener {
@@ -62,6 +63,7 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
     private Map<String, List<HistoryPositionItem>> map = new HashMap<String, List<HistoryPositionItem>>();
     private MyAdapter adapter;
     private MyIhttpListener listener;
+    private HttpHandler mHttphandler;
 
     private void initData() {
         adapter = new MyAdapter();
@@ -72,8 +74,9 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
         listener = new MyIhttpListener();
         // add by zcm --- 2014.12.17
         if (NetUtil.checkNetWork()) {
-            PromptManager.showProgressDialog(this, "");
-            netValueEngine.requeryHistoryDetailPosition(count, page, listener);
+            // PromptManager.showProgressDialog(this, "");
+            listener.setLoadingDialog(this);
+            mHttphandler = netValueEngine.requeryHistoryDetailPosition(count, page, listener);
         } else {
             PromptManager.showToast(R.string.no_net_connect);
         }
@@ -169,7 +172,7 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
                         mListView.setCanLoadMore(false);
                         mListView.setAutoLoadMore(false);
                     }
-                    PromptManager.closeProgressDialog();
+                    // PromptManager.closeProgressDialog();
                     mListView.onLoadMoreComplete();
                 } else {
                     mListView.setCanLoadMore(false);
@@ -323,5 +326,14 @@ public class HistoryPositionDetailActivity extends ModelAcitivity implements OnL
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        if (null != mHttphandler) {
+            mHttphandler.cancel();
+        }
     }
 }

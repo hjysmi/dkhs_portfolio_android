@@ -6,6 +6,9 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
@@ -43,6 +46,8 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     private String name;
     private String subType;
     private RelativeLayout pb;
+
+    public SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -89,7 +94,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.GROUP_FOR_ONE, vo);
             }
-//            mLoadDataEngine.setLoadingDialog(context);
+            // mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadData();
             mLoadDataEngine.setFromYanbao(false);
         } catch (Exception e) {
@@ -104,37 +109,52 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
 
         mListView.setEmptyView(iv);
-//        mListView.addFooterView(mFootView);
+        // mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
 
-//        mListView.removeFooterView(mFootView);
-//        mListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                switch (scrollState) {
-//                    case OnScrollListener.SCROLL_STATE_IDLE:
-//
-//                    {
-//                        // 判断是否滚动到底部
-//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-//                            loadMore();
-//
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
+        // mListView.removeFooterView(mFootView);
+        // mListView.setOnScrollListener(new OnScrollListener() {
+        //
+        // @Override
+        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        //
+        // switch (scrollState) {
+        // case OnScrollListener.SCROLL_STATE_IDLE:
+        //
+        // {
+        // // 判断是否滚动到底部
+        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+        // loadMore();
+        //
+        // }
+        // }
+        //
+        // }
+        //
+        // }
+        //
+        // @Override
+        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //
+        // }
+        // });
         mListView.setOnItemClickListener(itemBackClick);
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                }, 2000);
+
+            }
+        });
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
 
     }
 
@@ -168,7 +188,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            //mLoadDataEngine.setLoadingDialog(context);
+            // mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadMore();
         }
     }
@@ -179,25 +199,26 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
                 pb.setVisibility(View.GONE);
-            	mListView.onLoadMoreComplete();
-            	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
-    					.getTotalpage()) {
-            		mListView.setCanLoadMore(false);
-    				mListView.setAutoLoadMore(false);
-            	}else{
-            		mListView.setCanLoadMore(true);
-    				mListView.setAutoLoadMore(true);
-    				if(mLoadDataEngine.getCurrentpage() == 1)
-    					mListView.setOnLoadListener(ReportForOneListActivity.this);
-            	}
+                mListView.onLoadMoreComplete();
+                if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                    mListView.setCanLoadMore(false);
+                    mListView.setAutoLoadMore(false);
+                } else {
+                    mListView.setCanLoadMore(true);
+                    mListView.setAutoLoadMore(true);
+                    if (mLoadDataEngine.getCurrentpage() == 1)
+                        mListView.setOnLoadListener(ReportForOneListActivity.this);
+                }
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
-                    /*if (first) {
-                        initView();
-                        first = false;
-                    }*/
+                    /*
+                     * if (first) {
+                     * initView();
+                     * first = false;
+                     * }
+                     */
                     mOptionMarketAdapter.notifyDataSetChanged();
-//                    loadFinishUpdateView();
+                    // loadFinishUpdateView();
 
                 } else {
                     iv.setText("暂无研报");
@@ -218,28 +239,30 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             mListView.removeFooterView(mFootView);
         }
     }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao_list);
+
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 
-	@Override
-	public void onLoadMore() {
-		if (null != mLoadDataEngine) {
+    @Override
+    public void onLoadMore() {
+        if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
@@ -248,5 +271,5 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
         }
-	}
+    }
 }

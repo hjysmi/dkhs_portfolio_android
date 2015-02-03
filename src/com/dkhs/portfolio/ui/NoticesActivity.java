@@ -153,25 +153,12 @@ public class NoticesActivity extends ModelAcitivity implements OnLoadMoreListene
     OnItemClickListener itemBackClick = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // TODO Auto-generated method stub
             try {
-                /*
-                 * if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0){
-                 * Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(),
-                 * "公告正文",mDataList.get(
-                 * position).getSymbols().get(0).getAbbrName(),mDataList.get(position).getSymbols().get(0).getId());
-                 * startActivity(intent);
-                 * }else{
-                 * Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文",null,null);
-                 * startActivity(intent);
-                 * }
-                 */
                 Intent intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
                         .getSymbol()
                         + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
                 startActivity(intent);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

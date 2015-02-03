@@ -267,6 +267,8 @@ public class MenuLeftFragment extends Fragment implements OnClickListener {
         String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
         if (PortfolioApplication.hasUserLogin() && !TextUtils.isEmpty(url)) {
             BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
+            bitmapUtils.configDefaultLoadingImage(R.drawable.ic_user_head);
+            bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
             bitmapUtils.display(ivUserheader, url);
         } else {
             Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.ic_user_head);
