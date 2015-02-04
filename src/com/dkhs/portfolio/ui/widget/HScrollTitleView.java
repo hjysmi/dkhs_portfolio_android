@@ -157,9 +157,10 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             tv.setTextColor(getContext().getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
-            tv.setPadding(0, 5, 0, 5);
-            tv.setGravity(Gravity.CENTER);
-            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.WRAP_CONTENT, 1.0f));
+
+            // tv.setPadding(0, 5, 0, 5);
+            tv.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
+            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
             tv.setText(nameList[i]);
             tv.setOnClickListener(new OnItemListener(i));
             ll.addView(tv);
