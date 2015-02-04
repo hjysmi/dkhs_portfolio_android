@@ -99,6 +99,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private double dragValue = 0;
     private double hisDrag = 0;
     private Context context;
+    private boolean loadMore = true;
+    private boolean loadAble = true;
     public KChartsLandView(Context context) {
         super(context);
         init();
@@ -1015,12 +1017,14 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             }else{
                                 textforFlush = "加载中...";
                             }
-                            while(dragValue >= tmp && dragValue > 0 && dragValue != rect.width()){
+                            int k = 0;
+                            while(dragValue >= tmp && dragValue > 0 && loadMore && k < 4){
                                 dragValue -= tmp;
-                                if(dragValue < rect.width() && show){
+                                if(k == 3 && show){
                                     dragValue = rect.width();
                                     hisDrag = dragValue;
                                     ((KChartLandScapeActivity) context).loadMore();
+                                    loadMore = false;
                                 }
                                 if(!show){
                                     hisDrag = 0;
@@ -1028,9 +1032,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 setCurrentData();
                                 postInvalidate();
                                 mVolumnChartView.setDragValue(dragValue);
-                                if(dragValue < tmp){
+                                if(dragValue < tmp && !show){
                                     dragValue = 0;
                                 }
+                                k++;
                                 try {
                                     Thread.sleep(50);
                                 } catch (InterruptedException e) {
@@ -1066,7 +1071,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             horizontalSpacing = (float) (horizontalSpacing + hisDrag);
                             mDataStartIndext = (int) (currentDate + (horizontalSpacing / (mCandleWidth + 3)));
                         }
-                        if(mOHLCData.size() > MIN_CANDLE_NUM && currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
+                        if(loadAble && mOHLCData.size() > MIN_CANDLE_NUM && currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) > mOHLCData.size()){
                             dragValue = hisDrag + (currentDate + mShowDataNum + (horizontalSpacing / (mCandleWidth + 3)) - mOHLCData.size())* (mCandleWidth + 3);
                             mVolumnChartView.setDragValue(dragValue);
                         }else{
@@ -1106,7 +1111,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         setCurrentData();
                         postInvalidate();
                     }
-                } else if (event.getPointerCount() > 1) {
+                } else if (event.getPointerCount() > 1 && !showDetails) {
                     ismove = false;
                     mShowDataNum = (int) (currentShow - (Math.abs(event.getX(0)
                             - event.getX(event.getPointerCount() - 1)) - longs)
@@ -1369,12 +1374,50 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setOHLCData(List<OHLCEntity> OHLCData,int page) {
         if (OHLCData == null || OHLCData.size() <= 0) {
-            mMaxPrice = -1;
-            mMinPrice = -1;
-            return;
+            if(page > 1){
+                loadAble = false;
+                Paint paint = new Paint();
+                paint.setColor(getResources().getColor(R.color.def_gray));
+                paint.setAntiAlias(true);
+                paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
+                textforFlush = "加载中...";
+                final Rect rect = new Rect();
+                paint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
+                dragValue = hisDrag;
+                Thread tk = new Thread(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        int tmp = (int) (dragValue/4);
+                        while(dragValue >= tmp && dragValue > 0){
+                            dragValue -= tmp;
+                            setCurrentData();
+                            postInvalidate();
+                            mVolumnChartView.setDragValue(dragValue);
+                            if(dragValue < tmp){
+                                dragValue = 0;
+                                hisDrag = 0;
+                            }
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                tk.start();
+            }else{
+                mMaxPrice = -1;
+                mMinPrice = -1;
+                return;
+            }
         }
         if(page > 1 && !(mOHLCData.get(0).getDate().equals(OHLCData.get(0).getDate()))){
             this.mOHLCData.addAll(OHLCData);
+            loadMore = true;
             mDataStartIndext = (int) (mDataStartIndext + (hisDrag / (mCandleWidth + 3)));
             hisDrag = 0;
             dragValue = 0;
@@ -1538,6 +1581,22 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setContext(Context context) {
         this.context = context;
+    }
+
+    public boolean isLoadMore() {
+        return loadMore;
+    }
+
+    public void setLoadMore(boolean loadMore) {
+        this.loadMore = loadMore;
+    }
+
+    public boolean isLoadAble() {
+        return loadAble;
+    }
+
+    public void setLoadAble(boolean loadAble) {
+        this.loadAble = loadAble;
     }
 
 }
