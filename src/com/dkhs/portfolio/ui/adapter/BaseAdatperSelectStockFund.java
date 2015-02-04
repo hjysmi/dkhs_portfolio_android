@@ -33,7 +33,7 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
  * @version 1.0
  */
 public class BaseAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
-	public Context mContext;
+    public Context mContext;
     public List<SelectStockBean> mDataList;
     public boolean fromShow = true;
 
@@ -63,6 +63,11 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
     public View getView(int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public void setData(List<SelectStockBean> dataList) {
+        this.mDataList = dataList;
+        notifyDataSetChanged();
     }
 
     /**

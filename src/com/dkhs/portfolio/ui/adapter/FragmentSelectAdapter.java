@@ -1,18 +1,13 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -119,19 +114,20 @@ public class FragmentSelectAdapter {
 		pager = (ScrollViewPager) view.findViewById(R.id.selectadapter_pager);
         pager.setAdapter(new OrderFragmentAdapter(mFragmentManager, fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
+        pager.setOffscreenPageLimit(4);
 		iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
 		//selectScroll = (HorizontalScrollView) view.findViewById(R.id.select_scroll);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
-		ll.setLayoutParams(new LinearLayout.LayoutParams(totalLength, LayoutParams.WRAP_CONTENT));
+		ll.setLayoutParams(new LinearLayout.LayoutParams(totalLength, context.getResources().getDimensionPixelSize(R.dimen.gray_tab_height)-7));
 		//ll.setOnTouchListener(new OnmyLayout());
 		tvList = new TextView[nameList.length];
 		for(int i = 0; i < nameList.length; i++){
 			TextView tv = new TextView(context);
 			tv.setTextColor(context.getResources().getColor(R.color.black));
-			tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
-			tv.setPadding(0, 10, 0, 5);
+			tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,context.getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
+			//tv.setPadding(0, 10, 0, 5);
 			
-			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.WRAP_CONTENT));
+			tv.setLayoutParams(new LinearLayout.LayoutParams(textLayout[i] , LayoutParams.MATCH_PARENT));
 			tv.setGravity(Gravity.CENTER);
 			tv.setText(nameList[i]);
 			tv.setOnClickListener(new OnItemListener(i));
@@ -226,7 +222,7 @@ public class FragmentSelectAdapter {
 		animation.setDuration(300);
 		iv.startAnimation(animation);
 	}
-	private class OrderFragmentAdapter extends FragmentPagerAdapter {
+	private class OrderFragmentAdapter extends FragmentStatePagerAdapter {
 
         private List<Fragment> fragmentList;
 

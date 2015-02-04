@@ -144,17 +144,19 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         m.getDefaultDisplay().getMetrics(dm);
         LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
         if (nameList.length * indiatorWidth <= dm.widthPixels) {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
             offset = (dm.widthPixels / nameList.length - indiatorWidth) / 2;
         } else {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, getContext()
+                    .getResources().getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
         }
         tvList = new TextView[nameList.length];
         for (int i = 0; i < nameList.length; i++) {
             TextView tv = new TextView(getContext());
             tv.setTextColor(getContext().getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-                    getContext().getResources().getDimensionPixelSize(R.dimen.list_text_size));
+                    getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
             tv.setPadding(0, 5, 0, 5);
             tv.setGravity(Gravity.CENTER);
             tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.WRAP_CONTENT, 1.0f));
@@ -258,7 +260,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         if (null != mSelectListener) {
             mSelectListener.onSelectPosition(currentPosition);
         }
-//        PromptManager.closeProgressDialog();
+        // PromptManager.closeProgressDialog();
     }
 
     @Override
@@ -268,7 +270,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     @Override
     public void onAnimationStart(Animation arg0) {
-//        PromptManager.showProgressDialog(getContext(), "");
+        // PromptManager.showProgressDialog(getContext(), "");
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 

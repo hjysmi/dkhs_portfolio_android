@@ -8,24 +8,16 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -46,7 +38,7 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
             params.addQueryStringParameter("user_id", userId);
@@ -55,14 +47,14 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
         // List<NameValuePair> params = new ArrayList<NameValuePair>();
         // NameValuePair valuePair2 = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         // params.add(valuePair2);
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
     }
 
-    public void loadAllData() {
+    public HttpHandler loadAllData() {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
 
     }
 
@@ -72,12 +64,12 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
             params.addQueryStringParameter("user_id", userId);
         }
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
         // DKHSClient.requestByGet(DKHSUrl.Portfolio.portfolio, null, null, this);
     }
 
@@ -113,14 +105,14 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
 
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
             params.addQueryStringParameter("user_id", userId);
         }
         params.addQueryStringParameter("page_size", dataSize + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
     }
 
 }

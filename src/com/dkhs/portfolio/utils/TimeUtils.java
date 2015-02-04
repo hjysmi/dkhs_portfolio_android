@@ -95,6 +95,9 @@ public class TimeUtils {
     }
 
     public static String getHourString(String iso8601Time) {
+        if (TextUtils.isEmpty(iso8601Time)) {
+            return "";
+        }
         return new SimpleDateFormat("HH:mm:ss", Locale.CHINA).format(toDate(iso8601Time));
 
     }
@@ -204,34 +207,38 @@ public class TimeUtils {
         }
         return calendar;
     }
+
     public static Calendar toCalendarAddHour(final String iso8601string) {
         Calendar calendar = GregorianCalendar.getInstance();
         String s = iso8601string.replace("Z", "+00:00");
         try {
             s = s.replaceAll("\\+0([0-9]){1}\\:00", "+0$100");
-            SimpleDateFormat ss = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'",Locale.CHINA);
-            //ss.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
+            SimpleDateFormat ss = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.CHINA);
+            // ss.setTimeZone(TimeZone.getTimeZone("GMT+08:00"));
             Date date = ss.parse(iso8601string);
             calendar.setTime(date);
             int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
-            calendar.set(Calendar.HOUR_OF_DAY,k);
+            calendar.set(Calendar.HOUR_OF_DAY, k);
         } catch (Exception e) {
 
             e.printStackTrace();
         }
         return calendar;
     }
+
     public static String addHour(final String iso8601string) {
         Calendar calendar = GregorianCalendar.getInstance();
         String s = "";
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA).parse(iso8601string);
             calendar.setTime(date);
-           /* int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
-            int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
-            calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));*/
+            /*
+             * int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
+             * int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
+             * calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
+             */
             int k = calendar.get(Calendar.HOUR_OF_DAY) + 8;
-            calendar.set(Calendar.HOUR_OF_DAY,k);
+            calendar.set(Calendar.HOUR_OF_DAY, k);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             s = sdf.format(calendar.getTime());
         } catch (Exception e) {
@@ -240,6 +247,7 @@ public class TimeUtils {
         }
         return s;
     }
+
     public static Calendar simpleDateToCalendar(final String simpleDate) {
         Calendar calendar = GregorianCalendar.getInstance();
 

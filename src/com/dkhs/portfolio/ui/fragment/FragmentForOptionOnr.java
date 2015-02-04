@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
@@ -29,7 +30,7 @@ import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.YanbaoNewsActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
@@ -54,12 +55,17 @@ public class FragmentForOptionOnr extends Fragment{
     private String subType;
     private View view;
 	private boolean getadble = false;
+	private RelativeLayout pb;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.activity_option_market_news, null);
 		context = getActivity();
+		pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != mDataList && mDataList.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
 		mDataList = new ArrayList<OptionNewsBean>();
 		
 		iv = (TextView) view.findViewById(android.R.id.empty);
@@ -74,7 +80,7 @@ public class FragmentForOptionOnr extends Fragment{
 			((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
 		}
 		initView(view);
-		initDate();
+		
 		return view;
 	}
 
@@ -89,11 +95,17 @@ public class FragmentForOptionOnr extends Fragment{
     }
 	private void initDate(){
 			try {
+    			    Bundle extras = getArguments();
+    		        if(null != extras){
+    		            symbol = extras.getString(SYMBOL);
+    		            name = extras.getString(NAME);
+    		            subType = extras.getString(SUB);
+    		        }
 					NewsforImpleEngine vo = new NewsforImpleEngine();
 					vo.setSymbol(symbol);
 					vo.setContentSubType(subType);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
-					mLoadDataEngine.setLoadingDialog(context);;
+					//mLoadDataEngine.setLoadingDialog(context);;
 					((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
 					mLoadDataEngine.setFromYanbao(false);
 			} catch (Exception e) {
@@ -148,9 +160,9 @@ public class FragmentForOptionOnr extends Fragment{
 			try {
 				Intent intent;
 				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() >0){
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+					intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
 				}else{
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
+					intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null,null);
 				}
 				startActivity(intent);
 			} catch (Exception e) {
@@ -169,7 +181,7 @@ public class FragmentForOptionOnr extends Fragment{
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.setLoadingDialog(context);;
+            //mLoadDataEngine.setLoadingDialog(context);;
             mLoadDataEngine.loadMore();
         }
     }
@@ -178,6 +190,7 @@ public class FragmentForOptionOnr extends Fragment{
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
 				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(first){
@@ -189,7 +202,7 @@ public class FragmentForOptionOnr extends Fragment{
 				    
 				}else{
 					if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&&getadble) {
+                            && context instanceof StockQuotesActivity&&getadble) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
 				    iv.setText("暂无研报");
@@ -216,7 +229,7 @@ public class FragmentForOptionOnr extends Fragment{
             height += list_child_item_height; // 统计所有子项的总高度
         }
         if (null != context
-                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadble) {
+                && context instanceof StockQuotesActivity && getadble) {
             ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
         }
     }
@@ -225,10 +238,11 @@ public class FragmentForOptionOnr extends Fragment{
 	public void setUserVisibleHint(boolean isVisibleToUser) {
 		// TODO Auto-generated method stub
 		if(isVisibleToUser){
+		    initDate();
 			getadble = true;
 			if(null == mDataList || mDataList.size() < 2){
 				if (null != context
-                        && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadble) {
+                        && context instanceof StockQuotesActivity&& getadble) {
                     ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                 }
 			}else if(null != mDataList){
@@ -240,7 +254,7 @@ public class FragmentForOptionOnr extends Fragment{
 		            height += list_child_item_height; // 统计所有子项的总高度
 		        }
 		        if (null != context
-		                && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadble) {
+		                && context instanceof StockQuotesActivity && getadble) {
 		            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
 		        }
 			}

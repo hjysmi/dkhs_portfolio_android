@@ -14,6 +14,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -52,6 +54,7 @@ import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnRefreshListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -63,30 +66,31 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-8-29 上午9:36:16
  * @version 1.0
  */
-public class FragmentSelectStockFund extends Fragment implements ISelectChangeListener, OnClickListener,
+public class FragmentSelectStockFund extends BaseFragment implements ISelectChangeListener, OnClickListener,
         OnLoadMoreListener {
     private static final String TAG = FragmentSelectStockFund.class.getSimpleName();
 
-    private static final String ARGUMENT_LOAD_FUND = "isloadfund";
-    private static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
-    private static final String ARGUMENT_LOAD_TYPE = "load_type";
-    private static final String ARGUMENT_SECTOR_ID = "sector_id";
+    protected static final String ARGUMENT_LOAD_FUND = "isloadfund";
+    protected static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
+    protected static final String ARGUMENT_LOAD_TYPE = "load_type";
+    protected static final String ARGUMENT_SECTOR_ID = "sector_id";
 
-    private PullToRefreshListView mListView;
-    private BaseAdatperSelectStockFund mAdapterConbinStock;
-    private boolean isLoadingMore;
-    private boolean isRefresh;
-    private List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
-    private boolean isFund;
-    private boolean isItemClickBack;
-    private StockViewType mViewType;
-    private boolean fromPosition = false;
+    protected PullToRefreshListView mListView;
+    protected BaseAdatperSelectStockFund mAdapterConbinStock;
+    protected boolean isLoadingMore;
+    protected boolean isRefresh;
+    protected List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
+    protected boolean isFund;
+    protected boolean isItemClickBack;
+    protected StockViewType mViewType;
+    protected boolean fromPosition = false;
     LoadSelectDataEngine mLoadDataEngine;
-    private TextView tvEmptyText;
+    protected TextView tvEmptyText;
     public int timeMill;
-    private boolean flush = false;
-    private String mSecotrId;
-    private boolean isLoading;
+    protected boolean flush = false;
+    protected String mSecotrId;
+    protected boolean isLoading;
+    private RelativeLayout pb;
 
     /**
      * view视图类型
@@ -278,6 +282,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
             mListView.onLoadMoreComplete();
+            mSwipeLayout.setRefreshing(false);
+            pb.setVisibility(View.GONE);
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
             }
@@ -297,9 +303,10 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 // loadFinishUpdateView();
                 return;
             }
-            if (isRefresh) {
+            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
                 mDataList.clear();
                 isRefresh = false;
+
             }
             // loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
@@ -309,6 +316,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             }
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
+            } else {
+                hideNotice();
             }
 
         }
@@ -318,6 +327,8 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
+            } else {
+                hideNotice();
             }
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
@@ -377,7 +388,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
-
+        if (null != loadingFinishListener) {
+            loadingFinishListener.startLoadingData();
+        }
         mLoadDataEngine.loadData();
 
     }
@@ -387,6 +400,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null && UIUtils.roundAble(mLoadDataEngine.getStatu()) && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
             mLoadDataEngine.loadData();
         }
     }
@@ -396,7 +412,12 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         if (mLoadDataEngine != null && !isLoadingMore) {
             // mDataList.clear();
             isLoading = true;
-            mLoadDataEngine.refreshDatabySize(mDataList.size());
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
+            mLoadDataEngine.cancelLoadingDialog();
+            // mLoadDataEngine.refreshDatabySize(mDataList.size());
+            mLoadDataEngine.loadData();
         }
     }
 
@@ -418,6 +439,9 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
                 // && null != mDataList) {
                 // ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
                 // }
+                if (null != loadingFinishListener) {
+                    loadingFinishListener.startLoadingData();
+                }
                 mLoadDataEngine.refreshDatabySize(mDataList.size());
             }
         } else {
@@ -434,18 +458,34 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             mAdapterConbinStock.setCheckChangeListener(listener);
     }
 
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         LinearLayout wrapper = new LinearLayout(getActivity()); // for example
         inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
         tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
-
+        pb = (RelativeLayout) wrapper.findViewById(android.R.id.progress);
+        if (!(null != mDataList && mDataList.size() > 0)) {
+            pb.setVisibility(View.VISIBLE);
+        }
         initView(wrapper);
         return wrapper;
     }
 
-    private void initNotice() {
+    private void hideNotice() {
+        if (null == tvEmptyText) {
+            return;
+        }
+        tvEmptyText.setVisibility(View.GONE);
+    }
+
+    protected void initNotice() {
+        if (null == tvEmptyText) {
+            return;
+        }
+        tvEmptyText.setVisibility(View.VISIBLE);
         switch (mViewType) {
             case STOCK_OPTIONAL:
 
@@ -487,7 +527,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
-    private void initView(View view) {
+    public void initView(View view) {
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
@@ -497,6 +537,18 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
+
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        // mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                refreshNoCaseTime();
+
+            }
+        });
 
     }
 
@@ -542,6 +594,7 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        pb.setVisibility(View.GONE);
     }
 
     @Override
@@ -549,6 +602,19 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        if (!isVisibleToUser) {
+            if (null != pb)
+                pb.setVisibility(View.GONE);
+        }
+        if (null != mDataList && mDataList.size() > 0) {
+            pb.setVisibility(View.GONE);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Override
@@ -566,10 +632,14 @@ public class FragmentSelectStockFund extends Fragment implements ISelectChangeLi
             if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             mLoadDataEngine.loadMore();
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
+
         }
     }
 
-    private ILoadingFinishListener loadingFinishListener;
+    protected ILoadingFinishListener loadingFinishListener;
 
     public void setLoadingFinishListener(ILoadingFinishListener finishListener) {
         this.loadingFinishListener = finishListener;

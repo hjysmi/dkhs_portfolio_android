@@ -20,6 +20,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -72,7 +73,7 @@ public class TrendTodayChartFragment extends BaseFragment {
     private Calendar mCreateCalender;
 
     private DrawLineDataEntity mTodayLineData;
-
+    private RelativeLayout pb;
     public static TrendTodayChartFragment newInstance(String trendType) {
         TrendTodayChartFragment fragment = new TrendTodayChartFragment();
 
@@ -125,6 +126,8 @@ public class TrendTodayChartFragment extends BaseFragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
             mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
+            pb.setVisibility(View.VISIBLE);
             if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
                 InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
                 mMaChart.setScroll(mScrollview);
@@ -133,7 +136,7 @@ public class TrendTodayChartFragment extends BaseFragment {
             // setupBottomTextViewData();
             initView(rootView);
             initTodayTrendTitle();
-            PromptManager.showProgressDialog(getActivity(), "");
+            //PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryToday(todayListener);
         }
         // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -268,12 +271,12 @@ public class TrendTodayChartFragment extends BaseFragment {
 
         @Override
         protected void afterParseData(DrawLineDataEntity todayNetvalue) {
-
+            pb.setVisibility(View.GONE);
             if (todayNetvalue != null) {
 
                 mTodayLineData = todayNetvalue;
                 setTodayViewLoad();
-                PromptManager.closeProgressDialog();
+                //PromptManager.closeProgressDialog();
             }
 
         }

@@ -7,6 +7,7 @@
  * @date 2014-9-26 上午10:22:32
  * @version V1.0
  */
+
 package com.dkhs.portfolio.ui;
 
 import java.io.Serializable;
@@ -38,6 +39,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import cn.sharesdk.framework.authorize.g;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -68,6 +70,7 @@ import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -83,20 +86,13 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, ITouchListener, Serializable {
 
-    /**
-	 * 
-	 */
     private static final long serialVersionUID = 15121212311111156L;
-
     private SelectStockBean mStockBean;
-
     public static final String EXTRA_STOCK = "extra_stock";
-
     protected static final int MSG_WHAT_BEFORE_REQUEST = 99;
-
     protected static final int MSG_WHAT_AFTER_REQUEST = 97;
     private final int REQUESTCODE_SELECT_STOCK = 901;
-
+    private final int REQUEST_CHECK = 888;
     private TextView tvCurrent;
     private TextView tvHigh;
     private TextView tvLow;
@@ -104,7 +100,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvChange;
     private TextView tvPercentage;
     private Button btnRefresh;
-
     private TextView tvChengjiaoLiang;
     private TextView tvChengjiaoE;
     private TextView tvHuanShouLv;
@@ -112,16 +107,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvZongzhi;
     private TextView tvShiying;
     private TextView tvShiJing;
-
     private Button btnAddOptional;
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
-
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
     private long mStockId;
     private String mStockCode;
     private Context context;
-
     private HScrollTitleView hsTitle;
     // privaet view
     private ScrollViewPager pager;
@@ -133,36 +125,30 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private View viewHeader;
     private String symbolType;
     private List<Fragment> frag;
+    private Button klinVirtulCheck;
+    private static String checkValue = "0";
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
-
         intent.putExtra(EXTRA_STOCK, bean);
-
         return intent;
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
-
         super.onNewIntent(intent);
-
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
-
         processExtraData();
         setupViewDatas();
-        
         setupViewData();
         initList();
     }
 
     private void processExtraData() {
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
         }
-
     }
 
     public void setLayoutHeight(int position) {
@@ -171,9 +157,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         m.getDefaultDisplay().getMetrics(dm);
         android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
         /*
-         * if (0 == position) {
-         * l.height = LayoutParams.MATCH_PARENT;
-         * }
+         * if (0 == position) { l.height = LayoutParams.MATCH_PARENT; }
          */
         if (position < 3) {
             position = 3;
@@ -190,14 +174,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
+        System.out.println("StockquoteActivity oncreate");
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
-        DisplayMetrics dm = new DisplayMetrics();
-        WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        m.getDefaultDisplay().getMetrics(dm);
+        checkValue = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX);
+        if(null == checkValue){
+            checkValue = "0";
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+        }
+        PortfolioApplication.getInstance().setCheckValue(checkValue);
+        // DisplayMetrics dm = new DisplayMetrics();
+        // WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        // m.getDefaultDisplay().getMetrics(dm);
         mQuotesEngine = new QuotesEngineImpl();
-
         // handle intent extras
         processExtraData();
         initView();
@@ -206,6 +196,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
         // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
+        reGetDate();
     }
 
     /**
@@ -215,7 +206,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
      */
     private void setupViewDatas() {
         if (null != mStockBean) {
-
             mStockId = mStockBean.id;
             mStockCode = mStockBean.code;
             symbolType = mStockBean.symbol_type;
@@ -223,7 +213,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
         // setAddOptionalButton();
         initTabPage();
-
     }
 
     private void handleExtras(Bundle extras) {
@@ -240,36 +229,39 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             name[2] = "换手率榜";
             String exchange;
             String listSector = null;
-            if(mStockCode.equals("SH000001")){
+            if (mStockCode.equals("SH000001")) {
                 exchange = OpitionCenterStockEngineImple.VALUE_EXCHANGE_SAHNG;
                 listSector = null;
-            }else if(mStockCode.equals("SZ399001")){
+            } else if (mStockCode.equals("SZ399001")) {
                 exchange = OpitionCenterStockEngineImple.VALUE_SYMBOL_TYPE;
                 listSector = null;
-            }else{
+            } else {
                 exchange = OpitionCenterStockEngineImple.VALUE_EXCHANGE;
-                listSector =OpitionCenterStockEngineImple.VALUE_SYMBOL_SELECT;
+                listSector = OpitionCenterStockEngineImple.VALUE_SYMBOL_SELECT;
             }
             List<Fragment> fraglist = new ArrayList<Fragment>();
-            Fragment f1 = FragmentForStockSHC.newIntent(exchange,StockViewType.MARKET_STOCK_UPRATIO,OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE,listSector,true);
+            Fragment f1 = FragmentForStockSHC.newIntent(exchange, StockViewType.MARKET_STOCK_UPRATIO,
+                    OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, listSector, true);
             fraglist.add(f1);
-            Fragment f2 = FragmentForStockSHC.newIntent(exchange,StockViewType.MARKET_STOCK_DOWNRATIO,OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE,listSector,true);
+            Fragment f2 = FragmentForStockSHC.newIntent(exchange, StockViewType.MARKET_STOCK_DOWNRATIO,
+                    OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, listSector, true);
             fraglist.add(f2);
-            Fragment f3 = FragmentForStockSHC.newIntent(exchange,StockViewType.STOCK_HANDOVER,null,listSector,false);
+            Fragment f3 = FragmentForStockSHC
+                    .newIntent(exchange, StockViewType.STOCK_HANDOVER, null, listSector, false);
             fraglist.add(f3);
             FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist,
                     stockLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
-        } else {
+        } else if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
             String[] name = new String[3];
-            if ((null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            if ((null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name = new String[2];
             }
             // name[0] = "新闻";
             name[0] = "公告";
             name[1] = "研报";
-            if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name[2] = "F10";
             }
             NewsforImpleEngine vo;
@@ -332,21 +324,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         ViewStub viewstub;
         if (isIndexType()) {
             viewstub = (ViewStub) findViewById(R.id.layout_index_header);
-
         } else {
             viewstub = (ViewStub) findViewById(R.id.layout_stock_header);
-
         }
         if (viewstub != null) {
             viewHeader = viewstub.inflate();
-
             // views = findViewById(R.id.layout_view);
             tvCurrent = (TextView) viewHeader.findViewById(R.id.tv_current_price);
             tvHigh = (TextView) viewHeader.findViewById(R.id.tv_highest_value);
             tvLow = (TextView) viewHeader.findViewById(R.id.tv_lowest_value);
             tvOpen = (TextView) viewHeader.findViewById(R.id.tv_today_open_value);
             tvChange = (TextView) viewHeader.findViewById(R.id.tv_up_price);
-
             tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
             tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
             tvHuanShouLv = (TextView) viewHeader.findViewById(R.id.tv_huan_value);
@@ -354,14 +342,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvZongzhi = (TextView) viewHeader.findViewById(R.id.tv_zongzhi_value);
             tvShiying = (TextView) viewHeader.findViewById(R.id.tv_shiying_value);
             tvShiJing = (TextView) viewHeader.findViewById(R.id.tv_shijing_value);
-
             tvPercentage = (TextView) viewHeader.findViewById(R.id.tv_percentage);
             btnAddOptional = (Button) viewHeader.findViewById(R.id.btn_add_optional);
             btnAddOptional.setVisibility(View.GONE);
             btnAddOptional.setOnClickListener(this);
-
         }
         stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
+        klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
+        klinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -371,17 +359,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
         addButton.setOnClickListener(mSearchClick);
-
         btnRefresh = getSecondRightButton();
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
                 null, null, null);
         // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
         btnRefresh.setOnClickListener(this);
-
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
         initTabPage();
         // setupViewData();
-
         // scrollview + listview 会滚动到底部，需要滚动到头部
         scrollToTop();
         // setAddOptionalButton();
@@ -397,7 +382,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setText(R.string.delete_fllow);
             btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
             btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
-
         } else if (null != btnAddOptional) {
             btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
             btnAddOptional.setText(R.string.add_fllow);
@@ -409,7 +393,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         // mScrollview.smoothScrollTo(0, 0);
         mScrollview.setScrollViewListener(mScrollViewListener);
-
     }
 
     private boolean isFirstLoadQuotes = true;
@@ -419,11 +402,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
             if (isFirstLoadQuotes) {
-
                 mQuotesEngine.quotes(mStockBean.code, listener);
                 isFirstLoadQuotes = false;
             } else {
-
                 mQuotesEngine.quotesNotTip(mStockBean.code, listener);
             }
             // listener.setLoadingDialog(context);
@@ -431,43 +412,38 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     Handler requestUiHandler = new Handler() {
+
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MSG_WHAT_BEFORE_REQUEST: {
                     rotateRefreshButton();
                 }
-
                     break;
                 case MSG_WHAT_AFTER_REQUEST: {
                     stopRefreshAnimation();
                 }
-
                     break;
-
                 default:
                     break;
             }
         };
     };
-
     ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
         @Override
         public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
             // TODO Auto-generated method stub
             /*
-             * if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
-             * chartTounching();
-             * }
+             * if (mScrollview.getScrollY() >=
+             * getResources().getDimensionPixelOffset
+             * (R.dimen.layout_height_all)) { chartTounching(); }
              */
             if (mScrollview.getScrollY() + mScrollview.getHeight() >= mScrollview.computeVerticalScrollRange()
                     && null != frag) {
                 ((FragmentNewsList) frag.get(0)).loadMore();
                 ((FragmentForOptionOnr) frag.get(1)).loadMore();
             }
-
         }
-
     };
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
@@ -475,10 +451,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void onSelectPosition(int position) {
             if (null != pager) {
                 pager.setCurrentItem(position);
+                if (position == 0) {
+                    klinVirtulCheck.setVisibility(View.GONE);
+                } else {
+                    if (null != mStockBean && !UIUtils.isSymbleIndex(mStockBean.symbol_type)) {
+                        klinVirtulCheck.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         }
     };
-
     ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
 
         @Override
@@ -487,7 +469,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             try {
                 JSONArray jsonArray = new JSONArray(jsonData);
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
-
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
                 if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
                     quoteHandler.removeCallbacks(runnable);
@@ -496,12 +477,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
                 int i = 0;
                 for (; i < 5; i++) {
-                    // String buyPrice : stockQuotesBean.getBuyPrice().getBuyPrice()
+                    // String buyPrice :
+                    // stockQuotesBean.getBuyPrice().getBuyPrice()
                     FiveRangeItem buyItem = new FiveRangeItem();
                     if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
                         String buyPrice = stockQuotesBean.getBuyPrice().getBuyPrice().get(i);
                         if (isFloatText(buyPrice)) {
-
                             buyItem.price = Float.parseFloat(buyPrice);
                         } else {
                             buyItem.price = 0;
@@ -510,34 +491,29 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         if (isFloatText(volText)) {
                             buyItem.vol = Integer.parseInt(volText);
                         } else {
-
                             buyItem.vol = 0;
                         }
                     } else {
                         buyItem.vol = 0;
-
                     }
                     buyItem.tag = "" + (i + 1);
                     buyList.add(buyItem);
                 }
-
                 for (int j = 4; j >= 0; j--) {
                     FiveRangeItem sellItem = new FiveRangeItem();
                     if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
                         String sellPrice = stockQuotesBean.getSellPrice().getSellPrice().get(j);
                         if (isFloatText(sellPrice)) {
-
                             sellItem.price = Float.parseFloat(sellPrice);
                         } else {
                             sellItem.price = 0;
                         }
-
-                        // sellItem.price = Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
+                        // sellItem.price =
+                        // Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
                         String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
                         if (isFloatText(sellVol)) {
                             sellItem.vol = Integer.parseInt(sellVol);
                         } else {
-
                             sellItem.vol = 0;
                         }
                     } else {
@@ -546,11 +522,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
                 }
-
                 stockQuotesBean.setBuyList(buyList);
                 stockQuotesBean.setSellList(sellList);
             } catch (Exception e) {
-
                 e.printStackTrace();
             }
             return stockQuotesBean;
@@ -566,7 +540,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
-
         }
     };
 
@@ -582,7 +555,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initTabPage() {
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
                 mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
@@ -605,10 +577,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         pager.setCanScroll(false);
         pager.setOffscreenPageLimit(4);
         pager.setAdapter(new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
-
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         // indicator.setViewPager(pager);
-
     }
 
     private void updateCurrentText() {
@@ -616,9 +586,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             public void run() {
                 tvCurrent.setBackgroundDrawable(null);
-
             }
-
         }, 500);
     }
 
@@ -631,29 +599,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
             tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
-
             // String curentText = tvCurrent.getText().toString();
             if (mPrePrice > 0) {
-
                 if (mStockQuotesBean.getCurrent() > mPrePrice) {
                     tvCurrent.setBackgroundResource(R.color.red_bg);
                 } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
                     tvCurrent.setBackgroundResource(R.color.green_bg);
                 }
-
             }
             mPrePrice = mStockQuotesBean.getCurrent();
             updateCurrentText();
-
             if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
                 tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
                 tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
                 tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
                 tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
                 tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
-
             } else {
-
                 tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
                 tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
                 tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
@@ -665,30 +627,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
             tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         }
-
         if (isIndexType()) {
-
             tvLiuzhi.setText(" —");
             tvZongzhi.setText(" —");
         } else {
             tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
             tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
-
         }
         tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
-
         setTitleTipString(mStockQuotesBean.getTradetile() + " "
                 + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
-
         // }
     }
 
     private ColorStateList getTextColor(float value) {
         if (value < 0) {
-
             return (ColorStateList) getResources().getColorStateList(R.color.green);
-
         }
         return (ColorStateList) getResources().getColorStateList(R.color.red);
     }
@@ -698,7 +653,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         private List<Fragment> fragmentList;
 
         // private String[] titleList;
-
         public MyPagerFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2) {
             super(fm);
             this.fragmentList = fragmentList2;
@@ -707,7 +661,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public Fragment getItem(int arg0) {
-
             return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
         }
 
@@ -721,7 +674,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public int getCount() {
             return fragmentList == null ? 0 : fragmentList.size();
         }
-
     }
 
     OnClickListener mSearchClick = new OnClickListener() {
@@ -729,7 +681,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(StockQuotesActivity.this, SelectAddOptionalActivity.class);
-            // Intent intent = new Intent(StockQuotesActivity.this, KChartLandScapeActivity.class);
+            // Intent intent = new Intent(StockQuotesActivity.this,
+            // KChartLandScapeActivity.class);
             startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
             finish();
         }
@@ -737,11 +690,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        System.out.println("StockquoteActivity onActivityResult");
         if (resultCode == RESULT_OK) {
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-
                     SelectStockBean selectBean = (SelectStockBean) data
                             .getSerializableExtra(FragmentSelectStockFund.ARGUMENT);
                     if (null != selectBean) {
@@ -750,7 +703,28 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         setAddOptionalButton();
                     }
                     break;
+                case REQUEST_CHECK:
+                    checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+                    reGetDate();
+                    break;
             }
+        }
+    }
+
+    private void reGetDate() {
+        if (checkValue.equals("0")) {
+            klinVirtulCheck.setText("不复权  ▼");
+            PortfolioApplication.getInstance().setCheckValue("0");
+        } else if (checkValue.equals("1")) {
+            klinVirtulCheck.setText("前复权  ▼");
+            PortfolioApplication.getInstance().setCheckValue("1");
+        } else {
+            klinVirtulCheck.setText("后复权  ▼");
+            PortfolioApplication.getInstance().setCheckValue("2");
+        }
+        if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
+            ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
         }
     }
 
@@ -768,29 +742,24 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             setAddOptionalButton();
         }
     };
-
     Handler quoteHandler = new Handler();
 
     // Handler quoteHandler = new Handler();
-
     public void onStart() {
         super.onStart();
-
         quoteHandler.postDelayed(runnable, 6);// 打开定时器，60ms后执行runnable操作
-
     };
 
     public void onStop() {
         super.onStop();
         quoteHandler.removeCallbacks(runnable);// 关闭定时器处理
-
     }
 
     Runnable runnable = new Runnable() {
+
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
-
             setupViewData();
             quoteHandler.postDelayed(this, 5 * 1000);// 隔60s再执行一次
         }
@@ -805,7 +774,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     // quoteHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
     // }
     // };
-
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -825,7 +793,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 } else {
                     mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
                 }
-
                 break;
             case R.id.btn_right_second: {
                 // rotateRefreshButton();
@@ -834,10 +801,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 quoteHandler.postDelayed(runnable, 6 * 1000);
             }
                 break;
+            case R.id.klin_virtul_check:
+                Intent intent = new Intent(this, ChangeCheckType.class);
+                Bundle b = new Bundle();
+                b.putString(ChangeCheckType.CHECK_TYPE, checkValue);
+                intent.putExtras(b);
+                startActivityForResult(intent, REQUEST_CHECK);
+                break;
             default:
                 break;
         }
-
     }
 
     private void rotateRefreshButton() {
@@ -850,7 +823,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // // ani.setInterpolator(inter);
         // // Matrix matrix = new Matrix();
         // // matrix.preRotate(360, 100, 200);
-
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing), null,
                 null, null);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
@@ -871,7 +843,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
      */
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         listener.stopRequest(true);
     }
@@ -886,7 +857,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (mScrollview != null) {
             mScrollview.setIsfocus(true);
         }
-
     }
 
     /**
@@ -899,7 +869,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (mScrollview != null) {
             mScrollview.setIsfocus(false);
         }
-
     }
 
     class OnLayoutlistener implements OnTouchListener {
@@ -919,7 +888,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
             return true;
         }
-
     }
 
     class OnView implements OnTouchListener {
@@ -930,7 +898,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             loseTouching();
             return true;
         }
-
     }
 
     public StockQuotesBean getmStockQuotesBean() {
@@ -963,5 +930,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        if (PortfolioApplication.getInstance().isChange()) {
+            PortfolioApplication.getInstance().setChange(false);
+            checkValue = PortfolioApplication.getInstance().getCheckValue();
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+            reGetDate();
+        }
+        if (PortfolioApplication.getInstance().getkLinePosition() != -1) {
+            hsTitle.setSelectIndex(PortfolioApplication.getInstance().getkLinePosition());
+            PortfolioApplication.getInstance().setkLinePosition(-1);
+        }
+    }
+
+    public String getCheckValue() {
+        return checkValue;
+    }
+
+    public void setCheckValue(String checkValue) {
+        this.checkValue = checkValue;
     }
 }

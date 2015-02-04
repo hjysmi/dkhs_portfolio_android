@@ -36,6 +36,7 @@ import com.umeng.analytics.MobclickAgent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     private FundsOrderAdapter mAdapter;
     private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
     private FundsOrderEngineImpl orderEngine;
+    private boolean isvisible = false;
 
     public static FundsOrderFragment getFragment(String orderType) {
         FundsOrderFragment fragment = new FundsOrderFragment();
@@ -118,18 +120,25 @@ public class FundsOrderFragment extends LoadMoreListFragment {
      */
     @Override
     public void loadData() {
-        getLoadEngine().loadData();
+        if (isvisible) {
+            setHttpHandler(getLoadEngine().loadData());
+        }
     }
 
     @Override
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
+        mSwipeLayout.setRefreshing(false);
         if (null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
             // add by zcm -----2014.12.15
             // mDataList = object.getResults();
+            if (isRefresh) {
+                mDataList.clear();
+                isRefresh = false;
+            }
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
@@ -155,13 +164,22 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
     }
 
-    Handler dataHandler = new Handler() {
+    private boolean isRefresh;
 
-    };
+    Handler dataHandler = new Handler();
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            loadData();
+            // loadData();
+            // if (isvisible) {
+
+            if (mDataList.isEmpty()) {
+                loadData();
+            } else {
+                setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
+                isRefresh = true;
+            }
+            // }
             dataHandler.postDelayed(this, 60 * 1000);
         }
     };
@@ -185,7 +203,18 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
-            dataHandler.postDelayed(runnable, 60 * 1000);
+            Bundle bundle = getArguments();
+
+            if (null != bundle) {
+                mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
+            }
+            isvisible = true;
+            // loadData();
+            dataHandler.postDelayed(runnable, 60);
+
+        } else {
+            isvisible = false;
+            dataHandler.removeCallbacks(runnable);
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -193,10 +222,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
-            System.out.println("getLoadEngine new FundsOrderEngineImpl");
             orderEngine = new FundsOrderEngineImpl(this, mOrderType);
         }
-        System.out.println("getLoadEngine not new ");
         return orderEngine;
     }
 
@@ -216,5 +243,24 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    OnRefreshListener setOnRefreshListener() {
+        // TODO Auto-generated method stub
+        return new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
+                isRefresh = true;
+            }
+        };
+    }
 
 }

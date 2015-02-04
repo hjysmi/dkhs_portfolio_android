@@ -10,7 +10,9 @@
         android:layout_height="wrap_content" >
     </com.dkhs.portfolio.ui.widget.HScrollTitleView>
 
-     <com.dkhs.portfolio.ui.widget.ScrollViewPager
+    <View style="@style/divider_line" />
+
+    <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

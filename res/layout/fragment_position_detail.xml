@@ -86,7 +86,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/btn_border_gray"
+                    android:background="@drawable/btn_border_gray_selector"
                     android:drawableLeft="@drawable/icon_adjust"
                     android:drawablePadding="4dp"
                     android:padding="5dp"

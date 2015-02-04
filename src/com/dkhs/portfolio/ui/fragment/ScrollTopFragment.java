@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,7 +11,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.ValueChangeEvent;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.squareup.otto.Subscribe;
 
 public class ScrollTopFragment extends Fragment implements OnClickListener {
     public static final String ARGUMENT_SCROLL_TYPE = "trend_type";
@@ -33,6 +35,17 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         arguments.putFloat(ARGUMENT_VALUE, value);
         mScrollTopFragment.setArguments(arguments);
         return mScrollTopFragment;
+    }
+
+    @Subscribe
+    public void updataValue(ValueChangeEvent event) {
+        if (null != event) {
+            if (null != tvIncreaseValue && !TextUtils.isEmpty(mType) && !TextUtils.isEmpty(event.type)) {
+                if (mType.equalsIgnoreCase(event.type)) {
+                    tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(event.value));
+                }
+            }
+        }
     }
 
     /**
@@ -86,6 +99,20 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        // Register ourselves so that we can provide the initial value.
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Always unregister when an object no longer should be on the bus.
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_top_scroll, null);
         initView(view);
@@ -93,10 +120,12 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
         return view;
     }
 
+    private TextView tvIncreaseValue;
+
     private void initView(View view) {
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_top);
         TextView tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
-        TextView tvIncreaseValue = (TextView) view.findViewById(R.id.tv_top_value);
+        tvIncreaseValue = (TextView) view.findViewById(R.id.tv_top_value);
 
         if (!TextUtils.isEmpty(mType)) {
             if (mType.equalsIgnoreCase(TYPE_DAY)) {
@@ -132,7 +161,7 @@ public class ScrollTopFragment extends Fragment implements OnClickListener {
     public void onClick(View v) {
         // Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
         int index = 0;
-        if(null != mType){
+        if (null != mType) {
             if (mType.equalsIgnoreCase(TYPE_WEEK)) {
                 index = 1;
             } else if (mType.equalsIgnoreCase(TYPE_All)) {

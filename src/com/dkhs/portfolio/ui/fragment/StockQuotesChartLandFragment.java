@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,11 +23,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
+import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
@@ -35,12 +38,16 @@ import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.ChangeCheckType;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChartLand;
 import com.dkhs.portfolio.ui.widget.TrendChart;
@@ -58,7 +65,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-9-3 上午10:32:39
  * @version 1.0
  */
-public class StockQuotesChartLandFragment extends Fragment {
+public class StockQuotesChartLandFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String ARGUMENT_STOCK_CODE = "stock_code";
 
@@ -87,10 +94,11 @@ public class StockQuotesChartLandFragment extends Fragment {
     LineEntity fenshiPiceLine;
 
     private SelectStockBean mSelectStockBean;
+    private RelativeLayout pb;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartLandFragment newInstance(String trendType, String stockCode) {
-    	StockQuotesChartLandFragment fragment = new StockQuotesChartLandFragment();
+        StockQuotesChartLandFragment fragment = new StockQuotesChartLandFragment();
 
         Bundle arguments = new Bundle();
         arguments.putString(ARGUMENT_TREND_TYPE, trendType);
@@ -130,7 +138,32 @@ public class StockQuotesChartLandFragment extends Fragment {
         mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
         mSellAdapter = new FiveRangeAdapter(getActivity(), false);
         // fenshiPiceLine.setLineData(lineDataList);
+        mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
+        mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
+        // fenshiPiceLine.setLineData(lineDataList);
 
+    }
+
+    private List<FiveRangeItem> getDates(int k) {
+        List<FiveRangeItem> list = new ArrayList<FiveRangeItem>();
+        FiveRangeItem fr;
+        int tmp;
+        tmp = k + 6;
+        ;
+        for (int i = 0; i < 5; i++) {
+            fr = new FiveRangeItem();
+            fr.price = 0;
+            if (k > 0) {
+                fr.tag = k + "";
+                k--;
+            } else {
+                fr.tag = tmp + "";
+                tmp++;
+            }
+            fr.vol = 0;
+            list.add(fr);
+        }
+        return list;
     }
 
     private void handleExtras(Bundle extras) {
@@ -192,6 +225,8 @@ public class StockQuotesChartLandFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart_land, null);
         mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         initMaChart(mMaChart);
         initView(view);
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
@@ -282,6 +317,16 @@ public class StockQuotesChartLandFragment extends Fragment {
         }
         // machart.setFill(true);
         // machart.setFillLineIndex(2);
+
+        // mMaChart.setont
+
+        mMaChart.setDoubleClicklistener(new OnDoubleClickListener() {
+
+            @Override
+            public void OnDoubleClick(View view) {
+                BusProvider.getInstance().post(new DoubleclickEvent());
+            }
+        });
 
     }
 
@@ -429,7 +474,7 @@ public class StockQuotesChartLandFragment extends Fragment {
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
                 StockQuotesBean m = ((KChartLandScapeActivity) getActivity()).getmStockQuotesBean();
-                if (null != m &&UIUtils.roundAble(m)) {
+                if (null != m && UIUtils.roundAble(m)) {
                     dataHandler.removeCallbacks(runnable);
                 }
                 setStockQuotesBean(m);
@@ -459,6 +504,7 @@ public class StockQuotesChartLandFragment extends Fragment {
                     }
 
                 }
+                pb.setVisibility(View.GONE);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -741,7 +787,7 @@ public class StockQuotesChartLandFragment extends Fragment {
             if (mQuotesDataEngine == null) {
                 return;
             }
-            todayListener.setLoadingDialog(getActivity());
+            // todayListener.setLoadingDialog(getActivity());
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);
@@ -761,6 +807,7 @@ public class StockQuotesChartLandFragment extends Fragment {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -769,5 +816,6 @@ public class StockQuotesChartLandFragment extends Fragment {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+        BusProvider.getInstance().register(this);
     }
 }

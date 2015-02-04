@@ -24,6 +24,7 @@ import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -68,25 +69,25 @@ public class MainIndexEngineImple extends LoadSelectDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
 
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("symbol_type", "5");
         params.addQueryStringParameter("is_midx", "1");
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
 
     }
 
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
 
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("symbol_type", "5");
         params.addQueryStringParameter("is_midx", "1");
         params.addQueryStringParameter("sort", orderType);
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
 
     }
 
@@ -146,13 +147,13 @@ public class MainIndexEngineImple extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("symbol_type", "5");
         params.addQueryStringParameter("is_midx", "1");
         params.addQueryStringParameter("sort", orderType);
         params.addQueryStringParameter("page_size", dataSize + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.mainIndexList, params, this);
 
     }
 

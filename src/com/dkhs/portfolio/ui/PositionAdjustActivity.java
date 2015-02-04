@@ -286,7 +286,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         if (null != mPositionDetailBean) {
 
             etConbinationName.setText(mPositionDetailBean.getPortfolio().getName());
-            etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDescription());
+            etConbinationDesc.setText(mPositionDetailBean.getPortfolio().getDefDescription());
             // viewCombinationInfo.setVisibility(View.VISIBLE);
             positionTextValue.setText(StringFromatUtils.get4Point(mPositionDetailBean.getPortfolio().getNetvalue()));
             positionTextValue.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetailBean.getPortfolio()
@@ -612,7 +612,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         List<SubmitSymbol> submitList = generateSymbols();
         isModifyPosition = submitList.size() > 0;
         isModiyName = !nameText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getName())
-                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDescription());
+                || !descText.equalsIgnoreCase(mPositionDetailBean.getPortfolio().getDefDescription());
         if (!isModifyPosition && !isModiyName) {
 
             PromptManager.showToast("持仓信息没有修改");
@@ -1034,19 +1034,20 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
 
         builder.setMessage(R.string.adjust_back_message)
-                .setNegativeButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        finish();
 
                     }
-                }).setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         dialog.dismiss();
+                        finish();
 
                     }
                 });

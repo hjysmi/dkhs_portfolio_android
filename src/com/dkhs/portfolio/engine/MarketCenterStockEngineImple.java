@@ -15,6 +15,9 @@ import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.lidroid.xutils.http.HttpHandler;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     private final static String EXCHANGE = "1,2";
@@ -46,23 +49,44 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     }
 
     @Override
-    public void loadMore() {
-        List<NameValuePair> params = new ArrayList<NameValuePair>();
-        NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        params.add(valuePair);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page="
-                + (getCurrentpage() + 1), orderType, mPagesize), null, this);
+    public HttpHandler loadMore() {
+
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPagesize + "");
+        params.addQueryStringParameter("is_midx", "1");
+        params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.marketcenter, params, this);
+
+        // List<NameValuePair> params = new ArrayList<NameValuePair>();
+        // NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
+        // params.add(valuePair);
+        // return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter + "&page="
+        // + (getCurrentpage() + 1), orderType, mPagesize), null, this);
     }
 
     @Override
-    public void loadData() {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, mPagesize), null,
-                this);
+    public HttpHandler loadData() {
+
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("sort", orderType);
+        params.addQueryStringParameter("page_size", mPagesize + "");
+        params.addQueryStringParameter("is_midx", "1");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.marketcenter, params, this);
+
+        // return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, mPagesize),
+        // null, this);
 
     }
 
-    public void loadDataFromCurrent(int num) {
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, num), null, this);
+    public HttpHandler loadDataFromCurrent(int num) {
+        // return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.marketcenter, orderType, num), null,
+        // this);
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("sort", orderType);
+        // params.addQueryStringParameter("page_size",);
+        params.addQueryStringParameter("is_midx", "1");
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.marketcenter, params, this);
 
     }
 
@@ -117,9 +141,9 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         // TODO Auto-generated method stub
-
+        return null;
         // params.addQueryStringParameter("page_size", dataSize + "");
 
     }

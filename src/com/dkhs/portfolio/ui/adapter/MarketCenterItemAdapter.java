@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -65,18 +66,35 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         ColorStateList textCsl = null;
         if (isDefColor) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
+        } else if (mStockQuotesBean.isStop || StockUitls.isDelistStock(mStockQuotesBean.list_status)) {
+            textCsl = ColorTemplate.getTextColor(R.color.theme_color);
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(change);
         }
-        viewHolder.tvTextPercent.setTextColor(textCsl);
+        // viewHolder.tvTextPercent.setTextColor(textCsl);
         viewHolder.tvTextItemIndex.setTextColor(textCsl);
         if (StockUitls.isShangZhengB(mStockQuotesBean.code)) {
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get3Point(mStockQuotesBean.currentValue));
         } else {
             viewHolder.tvTextItemIndex.setText(StringFromatUtils.get2Point(mStockQuotesBean.currentValue));
         }
-        viewHolder.tvTextPercent.setText(StringFromatUtils.get2PointPercent(change));
+        // viewHolder.tvTextPercent.setText(StringFromatUtils.get2PointPercent(change));
         viewHolder.tvLayoutTitle.setOnClickListener(new OnItemListener(position));
+
+        if (StockUitls.isDelistStock(mStockQuotesBean.list_status)) {
+            viewHolder.tvTextPercent.setText("退市");
+            viewHolder.tvTextPercent.setTypeface(Typeface.DEFAULT);
+            viewHolder.tvTextPercent.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
+        } else if (mStockQuotesBean.isStop) {
+            viewHolder.tvTextPercent.setText("停牌");
+            viewHolder.tvTextPercent.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
+            viewHolder.tvTextPercent.setTypeface(Typeface.DEFAULT);
+        } else {
+            viewHolder.tvTextPercent.setTextColor(textCsl);
+            viewHolder.tvTextPercent.setTypeface(Typeface.DEFAULT_BOLD);
+            viewHolder.tvTextPercent.setText(StringFromatUtils.get2PointPercent(change));
+        }
+
         return convertView;
     }
 

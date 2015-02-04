@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.lidroid.xutils.http.HttpHandler;
 
 /**
  * @ClassName LoadMoreDataEngine
@@ -44,17 +45,17 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     /**
      * 加载更多
      */
-    public abstract void loadMore();
+    public abstract HttpHandler loadMore();
 
     /**
      * 加载数据
      */
-    public abstract void loadData();
+    public abstract HttpHandler loadData();
 
     /**
      * 刷新数据
      */
-    public abstract void refreshDatabySize(int dataSize);
+    public abstract HttpHandler refreshDatabySize(int dataSize);
 
     /**
      * @Title

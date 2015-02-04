@@ -111,7 +111,7 @@ public class FundsOrderActivity extends ModelAcitivity {
         pager = (ScrollViewPager) findViewById(R.id.pager);
         pager.setAdapter(new OrderFragmentAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
-        pager.setOffscreenPageLimit(4);
+        pager.setOffscreenPageLimit(1);
         pager.setCurrentItem(titleIndex);
 
     }

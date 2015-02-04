@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -71,7 +72,7 @@ public class TrendMonthChartFragment extends BaseFragment {
     private Calendar mCreateCalender;
 
     private DrawLineDataEntity monthNetvalue;
-
+    private RelativeLayout pb;
     public static TrendMonthChartFragment newInstance(String trendType) {
         TrendMonthChartFragment fragment = new TrendMonthChartFragment();
 
@@ -120,6 +121,8 @@ public class TrendMonthChartFragment extends BaseFragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
             mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
+            pb.setVisibility(View.VISIBLE);
             if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
                 InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
                 mMaChart.setScroll(mScrollview);
@@ -127,7 +130,7 @@ public class TrendMonthChartFragment extends BaseFragment {
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);
-            PromptManager.showProgressDialog(getActivity(), "");
+            //PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryOneMonth(monthListener);
 
         }
@@ -282,6 +285,7 @@ public class TrendMonthChartFragment extends BaseFragment {
 
         @Override
         protected void afterParseData(DrawLineDataEntity todayNetvalue) {
+            pb.setVisibility(View.GONE);
             if (todayNetvalue != null) {
                 monthNetvalue = todayNetvalue;
                 setMonthViewLoad();
@@ -337,7 +341,7 @@ public class TrendMonthChartFragment extends BaseFragment {
             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-            PromptManager.closeProgressDialog();
+            //PromptManager.closeProgressDialog();
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -501,5 +505,12 @@ public class TrendMonthChartFragment extends BaseFragment {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    @Override
+    public void onDestroyView() {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 }

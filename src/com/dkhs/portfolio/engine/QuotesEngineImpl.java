@@ -90,4 +90,28 @@ public class QuotesEngineImpl {
         DKHSClient
                 .requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.kline, stockid), null, params, listener, false);
     }
+    public void queryKLine(String type, String stockid, String isHis, IHttpListener listener,String div) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("period", type);
+        NameValuePair valuePair2 = new BasicNameValuePair("is_realtime", isHis);
+        NameValuePair valuePair3 = new BasicNameValuePair("div", div);
+        params.add(valuePair);
+        params.add(valuePair2);
+        params.add(valuePair3);
+        DKHSClient
+                .requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.kline, stockid), null, params, listener, false);
+    }
+    public void queryKLine(String type, String stockid, String isHis, IHttpListener listener,String div,int page) {
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        NameValuePair valuePair = new BasicNameValuePair("period", type);
+        NameValuePair valuePair2 = new BasicNameValuePair("is_realtime", isHis);
+        NameValuePair valuePair3 = new BasicNameValuePair("div", div);
+        NameValuePair valuePair4 = new BasicNameValuePair("page", page+"");
+        params.add(valuePair);
+        params.add(valuePair2); 
+        params.add(valuePair3);
+        params.add(valuePair4);
+        DKHSClient
+                .requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.kline, stockid), null, params, listener, false);
+    }
 }

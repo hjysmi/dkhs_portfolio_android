@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -60,6 +61,7 @@ public class FragmentForStockSHC  extends Fragment{
     private String symbol_stype;
     private String list_sector;
     private boolean setColor;
+    private RelativeLayout pb;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -87,7 +89,7 @@ public class FragmentForStockSHC  extends Fragment{
             initDate();
         }
         initView(view);
-        if (null != context && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+        if (null != context && context instanceof StockQuotesActivity&& getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         return view;
@@ -108,6 +110,8 @@ public class FragmentForStockSHC  extends Fragment{
 
     private void initView(View view) {
         tv = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         mDataList = new ArrayList<SelectStockBean>();
         
         mListView = (ListView) view.findViewById(android.R.id.list);
@@ -135,6 +139,7 @@ public class FragmentForStockSHC  extends Fragment{
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
+            pb.setVisibility(View.GONE);
             if (null != dataList) {
                 mDataList.clear();
                 mDataList.addAll(dataList);
@@ -165,7 +170,7 @@ public class FragmentForStockSHC  extends Fragment{
                 height += list_child_item_height; // 统计所有子项的总高度
             }
             if (null != context
-                    && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                    && context instanceof StockQuotesActivity && getadle) {
                 ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
             }
         } catch (Exception e) {
@@ -221,7 +226,7 @@ public class FragmentForStockSHC  extends Fragment{
                 getadle = true;
                 if(null == mDataList || mDataList.size() < 2){
                     if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity")&& getadle) {
+                            && context instanceof StockQuotesActivity&& getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
                 }else if(null != mDataList){
@@ -233,7 +238,7 @@ public class FragmentForStockSHC  extends Fragment{
                         height += list_child_item_height; // 统计所有子项的总高度
                     }
                     if (null != context
-                            && context.getClass().getName().equals("com.dkhs.portfolio.ui.StockQuotesActivity") && getadle) {
+                            && context instanceof StockQuotesActivity && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
                     }
                 }

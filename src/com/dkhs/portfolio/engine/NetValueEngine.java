@@ -18,6 +18,7 @@ import org.apache.http.message.BasicNameValuePair;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -62,32 +63,33 @@ public class NetValueEngine {
         requeryNetValue(mConbinationId, "5", listener);
     }
 
-    public void requeryHistory(int count, int page, IHttpListener listener) {
+    public HttpHandler requeryHistory(int count, int page, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page_size", "" + count);
         NameValuePair valuePair2 = new BasicNameValuePair("page", "" + page);
         params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params, listener);
+        return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.report, mConbinationId), null, params,
+                listener);
     }
 
-    public void requeryHistoryDetailPosition(int count, int page, IHttpListener listener) {
+    public HttpHandler requeryHistoryDetailPosition(int count, int page, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page_size", "" + count);
         NameValuePair valuePair2 = new BasicNameValuePair("page", "" + page);
         params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDetailPosition, mConbinationId), null,
-                params, listener);
+        return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDetailPosition, mConbinationId),
+                null, params, listener);
     }
 
-    public void requeryDay(String fromDate, String toDate, IHttpListener listener) {
+    public HttpHandler requeryDay(String fromDate, String toDate, IHttpListener listener) {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("from_date", fromDate);
         NameValuePair valuePair2 = new BasicNameValuePair("to_date", toDate);
         params.add(valuePair);
         params.add(valuePair2);
-        DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, mConbinationId), null, params,
+        return DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.NetValue.queryDaily, mConbinationId), null, params,
                 listener);
     }
 
@@ -116,17 +118,16 @@ public class NetValueEngine {
         private List<TodayNetBean> chartlist;
         private float maxOffetValue;
         private int trade_status;
-        
 
         public int getTrade_status() {
-			return trade_status;
-		}
+            return trade_status;
+        }
 
-		public void setTrade_status(int trade_status) {
-			this.trade_status = trade_status;
-		}
+        public void setTrade_status(int trade_status) {
+            this.trade_status = trade_status;
+        }
 
-		public float getBegin() {
+        public float getBegin() {
             return begin;
         }
 

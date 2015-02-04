@@ -8,23 +8,19 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.dkhs.portfolio.bean.FundsPriceBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
@@ -81,22 +77,22 @@ public class FundDataEngine extends LoadSelectDataEngine {
     }
 
     @Override
-    public void loadMore() {
+    public HttpHandler loadMore() {
 
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("type", mFundsType);
         params.addQueryStringParameter("sort", mOrderType.getType());
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 
     @Override
-    public void loadData() {
+    public HttpHandler loadData() {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("type", mFundsType);
         params.addQueryStringParameter("sort", mOrderType.getType());
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 
@@ -161,12 +157,12 @@ public class FundDataEngine extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    public void refreshDatabySize(int dataSize) {
+    public HttpHandler refreshDatabySize(int dataSize) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("type", mFundsType);
         params.addQueryStringParameter("sort", mOrderType.getType());
         params.addQueryStringParameter("page_size", dataSize + "");
-        DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
+       return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 

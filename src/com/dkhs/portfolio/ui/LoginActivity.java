@@ -34,6 +34,8 @@ import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.utils.WechatClientNotExistException;
+import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
@@ -46,6 +48,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -478,7 +481,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             Message msg = new Message();
             msg.arg1 = 2;
             msg.arg2 = action;
-            msg.obj = plat;
+            msg.obj = t;
             platFormAction.sendMessage(msg);
         }
 
@@ -550,9 +553,23 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 }
                     break;
                 case 2: {
-                    // Toast.makeText(getApplicationContext(), "PlatformActionListener onError()", Toast.LENGTH_SHORT)
-                    // .show();
-                    PromptManager.showToast("授权失败，请稍后重试.");
+                    String failtext = "";
+                    if (msg.obj instanceof WechatClientNotExistException) {
+                        failtext = getResources().getString(R.string.wechat_client_inavailable);
+                    } else if (msg.obj instanceof WechatTimelineNotSupportedException) {
+                        failtext = getResources().getString(R.string.wechat_client_inavailable);
+                    } else if (msg.obj instanceof java.lang.Throwable && msg.obj.toString() != null
+                            && msg.obj.toString().contains("prevent duplicate publication")) {
+
+                        failtext = getResources().getString(R.string.oauth_fail);
+                    } else if (msg.obj.toString().contains("error")) {
+                        failtext = getResources().getString(R.string.oauth_fail);
+
+                    } else {
+                        failtext = getResources().getString(R.string.oauth_fail);
+                    }
+                    PromptManager.showToast(failtext);
+
                 }
                     break;
                 case 3: {

@@ -58,6 +58,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
+import com.dkhs.portfolio.ui.adapter.PositionAdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
@@ -102,7 +103,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     // 持仓调整相关
     private List<PositionAdjustBean> mAdjustList = new ArrayList<PositionDetail.PositionAdjustBean>();
     private ListViewEx lvAdjustHistory;
-    private AdjustHistoryAdapter mAdjustAdapter;
+    private PositionAdjustHistoryAdapter mAdjustAdapter;
 
     private String mCombinationId;
 
@@ -339,7 +340,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private void initAdjustHistoryView(View view) {
 
         lvAdjustHistory = (ListViewEx) view.findViewById(R.id.lv_adjust_history);
-        mAdjustAdapter = new AdjustHistoryAdapter(getActivity(), mAdjustList);
+        mAdjustAdapter = new PositionAdjustHistoryAdapter(getActivity(), mAdjustList);
         lvAdjustHistory.setAdapter(mAdjustAdapter);
     }
 

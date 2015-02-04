@@ -9,6 +9,7 @@
 package cn.sharesdk.onekeyshare;
 
 import static cn.sharesdk.framework.utils.R.*;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.dkhs.portfolio.utils.PhoneInfo;
+import com.umeng.analytics.MobclickAgent;
 
 import m.framework.ui.widget.viewpager.ViewPagerAdapter;
 import m.framework.ui.widget.viewpager.ViewPagerClassic;
@@ -251,7 +253,14 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
 
             String name = plat.getName();
             reqData.put("platform", name);
-            // EditPage不支持微信平台、Google+、QQ分享、Pinterest、信息和邮件，总是执行直接分享
+            // EditPage不支持微信平台、Google+、QQ分享、Pinterest、信息和邮件，总是执行直接分享SinaWeibo\WechatMoments\Wechat
+            if(name.equals("SinaWeibo")){
+                MobclickAgent.onEvent(getContext(), "show_xinlang");
+            }else if(name.equals("WechatMoments")){
+                MobclickAgent.onEvent(getContext(), "share_weixing_pengyou");
+            }else if(name.equals("Wechat")){
+                MobclickAgent.onEvent(getContext(), "share_weixin_friend");
+            }
             if ((plat instanceof CustomPlatform) || ShareCore.isUseClientToShare(name)) {
                 HashMap<Platform, HashMap<String, Object>> shareData = new HashMap<Platform, HashMap<String, Object>>();
                 shareData.put(plat, reqData);

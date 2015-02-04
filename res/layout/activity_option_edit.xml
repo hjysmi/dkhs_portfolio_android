@@ -1,61 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout
-    android:layout_height="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout 
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/activity_bg_color"
-        >
-        <TextView 
-            android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/gray_text_tabline"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <TextView
+            style="@style/gray_title_text"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="1.2"
-            android:text="股票名称"
             android:gravity="center_horizontal"
-            android:textColor="@color/black"
-            android:textSize="@dimen/list_text_size"
-            />
-        <TextView 
-            android:layout_height="wrap_content"
+            android:text="股票名称" />
+
+        <TextView
+            style="@style/gray_title_text"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:text="置顶"
-            android:textColor="@color/black"
-            android:textSize="@dimen/list_text_size"
-            />
-        <TextView 
-            android:layout_height="wrap_content"
+            android:text="置顶" />
+
+        <TextView
+            style="@style/gray_title_text"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:gravity="center_horizontal"
-            android:text="拖动序列"
-            android:textColor="@color/black"
-            android:textSize="@dimen/list_text_size"
-            />
+            android:text="拖动序列" />
     </LinearLayout>
-    <RelativeLayout 
-        android:layout_height="match_parent"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        >
-        <LinearLayout 
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/layout"
-        ></LinearLayout>
-    <com.dkhs.portfolio.ui.draglist.DragListView 
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:id="@+id/option_edit_list"
-        android:cacheColorHint="#00000000"
-       android:listSelector="#00000000"
-        />
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <com.dkhs.portfolio.ui.draglist.DragListView
+            android:id="@+id/option_edit_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="#00000000"
+            android:dividerHeight="0.5dp"
+            android:listSelector="#00000000" />
     </RelativeLayout>
+
 </LinearLayout>

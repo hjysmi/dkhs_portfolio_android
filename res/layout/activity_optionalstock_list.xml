@@ -6,20 +6,17 @@
 
     <LinearLayout
         android:id="@+id/view_stock_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/theme_gray"
+        style="@style/gray_text_tabline"
         android:orientation="horizontal" >
 
         <TextView
+            style="@style/gray_title_text"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:padding="8dp"
-            android:text="@string/stock_name"
-            android:textSize="14sp" />
+            android:text="@string/stock_name" />
 
         <RelativeLayout
             android:layout_width="1dp"
@@ -28,11 +25,11 @@
 
             <TextView
                 android:id="@+id/tv_current"
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="当前价"
-                android:textSize="14sp" />
+                android:text="当前价" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -42,11 +39,11 @@
 
             <TextView
                 android:id="@+id/tv_percentage"
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="涨幅"
-                android:textSize="14sp" />
+                android:text="涨幅" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -56,11 +53,11 @@
 
             <TextView
                 android:id="@+id/tv_increase"
+                style="@style/gray_title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="涨跌"
-                android:textSize="14sp" />
+                android:text="涨跌" />
         </RelativeLayout>
     </LinearLayout>
 

@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:paddingTop="5dp"
+                android:paddingTop="@dimen/text_date_paddint"
                 android:layout_below="@id/adapter_market_title_num"
                 android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/setting_text_phone" />

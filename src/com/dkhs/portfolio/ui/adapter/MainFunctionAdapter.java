@@ -36,7 +36,7 @@ public class MainFunctionAdapter extends BaseAdapter {
             R.string.function_notice, R.string.function_yanbao, R.string.function_qidai };
     private int[] iconRes = { R.drawable.bg_f_combination_selector, R.drawable.bg_f_optinal_selector,
             R.drawable.bg_f_market_selector, R.drawable.bg_f_notice_selector, R.drawable.bg_f_report_selector,
-            R.drawable.bg_f_qidai_selector };
+            R.drawable.ic_qidai };
 
     private GridView.LayoutParams mItemViewLayoutParams;
 

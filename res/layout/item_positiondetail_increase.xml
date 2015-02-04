@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
+    android:background="@drawable/lv_white_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
@@ -14,8 +15,8 @@
     <RelativeLayout
         android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:layout_weight="1" >
+        android:layout_weight="1"
+        android:paddingLeft="10dp" >
 
         <TextView
             android:id="@+id/tv_stock_name"
@@ -45,8 +46,8 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:paddingRight="20dp"
         android:gravity="right"
+        android:paddingRight="20dp"
         android:text="-"
         android:textColor="@color/red" />
 

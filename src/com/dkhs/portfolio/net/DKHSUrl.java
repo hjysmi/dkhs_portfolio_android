@@ -46,10 +46,14 @@ public class DKHSUrl {
         String ispublic = "/api/v1/portfolio/{0}/set_public/";
         // 设置组合是否参与排行
         String setrank = "/api/v1/portfolio/{0}/set_rank/";
+
+        // 首页冠军榜
         String champion = "/api/v1/portfolio/champion/";
 
         // 组合排行榜
         String rankingList = "/api/v1/portfolio/ranking_list/";
+
+        // 组合置顶
         String set_top = "/api/v1/portfolio/{0}/set_top/";
 
     }
@@ -74,7 +78,7 @@ public class DKHSUrl {
 
         String sfthumbnail = "/api/v1/symbols/{0}/time_line/?period=1";
         // 行情中心 指数排行
-        String marketcenter = "/api/v1/symbols/?sort={0}&page_size={1}&is_midx=1";
+        String marketcenter = "/api/v1/symbols/";
         String opitionmarket = "/api/v1/symbols/";
         String index = "/api/v1/symbols/following/sort/";
     }
@@ -101,7 +105,7 @@ public class DKHSUrl {
         // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
         String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type={1}";
-        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=30&user_id={0}&content_type=30&content_subtype={1}";
+        String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=50&user_id={0}&content_type=30&content_subtype={1}";
         String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30&content_subtype={1}";
         String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=50&content_type=30&content_subtype={0}";
         String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=50&portfolio_id={0}&content_type={1}";
@@ -153,5 +157,11 @@ public class DKHSUrl {
     public interface Plate {
         String hotPlate = "/api/v1/symbols/sectors/?sector_root_id=26";
     }
+
+    public static String[] storeURLList = { DKHSUrl.Plate.hotPlate, DKHSUrl.Portfolio.portfolio,
+            DKHSUrl.StockSymbol.optional, DKHSUrl.Portfolio.champion, DKHSUrl.Portfolio.rankingList,
+            DKHSUrl.StockSymbol.opitionmarket, DKHSUrl.StockSymbol.stocklist,
+
+    };
 
 }
