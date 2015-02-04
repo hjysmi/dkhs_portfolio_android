@@ -244,6 +244,8 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
         }
 
         stockAdapter.setList(stockList);
+        stockAdapter.setFundpercent(mPositionDetail.getFund_percent());
+
         // mContributeAdapter.setList(stockList);
 
     }
