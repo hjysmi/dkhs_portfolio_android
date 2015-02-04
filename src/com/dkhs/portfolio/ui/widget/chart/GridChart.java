@@ -1070,4 +1070,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         this.checkType = checkType;
     }
 
+    public static int getIndex() {
+        return index;
+    }
+
+    public static void setIndex(int index) {
+        GridChart.index = index;
+    }
+
 }
