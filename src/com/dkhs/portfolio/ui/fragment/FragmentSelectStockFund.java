@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -460,18 +461,31 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     public SwipeRefreshLayout mSwipeLayout;
 
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    //
+    // LinearLayout wrapper = new LinearLayout(getActivity()); // for example
+    // inflater.inflate(, wrapper, true);
+    //
+    // return wrapper;
+    // }
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        LinearLayout wrapper = new LinearLayout(getActivity()); // for example
-        inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
-        tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
-        pb = (RelativeLayout) wrapper.findViewById(android.R.id.progress);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
-        initView(wrapper);
-        return wrapper;
+        initView(view);
     }
 
     private void hideNotice() {
@@ -643,6 +657,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     public void setLoadingFinishListener(ILoadingFinishListener finishListener) {
         this.loadingFinishListener = finishListener;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_selectstock;
     }
 
 }

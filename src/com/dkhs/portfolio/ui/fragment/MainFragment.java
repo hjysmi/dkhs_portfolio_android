@@ -140,11 +140,11 @@ public class MainFragment extends BaseFragment implements OnClickListener {
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_main, null);
-        return view;
-    }
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // View view = inflater.inflate(, null);
+    // return view;
+    // }
 
     /**
      * @Title
@@ -279,7 +279,8 @@ public class MainFragment extends BaseFragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960) || (((UIUtils.getDisplayMetrics().heightPixels < 1920) && UIUtils.getDisplayMetrics().heightPixels > 1280)))) {
+        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960) || (((UIUtils
+                .getDisplayMetrics().heightPixels < 1920) && UIUtils.getDisplayMetrics().heightPixels > 1280)))) {
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         }
         /*
@@ -938,6 +939,18 @@ public class MainFragment extends BaseFragment implements OnClickListener {
             return fragmentList == null ? 0 : fragmentList.size();
         }
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_main;
     }
 
 }

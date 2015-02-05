@@ -375,23 +375,10 @@
     <string name="message_timeout">网络超时，请稍后再试</string>
     <string name="message_server_error">数据请求失败,请稍后重试.</string>
 
-    <!-- 打包渠道名称 -->
-    <string name="anzhuo">安卓市场</string>
-    <string name="anzhi">安智市场</string>
-    <string name="com91">91助手</string>
-    <string name="cn360">360手机助手</string>
-    <string name="yingyonghui">应用汇</string>
-    <string name="xiaomi">小米应用商场</string>
-    <string name="yingyongbao">腾讯应用宝</string>
-    <string name="mumayi">木蚂蚁</string>
-    <string name="yiyou">优亿市场</string>
-    <string name="wandoujia">豌豆夹</string>
-    <string name="anfen">安粉网</string>
-    <string name="meizu">魅族应用中心</string>
-    <string name="lenovomm">联想乐商店</string>
-    <string name="yiyonghui">易用汇</string>
-    <string name="baidu">百度手机助手</string>
-    <string name="baoping">宝瓶网</string>
-    <string name="sohu">搜狐应用中心</string>
+    <!-- Main page -->
+    <string name="tab_1">自选</string>
+    <string name="tab_2">行情</string>
+    <string name="tab_3">资讯</string>
+    <string name="tab_4">我的</string>
 
 </resources>
