@@ -10,10 +10,15 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
+import com.dkhs.portfolio.ui.fragment.TestFragment;
+import com.dkhs.portfolio.ui.fragment.UserFragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
+import android.widget.Button;
 
 /**
  * @ClassName NewMainActivity
@@ -25,6 +30,7 @@ import android.support.v4.app.FragmentTransaction;
 public class NewMainActivity extends FragmentActivity {
 
     private MenuItemFragment mMenuFragment;
+    private Fragment mContentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +44,126 @@ public class NewMainActivity extends FragmentActivity {
             // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
             t.replace(R.id.bottom_layout, mMenuFragment);
+            fragmentA = new TestFragment();
+            mContentFragment = fragmentA;
+            t.replace(R.id.content_layout, mContentFragment);
             t.commit();
 
         } else {
             mMenuFragment = (MenuItemFragment) this.getSupportFragmentManager().findFragmentById(R.id.bottom_layout);
+            mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
+
+        }
+        fragmentB = new TestFragment();
+        fragmentC = new TestFragment();
+        fragmentD = new UserFragment();
+
+    }
+
+    public void showContentIndex(int index) {
+        switch (index) {
+            case MenuItemFragment.TABINDEX_1: {
+                displayFragmentA();
+            }
+                break;
+            case MenuItemFragment.TABINDEX_2: {
+                displayFragmentB();
+            }
+                break;
+            case MenuItemFragment.TABINDEX_3: {
+                displayFragmentC();
+
+            }
+                break;
+            case MenuItemFragment.TABINDEX_4: {
+                displayFragmentD();
+            }
+                break;
+
+            default:
+                break;
         }
     }
+
+    private TestFragment fragmentA;
+    private TestFragment fragmentB;
+    private TestFragment fragmentC;
+    private Fragment fragmentD;
+
+    protected void displayFragmentA() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (null != fragmentA && fragmentA.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentA);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.content_layout, fragmentA, "A");
+        }
+        if (fragmentB.isAdded()) {
+            ft.hide(fragmentB);
+        }
+        if (fragmentC.isAdded()) {
+            ft.hide(fragmentC);
+        }
+        if (fragmentD.isAdded()) {
+            ft.hide(fragmentD);
+        }
+        ft.commit();
+    }
+
+    protected void displayFragmentB() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (fragmentB.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentB);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.content_layout, fragmentB, "B");
+        }
+        if (fragmentA.isAdded()) {
+            ft.hide(fragmentA);
+        }
+        if (fragmentC.isAdded()) {
+            ft.hide(fragmentC);
+        }
+        if (fragmentD.isAdded()) {
+            ft.hide(fragmentD);
+        }
+        ft.commit();
+    }
+
+    protected void displayFragmentC() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (fragmentC.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentC);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.content_layout, fragmentC, "C");
+        }
+        if (fragmentB.isAdded()) {
+            ft.hide(fragmentB);
+        }
+        if (fragmentA.isAdded()) {
+            ft.hide(fragmentA);
+        }
+        if (fragmentD.isAdded()) {
+            ft.hide(fragmentD);
+        }
+        ft.commit();
+    }
+
+    protected void displayFragmentD() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (fragmentD.isAdded()) { // if the fragment is already in container
+            ft.show(fragmentD);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.content_layout, fragmentD, "D");
+        }
+        if (fragmentB.isAdded()) {
+            ft.hide(fragmentB);
+        }
+        if (fragmentC.isAdded()) {
+            ft.hide(fragmentC);
+        }
+        if (fragmentA.isAdded()) {
+            ft.hide(fragmentA);
+        }
+        ft.commit();
+    }
+
 }
