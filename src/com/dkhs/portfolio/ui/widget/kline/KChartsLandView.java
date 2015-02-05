@@ -620,6 +620,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     wid = wid + 32 + rect.width();
                     paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                     for (int i = 0; i < mShowDataNum && mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
+                        if(lineEntity.getLineData().get(mDataStartIndext + i) == 0){
+                            break;
+                        }
                         if (i != 0) {
                             canvas.drawLine((float) (startX + dragValue), startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
                                     - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT + dragValue),
@@ -720,6 +723,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     wid = wid + 32 + rect.width();
                     paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                     for (int i = 0; i < mShowDataNum && mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
+                        if(lineEntity.getLineData().get(mDataStartIndext + i) == 0){
+                            break;
+                        }
                         if (i != 0) {
                             canvas.drawLine(startX + PADDING_LEFT, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width
                                     - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f + PADDING_LEFT),

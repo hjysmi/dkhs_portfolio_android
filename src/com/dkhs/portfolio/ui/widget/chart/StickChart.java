@@ -638,6 +638,9 @@ public class StickChart extends GridChart {
             if(StickData.size() < mShowDate){
                 nums = StickData.size() - 1 + index;
             }
+            boolean draw5 = false;
+            boolean draw10 = false;
+            boolean draw20 = false;
             for (int j = nums; j < StickData.size() && j >= 0 && j >= index; j--) {
                 //MALineEntity lineEntity = MALineData.get(j);
 
@@ -662,14 +665,17 @@ public class StickChart extends GridChart {
                 }*/
                 paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                 if (j != nums) {
-                    paint.setColor(getResources().getColor(R.color.ma5_color));
-                    canvas.drawLine(
-                            (float)(startX + dragValue),
-                            startY5,
-                            (float)(startX + 3 + stickWidth + dragValue),
-                            (float) ((1f - (StickData.get(j).getVol5() - minValue) / (maxValue - minValue))
-                                    * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                                        .getAxisMarginTop()) + mTitleHeight, paint);
+                    if(StickData.get(j).getVol5() > 0 && draw5){
+                        paint.setColor(getResources().getColor(R.color.ma5_color));
+                        canvas.drawLine(
+                                (float)(startX + dragValue),
+                                startY5,
+                                (float)(startX + 3 + stickWidth + dragValue),
+                                (float) ((1f - (StickData.get(j).getVol5() - minValue) / (maxValue - minValue))
+                                        * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
+                                            .getAxisMarginTop()) + mTitleHeight, paint);
+                    }
+                    if(StickData.get(j).getVol10() > 0 && draw10){
                     paint.setColor(getResources().getColor(R.color.ma10_color));
                     canvas.drawLine(
                             (float)(startX + dragValue),
@@ -678,6 +684,8 @@ public class StickChart extends GridChart {
                             (float) ((1f - (StickData.get(j).getVol10() - minValue) / (maxValue - minValue))
                                     * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                         .getAxisMarginTop()) + mTitleHeight, paint);
+                    }
+                    if(StickData.get(j).getVol20() > 0 && draw20){
                     paint.setColor(getResources().getColor(R.color.ma20_color));
                     canvas.drawLine(
                             (float)(startX + dragValue),
@@ -686,18 +694,28 @@ public class StickChart extends GridChart {
                             (float) ((1f - (StickData.get(j).getVol20() - minValue) / (maxValue - minValue))
                                     * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                         .getAxisMarginTop()) + mTitleHeight, paint);
+                    }
                 }
                 startX = startX + 3 + stickWidth;
                 if(j>=0){
+                    if(StickData.get(j).getVol5() > 0){
                     startY5 = (float) ((1f - (StickData.get(j).getVol5() - minValue) / (maxValue - minValue))
                             * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                 .getAxisMarginTop()) + mTitleHeight;
+                    draw5 = true;
+                    }
+                    if(StickData.get(j).getVol10() > 0){
                     startY10 = (float) ((1f - (StickData.get(j).getVol10() - minValue) / (maxValue - minValue))
                             * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                 .getAxisMarginTop()) + mTitleHeight;
+                    draw10 = true;
+                    }
+                    if(StickData.get(j).getVol20() > 0){
                     startY20 = (float) ((1f - (StickData.get(j).getVol20() - minValue) / (maxValue - minValue))
                             * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
                                 .getAxisMarginTop()) + mTitleHeight;
+                    draw20 = true;
+                    }
                 }
                 /*for (int i = s; i < lineEntity.getLineData().size() && i < s+mShowDate; i++) {
                         if (i != s && i >0) {
