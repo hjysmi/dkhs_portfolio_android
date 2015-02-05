@@ -65,14 +65,14 @@ public class OptionListAcitivity extends ModelAcitivity {
         iv = (TextView) findViewById(android.R.id.empty);
         pb = (RelativeLayout) findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
-        // iv.setText("æš‚æ— å…¬å‘Š");
+        // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
             symbol = extras.getString(SYMBOL);
             type = extras.getString(TYPE);
             name = extras.getString(NAME);
         }
-        ((TextView) findViewById(R.id.tv_title)).setText("å…¬å‘Š-" + name);
+        ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
         initDate();
     }
 
@@ -135,7 +135,7 @@ public class OptionListAcitivity extends ModelAcitivity {
         // case OnScrollListener.SCROLL_STATE_IDLE:
         //
         // {
-        // // åˆ¤æ–­æ˜¯å¦æ»šåŠ¨åˆ°åº•éƒ¨
+        // // 判断是否滚动到底部
         // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
         //
         //
@@ -176,13 +176,13 @@ public class OptionListAcitivity extends ModelAcitivity {
             // TODO Auto-generated method stub
             try {
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "å…¬å‘Šæ­£æ–‡",
-                            mDataList.get(position).getSymbols().get(0).getAbbrName(), mDataList.get(position)
-                                    .getSymbols().get(0).getId());
+                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文", mDataList
+                            .get(position).getSymbols().get(0).getAbbrName(),
+                            mDataList.get(position).getSymbols().get(0).getId());
                     startActivity(intent);
                 } else {
-                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "å…¬å‘Šæ­£æ–‡",
-                            null, null);
+                    Intent intent = NewsActivity
+                            .newIntent(context, mDataList.get(position).getId(), "公告正文", null, null);
                     startActivity(intent);
                 }
             } catch (Exception e) {
@@ -195,7 +195,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     private void loadMore() {
         if (null != mLoadDataEngine) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "æ²¡æœ‰æ›´å¤šçš„æ•°æ®äº†", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -221,7 +221,7 @@ public class OptionListAcitivity extends ModelAcitivity {
                     loadFinishUpdateView();
 
                 } else {
-                    iv.setText("æš‚æ— å…¬å‘Š");
+                    iv.setText("暂无公告");
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -245,7 +245,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        // SDKå·²ç»ç¦ç”¨äº†åŸºäºŽActivity çš„é¡µé¢ç»Ÿè®¡ï¼Œæ‰€ä»¥éœ€è¦å†æ¬¡é‡æ–°ç»Ÿè®¡é¡µé¢
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
         MobclickAgent.onPause(this);
     }
@@ -254,7 +254,7 @@ public class OptionListAcitivity extends ModelAcitivity {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        // SDKå·²ç»ç¦ç”¨äº†åŸºäºŽActivity çš„é¡µé¢ç»Ÿè®¡ï¼Œæ‰€ä»¥éœ€è¦å†æ¬¡é‡æ–°ç»Ÿè®¡é¡µé¢
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         MobclickAgent.onResume(this);
     }
