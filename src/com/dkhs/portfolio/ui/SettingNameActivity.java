@@ -451,7 +451,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                 if (isSetPsw) {
                     finish();
                 } else {
-                    Intent intent = new Intent(SettingNameActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
                     startActivity(intent);
                     finish();
                 }

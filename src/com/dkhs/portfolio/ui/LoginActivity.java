@@ -426,7 +426,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     };
 
     private void goMainPage() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
         startActivity(intent);
         finish();
     }
@@ -614,7 +614,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             // PromptManager.closeProgressDialog();
             if (null != entity) {
 
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
                 startActivity(intent);
                 finish();
             }
