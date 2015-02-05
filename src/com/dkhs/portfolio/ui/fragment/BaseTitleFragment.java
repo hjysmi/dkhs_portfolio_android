@@ -70,7 +70,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
         btnBack = (Button) view.findViewById(BACKBUTTON_ID);
         btnRight = (Button) view.findViewById(RIGHTBUTTON_ID);
         btnSecondRight = (Button) view.findViewById(SECONDRIGHTBUTTON_ID);
-        tvTitle = (Button) view.findViewById(R.id.tv_title);
+        tvTitle = (TextView) view.findViewById(R.id.tv_title);
         hideBackButton();
         // btnBac.setVisibility(View.GONE);
     }

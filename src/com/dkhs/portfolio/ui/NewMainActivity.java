@@ -9,10 +9,12 @@
 package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.fragment.MainOptionalStock;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -44,7 +46,7 @@ public class NewMainActivity extends FragmentActivity {
             // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
             t.replace(R.id.bottom_layout, mMenuFragment);
-            fragmentA = new TestFragment();
+            fragmentA = new MainOptionalStock();
             mContentFragment = fragmentA;
             t.replace(R.id.content_layout, mContentFragment);
             t.commit();
@@ -64,6 +66,8 @@ public class NewMainActivity extends FragmentActivity {
         switch (index) {
             case MenuItemFragment.TABINDEX_1: {
                 displayFragmentA();
+                // Intent intent = new Intent(this, MainActivity.class);
+                // startActivity(intent);
             }
                 break;
             case MenuItemFragment.TABINDEX_2: {
@@ -85,7 +89,7 @@ public class NewMainActivity extends FragmentActivity {
         }
     }
 
-    private TestFragment fragmentA;
+    private Fragment fragmentA;
     private TestFragment fragmentB;
     private TestFragment fragmentC;
     private Fragment fragmentD;
