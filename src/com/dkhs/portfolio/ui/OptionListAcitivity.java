@@ -151,6 +151,31 @@ public class OptionListAcitivity extends ModelAcitivity {
         //
         // }
         // });
+        // mListView.setOnScrollListener(new OnScrollListener() {
+        //
+        // @Override
+        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        //
+        // switch (scrollState) {
+        // case OnScrollListener.SCROLL_STATE_IDLE:
+        //
+        // {
+        // // åˆ¤æ–­æ˜¯å¦æ»šåŠ¨åˆ°åº•éƒ¨
+        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+        //
+        //
+        // }
+        // }
+        //
+        // }
+        //
+        // }
+        //
+        // @Override
+        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //
+        // }
+        // });
         mListView.setOnItemClickListener(itemBackClick);
 
         mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);

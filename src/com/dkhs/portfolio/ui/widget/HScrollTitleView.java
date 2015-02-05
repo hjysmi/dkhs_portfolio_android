@@ -161,6 +161,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             // tv.setPadding(0, 5, 0, 5);
             tv.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
             tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
+            // tv.setPadding(0, 5, 0, 5);
+            tv.setGravity(Gravity.CENTER);
+            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
             tv.setText(nameList[i]);
             tv.setOnClickListener(new OnItemListener(i));
             ll.addView(tv);
