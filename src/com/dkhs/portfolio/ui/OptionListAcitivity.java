@@ -26,6 +26,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
+import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -53,18 +54,12 @@ public class OptionListAcitivity extends ModelAcitivity {
     private RelativeLayout pb;
 
     public SwipeRefreshLayout mSwipeLayout;
-
+    private ReportListForAllFragment loadDataListFragment;
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
-        setContentView(R.layout.activity_option_market_news);
-        context = this;
-        mDataList = new ArrayList<OptionNewsBean>();
-
-        iv = (TextView) findViewById(android.R.id.empty);
-        pb = (RelativeLayout) findViewById(android.R.id.progress);
-        pb.setVisibility(View.VISIBLE);
+        setContentView(R.layout.fragment_report_news);
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
@@ -73,7 +68,7 @@ public class OptionListAcitivity extends ModelAcitivity {
             name = extras.getString(NAME);
         }
         ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
-        initDate();
+        replaceDataList();
     }
 
     public static Intent newIntent(Context context, String symbolName, String type, String name) {
@@ -85,7 +80,32 @@ public class OptionListAcitivity extends ModelAcitivity {
         intent.putExtras(b);
         return intent;
     }
-
+    private void replaceDataList() {
+        // view_datalist
+        if (null == loadDataListFragment) {
+            UserEntity user;
+            try {
+                user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+                if (user != null) {
+                    if (!TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                    }
+                    String userId = user.getId() + "";
+                    NewsforImpleEngine vo = new NewsforImpleEngine();
+                    vo.setUserid(userId);
+                    vo.setSymbol(symbol);
+                    vo.setContentType(type);
+                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWSFOREACH);
+                }else{
+                    loadDataListFragment = ReportListForAllFragment.getFragment(null, OpitionNewsEngineImple.NEWSFOREACH);
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
     private void initDate() {
         UserEntity user;
         try {
