@@ -16,7 +16,6 @@ import android.widget.Button;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.LoginActivity;
-import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.NewMainActivity;
 import com.dkhs.portfolio.ui.NoAccountMainActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
