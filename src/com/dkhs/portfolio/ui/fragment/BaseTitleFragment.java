@@ -81,4 +81,28 @@ public abstract class BaseTitleFragment extends BaseFragment {
         }
     }
 
+    public void setTitle(String title) {
+        if (null != tvTitle) {
+            tvTitle.setText(title);
+        }
+    }
+
+    public void setTitle(int titleIds) {
+        if (null != tvTitle) {
+            tvTitle.setText(titleIds);
+        }
+    }
+
+    public Button getRightButton() {
+        // Button btnRight = (Button) findViewById(RIGHTBUTTON_ID);
+        btnRight.setVisibility(View.VISIBLE);
+        // btnRight.setTextColor(Color.WHITE);
+        return btnRight;
+    }
+
+    public Button getSecondRightButton() {
+        btnSecondRight.setVisibility(View.VISIBLE);
+        return btnSecondRight;
+    }
+
 }

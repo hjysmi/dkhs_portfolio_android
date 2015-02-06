@@ -12,6 +12,8 @@
         android:background="@drawable/btn_titletab_right_selector"
         android:enabled="false"
         android:gravity="center"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         android:text="自选股"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
@@ -22,6 +24,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_titletab_left_selector"
         android:gravity="center"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         android:singleLine="true"
         android:text="自建基金"
         android:textColor="@color/title_tab_textselector"

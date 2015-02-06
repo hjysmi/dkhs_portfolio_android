@@ -23,6 +23,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 public class PromptManager {
     private static Dialog dialog;
     private AlertDialog a;
+    private static Toast mToast;
 
     /**
      * 默认进度条可取消
@@ -154,12 +155,14 @@ public class PromptManager {
                 .show();
 
     }
-    public static DisplayMetrics getDisplay(Context context){
-    	DisplayMetrics dm = new DisplayMetrics();
+
+    public static DisplayMetrics getDisplay(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         return dm;
     }
+
     /**
      * 显示错误提示框
      * 
@@ -175,24 +178,36 @@ public class PromptManager {
                 .show();
     }
 
-    public static void showToast(String msg) {
+    public static void showToast(String msg, int duration) {
+        if (mToast == null) {
+            mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
+        } else {
+            mToast.cancel();
+            mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
+            // mToast.setText(msg);
+            // mToast.setDuration(duration);
+        }
+        mToast.show();
+    }
 
-        Toast.makeText(PortfolioApplication.getInstance(), msg, Toast.LENGTH_LONG).show();
+    public static void showLToast(String msg) {
+        showToast(msg, Toast.LENGTH_LONG);
     }
 
     public static void showShortToast(String msg) {
-
-        Toast.makeText(PortfolioApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg, Toast.LENGTH_SHORT);
     }
 
     public static void showShortToast(int msgResId) {
-
-        Toast.makeText(PortfolioApplication.getInstance(), msgResId, Toast.LENGTH_SHORT).show();
+        showShortToast(PortfolioApplication.getInstance().getResources().getString(msgResId));
     }
 
     public static void showToast(int msgResId) {
+        showLToast(PortfolioApplication.getInstance().getResources().getString(msgResId));
+    }
 
-        Toast.makeText(PortfolioApplication.getInstance(), msgResId, Toast.LENGTH_LONG).show();
+    public static void showToast(String msg) {
+        showLToast(msg);
     }
 
     // 当测试阶段时true

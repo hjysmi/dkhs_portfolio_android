@@ -43,9 +43,9 @@ public class UserFragment extends BaseTitleFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        if (null != loginLayout) {
-            loginLayout.setVisibility(View.GONE);
-        }
+        // if (null != loginLayout) {
+        // loginLayout.setVisibility(View.GONE);
+        // }
     }
 
 }

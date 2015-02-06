@@ -19,6 +19,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
+import com.dkhs.portfolio.ui.OptionEditActivity;
+import com.dkhs.portfolio.ui.OptionalStockListActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -35,6 +40,13 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
     private Button btnTabRight;
     @ViewInject(R.id.btn_titletab_left)
     private Button btnTabLeft;
+
+    @ViewInject(R.id.btn_right)
+    private Button btnRight;
+    @ViewInject(R.id.btn_right_second)
+    private Button btnSecRight;
+    @ViewInject(R.id.btn_back)
+    private Button btnLeft;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +72,57 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         displayFragmentA();
+
+    }
+
+    private void setOptionTitleBar() {
+        btnLeft.setVisibility(View.GONE);
+        btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
+        btnRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnSecRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OptionEditActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void setCombinationBar() {
+        btnLeft.setVisibility(View.VISIBLE);
+        btnLeft.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_add_select, 0, 0, 0);
+        btnRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                PromptManager.showToast("创建我的基金");
+            }
+        });
+        btnSecRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // Intent intent = new Intent(getActivity(), OptionEditActivity.class);
+                // startActivity(intent);
+                PromptManager.showToast("编辑我的基金");
+            }
+        });
     }
 
     @OnClick({ R.id.btn_titletab_right, R.id.btn_titletab_left })
@@ -93,6 +156,7 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
     private Fragment fragmentB;
 
     protected void displayFragmentA() {
+        setOptionTitleBar();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         if (null != fragmentA && fragmentA.isAdded()) { // if the fragment is already in container
             ft.show(fragmentA);
@@ -106,6 +170,7 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
     }
 
     protected void displayFragmentB() {
+        setCombinationBar();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         if (fragmentB.isAdded()) { // if the fragment is already in container
             ft.show(fragmentB);

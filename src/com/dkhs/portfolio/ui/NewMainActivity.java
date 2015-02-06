@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalStock;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
@@ -37,6 +38,8 @@ public class NewMainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(android.R.style.Theme_Light_NoTitleBar);
+
         setContentView(R.layout.activity_new_main);
 
         if (savedInstanceState == null) {
@@ -56,7 +59,7 @@ public class NewMainActivity extends FragmentActivity {
             mContentFragment = this.getSupportFragmentManager().findFragmentById(R.id.content_layout);
 
         }
-        fragmentB = new TestFragment();
+        fragmentB = new MainMarketFragment();
         fragmentC = new TestFragment();
         fragmentD = new UserFragment();
 
@@ -90,7 +93,7 @@ public class NewMainActivity extends FragmentActivity {
     }
 
     private Fragment fragmentA;
-    private TestFragment fragmentB;
+    private Fragment fragmentB;
     private TestFragment fragmentC;
     private Fragment fragmentD;
 
