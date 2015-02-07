@@ -213,6 +213,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
+
         } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
                 || mViewType == StockViewType.MARKET_INLAND_INDEX
                 || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
@@ -550,6 +551,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
+            mListView.setDividerHeight(0);
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }

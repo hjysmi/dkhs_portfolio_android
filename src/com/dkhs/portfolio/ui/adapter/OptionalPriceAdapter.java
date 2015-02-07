@@ -59,10 +59,12 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
         ColorStateList textCsl = null;
-        if (item.isStop||StockUitls.isDelistStock(item.list_status)) {
+        if (item.isStop || StockUitls.isDelistStock(item.list_status)) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
+            viewHolder.tvPercentValue.setBackgroundColor(mContext.getResources().getColor(R.color.theme_color));
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
+            viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.percentage));
         }
         if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvIncearseValue.setText("退市");
@@ -88,7 +90,6 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         }
         viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         viewHolder.tvCurrentValue.setTextColor(textCsl);
-        viewHolder.tvPercentValue.setTextColor(textCsl);
 
         return convertView;
     }
