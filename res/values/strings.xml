@@ -380,5 +380,6 @@
     <string name="tab_2">行情</string>
     <string name="tab_3">资讯</string>
     <string name="tab_4">我的</string>
+    <string name="title_user">我的</string>
 
 </resources>

@@ -62,7 +62,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-
+        setTitle(R.string.title_user);
     }
 
     private void initView(View view) {
