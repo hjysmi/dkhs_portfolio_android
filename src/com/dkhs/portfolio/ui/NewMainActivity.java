@@ -9,6 +9,8 @@
 package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalStock;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
@@ -30,7 +32,7 @@ import android.widget.Button;
  * @date 2015-2-5 上午10:26:35
  * @version 1.0
  */
-public class NewMainActivity extends FragmentActivity {
+public class NewMainActivity extends BaseActivity {
 
     private MenuItemFragment mMenuFragment;
     private Fragment mContentFragment;
@@ -39,7 +41,7 @@ public class NewMainActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(android.R.style.Theme_Light_NoTitleBar);
-
+        PortfolioApplication.getInstance().addActivity(this);
         setContentView(R.layout.activity_new_main);
 
         if (savedInstanceState == null) {
