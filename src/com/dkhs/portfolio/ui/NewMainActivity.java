@@ -12,7 +12,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
-import com.dkhs.portfolio.ui.fragment.MainOptionalStock;
+import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
@@ -51,7 +51,7 @@ public class NewMainActivity extends BaseActivity {
             // bunlde.putInt("content", mIndex);
             mMenuFragment.setArguments(bunlde);
             t.replace(R.id.bottom_layout, mMenuFragment);
-            fragmentA = new MainOptionalStock();
+            fragmentA = new MainOptionalFragment();
             mContentFragment = fragmentA;
             t.replace(R.id.content_layout, mContentFragment);
             t.commit();

@@ -34,7 +34,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  * @date 2015-2-5 下午3:02:49
  * @version 1.0
  */
-public class MainOptionalStock extends BaseFragment implements OnClickListener {
+public class MainOptionalFragment extends BaseFragment implements OnClickListener {
 
     @ViewInject(R.id.btn_titletab_right)
     private Button btnTabRight;
@@ -52,8 +52,8 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        fragmentA = new TestFragment();
-        fragmentB = new TestFragment();
+        tabStockFragment = new TabStockFragment();
+        tabFundsFragment = new TabFundsFragment();
     }
 
     @Override
@@ -152,19 +152,19 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
         }
     }
 
-    private Fragment fragmentA;
-    private Fragment fragmentB;
+    private Fragment tabStockFragment;
+    private Fragment tabFundsFragment;
 
     protected void displayFragmentA() {
         setOptionTitleBar();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (null != fragmentA && fragmentA.isAdded()) { // if the fragment is already in container
-            ft.show(fragmentA);
+        if (null != tabStockFragment && tabStockFragment.isAdded()) { // if the fragment is already in container
+            ft.show(tabStockFragment);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.view_datalist, fragmentA, "A");
+            ft.add(R.id.view_datalist, tabStockFragment, "A");
         }
-        if (fragmentB.isAdded()) {
-            ft.hide(fragmentB);
+        if (tabFundsFragment.isAdded()) {
+            ft.hide(tabFundsFragment);
         }
         ft.commit();
     }
@@ -172,13 +172,13 @@ public class MainOptionalStock extends BaseFragment implements OnClickListener {
     protected void displayFragmentB() {
         setCombinationBar();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (fragmentB.isAdded()) { // if the fragment is already in container
-            ft.show(fragmentB);
+        if (tabFundsFragment.isAdded()) { // if the fragment is already in container
+            ft.show(tabFundsFragment);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.view_datalist, fragmentB, "B");
+            ft.add(R.id.view_datalist, tabFundsFragment, "B");
         }
-        if (fragmentA.isAdded()) {
-            ft.hide(fragmentA);
+        if (tabStockFragment.isAdded()) {
+            ft.hide(tabStockFragment);
         }
 
         ft.commit();

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * 提示信息的管理
@@ -32,22 +34,32 @@ public class PromptManager {
      * @param msg
      */
     public static void showProgressDialog(Context context, String msg) {
-        try {
 
-            if (null != dialog && dialog.isShowing()) {
-                dialog.dismiss();
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            // On UI thread.
+            LogUtils.d("beforeRequest PromptManager.showProgressDialog");
+            // PromptManager.showProgressDialog(mContext, msg, isHideDialog);
+
+            try {
+
+                if (null != dialog && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                View v = View.inflate(context, R.layout.progressbar, null);
+                TextView tv = (TextView) v.findViewById(R.id.tv_desc);
+                tv.setText(msg);
+                dialog = new Dialog(context, R.style.dialog);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                dialog.setContentView(v, params);
+                // dialog.setCancelable(false);
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            View v = View.inflate(context, R.layout.progressbar, null);
-            TextView tv = (TextView) v.findViewById(R.id.tv_desc);
-            tv.setText(msg);
-            dialog = new Dialog(context, R.style.dialog);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            dialog.setContentView(v, params);
-            // dialog.setCancelable(false);
-            dialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            // Not on UI thread.
+            LogUtils.d("beforeRequest Not on UI thread");
         }
     }
 
@@ -83,16 +95,21 @@ public class PromptManager {
 
     public static void closeProgressDialog() {
 
-        try {
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+
+            try {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                dialog = null;
             }
-        } catch (final IllegalArgumentException e) {
-            // Handle or log or ignore
-        } catch (final Exception e) {
-            // Handle or log or ignore
-        } finally {
-            dialog = null;
+        } else {
+            LogUtils.d("requestCallBack Not on UI thread");
         }
 
     }

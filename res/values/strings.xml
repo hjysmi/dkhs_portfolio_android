@@ -80,6 +80,7 @@
     <string name="optional_stock">自选股</string>
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
+    <string name="funds_name">基金名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
@@ -381,5 +382,9 @@
     <string name="tab_3">资讯</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
+    
+    <!-- optional tab -->
+    <string name="net_value">净值</string>
+    <string name="today_up_ratio">今日涨幅</string>
 
 </resources>

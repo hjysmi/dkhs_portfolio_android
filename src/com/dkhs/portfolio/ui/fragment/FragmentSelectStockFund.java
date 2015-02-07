@@ -326,6 +326,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         @Override
         public void loadFail(ErrorBundle error) {
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            pb.setVisibility(View.GONE);
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             } else {
@@ -361,7 +362,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
 
         }
@@ -496,6 +497,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
     protected void initNotice() {
+
         if (null == tvEmptyText) {
             return;
         }
