@@ -8,11 +8,15 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.SettingActivity;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
@@ -43,9 +47,27 @@ public class UserFragment extends BaseTitleFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
+        initView(view);
+
         // if (null != loginLayout) {
         // loginLayout.setVisibility(View.GONE);
         // }
+    }
+
+    private void initView(View view) {
+        //
+        Button addButton = getRightButton();
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.menu_icon_setting),
+                null, null, null);
+        addButton.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                getActivity().startActivity(intent);
+
+            }
+        });
     }
 
 }
