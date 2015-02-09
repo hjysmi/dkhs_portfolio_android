@@ -112,7 +112,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                PromptManager.showToast("创建我的基金");
+                // PromptManager.showToast("创建我的基金");
+                tabFundsFragment.addItem();
             }
         });
         btnSecRight.setOnClickListener(new OnClickListener() {
@@ -154,7 +155,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     }
 
     private Fragment tabStockFragment;
-    private Fragment tabFundsFragment;
+    private TabFundsFragment tabFundsFragment;
 
     protected void displayFragmentA() {
         setOptionTitleBar();
