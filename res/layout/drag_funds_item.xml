@@ -8,7 +8,8 @@
     <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
 
         <ImageView
             android:id="@+id/image"
@@ -16,13 +17,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:src="@drawable/opition_edit_delete" />
+            android:src="@drawable/opition_edit_delete"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/layout_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/image"
             android:gravity="center_vertical"
             android:orientation="vertical" >
@@ -33,6 +36,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dip"
+                android:text="stockname"
                 android:textColor="@color/black"
                 android:textSize="@dimen/list_text_size" />
 
@@ -42,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dip"
+                android:text="stocknum"
                 android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/title_text_font" />
         </LinearLayout>
@@ -52,7 +57,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="invisible" >
 
             <TextView
                 android:id="@+id/drag_text_delet_pad"

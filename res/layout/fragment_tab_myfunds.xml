@@ -8,6 +8,7 @@
         android:id="@+id/view_stock_title"
         style="@style/gray_text_tabline"
         android:orientation="horizontal"
+        android:paddingLeft="15dp"
         android:weightSum="7" >
 
         <TextView
@@ -48,11 +49,11 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/view_datalist"
+    <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_add_optional_stock"
-        android:layout_below="@+id/view_stock_title" />
+        android:layout_below="@+id/view_stock_title"
+        layout="@layout/empty_listview" />
 
 </RelativeLayout>
