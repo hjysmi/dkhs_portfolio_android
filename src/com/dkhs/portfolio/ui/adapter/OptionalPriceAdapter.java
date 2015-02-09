@@ -48,7 +48,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
             viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
             viewHolder.tvPercentValue = (TextView) convertView.findViewById(R.id.tv_percent_value);
-            viewHolder.tvIncearseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+            // viewHolder.tvIncearseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
 
             convertView.setTag(viewHolder);
         } else {
@@ -61,26 +61,26 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         ColorStateList textCsl = null;
         if (item.isStop || StockUitls.isDelistStock(item.list_status)) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
-            viewHolder.tvPercentValue.setBackgroundColor(mContext.getResources().getColor(R.color.theme_color));
+            viewHolder.tvPercentValue.setBackgroundColor(mContext.getResources().getColor(R.color.stock_gray_bg));
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
             viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.percentage));
         }
         if (StockUitls.isDelistStock(item.list_status)) {
-            viewHolder.tvIncearseValue.setText("退市");
-            viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
-            viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
+            viewHolder.tvPercentValue.setText("退市");
+            viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
+            // viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
         } else if (item.isStop) {
-            viewHolder.tvIncearseValue.setText("停牌");
-            viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
-            viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT);
+            viewHolder.tvPercentValue.setText("停牌");
+            // viewHolder.tvPercentValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
+            viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
         } else {
-            viewHolder.tvIncearseValue.setTextColor(textCsl);
-            viewHolder.tvIncearseValue.setTypeface(Typeface.DEFAULT_BOLD);
-            viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            // viewHolder.tvIncearseValue.setTextColor(textCsl);
+            viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT_BOLD);
+            // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
             viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
-            viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
         }
         if (StockUitls.isShangZhengB(item.code)) {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
@@ -88,7 +88,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         } else {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
         }
-        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
+        // viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         viewHolder.tvCurrentValue.setTextColor(textCsl);
 
         return convertView;
@@ -100,6 +100,6 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         TextView tvStockNum;
         TextView tvCurrentValue;
         TextView tvPercentValue;
-        TextView tvIncearseValue;
+        // TextView tvIncearseValue;
     }
 }
