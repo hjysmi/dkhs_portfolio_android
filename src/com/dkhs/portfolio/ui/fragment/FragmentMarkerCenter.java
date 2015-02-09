@@ -19,6 +19,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,12 +110,11 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_market_canter, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         initView(view);
         setLoadTypeView(mType);
         loadFragment(mType);
-        return view;
     }
 
     public void initView(View view) {
@@ -170,8 +170,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private void loadFragment(int type) {
         switch (type) {
             case TYPE_INLAND_INDEX_UP: {
-                loadDataListFragment = FragmentMarketList
-                        .getStockFragment(StockViewType.MARKET_INLAND_INDEX_CURRENT);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_INLAND_INDEX_CURRENT);
             }
                 break;
             case TYPE_INLAND_INDEX_DWON: {
@@ -199,8 +198,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             }
                 break;
             case TYPE_STOCK_TURN_DOWN: {
-                loadDataListFragment = FragmentMarketList
-                        .getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
+                loadDataListFragment = FragmentMarketList.getStockFragment(StockViewType.MARKET_STOCK_TURNOVER_ACE);
             }
                 break;
             case TYPE_PLATE_UP: {
@@ -217,8 +215,8 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             }
                 break;
             case TYPE_PLATEDETAIL_DOWN: {
-                loadDataListFragment = FragmentMarketList.getStockFragmentByPlate(
-                        StockViewType.MARKET_PLATE_LIST_ACE, mPlateId);
+                loadDataListFragment = FragmentMarketList.getStockFragmentByPlate(StockViewType.MARKET_PLATE_LIST_ACE,
+                        mPlateId);
             }
                 break;
 
@@ -468,6 +466,18 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
             ((RefreshModelActivity) getActivity()).startAnimaRefresh();
         }
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_market_canter;
     }
 
 }

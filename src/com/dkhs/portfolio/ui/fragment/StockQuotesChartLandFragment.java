@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -219,11 +220,20 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public void onAttach(Activity activity) {
         // o
         super.onAttach(activity);
+
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart_land, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
@@ -233,7 +243,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
                 && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
         }
-        return view;
     }
 
     private void initView(View view) {
@@ -817,5 +826,17 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_stock_quotes_chart_land;
     }
 }

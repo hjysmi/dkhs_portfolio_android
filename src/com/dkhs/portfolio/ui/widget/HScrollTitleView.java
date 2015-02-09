@@ -1,7 +1,7 @@
 /**
  * @Title HScrollTitleView.java
  * @Package com.dkhs.portfolio.ui.widget
- * @Description TODO(用一句话描述该文件做什么)
+ * @Description TODO(用一句话描述该文件做�?��)
  * @author zjz
  * @date 2014-10-29 下午1:13:32
  * @version V1.0
@@ -54,11 +54,11 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
     private int[] textWid;
     // 移动的Icon
     private ImageView iv;
-    // 历史选中项
+    // 历史选中�?
     private int hisPosition = -1;
-    // 用于存储所有标题栏的textview,功能用于变换颜色
+    // 用于存储�?��标题栏的textview,功能用于变换颜色
     private TextView[] tvList;
-    // 左边两边下移ICON的边距,仅当当标题栏长度小于当前屏幕宽度会自动计算多于宽度
+    // 左边两边下移ICON的边�?仅当当标题栏长度小于当前屏幕宽度会自动计算多于宽�?
     private int offset = 0;
 
     private int indiatorWidth;
@@ -68,8 +68,8 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
      * @param context
      * @param nameListRTl 标题栏的名字
      * @param fragmentList 下面Fragment界面
-     * @param layout 当前需要添加此控件的父控件
-     * @param fragmentManager fragment管理器
+     * @param layout 当前�?��添加此控件的父控�?
+     * @param fragmentManager fragment管理�?
      */
     // public HScrollTitleView(Context context, List<String> nameList) {
     // this.context = context;
@@ -82,7 +82,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     /**
      * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
+     * @Description TODO: (用一句话描述这个方法的功�?
      * @param context
      * @param attrs
      * @param defStyle
@@ -94,7 +94,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     /**
      * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
+     * @Description TODO: (用一句话描述这个方法的功�?
      * @param context
      * @param attrs
      */
@@ -105,7 +105,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     /**
      * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
+     * @Description TODO: (用一句话描述这个方法的功�?
      * @param context
      */
     public HScrollTitleView(Context context) {
@@ -115,7 +115,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
     /**
      * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
+     * @Description TODO: (用一句话描述这个方法的功�?
      * @return void
      */
     private void init() {
@@ -160,9 +160,6 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
             // tv.setPadding(0, 5, 0, 5);
             tv.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
-            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
-            // tv.setPadding(0, 5, 0, 5);
-            tv.setGravity(Gravity.CENTER);
             tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
             tv.setText(nameList[i]);
             tv.setOnClickListener(new OnItemListener(i));

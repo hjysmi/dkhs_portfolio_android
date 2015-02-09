@@ -50,11 +50,9 @@ public abstract class RefreshLoadMoreListFragment extends BaseFragment implement
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.refresh_empty_listview, null);
-
-        // setListAdatper();
-        return view;
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.refresh_empty_listview;
     }
 
     @Override

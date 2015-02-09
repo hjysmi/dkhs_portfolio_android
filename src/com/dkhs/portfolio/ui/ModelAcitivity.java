@@ -25,12 +25,12 @@ public class ModelAcitivity extends BaseActivity {
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
+    private Button btnBack;
 
     /** 显示子页面的容器 */
     private RelativeLayout layoutContent;
 
     /** 返回按钮 */
-    private Button btnBack;
 
     // private LinearLayout llBack;
 

@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -212,6 +213,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
+
         } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
                 || mViewType == StockViewType.MARKET_INLAND_INDEX
                 || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
@@ -325,6 +327,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         @Override
         public void loadFail(ErrorBundle error) {
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            pb.setVisibility(View.GONE);
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             } else {
@@ -360,7 +363,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
 
         }
@@ -460,18 +463,31 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     public SwipeRefreshLayout mSwipeLayout;
 
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    //
+    // LinearLayout wrapper = new LinearLayout(getActivity()); // for example
+    // inflater.inflate(, wrapper, true);
+    //
+    // return wrapper;
+    // }
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        LinearLayout wrapper = new LinearLayout(getActivity()); // for example
-        inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
-        tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
-        pb = (RelativeLayout) wrapper.findViewById(android.R.id.progress);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
-        initView(wrapper);
-        return wrapper;
+        initView(view);
     }
 
     private void hideNotice() {
@@ -482,6 +498,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
     protected void initNotice() {
+
         if (null == tvEmptyText) {
             return;
         }
@@ -534,6 +551,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
+            mListView.setDividerHeight(0);
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
@@ -643,6 +661,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     public void setLoadingFinishListener(ILoadingFinishListener finishListener) {
         this.loadingFinishListener = finishListener;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_selectstock;
     }
 
 }

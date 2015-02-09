@@ -74,6 +74,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private DrawLineDataEntity mTodayLineData;
     private RelativeLayout pb;
+
     public static TrendTodayChartFragment newInstance(String trendType) {
         TrendTodayChartFragment fragment = new TrendTodayChartFragment();
 
@@ -136,7 +137,7 @@ public class TrendTodayChartFragment extends BaseFragment {
             // setupBottomTextViewData();
             initView(rootView);
             initTodayTrendTitle();
-            //PromptManager.showProgressDialog(getActivity(), "");
+            // PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryToday(todayListener);
         }
         // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -276,7 +277,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
                 mTodayLineData = todayNetvalue;
                 setTodayViewLoad();
-                //PromptManager.closeProgressDialog();
+                // PromptManager.closeProgressDialog();
             }
 
         }
@@ -546,5 +547,17 @@ public class TrendTodayChartFragment extends BaseFragment {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 }
