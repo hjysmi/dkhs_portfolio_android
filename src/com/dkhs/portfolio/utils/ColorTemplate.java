@@ -15,7 +15,7 @@ public class ColorTemplate {
             R.color.def_12, R.color.def_13, R.color.def_14, R.color.def_15, R.color.def_16, R.color.def_17,
             R.color.def_18, R.color.def_19, R.color.def_20 };
     public static final int[] COMPARE = { R.color.def_1, R.color.def_3, R.color.title_color, R.color.def_4,
-        R.color.def_5,R.color.def_5 };
+            R.color.def_5, R.color.def_5 };
     public static final int MY_COMBINATION_LINE = PortfolioApplication.getInstance().getResources()
             .getColor(R.color.blue_line);
     // public static final int DEF_RED =0xFFE73535;
@@ -40,6 +40,7 @@ public class ColorTemplate {
             return getRaddomColor();
         }
     }
+
     public static int getDefaultColors(int position) {
         if (position < COMPARE.length) {
 
@@ -48,6 +49,7 @@ public class ColorTemplate {
             return getRaddomColor();
         }
     }
+
     public static ColorStateList getTextColor(float value1, float value2) {
 
         if (value1 < value2) {
@@ -83,6 +85,17 @@ public class ColorTemplate {
         }
         return colorStateList;
 
+    }
+
+    public static int getUpOrDrowBgColor(float value) {
+        int clsResId = R.color.stock_gray_bg;
+        if (value > 0) {
+            clsResId = R.color.def_red;
+
+        } else if (value < 0) {
+            clsResId = R.color.def_green;
+        }
+        return PortfolioApplication.getInstance().getResources().getColor(clsResId);
     }
 
 }

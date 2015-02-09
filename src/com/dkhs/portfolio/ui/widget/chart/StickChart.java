@@ -145,14 +145,14 @@ public class StickChart extends GridChart {
             try {
                 maxValue = 0;
                 for(int i = mShowDate + index -1; i < StickData.size() && i >= index; i--){
-                    if(i >=0 && i < StickData.size() && null != StickData.get(i) && StickData.get(i).getVolume() > maxValue){
-                        maxValue = (float) StickData.get(i).getVolume();
+                    if(i >=0 && i < StickData.size() && null != StickData.get(i) && getMaxData(StickData.get(i)) > maxValue){
+                        maxValue = getMaxData(StickData.get(i));
                     }
                 }
                 if(mShowDate >= StickData.size()){
                     for(int i = StickData.size() -1; i < StickData.size() && i >= index; i--){
-                        if(i >=0 && i < StickData.size() && null != StickData.get(i) && StickData.get(i).getVolume() > maxValue){
-                            maxValue = (float) StickData.get(i).getVolume();
+                        if(i >=0 && i < StickData.size() && null != StickData.get(i) && getMaxData(StickData.get(i)) > maxValue){
+                            maxValue = getMaxData(StickData.get(i));
                         }
                     }
                 }
@@ -161,6 +161,19 @@ public class StickChart extends GridChart {
                 e.printStackTrace();
             }
         }
+    }
+    public float getMaxData(OHLCEntity entity){
+        double tmp = entity.getVolume();
+        if(entity.getVol5() > tmp){
+            tmp = entity.getVol5();
+        }
+        if(entity.getVol10() > tmp){
+            tmp = entity.getVol10();
+        }
+        if(entity.getVol20() > tmp){
+            tmp = entity.getVol20();
+        }
+        return (float) tmp;
     }
     public void setMACDMaxValue(){
         if(null != StickData){
@@ -648,7 +661,7 @@ public class StickChart extends GridChart {
                 	s = lineEntity.getLineData().size() - mShowDate - index;
                 }*/
                 paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
-                if (j != mShowDate + index -1) {
+                if (j != nums) {
                     paint.setColor(getResources().getColor(R.color.ma5_color));
                     canvas.drawLine(
                             (float)(startX + dragValue),

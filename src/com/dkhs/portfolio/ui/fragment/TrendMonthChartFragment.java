@@ -513,4 +513,16 @@ public class TrendMonthChartFragment extends BaseFragment {
         super.onDestroyView();
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
+
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 }

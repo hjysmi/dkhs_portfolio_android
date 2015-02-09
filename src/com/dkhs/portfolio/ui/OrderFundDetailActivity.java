@@ -14,18 +14,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
-import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -79,12 +76,23 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         isClickable = extras.getBoolean("isClickable");
         type = extras.getString("type");
     }
-    public InterceptScrollView getScroll(){
-    	return mScrollview;
+
+    public InterceptScrollView getScroll() {
+        return mScrollview;
     }
+
     private void initViews() {
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
-        mScrollview.setScrollViewListener(mScrollViewListener);
+        // mScrollview.setScrollViewListener(mScrollViewListener);
+        mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+
+                mScrollview.getLayoutParams().width = getResources().getDisplayMetrics().widthPixels;
+                mScrollview.fullScroll(View.FOCUS_UP);
+            }
+        });
+
         mViewHeader = findViewById(R.id.rl_combination_header);
         mViewBottom = findViewById(R.id.combination_position);
         if (isClickable) {
@@ -99,18 +107,18 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         replaceTrendView();
     }
 
-    ScrollViewListener mScrollViewListener = new ScrollViewListener() {
-
-        @Override
-        public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
-            // TODO Auto-generated method stub
-            if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
-                chartTounching();
-            }
-            Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
-        }
-
-    };
+    // ScrollViewListener mScrollViewListener = new ScrollViewListener() {
+    //
+    // @Override
+    // public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
+    // // TODO Auto-generated method stub
+    // if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
+    // chartTounching();
+    // }
+    // Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
+    // }
+    //
+    // };
 
     private void replaceTrendView() {
 
@@ -199,19 +207,20 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         }
 
     }
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onResume(this);
+    }
 }

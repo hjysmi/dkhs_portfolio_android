@@ -397,4 +397,6 @@ public class MyCombinationListFragment extends RefreshLoadMoreListFragment {
         }
     };
 
+
+
 }

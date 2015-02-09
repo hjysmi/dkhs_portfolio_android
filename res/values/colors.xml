@@ -135,5 +135,6 @@
 
     <color name="point_lighter_gray">#b2a0a0a0</color>
     <color name="point_white">#b2ffffff</color>
+    <color name="stock_gray_bg">#A0A0A0</color>
 
 </resources>
