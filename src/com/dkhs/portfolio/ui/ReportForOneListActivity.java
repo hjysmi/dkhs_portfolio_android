@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.RelativeLayout;
@@ -18,48 +20,53 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
+import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.UserEntityDesUtil;
+import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
-    private View mFootView;
+//    private View mFootView;
     private Context context;
     private OptionlistAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
-    private TextView iv;
+//    private TextView iv;
     private static final String SYMBOL = "symbol";
     private static final String NAME = "name";
     private static final String SUB = "sub";
     private String symbol;
     private String name;
     private String subType;
-    private RelativeLayout pb;
-
+//    private RelativeLayout pb;
+    private Fragment loadDataListFragment;
     public SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
-        setContentView(R.layout.activity_option_market_news);
+        setContentView(R.layout.fragment_report_news);
         context = this;
         mDataList = new ArrayList<OptionNewsBean>();
 
-        iv = (TextView) findViewById(android.R.id.empty);
+        /*iv = (TextView) findViewById(android.R.id.empty);
         pb = (RelativeLayout) findViewById(android.R.id.progress);
-        pb.setVisibility(View.VISIBLE);
+        pb.setVisibility(View.VISIBLE);*/
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
@@ -68,10 +75,29 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             subType = extras.getString(SUB);
         }
         ((TextView) findViewById(R.id.tv_title)).setText("研报-" + name);
-        initView();
-        initDate();
+//        initView();
+//        initDate();
+        replaceDataList();
     }
-
+    private void replaceDataList() {
+        // view_datalist
+        if (null == loadDataListFragment) {
+            try {
+                NewsforImpleEngine vo = new NewsforImpleEngine();
+                vo.setSymbol(symbol);
+                vo.setContentSubType(subType);
+                if (null == subType) {
+                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
+                }else{
+                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.GROUP_FOR_ONE);
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
     public static Intent newIntent(Context context, String symbolName, String name, String subType) {
         Intent intent = new Intent(context, ReportForOneListActivity.class);
         Bundle b = new Bundle();
@@ -105,10 +131,10 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     }
 
     private void initView() {
-        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+//        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
 
-        mListView.setEmptyView(iv);
+//        mListView.setEmptyView(iv);
         // mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
@@ -185,7 +211,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mListView.addFooterView(mFootView);
+//            mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
             // mLoadDataEngine.setLoadingDialog(context);
@@ -198,7 +224,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-                pb.setVisibility(View.GONE);
+//                pb.setVisibility(View.GONE);
                 mListView.onLoadMoreComplete();
                 if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                     mListView.setCanLoadMore(false);
@@ -221,7 +247,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                     // loadFinishUpdateView();
 
                 } else {
-                    iv.setText("暂无研报");
+//                    iv.setText("暂无研报");
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -236,7 +262,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         mOptionMarketAdapter.notifyDataSetChanged();
         isLoadingMore = false;
         if (mListView != null) {
-            mListView.removeFooterView(mFootView);
+//            mListView.removeFooterView(mFootView);
         }
     }
 

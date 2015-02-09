@@ -15,7 +15,12 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.NoticesActivity;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
+import com.dkhs.portfolio.ui.ReportForOneListActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
+import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
+import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
+import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -101,7 +106,24 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
 
         mListView.setEmptyView(iv);
         // mListView.addFooterView(mFootView);
-        mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+        switch (type) {
+            case OpitionNewsEngineImple.NEWS_GROUP_TWO:
+                mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
+                break;
+            case OpitionNewsEngineImple.NEWSFOREACH:
+                mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
+                break;
+            case OpitionNewsEngineImple.NEWS_OPITION_FOREACH:
+                mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
+                break;
+            case OpitionNewsEngineImple.GROUP_FOR_ONE:
+                mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
+                break;
+            default:
+                mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
+                break;
+        }
+        
         mListView.setAdapter(mOptionMarketAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
@@ -127,33 +149,71 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             try {
                 String name = "";
+                Intent intent;
                 switch (type) {
-                    case 0:
-                        Intent intentforList = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
+                    case OpitionNewsEngineImple.NEWSALL:
+                        intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
                                 .getSymbol()
-                                + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
-                        startActivity(intentforList);
+                            + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
+                        startActivity(intent);
+                        break;
+                    case OpitionNewsEngineImple.NEWS_GROUP:
+                        if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+
+                            intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
+                                    .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), vo.getContentSubType());
+                        } else {
+                            intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                        }
+                        startActivity(intent);
+                        break;
+                    case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
+                        if(vo.getContentType().equals("20")){
+                            intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
+                                    .getSymbol()
+                                    + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
+                            startActivity(intent);
+                        }else{
+                            if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                                intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
+                                        .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), vo.getContentSubType());
+                            } else {
+                                intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                            }
+                            startActivity(intent);
+                        }
+                        
                         break;
                     default:
                         try {
                             switch (type) {
                                 case 1:
                                     name = "公告正文";
+                                    if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                                        intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name, mDataList
+                                                .get(position).getSymbols().get(0).getAbbrName(),
+                                                mDataList.get(position).getSymbols().get(0).getId());
+                                        startActivity(intent);
+                                    } else {
+                                        intent = NewsActivity
+                                                .newIntent(context, mDataList.get(position).getId(), name, null, null);
+                                        startActivity(intent);
+                                    }
                                     break;
 
                                 default:
+                                    name = "研报正文";
+                                    if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
+                                                mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
+                                                        .getSymbols().get(0).getAbbrName());
+                                    } else {
+                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null);
+                                    }
+                                    startActivity(intent);
                                     break;
                             }
-                            if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                                Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name, mDataList
-                                        .get(position).getSymbols().get(0).getAbbrName(),
-                                        mDataList.get(position).getSymbols().get(0).getId());
-                                startActivity(intent);
-                            } else {
-                                Intent intent = NewsActivity
-                                        .newIntent(context, mDataList.get(position).getId(), name, null, null);
-                                startActivity(intent);
-                            }
+                            
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
