@@ -26,6 +26,7 @@
             android:id="@+id/tv_stock_num"
             style="@style/hw_wrap"
             android:layout_below="@+id/tv_stock_name"
+            android:singleLine="true"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
     </RelativeLayout>

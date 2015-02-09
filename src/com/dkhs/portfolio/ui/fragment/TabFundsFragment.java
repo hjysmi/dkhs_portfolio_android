@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,6 +25,8 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
+import com.dkhs.portfolio.ui.EditTabFundActivity;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -172,6 +175,12 @@ public class TabFundsFragment extends BaseFragment {
             getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
         }
 
+    }
+
+    public void editFund() {
+        if (!mDataList.isEmpty()) {
+            startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
+        }
     }
 
     public void refresh() {

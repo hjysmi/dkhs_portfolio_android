@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.OptionEditActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
@@ -112,7 +113,6 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                // PromptManager.showToast("创建我的基金");
                 tabFundsFragment.addItem();
             }
         });
@@ -120,9 +120,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                // Intent intent = new Intent(getActivity(), OptionEditActivity.class);
-                // startActivity(intent);
-                PromptManager.showToast("编辑我的基金");
+                tabFundsFragment.editFund();
             }
         });
     }
