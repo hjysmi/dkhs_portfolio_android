@@ -67,7 +67,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void initView(View view) {
         Button addButton = getRightButton();
-        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.menu_icon_setting),
+        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_setting_selecter),
                 null, null, null);
         addButton.setOnClickListener(new OnClickListener() {
 

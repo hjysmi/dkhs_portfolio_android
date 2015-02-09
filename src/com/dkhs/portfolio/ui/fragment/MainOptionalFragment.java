@@ -71,6 +71,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        btnLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_paihang_selecter, 0, 0, 0);
         displayFragmentA();
 
     }
