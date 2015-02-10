@@ -624,10 +624,13 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             break;
                         }
                         if (i != 0) {
-                            canvas.drawLine((float) (startX + dragValue), startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
-                                    - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT + dragValue),
-                                    (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate
-                                            + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
+                            if(!(startY == mMaxPrice * rate || (null != lineEntity.getLineData().get(mDataStartIndext + i) && lineEntity.getLineData().get(mDataStartIndext + i) == 0))){
+                                canvas.drawLine((float) (startX + dragValue), startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
+                                        - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT + dragValue),
+                                        (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate
+                                                + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
+                            }
+                            
                         }
                         startX = (float) (width - 2 - (3 + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT );
                         startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
@@ -727,10 +730,13 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             break;
                         }
                         if (i != 0) {
-                            canvas.drawLine(startX + PADDING_LEFT, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width
-                                    - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f + PADDING_LEFT),
-                                    (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate
-                                            + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
+                            if(!(startY == mMaxPrice * rate || (null != lineEntity.getLineData().get(mDataStartIndext + i) && lineEntity.getLineData().get(mDataStartIndext + i) == 0))){
+                                canvas.drawLine(startX + PADDING_LEFT, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width
+                                        - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f + PADDING_LEFT),
+                                        (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate
+                                                + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
+                            }
+                            
                         }
                         startX = (float) (width - 2 - (3 + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f);
                         startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
