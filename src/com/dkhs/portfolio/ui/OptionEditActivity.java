@@ -69,7 +69,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
 
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
-            adapter = new DragListAdapter(context, forIndex(dataList), optionEditList);
+            adapter = new DragListAdapter(context, dataList, optionEditList);
             optionEditList.setAdapter(adapter);
             optionEditList.setOnItemClickListener(new OnListener());
         }
