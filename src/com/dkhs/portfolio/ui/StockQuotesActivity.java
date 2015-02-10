@@ -60,7 +60,6 @@ import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.NewsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
