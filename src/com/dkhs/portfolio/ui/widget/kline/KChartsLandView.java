@@ -1610,5 +1610,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     public void setLoadAble(boolean loadAble) {
         this.loadAble = loadAble;
     }
-
+    public void reSetdate(){
+        mShowDataNum = 50; 
+        mOHLCData.clear();
+        mDataStartIndext = 0;
+    }
 }
