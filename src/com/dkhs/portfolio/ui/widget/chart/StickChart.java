@@ -178,7 +178,11 @@ public class StickChart extends GridChart {
     public void setMACDMaxValue(){
         if(null != StickData){
             maxValue = 0;
-            for(int i = StickData.size() - mShowDate - index; i < StickData.size()-index; i++){
+            int k = mShowDate + index -1;
+            if(mShowDate > StickData.size()){
+                k = StickData.size() - 1;
+            }
+            for(int i = k; i < StickData.size() && i >= index; i--){
                 if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
                     maxValue = (float) Math.abs(StickData.get(i).getMacd());
                 }
@@ -446,7 +450,7 @@ public class StickChart extends GridChart {
             if (null != StickData) {
                 float stickX = 3 + PADDING_LEFT;
                 // 判断显示为方柱或显示为线条
-                int num = StickData.size() - mShowDate - index;
+                int num = mShowDate + index -1;
                 float highY = 0;
                 float lowY = 0;
                 float stickY = 0;
@@ -456,13 +460,13 @@ public class StickChart extends GridChart {
                 if(StickData.size() < maxStickDataNum){
                     mShowDate = maxStickDataNum;
                     stickWidth = ((super.getWidth() - PADDING_LEFT - 3- super.getAxisMarginRight()) / mShowDate) - 3;
-                    num = 0;
+                    num = StickData.size() -1;
                 }
                 Paint paint = new Paint();
                 paint.setAntiAlias(true);
                 paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                 paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
-                for (int i = num; i < StickData.size() && i < num + mShowDate; i++) {
+                for (int i = num; i < StickData.size() && i >= index && i >= 0; i--) {
                     if(i >=0){
                         OHLCEntity ohlc = StickData.get(i);
     
@@ -539,9 +543,9 @@ public class StickChart extends GridChart {
         }
         if(ismove){
             float stickWidth = ((super.getWidth() - PADDING_LEFT - 3 - super.getAxisMarginRight()) / mShowDate) - 3;
-            int selectIndext = (int) ((getWidth() - 2.0f - clickPostX - PADDING_LEFT) / (stickWidth + 3) + index);
+            int selectIndext = StickData.size() - (int)((getWidth() - 2.0f - clickPostX - PADDING_LEFT) / (stickWidth + 3) + index) - 1;
             if(StickData.size() < mShowDate){
-                selectIndext = selectIndext - (mShowDate - StickData.size());
+                selectIndext = mShowDate - selectIndext;
                 if(selectIndext < 0){
                     selectIndext = 0;
                 }
@@ -576,9 +580,9 @@ public class StickChart extends GridChart {
             Paint p = new Paint();
             p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
             Rect rect = new Rect();
-            int num = StickData.size() - 1 - index;
-            if(num < 0){
-                num = 0;
+            int num = index;
+            if(num >= StickData.size()){
+                num = StickData.size() - 1;
             }
             String k = "DIFF:" +  StringFromatUtils.get4Point((float)StickData.get(num).getDiff());
             p.getTextBounds(k, 0, k.length() , rect);
