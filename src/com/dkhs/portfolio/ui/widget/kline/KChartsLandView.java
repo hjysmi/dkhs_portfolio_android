@@ -733,6 +733,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     } else
                         text = lineEntity.getTitle() + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext));
+                    if (lineEntity.getLineData().get(selectIndext) == 0) {
+                        text = lineEntity.getTitle() + ":--";
+                    }
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));

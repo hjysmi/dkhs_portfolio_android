@@ -616,6 +616,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
                                         selectIndext - mDataStartIndext));
+                    if (lineEntity.getLineData().get(selectIndext) == 0) {
+                        text = lineEntity.getTitle() + ":--";
+                    }
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
@@ -932,6 +935,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
+                mVolumnChartView.setTouch(true);
                 ismove = true;
                 go = true;
                 currentTime = System.currentTimeMillis();
@@ -972,6 +976,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 if (null != mTouchListener) {
                     mTouchListener.loseTouching();
                 }
+                mVolumnChartView.setTouch(false);
                 if (!showDetails && go) {
                     Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
                     context.startActivity(intent);
