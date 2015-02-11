@@ -301,7 +301,9 @@ public class UIUtils {
                 volume = volume / 100000000;
                 text = new DecimalFormat("0.00").format(volume) + "亿";
             }
-
+            if(volume == 0){
+                text = "--";
+            }
         } catch (Exception e) {
 
         }

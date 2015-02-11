@@ -743,10 +743,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
                 } else {
                     if (ohlc.size() > 0) {
-                        ohlcs.add(0, ohlc.get(0));
-                        ohlcs.remove(1);
+                        /*ohlcs.add(0, ohlc.get(0));
+                        ohlcs.remove(1);*/
+                        mMyChartsView.flushFirshData(ohlc.get(0));
+                        mVolumnChartView.flushFirstData(ohlc.get(0));
                     }
-                    refreshChartsView(ohlcs);
+                    //refreshChartsView(ohlcs);
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
