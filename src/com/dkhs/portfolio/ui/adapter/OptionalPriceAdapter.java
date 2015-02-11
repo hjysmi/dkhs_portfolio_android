@@ -59,7 +59,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
         ColorStateList textCsl = null;
-        if (item.isStop||StockUitls.isDelistStock(item.list_status)) {
+        if (item.isStop || StockUitls.isDelistStock(item.list_status)) {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
         } else {
             textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
@@ -78,7 +78,13 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
             viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
-            viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            if (StockUitls.isShangZhengB(item.code)) {
+
+                viewHolder.tvIncearseValue.setText(StringFromatUtils.get3Point(item.change));
+            } else {
+
+                viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            }
         }
         if (StockUitls.isShangZhengB(item.code)) {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
