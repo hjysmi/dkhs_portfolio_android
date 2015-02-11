@@ -631,6 +631,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					for (int i = 0; i < mShowDataNum
 							&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
 						if (i != 0) {
+						    if(!(startY == mMaxPrice * rate || (null != lineEntity.getLineData().get(mDataStartIndext + i) && lineEntity.getLineData().get(mDataStartIndext + i) == 0))){
 							canvas.drawLine(
 									startX,
 									startY + DEFAULT_AXIS_TITLE_SIZE + 4,
@@ -638,6 +639,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 									(float) ((mMaxPrice - lineEntity.getLineData()
 											.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
 									paint);
+						    }
 						}
 						startX = (float) (width - 2 - (CANDLE_PADDING + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT);
 						startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
@@ -734,6 +736,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 					for (int i = 0; i < mShowDataNum
 							&& mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
 						if (i != 0) {
+						    if(!(startY == mMaxPrice * rate || (null != lineEntity.getLineData().get(mDataStartIndext + i) && lineEntity.getLineData().get(mDataStartIndext + i) == 0))){
 							canvas.drawLine(
 									startX + PADDING_LEFT,
 									startY + DEFAULT_AXIS_TITLE_SIZE + 4,
@@ -741,6 +744,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 									(float) ((mMaxPrice - lineEntity.getLineData()
 											.get(mDataStartIndext + i)) * rate + DEFAULT_AXIS_TITLE_SIZE + 4),
 									paint);
+						    }
 						}
 						startX = (float) (width - 2 - (CANDLE_PADDING + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f);
 						startY = (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i)) * rate);
@@ -1209,7 +1213,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		if (days < 2 || entityList == null || entityList.size() <= 0) {
 			return null;
 		}
-		List<Float> MAValues = new ArrayList<Float>();
+		/*List<Float> MAValues = new ArrayList<Float>();
 
 		float sum = 0;
 		float avg = 0;
@@ -1230,8 +1234,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		List<Float> result = new ArrayList<Float>();
 		for (int j = MAValues.size() - 1; j >= 0; j--) {
 			result.add(MAValues.get(j));
-		}
-		/*List<Float> result = new ArrayList<Float>();
+		}*/
+		List<Float> result = new ArrayList<Float>();
 		if(days == 5){
 		    for(int i = 0; i < entityList.size(); i++){
 		        result.add((float) entityList.get(i).getMa5());
@@ -1244,7 +1248,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 		    for(int i = 0; i < entityList.size(); i++){
                 result.add((float) entityList.get(i).getMa20());
             }
-		}*/
+		}
 		return result;
 	}
 
