@@ -932,6 +932,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
+                mVolumnChartView.setTouch(true);
                 ismove = true;
                 go = true;
                 currentTime = System.currentTimeMillis();
@@ -972,6 +973,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 if (null != mTouchListener) {
                     mTouchListener.loseTouching();
                 }
+                mVolumnChartView.setTouch(false);
                 if (!showDetails && go) {
                     Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
                     context.startActivity(intent);
