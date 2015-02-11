@@ -805,73 +805,73 @@ public class StickChart extends GridChart {
     	//}
     }
 
-    private void initMALineData() {
-        MALineEntity MA5 = new MALineEntity();
-        MA5.setTitle("MA5");
-        MA5.setLineColor(getResources().getColor(R.color.ma5_color));
-        MA5.setLineData(initMA(StickData, 5));
+    // private void initMALineData() {
+    // MALineEntity MA5 = new MALineEntity();
+    // MA5.setTitle("MA5");
+    // MA5.setLineColor(getResources().getColor(R.color.ma5_color));
+    // MA5.setLineData(initMA(StickData, 5));
+    //
+    // MALineEntity MA10 = new MALineEntity();
+    // MA10.setTitle("MA10");
+    // MA10.setLineColor(getResources().getColor(R.color.ma10_color));
+    // MA10.setLineData(initMA(StickData, 10));
+    //
+    // MALineEntity MA20 = new MALineEntity();
+    // MA20.setTitle("MA20");
+    // MA20.setLineColor(getResources().getColor(R.color.ma20_color));
+    // MA20.setLineData(initMA(StickData, 20));
+    //
+    // MALineData = new ArrayList<MALineEntity>();
+    // MALineData.add(MA5);
+    // MALineData.add(MA10);
+    // MALineData.add(MA20);
+    //
+    // }
 
-        MALineEntity MA10 = new MALineEntity();
-        MA10.setTitle("MA10");
-        MA10.setLineColor(getResources().getColor(R.color.ma10_color));
-        MA10.setLineData(initMA(StickData, 10));
-
-        MALineEntity MA20 = new MALineEntity();
-        MA20.setTitle("MA20");
-        MA20.setLineColor(getResources().getColor(R.color.ma20_color));
-        MA20.setLineData(initMA(StickData, 20));
-
-        MALineData = new ArrayList<MALineEntity>();
-        MALineData.add(MA5);
-        MALineData.add(MA10);
-        MALineData.add(MA20);
-
-    }
-
-    /**
-     * 初始化MA值，从数组的最后一个数据开始初始化
-     * 
-     * @param entityList
-     * @param days
-     * @return
-     */
-    private List<Float> initMA(List<OHLCEntity> entityList, int days) {
-        List<Float> result = null;
-        try {
-            if (days < 2 || entityList == null || entityList.size() <= 0) {
-                return null;
-            }
-            List<Float> MAValues = new ArrayList<Float>();
-
-            float sum = 0;
-            float avg = 0;
-            for (int i = entityList.size() - 1; i >= 0; i--) {
-            	sum = 0;
-            	avg = 0;
-            	if (i - days >= -1) {
-            		for(int k = 0; k < days && i-k < entityList.size() -1 && i-k >= 0; k++){
-            		    if(null == entityList.get(i-k)){
-            		        break;
-            		    }
-            			sum = (float) (sum + entityList.get(i-k).getHigh());
-            		}
-            		avg = sum / days;
-            	} else{
-            		break;
-            	}
-            	MAValues.add(avg);
-            }
-
-            result = new ArrayList<Float>();
-            for (int j = MAValues.size() - 1; j >= 0; j--) {
-                result.add(MAValues.get(j));
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return result;
-    }
+    // /**
+    // * 初始化MA值，从数组的最后一个数据开始初始化
+    // *
+    // * @param entityList
+    // * @param days
+    // * @return
+    // */
+    // private List<Float> initMA(List<OHLCEntity> entityList, int days) {
+    // List<Float> result = null;
+    // try {
+    // if (days < 2 || entityList == null || entityList.size() <= 0) {
+    // return null;
+    // }
+    // List<Float> MAValues = new ArrayList<Float>();
+    //
+    // float sum = 0;
+    // float avg = 0;
+    // for (int i = entityList.size() - 1; i >= 0; i--) {
+    // sum = 0;
+    // avg = 0;
+    // if (i - days >= -1) {
+    // for(int k = 0; k < days && i-k < entityList.size() -1 && i-k >= 0; k++){
+    // if(null == entityList.get(i-k)){
+    // break;
+    // }
+    // sum = (float) (sum + entityList.get(i-k).getHigh());
+    // }
+    // avg = sum / days;
+    // } else{
+    // break;
+    // }
+    // MAValues.add(avg);
+    // }
+    //
+    // result = new ArrayList<Float>();
+    // for (int j = MAValues.size() - 1; j >= 0; j--) {
+    // result.add(MAValues.get(j));
+    // }
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // return result;
+    // }
 
     // ////////////属�?GetterSetter/////////////////
 
