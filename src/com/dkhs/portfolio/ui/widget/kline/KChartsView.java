@@ -616,6 +616,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
                                         selectIndext - mDataStartIndext));
+                    if (lineEntity.getLineData().get(selectIndext) == 0) {
+                        text = lineEntity.getTitle() + ":--";
+                    }
                     Paint p = new Paint();
                     Rect rect = new Rect();
                     p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
