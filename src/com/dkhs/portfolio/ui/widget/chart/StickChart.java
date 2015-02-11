@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class StickChart extends GridChart {
 
@@ -68,6 +69,7 @@ public class StickChart extends GridChart {
     // ///////////////�??函数///////////////
     private int mShowDate;
     private double dragValue = 0;
+    private boolean isTouch = false;
     public StickChart(Context context) {
         super(context);
     }
@@ -106,6 +108,9 @@ public class StickChart extends GridChart {
     @Override
     protected void onDraw(Canvas canvas) {
         //currentIndex = index;
+        if(index == 0 && !isTouch){
+            index = currentIndex;
+        }
         switch (checkType) {
             case CHECK_COLUME:
                 setMaxValue();
@@ -493,6 +498,13 @@ public class StickChart extends GridChart {
                         }
                         // 绘制蜡烛
                         if (stickWidth >= 2f) {
+                            if(lowY - highY < 2){
+                                if(ohlc.getMacd() < 0){
+                                    lowY = lowY + 2;
+                                }else{
+                                    highY = highY - 2;
+                                }
+                            }
                             canvas.drawRect((float)(stickX + dragValue), highY + mTitleHeight, (float)(stickX + stickWidth + dragValue), lowY + mTitleHeight,
                                     mPaintStick);
                         } else {
@@ -753,7 +765,13 @@ public class StickChart extends GridChart {
             super.postInvalidate();
         }
     }*/
-
+    public void flushFirstData(OHLCEntity mOHLCEntity){
+        if(null != StickData && StickData.size() > 0){
+            StickData.add(0, mOHLCEntity);
+            StickData.remove(1);
+            postInvalidate();
+        }
+    }
     // Push数据绘制K线图
     public void addData(List<OHLCEntity> list,int page) {
     	OHLCEntity entity;
@@ -937,6 +955,14 @@ public class StickChart extends GridChart {
 
     public void setDragValue(double dragValue) {
         this.dragValue = dragValue;
+    }
+
+    public boolean isTouch() {
+        return isTouch;
+    }
+
+    public void setTouch(boolean isTouch) {
+        this.isTouch = isTouch;
     }
     
 }
