@@ -65,9 +65,11 @@ public class OptionMarketNewsFragment extends Fragment implements OnLoadMoreList
         mDataList = new ArrayList<OptionNewsBean>();
         iv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!(null != mDataList && mDataList.size() > 0)) {
+        // if (!(null != mDataList && mDataList.size() > 0)) {
+        if (mDataList.isEmpty() && null != pb) {
             pb.setVisibility(View.VISIBLE);
         }
+        // }
         // iv.setText("暂无公告");
         Bundle bundle = getArguments();
         if (bundle != null) {
