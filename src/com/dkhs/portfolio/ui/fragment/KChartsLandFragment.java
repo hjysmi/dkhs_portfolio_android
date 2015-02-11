@@ -779,6 +779,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             case R.id.klin_uncheck:
                 if(!tvUnCheck.isSelected()){
                     page = 1;
+                    mMyChartsView.reSetdate();
                     tvUnCheck.setSelected(true);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(false);
@@ -798,6 +799,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             case R.id.klin_before_check:
                 if(!tvBeforeCheck.isSelected()){
                     page = 1;
+                    mMyChartsView.reSetdate();
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(true);
                     tvAfterCheck.setSelected(false);
@@ -817,6 +819,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             case R.id.klin_after_check:
                 if(!tvAfterCheck.isSelected()){
                     page = 1;
+                    mMyChartsView.reSetdate();
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
