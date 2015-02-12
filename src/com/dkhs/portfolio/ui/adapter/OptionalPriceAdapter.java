@@ -48,7 +48,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             viewHolder.tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
             viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
             viewHolder.tvPercentValue = (TextView) convertView.findViewById(R.id.tv_percent_value);
-            // viewHolder.tvIncearseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+            viewHolder.tvIncearseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
 
             convertView.setTag(viewHolder);
         } else {
@@ -80,7 +80,13 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
             viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
             viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
-            // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            if (StockUitls.isShangZhengB(item.code)) {
+
+                viewHolder.tvIncearseValue.setText(StringFromatUtils.get3Point(item.change));
+            } else {
+
+                viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
+            }
         }
         if (StockUitls.isShangZhengB(item.code)) {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
@@ -101,6 +107,6 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         TextView tvStockNum;
         TextView tvCurrentValue;
         TextView tvPercentValue;
-        // TextView tvIncearseValue;
+        TextView tvIncearseValue;
     }
 }

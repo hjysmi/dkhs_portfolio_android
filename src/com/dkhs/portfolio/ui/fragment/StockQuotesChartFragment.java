@@ -333,11 +333,9 @@ public class StockQuotesChartFragment extends Fragment {
             averageLine.setLineData(averagelineData);
 
             lines.add(0, fenshiPiceLine);
-            if (null != mStockBean && StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
-
-            } else {
-
+            if (null != mStockBean && !StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
                 lines.add(averageLine);
+
             }
             mMaChart.setLineData(lines);
         }

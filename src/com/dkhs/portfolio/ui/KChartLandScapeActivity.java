@@ -290,7 +290,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             if (null != object) {
                 mStockQuotesBean = object;
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
-                landKlinTextTitle.setText(object.getName());
+                //landKlinTextTitle.setText(object.getName());
                 landKlinTextPrice.setText(object.getCurrent() + "");
                 landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
                 landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
