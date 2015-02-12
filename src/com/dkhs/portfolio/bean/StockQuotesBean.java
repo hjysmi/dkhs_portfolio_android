@@ -44,6 +44,9 @@ public class StockQuotesBean {
     // 0开市 1休市 2闭市
     private String tradetile;
 
+    // 0为false,1为true
+    private int is_stop;
+
     // 成交量
     private float volume;
     // 成交额
@@ -339,6 +342,14 @@ public class StockQuotesBean {
             return "集合竞价";
         }
         return "";
+    }
+
+    public int getIs_stop() {
+        return is_stop;
+    }
+
+    public void setIs_stop(int is_stop) {
+        this.is_stop = is_stop;
     }
 
 }

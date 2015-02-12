@@ -18,7 +18,6 @@ import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
-import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentreportOneList;
 import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
