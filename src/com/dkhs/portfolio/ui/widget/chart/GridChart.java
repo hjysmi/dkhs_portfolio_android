@@ -331,7 +331,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         // super.invalidate();
         notifyEventAll(this);
         postInvalidate();
-        super.invalidate();
+        //super.invalidate();
 
     }
 

@@ -51,7 +51,7 @@ public class StickChart extends GridChart {
     private int longtitudeNum = DEFAULT_LONGTITUDE_NUM;
     
     /** K线数据 */
-    private List<OHLCEntity> StickData;
+    private ArrayList<OHLCEntity> StickData;
 
     /** 图表中�?��蜡烛线 */
     private int maxStickDataNum;
@@ -182,25 +182,31 @@ public class StickChart extends GridChart {
         return (float) tmp;
     }
     public void setMACDMaxValue(){
-        if(null != StickData){
-            maxValue = 0;
-            int k = mShowDate + index -1;
-            if(mShowDate > StickData.size()){
-                k = StickData.size() - 1;
+        try {
+            if(null != StickData){
+                maxValue = 0;
+                int k = mShowDate + index -1;
+                if(mShowDate > StickData.size()){
+                    k = StickData.size() - 1;
+                }
+                StickData.trimToSize();
+                for(int i = k; i < StickData.size() && i >= index && i >= 0; i--){
+                    if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
+                        maxValue = (float) Math.abs(StickData.get(i).getMacd());
+                    }
+                    if(i >=0 && Math.abs(StickData.get(i).getDiff()) > maxValue){
+                        maxValue = (float) Math.abs(StickData.get(i).getDiff());
+                    }
+                    if(i >=0 && Math.abs(StickData.get(i).getDea()) > maxValue){
+                        maxValue = (float) Math.abs(StickData.get(i).getDea());
+                    }
+                }
+                minValue = -maxValue;
+                //loseValue = -maxValue;
             }
-            for(int i = k; i < StickData.size() && i >= index && i >= 0; i--){
-                if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
-                    maxValue = (float) Math.abs(StickData.get(i).getMacd());
-                }
-                if(i >=0 && Math.abs(StickData.get(i).getDiff()) > maxValue){
-                    maxValue = (float) Math.abs(StickData.get(i).getDiff());
-                }
-                if(i >=0 && Math.abs(StickData.get(i).getDea()) > maxValue){
-                    maxValue = (float) Math.abs(StickData.get(i).getDea());
-                }
-            }
-            minValue = -maxValue;
-            //loseValue = -maxValue;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     /**
@@ -783,7 +789,7 @@ public class StickChart extends GridChart {
         }
     }
     // Push数据绘制K线图
-    public void addData(List<OHLCEntity> list,int page) {
+    public void addData(ArrayList<OHLCEntity> list,int page) {
     	OHLCEntity entity;
     	this.maxValue = 0;
     	//if(page == 1){
@@ -889,7 +895,7 @@ public class StickChart extends GridChart {
         return StickData;
     }
 
-    public void setStickData(List<OHLCEntity> stickData,int page) {
+    public void setStickData(ArrayList<OHLCEntity> stickData,int page) {
         // �?��已有数据
         if (null != StickData) {
            // if(!(page > 1)){
@@ -901,7 +907,7 @@ public class StickChart extends GridChart {
         //}
         //initMALineData();
     }
-    public void setStickData(List<OHLCEntity> stickData) {
+    public void setStickData(ArrayList<OHLCEntity> stickData) {
         // �?��已有数据
         if (null != StickData) {
             StickData.clear();

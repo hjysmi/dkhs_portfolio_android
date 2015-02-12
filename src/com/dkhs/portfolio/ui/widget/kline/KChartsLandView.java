@@ -1113,6 +1113,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             mTouchListener.loseTouching();
                         }
                     }
+                    /**
+                     * 进行拖动K线蜡烛
+                     */
                     if (!go && !showDetails) {
                         ismove = false;
                         if (event.getX() - PADDING_LEFT >= 0) {
@@ -1286,12 +1289,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
      * 
      * @return
      */
-    public List<OHLCEntity> getDisplayOHLCEntitys() {
+    public ArrayList<OHLCEntity> getDisplayOHLCEntitys() {
         if (mOHLCData == null || mOHLCData.size() == 0) {
             return null;
         }
 
-        List<OHLCEntity> result = new ArrayList<OHLCEntity>();
+        ArrayList<OHLCEntity> result = new ArrayList<OHLCEntity>();
         for (int i = 0; i < mOHLCData.size(); i++) {
             OHLCEntity entity = mOHLCData.get(i);
             result.add(entity);
