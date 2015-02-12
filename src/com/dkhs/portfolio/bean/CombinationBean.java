@@ -29,7 +29,7 @@ public class CombinationBean implements Serializable {
     private static final long serialVersionUID = 12959959598L;
     private String id;
     private String name;
-    private CombinationUser createUser;
+    private CombinationUser user;
     private String description;
     // private float percent;
     @SerializedName("cumulative")
@@ -150,18 +150,10 @@ public class CombinationBean implements Serializable {
         this.ispublics = ispublics;
     }
 
-    public CombinationUser getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(CombinationUser createUser) {
-        this.createUser = createUser;
-    }
-
     public static CombinationBean parse(ChampionBean cBean) {
         CombinationBean bean = new CombinationBean();
         bean.ispublic = cBean.getIs_public();
-        bean.createUser = cBean.getUser();
+        bean.user = cBean.getUser();
         bean.createTime = cBean.getCreated_at();
         bean.id = cBean.getId();
         bean.description = cBean.getDescription();
@@ -225,6 +217,14 @@ public class CombinationBean implements Serializable {
         } else {
             return false;
         }
+    }
+
+    public CombinationUser getUser() {
+        return user;
+    }
+
+    public void setUser(CombinationUser user) {
+        this.user = user;
     }
 
 }
