@@ -273,7 +273,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
     private void refreshVolumnCharts() {
         try {
-            List<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+            ArrayList<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
             if (volumns != null && volumns.size() > 0) {
                 mVolumnChartView.setStickData(volumns,page);
                 mVolumnChartView.postInvalidate();
@@ -290,7 +290,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
      * @param ohlc
      * @return
      */
-    private List<OHLCEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
+    private ArrayList<OHLCEntity> getVolumnFromOHLC(ArrayList<OHLCEntity> ohlc) {
         try {
             if (ohlc == null || ohlc.size() == 0) {
                 return null;
@@ -786,7 +786,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(false);
                     ohlcs.clear();
-                    List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+                    ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
                     mVolumnChartView.setStickData(volumns,page);
                     mVolumnChartView.postInvalidate();
                     refreshChartsView(ohlcs);
@@ -807,7 +807,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvAfterCheck.setSelected(false);
                     ohlcs.clear();
                     refreshChartsView(ohlcs);
-                    List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+                    ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
                     mVolumnChartView.setStickData(volumns,page);
                     mVolumnChartView.postInvalidate();
                     pb.setVisibility(View.VISIBLE);
@@ -827,7 +827,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvAfterCheck.setSelected(true);
                     ohlcs.clear();
                     refreshChartsView(ohlcs);
-                    List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+                    ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
                     mVolumnChartView.setStickData(volumns,page);
                     mVolumnChartView.postInvalidate();
                     pb.setVisibility(View.VISIBLE);

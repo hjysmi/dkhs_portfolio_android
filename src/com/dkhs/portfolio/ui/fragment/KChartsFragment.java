@@ -233,7 +233,7 @@ public class KChartsFragment extends Fragment {
 
     private void refreshVolumnCharts() {
         try {
-            List<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+            ArrayList<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
             if (volumns != null && volumns.size() > 0) {
                 mVolumnChartView.setStickData(volumns);
                 mVolumnChartView.postInvalidate();
@@ -250,7 +250,7 @@ public class KChartsFragment extends Fragment {
      * @param ohlc
      * @return
      */
-    private List<OHLCEntity> getVolumnFromOHLC(List<OHLCEntity> ohlc) {
+    private ArrayList<OHLCEntity> getVolumnFromOHLC(ArrayList<OHLCEntity> ohlc) {
         try {
             if (ohlc == null || ohlc.size() == 0) {
                 return null;
@@ -304,14 +304,19 @@ public class KChartsFragment extends Fragment {
     }
 
     public void regetDate(String checkValue) {
-        setCheckValue(checkValue);
-        ohlcs.clear();
-        refreshChartsView(ohlcs);
-        List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
-        mVolumnChartView.setStickData(volumns);
-        mVolumnChartView.postInvalidate();
-        pb.setVisibility(View.VISIBLE);
-        getOHLCDatas();
+        try {
+            setCheckValue(checkValue);
+            ohlcs.clear();
+            refreshChartsView(ohlcs);
+            ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+            mVolumnChartView.setStickData(volumns);
+            mVolumnChartView.postInvalidate();
+            pb.setVisibility(View.VISIBLE);
+            getOHLCDatas();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     /**
