@@ -55,14 +55,14 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
 
-    private final String typeCurrentUp = "current";
-    private final String typePercentageUp = "percentage";
+    private final String TYPE_CURRENTUP = "current";
+    private final String TYPE_PERCENTAGEUP = "percentage";
     // 涨跌
-    private final String typeChangeUP = "change";
-    private final String typeCurrentDown = "-current";
-    private final String typePercentageDown = "-percentage";
+    private final String TYPE_CHANGEUP = "change";
+    private final String TYPE_CURRENTDOWN = "-current";
+    private final String TYPE_PERCENTAGEDOWN = "-percentage";
     // 涨跌
-    private final String typeChangeDown = "-change";
+    private final String TYPE_CHANGEDOWN = "-change";
 
     // 5s
     private static final long mPollRequestTime = 1000 * 30;
@@ -242,7 +242,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            if (orderType == typeChangeDown || orderType == typeCurrentDown || orderType == typePercentageDown) {
+            if (orderType == TYPE_CHANGEDOWN || orderType == TYPE_CURRENTDOWN || orderType == TYPE_PERCENTAGEDOWN) {
                 setUpType(currentSelectView);
             } else {
                 setDownType(currentSelectView);
@@ -253,22 +253,22 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
 
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
-            orderType = typeCurrentDown;
+            orderType = TYPE_CURRENTDOWN;
         } else if (currentSelectView == tvChange) {
-            orderType = typeChangeDown;
+            orderType = TYPE_CHANGEDOWN;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = typePercentageDown;
+            orderType = TYPE_PERCENTAGEDOWN;
         }
         setDrawableDown(currentSelectView);
     }
 
     private void setUpType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
-            orderType = typeCurrentUp;
+            orderType = TYPE_CURRENTUP;
         } else if (currentSelectView == tvChange) {
-            orderType = typeChangeUP;
+            orderType = TYPE_CHANGEUP;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = typePercentageUp;
+            orderType = TYPE_PERCENTAGEUP;
         }
         setDrawableUp(currentSelectView);
     }

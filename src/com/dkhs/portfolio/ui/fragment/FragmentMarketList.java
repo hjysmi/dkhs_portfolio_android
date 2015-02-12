@@ -215,19 +215,22 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             if (isRefresh) {
                 // mDataList.clear();
                 isRefresh = false;
-            } else {
+            }
+            if (isLoadingMore) {
 
                 mListView.setSelection(1);
             }
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             }
+            isLoadingMore = false;
 
         }
 
         @Override
         public void loadFail(ErrorBundle error) {
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            isLoadingMore = false;
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             }
@@ -521,7 +524,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             // if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
             // mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             // }
-
+            isLoadingMore = true;
             cancelHttpHandler();
             mHttpHandler = mLoadDataEngine.loadMore();
             if (null != loadingFinishListener) {

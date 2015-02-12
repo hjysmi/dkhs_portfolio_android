@@ -199,23 +199,25 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             float top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin;
             float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
             float bottom = 5.0f + 9 * textTextHeight + textMargin * 10;
-            if (mOHLCData.size() < MIN_CANDLE_NUM) {
+            /*if (mOHLCData.size() < MIN_CANDLE_NUM) {
                 if (mStartX - addNum * (mCandleWidth + CANDLE_PADDING) < (width / 2.0f + PADDING_LEFT)) {
                     right = width - 12.0f + PADDING_LEFT;
                     left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
                 }
-            } else {
-                if (mStartX < width / 2.0f) {
-                    right = width - 12.0f + PADDING_LEFT;
-                    left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
-                }
+            } else {*/
+            if (mStartX < width / 2.0f) {
+                right = width - 12.0f + PADDING_LEFT;
+                left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
             }
+            //}
 
-            int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
-
+            int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);            
             if (mOHLCData.size() < MIN_CANDLE_NUM) {
                 selectIndext = (int) ((width - 2.0f - mStartX - addNum * (mCandleWidth + CANDLE_PADDING))
                         / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
+            }
+            if(selectIndext < 0){
+                selectIndext = 0;
             }
             double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
             float cl = (float) ((mMaxPrice - mOHLCData.get(selectIndext).getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
@@ -268,7 +270,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
             // paint.setAlpha(150);
             e.setLocation(startX, startX);
-            mVolumnChartView.onSet(e, ismove, mDataStartIndext);
+            mVolumnChartView.setIndex(mDataStartIndext);
+            mVolumnChartView.onSet(e, ismove);
             canvas.drawLine(startX + PADDING_LEFT, 2.0f + DEFAULT_AXIS_TITLE_SIZE, startX + PADDING_LEFT,
                     UPER_CHART_BOTTOM, paint);
             canvas.drawLine(PADDING_LEFT, cl, this.getWidth(), cl, paint);// 十字光标横线
@@ -649,7 +652,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 }
                 if (null != e && !showDetails) {
                     e.setLocation(getWidth() - 6, 0);
-                    mVolumnChartView.onSet(e, ismove, mDataStartIndext);
+                    mVolumnChartView.setIndex(mDataStartIndext);
+                    mVolumnChartView.onSet(e, ismove);
                 }
             } else {
                 int addNum = MIN_CANDLE_NUM - mOHLCData.size();
@@ -719,7 +723,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                     int selectIndext = (int) ((width - 2.0f - mStartX - mCandleWidth * addNum - CANDLE_PADDING * addNum)
                             / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
-
+                    if(selectIndext < 0){
+                        selectIndext = 0;
+                    }
                     mVolumnChartView.setCurrentIndex(selectIndext);
                     if (selectIndext - mDataStartIndext > lineEntity.getLineData().size() - 1
                             || selectIndext - mDataStartIndext < 0) {
@@ -762,7 +768,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 }
                 if (null != e && !showDetails) {
                     e.setLocation(getWidth() - 6, 0);
-                    mVolumnChartView.onSet(e, ismove, mDataStartIndext);
+                    mVolumnChartView.setIndex(mDataStartIndext);
+                    mVolumnChartView.onSet(e, ismove);
                 }
             }
         } catch (Exception e) {
