@@ -178,9 +178,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         context = this;
         layouts = this;
         checkValue = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX);
-        if(null == checkValue){
+        if (null == checkValue) {
             checkValue = "0";
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
         }
         PortfolioApplication.getInstance().setCheckValue(checkValue);
         // DisplayMetrics dm = new DisplayMetrics();
@@ -641,6 +641,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private ColorStateList getTextColor(float value) {
+        if (value == 0 || mStockQuotesBean.getIs_stop() == 1) {
+            return (ColorStateList) getResources().getColorStateList(R.color.theme_color);
+        }
         if (value < 0) {
             return (ColorStateList) getResources().getColorStateList(R.color.green);
         }
@@ -704,7 +707,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     break;
                 case REQUEST_CHECK:
                     checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
                     reGetDate();
                     break;
             }
@@ -932,7 +935,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (PortfolioApplication.getInstance().isChange()) {
             PortfolioApplication.getInstance().setChange(false);
             checkValue = PortfolioApplication.getInstance().getCheckValue();
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX,checkValue);
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
             reGetDate();
         }
         if (PortfolioApplication.getInstance().getkLinePosition() != -1) {

@@ -286,6 +286,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mListView.onLoadMoreComplete();
             mSwipeLayout.setRefreshing(false);
             pb.setVisibility(View.GONE);
+
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
             }
@@ -305,7 +306,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 // loadFinishUpdateView();
                 return;
             }
-            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
+            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE || !isLoadingMore) {
                 mDataList.clear();
                 isRefresh = false;
 
@@ -321,7 +322,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             } else {
                 hideNotice();
             }
-
+            isLoadingMore = false;
         }
 
         @Override
@@ -336,6 +337,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
             }
+            isLoadingMore = false;
         }
 
     };
@@ -395,6 +397,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             loadingFinishListener.startLoadingData();
         }
         mLoadDataEngine.loadData();
+        // isRefresh = true;
 
     }
 
@@ -635,6 +638,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         super.setUserVisibleHint(isVisibleToUser);
     }
 
+    // private boolean isLoadMore;
+
     @Override
     public void onLoadMore() {
         if (null != mLoadDataEngine) {
@@ -650,6 +655,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             mLoadDataEngine.loadMore();
+            isLoadingMore = true;
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }

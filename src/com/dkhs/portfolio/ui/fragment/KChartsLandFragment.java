@@ -743,10 +743,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,((KChartLandScapeActivity) getActivity()).getCheckValue(),page);
                 } else {
                     if (ohlc.size() > 0) {
-                        ohlcs.add(0, ohlc.get(0));
-                        ohlcs.remove(1);
+                        /*ohlcs.add(0, ohlc.get(0));
+                        ohlcs.remove(1);*/
+                        mMyChartsView.flushFirshData(ohlc.get(0));
+                        mVolumnChartView.flushFirstData(ohlc.get(0));
                     }
-                    refreshChartsView(ohlcs);
+                    //refreshChartsView(ohlcs);
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -779,6 +781,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             case R.id.klin_uncheck:
                 if(!tvUnCheck.isSelected()){
                     page = 1;
+                    mMyChartsView.reSetdate();
                     tvUnCheck.setSelected(true);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(false);
@@ -798,6 +801,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             case R.id.klin_before_check:
                 if(!tvBeforeCheck.isSelected()){
                     page = 1;
+                    mMyChartsView.reSetdate();
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(true);
                     tvAfterCheck.setSelected(false);
@@ -817,6 +821,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             case R.id.klin_after_check:
                 if(!tvAfterCheck.isSelected()){
                     page = 1;
+                    mMyChartsView.reSetdate();
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
