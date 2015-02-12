@@ -208,22 +208,25 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
                 bottom = 5.0f + 9 * textTextHeight + textMargin * 10;
             }
-            if (mOHLCData.size() < MIN_CANDLE_NUM) {
+            /*if (mOHLCData.size() < MIN_CANDLE_NUM) {
                 if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f + PADDING_LEFT)) {
                     right = width - 12.0f + PADDING_LEFT;
                     left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
                 }
-            } else {
+            } else {*/
                 if (mStartX < width / 2.0f) {
                     right = width - 12.0f + PADDING_LEFT;
                     left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
                 }
-            }
+            //}
 
             int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
-
+            
             if (mOHLCData.size() < MIN_CANDLE_NUM) {
                 selectIndext = (int) ((width - 2.0f - mStartX - addNum * (mCandleWidth + 3)) / (mCandleWidth + 3) + mDataStartIndext);
+            }
+            if(selectIndext < 0){
+                selectIndext = 0;
             }
             double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
             float cl = (float) ((mMaxPrice - mOHLCData.get(selectIndext).getClose()) * rate + DEFAULT_AXIS_TITLE_SIZE + 4);
@@ -275,7 +278,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             paint.setAntiAlias(true);
             // paint.setAlpha(150);
             e.setLocation(startX, startX);
-            mVolumnChartView.onSet(e, ismove, mDataStartIndext);
+            mVolumnChartView.setIndex(mDataStartIndext);
+            mVolumnChartView.onSet(e, ismove);
             canvas.drawLine(startX + PADDING_LEFT, 2.0f + DEFAULT_AXIS_TITLE_SIZE, startX + PADDING_LEFT,
                     UPER_CHART_BOTTOM, paint);
             canvas.drawLine(PADDING_LEFT, cl, this.getWidth(), cl, paint);// 十字光标横线
@@ -657,7 +661,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 }
                 if (null != e && !showDetails) {
                     e.setLocation(getWidth() - 3 - PADDING_LEFT, 0);
-                    mVolumnChartView.onSet(e, ismove, mDataStartIndext);
+                    mVolumnChartView.setIndex(mDataStartIndext);
+                    mVolumnChartView.onSet(e, ismove);
                 }
             } else {
                 int addNum = MIN_CANDLE_NUM - mOHLCData.size();
@@ -726,13 +731,16 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     int selectIndext = (int) ((width - CANDLE_PADDING - mStartX - mCandleWidth * addNum - CANDLE_PADDING
                             * addNum)
                             / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
-
+                    if(selectIndext < 0){
+                        selectIndext = 0;
+                    }
                     mVolumnChartView.setCurrentIndex(selectIndext);
                     if (selectIndext > lineEntity.getLineData().size() - 1 || selectIndext < 0) {
                         text = lineEntity.getTitle() + ":--";
-                    } else
+                    } else{
                         text = lineEntity.getTitle() + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext));
+                    }
                     if (lineEntity.getLineData().get(selectIndext) == 0) {
                         text = lineEntity.getTitle() + ":--";
                     }
@@ -742,8 +750,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     p.getTextBounds(text, 0, text.length(), rect);
                     if (j == 0) {
                         wid = CANDLE_PADDING;
-                    } else {
-                        // wid = 2 + rect.width()*2/3 + wid + 5;
                     }
                     canvas.drawText(text, wid + PADDING_LEFT, DEFAULT_AXIS_TITLE_SIZE, paint);
                     wid = wid + 32 + rect.width();
@@ -772,7 +778,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 }
                 if (null != e && !showDetails) {
                     e.setLocation(getWidth() - 3 - PADDING_LEFT, 0);
-                    mVolumnChartView.onSet(e, ismove, mDataStartIndext);
+                    mVolumnChartView.setIndex(mDataStartIndext);
+                    mVolumnChartView.onSet(e, ismove);
                 }
             }
         } catch (Exception e) {
@@ -1148,7 +1155,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                          */
                         setCurrentData();
                         postInvalidate();
-                        mVolumnChartView.onSet(e, false, mDataStartIndext);
+                        mVolumnChartView.onSet(e, false);
+                        mVolumnChartView.setIndex(mDataStartIndext);
                     }
                     if (showDetails) {
                         if (null != mTouchListener) {
@@ -1162,12 +1170,18 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         postInvalidate();
                     }
                 } else if (event.getPointerCount() > 1 && !showDetails) {
+                    //缩放K线显示条数
                     ismove = false;
                     mShowDataNum = (int) (currentShow - (Math.abs(event.getX(0)
                             - event.getX(event.getPointerCount() - 1)) - longs)
-                            / (mCandleWidth + 3));
-                    if (mShowDataNum < 50) {
-                        mShowDataNum = 50;
+                            / (mCandleWidth + CANDLE_PADDING));
+                    //设置最少显示蜡烛数
+                    if (mShowDataNum < MIN_CANDLE_NUM) {
+                        mShowDataNum = MIN_CANDLE_NUM;
+                    }
+                    //限制最大显示蜡烛数
+                    if(mShowDataNum > MAX_CANDLE_NUM){
+                        mShowDataNum = MAX_CANDLE_NUM;
                     }
                     // mDataStartIndext = (int) (currentShow + ((event.getX(0) - event.getX(event.getPointerCount()-1))
                     // - longs) / (mCandleWidth + 3))/2;
@@ -1183,7 +1197,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                      */
                     setCurrentData();
                     postInvalidate();
-                    mVolumnChartView.onSet(e, false, mDataStartIndext);
+                    mVolumnChartView.onSet(e, false);
+                    mVolumnChartView.setIndex(mDataStartIndext);
                     mVolumnChartView.setMaxStickDataNum(mShowDataNum);
                 }
                 break;

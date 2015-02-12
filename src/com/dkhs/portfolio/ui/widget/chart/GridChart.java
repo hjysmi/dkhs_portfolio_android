@@ -209,7 +209,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     /** 标题高度 */
     public static final int DEFAULT_TITLE_HEIGHT = 14;
     /** 当前第一个蜡烛所在列表中的位置 */
-    public static int index;
+    
 
     protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; // 标题的高度
     public boolean ismove;
@@ -315,11 +315,10 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
     }
 
-    public void onSet(MotionEvent event, boolean ismove, int index) {
+    public void onSet(MotionEvent event, boolean ismove) {
         this.ismove = ismove;
         clickPostX = event.getX();
         clickPostY = event.getY();
-        this.index = index;
         PointF point = new PointF(clickPostX, clickPostY);
         touchPoint = point;
         // super.invalidate();
@@ -1070,12 +1069,6 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         this.checkType = checkType;
     }
 
-    public static int getIndex() {
-        return index;
-    }
-
-    public static void setIndex(int index) {
-        GridChart.index = index;
-    }
+    
 
 }

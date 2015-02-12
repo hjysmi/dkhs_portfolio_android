@@ -194,7 +194,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 	}
 	@Override
 	protected List<OptionNewsBean> parseDateTask(String jsonData) {
-		Log.e("json", jsonData);
+		//Log.e("json", jsonData);
 		/*StringBuffer sb = new StringBuffer(jsonData);
 		jsonData = jsonData.replace("<b style=\"color:red;\">", "")
 				.replace("<script>currentpage=1;</script>", "")
@@ -208,20 +208,21 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 			setTotalpage(dataObject.optInt("total_page"));
 			setCurrentpage(dataObject.optInt("current_page"));
 			JSONArray resultsJsonArray = dataObject.optJSONArray("results");
-			if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
-				int length = resultsJsonArray.length();
-
-				for (int i = 0; i < length; i++) {
-					JSONObject stockObject = resultsJsonArray.optJSONObject(i);
-					OptionNewsBean stockBean = DataParse.parseObjectJson(
-							OptionNewsBean.class, stockObject);
-					selectList.add(stockBean);
-
-					// results.add(stockBean);
-
-				}
-
-			}
+			selectList =DataParse.parseArrayJson(OptionNewsBean.class, dataObject,"results");
+            // if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
+            // int length = resultsJsonArray.length();
+            //
+            // for (int i = 0; i < length; i++) {
+            // JSONObject stockObject = resultsJsonArray.optJSONObject(i);
+            // OptionNewsBean stockBean = DataParse.parseObjectJson(
+            // OptionNewsBean.class, stockObject);
+            // selectList.add(stockBean);
+            //
+            // // results.add(stockBean);
+            //
+            // }
+            //
+            // }
 
 		} catch (JSONException e) {
 			e.printStackTrace();
