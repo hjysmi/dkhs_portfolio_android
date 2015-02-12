@@ -64,13 +64,13 @@ public class TabFundsAdapter extends BaseAdapter {
 
         final CombinationBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.getName());
-        if (TextUtils.isEmpty(item.getDescription().trim())) {
-            viewHolder.tvStockNum.setText(mContext.getString(R.string.desc_format,
-                    mContext.getString(R.string.desc_def_text)));
-        } else {
+        // if (TextUtils.isEmpty(item.getDescription().trim())) {
+        // viewHolder.tvStockNum.setText(mContext.getString(R.string.desc_format,
+        // mContext.getString(R.string.desc_def_text)));
+        // } else {
 
-            viewHolder.tvStockNum.setText(mContext.getString(R.string.desc_format, item.getDescription()));
-        }
+        viewHolder.tvStockNum.setText(item.getUser().getUsername());
+        // }
 
         viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.getAddUpValue()));
         viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getAddUpValue()));

@@ -70,6 +70,7 @@ public class StickChart extends GridChart {
     private int mShowDate;
     private double dragValue = 0;
     private boolean isTouch = false;
+    public int index;
     public StickChart(Context context) {
         super(context);
     }
@@ -109,7 +110,7 @@ public class StickChart extends GridChart {
     protected void onDraw(Canvas canvas) {
         //currentIndex = index;
         if(index == 0 && !isTouch){
-            index = currentIndex;
+            //index = currentIndex;
         }
         switch (checkType) {
             case CHECK_COLUME:
@@ -973,5 +974,11 @@ public class StickChart extends GridChart {
     public void setTouch(boolean isTouch) {
         this.isTouch = isTouch;
     }
-    
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }
