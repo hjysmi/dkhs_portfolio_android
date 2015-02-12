@@ -138,7 +138,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         if (null != mChampionBean) {
 
             tvConName.setText(mChampionBean.getName());
-            tvUserName.setText(mChampionBean.getCreateUser().getUsername());
+            tvUserName.setText(mChampionBean.getUser().getUsername());
             tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDefDescription()));
             tvCreateDay.setText(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
@@ -164,8 +164,8 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         switch (id) {
             case R.id.rl_combination_header: {
                 // PromptManager.showToast("查看用户信息");
-                startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getCreateUser().getUsername(),
-                        mChampionBean.getCreateUser().getId(), false));
+                startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getUser().getUsername(),
+                        mChampionBean.getUser().getId(), false));
             }
                 break;
             case R.id.tv_position_tip:
