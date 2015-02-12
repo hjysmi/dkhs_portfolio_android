@@ -1286,12 +1286,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
      * 
      * @return
      */
-    public List<OHLCEntity> getDisplayOHLCEntitys() {
+    public ArrayList<OHLCEntity> getDisplayOHLCEntitys() {
         if (mOHLCData == null || mOHLCData.size() == 0) {
             return null;
         }
 
-        List<OHLCEntity> result = new ArrayList<OHLCEntity>();
+        ArrayList<OHLCEntity> result = new ArrayList<OHLCEntity>();
         for (int i = 0; i < mOHLCData.size(); i++) {
             OHLCEntity entity = mOHLCData.get(i);
             result.add(entity);
