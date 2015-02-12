@@ -187,7 +187,7 @@ public class StickChart extends GridChart {
             if(mShowDate > StickData.size()){
                 k = StickData.size() - 1;
             }
-            for(int i = k; i < StickData.size() && i >= index; i--){
+            for(int i = k; i < StickData.size() && i >= index && i >= 0; i--){
                 if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
                     maxValue = (float) Math.abs(StickData.get(i).getMacd());
                 }

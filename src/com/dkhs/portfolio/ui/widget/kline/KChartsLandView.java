@@ -1106,6 +1106,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             mTouchListener.loseTouching();
                         }
                     }
+                    /**
+                     * 进行拖动K线蜡烛
+                     */
                     if (!go && !showDetails) {
                         ismove = false;
                         if (event.getX() - PADDING_LEFT >= 0) {
