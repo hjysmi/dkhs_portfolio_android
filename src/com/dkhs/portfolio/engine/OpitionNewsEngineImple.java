@@ -25,17 +25,17 @@ import com.google.gson.reflect.TypeToken;
 
 public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 	private final static String EXCHANGE = "1,2";
-	//人员相关所有新闻
+	//用户相关全部公告
 	public final static int NEWSALL = 0;
-	//人员各分支新闻
+	//指定股票公告
 	public final static int NEWSFOREACH = 1;
 	//组合研报分支
 	public final static int NEWS_GROUP_FOREACH = 2;
 	//个股研报分支
 	public final static int NEWS_OPITION_FOREACH = 3;
-	//与人员相关的研报分支
+	//用户相关的研报分支
 	public final static int NEWS_GROUP = 4;
-	//与人员相关的研报分支
+	//用户相关的研报分支
 		public final static int NEWS_GROUP_TWO = 5;
 		public final static int GROUP_FOR_ONE = 6;
 	private int orderType;
@@ -246,7 +246,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 	}
 }
 
-class GsonUtil {
+/*class GsonUtil {
 
 	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
@@ -271,4 +271,4 @@ class GsonUtil {
 		return getGson().fromJson(jsonStr, type);
 	}
 
-}
+}*/

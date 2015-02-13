@@ -50,7 +50,7 @@ import com.umeng.analytics.MobclickAgent;
  * @author linbing
  * 
  */
-public class NewsFragment extends Fragment {
+public class F10Fragment extends Fragment {
 
     public static final String KEY_TITLE = "title";
     public static final String KEY_URL = "url";
