@@ -328,7 +328,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         @Override
         public void loadFail(ErrorBundle error) {
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
-            pb.setVisibility(View.GONE);
+            if (pb != null) {
+                pb.setVisibility(View.GONE);
+            }
             if (null != mSwipeLayout) {
                 mSwipeLayout.setRefreshing(false);
             }
