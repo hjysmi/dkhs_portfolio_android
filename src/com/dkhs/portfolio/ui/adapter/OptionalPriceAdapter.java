@@ -68,7 +68,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             textCsl = ColorTemplate.getTextColor(R.color.theme_color);
             viewHolder.tvPercentValue.setBackgroundColor(mContext.getResources().getColor(R.color.stock_gray_bg));
         } else {
-            textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
+            // textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
             viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.percentage));
         }
         if (StockUitls.isDelistStock(item.list_status)) {
