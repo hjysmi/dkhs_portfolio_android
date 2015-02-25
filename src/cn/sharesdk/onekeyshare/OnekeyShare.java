@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.text.TextUtils;
@@ -277,6 +278,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
 
     public void onCreate() {
 
+        // getContentView().setBackgroundColor(Color.BLUE);
         // 显示方式是由platform和silent两个字段控制的
         // 如果platform设置了，则无须显示九宫格，否则都会显示；
         // 如果silent为true，表示不进入编辑页面，否则会进入。
@@ -350,6 +352,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
     private void initPageView() {
         flPage = new FrameLayout(getContext());
         flPage.setOnClickListener(this);
+        flPage.setBackgroundColor(getContext().getResources().getColor(R.color.share_bg));
 
         // 宫格列表的容器，为了“下对齐”，在外部包含了一个FrameLayout
         LinearLayout llPage = new LinearLayout(getContext()) {
@@ -360,7 +363,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         llPage.setOrientation(LinearLayout.VERTICAL);
         int resId = getBitmapRes(getContext(), "share_vp_back");
         // if (resId > 0) {
-        llPage.setBackgroundResource(R.color.person_setting_backgroud);
+        llPage.setBackgroundColor(getContext().getResources().getColor(R.color.person_setting_backgroud));
         // }
         FrameLayout.LayoutParams lpLl = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
@@ -370,31 +373,36 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
 
         // 宫格列表
         grid = new PlatformGridView(getContext());
-        grid.setEditPageBackground(bgView);
+        // grid.setEditPageBackground(bgView);
+        // grid.setBackgroundResource(R.color.person_setting_backgroud);
         LinearLayout.LayoutParams lpWg = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
                 LayoutParams.WRAP_CONTENT);
         grid.setLayoutParams(lpWg);
         llPage.addView(grid);
 
         // 取消按钮
-        btnCancel = new Button(getContext());
-        btnCancel.setTextColor(0xffffffff);
-        btnCancel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-        resId = getStringRes(getContext(), "cancel");
-        if (resId > 0) {
-            btnCancel.setText(resId);
-        }
-        btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
-        resId = getBitmapRes(getContext(), "btn_quxiao_selector");
-        if (resId > 0) {
-            btnCancel.setBackgroundResource(resId);
-        }
-        LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-                cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
-        int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 10);
-        lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
-        btnCancel.setLayoutParams(lpBtn);
-        llPage.addView(btnCancel);
+        // btnCancel = new Button(getContext());
+        // btnCancel.setTextColor(Color.WHITE);
+        // btnCancel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+        // resId = getStringRes(getContext(), "cancel");
+        // if (resId > 0) {
+        // btnCancel.setText(resId);
+        // }
+        // int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 16);
+        // btnCancel.setPadding(dp_10, dp_10, dp_10, dp_10);
+        // resId = getBitmapRes(getContext(), "btn_quxiao_selector");
+        // if (resId > 0) {
+        // btnCancel.setBackgroundResource(resId);
+        // }
+        // LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+        // LayoutParams.WRAP_CONTENT);
+        // int dp_20 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 20);
+        // int dp_30 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 30);
+        // lpBtn.setMargins(dp_20, dp_20, dp_20, dp_30);
+        // btnCancel.setLayoutParams(lpBtn);
+        View inBtn = View.inflate(getContext(), R.layout.layout_share_cancel, null);
+        btnCancel = (Button) inBtn.findViewById(R.id.dialog_button_cancle);
+        llPage.addView(inBtn);
     }
 
     private void initAnim() {

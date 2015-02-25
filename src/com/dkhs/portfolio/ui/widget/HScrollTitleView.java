@@ -144,10 +144,12 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         m.getDefaultDisplay().getMetrics(dm);
         LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
         if (nameList.length * indiatorWidth <= dm.widthPixels) {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(dm.widthPixels, getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
             offset = (dm.widthPixels / nameList.length - indiatorWidth) / 2;
         } else {
-            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, LayoutParams.WRAP_CONTENT));
+            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, getContext()
+                    .getResources().getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
         }
         tvList = new TextView[nameList.length];
         for (int i = 0; i < nameList.length; i++) {
@@ -155,9 +157,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             tv.setTextColor(getContext().getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
-            tv.setPadding(0, 5, 0, 5);
+            // tv.setPadding(0, 5, 0, 5);
             tv.setGravity(Gravity.CENTER);
-            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.WRAP_CONTENT, 1.0f));
+            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
             tv.setText(nameList[i]);
             tv.setOnClickListener(new OnItemListener(i));
             ll.addView(tv);

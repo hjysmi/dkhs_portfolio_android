@@ -41,7 +41,9 @@ public class PortfolioApplication extends Application {
 
     private boolean isDebug = true;
     private boolean isLogin;
-
+    private String checkValue = "0";
+    private boolean change = false;
+    private int kLinePosition = -1;
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
@@ -159,4 +161,28 @@ public class PortfolioApplication extends Application {
         this.isLogin = isLogin;
     }
 
+    public String getCheckValue() {
+        return checkValue;
+    }
+
+    public void setCheckValue(String checkValue) {
+        this.checkValue = checkValue;
+    }
+
+    public boolean isChange() {
+        return change;
+    }
+
+    public void setChange(boolean change) {
+        this.change = change;
+    }
+
+    public int getkLinePosition() {
+        return kLinePosition;
+    }
+
+    public void setkLinePosition(int kLinePosition) {
+        this.kLinePosition = kLinePosition;
+    }
+    
 }

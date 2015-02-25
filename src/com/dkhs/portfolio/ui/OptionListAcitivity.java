@@ -3,41 +3,41 @@ package com.dkhs.portfolio.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
-
 public class OptionListAcitivity extends ModelAcitivity {
 
-    private ListView mListView;
+    private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
-    private View mFootView;
+    // private View mFootView;
     private Context context;
     private OptionForOnelistAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
@@ -50,6 +50,9 @@ public class OptionListAcitivity extends ModelAcitivity {
     private String symbol;
     private String type;
     private String name;
+    private RelativeLayout pb;
+
+    public SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -60,6 +63,8 @@ public class OptionListAcitivity extends ModelAcitivity {
         mDataList = new ArrayList<OptionNewsBean>();
 
         iv = (TextView) findViewById(android.R.id.empty);
+        pb = (RelativeLayout) findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
@@ -96,7 +101,7 @@ public class OptionListAcitivity extends ModelAcitivity {
                 vo.setContentType(type);
                 mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
                         OpitionNewsEngineImple.NEWSFOREACH, vo);
-                mLoadDataEngine.setLoadingDialog(context);
+                // mLoadDataEngine.setLoadingDialog(context);
                 mLoadDataEngine.loadData();
                 mLoadDataEngine.setFromYanbao(false);
             }
@@ -108,42 +113,61 @@ public class OptionListAcitivity extends ModelAcitivity {
     }
 
     private void initView() {
-        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
-        mListView = (ListView) findViewById(android.R.id.list);
+        mListView = (PullToRefreshListView) findViewById(android.R.id.list);
 
         mListView.setEmptyView(iv);
-        mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
-
-        mListView.removeFooterView(mFootView);
-        mListView.setOnScrollListener(new OnScrollListener() {
+        mListView.setOnLoadListener(new OnLoadMoreListener() {
 
             @Override
-            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+            public void onLoadMore() {
 
-                switch (scrollState) {
-                    case OnScrollListener.SCROLL_STATE_IDLE:
-
-                    {
-                        // 判断是否滚动到底部
-                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-                            loadMore();
-
-                        }
-                    }
-
-                }
-
+                loadMore();
             }
+        });
+        // mListView.setOnScrollListener(new OnScrollListener() {
+        //
+        // @Override
+        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        //
+        // switch (scrollState) {
+        // case OnScrollListener.SCROLL_STATE_IDLE:
+        //
+        // {
+        // // 判断是否滚动到底部
+        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+        //
+        //
+        // }
+        // }
+        //
+        // }
+        //
+        // }
+        //
+        // @Override
+        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //
+        // }
+        // });
+        mListView.setOnItemClickListener(itemBackClick);
+
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                }, 2000);
 
             }
         });
-        mListView.setOnItemClickListener(itemBackClick);
-
     }
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -174,10 +198,9 @@ public class OptionListAcitivity extends ModelAcitivity {
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-            mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.setLoadingDialog(context);
+            // mLoadDataEngine.setLoadingDialog(context);
             mLoadDataEngine.loadMore();
         }
     }
@@ -187,6 +210,7 @@ public class OptionListAcitivity extends ModelAcitivity {
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
                 if (null != dataList && dataList.size() > 0) {
                     mDataList.addAll(dataList);
                     if (first) {
@@ -212,25 +236,26 @@ public class OptionListAcitivity extends ModelAcitivity {
         mOptionMarketAdapter.notifyDataSetChanged();
         isLoadingMore = false;
         if (mListView != null) {
-            mListView.removeFooterView(mFootView);
         }
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market_one);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market_one);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

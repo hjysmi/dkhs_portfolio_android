@@ -13,60 +13,33 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.ContextThemeWrapper;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
-import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
-import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
-import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
-import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.ui.fragment.MainFragment.RequestCombinationTask;
-import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.ui.adapter.RVMyCombinationAdapter;
+import com.dkhs.portfolio.ui.adapter.RVMyCombinationAdapter.OnItemClickListener;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
-import com.lidroid.xutils.view.annotation.ViewInject;
 import com.umeng.analytics.MobclickAgent;
-
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.GridView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
 
 /**
  * @ClassName FundsOrderFragment
@@ -75,19 +48,19 @@ import android.widget.AbsListView.OnScrollListener;
  * @date 2014-10-29 下午4:03:33
  * @version 1.0
  */
-public class MyCombinationListFragment extends LoadMoreListFragment implements OnItemClickListener, IDelButtonListener {
+public class MyCombinationListFragment extends RefreshLoadMoreListFragment {
 
     private String mOrderType;
-    private CombinationAdapter mAdapter;
+    // private CombinationAdapter mAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private UserCombinationEngineImpl dataEngine;
-    // private String mUserName;
-    // private String mUserId;
+
     private MyCombinationActivity combinationActivity;
-    private ListView mListView;
-    // 30s
+
     private static final long mCombinationRequestTime = 1000 * 30;
     private Timer mCombinationTimer;
+
+    private RVMyCombinationAdapter rvConbinationAdatper;
 
     public static MyCombinationListFragment getFragment() {
         MyCombinationListFragment fragment = new MyCombinationListFragment();
@@ -112,26 +85,38 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     }
 
     public void createNewCombination() {
-        if (null != mAdapter) {
+        if (null != rvConbinationAdatper) {
 
-            mAdapter.addItem();
+            rvConbinationAdatper.addItem();
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+            @Override
+            public void onRefresh() {
+                refresh();
+
+            }
+        });
+
+        rvConbinationAdatper = new RVMyCombinationAdapter(getActivity(), mDataList);
+        recyclerView.setAdapter(rvConbinationAdatper);
+        rvConbinationAdatper.SetOnItemClickListener(rvMyCombinationItemListener);
     }
 
-    @Override
-    ListAdapter getListAdapter() {
-        if (mAdapter == null) {
-            mAdapter = new CombinationAdapter(getActivity(), mDataList);
-            mAdapter.setDeleteButtonClickListener(this);
-        }
-        return mAdapter;
-    }
+    // @Override
+    // ListAdapter getListAdapter() {
+    // if (mAdapter == null) {
+    // mAdapter = new CombinationAdapter(getActivity(), mDataList);
+    // mAdapter.setDeleteButtonClickListener(this);
+    // }
+    // return mAdapter;
+    // }
 
     /**
      * @Title
@@ -174,6 +159,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
+        mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {
@@ -181,15 +167,15 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
                     mCombinationTimer = null;
                 }
             }
-            if (isRefresh) {
-                mDataList.clear();
-                isRefresh = false;
-            }
+            // if (isRefresh) {
+            mDataList.clear();
+            isRefresh = false;
+            // }
 
             // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
-            mAdapter.notifyDataSetChanged();
+            rvConbinationAdatper.notifyDataSetChanged();
         }
 
     }
@@ -203,102 +189,60 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
     }
 
     @Override
-    OnItemClickListener getItemClickListener() {
-
-        return this;
-    }
-
-    @Override
-    public void setListViewInit(ListView listview) {
-        mListView = listview;
-        mListView.setDivider(null);
-        mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
-
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                showLongClickDialog(mDataList.get(position - 1).getId());
-                return true;
-            }
-        });
-    };
-
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
-    @Override
     public void onStart() {
         // TODO Auto-generated method stub
         super.onStart();
-        // refresh();
 
     }
 
     public void refresh() {
         isRefresh = true;
 
-        // mDataList.clear();
         ((UserCombinationEngineImpl) getLoadEngine()).loadAllData();
         // UserCombinationEngineImpl.loadAllData(this);
 
     }
 
     public void setListDelStatus(boolean isDel) {
-        mAdapter.setDelStatus(isDel);
-        if (isDel && null != mListView) {
-            mListView.setOnItemClickListener(null);
-        }
+        rvConbinationAdatper.setDelStatus(isDel);
+        // if (isDel && null != mListView) {
+        // mListView.setOnItemClickListener(null);
+        // }
     }
 
     public void removeSelectCombinations() {
-        mListView.setOnItemClickListener(this);
-        List<CombinationBean> selectList = mAdapter.getDelPosition();
-        final List<CombinationBean> delList = new ArrayList<CombinationBean>();
-        StringBuilder sbIds = new StringBuilder();
-        for (CombinationBean delStock : selectList) {
-            // int i = index;
-            // CombinationBean delStock = mDataList.get(i);
-            delList.add(delStock);
-            sbIds.append(delStock.getId());
-            sbIds.append(",");
-        }
-        if (delList.size() > 0) {
-            // new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
-            new MyCombinationEngineImpl().deleteCombination(sbIds.toString(), new BasicHttpListener() {
-
-                @Override
-                public void onSuccess(String result) {
-                    mAdapter.getDelPosition().clear();
-                    mDataList.removeAll(delList);
-                    combinationActivity.upateDelViewStatus();
-
-                    mAdapter.setDelStatus(false);
-                    mAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onFailure(int errCode, String errMsg) {
-                    super.onFailure(errCode, errMsg);
-                    Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param parent
-     * @param view
-     * @param position
-     * @param id
-     * @return
-     */
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-
+        // mListView.setOnItemClickListener(this);
+        // List<CombinationBean> selectList = rvConbinationAdatper.getDelPosition();
+        // final List<CombinationBean> delList = new ArrayList<CombinationBean>();
+        // StringBuilder sbIds = new StringBuilder();
+        // for (CombinationBean delStock : selectList) {
+        // // int i = index;
+        // // CombinationBean delStock = mDataList.get(i);
+        // delList.add(delStock);
+        // sbIds.append(delStock.getId());
+        // sbIds.append(",");
+        // }
+        // if (delList.size() > 0) {
+        // // new MyCombinationEngineImpl().deleteCombination(delList.get(0).getId(), new BasicHttpListener() {
+        // new MyCombinationEngineImpl().deleteCombination(sbIds.toString(), new BasicHttpListener() {
+        //
+        // @Override
+        // public void onSuccess(String result) {
+        // mAdapter.getDelPosition().clear();
+        // mDataList.removeAll(delList);
+        // combinationActivity.upateDelViewStatus();
+        //
+        // mAdapter.setDelStatus(false);
+        // mAdapter.notifyDataSetChanged();
+        // }
+        //
+        // @Override
+        // public void onFailure(int errCode, String errMsg) {
+        // super.onFailure(errCode, errMsg);
+        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+        // }
+        // });
+        // }
     }
 
     private void showLongClickDialog(final String conId) {
@@ -316,7 +260,7 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
 
                     setCombinationTop(conId);
                 } else if (which == 1) {
-                    mAdapter.setDelStatus(true);
+                    rvConbinationAdatper.setDelStatus(true);
                     combinationActivity.setButtonCancel();
                 }
 
@@ -350,13 +294,15 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new BasicHttpListener() {
+                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
 
                     @Override
                     public void onSuccess(String result) {
                         // mCombinationAdapter.getDelPosition().clear();
                         mDataList.remove(mCombination);
-                        mAdapter.notifyDataSetChanged();
+                        rvConbinationAdatper.notifyDataSetChanged();
+                        // rvConbinationAdatper.notifyItemRemoved(position)
+                        // mAdapter.notifyDataSetChanged();
                         combinationActivity.setButtonFinish();
                         // upateDelViewStatus();
                     }
@@ -391,7 +337,19 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
                         refresh();
                     }
 
-                });
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+                        // TODO Auto-generated method stub
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                }.setLoadingDialog(getActivity(), "", false));
                 dialog.dismiss();
             }
 
@@ -404,13 +362,6 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
             }
         });
         builder.create().show();
-    }
-
-    @Override
-    public void clickDeleteButton(int position) {
-        CombinationBean combiantinBean = mDataList.get(position);
-        // Toast.makeText(this, "Is del :" + combiantinBean.getName(), Toast.LENGTH_SHORT).show();
-        showDelDialog(combiantinBean);
 
     }
 
@@ -423,5 +374,27 @@ public class MyCombinationListFragment extends LoadMoreListFragment implements O
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
     }
+
+    OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
+
+        @Override
+        public void onLongItemClick(View view, int position) {
+            showLongClickDialog(mDataList.get(position).getId());
+
+        }
+
+        @Override
+        public void onItemClick(View view, int position) {
+            startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+
+        }
+
+        @Override
+        public void onClickDeleteButton(int position) {
+            CombinationBean combiantinBean = mDataList.get(position);
+            showDelDialog(combiantinBean);
+
+        }
+    };
 
 }

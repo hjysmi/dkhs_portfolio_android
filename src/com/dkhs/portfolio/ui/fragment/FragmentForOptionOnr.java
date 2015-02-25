@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
@@ -29,7 +30,7 @@ import com.dkhs.portfolio.engine.NewsforImpleEngine;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.YanbaoNewsActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
@@ -54,12 +55,17 @@ public class FragmentForOptionOnr extends Fragment{
     private String subType;
     private View view;
 	private boolean getadble = false;
+	private RelativeLayout pb;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.activity_option_market_news, null);
 		context = getActivity();
+		pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if(!(null != mDataList && mDataList.size() > 0)){
+            pb.setVisibility(View.VISIBLE);
+        }
 		mDataList = new ArrayList<OptionNewsBean>();
 		
 		iv = (TextView) view.findViewById(android.R.id.empty);
@@ -99,7 +105,7 @@ public class FragmentForOptionOnr extends Fragment{
 					vo.setSymbol(symbol);
 					vo.setContentSubType(subType);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
-					mLoadDataEngine.setLoadingDialog(context);;
+					//mLoadDataEngine.setLoadingDialog(context);;
 					((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
 					mLoadDataEngine.setFromYanbao(false);
 			} catch (Exception e) {
@@ -154,9 +160,9 @@ public class FragmentForOptionOnr extends Fragment{
 			try {
 				Intent intent;
 				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() >0){
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
+					intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
 				}else{
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
+					intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null,null);
 				}
 				startActivity(intent);
 			} catch (Exception e) {
@@ -175,7 +181,7 @@ public class FragmentForOptionOnr extends Fragment{
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            mLoadDataEngine.setLoadingDialog(context);;
+            //mLoadDataEngine.setLoadingDialog(context);;
             mLoadDataEngine.loadMore();
         }
     }
@@ -184,6 +190,7 @@ public class FragmentForOptionOnr extends Fragment{
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
+                pb.setVisibility(View.GONE);
 				if (null != dataList&&dataList.size()>0) {
 				    mDataList.addAll(dataList);
 				    if(first){

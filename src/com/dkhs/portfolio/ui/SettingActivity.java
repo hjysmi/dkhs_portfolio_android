@@ -64,6 +64,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private Button btnLogin;
     private View viewUserInfo;
     private View viewLogin;
+    private View viewPassword;
     private UserEntity ue;
     private TextView settingSingText;
     private boolean login = false;
@@ -93,6 +94,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initData() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.getSettingMessage(listener);
+        engine.queryThreePlatBind(bindsListener);
         listener.setLoadingDialog(context);
         if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
@@ -123,7 +125,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void setListener() {
         findViewById(R.id.btn_exit).setOnClickListener(this);
         findViewById(R.id.btn_setpassword).setOnClickListener(this);
-        findViewById(R.id.setting_layout_password).setOnClickListener(this);
+        viewPassword = findViewById(R.id.setting_layout_password);
+        viewPassword.setVisibility(View.GONE);
+        viewPassword.setOnClickListener(this);
         findViewById(R.id.setting_layout_username).setOnClickListener(this);
         findViewById(R.id.setting_layout_icon).setOnClickListener(this);
         findViewById(R.id.feed_back_layout).setOnClickListener(this);
@@ -132,6 +136,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.setting_layout_sign).setOnClickListener(this);
         findViewById(R.id.setting_image_bound).setOnClickListener(this);
         settingSingText = (TextView) findViewById(R.id.setting_sing_text);
+
     }
 
     public void initViews() {
@@ -423,10 +428,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         protected void afterParseData(List<BindThreePlat> entity) {
-            if (null != entity && entity.size() > 0) {
-                Message msg = updateHandler.obtainMessage(777);
-                msg.obj = entity;
-                msg.sendToTarget();
+            if (!entity.isEmpty()) {
+                for (int i = 0; i < entity.size(); i++) {
+                    BindThreePlat palt = entity.get(i);
+                    if (palt.getProvider().equalsIgnoreCase("mobile") || palt.getProvider().equalsIgnoreCase("email")) {
+                        if (palt.isStatus()) {
+                            viewPassword.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                // Message msg = updateHandler.obtainMessage(777);
+                // msg.obj = entity;
+                // msg.sendToTarget();
             }
 
         }

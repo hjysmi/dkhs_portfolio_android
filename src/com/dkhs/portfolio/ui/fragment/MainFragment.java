@@ -1,8 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -17,16 +15,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.test.UiThreadTest;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.AdapterView;
@@ -47,16 +45,18 @@ import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.OptionMarketNewsActivity;
+import com.dkhs.portfolio.ui.NoticesActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.YanBaoActivity;
-import com.dkhs.portfolio.ui.adapter.MainCombinationoAdapter;
 import com.dkhs.portfolio.ui.adapter.MainFunctionAdapter;
+import com.dkhs.portfolio.ui.adapter.RVMainFunctionAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.ValueChangeEvent;
 import com.dkhs.portfolio.ui.widget.FixedSpeedScroller;
+import com.dkhs.portfolio.ui.widget.GridLayoutManager;
 import com.dkhs.portfolio.ui.widget.ITitleButtonListener;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -65,9 +65,12 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.view.annotation.ViewInject;
+import com.squareup.otto.Produce;
 import com.umeng.analytics.MobclickAgent;
 
-public class MainFragment extends Fragment implements OnClickListener {
+public class MainFragment extends BaseFragment implements OnClickListener {
 
     private ITitleButtonListener mTitleClickListener;
 
@@ -82,23 +85,18 @@ public class MainFragment extends Fragment implements OnClickListener {
     private int[] imageResId;
     private int currentItem = 0;
 
+    @ViewInject(R.id.gv_function)
     private GridView gvFunction;
     private GridView gvCombination;
 
+    // private RecyclerView rvFunction;
+
     private View comtentView;
-    // private View viewOnecombination;
-    // private View viewTwocombination;
+
     private View viewAddcombination;
     private View mConbinlayout;
 
     private MainpageEngineImpl dataEngine;
-
-    // private View viewOptionalStock;
-    // private View viewMyCombination;
-    // private View viewStockRanking;
-    // private View viewPlateRanking;
-    // private View viewFundRanking;
-    // private View viewPortfolioRanking;
 
     private static final int MSG_CHANGE_PAGER = 172;
 
@@ -127,38 +125,45 @@ public class MainFragment extends Fragment implements OnClickListener {
         dataEngine = new MainpageEngineImpl();
 
         // float dayValue = object.getDay() == null ? 0 : object.getDay().getIncreasePercent();
-        cumulativeFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
-        dayFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
-        weekFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, 0);
-        monthFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, 0);
-        cumulativeFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
-        dayFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
+        Fragment cumulativeFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
+        Fragment dayFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
+        Fragment weekFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, 0);
+        Fragment monthFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, 0);
+        Fragment cumulativeFragment = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, 0);
+        Fragment dayFragmentTemp = ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, 0);
         fList.add(cumulativeFragmentTemp);
         fList.add(dayFragment);
         fList.add(weekFragment);
         fList.add(monthFragment);
         fList.add(cumulativeFragment);
         fList.add(dayFragmentTemp);
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, dayValue));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_WEEK, object.getWeek()
-        // .getIncreasePercent()));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_MONTH, object.getMonth()
-        // .getIncreasePercent()));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_All, object.getCumulative()
-        // .getIncreasePercent()));
-        // fList.add(ScrollTopFragment.getInstance(ScrollTopFragment.TYPE_DAY, object.getWeek()
-        // .getIncreasePercent()));
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("=========onCreateView=========");
         View view = inflater.inflate(R.layout.fragment_main, null);
-        comtentView = view;
-        initView(view);
         return view;
     }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        // ViewUtils.inject(view);
+        ViewUtils.inject(this, view); // 注入view和事件
+        comtentView = view;
+        initView(view);
+    }
+
+    private RVMainFunctionAdapter mainFunctionAdatper;
 
     private void initView(View view) {
 
@@ -178,11 +183,12 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         gvCombination = (GridView) view.findViewById(R.id.gv_mycombination);
 
-        gvFunction = (GridView) view.findViewById(R.id.gv_function);
-        // gvFunction.getLayoutParams().height =
-        // getResources().getDisplayMetrics().widthPixels / 3 * 2;
+        // gvFunction = (GridView) view.findViewById(R.id.gv_function);
+        // // getResources().getDisplayMetrics().widthPixels / 3 * 2;
         gvFunction.setAdapter(new MainFunctionAdapter(getActivity()));
         gvFunction.setOnItemClickListener(functionClick);
+        gvFunction.setOnItemClickListener(functionClick);
+        // mainFunctionAdatper.SetOnItemClickListener(functionClick);
 
         // 初始化界面控件实例
         dotLayout = (LinearLayout) view.findViewById(R.id.linearlayout_dot);
@@ -273,7 +279,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         if (null != viewAddcombination) {
             viewAddcombination.setVisibility(View.GONE);
         }
-        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960))) {
+        if (!(((UIUtils.getDisplayMetrics().heightPixels < 1280) && UIUtils.getDisplayMetrics().heightPixels > 960) || (((UIUtils.getDisplayMetrics().heightPixels < 1920) && UIUtils.getDisplayMetrics().heightPixels > 1280)))) {
             comtentView.findViewById(R.id.title_main_combination).setVisibility(View.VISIBLE);
         }
         /*
@@ -405,8 +411,6 @@ public class MainFragment extends Fragment implements OnClickListener {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // PromptManager.showToastTest("click Postion:" + position);
-
             Intent intent = null;
             switch (position) {
                 case 0: {
@@ -432,7 +436,7 @@ public class MainFragment extends Fragment implements OnClickListener {
                 }
                     break;
                 case 3: {
-                    intent = new Intent(getActivity(), OptionMarketNewsActivity.class);
+                    intent = new Intent(getActivity(), NoticesActivity.class);
 
                 }
                     break;
@@ -541,12 +545,12 @@ public class MainFragment extends Fragment implements OnClickListener {
     };
 
     List<Fragment> fList = new ArrayList<Fragment>();
-    private ScrollTopFragment cumulativeFragmentTemp;
-    private ScrollTopFragment dayFragment;
-    private ScrollTopFragment weekFragment;
-    private ScrollTopFragment monthFragment;
-    private ScrollTopFragment cumulativeFragment;
-    private ScrollTopFragment dayFragmentTemp;
+    // private ScrollTopFragment cumulativeFragmentTemp;
+    // private ScrollTopFragment dayFragment;
+    // private ScrollTopFragment weekFragment;
+    // private ScrollTopFragment monthFragment;
+    // private ScrollTopFragment cumulativeFragment;
+    // private ScrollTopFragment dayFragmentTemp;
     ParseHttpListener championDataListener = new ParseHttpListener<ChampionCollectionBean>() {
 
         @Override
@@ -561,12 +565,19 @@ public class MainFragment extends Fragment implements OnClickListener {
             if (null != object) {
                 viewPager.setVisibility(View.VISIBLE);
                 dotLayout.setVisibility(View.VISIBLE);
-                cumulativeFragment.updataValue(object.getCumulative().getIncreasePercent());
-                cumulativeFragmentTemp.updataValue(object.getCumulative().getIncreasePercent());
-                dayFragment.updataValue(object.getDay().getIncreasePercent());
-                dayFragmentTemp.updataValue(object.getDay().getIncreasePercent());
-                weekFragment.updataValue(object.getWeek().getIncreasePercent());
-                monthFragment.updataValue(object.getMonth().getIncreasePercent());
+
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_All, object.getCumulative().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_DAY, object.getDay().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_WEEK, object.getWeek().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_MONTH, object.getMonth().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_All, object.getCumulative().getIncreasePercent()));
+                BusProvider.getInstance().post(
+                        new ValueChangeEvent(ScrollTopFragment.TYPE_DAY, object.getDay().getIncreasePercent()));
             }
         }
     };
@@ -717,6 +728,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        // BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -724,6 +736,7 @@ public class MainFragment extends Fragment implements OnClickListener {
         super.onResume();
         System.out.println("=========onResume=========");
         MobclickAgent.onPageStart(mPageName);
+        // BusProvider.getInstance().register(this);
         if (mScollTimer == null) { // 保证只有一个 定时任务
             mScollTimer = new Timer(true);
             mScollTimer.schedule(new ScrollPageTask(), 2000, 2000);

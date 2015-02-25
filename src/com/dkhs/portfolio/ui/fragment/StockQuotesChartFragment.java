@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,15 +23,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
-import com.dkhs.portfolio.bean.FiveRangeItem;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
+import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -76,7 +79,7 @@ public class StockQuotesChartFragment extends Fragment {
 
     private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
-
+    //
     private FiveRangeAdapter mBuyAdapter, mSellAdapter;
     private ListView mListviewBuy, mListviewSell;
 
@@ -87,6 +90,7 @@ public class StockQuotesChartFragment extends Fragment {
     LineEntity fenshiPiceLine;
 
     private SelectStockBean mSelectStockBean;
+    private RelativeLayout pb;
 
     // public static final String TREND_TYPE_TODAY="trend_today";
     public static StockQuotesChartFragment newInstance(String trendType, String stockCode) {
@@ -134,18 +138,19 @@ public class StockQuotesChartFragment extends Fragment {
         // fenshiPiceLine.setLineData(lineDataList);
 
     }
-    private List<FiveRangeItem> getDates(int k){
+
+    private List<FiveRangeItem> getDates(int k) {
         List<FiveRangeItem> list = new ArrayList<FiveRangeItem>();
         FiveRangeItem fr;
         int tmp;
-        tmp = k + 6;;
-        for(int i = 0; i < 5; i++){
+        tmp = k + 6;
+        for (int i = 0; i < 5; i++) {
             fr = new FiveRangeItem();
             fr.price = 0;
-            if(k > 0){
-                fr.tag =  k + "";
+            if (k > 0) {
+                fr.tag = k + "";
                 k--;
-            }else{
+            } else {
                 fr.tag = tmp + "";
                 tmp++;
             }
@@ -154,6 +159,7 @@ public class StockQuotesChartFragment extends Fragment {
         }
         return list;
     }
+
     private void handleExtras(Bundle extras) {
         mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
@@ -205,32 +211,35 @@ public class StockQuotesChartFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        // o
         super.onAttach(activity);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         mMaChart.setContext(getActivity());
-        mMaChart.setmStockBean(((StockQuotesActivity)getActivity()).getmStockBean());
+        mMaChart.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
         initMaChart(mMaChart);
         initView(view);
-        if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
-                && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
-            viewFiveRange.setVisibility(View.GONE);
-        }
+
         return view;
     }
 
     private void initView(View view) {
         viewFiveRange = view.findViewById(R.id.rl_fiverange);
-        mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
-        mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
+        if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
+                && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
+            viewFiveRange.setVisibility(View.GONE);
+        } else {
 
-        mListviewBuy.setAdapter(mBuyAdapter);
-        mListviewSell.setAdapter(mSellAdapter);
+            mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
+            mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
+            mListviewBuy.setAdapter(mBuyAdapter);
+            mListviewSell.setAdapter(mSellAdapter);
+        }
         // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
         // tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
         // tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
@@ -324,11 +333,9 @@ public class StockQuotesChartFragment extends Fragment {
             averageLine.setLineData(averagelineData);
 
             lines.add(0, fenshiPiceLine);
-            if (null != mStockBean && StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
-
-            } else {
-
+            if (null != mStockBean && !StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
                 lines.add(averageLine);
+
             }
             mMaChart.setLineData(lines);
         }
@@ -404,17 +411,19 @@ public class StockQuotesChartFragment extends Fragment {
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
-                viewFiveRange.setVisibility(View.GONE);
-
-            } else {
-
+            // if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+            // viewFiveRange.setVisibility(View.GONE);
+            //
+            // } else {
+            //
+            if (viewFiveRange.getVisibility() == View.VISIBLE) {
                 mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
                 mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
-
             }
+            //
+            // }
 
             if (isStopStock() || null == lineDataList || lineDataList.size() < 1) {
                 // setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
@@ -431,6 +440,28 @@ public class StockQuotesChartFragment extends Fragment {
     private void parseFiveRangeData() {
 
     }
+
+    @Override
+    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            viewFiveRange.setVisibility(View.GONE);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // viewFiveRange.setVisibility(View.GONE);
+            new Handler().postDelayed(new Runnable() {
+
+                public void run() {
+                    if (isAdded() && mStockBean != null && null != viewFiveRange) {
+                        if (!StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+                            viewFiveRange.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                }
+
+            }, 1200);
+        }
+    };
 
     FSDataBean mFsDataBean = new FSDataBean();
     ParseHttpListener todayListener = new ParseHttpListener<FSDataBean>() {
@@ -451,7 +482,7 @@ public class StockQuotesChartFragment extends Fragment {
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
                 StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-                if (null != m &&UIUtils.roundAble(m)) {
+                if (null != m && UIUtils.roundAble(m)) {
                     dataHandler.removeCallbacks(runnable);
                 }
 
@@ -481,6 +512,7 @@ public class StockQuotesChartFragment extends Fragment {
                     }
 
                 }
+                pb.setVisibility(View.GONE);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -763,7 +795,7 @@ public class StockQuotesChartFragment extends Fragment {
             if (mQuotesDataEngine == null) {
                 return;
             }
-            todayListener.setLoadingDialog(getActivity());
+            // todayListener.setLoadingDialog(getActivity());
             if (null != mQuotesDataEngine && TextUtils.isEmpty(mFsDataBean.getCurtime())) {
                 // System.out.println("====StockQuotesChartFragment=queryTimeShare=====");
                 mQuotesDataEngine.queryTimeShare(mStockCode, todayListener);

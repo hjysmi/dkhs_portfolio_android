@@ -14,6 +14,7 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -88,6 +90,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected boolean flush = false;
     protected String mSecotrId;
     protected boolean isLoading;
+    private RelativeLayout pb;
 
     /**
      * view视图类型
@@ -279,6 +282,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         @Override
         public void loadFinish(List<SelectStockBean> dataList) {
             mListView.onLoadMoreComplete();
+            mSwipeLayout.setRefreshing(false);
+            pb.setVisibility(View.GONE);
+
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
             }
@@ -298,9 +304,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 // loadFinishUpdateView();
                 return;
             }
-            if (isRefresh) {
+            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE || !isLoadingMore) {
                 mDataList.clear();
                 isRefresh = false;
+
             }
             // loadFinishUpdateView();
             if (null != dataList && dataList.size() > 0 && isAdded()) {
@@ -313,12 +320,15 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             } else {
                 hideNotice();
             }
-
+            isLoadingMore = false;
         }
 
         @Override
         public void loadFail(ErrorBundle error) {
             LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            if (null != mSwipeLayout) {
+                mSwipeLayout.setRefreshing(false);
+            }
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
             } else {
@@ -327,6 +337,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
             }
+            isLoadingMore = false;
         }
 
     };
@@ -386,6 +397,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             loadingFinishListener.startLoadingData();
         }
         mLoadDataEngine.loadData();
+        // isRefresh = true;
 
     }
 
@@ -409,6 +421,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
+            mLoadDataEngine.cancelLoadingDialog();
             // mLoadDataEngine.refreshDatabySize(mDataList.size());
             mLoadDataEngine.loadData();
         }
@@ -451,13 +464,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mAdapterConbinStock.setCheckChangeListener(listener);
     }
 
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         LinearLayout wrapper = new LinearLayout(getActivity()); // for example
         inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
         tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
-
+        pb = (RelativeLayout) wrapper.findViewById(android.R.id.progress);
+        if (!(null != mDataList && mDataList.size() > 0)) {
+            pb.setVisibility(View.VISIBLE);
+        }
         initView(wrapper);
         return wrapper;
     }
@@ -526,6 +544,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mListView.setOnItemClickListener(itemBackClick);
         }
 
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        // mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        mSwipeLayout.setOnRefreshListener(new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                refreshNoCaseTime();
+
+            }
+        });
+
     }
 
     OnItemClickListener priceStockItemClick = new OnItemClickListener() {
@@ -570,6 +600,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+        pb.setVisibility(View.GONE);
     }
 
     @Override
@@ -578,6 +609,21 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
     }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        if (!isVisibleToUser) {
+            if (null != pb)
+                pb.setVisibility(View.GONE);
+        }
+        if (null != mDataList && mDataList.size() > 0) {
+            pb.setVisibility(View.GONE);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    // private boolean isLoadMore;
 
     @Override
     public void onLoadMore() {
@@ -594,6 +640,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
             mLoadDataEngine.loadMore();
+            isLoadingMore = true;
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }

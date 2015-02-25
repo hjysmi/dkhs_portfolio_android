@@ -1,11 +1,4 @@
-/**
- * @Title UiUtils.java
- * @Package com.dkhs.portfolio.ui
- * @Description TODO(用一句话描述该文件做什么)
- * @author zjz
- * @date 2014-8-25 下午3:43:24
- * @version V1.0
- */
+
 package com.dkhs.portfolio.utils;
 
 import java.io.ByteArrayInputStream;
@@ -308,7 +301,9 @@ public class UIUtils {
                 volume = volume / 100000000;
                 text = new DecimalFormat("0.00").format(volume) + "亿";
             }
-
+            if(volume == 0){
+                text = "--";
+            }
         } catch (Exception e) {
 
         }
@@ -322,11 +317,14 @@ public class UIUtils {
     public static String nongNet(String value){
         if(value.equals("-1.00") || value.equals("-1")){
             value = "—";
+        }else if(Double.valueOf(value) < 0){
+            value = "0.00";
         }
         return value;
     }
     public static String getshou(double volume){
         String text = null;
+        volume = volume / 100;
         if (volume < 10000) {
             text = new DecimalFormat("0.00").format(volume) + "手";
         } else if(volume > 10000 && volume < 100000000){
@@ -386,6 +384,10 @@ public class UIUtils {
         } 
         return false;
     }
-
-
+    public static boolean isSymbleIndex(String type){
+        if(type.equals("5")){
+            return true;
+        }
+        return false;
+    }
 }

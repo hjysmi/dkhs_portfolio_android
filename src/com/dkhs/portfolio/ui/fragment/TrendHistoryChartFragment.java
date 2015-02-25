@@ -19,6 +19,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -72,7 +73,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
     private Calendar mCreateCalender;
 
     private DrawLineDataEntity historyNetvalue;
-
+    private RelativeLayout pb;
     public static TrendHistoryChartFragment newInstance(String trendType) {
         TrendHistoryChartFragment fragment = new TrendHistoryChartFragment();
 
@@ -121,6 +122,8 @@ public class TrendHistoryChartFragment extends BaseFragment {
         if (rootView == null) {
             rootView = inflater.inflate(R.layout.fragment_trend_chart, null);
             mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
+            pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
+            pb.setVisibility(View.VISIBLE);
             if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
                 InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
                 mMaChart.setScroll(mScrollview);
@@ -128,7 +131,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);
-            PromptManager.showProgressDialog(getActivity(), "");
+            //PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryHistory(historyListener);
 
         }
@@ -277,6 +280,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
         @Override
         protected void afterParseData(DrawLineDataEntity todayNetvalue) {
+            pb.setVisibility(View.GONE);
             if (todayNetvalue != null) {
                 historyNetvalue = todayNetvalue;
                 setHistoryViewload();
@@ -332,7 +336,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-            PromptManager.closeProgressDialog();
+            //PromptManager.closeProgressDialog();
         } catch (Exception e) {
             // TODO: handle exception
         }
