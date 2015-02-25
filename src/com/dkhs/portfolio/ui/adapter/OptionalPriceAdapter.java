@@ -21,6 +21,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
+import com.dkhs.portfolio.ui.fragment.TabStockFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -129,13 +132,16 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             tabIndex++;
             tabIndex = tabIndex % 3;
             if (tabIndex == 0) {
-                PromptManager.showToast("Change tab text to:涨跌幅");
+                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_PERCENTAGEUP));
+                // PromptManager.showToast("Change tab text to:涨跌幅");
 
             } else if (tabIndex == 1) {
-                PromptManager.showToast("Change tab text to:涨跌额");
+                // PromptManager.showToast("Change tab text to:涨跌额");
+                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_CHANGEUP));
 
             } else {
-                PromptManager.showToast("Change tab text to:总市值");
+                // PromptManager.showToast("Change tab text to:总市值");
+                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_TOTAL_CAPITAL_UP));
 
             }
 

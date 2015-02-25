@@ -28,9 +28,13 @@ import com.dkhs.portfolio.ui.OptionEditActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity.RequestMarketTask;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -55,14 +59,16 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
 
-    private final String TYPE_CURRENTUP = "current";
-    private final String TYPE_PERCENTAGEUP = "percentage";
+    public static final String TYPE_CURRENTUP = "current";
+    public static final String TYPE_PERCENTAGEUP = "percentage";
     // 涨跌
-    private final String TYPE_CHANGEUP = "change";
-    private final String TYPE_CURRENTDOWN = "-current";
-    private final String TYPE_PERCENTAGEDOWN = "-percentage";
+    public static final String TYPE_CHANGEUP = "change";
+    public static final String TYPE_CURRENTDOWN = "-current";
+    public static final String TYPE_PERCENTAGEDOWN = "-percentage";
     // 涨跌
-    private final String TYPE_CHANGEDOWN = "-change";
+    public static final String TYPE_CHANGEDOWN = "-change";
+    // 总市值高到低
+    public static final String TYPE_TOTAL_CAPITAL_UP = "total_capital";
 
     // 5s
     private static final long mPollRequestTime = 1000 * 30;
@@ -105,6 +111,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
         MobclickAgent.onPageStart(mPageName);
+        BusProvider.getInstance().register(this);
         // MobclickAgent.onResume(this);
     }
 
@@ -282,6 +289,26 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void onTabTitleChange(TabStockTitleChangeEvent event) {
+        if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
+            // PromptManager.showToast("Change tab text to:总市值");
+            if (event.tabType.equalsIgnoreCase(TYPE_PERCENTAGEUP)) {
+                tvPercentgae.setText(R.string.market_updown_ratio);
+                // PromptManager.showToast("Change tab text to:涨跌幅");
+            } else if (event.tabType.equalsIgnoreCase(TYPE_CHANGEUP)) {
+                tvPercentgae.setText(R.string.market_updown_change);
+                // PromptManager.showToast("Change tab text to:涨跌额");
+
+            } else {
+                // PromptManager.showToast("Change tab text to:总市值");
+                tvPercentgae.setText(R.string.market_updown_total_capit);
+
+            }
+        }
     }
 
 }
