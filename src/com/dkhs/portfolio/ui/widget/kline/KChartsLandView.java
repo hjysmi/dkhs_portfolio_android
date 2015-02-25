@@ -208,24 +208,26 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
                 bottom = 5.0f + 9 * textTextHeight + textMargin * 10;
             }
-            /*if (mOHLCData.size() < MIN_CANDLE_NUM) {
-                if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f + PADDING_LEFT)) {
-                    right = width - 12.0f + PADDING_LEFT;
-                    left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
-                }
-            } else {*/
-                if (mStartX < width / 2.0f) {
-                    right = width - 12.0f + PADDING_LEFT;
-                    left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
-                }
-            //}
+            /*
+             * if (mOHLCData.size() < MIN_CANDLE_NUM) {
+             * if (mStartX - addNum * (mCandleWidth + 3) < (width / 2.0f + PADDING_LEFT)) {
+             * right = width - 12.0f + PADDING_LEFT;
+             * left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
+             * }
+             * } else {
+             */
+            if (mStartX < width / 2.0f) {
+                right = width - 12.0f + PADDING_LEFT;
+                left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
+            }
+            // }
 
             int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + 3) + mDataStartIndext);
-            
+
             if (mOHLCData.size() < MIN_CANDLE_NUM) {
                 selectIndext = (int) ((width - 2.0f - mStartX - addNum * (mCandleWidth + 3)) / (mCandleWidth + 3) + mDataStartIndext);
             }
-            if(selectIndext < 0){
+            if (selectIndext < 0) {
                 selectIndext = 0;
             }
             double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
@@ -563,6 +565,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         canvas.drawLine(startMidLineX, high, startMidLineX, low, redPaint);
                     }
                     if (null != entity.getInfo() && entity.getInfo().length() > 0) {
+                        // 小黄点
                         Paint p = new Paint();
                         p.setAntiAlias(true);
                         p.setStyle(Paint.Style.FILL);
@@ -731,13 +734,13 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     int selectIndext = (int) ((width - CANDLE_PADDING - mStartX - mCandleWidth * addNum - CANDLE_PADDING
                             * addNum)
                             / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
-                    if(selectIndext < 0){
+                    if (selectIndext < 0) {
                         selectIndext = 0;
                     }
                     mVolumnChartView.setCurrentIndex(selectIndext);
                     if (selectIndext > lineEntity.getLineData().size() - 1 || selectIndext < 0) {
                         text = lineEntity.getTitle() + ":--";
-                    } else{
+                    } else {
                         text = lineEntity.getTitle() + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(selectIndext));
                     }
@@ -1170,17 +1173,17 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         postInvalidate();
                     }
                 } else if (event.getPointerCount() > 1 && !showDetails) {
-                    //缩放K线显示条数
+                    // 缩放K线显示条数
                     ismove = false;
                     mShowDataNum = (int) (currentShow - (Math.abs(event.getX(0)
                             - event.getX(event.getPointerCount() - 1)) - longs)
                             / (mCandleWidth + CANDLE_PADDING));
-                    //设置最少显示蜡烛数
+                    // 设置最少显示蜡烛数
                     if (mShowDataNum < MIN_CANDLE_NUM) {
                         mShowDataNum = MIN_CANDLE_NUM;
                     }
-                    //限制最大显示蜡烛数
-                    if(mShowDataNum > MAX_CANDLE_NUM){
+                    // 限制最大显示蜡烛数
+                    if (mShowDataNum > MAX_CANDLE_NUM) {
                         mShowDataNum = MAX_CANDLE_NUM;
                     }
                     // mDataStartIndext = (int) (currentShow + ((event.getX(0) - event.getX(event.getPointerCount()-1))
