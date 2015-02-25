@@ -588,11 +588,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         float we = 0;
                         if (rect.width() <= dragValue) {
                             we = (float) (PADDING_LEFT + dragValue - rect.width());
-//                            canvas.drawText(textforFlush, we, getHeight() / 2, paint);
+                            // canvas.drawText(textforFlush, we, getHeight() / 2, paint);
                         } else {
                             int k = textforFlush.length() - (int) (textforFlush.length() * dragValue / rect.width());
-//                            canvas.drawText(textforFlush, k, textforFlush.length(), PADDING_LEFT, getHeight() / 2,
-//                                    paint);
+                            // canvas.drawText(textforFlush, k, textforFlush.length(), PADDING_LEFT, getHeight() / 2,
+                            // paint);
                         }
 
                     }
