@@ -30,7 +30,7 @@ import android.widget.Button;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @author zjz
  * @date 2015-2-5 上午10:26:35
- * @version 1.0
+ * @version 2.0
  */
 public class NewMainActivity extends BaseActivity {
 

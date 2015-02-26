@@ -132,16 +132,16 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
             tabIndex++;
             tabIndex = tabIndex % 3;
             if (tabIndex == 0) {
-                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_PERCENTAGEUP));
+                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_PERCENTAGE_UP));
                 // PromptManager.showToast("Change tab text to:涨跌幅");
 
             } else if (tabIndex == 1) {
                 // PromptManager.showToast("Change tab text to:涨跌额");
-                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_CHANGEUP));
+                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_CHANGE_UP));
 
             } else {
                 // PromptManager.showToast("Change tab text to:总市值");
-                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_TOTAL_CAPITAL_UP));
+                BusProvider.getInstance().post(new TabStockTitleChangeEvent(TabStockFragment.TYPE_TCAPITAL_UP));
 
             }
 

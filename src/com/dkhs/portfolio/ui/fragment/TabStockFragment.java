@@ -59,16 +59,24 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
 
-    public static final String TYPE_CURRENTUP = "current";
-    public static final String TYPE_PERCENTAGEUP = "percentage";
-    // 涨跌
-    public static final String TYPE_CHANGEUP = "change";
-    public static final String TYPE_CURRENTDOWN = "-current";
-    public static final String TYPE_PERCENTAGEDOWN = "-percentage";
-    // 涨跌
-    public static final String TYPE_CHANGEDOWN = "-change";
+    // 当前价格
+    public static final String TYPE_DEFALUT = "followed_at";
+    public static final String TYPE_CURRENT_UP = "current";
+    public static final String TYPE_CURRENT_DOWN = "-current";
+
+    // 涨跌幅
+    // public static final String TYPE_PERCENTAGE_DEF = "percentage";
+    public static final String TYPE_PERCENTAGE_UP = "percentage";
+    public static final String TYPE_PERCENTAGE_DOWN = "-percentage";
+    // 涨跌额
+    // public static final String TYPE_CHANGE_DEF = "-change";
+    public static final String TYPE_CHANGE_DOWN = "-change";
+    public static final String TYPE_CHANGE_UP = "change";
+
     // 总市值高到低
-    public static final String TYPE_TOTAL_CAPITAL_UP = "total_capital";
+    // public static final String TYPE_TCAPITAL_DEF = "total_capital";
+    public static final String TYPE_TCAPITAL_UP = "total_capital";
+    public static final String TYPE_TCAPITAL_DOWN = "-total_capital";
 
     // 5s
     private static final long mPollRequestTime = 1000 * 30;
@@ -249,35 +257,81 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            if (orderType == TYPE_CHANGEDOWN || orderType == TYPE_CURRENTDOWN || orderType == TYPE_PERCENTAGEDOWN) {
+            // if (orderType == TYPE_CHANGE_DOWN || orderType == TYPE_CURRENT_DOWN || orderType == TYPE_PERCENTAGE_DOWN)
+            // {
+            // setUpType(currentSelectView);
+            // } else {
+            // setDownType(currentSelectView);
+            // }
+
+            if (isDefOrder(orderType)) {
+                setDownType(currentSelectView);
+            } else if (isDownOrder(orderType)) {
                 setUpType(currentSelectView);
             } else {
-                setDownType(currentSelectView);
+                setDefType(currentSelectView);
             }
         }
         viewLastClick = currentSelectView;
     }
 
+    private boolean isUpOrder(String orderType) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
+                        || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDownOrder(String orderType) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
+                        || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDefOrder(String orderType) {
+        if (!TextUtils.isEmpty(orderType) && orderType.equals(TYPE_DEFALUT)) {
+            return true;
+        }
+        return false;
+    }
+
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
-            orderType = TYPE_CURRENTDOWN;
+            orderType = TYPE_CURRENT_DOWN;
         } else if (currentSelectView == tvChange) {
-            orderType = TYPE_CHANGEDOWN;
+            orderType = TYPE_CHANGE_DOWN;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = TYPE_PERCENTAGEDOWN;
+            orderType = TYPE_PERCENTAGE_DOWN;
         }
         setDrawableDown(currentSelectView);
     }
 
     private void setUpType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
-            orderType = TYPE_CURRENTUP;
+            orderType = TYPE_CURRENT_UP;
         } else if (currentSelectView == tvChange) {
-            orderType = TYPE_CHANGEUP;
+            orderType = TYPE_CHANGE_UP;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = TYPE_PERCENTAGEUP;
+            orderType = TYPE_PERCENTAGE_UP;
         }
         setDrawableUp(currentSelectView);
+    }
+
+    private void setDefType(TextView currentSelectView) {
+        // if (currentSelectView == tvCurrent) {
+        // orderType = "";
+        // } else if (currentSelectView == tvChange) {
+        // orderType = TYPE_CHANGE_DEF;
+        // } else if (currentSelectView == tvPercentgae) {
+        // orderType = TYPE_PERCENTAGE_DEF;
+        // }
+        orderType = TYPE_DEFALUT;
+        setTextDrawableHide(currentSelectView);
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
@@ -296,10 +350,10 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     public void onTabTitleChange(TabStockTitleChangeEvent event) {
         if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
             // PromptManager.showToast("Change tab text to:总市值");
-            if (event.tabType.equalsIgnoreCase(TYPE_PERCENTAGEUP)) {
+            if (event.tabType.equalsIgnoreCase(TYPE_PERCENTAGE_UP)) {
                 tvPercentgae.setText(R.string.market_updown_ratio);
                 // PromptManager.showToast("Change tab text to:涨跌幅");
-            } else if (event.tabType.equalsIgnoreCase(TYPE_CHANGEUP)) {
+            } else if (event.tabType.equalsIgnoreCase(TYPE_CHANGE_UP)) {
                 tvPercentgae.setText(R.string.market_updown_change);
                 // PromptManager.showToast("Change tab text to:涨跌额");
 
