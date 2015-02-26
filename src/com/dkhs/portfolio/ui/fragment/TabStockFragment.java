@@ -284,6 +284,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         return false;
     }
 
+    
     private boolean isDownOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)

@@ -30,11 +30,23 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  */
 public class UserCombinationEngineImpl extends LoadMoreDataEngine {
 
+    // 净值、涨幅、置顶序号
+    public static final String ORDER_CUMULATIVE_UP = "cumulative";
+    public static final String ORDER_NET_VALUE_UP = "net_value";
+    public static final String ORDER_CUMULATIVE_DOWN = "-cumulative";
+    public static final String ORDER_NET_VALUE_DOWN = "-net_value";
+    public static final String ORDER_DEFALUT = "";
+
     private String userId;
+    private String orderType;
 
     public UserCombinationEngineImpl(ILoadDataBackListener loadListener, String usrId) {
         super(loadListener);
         this.userId = usrId;
+    }
+
+    public void setOrderType(String type) {
+        this.orderType = type;
     }
 
     @Override
@@ -42,6 +54,9 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
             params.addQueryStringParameter("user_id", userId);
+        }
+        if (!TextUtils.isEmpty(orderType)) {
+            params.addQueryStringParameter("sort", orderType);
         }
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         // List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -53,6 +68,9 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
     public HttpHandler loadAllData() {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
+        if (!TextUtils.isEmpty(orderType)) {
+            params.addQueryStringParameter("sort", orderType);
+        }
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
 
@@ -68,6 +86,9 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
             params.addQueryStringParameter("user_id", userId);
+        }
+        if (!TextUtils.isEmpty(orderType)) {
+            params.addQueryStringParameter("sort", orderType);
         }
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
         // DKHSClient.requestByGet(DKHSUrl.Portfolio.portfolio, null, null, this);
@@ -110,6 +131,9 @@ public class UserCombinationEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         if (!TextUtils.isEmpty(userId)) {
             params.addQueryStringParameter("user_id", userId);
+        }
+        if (!TextUtils.isEmpty(orderType)) {
+            params.addQueryStringParameter("sort", orderType);
         }
         params.addQueryStringParameter("page_size", dataSize + "");
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.portfolio, params, this);
