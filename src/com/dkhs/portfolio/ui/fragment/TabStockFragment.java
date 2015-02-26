@@ -54,8 +54,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     private FragmentSelectStockFund loadDataListFragment;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
-    @ViewInject(R.id.tv_increase)
-    private TextView tvChange;
+    // @ViewInject(R.id.tv_increase)
+    // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
 
@@ -209,10 +209,10 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
 
             }
                 break;
-            case R.id.tv_increase: {
-                setViewOrderIndicator(tvChange);
-            }
-                break;
+            // case R.id.tv_increase: {
+            // setViewOrderIndicator(tvChange);
+            // }
+            // break;
 
             default:
                 break;
@@ -284,7 +284,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         return false;
     }
 
-    
     private boolean isDownOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
@@ -304,10 +303,20 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
             orderType = TYPE_CURRENT_DOWN;
-        } else if (currentSelectView == tvChange) {
-            orderType = TYPE_CHANGE_DOWN;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = TYPE_PERCENTAGE_DOWN;
+            if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
+                // 涨跌幅
+                orderType = TYPE_PERCENTAGE_DOWN;
+
+            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
+                // 涨跌额
+                orderType = TYPE_CHANGE_DOWN;
+
+            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
+                // 总市值
+                orderType = TYPE_TCAPITAL_DOWN;
+
+            }
         }
         setDrawableDown(currentSelectView);
     }
@@ -315,10 +324,22 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     private void setUpType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
             orderType = TYPE_CURRENT_UP;
-        } else if (currentSelectView == tvChange) {
-            orderType = TYPE_CHANGE_UP;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = TYPE_PERCENTAGE_UP;
+
+            if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
+                // 涨跌幅
+                orderType = TYPE_PERCENTAGE_UP;
+
+            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
+                // 涨跌额
+                orderType = TYPE_CHANGE_UP;
+
+            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
+                // 总市值
+                orderType = TYPE_TCAPITAL_UP;
+
+            }
+
         }
         setDrawableUp(currentSelectView);
     }
@@ -361,7 +382,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             } else {
                 // PromptManager.showToast("Change tab text to:总市值");
                 tvPercentgae.setText(R.string.market_updown_total_capit);
-
             }
         }
     }
