@@ -7,7 +7,6 @@
         <item>删除图片</item>
         <item>取消</item>
     </string-array>
-
     <string-array name="refer_funds">
         <item>主要指数</item>
         <item>指数基金</item>
@@ -65,16 +64,17 @@
         <item>周K</item>
         <item>月K</item>
     </string-array>
-
-
-
     <string-array name="yanbao_items">
         <item>公司</item>
         <!-- <item>行业</item> -->
         <item>策略</item>
         <item>宏观</item>
     </string-array>
-
+    <string-array name="main_info_title">
+        <item>自选</item>
+        <item>策略</item>
+        <item>宏观</item>
+    </string-array>
     <string-array name="fund_detail_more">
         <item>@string/change_combination_name</item>
         <item>@string/change_position</item>

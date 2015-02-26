@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
+import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
@@ -62,7 +63,7 @@ public class NewMainActivity extends BaseActivity {
 
         }
         fragmentB = new MainMarketFragment();
-        fragmentC = new TestFragment();
+        fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
     }
@@ -96,7 +97,7 @@ public class NewMainActivity extends BaseActivity {
 
     private Fragment fragmentA;
     private Fragment fragmentB;
-    private TestFragment fragmentC;
+    private Fragment fragmentC;
     private Fragment fragmentD;
 
     protected void displayFragmentA() {

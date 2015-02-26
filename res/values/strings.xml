@@ -384,6 +384,7 @@
     <string name="tab_3">资讯</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
+    <string name="title_info">信息资讯</string>
 
     <!-- optional tab -->
     <string name="net_value">净值</string>
