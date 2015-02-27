@@ -40,10 +40,10 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 		public final static int GROUP_FOR_ONE = 6;
 	private int orderType;
 	private String model;
-	private NewsforImpleEngine vo;
+	private NewsforModel vo;
 
 	public OpitionNewsEngineImple(ILoadDataBackListener loadListener, int type,
-			NewsforImpleEngine vo) {
+			NewsforModel vo) {
 		super(loadListener);
 		this.orderType = type;
 		this.vo = vo;

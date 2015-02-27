@@ -365,6 +365,8 @@
     <string name="plate_name">行业名称</string>
     <string name="plate_leader_stock">领涨股</string>
     <string name="market_updown_ratio">涨跌幅</string>
+    <string name="market_updown_change">涨跌额</string>
+    <string name="market_updown_total_capit">总市值</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
@@ -382,7 +384,8 @@
     <string name="tab_3">资讯</string>
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
-    
+    <string name="title_info">信息资讯</string>
+
     <!-- optional tab -->
     <string name="net_value">净值</string>
     <string name="today_up_ratio">今日涨幅</string>

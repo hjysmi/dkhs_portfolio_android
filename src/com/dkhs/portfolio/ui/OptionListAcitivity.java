@@ -23,7 +23,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
@@ -91,7 +91,7 @@ public class OptionListAcitivity extends ModelAcitivity {
                         user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                     }
                     String userId = user.getId() + "";
-                    NewsforImpleEngine vo = new NewsforImpleEngine();
+                    NewsforModel vo = new NewsforModel();
                     vo.setUserid(userId);
                     vo.setSymbol(symbol);
                     vo.setContentType(type);
@@ -115,7 +115,7 @@ public class OptionListAcitivity extends ModelAcitivity {
                     user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                 }
                 String userId = user.getId() + "";
-                NewsforImpleEngine vo = new NewsforImpleEngine();
+                NewsforModel vo = new NewsforModel();
                 vo.setUserid(userId);
                 vo.setSymbol(symbol);
                 vo.setContentType(type);

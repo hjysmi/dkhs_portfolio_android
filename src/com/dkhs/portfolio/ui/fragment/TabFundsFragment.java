@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,8 +47,8 @@ public class TabFundsFragment extends BaseFragment {
 
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
-    @ViewInject(R.id.tv_increase)
-    private TextView tvChange;
+    // @ViewInject(R.id.tv_increase)
+    // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
 
@@ -118,10 +119,10 @@ public class TabFundsFragment extends BaseFragment {
 
             }
                 break;
-            case R.id.tv_increase: {
-                setViewOrderIndicator(tvChange);
-            }
-                break;
+            // case R.id.tv_increase: {
+            // setViewOrderIndicator(tvChange);
+            // }
+            // break;
 
             default:
                 break;
@@ -131,6 +132,8 @@ public class TabFundsFragment extends BaseFragment {
         // isLoading = true;
         // loadDataListFragment.setOptionalOrderType(orderType);
         // }
+        dataEngine.setOrderType(orderType);
+        refresh();
 
     }
 
@@ -202,14 +205,15 @@ public class TabFundsFragment extends BaseFragment {
 
     private TextView viewLastClick;
     private String orderType;
-    private final String typeCurrentUp = "current";
-    private final String typePercentageUp = "percentage";
-    // 涨跌
-    private final String typeChangeUP = "change";
-    private final String typeCurrentDown = "-current";
-    private final String typePercentageDown = "-percentage";
-    // 涨跌
-    private final String typeChangeDown = "-change";
+
+    // private final String typeCurrentUp = "current";
+    // private final String typePercentageUp = "percentage";
+    // // 涨跌
+    // private final String typeChangeUP = "change";
+    // private final String typeCurrentDown = "-current";
+    // private final String typePercentageDown = "-percentage";
+    // // 涨跌
+    // private final String typeChangeDown = "-change";
 
     private void setDrawableUp(TextView view) {
 
@@ -243,34 +247,73 @@ public class TabFundsFragment extends BaseFragment {
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            if (orderType == typeChangeDown || orderType == typeCurrentDown || orderType == typePercentageDown) {
+
+            if (isDefOrder(orderType)) {
+                setDownType(currentSelectView);
+            } else if (isDownOrder(orderType)) {
                 setUpType(currentSelectView);
             } else {
-                setDownType(currentSelectView);
+                setDefType(currentSelectView);
             }
         }
         viewLastClick = currentSelectView;
     }
 
+    private boolean isUpOrder(String orderType) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(UserCombinationEngineImpl.ORDER_CUMULATIVE_UP) || orderType
+                        .equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDownOrder(String orderType) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(UserCombinationEngineImpl.ORDER_CUMULATIVE_DOWN) || orderType
+                        .equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN))) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isDefOrder(String orderType) {
+        if (TextUtils.isEmpty(orderType)) {
+            return true;
+        }
+        // if (orderType.equals(UserCombinationEngineImpl.ORDER_DEFALUT)) {
+        // return true;
+        // }
+        return false;
+    }
+
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
-            orderType = typeCurrentDown;
-        } else if (currentSelectView == tvChange) {
-            orderType = typeChangeDown;
+            orderType = UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = typePercentageDown;
+            orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_DOWN;
         }
         setDrawableDown(currentSelectView);
     }
 
     private void setUpType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
-            orderType = typeCurrentUp;
-        } else if (currentSelectView == tvChange) {
-            orderType = typeChangeUP;
+            orderType = UserCombinationEngineImpl.ORDER_NET_VALUE_UP;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = typePercentageUp;
+            orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_UP;
         }
         setDrawableUp(currentSelectView);
+    }
+
+    private void setDefType(TextView currentSelectView) {
+        // if (currentSelectView == tvCurrent) {
+        // orderType = "";
+        // } else if (currentSelectView == tvChange) {
+        // orderType = TYPE_CHANGE_DEF;
+        // } else if (currentSelectView == tvPercentgae) {
+        // orderType = TYPE_PERCENTAGE_DEF;
+        // }
+        orderType = UserCombinationEngineImpl.ORDER_DEFALUT;
+        setTextDrawableHide(currentSelectView);
     }
 }

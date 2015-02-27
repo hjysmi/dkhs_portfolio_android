@@ -31,6 +31,8 @@ public class SelectStockBean implements Serializable {
     public boolean isStop;
     public long index;
     public int status;
+    public float total_capital;
+
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
     // 2,='暂停交易' 3='终止上市'
@@ -88,6 +90,7 @@ public class SelectStockBean implements Serializable {
         selectBean.index = stockBean.getIndex();
         selectBean.change = stockBean.getChange();
         selectBean.list_status = stockBean.getList_status();
+        selectBean.total_capital = stockBean.getTotal_capital();
         return selectBean;
     }
 
@@ -127,6 +130,14 @@ public class SelectStockBean implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public float getTotal_capital() {
+        return total_capital;
+    }
+
+    public void setTotal_capital(float total_capital) {
+        this.total_capital = total_capital;
     }
 
 }
