@@ -24,7 +24,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
@@ -82,7 +82,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         // view_datalist
         if (null == loadDataListFragment) {
             try {
-                NewsforImpleEngine vo = new NewsforImpleEngine();
+                NewsforModel vo = new NewsforModel();
                 vo.setSymbol(symbol);
                 vo.setContentSubType(subType);
                 if (null == subType) {
@@ -109,7 +109,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
 
     private void initDate() {
         try {
-            NewsforImpleEngine vo = new NewsforImpleEngine();
+            NewsforModel vo = new NewsforModel();
             vo.setSymbol(symbol);
             vo.setContentSubType(subType);
             if (null == subType) {

@@ -46,7 +46,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -263,7 +263,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name[2] = "F10";
             }
-            NewsforImpleEngine vo;
+            NewsforModel vo;
             frag = new ArrayList<Fragment>();
             // Fragment f1 = new FragmentNewsList();
             // Bundle b1 = new Bundle();
@@ -280,7 +280,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             Fragment f2 = new FragmentNewsList();
             Bundle b2 = new Bundle();
             b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
-            vo = new NewsforImpleEngine();
+            vo = new NewsforModel();
             vo.setSymbol(mStockBean.code);
             vo.setContentType("20");
             vo.setPageTitle("公告正文");

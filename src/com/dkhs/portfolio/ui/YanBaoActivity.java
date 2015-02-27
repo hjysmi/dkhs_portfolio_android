@@ -14,7 +14,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
@@ -63,24 +63,24 @@ public class YanBaoActivity extends ModelAcitivity {
             e.printStackTrace();
         }
         String[] name = getResources().getStringArray(R.array.yanbao_items);
-        NewsforImpleEngine vo;
+        NewsforModel vo;
         List<Fragment> frag = new ArrayList<Fragment>();
         
-        vo = new NewsforImpleEngine();
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("304");
         Fragment f1 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP);
         frag.add(f1);
-        vo = new NewsforImpleEngine();
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("303");
         Fragment f2 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP);
-        vo = new NewsforImpleEngine();
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("302");
         Fragment f3 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP_TWO);
         frag.add(f3);
-        vo = new NewsforImpleEngine();
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("301");
         Fragment f4 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP_TWO);

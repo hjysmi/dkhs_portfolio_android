@@ -26,7 +26,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -101,7 +101,7 @@ public class FragmentForOptionOnr extends Fragment{
     		            name = extras.getString(NAME);
     		            subType = extras.getString(SUB);
     		        }
-					NewsforImpleEngine vo = new NewsforImpleEngine();
+					NewsforModel vo = new NewsforModel();
 					vo.setSymbol(symbol);
 					vo.setContentSubType(subType);
 					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);

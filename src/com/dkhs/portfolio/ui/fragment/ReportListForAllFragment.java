@@ -9,7 +9,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.NewsActivity;
@@ -17,6 +17,7 @@ import com.dkhs.portfolio.ui.NoticesActivity;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
+import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
@@ -61,9 +62,9 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
     public static final String TYPE_NAME = "typename";
     public static final String VO_NAME = "voname";
     private int type;
-    private NewsforImpleEngine vo;
+    private NewsforModel vo;
 
-    public static ReportListForAllFragment getFragment(NewsforImpleEngine vo, int type) {
+    public static ReportListForAllFragment getFragment(NewsforModel vo, int type) {
         ReportListForAllFragment fragment = new ReportListForAllFragment();
         Bundle args = new Bundle();
         args.putSerializable(VO_NAME, vo);
@@ -76,7 +77,7 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         Bundle bundle = getArguments();
-        vo = (NewsforImpleEngine) bundle.getSerializable(VO_NAME);
+        vo = (NewsforModel) bundle.getSerializable(VO_NAME);
         type = bundle.getInt(TYPE_NAME);
         View view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
@@ -119,11 +120,14 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
             case OpitionNewsEngineImple.GROUP_FOR_ONE:
                 mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
                 break;
+            case OpitionNewsEngineImple.NEWS_GROUP:
+                mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
+                break;
             default:
                 mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
                 break;
         }
-        
+
         mListView.setAdapter(mOptionMarketAdapter);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
@@ -154,73 +158,80 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                     case OpitionNewsEngineImple.NEWSALL:
                         intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
                                 .getSymbol()
-                            + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
+                                + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
                         startActivity(intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP:
-                        if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                        if (null != mDataList.get(position).getSymbols()
+                                && mDataList.get(position).getSymbols().size() > 0) {
 
-                            intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
-                                    .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), vo.getContentSubType());
+                            intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols()
+                                    .get(0).getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(),
+                                    vo.getContentSubType());
                         } else {
                             intent = ReportForOneListActivity.newIntent(context, null, null, null);
                         }
                         startActivity(intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
-                        if(vo.getContentType().equals("20")){
+                        if (vo.getContentType().equals("20")) {
                             intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
                                     .getSymbol()
                                     + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
                             startActivity(intent);
-                        }else{
-                            if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                                intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
-                                        .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), vo.getContentSubType());
+                        } else {
+                            if (null != mDataList.get(position).getSymbols()
+                                    && mDataList.get(position).getSymbols().size() > 0) {
+                                intent = ReportForOneListActivity.newIntent(context, mDataList.get(position)
+                                        .getSymbols().get(0).getSymbol(), mDataList.get(position).getSymbols().get(0)
+                                        .getAbbrName(), vo.getContentSubType());
                             } else {
                                 intent = ReportForOneListActivity.newIntent(context, null, null, null);
                             }
                             startActivity(intent);
                         }
-                        
+
                         break;
                     default:
                         try {
                             switch (type) {
                                 case 1:
                                     name = "公告正文";
-                                    if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                                        intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name, mDataList
-                                                .get(position).getSymbols().get(0).getAbbrName(),
-                                                mDataList.get(position).getSymbols().get(0).getId());
+                                    if (null != mDataList.get(position).getSymbols()
+                                            && mDataList.get(position).getSymbols().size() > 0) {
+                                        intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name,
+                                                mDataList.get(position).getSymbols().get(0).getAbbrName(), mDataList
+                                                        .get(position).getSymbols().get(0).getId());
                                         startActivity(intent);
                                     } else {
-                                        intent = NewsActivity
-                                                .newIntent(context, mDataList.get(position).getId(), name, null, null);
+                                        intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name,
+                                                null, null);
                                         startActivity(intent);
                                     }
                                     break;
 
                                 default:
                                     name = "研报正文";
-                                    if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
-                                                mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
-                                                        .getSymbols().get(0).getAbbrName());
+                                    if (null != mDataList.get(position).getSymbols()
+                                            && mDataList.get(position).getSymbols().size() > 0) {
+                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position)
+                                                .getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),
+                                                mDataList.get(position).getSymbols().get(0).getAbbrName());
                                     } else {
-                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null);
+                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position)
+                                                .getId(), null, null);
                                     }
                                     startActivity(intent);
                                     break;
                             }
-                            
+
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                         break;
                 }
-               
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

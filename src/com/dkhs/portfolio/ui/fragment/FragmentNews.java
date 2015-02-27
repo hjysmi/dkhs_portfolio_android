@@ -24,7 +24,7 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -96,7 +96,7 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         // fragmentList.add(f1);
         /*Fragment f2 = new OptionMarketNewsFragment();
         Bundle b2 = new Bundle();*/
-        NewsforImpleEngine vo2 = new NewsforImpleEngine();
+        NewsforModel vo2 = new NewsforModel();
         vo2.setPortfolioId(mCombinationBean.getId() + "");
         vo2.setContentType("20");
         /*b2.putSerializable(OptionMarketNewsFragment.VO, vo2);
@@ -107,7 +107,7 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         /*Fragment f3 = new FragmentreportOneList();
         Bundle b3 = new Bundle();
         b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);*/
-        NewsforImpleEngine vo3 = new NewsforImpleEngine();
+        NewsforModel vo3 = new NewsforModel();
         vo3.setPortfolioId(mCombinationBean.getId() + "");
         vo3.setContentType("30");
 

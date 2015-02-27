@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import android.widget.LinearLayout;
 
-public class NewsforImpleEngine implements Serializable{
+public class NewsforModel implements Serializable{
 	/**
 	 * 
 	 */
