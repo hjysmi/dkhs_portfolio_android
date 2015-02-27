@@ -87,18 +87,21 @@ public class MainInfoFragment extends BaseTitleFragment {
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
         infoEngine.setContentSubType("304");
-        Fragment f1 = ReportListForAllFragment.getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP);
-        fragmentList.add(f1);
-        infoEngine = new NewsforModel();
-        infoEngine.setUserid(userId);
-        infoEngine.setContentSubType("302");
-        Fragment f3 = ReportListForAllFragment.getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
-        fragmentList.add(f3);
+        Fragment optionalInfoFragment = ReportListForAllFragment.getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP);
+        fragmentList.add(optionalInfoFragment);
+
         infoEngine = new NewsforModel();
         infoEngine.setUserid(userId);
         infoEngine.setContentSubType("301");
-        Fragment f4 = ReportListForAllFragment.getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
-        fragmentList.add(f4);
+        Fragment hongguanFragment = ReportListForAllFragment.getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
+        fragmentList.add(hongguanFragment);
+
+        infoEngine = new NewsforModel();
+        infoEngine.setUserid(userId);
+        infoEngine.setContentSubType("302");
+        Fragment celueFragment = ReportListForAllFragment.getFragment(infoEngine, OpitionNewsEngineImple.NEWS_GROUP_TWO);
+        fragmentList.add(celueFragment);
+
         new FragmentSelectAdapter(getActivity(), name, fragmentList, layout, getChildFragmentManager());
 
         // hsTitle.setTitleList(getResources().getStringArray(R.array.main_info_title));

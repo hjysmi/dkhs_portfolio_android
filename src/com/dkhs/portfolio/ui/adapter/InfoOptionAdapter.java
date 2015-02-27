@@ -98,16 +98,18 @@ public class InfoOptionAdapter extends BaseAdapter {
 
             if (mOptionNewsBean.getContentType().equals("20")) {
                 viewHolder.tvType.setText("【公告】");
+                viewHolder.text.setVisibility(View.GONE);
             } else if (mOptionNewsBean.getContentType().equals("30")) {
                 viewHolder.tvType.setText("【研报】");
+                viewHolder.text.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.tvType.setText("");
             }
 
             viewHolder.tv.setText(mOptionNewsBean.getTitle());
 
-//            viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
-//            viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
+            // viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
+            // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
             Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
             if (null != mOptionNewsBean.getSource()) {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
