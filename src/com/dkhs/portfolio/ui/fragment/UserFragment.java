@@ -82,7 +82,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
             String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
-            account = setAccount(account);
+            // account = setAccount(account);
             settingTextAccountText.setText(account);
             settingTextNameText.setText(PortfolioPreferenceManager
                     .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
@@ -109,16 +109,16 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     }
 
-    public String setAccount(String account) {
-        if (account.contains("@")) {
-            int k = account.indexOf("@");
-            account = account.substring(0, k - 3) + "***" + account.substring(k, account.length());
-        } else {
-            account = account.substring(0, account.length() - 5) + "***"
-                    + account.substring(account.length() - 2, account.length());
-        }
-        return account;
-    }
+    // public String setAccount(String account) {
+    // if (account.contains("@")) {
+    // int k = account.indexOf("@");
+    // account = account.substring(0, k - 3) + "***" + account.substring(k, account.length());
+    // } else {
+    // account = account.substring(0, account.length() - 5) + "***"
+    // + account.substring(account.length() - 2, account.length());
+    // }
+    // return account;
+    // }
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
