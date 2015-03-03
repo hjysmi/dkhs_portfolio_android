@@ -83,7 +83,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             viewUserInfo.setVisibility(View.VISIBLE);
             String account = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
             // account = setAccount(account);
-            settingTextAccountText.setText(account);
+            if (!TextUtils.isEmpty(account)) {
+                settingTextAccountText.setText(account);
+            }
             settingTextNameText.setText(PortfolioPreferenceManager
                     .getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
