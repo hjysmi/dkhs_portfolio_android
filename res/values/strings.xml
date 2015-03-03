@@ -389,5 +389,9 @@
     <!-- optional tab -->
     <string name="net_value">净值</string>
     <string name="today_up_ratio">今日涨幅</string>
+    <string name="click_add_stock">点击添加自选股</string>
+    <string name="click_creat_fund">点击创建自建组合</string>
+    
+    
 
 </resources>
