@@ -48,6 +48,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/adapter_market_title"
         android:layout_marginLeft="6dp"
+        android:layout_marginTop="4dp"
         android:text="股票名称"
         android:textColor="@color/position_text_lgray"
         android:textSize="@dimen/setting_text_phone" />
