@@ -114,20 +114,20 @@ public class InfoOptionAdapter extends BaseAdapter {
             if (null != mOptionNewsBean.getSource()) {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
             }
-            if (TimeUtils.compareTime(old)) {
-                viewHolder.tvTextDate
-                        .setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old
-                                .get(Calendar.HOUR_OF_DAY))
-                                + ":"
-                                + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old
-                                        .get(Calendar.MINUTE)));
-            } else {
-                int t = old.get(Calendar.MONTH) + 1;
-                viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
-                        + "-"
-                        + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
-                                .get(Calendar.DAY_OF_MONTH)));
-            }
+            // if (TimeUtils.compareTime(old)) {
+            // viewHolder.tvTextDate
+            // .setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old
+            // .get(Calendar.HOUR_OF_DAY))
+            // + ":"
+            // + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old
+            // .get(Calendar.MINUTE)));
+            // } else {
+            int t = old.get(Calendar.MONTH) + 1;
+            viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
+                    + "-"
+                    + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
+                            .get(Calendar.DAY_OF_MONTH)));
+            // }
             // viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0,
             // mOptionNewsBean.getCreatedTime().length()-6) + "00");
             /*
