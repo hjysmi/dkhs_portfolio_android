@@ -11,19 +11,16 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName AddStockItemAdapter
@@ -54,7 +51,19 @@ public class AddStockItemAdapter extends SelectStockAdatper {
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
-        if (NetUtil.checkNetWork()) {
+
+        if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
+            if (null != csBean) {
+                if (isChecked) {
+                    csBean.isFollowed = true;
+                    csBean.sortId = 9999;
+                    mVisitorDataEngine.saveOptionalStock(csBean);
+                } else {
+                    mVisitorDataEngine.delOptionalStock(csBean);
+                }
+            }
+
+        } else if (NetUtil.checkNetWork()) {// 如果当前有网络，添加到自选股
 
             if (null != csBean) {
 

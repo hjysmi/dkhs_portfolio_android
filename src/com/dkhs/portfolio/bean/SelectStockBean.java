@@ -115,7 +115,8 @@ public class SelectStockBean implements Serializable {
 
     public boolean equals(Object obj) {
         SelectStockBean param = (SelectStockBean) obj;
-        if (this.id == param.id) {
+        // if (this.id == param.id || this.code == param.code) {
+        if (this.code.equals(param.code)) {
             return true;
         } else {
             return false;

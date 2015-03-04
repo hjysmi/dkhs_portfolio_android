@@ -48,4 +48,15 @@ public class VisitorDataEngine {
         }// 通过类型查找
         return list;
     }
+
+    public void delOptionalStock(SelectStockBean stockbean) {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        try {
+            db.delete(stockbean);
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
 }

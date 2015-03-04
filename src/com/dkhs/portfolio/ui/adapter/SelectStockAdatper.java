@@ -39,12 +39,16 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private Context context;
     private boolean isDefColor;
-    private VisitorDataEngine mVisitorDataEngine;
+    VisitorDataEngine mVisitorDataEngine;
+    private List<SelectStockBean> localList;
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         this.context = context;
         mVisitorDataEngine = new VisitorDataEngine();
+        if (!PortfolioApplication.hasUserLogin()) {
+            localList = mVisitorDataEngine.getOptionalStockList();
+        }
     }
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
@@ -74,31 +78,39 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         final SelectStockBean item = mDataList.get(position);
 
-        if (!PortfolioApplication.hasUserLogin()) {
-            final CheckBox cbBox = viewHolder.mCheckbox;
-            viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+        // if (!PortfolioApplication.hasUserLogin()) {
+        // final CheckBox cbBox = viewHolder.mCheckbox;
+        // viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // // cbBox.setChecked(false);
+        // // UIUtils.iStartLoginActivity(context);
+        // item.isFollowed = true;
+        // item.sortId = 9999;
+        // mVisitorDataEngine.saveOptionalStock(item);
+        // }
+        // });
+        // } else {
 
-                @Override
-                public void onClick(View v) {
-                    // cbBox.setChecked(false);
-                    // UIUtils.iStartLoginActivity(context);
-                    item.isFollowed = true;
-                    item.sortId = 9999;
-                    mVisitorDataEngine.saveOptionalStock(item);
-                }
-            });
-        } else {
+        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+        viewHolder.mCheckbox.setTag(item);
+        if (this instanceof AddStockItemAdapter) {// 如果是添加自选股界面
 
-            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-            viewHolder.mCheckbox.setTag(item);
-            if (this instanceof AddStockItemAdapter) {
-                viewHolder.mCheckbox.setChecked(item.isFollowed);
-                // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+            // 如果是游客模式
+            if (null != localList) {
+                viewHolder.mCheckbox.setChecked(localList.contains(item));
             } else {
-                viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+
+                viewHolder.mCheckbox.setChecked(item.isFollowed);
             }
-            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+
+            // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+        } else {
+            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }
+        viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+        // }
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
