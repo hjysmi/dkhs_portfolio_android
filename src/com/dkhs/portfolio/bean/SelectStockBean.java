@@ -28,7 +28,7 @@ public class SelectStockBean implements Serializable {
     public String name;
     public float currentValue;
     public float percentage;
-    @Id
+    @NoAutoIncrement
     public long id;
     public String code;
     public float change;
@@ -115,8 +115,8 @@ public class SelectStockBean implements Serializable {
 
     public boolean equals(Object obj) {
         SelectStockBean param = (SelectStockBean) obj;
-        // if (this.id == param.id || this.code == param.code) {
-        if (this.code.equals(param.code)) {
+        if (this.id == param.id || this.code.equals(param.code)) {
+            // if (this.code.equals(param.code)) {
             return true;
         } else {
             return false;

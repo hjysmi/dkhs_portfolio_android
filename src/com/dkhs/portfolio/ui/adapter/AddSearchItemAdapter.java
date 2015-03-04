@@ -13,6 +13,7 @@ import java.util.List;
 import android.content.Context;
 import android.widget.CompoundButton;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
@@ -25,7 +26,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 
 /**
  * @ClassName AddSearchItemAdapter
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 搜索添加自选
  * @author zjz
  * @date 2014-10-8 下午2:02:32
  * @version 1.0
@@ -47,7 +48,18 @@ public class AddSearchItemAdapter extends SearchStockAdatper {
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
         SelectStockBean csBean = (SelectStockBean) buttonView.getTag();
-        if (NetUtil.checkNetWork()) {
+        if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
+            if (null != csBean) {
+                if (isChecked) {
+                    csBean.isFollowed = true;
+                    csBean.sortId = 9999;
+                    mVisitorDataEngine.saveOptionalStock(csBean);
+                } else {
+                    mVisitorDataEngine.delOptionalStock(csBean);
+                }
+            }
+
+        } else if (NetUtil.checkNetWork()) {
             if (null != csBean) {
 
                 if (isChecked) {
