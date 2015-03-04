@@ -10,6 +10,7 @@ package com.dkhs.portfolio.engine;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -79,11 +81,30 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             return null;
         }
         isLoading = true;
-        RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", "1");
-        params.addQueryStringParameter("sort", orderType);
-        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+
+        if (PortfolioApplication.hasUserLogin()) {
+
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            params.addQueryStringParameter("sort", orderType);
+            params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        } else {
+
+            if (null != getiLoadListener()) {
+                List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockList();
+                if (null != dataList) {
+                    System.out.println("datalist size:" + dataList.size());
+                    getiLoadListener().loadFinish(dataList);
+                } else {
+                    getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+                    // getiLoadListener().loadFail(null);
+
+                }
+            }
+
+            return null;
+        }
     }
 
     @Override

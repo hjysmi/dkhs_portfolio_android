@@ -22,17 +22,16 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName SelectFundAdatper
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 添加自选股列表
  * @author zjz
  * @date 2014-9-5 下午2:24:13
  * @version 1.0
@@ -40,10 +39,12 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private Context context;
     private boolean isDefColor;
+    private VisitorDataEngine mVisitorDataEngine;
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         this.context = context;
+        mVisitorDataEngine = new VisitorDataEngine();
     }
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
@@ -71,7 +72,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder = (ViewHodler) convertView.getTag();
         }
 
-        SelectStockBean item = mDataList.get(position);
+        final SelectStockBean item = mDataList.get(position);
 
         if (!PortfolioApplication.hasUserLogin()) {
             final CheckBox cbBox = viewHolder.mCheckbox;
@@ -79,9 +80,11 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
                 @Override
                 public void onClick(View v) {
-                    cbBox.setChecked(false);
-                    UIUtils.iStartLoginActivity(context);
-
+                    // cbBox.setChecked(false);
+                    // UIUtils.iStartLoginActivity(context);
+                    item.isFollowed = true;
+                    item.sortId = 9999;
+                    mVisitorDataEngine.saveOptionalStock(item);
                 }
             });
         } else {

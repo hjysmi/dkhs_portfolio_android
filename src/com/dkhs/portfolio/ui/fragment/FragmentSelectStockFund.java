@@ -235,7 +235,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         }
 
         mAdapterConbinStock.setCheckChangeListener(this);
-        initData();
+        // initData();
 
     }
 
@@ -328,7 +328,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
         @Override
         public void loadFail(ErrorBundle error) {
-            LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            // LogUtils.e("loading fail,error code:" + error.getErrorCode());
             if (pb != null) {
                 pb.setVisibility(View.GONE);
             }
@@ -497,6 +497,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             pb.setVisibility(View.VISIBLE);
         }
         initView(view);
+        initData();
     }
 
     private void hideNotice() {

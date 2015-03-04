@@ -91,7 +91,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                 sb = datalist.get(i);
                 position = i;
                 for (int j = i; j < datalist.size(); j++) {
-                    if (sb.index < datalist.get(j).index) {
+                    if (sb.sortId < datalist.get(j).sortId) {
                         sb = datalist.get(j);
                         position = j;
                     }
