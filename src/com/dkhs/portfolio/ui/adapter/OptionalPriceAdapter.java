@@ -108,7 +108,12 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         }
 
         if (tabIndex == 2) {
-            viewHolder.tvPercentValue.setText(StringFromatUtils.convertToWan(item.total_capital));
+            if (item.total_capital == 0) {
+
+                viewHolder.tvPercentValue.setText("—");
+            } else {
+                viewHolder.tvPercentValue.setText(StringFromatUtils.convertToWan(item.total_capital));
+            }
         }
 
         if (StockUitls.isShangZhengB(item.code)) {
