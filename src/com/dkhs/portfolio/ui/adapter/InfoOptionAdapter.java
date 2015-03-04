@@ -79,7 +79,7 @@ public class InfoOptionAdapter extends BaseAdapter {
                 viewHolder = new ViewHodler();
                 convertView = View.inflate(mContext, R.layout.adapter_info_optional, null);
                 viewHolder.tv = (TextView) convertView.findViewById(R.id.adapter_market_title);
-                viewHolder.tvTextNameNum = (TextView) convertView.findViewById(R.id.adapter_market_title_num);
+                viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stockname);
                 viewHolder.tvTextDate = (TextView) convertView.findViewById(R.id.option_news_text_date);
                 viewHolder.text = (TextView) convertView.findViewById(R.id.zhengquan);
                 viewHolder.tvType = (TextView) convertView.findViewById(R.id.tv_type);
@@ -107,27 +107,27 @@ public class InfoOptionAdapter extends BaseAdapter {
             }
 
             viewHolder.tv.setText(mOptionNewsBean.getTitle());
-
+            viewHolder.tvStockName.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
             // viewHolder.tvTextNameNum.getLayoutParams().width = rect.width();
             // viewHolder.tvTextNameNum.setText(mOptionNewsBean.getSymbols().get(0).getAbbrName());
             Calendar old = TimeUtils.toCalendarAddHour(mOptionNewsBean.getPublish());
             if (null != mOptionNewsBean.getSource()) {
                 viewHolder.text.setText(mOptionNewsBean.getSource().getTitle());
             }
-            if (TimeUtils.compareTime(old)) {
-                viewHolder.tvTextDate
-                        .setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old
-                                .get(Calendar.HOUR_OF_DAY))
-                                + ":"
-                                + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old
-                                        .get(Calendar.MINUTE)));
-            } else {
-                int t = old.get(Calendar.MONTH) + 1;
-                viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
-                        + "-"
-                        + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
-                                .get(Calendar.DAY_OF_MONTH)));
-            }
+            // if (TimeUtils.compareTime(old)) {
+            // viewHolder.tvTextDate
+            // .setText((old.get(Calendar.HOUR_OF_DAY) < 10 ? ("0" + old.get(Calendar.HOUR_OF_DAY)) : old
+            // .get(Calendar.HOUR_OF_DAY))
+            // + ":"
+            // + (old.get(Calendar.MINUTE) < 10 ? ("0" + old.get(Calendar.MINUTE)) : old
+            // .get(Calendar.MINUTE)));
+            // } else {
+            int t = old.get(Calendar.MONTH) + 1;
+            viewHolder.tvTextDate.setText((t < 10 ? ("0" + t) : t)
+                    + "-"
+                    + (old.get(Calendar.DAY_OF_MONTH) < 10 ? ("0" + old.get(Calendar.DAY_OF_MONTH)) : old
+                            .get(Calendar.DAY_OF_MONTH)));
+            // }
             // viewHolder.tvTextDate.setText(mOptionNewsBean.getPublish().replace("T", " ").substring(0,
             // mOptionNewsBean.getCreatedTime().length()-6) + "00");
             /*
@@ -165,7 +165,7 @@ public class InfoOptionAdapter extends BaseAdapter {
 
     final static class ViewHodler {
         TextView tvTextName;
-        TextView tvTextNameNum;
+        TextView tvStockName;
         TextView tvTextDate;
         TextView text;
         TextView tv;

@@ -25,6 +25,7 @@ import com.dkhs.portfolio.ui.OptionEditActivity;
 import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -113,7 +114,9 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                tabFundsFragment.addItem();
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+                    tabFundsFragment.addItem();
+                }
             }
         });
         btnSecRight.setOnClickListener(new OnClickListener() {

@@ -18,10 +18,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
@@ -29,6 +31,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -109,6 +112,9 @@ public class TabFundsFragment extends BaseFragment {
     @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
     public void onClick(View v) {
         int id = v.getId();
+        if (!PortfolioApplication.hasUserLogin()) {
+            return;
+        }
         switch (id) {
             case R.id.tv_current: {
                 setViewOrderIndicator(tvCurrent);
@@ -143,7 +149,9 @@ public class TabFundsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         replaceDataList();
         initView(view);
-        refresh();
+        if (PortfolioApplication.hasUserLogin()) {
+            refresh();
+        }
     }
 
     protected PullToRefreshListView mListView;
@@ -156,7 +164,21 @@ public class TabFundsFragment extends BaseFragment {
         mFundsAdapter = new TabFundsAdapter(getActivity(), mDataList);
         mListView.setAdapter(mFundsAdapter);
         mListView.setDividerHeight(0);
+        TextView emptyview = (TextView) view.findViewById(R.id.add_data);
+        emptyview.setText(R.string.click_creat_fund);
+        emptyview.setOnClickListener(new OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                // startActivity(intent);
+                if (!UIUtils.iStartLoginActivity(getActivity())) {
+                    addItem();
+                }
+
+            }
+        });
+        mListView.setEmptyView(emptyview);
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);

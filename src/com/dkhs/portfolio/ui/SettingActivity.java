@@ -208,13 +208,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                         GlobalParams.MOBILE = null;
                         dbUtils.deleteAll(UserEntity.class);
                         PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginActivity.class);
+                        // intent = new Intent(this, LoginActivity.class);
+                        intent = new Intent(this, LoginRegisterAcitvity.class);
                         startActivity(intent);
                     } catch (DbException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                         PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginActivity.class);
+                        intent = new Intent(this, LoginRegisterAcitvity.class);
                         startActivity(intent);
                     }
                 } else {

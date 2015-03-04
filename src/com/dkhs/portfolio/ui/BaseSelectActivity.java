@@ -345,6 +345,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             // add by zcm --- 2014.12.16
             if (!TextUtils.isEmpty(etSearchKey.getText().toString())) {
                 etSearchKey.setText("");
+                etSearchKey.requestFocus();
+                etSearchKey.clearFocus();
                 return;
             }
             // add by zcm --- 2014.12.16

@@ -44,6 +44,7 @@ import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
@@ -515,7 +516,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             case STOCK_OPTIONAL:
 
             case STOCK_OPTIONAL_PRICE: {
-                tvEmptyText.setText(R.string.nodate_tip_optional);
+                tvEmptyText.setVisibility(View.GONE);
+                // mListView.setEmptyView(emptyView)
+                // tvEmptyText.setText(R.string.nodate_tip_optional);
+
             }
                 break;
             case FUND_INDEX:
@@ -560,6 +564,17 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
+            View emptyview = view.findViewById(R.id.add_data);
+            emptyview.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+            mListView.setEmptyView(emptyview);
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }

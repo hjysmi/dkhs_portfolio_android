@@ -31,9 +31,9 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 public class UserCombinationEngineImpl extends LoadMoreDataEngine {
 
     // 净值、涨幅、置顶序号
-    public static final String ORDER_CUMULATIVE_UP = "cumulative";
+    public static final String ORDER_CUMULATIVE_UP = "chng_pct_day";
     public static final String ORDER_NET_VALUE_UP = "net_value";
-    public static final String ORDER_CUMULATIVE_DOWN = "-cumulative";
+    public static final String ORDER_CUMULATIVE_DOWN = "-chng_pct_day";
     public static final String ORDER_NET_VALUE_DOWN = "-net_value";
     public static final String ORDER_DEFALUT = "";
 

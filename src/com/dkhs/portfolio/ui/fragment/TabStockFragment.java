@@ -383,6 +383,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
                 // PromptManager.showToast("Change tab text to:总市值");
                 tvPercentgae.setText(R.string.market_updown_total_capit);
             }
+            setTextDrawableHide(tvPercentgae);
         }
     }
 

@@ -72,8 +72,8 @@ public class TabFundsAdapter extends BaseAdapter {
         viewHolder.tvStockNum.setText(item.getUser().getUsername());
         // }
 
-        viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.getAddUpValue()));
-        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getAddUpValue()));
+        viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.getChng_pct_day()));
+        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getChng_pct_day()));
         // if (StockUitls.isDelistStock(item.list_status)) {
         // viewHolder.tvPercentValue.setText("退市");
         // viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);

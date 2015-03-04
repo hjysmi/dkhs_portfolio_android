@@ -12,14 +12,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.ui.draglist.DragFundListAdapter;
-import com.dkhs.portfolio.ui.draglist.DragListAdapter;
-import com.dkhs.portfolio.ui.draglist.DragListView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +19,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.LoadSelectDataEngine;
+import com.dkhs.portfolio.ui.draglist.DragFundListAdapter;
+import com.dkhs.portfolio.ui.draglist.DragFundListView;
+import com.dkhs.portfolio.ui.draglist.DragListView;
 
 /**
  * @ClassName EditTabFundActivity
@@ -37,7 +36,7 @@ import android.widget.LinearLayout;
  */
 public class EditTabFundActivity extends ModelAcitivity implements OnClickListener {
 
-    private DragListView optionEditList;
+    private DragFundListView optionEditList;
     LoadSelectDataEngine mLoadDataEngine;
     private DragFundListAdapter adapter;
     // private Context context;
@@ -71,14 +70,14 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initView() {
-        optionEditList = (DragListView) findViewById(R.id.option_edit_list);
+        optionEditList = (DragFundListView) findViewById(R.id.option_edit_list);
         layout = (LinearLayout) findViewById(R.id.layout);
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText("完成");
         layout.setOnClickListener(this);
 
-        adapter = new DragFundListAdapter(this, mdateList, optionEditList);
+        adapter = new DragFundListAdapter(this, mdateList);
         optionEditList.setAdapter(adapter);
     }
 

@@ -45,12 +45,13 @@ public class DragFundListAdapter extends BaseAdapter {
     private QuotesEngineImpl mQuotesEngine;
     private int station = 0;
     private int his = 0;
-    private DragListView mDragListView;
 
-    public DragFundListAdapter(Context context, List<CombinationBean> dataList, DragListView mDragListView) {
+    // private DragListView mDragListView;
+
+    public DragFundListAdapter(Context context, List<CombinationBean> dataList) {
         this.context = context;
         this.dataList = dataList;
-        this.mDragListView = mDragListView;
+        // this.mDragListView = mDragListView;
         mQuotesEngine = new QuotesEngineImpl();
         // this.arrayDrawables = arrayDrawables;
     }
@@ -84,11 +85,11 @@ public class DragFundListAdapter extends BaseAdapter {
          * 在这里尽可能每次都进行实例化新的，这样在拖拽ListView的时候不会出现错乱.
          * 具体原因不明，不过这样经过测试，目前没有发现错乱。虽说效率不高，但是做拖拽LisView足够了。
          */
-        convertView = LayoutInflater.from(context).inflate(R.layout.drag_funds_item, null);
+        convertView = LayoutInflater.from(context).inflate(R.layout.drag_list_item, null);
         RelativeLayout layout = (RelativeLayout) convertView.findViewById(R.id.layout);
         TextView textView = (TextView) convertView.findViewById(R.id.drag_list_item_text);
         TextView tvId = (TextView) convertView.findViewById(R.id.drag_list_item_text_id);
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.drag_list_item_image);
+        ImageView ivDrag = (ImageView) convertView.findViewById(R.id.drag_list_item_image);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
         final Button btn = (Button) convertView.findViewById(R.id.button_delete);
         TextView txv = (TextView) convertView.findViewById(R.id.drag_text_delet_pad);
@@ -221,11 +222,14 @@ public class DragFundListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            PromptManager.showProgressDialog(context, null);
+            // PromptManager.showProgressDialog(context, null);
+            PromptManager.showToast("删除自选基金");
 
             // 未完成
             // mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
             station = position;
+            dataList.remove(station); 
+            notifyDataSetChanged();
         }
 
     }

@@ -45,7 +45,7 @@
             android:orientation="vertical" >
         </LinearLayout>
 
-        <com.dkhs.portfolio.ui.draglist.DragListView
+        <com.dkhs.portfolio.ui.draglist.DragFundListView
             android:id="@+id/option_edit_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
