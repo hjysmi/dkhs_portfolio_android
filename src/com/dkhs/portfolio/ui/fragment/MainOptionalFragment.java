@@ -86,7 +86,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                startActivity(intent);
+                // startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
             }
         });
         btnSecRight.setOnClickListener(new OnClickListener() {
@@ -94,7 +95,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), OptionEditActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
             }
         });
     }
@@ -106,7 +107,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
             }
         });
         btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_add_select, 0, 0, 0);

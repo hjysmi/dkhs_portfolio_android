@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,10 +27,13 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -448,17 +452,46 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-                if (isSetPsw) {
-                    finish();
-                } else {
-                    Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+                uploadUserFollowStock();
             }
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting_password);
+
+    public void uploadUserFollowStock() {
+
+        List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockList();
+        StringBuilder sbIds = new StringBuilder();
+        if (null != dataList && !dataList.isEmpty()) {
+            for (SelectStockBean stock : dataList) {
+                sbIds.append(stock.id);
+                sbIds.append(",");
+            }
+            new QuotesEngineImpl().symbolFollows(sbIds.substring(0, sbIds.length() - 1),
+                    new ParseHttpListener<Object>() {
+
+                        @Override
+                        protected Object parseDateTask(String jsonData) {
+                            new VisitorDataEngine().delAllOptionalStock();
+                            return null;
+                        }
+
+                        @Override
+                        protected void afterParseData(Object object) {
+                            if (isSetPsw) {
+                                finish();
+                            } else {
+                                PortfolioApplication.getInstance().exitApp();
+                                Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+
+                        }
+                    }.setLoadingDialog(this, "正在注册", false));
+        }
+
+    }
 
     @Override
     public void onPause() {

@@ -93,9 +93,21 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
             if (null != getiLoadListener()) {
                 List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockList();
+                StringBuilder sbIds = new StringBuilder();
                 if (null != dataList) {
+                    for (SelectStockBean stock : dataList) {
+                        sbIds.append(stock.code);
+                        sbIds.append(",");
+                    }
+                    // sbIds = sbIds.substring(0, sbIds.length()-1);
                     System.out.println("datalist size:" + dataList.size());
                     getiLoadListener().loadFinish(dataList);
+
+                    // RequestParams params = new RequestParams();
+                    // params.addQueryStringParameter("sort", orderType);
+                    // params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                    // return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+
                 } else {
                     getiLoadListener().loadFinish(Collections.EMPTY_LIST);
                     // getiLoadListener().loadFail(null);

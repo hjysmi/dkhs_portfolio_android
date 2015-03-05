@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -300,7 +301,7 @@ public class UIUtils {
                 volume = volume / 100000000;
                 text = new DecimalFormat("0.00").format(volume) + "亿";
             }
-            if(volume == 0){
+            if (volume == 0) {
                 text = "--";
             }
         } catch (Exception e) {
@@ -397,4 +398,20 @@ public class UIUtils {
         }
         return false;
     }
+
+    public static void startAminationActivity(Activity context, Intent intent) {
+        context.startActivity(intent);
+//        context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        setOverridePendingAmin(context);
+    }
+
+    public static void setOverridePendingAmin(Activity activity) {
+        activity.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+    }
+
+    public static void outAminationActivity(Activity context) {
+        context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
+
+    }
+
 }
