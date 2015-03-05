@@ -1,16 +1,11 @@
 package com.dkhs.portfolio.ui;
 
-import android.app.Activity;
-import android.graphics.Color;
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,8 +14,9 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.utils.UIUtils;
 
-public class ModelAcitivity extends BaseActivity {
+public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
@@ -41,12 +37,21 @@ public class ModelAcitivity extends BaseActivity {
         onCreate(arg0, R.layout.layout_model_default);
     }
 
+    private SwipeBackLayout mSwipeBackLayout;
+
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
         setTheme(android.R.style.Theme_Light_NoTitleBar);
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         super.setContentView(R.layout.layout_model);
+
+        mSwipeBackLayout = getSwipeBackLayout();
+        // 设置可以滑动的区域，推荐用屏幕像素的一半来指定
+        mSwipeBackLayout.setEdgeSize(200);
+        // 设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        // saveTrackingMode(SwipeBackLayout.EDGE_ALL);
         // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
         // view.setLayoutResource(titleLayout);
         // view.inflate();
@@ -246,6 +251,13 @@ public class ModelAcitivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        UIUtils.outAminationActivity(this);
+        // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
     }
 
     @Override

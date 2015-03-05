@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -222,7 +223,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     intent = new Intent(this, SetPasswordActivity.class);
                     // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
                     // intent.putExtra("is_setpassword", isSetPassword);
-                    startActivity(intent);
+                    UIUtils.startAminationActivity(this, intent);
                 }
                 break;
             case R.id.btn_setpassword:
@@ -239,7 +240,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     intent.putExtra("needClear", false);
                     intent.putExtra("is_setpassword", isSetPassword);
                 }
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
 
                 break;
             case R.id.setting_layout_password:
@@ -247,7 +248,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     return;
                 }
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_layout_username:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -255,6 +256,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(this, UserNameChangeActivity.class);
                 startActivityForResult(intent, 6);
+                UIUtils.setOverridePendingAmin(this);
                 break;
             case R.id.setting_layout_icon:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -262,14 +264,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(context, SelectPhoneFromSystem.class);
                 startActivityForResult(intent, 5);
+                UIUtils.setOverridePendingAmin(this);
                 break;
             case R.id.feed_back_layout:
                 intent = new Intent(this, FeedBackActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.rl_aboutus: {
                 intent = new Intent(this, AboutUsActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
             }
                 break;
             case R.id.setting_layout_check_version:
@@ -286,14 +289,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (null != ue)
                     b.putString(PersonSignSettingActivity.DESCRIPTION, ue.getDescription());
                 intent.putExtras(b);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_image_bound:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
                 intent = new Intent(this, BoundAccountActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             default:
                 break;

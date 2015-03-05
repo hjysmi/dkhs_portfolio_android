@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -124,7 +125,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
-        getActivity().startActivity(intent);
+        // getActivity().startActivity(intent);
+        UIUtils.startAminationActivity(getActivity(), intent);
     }
 
     @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout })
@@ -136,7 +138,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             startSettingActivity();
         } else if (R.id.user_myfunds_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
-                startActivity(new Intent(getActivity(), MyCombinationActivity.class));
+                UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(), MyCombinationActivity.class)));
             }
         }
 
