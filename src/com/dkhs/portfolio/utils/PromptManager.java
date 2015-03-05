@@ -196,15 +196,17 @@ public class PromptManager {
     }
 
     public static void showToast(String msg, int duration) {
-        if (mToast == null) {
-            mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
-        } else {
-            mToast.cancel();
-            mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
-            // mToast.setText(msg);
-            // mToast.setDuration(duration);
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            if (mToast == null) {
+                mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
+            } else {
+                mToast.cancel();
+                mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
+                // mToast.setText(msg);
+                // mToast.setDuration(duration);
+            }
+            mToast.show();
         }
-        mToast.show();
     }
 
     public static void showLToast(String msg) {

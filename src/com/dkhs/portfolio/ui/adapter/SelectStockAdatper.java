@@ -22,17 +22,16 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName SelectFundAdatper
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 添加自选股列表
  * @author zjz
  * @date 2014-9-5 下午2:24:13
  * @version 1.0
@@ -40,10 +39,16 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private Context context;
     private boolean isDefColor;
+    VisitorDataEngine mVisitorDataEngine;
+    private List<SelectStockBean> localList;
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         this.context = context;
+        mVisitorDataEngine = new VisitorDataEngine();
+        if (!PortfolioApplication.hasUserLogin()) {
+            localList = mVisitorDataEngine.getOptionalStockList();
+        }
     }
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
@@ -71,31 +76,41 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder = (ViewHodler) convertView.getTag();
         }
 
-        SelectStockBean item = mDataList.get(position);
+        final SelectStockBean item = mDataList.get(position);
 
-        if (!PortfolioApplication.hasUserLogin()) {
-            final CheckBox cbBox = viewHolder.mCheckbox;
-            viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+        // if (!PortfolioApplication.hasUserLogin()) {
+        // final CheckBox cbBox = viewHolder.mCheckbox;
+        // viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        // // cbBox.setChecked(false);
+        // // UIUtils.iStartLoginActivity(context);
+        // item.isFollowed = true;
+        // item.sortId = 9999;
+        // mVisitorDataEngine.saveOptionalStock(item);
+        // }
+        // });
+        // } else {
 
-                @Override
-                public void onClick(View v) {
-                    cbBox.setChecked(false);
-                    UIUtils.iStartLoginActivity(context);
+        viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+        viewHolder.mCheckbox.setTag(item);
+        if (this instanceof AddStockItemAdapter) {// 如果是添加自选股界面
 
-                }
-            });
-        } else {
-
-            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
-            viewHolder.mCheckbox.setTag(item);
-            if (this instanceof AddStockItemAdapter) {
-                viewHolder.mCheckbox.setChecked(item.isFollowed);
-                // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+            // 如果是游客模式
+            if (null != localList) {
+                viewHolder.mCheckbox.setChecked(localList.contains(item));
             } else {
-                viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
+
+                viewHolder.mCheckbox.setChecked(item.isFollowed);
             }
-            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+
+            // viewHolder.mCheckbox.setChecked(SelectAddOptionalActivity.mFollowList.contains(item));
+        } else {
+            viewHolder.mCheckbox.setChecked(BaseSelectActivity.mSelectList.contains(item));
         }
+        viewHolder.mCheckbox.setOnCheckedChangeListener(this);
+        // }
         // viewHolder.mCheckbox.setOnClickListener(new OnCheckListener(viewHolder.mCheckbox,position));
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);

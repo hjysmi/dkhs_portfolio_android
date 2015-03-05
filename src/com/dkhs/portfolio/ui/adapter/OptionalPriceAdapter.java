@@ -97,8 +97,6 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
                     viewHolder.tvPercentValue.setText(StringFromatUtils.get2Point(item.change));
                 }
 
-            } else {
-                viewHolder.tvPercentValue.setText(StringFromatUtils.convertToWan(item.total_capital));
             }
             if (StockUitls.isShangZhengB(item.code)) {
 
@@ -108,6 +106,16 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
                 viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
             }
         }
+
+        if (tabIndex == 2) {
+            if (item.total_capital == 0) {
+
+                viewHolder.tvPercentValue.setText("—");
+            } else {
+                viewHolder.tvPercentValue.setText(StringFromatUtils.convertToWan(item.total_capital));
+            }
+        }
+
         if (StockUitls.isShangZhengB(item.code)) {
             viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
 
@@ -123,6 +131,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
     }
 
     int tabIndex = 0;
+    // private static final int updat
 
     private OnClickListener percentClick = new OnClickListener() {
 
