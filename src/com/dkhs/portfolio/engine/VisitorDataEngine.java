@@ -42,6 +42,7 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             list = db.findAll(SelectStockBean.class);
+
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -53,6 +54,16 @@ public class VisitorDataEngine {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         try {
             db.delete(stockbean);
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void delAllOptionalStock() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        try {
+            db.deleteAll(SelectStockBean.class);
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
