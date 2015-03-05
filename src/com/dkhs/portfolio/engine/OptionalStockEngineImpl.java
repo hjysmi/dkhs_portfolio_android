@@ -100,13 +100,13 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                         sbIds.append(",");
                     }
                     // sbIds = sbIds.substring(0, sbIds.length()-1);
-                    System.out.println("datalist size:" + dataList.size());
-                    getiLoadListener().loadFinish(dataList);
+                    // System.out.println("datalist size:" + dataList.size());
+                    // getiLoadListener().loadFinish(dataList);
 
-                    // RequestParams params = new RequestParams();
-                    // params.addQueryStringParameter("sort", orderType);
-                    // params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
-                    // return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+                     RequestParams params = new RequestParams();
+                     params.addQueryStringParameter("sort", orderType);
+                     params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                     return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
 
                 } else {
                     getiLoadListener().loadFinish(Collections.EMPTY_LIST);
