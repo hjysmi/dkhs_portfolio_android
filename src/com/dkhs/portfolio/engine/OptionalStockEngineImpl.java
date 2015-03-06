@@ -103,11 +103,10 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     // sbIds = sbIds.substring(0, sbIds.length()-1);
                     // System.out.println("datalist size:" + dataList.size());
                     // getiLoadListener().loadFinish(dataList);
-                    // System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
+                    System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
 
                     RequestParams params = new RequestParams();
                     if (!orderType.equals(DEF_ORDER_TYPE)) {
-
                         params.addQueryStringParameter("sort", orderType);
                     }
                     params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
