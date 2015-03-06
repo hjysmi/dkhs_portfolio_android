@@ -27,7 +27,7 @@
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
         android:singleLine="true"
-        android:text="@string/creat_fund"
+        android:text="自选组合"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 

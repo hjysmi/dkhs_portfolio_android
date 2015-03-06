@@ -44,7 +44,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         // TODO Auto-generated method stub
         super.onCreate(arg0);
         setContentView(R.layout.activity_option_edit);
-        setTitle("编辑自选");
+        setTitle(R.string.title_edit_optional_stock);
 
         context = this;
         mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
@@ -62,7 +62,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         layout = (LinearLayout) findViewById(R.id.layout);
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
-        btnRight.setText("完成");
+        btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
     }
 

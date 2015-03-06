@@ -108,7 +108,7 @@
     <string name="create_time_format">成立时间 :%1$s</string>
     <string name="descrition_format">简介:%1$s</string>
     <string name="position_from_to">从%1$s调至%2$s</string>
-    <string name="select_fund">选择参照组合 </string>
+    <string name="select_fund">选择参照基金</string>
     <string name="select_stock">添加个股 </string>
     <string name="create_funds">创建组合 </string>
     <string name="search_fund_hint">代码或简拼 </string>
@@ -141,7 +141,7 @@
     <string name="dialog_start_time_title">开始日期</string>
     <string name="dialog_select_time_title">选择日期</string>
     <string name="dialog_end_time_title">结束日期</string>
-    <string name="max_fund_select_tip">最大只能选择5个组合</string>
+    <string name="max_fund_select_tip">最大只能选择5个基金</string>
     <string name="adjust_position">调整配置</string>
     <string name="adjust_history">调仓记录</string>
     <string name="netvalue_comtribute">净值贡献</string>
@@ -385,6 +385,8 @@
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
+    <string name="title_edit_optional_fund">编辑自选组合</string>
+    <string name="title_edit_optional_stock">编辑自选股</string>
 
     <!-- optional tab -->
     <string name="net_value">净值</string>
