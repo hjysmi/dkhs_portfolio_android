@@ -14,7 +14,7 @@
         android:gravity="center"
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
-        android:text="自选股"
+        android:text="@string/optional_stock"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 
@@ -27,7 +27,7 @@
         android:paddingBottom="6dp"
         android:paddingTop="6dp"
         android:singleLine="true"
-        android:text="自建组合"
+        android:text="@string/creat_fund"
         android:textColor="@color/title_tab_textselector"
         android:textSize="16sp" />
 
