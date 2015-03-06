@@ -50,6 +50,7 @@ import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -170,6 +171,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         scrollToTop();
     }
 
+    VisitorDataEngine mVisitorDataEngine;
+    private List<SelectStockBean> localList;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -182,6 +186,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             checkValue = "0";
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
         }
+        mVisitorDataEngine = new VisitorDataEngine();
+        if (!PortfolioApplication.hasUserLogin()) {
+            localList = mVisitorDataEngine.getOptionalStockList();
+        }
+
         PortfolioApplication.getInstance().setCheckValue(checkValue);
         // DisplayMetrics dm = new DisplayMetrics();
         // WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -290,13 +299,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             f2.setArguments(b2);
             frag.add(f2);
             Fragment f4 = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
-            /*Bundle b4 = new Bundle();
-            b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
-            vo = new NewsforImpleEngine();
-            vo.setSymbol(mStockBean.code);
-            vo.setPageTitle("研报正文");
-            // vo.setLayout(stockLayout);
-            b4.putSerializable(FragmentNewsList.VO, vo);*/
+            /*
+             * Bundle b4 = new Bundle();
+             * b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
+             * vo = new NewsforImpleEngine();
+             * vo.setSymbol(mStockBean.code);
+             * vo.setPageTitle("研报正文");
+             * // vo.setLayout(stockLayout);
+             * b4.putSerializable(FragmentNewsList.VO, vo);
+             */
             // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
             // f4.setArguments(b4);
             frag.add(f4);
@@ -377,6 +388,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             return;
         }
         btnAddOptional.setVisibility(View.VISIBLE);
+
+        if (!PortfolioApplication.hasUserLogin()) {
+            // SelectStockBean selectBean = SelectStockBean.
+            SelectStockBean selectBean = new SelectStockBean();
+            selectBean.id = mStockQuotesBean.getId();
+            selectBean.code = mStockQuotesBean.getCode();
+            if (localList != null && localList.contains(selectBean)) {
+                mStockQuotesBean.setFollowed(true);
+            }
+        }
+
         if (mStockQuotesBean.isFollowed() && null != btnAddOptional) {
             btnAddOptional.setText(R.string.delete_fllow);
             btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
@@ -776,24 +798,36 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     // quoteHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
     // }
     // };
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param v
-     * @return
-     */
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.btn_add_optional:
-                if (UIUtils.iStartLoginActivity(this)) {
-                    return;
-                }
-                if (mStockQuotesBean.isFollowed()) {
-                    mQuotesEngine.delfollow(mStockBean.id, baseListener);
+                if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
+                    SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
+                    if (null != selectBean) {
+                        if (selectBean.isFollowed) {
+                            // selectBean.isFollowed = false;
+                            mStockQuotesBean.setFollowed(false);
+                            mVisitorDataEngine.delOptionalStock(selectBean);
+
+                        } else {
+                            selectBean.isFollowed = true;
+                            mStockQuotesBean.setFollowed(true);
+                            selectBean.sortId = 9999;
+                            mVisitorDataEngine.saveOptionalStock(selectBean);
+                        }
+                    }
+                    localList = mVisitorDataEngine.getOptionalStockList();
+                    setAddOptionalButton();
+
                 } else {
-                    mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
+                    if (mStockQuotesBean.isFollowed()) {
+                        mQuotesEngine.delfollow(mStockBean.id, baseListener);
+                    } else {
+                        mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
+                    }
                 }
                 break;
             case R.id.btn_right_second: {

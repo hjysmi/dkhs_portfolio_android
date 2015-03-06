@@ -116,7 +116,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
 
         if (mMarketTimer == null) {
             mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+            mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
         }
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
