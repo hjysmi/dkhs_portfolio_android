@@ -56,7 +56,7 @@ public class AddStockItemAdapter extends SelectStockAdatper {
             if (null != csBean) {
                 if (isChecked) {
                     csBean.isFollowed = true;
-                    csBean.sortId = 9999;
+                    csBean.sortId = 0;
                     mVisitorDataEngine.saveOptionalStock(csBean);
                 } else {
                     mVisitorDataEngine.delOptionalStock(csBean);

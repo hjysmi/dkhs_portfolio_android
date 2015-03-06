@@ -23,6 +23,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
@@ -130,12 +131,20 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     for (int i = 0; i < list.size(); i++) {
                         SelectStockBean vo = list.get(i);
                         JSONObject jo = new JSONObject();
+                        vo.setSortId(list.size() - i);
                         jo.put("symbol_id", vo.id);
                         jo.put("sort_index", list.size() - i);
                         json.put(jo);
                     }
                     Log.e("listindex", json.toString());
-                    OptionalStockEngineImpl.setIndex(userInfoListener, json.toString());
+                    if (PortfolioApplication.hasUserLogin()) {
+
+                        OptionalStockEngineImpl.setIndex(userInfoListener, json.toString());
+                    } else {
+                        new VisitorDataEngine().replaceOptionStock(list);
+                        PromptManager.showToast("修改成功");
+                        finish();
+                    }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

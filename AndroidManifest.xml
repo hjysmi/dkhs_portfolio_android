@@ -95,7 +95,9 @@
         <activity android:name="com.dkhs.portfolio.ui.YanbaoDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OrderFundDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.UserCombinationActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.FeedBackActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.FeedBackActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionEditActivity" />

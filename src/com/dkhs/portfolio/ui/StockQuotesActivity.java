@@ -815,7 +815,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         } else {
                             selectBean.isFollowed = true;
                             mStockQuotesBean.setFollowed(true);
-                            selectBean.sortId = 9999;
+                            selectBean.sortId = 0;
                             mVisitorDataEngine.saveOptionalStock(selectBean);
                         }
                     }
