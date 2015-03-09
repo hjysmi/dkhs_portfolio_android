@@ -401,7 +401,7 @@ public class UIUtils {
 
     public static void startAminationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
-//        context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
         setOverridePendingAmin(context);
     }
 
@@ -411,6 +411,13 @@ public class UIUtils {
 
     public static void outAminationActivity(Activity context) {
         context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
+
+    }
+
+    public static void isShow() {
+        // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= 19) {
+        } // 透明状态栏
 
     }
 

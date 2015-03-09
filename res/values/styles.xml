@@ -7,6 +7,7 @@
 
         <!-- 解决activity切换时的黑屏问题 -->
         <item name="android:windowIsTranslucent">true</item>
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 

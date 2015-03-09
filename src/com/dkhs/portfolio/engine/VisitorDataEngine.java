@@ -8,13 +8,14 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
+import com.lidroid.xutils.db.sqlite.WhereBuilder;
 import com.lidroid.xutils.exception.DbException;
 
 /**
@@ -37,11 +38,35 @@ public class VisitorDataEngine {
         }
     }
 
+    public void replaceOptionStock(List<SelectStockBean> stockList) {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        try {
+            db.replaceAll(stockList);
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
     public List<SelectStockBean> getOptionalStockList() {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             list = db.findAll(SelectStockBean.class);
+
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }// 通过类型查找
+        return list;
+    }
+
+    public List<SelectStockBean> getOptionalStockListBySort() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        List<SelectStockBean> list = Collections.EMPTY_LIST;
+        try {
+            // list = db.findAll(SelectStockBean.class);
+            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId"));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block
@@ -69,5 +94,7 @@ public class VisitorDataEngine {
             e.printStackTrace();
         }
     }
+
+    // public void
 
 }

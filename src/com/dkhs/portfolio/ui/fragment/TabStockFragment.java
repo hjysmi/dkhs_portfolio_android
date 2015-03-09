@@ -116,7 +116,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
 
         if (mMarketTimer == null) {
             mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+            mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
+            System.out.println(" mMarketTimer.schedule(new RequestMarketTask()");
         }
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
@@ -139,7 +140,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         @Override
         public void run() {
             // if (!isLoading) {
-            loadDataListFragment.refresh();
+            loadDataListFragment.refreshNoCaseTime();
             // }
 
         }

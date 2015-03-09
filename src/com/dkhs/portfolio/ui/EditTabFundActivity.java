@@ -54,7 +54,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        setTitle("编辑自选基金");
+        setTitle(R.string.title_edit_optional_fund);
         setContentView(R.layout.activity_edit_tabfund);
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -74,7 +74,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         layout = (LinearLayout) findViewById(R.id.layout);
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
-        btnRight.setText("完成");
+        btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
 
         adapter = new DragFundListAdapter(this, mdateList);

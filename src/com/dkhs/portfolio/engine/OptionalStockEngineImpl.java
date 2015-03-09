@@ -67,7 +67,8 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    private String orderType = "followed_at";
+    private static final String DEF_ORDER_TYPE = "followed_at";
+    private String orderType = DEF_ORDER_TYPE;
 
     public void setLoadType(String orderType) {
         this.orderType = orderType;
@@ -92,7 +93,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         } else {
 
             if (null != getiLoadListener()) {
-                List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockList();
+                List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
                 StringBuilder sbIds = new StringBuilder();
                 if (null != dataList) {
                     for (SelectStockBean stock : dataList) {
@@ -100,13 +101,16 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                         sbIds.append(",");
                     }
                     // sbIds = sbIds.substring(0, sbIds.length()-1);
-                    System.out.println("datalist size:" + dataList.size());
-                    getiLoadListener().loadFinish(dataList);
+                    // System.out.println("datalist size:" + dataList.size());
+                    // getiLoadListener().loadFinish(dataList);
+                    System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
 
-                    // RequestParams params = new RequestParams();
-                    // params.addQueryStringParameter("sort", orderType);
-                    // params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
-                    // return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+                    RequestParams params = new RequestParams();
+                    if (!orderType.equals(DEF_ORDER_TYPE)) {
+                        params.addQueryStringParameter("sort", orderType);
+                    }
+                    params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                    return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
 
                 } else {
                     getiLoadListener().loadFinish(Collections.EMPTY_LIST);
