@@ -216,6 +216,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                         PortfolioApplication.getInstance().exitApp();
+                        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, "");
                         intent = new Intent(this, LoginRegisterAcitvity.class);
                         startActivity(intent);
                     }

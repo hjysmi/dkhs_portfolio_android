@@ -96,7 +96,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/setting_text_name_text"
-                            android:text="18606511122"
+                            android:text=""
                             android:textColor="@color/person_setting_phonecolor"
                             android:textSize="@dimen/setting_text_phone" />
                     </RelativeLayout>

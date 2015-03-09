@@ -547,6 +547,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         platData.setOpenid(plat.getDb().getUserId());
                         platData.setAvatar(imageUrl);
                         platData.setRefresh_token("");
+                        phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
                                 platData, registerListener.setLoadingDialog(LoginActivity.this));
                     }
@@ -599,7 +600,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 String token = (String) json.getJSONObject("token").get("access_token");
                 entity.setAccess_token(token);
                 entity.setMobile(phoneNum);
-                engine.saveLoginUserInfo(entity);
+                engine.saveLoginUserInfo(entity);s
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
                 return entity;
             } catch (JSONException e) {
