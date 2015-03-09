@@ -11,7 +11,6 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,9 +28,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -86,6 +83,7 @@ public class TabFundsFragment extends BaseFragment {
                     // System.out.println("datalist size :" + mDataList.size());
                     mFundsAdapter.notifyDataSetChanged();
                 }
+                refreshEditView();
             }
         }, "");
 
@@ -106,7 +104,29 @@ public class TabFundsFragment extends BaseFragment {
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        refreshEditView();
 
+    }
+
+    public void refreshEditView() {
+        if (null != dataUpdateListener) {
+            if (!mDataList.isEmpty()) {
+                dataUpdateListener.dataUpdate(false);
+            } else {
+                dataUpdateListener.dataUpdate(true);
+            }
+
+        }
+    }
+
+    public void setDataUpdateListener(IDataUpdateListener listen) {
+        this.dataUpdateListener = listen;
+    }
+
+    private IDataUpdateListener dataUpdateListener;
+
+    public interface IDataUpdateListener {
+        public void dataUpdate(boolean isEmptyData);
     }
 
     @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })

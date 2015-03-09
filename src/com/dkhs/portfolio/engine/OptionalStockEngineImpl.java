@@ -103,15 +103,20 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     // sbIds = sbIds.substring(0, sbIds.length()-1);
                     // System.out.println("datalist size:" + dataList.size());
                     // getiLoadListener().loadFinish(dataList);
-                    System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
+                    if (null != sbIds && sbIds.length() > 1) {
 
-                    RequestParams params = new RequestParams();
-                    if (!orderType.equals(DEF_ORDER_TYPE)) {
-                        params.addQueryStringParameter("sort", orderType);
+                        System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
+
+                        RequestParams params = new RequestParams();
+                        if (!orderType.equals(DEF_ORDER_TYPE)) {
+                            params.addQueryStringParameter("sort", orderType);
+                        }
+                        params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+                    } else {
+                        getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+
                     }
-                    params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
-                    return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-
                 } else {
                     getiLoadListener().loadFinish(Collections.EMPTY_LIST);
                     // getiLoadListener().loadFail(null);

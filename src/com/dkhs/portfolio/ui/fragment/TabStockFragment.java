@@ -31,6 +31,7 @@ import com.dkhs.portfolio.ui.OptionalStockListActivity.RequestMarketTask;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.ui.fragment.TabFundsFragment.IDataUpdateListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -119,10 +120,29 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
             System.out.println(" mMarketTimer.schedule(new RequestMarketTask()");
         }
+
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
-        // MobclickAgent.onResume(this);
+        // refreshEditView();
+
     }
+
+    public void refreshEditView() {
+        if (null != dataUpdateListener && null != loadDataListFragment) {
+            loadDataListFragment.refreshEditView();
+            // if (!loadDataListFragment.getDataList().isEmpty()) {
+            // dataUpdateListener.dataUpdate(false);
+            // } else {
+            // dataUpdateListener.dataUpdate(true);
+            // }
+        }
+    }
+
+    public void setDataUpdateListener(IDataUpdateListener listen) {
+        this.dataUpdateListener = listen;
+    }
+
+    private IDataUpdateListener dataUpdateListener;
 
     @Override
     public void onStop() {
@@ -164,6 +184,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         // view_datalist
         if (null == loadDataListFragment) {
             loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
+            if (null != dataUpdateListener) {
+                loadDataListFragment.setDataUpdateListener(dataUpdateListener);
+            }
         }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
     }
