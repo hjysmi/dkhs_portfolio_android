@@ -30,6 +30,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -43,7 +44,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  * @date 2015-2-7 上午11:03:26
  * @version 1.0
  */
-public class TabFundsFragment extends BaseFragment {
+public class TabFundsFragment extends BaseFragment implements IDataUpdateListener {
 
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
@@ -51,6 +52,9 @@ public class TabFundsFragment extends BaseFragment {
     // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
+
+    @ViewInject(R.id.view_stock_title)
+    private View titleView;
 
     private TabFundsAdapter mFundsAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
@@ -109,14 +113,14 @@ public class TabFundsFragment extends BaseFragment {
     }
 
     public void refreshEditView() {
-        if (null != dataUpdateListener) {
-            if (!mDataList.isEmpty()) {
-                dataUpdateListener.dataUpdate(false);
-            } else {
-                dataUpdateListener.dataUpdate(true);
-            }
-
+        // if (null != dataUpdateListener) {
+        if (!mDataList.isEmpty()) {
+            dataUpdate(false);
+        } else {
+            dataUpdate(true);
         }
+
+        // }
     }
 
     public void setDataUpdateListener(IDataUpdateListener listen) {
@@ -124,10 +128,6 @@ public class TabFundsFragment extends BaseFragment {
     }
 
     private IDataUpdateListener dataUpdateListener;
-
-    public interface IDataUpdateListener {
-        public void dataUpdate(boolean isEmptyData);
-    }
 
     @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
     public void onClick(View v) {
@@ -357,5 +357,21 @@ public class TabFundsFragment extends BaseFragment {
         // }
         orderType = UserCombinationEngineImpl.ORDER_DEFALUT;
         setTextDrawableHide(currentSelectView);
+    }
+
+    @Override
+    public void dataUpdate(boolean isEmptyData) {
+        if (null != titleView) {
+
+            if (isEmptyData) {
+                titleView.setVisibility(View.GONE);
+            } else {
+                titleView.setVisibility(View.VISIBLE);
+            }
+        }
+        if (null != dataUpdateListener) {
+            dataUpdateListener.dataUpdate(isEmptyData);
+
+        }
     }
 }

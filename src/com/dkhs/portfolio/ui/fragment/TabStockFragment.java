@@ -12,27 +12,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.OptionEditActivity;
-import com.dkhs.portfolio.ui.OptionalStockListActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
-import com.dkhs.portfolio.ui.OptionalStockListActivity.RequestMarketTask;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.ui.fragment.TabFundsFragment.IDataUpdateListener;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -45,7 +38,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2015-2-7 上午11:03:07
  * @version 1.0
  */
-public class TabStockFragment extends BaseFragment implements OnClickListener {
+public class TabStockFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
 
     @Override
     public int setContentLayoutId() {
@@ -59,6 +52,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
+
+    @ViewInject(R.id.view_stock_title)
+    private View titleView;
 
     // 当前价格
     public static final String TYPE_DEFALUT = "followed_at";
@@ -140,6 +136,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
 
     public void setDataUpdateListener(IDataUpdateListener listen) {
         this.dataUpdateListener = listen;
+        if (null != loadDataListFragment) {
+            loadDataListFragment.setDataUpdateListener(this);
+        }
     }
 
     private IDataUpdateListener dataUpdateListener;
@@ -184,9 +183,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         // view_datalist
         if (null == loadDataListFragment) {
             loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
-            if (null != dataUpdateListener) {
-                loadDataListFragment.setDataUpdateListener(dataUpdateListener);
-            }
+            // if (null != dataUpdateListener) {
+            loadDataListFragment.setDataUpdateListener(this);
+            // }
         }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
     }
@@ -429,7 +428,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
 
             setTextDrawableHide(tvPercentgae);
             if (isPercentType(orderType) && lastPercentTextIds > 0 && lastPercentTextIds == currentTextId) {
-                
+
                 if (isDefOrder(orderType)) {
                     setDefType(tvPercentgae);
                 } else if (isDownOrder(orderType)) {
@@ -437,9 +436,31 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
                 } else {
                     setUpType(tvPercentgae);
                 }
-                
+
             }
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param isEmptyData
+     * @return
+     */
+    @Override
+    public void dataUpdate(boolean isEmptyData) {
+        if (isEmptyData) {
+            titleView.setVisibility(View.GONE);
+
+        } else {
+            titleView.setVisibility(View.VISIBLE);
+
+        }
+
+        if (null != dataUpdateListener) {
+            dataUpdateListener.dataUpdate(isEmptyData);
+        }
+
     }
 
 }

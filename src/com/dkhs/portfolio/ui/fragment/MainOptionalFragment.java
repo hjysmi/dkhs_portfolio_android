@@ -21,13 +21,10 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.OptionEditActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.DataUpdateEvent;
-import com.dkhs.portfolio.ui.fragment.TabFundsFragment.IDataUpdateListener;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.squareup.otto.Subscribe;
 
 /**
  * @ClassName MainOptionalStock
