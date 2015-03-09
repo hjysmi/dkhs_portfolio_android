@@ -600,7 +600,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 String token = (String) json.getJSONObject("token").get("access_token");
                 entity.setAccess_token(token);
                 entity.setMobile(phoneNum);
-                engine.saveLoginUserInfo(entity);s
+                engine.saveLoginUserInfo(entity);
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
                 return entity;
             } catch (JSONException e) {

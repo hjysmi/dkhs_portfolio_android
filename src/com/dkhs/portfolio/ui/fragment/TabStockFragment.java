@@ -317,12 +317,24 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         return false;
     }
 
+    private boolean isPercentType(String type) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
+                        || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
+                        || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean isDefOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType) && orderType.equals(TYPE_DEFALUT)) {
             return true;
         }
         return false;
     }
+
+    private int lastPercentTextIds = 0;
 
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
@@ -331,14 +343,16 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
                 // 涨跌幅
                 orderType = TYPE_PERCENTAGE_DOWN;
-
+                lastPercentTextIds = R.string.market_updown_ratio;
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
                 // 涨跌额
                 orderType = TYPE_CHANGE_DOWN;
+                lastPercentTextIds = R.string.market_updown_change;
 
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
                 // 总市值
                 orderType = TYPE_TCAPITAL_DOWN;
+                lastPercentTextIds = R.string.market_updown_total_capit;
 
             }
         }
@@ -353,15 +367,16 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
                 // 涨跌幅
                 orderType = TYPE_PERCENTAGE_UP;
-
+                lastPercentTextIds = R.string.market_updown_ratio;
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
                 // 涨跌额
                 orderType = TYPE_CHANGE_UP;
+                lastPercentTextIds = R.string.market_updown_change;
 
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
                 // 总市值
                 orderType = TYPE_TCAPITAL_UP;
-
+                lastPercentTextIds = R.string.market_updown_total_capit;
             }
 
         }
@@ -396,18 +411,34 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     public void onTabTitleChange(TabStockTitleChangeEvent event) {
         if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
             // PromptManager.showToast("Change tab text to:总市值");
+            int currentTextId = 0;
             if (event.tabType.equalsIgnoreCase(TYPE_PERCENTAGE_UP)) {
                 tvPercentgae.setText(R.string.market_updown_ratio);
+                currentTextId = R.string.market_updown_ratio;
                 // PromptManager.showToast("Change tab text to:涨跌幅");
             } else if (event.tabType.equalsIgnoreCase(TYPE_CHANGE_UP)) {
                 tvPercentgae.setText(R.string.market_updown_change);
+                currentTextId = R.string.market_updown_change;
                 // PromptManager.showToast("Change tab text to:涨跌额");
 
             } else {
                 // PromptManager.showToast("Change tab text to:总市值");
                 tvPercentgae.setText(R.string.market_updown_total_capit);
+                currentTextId = R.string.market_updown_total_capit;
             }
+
             setTextDrawableHide(tvPercentgae);
+            if (isPercentType(orderType) && lastPercentTextIds > 0 && lastPercentTextIds == currentTextId) {
+                
+                if (isDefOrder(orderType)) {
+                    setDefType(tvPercentgae);
+                } else if (isDownOrder(orderType)) {
+                    setDownType(tvPercentgae);
+                } else {
+                    setUpType(tvPercentgae);
+                }
+                
+            }
         }
     }
 
