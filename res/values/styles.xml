@@ -228,7 +228,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_press</item>
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:textSize">@dimen/title_tab_text_size</item>
+        <item name="android:textSize">@dimen/main_tab_textsize</item>
         <item name="android:clickable">false</item>
     </style>
 

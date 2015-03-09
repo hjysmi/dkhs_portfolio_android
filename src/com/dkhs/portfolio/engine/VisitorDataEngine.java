@@ -15,7 +15,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.db.sqlite.WhereBuilder;
+import com.lidroid.xutils.db.table.DbModel;
 import com.lidroid.xutils.exception.DbException;
 
 /**
@@ -93,6 +93,24 @@ public class VisitorDataEngine {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public String getStockSymbols() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        StringBuilder sbSymbols = new StringBuilder();
+        try {
+            // db.findDbModelAll(selector)
+            List<DbModel> dbModels = db.findDbModelAll(Selector.from(SelectStockBean.class).select("code"));
+            for (DbModel codeColum : dbModels) {
+                String code = codeColum.getString("code");
+                sbSymbols.append(code);
+                sbSymbols.append(",");
+            }
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return sbSymbols.toString();
     }
 
     // public void
