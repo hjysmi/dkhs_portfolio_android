@@ -47,7 +47,10 @@ public class CombinationBean implements Serializable {
     private float chng_pct_month;
     private float chng_pct_week;
     private float chng_pct_three_month;
+    
+    private boolean followed;
 
+    
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -225,6 +228,14 @@ public class CombinationBean implements Serializable {
 
     public void setUser(CombinationUser user) {
         this.user = user;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
     }
 
 }

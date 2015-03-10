@@ -51,6 +51,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -168,6 +169,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
         netvalueBtnWeek = (Button) view.findViewById(R.id.netvalue_button_week);
         netvalueBtnMonth = (Button) view.findViewById(R.id.netvalue_button_month);
+        btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
+        btnAddOptional.setOnClickListener(this);
+        btnAddOptional.setVisibility(View.GONE);
         // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
@@ -185,6 +189,20 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         setupViewData();
 
         return view;
+    }
+
+    private Button btnAddOptional;
+
+    private void addOptionalButton(boolean isFollow) {
+        if (isFollow && null != btnAddOptional) {
+            btnAddOptional.setText(R.string.delete_fllow);
+            btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
+            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
+        } else if (null != btnAddOptional) {
+            btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
+            btnAddOptional.setText(R.string.add_fllow);
+            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
+        }
     }
 
     class OnComCheckListener implements OnCheckedChangeListener {
@@ -613,7 +631,37 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
+        if (v.getId() == R.id.btn_add_optional) {
+            btnAddOptional.setEnabled(false);
+            if (mCombinationBean.isFollowed()) {
+                new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
+            } else {
+
+                new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+            }
+        }
     }
+
+    ParseHttpListener followComListener = new ParseHttpListener<Object>() {
+
+        @Override
+        public void requestCallBack() {
+            super.requestCallBack();
+            btnAddOptional.setEnabled(true);
+        };
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
+            addOptionalButton(mCombinationBean.isFollowed());
+        }
+    };
 
     @Override
     public void onPauseFragment() {
@@ -673,7 +721,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 mPositionDetail = object;
 
                 if (null != mPositionDetail.getPortfolio()) {
-
+                    mCombinationBean = mPositionDetail.getPortfolio();
+                    btnAddOptional.setVisibility(View.VISIBLE);
+                    addOptionalButton(mCombinationBean.isFollowed());
                     netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()

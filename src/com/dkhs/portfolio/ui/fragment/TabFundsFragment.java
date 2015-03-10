@@ -27,7 +27,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.engine.FollowCombinationEngineImpl;
+import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
@@ -62,14 +62,14 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     private TabFundsAdapter mFundsAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private FollowCombinationEngineImpl dataEngine;
+    private FollowComListEngineImpl dataEngine;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         // if (null == dataEngine) {
-        dataEngine = new FollowCombinationEngineImpl(new ILoadDataBackListener<CombinationBean>() {
+        dataEngine = new FollowComListEngineImpl(new ILoadDataBackListener<CombinationBean>() {
 
             @Override
             public void loadFinish(MoreDataBean<CombinationBean> object) {

@@ -28,7 +28,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @date 2014-10-29 下午5:07:15
  * @version 1.0
  */
-public class FollowCombinationEngineImpl extends LoadMoreDataEngine {
+public class FollowComListEngineImpl extends LoadMoreDataEngine {
 
     // 净值、涨幅、置顶序号
     public static final String ORDER_CUMULATIVE_UP = "chng_pct_day";
@@ -40,7 +40,7 @@ public class FollowCombinationEngineImpl extends LoadMoreDataEngine {
     private String userId;
     private String orderType;
 
-    public FollowCombinationEngineImpl(ILoadDataBackListener loadListener, String usrId) {
+    public FollowComListEngineImpl(ILoadDataBackListener loadListener, String usrId) {
         super(loadListener);
         this.userId = usrId;
     }
