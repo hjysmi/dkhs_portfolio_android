@@ -247,11 +247,11 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1722) {
+        if (requestCode == 1722&&null!=viewLastClick) {
             setDefType(viewLastClick);
             dataEngine.setOrderType(orderType);
-            refresh();
         }
+        refresh();
 
     }
 

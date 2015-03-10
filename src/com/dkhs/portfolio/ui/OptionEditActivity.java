@@ -165,13 +165,16 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         @Override
         protected List<SelectStockBean> parseDateTask(String josn) {
             Log.e("json", josn);
-            PromptManager.showToast("修改成功");
-            finish();
+
             return null;
         }
 
         @Override
         protected void afterParseData(List<SelectStockBean> dataList) {
+
+            PromptManager.showToast("修改成功");
+            finish();
+            setResult(RESULT_OK);
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_edit);

@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
@@ -48,6 +49,15 @@ public class VisitorDataEngine {
         }
     }
 
+    public void replaceCombination(List<CombinationBean> comList) {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        try {
+            db.replaceAll(comList);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<SelectStockBean> getOptionalStockList() {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         List<SelectStockBean> list = Collections.EMPTY_LIST;
@@ -66,7 +76,7 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId",true));
+            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId", true));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block

@@ -36,4 +36,12 @@ public class FollowComEngineImpl {
         DKHSClient.request(HttpMethod.POST, MessageFormat.format(DKHSUrl.Portfolio.delFollow, ids), null, listener);
 
     }
+
+    public void sortCombinations(String ids, IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("portfolios_position", ids);
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.Portfolio.sort, params, listener);
+
+    }
+
 }

@@ -65,6 +65,9 @@ public class DKHSUrl {
         // 组合置顶
         String set_top = "/api/v1/portfolio/{0}/set_top/";
 
+        // 组合编辑排序
+        String sort = "/api/v1/portfolio/following/sort/";
+
     }
 
     public interface StockSymbol {
