@@ -107,13 +107,13 @@ public class NewMainActivity extends BaseActivity {
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentA, "A");
         }
-        if (fragmentB.isAdded()) {
+        if (null != fragmentB && fragmentB.isAdded()) {
             ft.hide(fragmentB);
         }
-        if (fragmentC.isAdded()) {
+        if (null != fragmentC && fragmentC.isAdded()) {
             ft.hide(fragmentC);
         }
-        if (fragmentD.isAdded()) {
+        if (null != fragmentD && fragmentD.isAdded()) {
             ft.hide(fragmentD);
         }
         ft.commit();
@@ -121,18 +121,18 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentB() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (fragmentB.isAdded()) { // if the fragment is already in container
+        if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
             ft.show(fragmentB);
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentB, "B");
         }
-        if (fragmentA.isAdded()) {
+        if (null != fragmentA && fragmentA.isAdded()) {
             ft.hide(fragmentA);
         }
-        if (fragmentC.isAdded()) {
+        if (null != fragmentC && fragmentC.isAdded()) {
             ft.hide(fragmentC);
         }
-        if (fragmentD.isAdded()) {
+        if (null != fragmentD && fragmentD.isAdded()) {
             ft.hide(fragmentD);
         }
         ft.commit();
@@ -140,18 +140,18 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentC() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (fragmentC.isAdded()) { // if the fragment is already in container
+        if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
             ft.show(fragmentC);
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentC, "C");
         }
-        if (fragmentB.isAdded()) {
+        if (null != fragmentB && fragmentB.isAdded()) {
             ft.hide(fragmentB);
         }
-        if (fragmentA.isAdded()) {
+        if (null != fragmentA && fragmentA.isAdded()) {
             ft.hide(fragmentA);
         }
-        if (fragmentD.isAdded()) {
+        if (null != fragmentD && fragmentD.isAdded()) {
             ft.hide(fragmentD);
         }
         ft.commit();
@@ -159,18 +159,18 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentD() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (fragmentD.isAdded()) { // if the fragment is already in container
+        if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
             ft.show(fragmentD);
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentD, "D");
         }
-        if (fragmentB.isAdded()) {
+        if (null != fragmentB && fragmentB.isAdded()) {
             ft.hide(fragmentB);
         }
-        if (fragmentC.isAdded()) {
+        if (null != fragmentC && fragmentC.isAdded()) {
             ft.hide(fragmentC);
         }
-        if (fragmentA.isAdded()) {
+        if (null != fragmentA && fragmentA.isAdded()) {
             ft.hide(fragmentA);
         }
         ft.commit();

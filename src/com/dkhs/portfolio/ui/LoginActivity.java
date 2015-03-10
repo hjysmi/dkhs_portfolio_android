@@ -141,6 +141,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             setTitle(R.string.login);
             getBtnBack().setText(R.string.cancel);
             getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            if (!TextUtils.isEmpty(phoneNum)) {
+                etUserName.setText(phoneNum);
+                setupLastUserInfo();
+            }
         } else {
             hideHead();
             if (!TextUtils.isEmpty(phoneNum)) {
@@ -171,6 +175,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
+        if (TextUtils.isEmpty(phoneNum)) {
+            phoneNum = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
+        }
         isLoginByAnnoy = extras.getBoolean(EXTRA_LOGINANNOY);
 
     }
@@ -547,6 +554,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         platData.setOpenid(plat.getDb().getUserId());
                         platData.setAvatar(imageUrl);
                         platData.setRefresh_token("");
+                        phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
                                 platData, registerListener.setLoadingDialog(LoginActivity.this));
                     }

@@ -93,6 +93,7 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
     private void initDate() {
         if (vo != null) {
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, type, vo);
+//            System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
         } else {
             iv.setText("暂无添加自选股");

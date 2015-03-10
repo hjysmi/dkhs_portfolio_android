@@ -62,9 +62,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private ImageView settingImageHead;
     private TextView settingTextAccountText;
     private TextView settingTextNameText;
-    private Button btnLogin;
+    // private Button btnLogin;
     private View viewUserInfo;
-    private View viewLogin;
+    // private View viewLogin;
     private View viewPassword;
     private UserEntity ue;
     private TextView settingSingText;
@@ -143,10 +143,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(this);
-        viewUserInfo = findViewById(R.id.ll_userinfo_layout);
-        viewLogin = findViewById(R.id.ll_login_layout);
+        // btnLogin = (Button) findViewById(R.id.btn_login);
+        // btnLogin.setOnClickListener(this);
+        viewUserInfo = findViewById(R.id.person_setting_parent);
+        // viewLogin = findViewById(R.id.ll_login_layout);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
         settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
@@ -158,8 +158,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
         if (PortfolioApplication.hasUserLogin()) {
-            btnLogin.setVisibility(View.GONE);
-            viewLogin.setVisibility(View.GONE);
+            // btnLogin.setVisibility(View.GONE);
+            // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
@@ -174,7 +174,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             }
         } else {
-            viewLogin.setVisibility(View.VISIBLE);
+            // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.GONE);
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
 

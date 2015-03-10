@@ -48,7 +48,7 @@
     <dimen name="line_weight_stroke_width">2dp</dimen>
     <dimen name="line_kline">3px</dimen>
     <dimen name="list_text_size">16sp</dimen>
-    <dimen name="title_tab_text_size">12sp</dimen>
+    <dimen name="title_tab_text_size">15sp</dimen>
     <dimen name="news_text_title_size">20sp</dimen>
     <dimen name="select_offset">10dp</dimen>
     <dimen name="select_text">15dp</dimen>
@@ -71,5 +71,6 @@
     <dimen name="adapter_line_height">7px</dimen>
     <dimen name="padding_left">90px</dimen>
     <dimen name="gray_tab_height">32dp</dimen>
+    <dimen name="main_tab_textsize">12sp</dimen>
 
 </resources>

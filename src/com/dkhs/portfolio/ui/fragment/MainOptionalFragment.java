@@ -12,19 +12,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.OptionEditActivity;
-import com.dkhs.portfolio.ui.OptionalStockListActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
-import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -36,7 +33,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  * @date 2015-2-5 下午3:02:49
  * @version 1.0
  */
-public class MainOptionalFragment extends BaseFragment implements OnClickListener {
+public class MainOptionalFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
 
     @ViewInject(R.id.btn_titletab_right)
     private Button btnTabRight;
@@ -56,6 +53,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         super.onCreate(savedInstanceState);
         tabStockFragment = new TabStockFragment();
         tabFundsFragment = new TabFundsFragment();
+        tabFundsFragment.setDataUpdateListener(this);
+        tabStockFragment.setDataUpdateListener(this);
     }
 
     @Override
@@ -156,7 +155,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         }
     }
 
-    private Fragment tabStockFragment;
+    private TabStockFragment tabStockFragment;
     private TabFundsFragment tabFundsFragment;
 
     protected void displayFragmentA() {
@@ -169,7 +168,10 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         }
         if (tabFundsFragment.isAdded()) {
             ft.hide(tabFundsFragment);
+            tabFundsFragment.setDataUpdateListener(null);
         }
+        tabStockFragment.setDataUpdateListener(this);
+        tabStockFragment.refreshEditView();
         ft.commit();
     }
 
@@ -183,9 +185,24 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         }
         if (tabStockFragment.isAdded()) {
             ft.hide(tabStockFragment);
+            tabStockFragment.setDataUpdateListener(null);
         }
-
+        tabFundsFragment.setDataUpdateListener(this);
+        tabFundsFragment.refreshEditView();
         ft.commit();
+    }
+
+    @Override
+    public void dataUpdate(boolean isEmptyData) {
+        if (null != btnSecRight) {
+            if (isEmptyData) {
+
+                btnSecRight.setVisibility(View.GONE);
+            } else {
+                btnSecRight.setVisibility(View.VISIBLE);
+
+            }
+        }
     }
 
 }

@@ -14,18 +14,12 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,9 +37,8 @@ import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
@@ -54,9 +47,11 @@ import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DataUpdateEvent;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnRefreshListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -318,12 +313,14 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 mAdapterConbinStock.notifyDataSetChanged();
 
             }
-            if (null == mDataList || mDataList.size() == 0) {
+            if (null == mDataList || mDataList.isEmpty()) {
                 initNotice();
+
             } else {
                 hideNotice();
             }
             isLoadingMore = false;
+            refreshEditView();
         }
 
         @Override
@@ -344,9 +341,20 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 loadingFinishListener.loadingFinish();
             }
             isLoadingMore = false;
+            refreshEditView();
         }
 
     };
+
+    public void refreshEditView() {
+        if (null != dataUpdateListener) {
+            if (!mDataList.isEmpty()) {
+                dataUpdateListener.dataUpdate(false);
+            } else {
+                dataUpdateListener.dataUpdate(true);
+            }
+        }
+    }
 
     public void setOrderType(OrderType orderType) {
         isRefresh = true;
@@ -644,6 +652,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+        System.out.println("FragmentSelectStockFund onResume ");
+        if (null == mDataList || mDataList.isEmpty()) {
+            BusProvider.getInstance().post(new DataUpdateEvent(true));
+        } else {
+            BusProvider.getInstance().post(new DataUpdateEvent(false));
+        }
     }
 
     @Override
@@ -652,10 +666,17 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (!isVisibleToUser) {
             if (null != pb)
                 pb.setVisibility(View.GONE);
+        } else {
+            if (null == mDataList || mDataList.isEmpty()) {
+                BusProvider.getInstance().post(new DataUpdateEvent(true));
+            } else {
+                BusProvider.getInstance().post(new DataUpdateEvent(false));
+            }
         }
         if (null != mDataList && mDataList.size() > 0) {
             pb.setVisibility(View.GONE);
         }
+
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -701,5 +722,15 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         // TODO Auto-generated method stub
         return R.layout.fragment_selectstock;
     }
+
+    public List<SelectStockBean> getDataList() {
+        return mDataList;
+    }
+
+    public void setDataUpdateListener(IDataUpdateListener listen) {
+        this.dataUpdateListener = listen;
+    }
+
+    private IDataUpdateListener dataUpdateListener;
 
 }

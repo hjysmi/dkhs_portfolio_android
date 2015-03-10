@@ -66,6 +66,19 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         setTitle(R.string.title_user);
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        updateUserInfo();
+
+    }
+
     private void initView(View view) {
         Button addButton = getRightButton();
         addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_setting_selecter),
@@ -79,6 +92,11 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             }
         });
 
+        updateUserInfo();
+
+    }
+
+    private void updateUserInfo() {
         if (PortfolioApplication.hasUserLogin()) {
             viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
@@ -109,7 +127,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             viewUserInfo.setVisibility(View.GONE);
 
         }
-
     }
 
     // public String setAccount(String account) {

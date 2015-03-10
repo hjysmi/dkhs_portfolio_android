@@ -12,26 +12,20 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.OptionEditActivity;
-import com.dkhs.portfolio.ui.OptionalStockListActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
-import com.dkhs.portfolio.ui.OptionalStockListActivity.RequestMarketTask;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -44,7 +38,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2015-2-7 上午11:03:07
  * @version 1.0
  */
-public class TabStockFragment extends BaseFragment implements OnClickListener {
+public class TabStockFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
 
     @Override
     public int setContentLayoutId() {
@@ -58,6 +52,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     // private TextView tvChange;
     @ViewInject(R.id.tv_percentage)
     private TextView tvPercentgae;
+
+    @ViewInject(R.id.view_stock_title)
+    private View titleView;
 
     // 当前价格
     public static final String TYPE_DEFALUT = "followed_at";
@@ -119,10 +116,32 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
             System.out.println(" mMarketTimer.schedule(new RequestMarketTask()");
         }
+
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
-        // MobclickAgent.onResume(this);
+        // refreshEditView();
+
     }
+
+    public void refreshEditView() {
+        if (null != dataUpdateListener && null != loadDataListFragment) {
+            loadDataListFragment.refreshEditView();
+            // if (!loadDataListFragment.getDataList().isEmpty()) {
+            // dataUpdateListener.dataUpdate(false);
+            // } else {
+            // dataUpdateListener.dataUpdate(true);
+            // }
+        }
+    }
+
+    public void setDataUpdateListener(IDataUpdateListener listen) {
+        this.dataUpdateListener = listen;
+        if (null != loadDataListFragment) {
+            loadDataListFragment.setDataUpdateListener(this);
+        }
+    }
+
+    private IDataUpdateListener dataUpdateListener;
 
     @Override
     public void onStop() {
@@ -164,6 +183,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         // view_datalist
         if (null == loadDataListFragment) {
             loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
+            // if (null != dataUpdateListener) {
+            loadDataListFragment.setDataUpdateListener(this);
+            // }
         }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
     }
@@ -294,12 +316,24 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
         return false;
     }
 
+    private boolean isPercentType(String type) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
+                        || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
+                        || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean isDefOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType) && orderType.equals(TYPE_DEFALUT)) {
             return true;
         }
         return false;
     }
+
+    private int lastPercentTextIds = 0;
 
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
@@ -308,14 +342,16 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
                 // 涨跌幅
                 orderType = TYPE_PERCENTAGE_DOWN;
-
+                lastPercentTextIds = R.string.market_updown_ratio;
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
                 // 涨跌额
                 orderType = TYPE_CHANGE_DOWN;
+                lastPercentTextIds = R.string.market_updown_change;
 
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
                 // 总市值
                 orderType = TYPE_TCAPITAL_DOWN;
+                lastPercentTextIds = R.string.market_updown_total_capit;
 
             }
         }
@@ -330,15 +366,16 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
             if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
                 // 涨跌幅
                 orderType = TYPE_PERCENTAGE_UP;
-
+                lastPercentTextIds = R.string.market_updown_ratio;
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
                 // 涨跌额
                 orderType = TYPE_CHANGE_UP;
+                lastPercentTextIds = R.string.market_updown_change;
 
             } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
                 // 总市值
                 orderType = TYPE_TCAPITAL_UP;
-
+                lastPercentTextIds = R.string.market_updown_total_capit;
             }
 
         }
@@ -373,19 +410,57 @@ public class TabStockFragment extends BaseFragment implements OnClickListener {
     public void onTabTitleChange(TabStockTitleChangeEvent event) {
         if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
             // PromptManager.showToast("Change tab text to:总市值");
+            int currentTextId = 0;
             if (event.tabType.equalsIgnoreCase(TYPE_PERCENTAGE_UP)) {
                 tvPercentgae.setText(R.string.market_updown_ratio);
+                currentTextId = R.string.market_updown_ratio;
                 // PromptManager.showToast("Change tab text to:涨跌幅");
             } else if (event.tabType.equalsIgnoreCase(TYPE_CHANGE_UP)) {
                 tvPercentgae.setText(R.string.market_updown_change);
+                currentTextId = R.string.market_updown_change;
                 // PromptManager.showToast("Change tab text to:涨跌额");
 
             } else {
                 // PromptManager.showToast("Change tab text to:总市值");
                 tvPercentgae.setText(R.string.market_updown_total_capit);
+                currentTextId = R.string.market_updown_total_capit;
             }
+
             setTextDrawableHide(tvPercentgae);
+            if (isPercentType(orderType) && lastPercentTextIds > 0 && lastPercentTextIds == currentTextId) {
+
+                if (isDefOrder(orderType)) {
+                    setDefType(tvPercentgae);
+                } else if (isDownOrder(orderType)) {
+                    setDownType(tvPercentgae);
+                } else {
+                    setUpType(tvPercentgae);
+                }
+
+            }
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param isEmptyData
+     * @return
+     */
+    @Override
+    public void dataUpdate(boolean isEmptyData) {
+        if (isEmptyData) {
+            titleView.setVisibility(View.GONE);
+
+        } else {
+            titleView.setVisibility(View.VISIBLE);
+
+        }
+
+        if (null != dataUpdateListener) {
+            dataUpdateListener.dataUpdate(isEmptyData);
+        }
+
     }
 
 }
