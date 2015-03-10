@@ -15,7 +15,7 @@
         android:background="@drawable/bg_order_header"
         android:gravity="center"
         android:singleLine="true"
-        android:text="牛人基金1"
+        android:text="牛人组合1"
         android:textColor="@color/white"
         android:textSize="18sp"
         tools:ignore="HardcodedText" />

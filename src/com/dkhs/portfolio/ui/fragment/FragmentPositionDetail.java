@@ -499,8 +499,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             String shareUrl = DKHSClient.getAbsoluteUrl(DKHSUrl.User.share) + mCombinationId;
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
-            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」于"
-                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的基金吧." + shareUrl;
+            String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」于"
+                    + mPositionDetail.getCurrentDate() + "的持仓明细。你也来创建属于你的组合吧." + shareUrl;
             oks.setText(customText);
 
             oks.setImagePath(SHARE_IMAGE);

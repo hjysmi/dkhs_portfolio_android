@@ -86,7 +86,7 @@ public class CombinationUserActivity extends ModelAcitivity {
             setTitle("我的资料");
             tvCText.setText(R.string.text_my_manager_combin);
         } else {
-            setTitle("基金经理资料");
+            setTitle("组合创建人资料");
             tvCText.setText(R.string.text_other_manager_combin);
         }
 

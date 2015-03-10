@@ -223,7 +223,7 @@ public class DragFundListAdapter extends BaseAdapter {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             // PromptManager.showProgressDialog(context, null);
-            PromptManager.showToast("删除自选基金");
+            PromptManager.showToast("删除自选组合");
 
             // 未完成
             // mQuotesEngine.delfollow(dataList.get(position).id, baseListener);

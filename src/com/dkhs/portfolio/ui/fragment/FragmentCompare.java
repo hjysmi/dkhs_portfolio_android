@@ -310,7 +310,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
 
-            String customText = "这是我的基金「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
+            String customText = "这是我的组合「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
                     + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。" + shareUrl;
 
             oks.setText(customText);
@@ -599,7 +599,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     setXTitle(dayNetValueList);
 
                     LineEntity mCombinationLine = new LineEntity();
-                    mCombinationLine.setTitle("我的基金");
+                    mCombinationLine.setTitle("我的组合");
                     mCombinationLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                     mCombinationLine.setLineData(lineDataList);
                     lineEntityList.remove(combinationLineEntity);
