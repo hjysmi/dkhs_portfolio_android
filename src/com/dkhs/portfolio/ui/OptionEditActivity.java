@@ -139,7 +139,8 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     Log.e("listindex", json.toString());
                     if (PortfolioApplication.hasUserLogin()) {
 
-                        OptionalStockEngineImpl.setIndex(userInfoListener.setLoadingDialog(this, "保存中...", false), json.toString());
+                        OptionalStockEngineImpl.setIndex(userInfoListener.setLoadingDialog(this, "保存中...", false),
+                                json.toString());
                     } else {
                         new VisitorDataEngine().replaceOptionStock(list);
                         PromptManager.showToast("修改成功");
@@ -149,6 +150,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                setResult(RESULT_OK);
                 break;
             case R.id.layout:
                 optionEditList.review(-1);

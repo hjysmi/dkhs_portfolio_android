@@ -12,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -241,11 +242,15 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
                 break;
         }
 
+        reloadData();
+
+    }
+
+    private void reloadData() {
         if (null != loadDataListFragment && !TextUtils.isEmpty(orderType)) {
             isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
         }
-
     }
 
     private void setDrawableUp(TextView view) {
@@ -461,6 +466,15 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
             dataUpdateListener.dataUpdate(isEmptyData);
         }
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 777) {
+            // System.out.println("set defalut order");
+            setDefType(viewLastClick);
+            reloadData();
+        }
     }
 
 }

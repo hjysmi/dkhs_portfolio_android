@@ -94,7 +94,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), OptionEditActivity.class);
-                UIUtils.startAminationActivity(getActivity(), intent);
+                // UIUtils.startAminationActivity(getActivity(), intent);
+                startActivityForResult(intent, 777);
             }
         });
     }
@@ -202,6 +203,14 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 btnSecRight.setVisibility(View.VISIBLE);
 
             }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 777) {
+            tabStockFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
