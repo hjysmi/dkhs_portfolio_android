@@ -114,6 +114,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         // TODO Auto-generated method stub
         super.onResume();
         refreshEditView();
+        refresh();
 
     }
 

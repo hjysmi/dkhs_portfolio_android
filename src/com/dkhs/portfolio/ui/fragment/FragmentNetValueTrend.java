@@ -54,6 +54,7 @@ import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
@@ -633,11 +634,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         if (v.getId() == R.id.btn_add_optional) {
             btnAddOptional.setEnabled(false);
-            if (mCombinationBean.isFollowed()) {
-                new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
-            } else {
+            if (PortfolioApplication.getInstance().hasUserLogin()) {
 
-                new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+                if (mCombinationBean.isFollowed()) {
+                    new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
+                } else {
+
+                    new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+                }
+            } else {
+                if (mCombinationBean.isFollowed()) {
+                    new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                    mCombinationBean.setFollowed(false);
+                } else {
+                    new VisitorDataEngine().saveCombination(mCombinationBean);
+                    mCombinationBean.setFollowed(true);
+                }
+
+                addOptionalButton(mCombinationBean.isFollowed());
             }
         }
     }
@@ -722,6 +736,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
                 if (null != mPositionDetail.getPortfolio()) {
                     mCombinationBean = mPositionDetail.getPortfolio();
+                    if (!PortfolioApplication.hasUserLogin()) {
+                        CombinationBean comBean = new VisitorDataEngine().queryCombination(mCombinationBean.getId());
+                        if (null != comBean) {
+                            mCombinationBean.setFollowed(comBean.isFollowed());
+                        }
+                    }
                     btnAddOptional.setVisibility(View.VISIBLE);
                     addOptionalButton(mCombinationBean.isFollowed());
                     netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()

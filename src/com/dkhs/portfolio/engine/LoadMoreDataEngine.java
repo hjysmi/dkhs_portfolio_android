@@ -101,4 +101,8 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
         this.currentpage = currentpage;
     }
 
+    public ILoadDataBackListener getLoadListener() {
+        return iLoadListener;
+    }
+
 }

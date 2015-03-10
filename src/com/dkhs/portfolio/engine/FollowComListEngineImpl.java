@@ -8,8 +8,12 @@
  */
 package com.dkhs.portfolio.engine;
 
+import java.util.Collections;
+import java.util.List;
+
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -38,7 +42,7 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
     public static final String ORDER_DEFALUT = "";
 
     private String userId;
-    private String orderType;
+    private String orderType = ORDER_DEFALUT;
 
     public FollowComListEngineImpl(ILoadDataBackListener loadListener, String usrId) {
         super(loadListener);
@@ -66,14 +70,46 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
     }
 
     public HttpHandler loadAllData() {
-        RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", "1");
-        if (!TextUtils.isEmpty(orderType)) {
-            params.addQueryStringParameter("sort", orderType);
-        }
-        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
 
+        if (PortfolioApplication.hasUserLogin()) {
+
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            if (!TextUtils.isEmpty(orderType)) {
+                params.addQueryStringParameter("sort", orderType);
+            }
+            params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
+
+        } else {
+            List<CombinationBean> comList = new VisitorDataEngine().getCombinationBySort();
+            StringBuilder sbIds = new StringBuilder();
+            if (null != comList && !comList.isEmpty()) {
+                for (CombinationBean comBean : comList) {
+                    sbIds.append(comBean.getId());
+                    sbIds.append(",");
+                }
+                // sbIds = sbIds.substring(0, sbIds.length()-1);
+                // System.out.println("datalist size:" + dataList.size());
+                // getiLoadListener().loadFinish(dataList);
+                if (null != sbIds && sbIds.length() > 1) {
+
+                    System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
+
+                    RequestParams params = new RequestParams();
+                    if (!orderType.equals(ORDER_DEFALUT)) {
+                        params.addQueryStringParameter("sort", orderType);
+                    }
+                    params.addQueryStringParameter("pks", sbIds.substring(0, sbIds.length() - 1));
+                    return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
+                }
+            } else {
+                MoreDataBean<CombinationBean> moreDatebean = new MoreDataBean<CombinationBean>();
+                getLoadListener().loadFinish(moreDatebean);
+                // getiLoadListener().loadFail(null);
+            }
+        }
+        return null;
     }
 
     /**
