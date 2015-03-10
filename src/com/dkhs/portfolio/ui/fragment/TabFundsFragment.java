@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -239,8 +240,19 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     public void editFund() {
         if (!mDataList.isEmpty()) {
-            startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
+            // startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
+            startActivityForResult(EditTabFundActivity.getIntent(getActivity(), mDataList), 1722);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1722) {
+            setDefType(viewLastClick);
+            dataEngine.setOrderType(orderType);
+            refresh();
+        }
+
     }
 
     public void refresh() {
@@ -370,7 +382,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         // } else if (currentSelectView == tvPercentgae) {
         // orderType = TYPE_PERCENTAGE_DEF;
         // }
-        orderType = UserCombinationEngineImpl.ORDER_DEFALUT;
+        orderType = FollowComListEngineImpl.ORDER_DEFALUT;
         setTextDrawableHide(currentSelectView);
     }
 
@@ -388,5 +400,13 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
             dataUpdateListener.dataUpdate(isEmptyData);
 
         }
+    }
+
+    public List<CombinationBean> getmDataList() {
+        return mDataList;
+    }
+
+    public void setmDataList(List<CombinationBean> mDataList) {
+        this.mDataList = mDataList;
     }
 }

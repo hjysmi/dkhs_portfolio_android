@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.OptionEditActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -124,7 +125,9 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                tabFundsFragment.editFund();
+                // tabFundsFragment.editFund();
+                startActivityForResult(EditTabFundActivity.getIntent(getActivity(), tabFundsFragment.getmDataList()),
+                        1722);
             }
         });
     }
@@ -209,8 +212,11 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("onActivityResult requestCode:" + requestCode);
         if (requestCode == 777) {
             tabStockFragment.onActivityResult(requestCode, resultCode, data);
+        } else if (requestCode == 1722) {
+            tabFundsFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 

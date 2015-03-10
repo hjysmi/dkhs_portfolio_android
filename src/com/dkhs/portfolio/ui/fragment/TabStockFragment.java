@@ -470,6 +470,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        
         if (requestCode == 777) {
             // System.out.println("set defalut order");
             setDefType(viewLastClick);

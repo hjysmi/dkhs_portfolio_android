@@ -65,7 +65,6 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void handleExtras(Bundle extras) {
-
         mdateList = (ArrayList<CombinationBean>) extras.getSerializable("key_fund_list");
     }
 
@@ -85,6 +84,8 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                finish();
+                setResult(RESULT_OK);
                 break;
             case R.id.layout:
                 optionEditList.review(-1);
