@@ -67,7 +67,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    private static final String DEF_ORDER_TYPE = "followed_at";
+    private static final String DEF_ORDER_TYPE = "";
     private String orderType = DEF_ORDER_TYPE;
 
     public void setLoadType(String orderType) {

@@ -376,7 +376,7 @@ public class DragFundListView extends ListView {
         DragFundListAdapter adapter = (DragFundListAdapter) getAdapter();
         if (last != current) {
             adapter.exchangeCopy(last, current);
-            Log.i("wanggang", "onChange");
+            // Log.i("wanggang", "onChange");
         }
 
     }
@@ -461,8 +461,8 @@ public class DragFundListView extends ListView {
             // adapter.setHoldPosition(lastPosition);
             // }
 
-            Log.i("wanggang", "getFirstVisiblePosition() = " + getFirstVisiblePosition());
-            Log.i("wanggang", "getLastVisiblePosition() = " + getLastVisiblePosition());
+            // Log.i("wanggang", "getFirstVisiblePosition() = " + getFirstVisiblePosition());
+            // Log.i("wanggang", "getLastVisiblePosition() = " + getLastVisiblePosition());
 
             // adapter.setInvisiblePosition(tempPosition);
 
