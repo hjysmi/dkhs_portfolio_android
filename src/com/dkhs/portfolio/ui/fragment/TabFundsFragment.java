@@ -18,6 +18,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,9 +27,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.engine.FollowCombinationEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
+import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
@@ -58,14 +62,14 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     private TabFundsAdapter mFundsAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private UserCombinationEngineImpl dataEngine;
+    private FollowCombinationEngineImpl dataEngine;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         // if (null == dataEngine) {
-        dataEngine = new UserCombinationEngineImpl(new ILoadDataBackListener<CombinationBean>() {
+        dataEngine = new FollowCombinationEngineImpl(new ILoadDataBackListener<CombinationBean>() {
 
             @Override
             public void loadFinish(MoreDataBean<CombinationBean> object) {
@@ -184,6 +188,17 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         mFundsAdapter = new TabFundsAdapter(getActivity(), mDataList);
         mListView.setAdapter(mFundsAdapter);
         mListView.setDividerHeight(0);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO Auto-generated method stub
+                getActivity().startActivity(
+                        OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
+                                FundsOrderFragment.ORDER_TYPE_DAY));
+
+            }
+        });
         TextView emptyview = (TextView) view.findViewById(R.id.add_data);
         emptyview.setText(R.string.click_creat_fund);
         emptyview.setOnClickListener(new OnClickListener() {
