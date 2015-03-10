@@ -163,6 +163,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
         });
 
         btnRefresh = getSecondRightButton();
+        btnRefresh.setOnClickListener(this);
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
                 null, null, null);
 
@@ -348,6 +349,10 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_right_second:
+                loadingAllData();
+
+                break;
             case R.id.btn_right:
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 startActivity(intent);
