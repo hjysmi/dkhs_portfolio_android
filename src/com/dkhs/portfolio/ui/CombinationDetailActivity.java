@@ -109,7 +109,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private void updataTitle() {
         if (null != mCombinationBean) {
             setTitle(mCombinationBean.getName());
-            setTitleTipString("创建于" + TimeUtils.getSimpleDay(mCombinationBean.getCreateTime()));
+            setTitleTipString(getString(R.string.format_create_time, TimeUtils.getSimpleDay(mCombinationBean.getCreateTime())));
         }
     }
 

@@ -62,7 +62,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_order_funddetail);
-        setTitle("牛人基金");
+        // setTitle("牛人基金");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -136,6 +136,9 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     private void initData() {
         if (null != mChampionBean) {
+            setTitle(mChampionBean.getName());
+            setTitleTipString(getString(R.string.format_create_time,
+                    TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
 
             tvConName.setText(mChampionBean.getName());
             tvUserName.setText(mChampionBean.getUser().getUsername());
