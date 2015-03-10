@@ -66,7 +66,7 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId"));
+            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId",true));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block
