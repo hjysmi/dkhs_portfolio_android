@@ -131,9 +131,9 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     for (int i = 0; i < list.size(); i++) {
                         SelectStockBean vo = list.get(i);
                         JSONObject jo = new JSONObject();
-                        vo.setSortId(list.size() - i);
+                        vo.setSortId(i + 1);
                         jo.put("symbol_id", vo.id);
-                        jo.put("sort_index", list.size() - i);
+                        jo.put("sort_index", i + 1);
                         json.put(jo);
                     }
                     Log.e("listindex", json.toString());

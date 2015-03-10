@@ -58,7 +58,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private View titleView;
 
     // 当前价格
-    public static final String TYPE_DEFALUT = "followed_at";
+    public static final String TYPE_DEFALUT = "";
     public static final String TYPE_CURRENT_UP = "current";
     public static final String TYPE_CURRENT_DOWN = "-current";
 
