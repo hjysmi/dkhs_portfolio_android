@@ -644,13 +644,13 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 }
             } else {
                 if (mCombinationBean.isFollowed()) {
-                    new VisitorDataEngine().delCombinationBean(mCombinationBean);
                     mCombinationBean.setFollowed(false);
+                    new VisitorDataEngine().delCombinationBean(mCombinationBean);
                 } else {
-                    new VisitorDataEngine().saveCombination(mCombinationBean);
                     mCombinationBean.setFollowed(true);
+                    new VisitorDataEngine().saveCombination(mCombinationBean);
                 }
-
+                btnAddOptional.setEnabled(true);
                 addOptionalButton(mCombinationBean.isFollowed());
             }
         }
