@@ -430,9 +430,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         // TODO Auto-generated method stub
         super.onStart();
         isDefalutRequest = true;
-        QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
-        listener.setLoadingDialog(getActivity());
-        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
+
     }
 
     @Override
@@ -735,5 +733,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+        QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
+        listener.setLoadingDialog(getActivity());
+        new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
     }
 }
