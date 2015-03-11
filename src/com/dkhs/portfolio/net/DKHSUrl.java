@@ -34,6 +34,15 @@ public class DKHSUrl {
     public interface Portfolio {
         // 查询我的组合
         String portfolio = "/api/v1/portfolio/mine/";
+
+        // 查询关注的组合
+        String following = "/api/v1/portfolio/following/";
+
+        // 取消关注组合
+        String delFollow = "/api/v1/portfolio/{0}/unfollow/";
+        // 添加关注组合
+        String addFollow = "/api/v1/portfolio/{0}/follow/";
+
         // 创建我的组合
         String create = "/api/v1/portfolio/";
         // 删除组合
@@ -55,6 +64,9 @@ public class DKHSUrl {
 
         // 组合置顶
         String set_top = "/api/v1/portfolio/{0}/set_top/";
+
+        // 组合编辑排序
+        String sort = "/api/v1/portfolio/following/sort/";
 
     }
 

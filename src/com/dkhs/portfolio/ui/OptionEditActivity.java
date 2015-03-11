@@ -139,7 +139,8 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     Log.e("listindex", json.toString());
                     if (PortfolioApplication.hasUserLogin()) {
 
-                        OptionalStockEngineImpl.setIndex(userInfoListener.setLoadingDialog(this, "保存中...", false), json.toString());
+                        OptionalStockEngineImpl.setIndex(userInfoListener.setLoadingDialog(this, "保存中...", false),
+                                json.toString());
                     } else {
                         new VisitorDataEngine().replaceOptionStock(list);
                         PromptManager.showToast("修改成功");
@@ -149,6 +150,7 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+                setResult(RESULT_OK);
                 break;
             case R.id.layout:
                 optionEditList.review(-1);
@@ -163,13 +165,16 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         @Override
         protected List<SelectStockBean> parseDateTask(String josn) {
             Log.e("json", josn);
-            PromptManager.showToast("修改成功");
-            finish();
+
             return null;
         }
 
         @Override
         protected void afterParseData(List<SelectStockBean> dataList) {
+
+            PromptManager.showToast("修改成功");
+            finish();
+            setResult(RESULT_OK);
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_edit);

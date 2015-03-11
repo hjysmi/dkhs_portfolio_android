@@ -84,7 +84,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
                 //
                 String combinationName = combination_name.getText().toString().trim();
                 if (TextUtils.isEmpty(combinationName)) {
-                    PromptManager.showToast("基金名称不能为空");
+                    PromptManager.showToast("组合名称不能为空");
                     return;
                 }
                 if (combinationName.length() < 3 || combinationName.length() > 10) {

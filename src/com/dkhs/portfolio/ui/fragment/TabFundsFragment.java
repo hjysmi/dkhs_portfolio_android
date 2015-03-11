@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,9 +28,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
+import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
@@ -58,14 +63,14 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     private TabFundsAdapter mFundsAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private UserCombinationEngineImpl dataEngine;
+    private FollowComListEngineImpl dataEngine;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         // if (null == dataEngine) {
-        dataEngine = new UserCombinationEngineImpl(new ILoadDataBackListener<CombinationBean>() {
+        dataEngine = new FollowComListEngineImpl(new ILoadDataBackListener<CombinationBean>() {
 
             @Override
             public void loadFinish(MoreDataBean<CombinationBean> object) {
@@ -109,6 +114,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         // TODO Auto-generated method stub
         super.onResume();
         refreshEditView();
+        refresh();
 
     }
 
@@ -184,6 +190,17 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         mFundsAdapter = new TabFundsAdapter(getActivity(), mDataList);
         mListView.setAdapter(mFundsAdapter);
         mListView.setDividerHeight(0);
+        mListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO Auto-generated method stub
+                getActivity().startActivity(
+                        OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
+                                FundsOrderFragment.ORDER_TYPE_DAY));
+
+            }
+        });
         TextView emptyview = (TextView) view.findViewById(R.id.add_data);
         emptyview.setText(R.string.click_creat_fund);
         emptyview.setOnClickListener(new OnClickListener() {
@@ -224,8 +241,19 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     public void editFund() {
         if (!mDataList.isEmpty()) {
-            startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
+            // startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
+            startActivityForResult(EditTabFundActivity.getIntent(getActivity(), mDataList), 1722);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1722&&null!=viewLastClick) {
+            setDefType(viewLastClick);
+            dataEngine.setOrderType(orderType);
+        }
+        refresh();
+
     }
 
     public void refresh() {
@@ -355,7 +383,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         // } else if (currentSelectView == tvPercentgae) {
         // orderType = TYPE_PERCENTAGE_DEF;
         // }
-        orderType = UserCombinationEngineImpl.ORDER_DEFALUT;
+        orderType = FollowComListEngineImpl.ORDER_DEFALUT;
         setTextDrawableHide(currentSelectView);
     }
 
@@ -373,5 +401,13 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
             dataUpdateListener.dataUpdate(isEmptyData);
 
         }
+    }
+
+    public List<CombinationBean> getmDataList() {
+        return mDataList;
+    }
+
+    public void setmDataList(List<CombinationBean> mDataList) {
+        this.mDataList = mDataList;
     }
 }

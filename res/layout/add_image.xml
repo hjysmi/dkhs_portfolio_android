@@ -32,7 +32,7 @@
             android:drawablePadding="4dp"
             android:padding="4dp"
             android:singleLine="true"
-            android:text="我的基金"
+            android:text="我的组合"
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp" />
 

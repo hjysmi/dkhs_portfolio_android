@@ -51,8 +51,10 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
@@ -168,6 +170,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
         netvalueBtnWeek = (Button) view.findViewById(R.id.netvalue_button_week);
         netvalueBtnMonth = (Button) view.findViewById(R.id.netvalue_button_month);
+        btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
+        btnAddOptional.setOnClickListener(this);
+        btnAddOptional.setVisibility(View.GONE);
         // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
         // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
         // btnEditName.setOnClickListener(this);
@@ -185,6 +190,20 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         setupViewData();
 
         return view;
+    }
+
+    private Button btnAddOptional;
+
+    private void addOptionalButton(boolean isFollow) {
+        if (isFollow && null != btnAddOptional) {
+            btnAddOptional.setText(R.string.delete_fllow);
+            btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
+            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
+        } else if (null != btnAddOptional) {
+            btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
+            btnAddOptional.setText(R.string.add_fllow);
+            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
+        }
     }
 
     class OnComCheckListener implements OnCheckedChangeListener {
@@ -376,7 +395,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             oks.setUrl(shareUrl);
             oks.setTitle(mCombinationBean.getName() + " 今日收益率");
 
-            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的基金吧。"
+            String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
                     + shareUrl;
 
             oks.setText(customText);
@@ -613,7 +632,50 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
+        if (v.getId() == R.id.btn_add_optional) {
+            btnAddOptional.setEnabled(false);
+            if (PortfolioApplication.getInstance().hasUserLogin()) {
+
+                if (mCombinationBean.isFollowed()) {
+                    new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
+                } else {
+
+                    new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+                }
+            } else {
+                if (mCombinationBean.isFollowed()) {
+                    new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                    mCombinationBean.setFollowed(false);
+                } else {
+                    new VisitorDataEngine().saveCombination(mCombinationBean);
+                    mCombinationBean.setFollowed(true);
+                }
+
+                addOptionalButton(mCombinationBean.isFollowed());
+            }
+        }
     }
+
+    ParseHttpListener followComListener = new ParseHttpListener<Object>() {
+
+        @Override
+        public void requestCallBack() {
+            super.requestCallBack();
+            btnAddOptional.setEnabled(true);
+        };
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
+            addOptionalButton(mCombinationBean.isFollowed());
+        }
+    };
 
     @Override
     public void onPauseFragment() {
@@ -673,7 +735,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 mPositionDetail = object;
 
                 if (null != mPositionDetail.getPortfolio()) {
-
+                    mCombinationBean = mPositionDetail.getPortfolio();
+                    if (!PortfolioApplication.hasUserLogin()) {
+                        CombinationBean comBean = new VisitorDataEngine().queryCombination(mCombinationBean.getId());
+                        if (null != comBean) {
+                            mCombinationBean.setFollowed(comBean.isFollowed());
+                        }
+                    }
+                    btnAddOptional.setVisibility(View.VISIBLE);
+                    addOptionalButton(mCombinationBean.isFollowed());
                     netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()

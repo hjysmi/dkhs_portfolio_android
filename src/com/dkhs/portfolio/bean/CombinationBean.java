@@ -16,6 +16,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.google.gson.annotations.SerializedName;
+import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 /**
  * @ClassName ConbinationBean
@@ -27,6 +28,7 @@ import com.google.gson.annotations.SerializedName;
 public class CombinationBean implements Serializable {
 
     private static final long serialVersionUID = 12959959598L;
+    @NoAutoIncrement
     private String id;
     private String name;
     private CombinationUser user;
@@ -47,6 +49,9 @@ public class CombinationBean implements Serializable {
     private float chng_pct_month;
     private float chng_pct_week;
     private float chng_pct_three_month;
+
+    private boolean followed;
+    private int sortId;
 
     /**
      * @Title
@@ -225,6 +230,22 @@ public class CombinationBean implements Serializable {
 
     public void setUser(CombinationUser user) {
         this.user = user;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
+
+    public int getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(int sortId) {
+        this.sortId = sortId;
     }
 
 }

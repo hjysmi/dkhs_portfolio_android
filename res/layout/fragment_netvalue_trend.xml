@@ -143,25 +143,26 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/netvalue_layout"
-            android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/divider_line"
-            android:paddingRight="15dp"
-            android:paddingTop="5dp" >
+            android:layout_marginTop="6dp"
+            android:paddingRight="15dp" >
 
-            <ImageView
-                android:id="@+id/tv_combination_image_value"
+            <Button
+                android:id="@+id/btn_add_optional"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:src="@drawable/tv_combination_currentnet"
-                android:visibility="gone" />
+                android:layout_alignParentRight="true"
+                android:paddingBottom="6dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="@string/delete_fllow" />
 
             <TextView
                 android:id="@+id/tv_history_netvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_below="@+id/btn_add_optional"
                 android:paddingLeft="5dp"
                 android:text="-"
                 android:textColor="@color/combition_gray"
@@ -170,20 +171,12 @@
             <TextView
                 android:id="@+id/tv_history"
                 style="@style/hw_wrap"
+                android:layout_below="@+id/btn_add_optional"
                 android:layout_toLeftOf="@id/tv_history_netvalue"
                 android:paddingLeft="5dp"
                 android:text="净值"
                 android:textColor="@color/combition_gray"
                 android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_history"
-                android:paddingLeft="5dp"
-                android:text=" "
-                android:textColor="@color/combition_gray"
-                android:textSize="46sp" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -249,15 +242,17 @@
 
     <View style="@style/divider_line" />
 
-        <FrameLayout
-            android:id="@+id/rl_trend_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <FrameLayout
+        android:id="@+id/rl_trend_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <!-- <com.dkhs.portfolio.ui.widget.ScrollViewPager
+    <!--
+         <com.dkhs.portfolio.ui.widget.ScrollViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" /> -->
+        android:visibility="gone" />
+    -->
 
 </LinearLayout>

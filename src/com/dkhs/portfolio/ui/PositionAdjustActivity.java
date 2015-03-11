@@ -787,7 +787,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             combinationName = etConbinationName.getText().toString().trim();
         }
         if (TextUtils.isEmpty(combinationName)) {
-            PromptManager.showToast("基金名称不能为空");
+            PromptManager.showToast("组合名称不能为空");
             return;
         }
         if (combinationName.length() < 3 || combinationName.length() > 10) {
@@ -873,7 +873,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                     }
                                     updatePieView();
                                     Toast.makeText(getApplicationContext(),
-                                            "涨停股：" + sb.substring(0, sb.length() - 1) + "不能加入基金", Toast.LENGTH_LONG)
+                                            "涨停股：" + sb.substring(0, sb.length() - 1) + "不能加入组合", Toast.LENGTH_LONG)
                                             .show();
 
                                 }

@@ -23,9 +23,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -42,7 +45,7 @@ public class DragFundListAdapter extends BaseAdapter {
     // private ArrayList<Integer> arrayDrawables;
     private Context context;
     public boolean isHidden;
-    private QuotesEngineImpl mQuotesEngine;
+    private FollowComEngineImpl mQuotesEngine;
     private int station = 0;
     private int his = 0;
 
@@ -52,7 +55,7 @@ public class DragFundListAdapter extends BaseAdapter {
         this.context = context;
         this.dataList = dataList;
         // this.mDragListView = mDragListView;
-        mQuotesEngine = new QuotesEngineImpl();
+        mQuotesEngine = new FollowComEngineImpl();
         // this.arrayDrawables = arrayDrawables;
     }
 
@@ -222,14 +225,22 @@ public class DragFundListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            // PromptManager.showProgressDialog(context, null);
-            PromptManager.showToast("删除自选基金");
+            PromptManager.showProgressDialog(context, null);
+            // PromptManager.showToast("删除自选组合");
+            if (PortfolioApplication.getInstance().hasUserLogin()) {
 
+                mQuotesEngine.defFollowCombinations(dataList.get(position).getId(), baseListener);
+            } else {
+                new VisitorDataEngine().delCombinationBean(dataList.get(position));
+                PromptManager.closeProgressDialog();
+                dataList.remove(station);
+                notifyDataSetChanged();
+            }
             // 未完成
             // mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
             station = position;
-            dataList.remove(station); 
-            notifyDataSetChanged();
+            // dataList.remove(station);
+            // notifyDataSetChanged();
         }
 
     }
