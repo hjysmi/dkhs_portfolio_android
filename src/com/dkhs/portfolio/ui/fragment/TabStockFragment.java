@@ -117,7 +117,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
             mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
             System.out.println(" mMarketTimer.schedule(new RequestMarketTask()");
         }
-
+        reloadData();
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
@@ -192,7 +192,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private TextView viewLastClick;
-    private String orderType;
+    private String orderType = TYPE_DEFALUT;
 
     /**
      * @Title
@@ -247,7 +247,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private void reloadData() {
-        if (null != loadDataListFragment && !TextUtils.isEmpty(orderType)) {
+        if (null != loadDataListFragment) {
             isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
         }
