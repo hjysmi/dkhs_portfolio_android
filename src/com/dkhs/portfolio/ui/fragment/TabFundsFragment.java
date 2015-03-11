@@ -138,9 +138,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
     public void onClick(View v) {
         int id = v.getId();
-        if (!PortfolioApplication.hasUserLogin()) {
-            return;
-        }
+        // if (!PortfolioApplication.hasUserLogin()) {
+        // return;
+        // }
         switch (id) {
             case R.id.tv_current: {
                 setViewOrderIndicator(tvCurrent);
@@ -248,7 +248,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1722&&null!=viewLastClick) {
+        if (requestCode == 1722 && null != viewLastClick) {
             setDefType(viewLastClick);
             dataEngine.setOrderType(orderType);
         }
