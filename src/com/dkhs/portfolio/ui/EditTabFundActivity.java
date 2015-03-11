@@ -96,6 +96,10 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
+                if (null == optionEditList || optionEditList.getList().isEmpty()) {
+                    finish();
+                    return;
+                }
                 sortIndexToserver();
                 break;
             case R.id.layout:
@@ -114,9 +118,9 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
                 CombinationBean vo = list.get(i);
                 JSONObject jo = new JSONObject();
                 vo.setSortId(list.size() - i);
-                vo.setSortId(i+1);
+                vo.setSortId(i + 1);
                 jo.put("portfolio_id", vo.getId());
-                jo.put("sort_index", i+1);
+                jo.put("sort_index", i + 1);
                 json.put(jo);
             }
             Log.e("listindex", json.toString());
