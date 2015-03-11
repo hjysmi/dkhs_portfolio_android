@@ -474,6 +474,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         if (requestCode == 777 && null != viewLastClick) {
             // System.out.println("set defalut order");
             setDefType(viewLastClick);
+            viewLastClick = null;
             reloadData();
         }
     }
