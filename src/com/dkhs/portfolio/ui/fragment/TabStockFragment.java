@@ -58,7 +58,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private View titleView;
 
     // 当前价格
-    public static final String TYPE_DEFALUT = "followed_at";
+    public static final String TYPE_DEFALUT = "";
     public static final String TYPE_CURRENT_UP = "current";
     public static final String TYPE_CURRENT_DOWN = "-current";
 
@@ -117,7 +117,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
             mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
             System.out.println(" mMarketTimer.schedule(new RequestMarketTask()");
         }
-
+        reloadData();
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
@@ -192,7 +192,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private TextView viewLastClick;
-    private String orderType;
+    private String orderType = TYPE_DEFALUT;
 
     /**
      * @Title
@@ -247,7 +247,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private void reloadData() {
-        if (null != loadDataListFragment && !TextUtils.isEmpty(orderType)) {
+        if (null != loadDataListFragment) {
             isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
         }
@@ -474,6 +474,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         if (requestCode == 777 && null != viewLastClick) {
             // System.out.println("set defalut order");
             setDefType(viewLastClick);
+            viewLastClick = null;
             reloadData();
         }
     }

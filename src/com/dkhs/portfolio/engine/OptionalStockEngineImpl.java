@@ -67,7 +67,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    private static final String DEF_ORDER_TYPE = "followed_at";
+    private static final String DEF_ORDER_TYPE = "";
     private String orderType = DEF_ORDER_TYPE;
 
     public void setLoadType(String orderType) {
@@ -115,10 +115,11 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
                     } else {
                         getiLoadListener().loadFinish(Collections.EMPTY_LIST);
-
+                        isLoading = false;
                     }
                 } else {
                     getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+                    isLoading = false;
                     // getiLoadListener().loadFail(null);
 
                 }

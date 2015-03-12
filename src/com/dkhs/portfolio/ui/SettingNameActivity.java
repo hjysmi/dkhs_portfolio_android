@@ -14,6 +14,7 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -27,10 +28,12 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -460,7 +463,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
     public void uploadUserFollowStock() {
 
-        List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockList();
+        List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
         StringBuilder sbIds = new StringBuilder();
         if (null != dataList && !dataList.isEmpty()) {
             for (SelectStockBean stock : dataList) {
@@ -491,6 +494,41 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                     }.setLoadingDialog(this, "正在注册", false));
         }
 
+    }
+
+    public void uploadUserFollowCombination() {
+        List<CombinationBean> dataList = new VisitorDataEngine().getCombinationBySort();
+        StringBuilder sbIds = new StringBuilder();
+        if (null != dataList && !dataList.isEmpty()) {
+            for (CombinationBean stock : dataList) {
+                sbIds.append(stock.getId());
+                sbIds.append(",");
+            }
+            new FollowComEngineImpl().followCombinations(sbIds.substring(0, sbIds.length() - 1),
+                    new ParseHttpListener<Object>() {
+
+                        @Override
+                        protected Object parseDateTask(String jsonData) {
+                            new VisitorDataEngine().delAllCombinationBean();
+                            return null;
+                        }
+
+                        @Override
+                        protected void afterParseData(Object object) {
+
+                            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
+                            // if (isSetPsw) {
+                            // finish();
+                            // } else {
+                            // PortfolioApplication.getInstance().exitApp();
+                            // Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
+                            // startActivity(intent);
+                            // finish();
+                            // }
+
+                        }
+                    });
+        }
     }
 
     @Override

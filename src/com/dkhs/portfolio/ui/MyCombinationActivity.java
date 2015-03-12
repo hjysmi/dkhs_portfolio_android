@@ -46,6 +46,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
 import com.dkhs.portfolio.ui.fragment.MyCombinationListFragment;
+import com.dkhs.portfolio.ui.fragment.MyCombinationSlideListFragment;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -68,7 +69,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     private Button btnTwo;
     // private PopupWindow mPopMoreWindow;
     // private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private MyCombinationListFragment listFragment;
+    private MyCombinationSlideListFragment listFragment;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -117,7 +118,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     private void replaceCombinationListView() {
-        listFragment = MyCombinationListFragment.getFragment();
+        listFragment = MyCombinationSlideListFragment.getFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout, listFragment).commit();
 
     }

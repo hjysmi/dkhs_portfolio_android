@@ -148,6 +148,15 @@ public class VisitorDataEngine {
             e.printStackTrace();
         }
     }
+    public void delAllCombinationBean() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        try {
+            db.deleteAll(CombinationBean.class);
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
     public CombinationBean queryCombination(String comId) {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());

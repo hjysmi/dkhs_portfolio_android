@@ -107,8 +107,8 @@ public class DragFundListAdapter extends BaseAdapter {
         tvId.setText(dataList.get(position).getDefDescription());
         // layoutCover.setOnTouchListener(new OnCover(image,btn));
         if (isChanged) {
-            Log.i("wanggang", "position == " + position);
-            Log.i("wanggang", "holdPosition == " + invisilePosition);
+            // Log.i("wanggang", "position == " + position);
+            // Log.i("wanggang", "holdPosition == " + invisilePosition);
             if (position == invisilePosition) {
                 if (!ShowItem) {
                     convertView.findViewById(R.id.drag_list_item_text).setVisibility(View.INVISIBLE);

@@ -67,9 +67,9 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
     // 取消按钮
     private Button btnCancel;
     // 滑上来的动画
-    private Animation animShow;
+    // private Animation animShow;
     // 滑下去的动画
-    private Animation animHide;
+    // private Animation animHide;
     private boolean finishing;
     private boolean canceled;
     private HashMap<String, Object> reqMap;
@@ -331,7 +331,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         finishing = false;
         canceled = false;
         initPageView();
-        initAnim();
+        // initAnim();
         activity.setContentView(flPage);
 
         // 设置宫格列表数据
@@ -343,7 +343,7 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
 
         // 显示列表
         flPage.clearAnimation();
-        flPage.startAnimation(animShow);
+        // flPage.startAnimation(animShow);
 
         // 打开分享菜单的统计
         // ShareSDK.logDemoEvent(1, null);
@@ -405,15 +405,15 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
         llPage.addView(inBtn);
     }
 
-    private void initAnim() {
-        animShow = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
-        animShow.setDuration(300);
-
-        animHide = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
-                Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0);
-        animHide.setDuration(300);
-    }
+    // private void initAnim() {
+    // animShow = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+    // Animation.RELATIVE_TO_SELF, 1, Animation.RELATIVE_TO_SELF, 0);
+    // animShow.setDuration(300);
+    //
+    // animHide = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,
+    // Animation.RELATIVE_TO_SELF, -1, Animation.RELATIVE_TO_SELF, 0);
+    // animHide.setDuration(300);
+    // }
 
     public void onClick(View v) {
         if (v.equals(flPage) || v.equals(btnCancel)) {
@@ -440,33 +440,35 @@ public class OnekeyShare extends FakeActivity implements OnClickListener, Platfo
             return super.onFinish();
         }
 
-        if (animHide == null) {
-            finishing = true;
-            super.finish();
-            return super.onFinish();
-        }
+        // if (animHide == null) {
+        // finishing = true;
+        // super.finish();
+        // return super.onFinish();
+        // }
 
         // 取消分享菜单的统计
         if (canceled) {
             ShareSDK.logDemoEvent(2, null);
         }
         finishing = true;
-        animHide.setAnimationListener(new AnimationListener() {
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
-            public void onAnimationEnd(Animation animation) {
-                flPage.setVisibility(View.GONE);
-                OnekeyShare.super.finish();
-            }
-        });
-        flPage.clearAnimation();
-        flPage.startAnimation(animHide);
+        flPage.setVisibility(View.GONE);
+        OnekeyShare.super.finish();
+        // animHide.setAnimationListener(new AnimationListener() {
+        // public void onAnimationStart(Animation animation) {
+        //
+        // }
+        //
+        // public void onAnimationRepeat(Animation animation) {
+        //
+        // }
+        //
+        // public void onAnimationEnd(Animation animation) {
+        // flPage.setVisibility(View.GONE);
+        // OnekeyShare.super.finish();
+        // }
+        // });
+        // flPage.clearAnimation();
+        // flPage.startAnimation(animHide);
         return super.onFinish();
     }
 

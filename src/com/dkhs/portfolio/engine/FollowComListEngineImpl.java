@@ -105,6 +105,7 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
                 }
             } else {
                 MoreDataBean<CombinationBean> moreDatebean = new MoreDataBean<CombinationBean>();
+                moreDatebean.setResults(Collections.EMPTY_LIST);
                 getLoadListener().loadFinish(moreDatebean);
                 // getiLoadListener().loadFail(null);
             }

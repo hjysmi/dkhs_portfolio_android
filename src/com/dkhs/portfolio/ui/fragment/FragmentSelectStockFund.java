@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
@@ -314,10 +315,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             }
             if (null == mDataList || mDataList.isEmpty()) {
-                initNotice();
+                updateHander.sendEmptyMessage(777);
 
             } else {
-                hideNotice();
+                updateHander.sendEmptyMessage(888);
             }
             isLoadingMore = false;
             refreshEditView();
@@ -333,9 +334,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 mSwipeLayout.setRefreshing(false);
             }
             if (null == mDataList || mDataList.size() == 0) {
-                initNotice();
+                // initNotice();
+                updateHander.sendEmptyMessage(777);
             } else {
-                hideNotice();
+                updateHander.sendEmptyMessage(888);
             }
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
@@ -515,19 +517,30 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         tvEmptyText.setVisibility(View.GONE);
     }
 
+    Handler updateHander = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            if (msg.what == 777) {
+                initNotice();
+            } else if (msg.what == 888) {
+                hideNotice();
+            }
+        };
+    };
+
     protected void initNotice() {
 
-        if (null == tvEmptyText) {
+        if (!isAdded() && null == tvEmptyText) {
             return;
         }
+        tvEmptyText.postInvalidate();
         tvEmptyText.setVisibility(View.VISIBLE);
         switch (mViewType) {
             case STOCK_OPTIONAL:
 
             case STOCK_OPTIONAL_PRICE: {
                 tvEmptyText.setVisibility(View.GONE);
-                // mListView.setEmptyView(emptyView)
-                // tvEmptyText.setText(R.string.nodate_tip_optional);
+                mListView.setEmptyView(emptyview);
+                tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }
                 break;
@@ -565,6 +578,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
+    private View emptyview;
+
     public void initView(View view) {
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
@@ -573,7 +588,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
-            View emptyview = view.findViewById(R.id.add_data);
+            emptyview = view.findViewById(R.id.add_data);
             emptyview.setOnClickListener(new OnClickListener() {
 
                 @Override
