@@ -14,7 +14,7 @@
         android:id="@+id/holder"
         android:layout_width="120dp"
         android:layout_height="match_parent"
-        android:background="@drawable/red"
+        android:background="#E63435"
         android:clickable="true" >
 
         <TextView

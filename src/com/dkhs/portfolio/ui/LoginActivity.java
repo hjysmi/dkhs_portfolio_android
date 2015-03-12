@@ -621,7 +621,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-
+                PortfolioApplication.getInstance().exitApp();
                 Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
                 startActivity(intent);
                 finish();

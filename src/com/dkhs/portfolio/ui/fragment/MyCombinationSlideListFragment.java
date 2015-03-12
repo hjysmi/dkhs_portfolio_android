@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -116,6 +117,14 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+
+            }
+        });
+        tvEmptyText.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                createNewCombination();
 
             }
         });
