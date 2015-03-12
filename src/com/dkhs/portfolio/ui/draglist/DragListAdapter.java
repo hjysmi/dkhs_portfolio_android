@@ -229,13 +229,14 @@ public class DragListAdapter extends BaseAdapter {
             if (PortfolioApplication.getInstance().hasUserLogin()) {
 
                 mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
+                station = position;
             } else {
                 new VisitorDataEngine().delOptionalStock(dataList.get(position));
                 PromptManager.closeProgressDialog();
-                dataList.remove(station);
+                dataList.remove(dataList.get(position));
                 notifyDataSetChanged();
             }
-            station = position;
+
         }
 
     }
