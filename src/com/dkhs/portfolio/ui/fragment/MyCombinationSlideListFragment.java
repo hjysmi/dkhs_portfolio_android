@@ -250,7 +250,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
                     setCombinationTop(conId);
                 } else if (which == 1) {
                     // rvConbinationAdatper.setDelStatus(true);
-                    combinationActivity.setButtonCancel();
+                    // combinationActivity.setButtonCancel();
                 }
 
             }
@@ -292,7 +292,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
                         // rvConbinationAdatper.notifyDataSetChanged();
                         // rvConbinationAdatper.notifyItemRemoved(position)
                         // mAdapter.notifyDataSetChanged();
-                        combinationActivity.setButtonFinish();
+                        // combinationActivity.setButtonFinish();
                         // upateDelViewStatus();
                     }
 

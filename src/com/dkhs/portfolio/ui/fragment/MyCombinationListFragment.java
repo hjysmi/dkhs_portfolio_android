@@ -261,7 +261,7 @@ public class MyCombinationListFragment extends RefreshLoadMoreListFragment {
                     setCombinationTop(conId);
                 } else if (which == 1) {
                     rvConbinationAdatper.setDelStatus(true);
-                    combinationActivity.setButtonCancel();
+                    // combinationActivity.setButtonCancel();
                 }
 
             }
@@ -303,7 +303,7 @@ public class MyCombinationListFragment extends RefreshLoadMoreListFragment {
                         rvConbinationAdatper.notifyDataSetChanged();
                         // rvConbinationAdatper.notifyItemRemoved(position)
                         // mAdapter.notifyDataSetChanged();
-                        combinationActivity.setButtonFinish();
+                        // combinationActivity.setButtonFinish();
                         // upateDelViewStatus();
                     }
 
@@ -396,7 +396,5 @@ public class MyCombinationListFragment extends RefreshLoadMoreListFragment {
 
         }
     };
-
-
 
 }
