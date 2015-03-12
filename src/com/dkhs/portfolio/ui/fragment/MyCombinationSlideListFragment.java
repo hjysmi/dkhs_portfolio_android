@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -33,7 +35,6 @@ import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.MyCombinationAdapter;
-import com.dkhs.portfolio.ui.adapter.RVMyCombinationAdapter.OnItemClickListener;
 import com.dkhs.portfolio.ui.widget.SlideListView;
 import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -110,6 +111,14 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         // rvConbinationAdatper = new RVMyCombinationAdapter(getActivity(), mDataList);
         mCombinationAdapter = new MyCombinationAdapter(getActivity(), mMessageList);
         slideListView.setAdapter(mCombinationAdapter);
+        slideListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+
+            }
+        });
         // rvConbinationAdatper.SetOnItemClickListener(rvMyCombinationItemListener);
     }
 
@@ -355,26 +364,26 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         MobclickAgent.onPageEnd(mPageName);
     }
 
-    OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
-
-        @Override
-        public void onLongItemClick(View view, int position) {
-            showLongClickDialog(mDataList.get(position).getId());
-
-        }
-
-        @Override
-        public void onItemClick(View view, int position) {
-            startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-
-        }
-
-        @Override
-        public void onClickDeleteButton(int position) {
-            CombinationBean combiantinBean = mDataList.get(position);
-            showDelDialog(combiantinBean);
-
-        }
-    };
+    // OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
+    //
+    // @Override
+    // public void onLongItemClick(View view, int position) {
+    // showLongClickDialog(mDataList.get(position).getId());
+    //
+    // }
+    //
+    // @Override
+    // public void onItemClick(View view, int position) {
+    // startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+    //
+    // }
+    //
+    // @Override
+    // public void onClickDeleteButton(int position) {
+    // CombinationBean combiantinBean = mDataList.get(position);
+    // showDelDialog(combiantinBean);
+    //
+    // }
+    // };
 
 }
