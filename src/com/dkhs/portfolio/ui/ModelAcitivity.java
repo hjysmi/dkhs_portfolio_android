@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui;
 
+import java.util.Hashtable;
+
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import android.os.Build;
