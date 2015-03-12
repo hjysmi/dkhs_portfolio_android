@@ -242,7 +242,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     public void editFund() {
         if (!mDataList.isEmpty()) {
             // startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
-            startActivityForResult(EditTabFundActivity.getIntent(getActivity(), mDataList), 1722);
+            startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
         }
     }
 

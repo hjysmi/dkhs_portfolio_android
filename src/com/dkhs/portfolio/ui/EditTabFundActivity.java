@@ -28,16 +28,20 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
+import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragFundListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragFundListView;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName EditTabFundActivity
@@ -55,11 +59,12 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     private Button btnRight;
     private LinearLayout layout;
 
-    private List<CombinationBean> mdateList;
+    private List<CombinationBean> mdateList = new ArrayList<CombinationBean>();
+    private FollowComListEngineImpl dataEngine;
 
-    public static Intent getIntent(Context context, List<CombinationBean> list) {
+    public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, EditTabFundActivity.class);
-        intent.putExtra("key_fund_list", (Serializable) list);
+        // intent.putExtra("key_fund_list", (Serializable) list);
         return intent;
     }
 
@@ -69,11 +74,37 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         setTitle(R.string.title_edit_optional_fund);
         setContentView(R.layout.activity_edit_tabfund);
         Bundle extras = getIntent().getExtras();
+
         if (extras != null) {
             handleExtras(extras);
         }
 
         initView();
+        dataEngine = new FollowComListEngineImpl(new ILoadDataBackListener<CombinationBean>() {
+
+            @Override
+            public void loadFinish(MoreDataBean<CombinationBean> object) {
+                if (null != object.getResults()) {
+                    mdateList.clear();
+                    mdateList.addAll(object.getResults());
+                    adapter = new DragFundListAdapter(EditTabFundActivity.this, mdateList);
+                    optionEditList.setAdapter(adapter);
+                }
+            }
+        }, "");
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        dataEngine.loadAllData();
     }
 
     private void handleExtras(Bundle extras) {
@@ -88,8 +119,6 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
 
-        adapter = new DragFundListAdapter(this, mdateList);
-        optionEditList.setAdapter(adapter);
     }
 
     @Override
