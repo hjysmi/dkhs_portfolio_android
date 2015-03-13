@@ -112,6 +112,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                         if (!orderType.equals(DEF_ORDER_TYPE)) {
                             params.addQueryStringParameter("sort", orderType);
                         }
+                        params.addQueryStringParameter("page_size", dataList.size() + "");
                         params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
                         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
                     } else {
