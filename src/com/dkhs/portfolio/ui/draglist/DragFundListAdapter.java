@@ -230,15 +230,15 @@ public class DragFundListAdapter extends BaseAdapter {
             if (PortfolioApplication.getInstance().hasUserLogin()) {
 
                 mQuotesEngine.defFollowCombinations(dataList.get(position).getId(), baseListener);
+                station = position;
             } else {
                 new VisitorDataEngine().delCombinationBean(dataList.get(position));
                 PromptManager.closeProgressDialog();
-                dataList.remove(station);
+                dataList.remove(dataList.get(position));
                 notifyDataSetChanged();
             }
             // 未完成
             // mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
-            station = position;
             // dataList.remove(station);
             // notifyDataSetChanged();
         }

@@ -132,6 +132,7 @@ public class VisitorDataEngine {
     public void delOptionalStock(SelectStockBean stockbean) {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         try {
+            System.out.println("delOptionalStock :" + stockbean.getName());
             db.delete(stockbean);
         } catch (DbException e) {
             // TODO Auto-generated catch block
@@ -148,6 +149,7 @@ public class VisitorDataEngine {
             e.printStackTrace();
         }
     }
+
     public void delAllCombinationBean() {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         try {
