@@ -100,14 +100,14 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                refresh();
-
-            }
-        });
+        // mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+        //
+        // @Override
+        // public void onRefresh() {
+        // refresh();
+        //
+        // }
+        // });
 
         // rvConbinationAdatper = new RVMyCombinationAdapter(getActivity(), mDataList);
         mCombinationAdapter = new MyCombinationAdapter(getActivity(), mMessageList);
@@ -116,6 +116,13 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mCombinationAdapter.getmLastSlideViewWithStatusOn() != null) {
+//                    mCombinationAdapter.getmLastSlideViewWithStatusOn().shrink();
+//                    return;
+                    mCombinationAdapter.notifyDataSetChanged();
+                    return;
+                }
+
                 startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
@@ -181,7 +188,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        mSwipeLayout.setRefreshing(false);
+        // mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {

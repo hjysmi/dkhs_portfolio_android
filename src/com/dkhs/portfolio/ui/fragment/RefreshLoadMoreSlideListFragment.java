@@ -43,7 +43,7 @@ public abstract class RefreshLoadMoreSlideListFragment extends BaseFragment impl
     // PullToRefreshListView mListView;
 
     public TextView tvEmptyText;
-    public SwipeRefreshLayout mSwipeLayout;
+//    public SwipeRefreshLayout mSwipeLayout;
     public SlideListView slideListView;
     private HttpHandler mHttpHandler;
 
@@ -63,9 +63,9 @@ public abstract class RefreshLoadMoreSlideListFragment extends BaseFragment impl
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initLoadMoreList(view);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        // mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        // mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        // // mSwipeLayout.setOnRefreshListener(this);
+        //  mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
 
     }
 

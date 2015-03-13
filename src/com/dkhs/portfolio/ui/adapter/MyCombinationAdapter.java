@@ -25,6 +25,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.ui.widget.SlideListView;
 import com.dkhs.portfolio.ui.widget.SlideView;
@@ -81,10 +82,18 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
             holder = (ViewHolder) slideView.getTag();
         }
         MessageItem item = mDataList.get(position);
+        final CombinationBean comBean = (CombinationBean) item.data;
         item.slideView = slideView;
         item.slideView.shrink();
-
-        final CombinationBean comBean = (CombinationBean) item.data;
+        // item.slideView.setContentClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        //
+        // mContext.startActivity(CombinationDetailActivity.newIntent(mContext, comBean));
+        //
+        // }
+        // });
 
         holder.tvTitle.setText(comBean.getName());
 
@@ -129,6 +138,12 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
     }
 
     private SlideView mLastSlideViewWithStatusOn;
+
+    // private OnClickListener clickListner;
+    //
+    // public void setContentViewClick(OnClickListener itemClick) {
+    // this.clickListner = itemClick;
+    // }
 
     private void delCombination(int position) {
         final MessageItem item = mDataList.get(position);
@@ -207,11 +222,23 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
     public void onSlide(View view, int status) {
         if (mLastSlideViewWithStatusOn != null && mLastSlideViewWithStatusOn != view) {
             mLastSlideViewWithStatusOn.shrink();
+            // mLastSlideViewWithStatusOn.clickItemEnable();
         }
 
         if (status == SLIDE_STATUS_ON) {
             mLastSlideViewWithStatusOn = (SlideView) view;
+            // mLastSlideViewWithStatusOn.clickItemUnable();
+        }else if(status==SLIDE_STATUS_OFF){
+            mLastSlideViewWithStatusOn = null;
         }
+    }
+
+    public SlideView getmLastSlideViewWithStatusOn() {
+        return mLastSlideViewWithStatusOn;
+    }
+
+    public void setmLastSlideViewWithStatusOn(SlideView mLastSlideViewWithStatusOn) {
+        this.mLastSlideViewWithStatusOn = mLastSlideViewWithStatusOn;
     }
 
 }

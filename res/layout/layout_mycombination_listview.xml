@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -14,7 +13,7 @@
             style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@android:id/empty"
@@ -32,8 +31,7 @@
         android:drawableTop="@drawable/btn_tianjia"
         android:gravity="center_horizontal"
         android:text="@string/click_add_stock"
-        android:textColor="@color/position_text_lgray"
-        android:visibility="gone" />
+        android:textColor="@color/position_text_lgray" />
 
     <include
         android:id="@android:id/progress"
