@@ -110,6 +110,7 @@ public class VisitorDataEngine {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }// 通过类型查找
+
         return list;
     }
 

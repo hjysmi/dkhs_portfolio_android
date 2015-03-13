@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -105,7 +106,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                     // getiLoadListener().loadFinish(dataList);
                     if (null != sbIds && sbIds.length() > 1) {
 
-                        System.out.println("ids:" + sbIds.substring(0, sbIds.length() - 1));
+                        Log.i("OptionalStockEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
 
                         RequestParams params = new RequestParams();
                         if (!orderType.equals(DEF_ORDER_TYPE)) {
@@ -142,7 +143,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();
-
+                System.out.println("resultsJsonArray.length():" + length);
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
