@@ -15,6 +15,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 
 import android.R.integer;
 import android.content.Context;
+import android.os.Handler;
 import android.renderscript.Sampler.Value;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -229,13 +230,20 @@ public class DragListAdapter extends BaseAdapter {
             if (PortfolioApplication.getInstance().hasUserLogin()) {
 
                 mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
+                station = position;
             } else {
                 new VisitorDataEngine().delOptionalStock(dataList.get(position));
-                PromptManager.closeProgressDialog();
-                dataList.remove(station);
-                notifyDataSetChanged();
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        PromptManager.closeProgressDialog();
+                        dataList.remove(dataList.get(position));
+                        notifyDataSetChanged();
+                    }
+                }, 200);
             }
-            station = position;
+
         }
 
     }

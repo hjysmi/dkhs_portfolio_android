@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -26,6 +27,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.ui.widget.SlideListView;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.http.HttpHandler;
 
 /**
@@ -40,8 +42,8 @@ public abstract class RefreshLoadMoreSlideListFragment extends BaseFragment impl
 
     // PullToRefreshListView mListView;
 
-    private TextView tvEmptyText;
-    public SwipeRefreshLayout mSwipeLayout;
+    public TextView tvEmptyText;
+//    public SwipeRefreshLayout mSwipeLayout;
     public SlideListView slideListView;
     private HttpHandler mHttpHandler;
 
@@ -61,9 +63,10 @@ public abstract class RefreshLoadMoreSlideListFragment extends BaseFragment impl
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initLoadMoreList(view);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        // mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        // mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        // // mSwipeLayout.setOnRefreshListener(this);
+        //  mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+
     }
 
     // add by zcm -----2014.12.15
@@ -84,7 +87,7 @@ public abstract class RefreshLoadMoreSlideListFragment extends BaseFragment impl
 
     private void initLoadMoreList(View view) {
 
-        tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        // tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
 
         // mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         // mListView.setAdapter(getListAdapter());
@@ -93,6 +96,10 @@ public abstract class RefreshLoadMoreSlideListFragment extends BaseFragment impl
         slideListView = (SlideListView) view.findViewById(R.id.recyclerview_vertical);
         // LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         // slideListView.setLayoutManager(layoutManager);
+        tvEmptyText = (TextView) view.findViewById(R.id.add_data);
+        tvEmptyText.setText(R.string.click_creat_fund);
+
+        slideListView.setEmptyView(tvEmptyText);
 
     }
 

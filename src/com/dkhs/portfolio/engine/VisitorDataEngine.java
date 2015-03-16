@@ -104,12 +104,13 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId", true));
+            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId", false));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }// 通过类型查找
+
         return list;
     }
 
@@ -132,6 +133,7 @@ public class VisitorDataEngine {
     public void delOptionalStock(SelectStockBean stockbean) {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         try {
+            System.out.println("delOptionalStock :" + stockbean.getName());
             db.delete(stockbean);
         } catch (DbException e) {
             // TODO Auto-generated catch block
@@ -148,6 +150,7 @@ public class VisitorDataEngine {
             e.printStackTrace();
         }
     }
+
     public void delAllCombinationBean() {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
         try {

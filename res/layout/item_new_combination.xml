@@ -18,7 +18,7 @@
     <RelativeLayout
         android:id="@+id/rl_value"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="66dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_margin="12dp" >

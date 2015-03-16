@@ -47,7 +47,7 @@ public class SlideView extends LinearLayout {
     private OnSlideListener mOnSlideListener;
 
     // 内置容器的宽度 单位：dp
-    private int mHolderWidth = 120;
+    private int mHolderWidth = 94;
 
     // 分别记录上次滑动的坐标
     private int mLastX = 0;
@@ -108,6 +108,27 @@ public class SlideView extends LinearLayout {
     // 设置滑动回调
     public void setOnSlideListener(OnSlideListener onSlideListener) {
         mOnSlideListener = onSlideListener;
+    }
+
+    private OnClickListener contentClick;
+
+    public void setContentClickListener(OnClickListener clickListener) {
+//        this.contentClick = clickListener;
+        if (null != mViewContent) {
+            mViewContent.setOnClickListener(contentClick);
+        }
+    }
+
+    public void clickItemEnable() {
+        if (null != mViewContent) {
+            mViewContent.setOnClickListener(contentClick);
+        }
+    }
+
+    public void clickItemUnable() {
+        if (null != mViewContent) {
+            mViewContent.setOnClickListener(null);
+        }
     }
 
     // 将当前状态置为关闭

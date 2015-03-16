@@ -332,7 +332,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     private boolean isDefOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType) && orderType.equals(TYPE_DEFALUT)) {
+        if (orderType.equals(TYPE_DEFALUT)) {
             return true;
         }
         return false;

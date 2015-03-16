@@ -126,8 +126,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
-                startActivityForResult(EditTabFundActivity.getIntent(getActivity(), tabFundsFragment.getmDataList()),
-                        1722);
+                startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
             }
         });
     }

@@ -16,6 +16,7 @@ package com.dkhs.portfolio.ui;
  * @version 1.0
  */
 public interface ITouchListener {
+
     void chartTounching();
 
     void loseTouching();

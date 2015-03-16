@@ -19,6 +19,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -33,7 +36,6 @@ import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.MyCombinationAdapter;
-import com.dkhs.portfolio.ui.adapter.RVMyCombinationAdapter.OnItemClickListener;
 import com.dkhs.portfolio.ui.widget.SlideListView;
 import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -98,18 +100,41 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                refresh();
-
-            }
-        });
+        // mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+        //
+        // @Override
+        // public void onRefresh() {
+        // refresh();
+        //
+        // }
+        // });
 
         // rvConbinationAdatper = new RVMyCombinationAdapter(getActivity(), mDataList);
         mCombinationAdapter = new MyCombinationAdapter(getActivity(), mMessageList);
         slideListView.setAdapter(mCombinationAdapter);
+        slideListView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (mCombinationAdapter.getmLastSlideViewWithStatusOn() != null) {
+//                    mCombinationAdapter.getmLastSlideViewWithStatusOn().shrink();
+//                    return;
+                    mCombinationAdapter.notifyDataSetChanged();
+                    return;
+                }
+
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+
+            }
+        });
+        tvEmptyText.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                createNewCombination();
+
+            }
+        });
         // rvConbinationAdatper.SetOnItemClickListener(rvMyCombinationItemListener);
     }
 
@@ -163,7 +188,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        mSwipeLayout.setRefreshing(false);
+        // mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {
@@ -241,7 +266,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
                     setCombinationTop(conId);
                 } else if (which == 1) {
                     // rvConbinationAdatper.setDelStatus(true);
-                    combinationActivity.setButtonCancel();
+                    // combinationActivity.setButtonCancel();
                 }
 
             }
@@ -283,7 +308,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
                         // rvConbinationAdatper.notifyDataSetChanged();
                         // rvConbinationAdatper.notifyItemRemoved(position)
                         // mAdapter.notifyDataSetChanged();
-                        combinationActivity.setButtonFinish();
+                        // combinationActivity.setButtonFinish();
                         // upateDelViewStatus();
                     }
 
@@ -355,26 +380,26 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         MobclickAgent.onPageEnd(mPageName);
     }
 
-    OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
-
-        @Override
-        public void onLongItemClick(View view, int position) {
-            showLongClickDialog(mDataList.get(position).getId());
-
-        }
-
-        @Override
-        public void onItemClick(View view, int position) {
-            startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-
-        }
-
-        @Override
-        public void onClickDeleteButton(int position) {
-            CombinationBean combiantinBean = mDataList.get(position);
-            showDelDialog(combiantinBean);
-
-        }
-    };
+    // OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
+    //
+    // @Override
+    // public void onLongItemClick(View view, int position) {
+    // showLongClickDialog(mDataList.get(position).getId());
+    //
+    // }
+    //
+    // @Override
+    // public void onItemClick(View view, int position) {
+    // startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+    //
+    // }
+    //
+    // @Override
+    // public void onClickDeleteButton(int position) {
+    // CombinationBean combiantinBean = mDataList.get(position);
+    // showDelDialog(combiantinBean);
+    //
+    // }
+    // };
 
 }

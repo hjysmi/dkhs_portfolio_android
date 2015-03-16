@@ -21,7 +21,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.ui.widget.SlideListView;
 import com.dkhs.portfolio.ui.widget.SlideView;
@@ -62,7 +66,7 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         SlideView slideView = (SlideView) convertView;
         if (slideView == null) {
@@ -78,10 +82,18 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
             holder = (ViewHolder) slideView.getTag();
         }
         MessageItem item = mDataList.get(position);
+        final CombinationBean comBean = (CombinationBean) item.data;
         item.slideView = slideView;
         item.slideView.shrink();
-
-        CombinationBean comBean = (CombinationBean) item.data;
+        // item.slideView.setContentClickListener(new OnClickListener() {
+        //
+        // @Override
+        // public void onClick(View v) {
+        //
+        // mContext.startActivity(CombinationDetailActivity.newIntent(mContext, comBean));
+        //
+        // }
+        // });
 
         holder.tvTitle.setText(comBean.getName());
 
@@ -93,7 +105,15 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
         holder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
         holder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
 
-        holder.deleteHolder.setOnClickListener(this);
+        holder.deleteHolder.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                delCombination(position);
+
+            }
+        });
 
         return slideView;
     }
@@ -119,11 +139,82 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
 
     private SlideView mLastSlideViewWithStatusOn;
 
+    // private OnClickListener clickListner;
+    //
+    // public void setContentViewClick(OnClickListener itemClick) {
+    // this.clickListner = itemClick;
+    // }
+
+    private void delCombination(int position) {
+        final MessageItem item = mDataList.get(position);
+        CombinationBean mCombination = (CombinationBean) item.data;
+        if (PortfolioApplication.hasUserLogin()) {
+
+            new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
+
+                @Override
+                public void onSuccess(String result) {
+                    // mCombinationAdapter.getDelPosition().clear();
+                    mDataList.remove(item);
+                    notifyDataSetChanged();
+                    // rvConbinationAdatper.notifyDataSetChanged();
+                    // rvConbinationAdatper.notifyItemRemoved(position)
+                    // mAdapter.notifyDataSetChanged();
+                    // upateDelViewStatus();
+                }
+
+                @Override
+                public void onFailure(int errCode, String errMsg) {
+                    super.onFailure(errCode, errMsg);
+                    // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+                }
+
+                /**
+                 * @Title
+                 * @Description TODO: (用一句话描述这个方法的功能)
+                 * @return
+                 */
+                @Override
+                public void beforeRequest() {
+                    // TODO Auto-generated method stub
+                    super.beforeRequest();
+                }
+
+                /**
+                 * @Title
+                 * @Description TODO: (用一句话描述这个方法的功能)
+                 * @return
+                 */
+                @Override
+                public void requestCallBack() {
+                    // TODO Auto-generated method stub
+                    super.requestCallBack();
+                    // refreshData();
+                    // refresh();
+                }
+
+                @Override
+                protected Object parseDateTask(String jsonData) {
+                    // TODO Auto-generated method stub
+                    return null;
+                }
+
+                @Override
+                protected void afterParseData(Object object) {
+                    // TODO Auto-generated method stub
+
+                }
+
+            }.setLoadingDialog(mContext, "", false));
+        }
+    }
+
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.holder) {
             // Log.e(TAG, "onClick v=" + v);
-            System.out.println("Delete item");
+            // System.out.println("Delete item");
+
         }
     }
 
@@ -131,11 +222,23 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
     public void onSlide(View view, int status) {
         if (mLastSlideViewWithStatusOn != null && mLastSlideViewWithStatusOn != view) {
             mLastSlideViewWithStatusOn.shrink();
+            // mLastSlideViewWithStatusOn.clickItemEnable();
         }
 
         if (status == SLIDE_STATUS_ON) {
             mLastSlideViewWithStatusOn = (SlideView) view;
+            // mLastSlideViewWithStatusOn.clickItemUnable();
+        }else if(status==SLIDE_STATUS_OFF){
+            mLastSlideViewWithStatusOn = null;
         }
+    }
+
+    public SlideView getmLastSlideViewWithStatusOn() {
+        return mLastSlideViewWithStatusOn;
+    }
+
+    public void setmLastSlideViewWithStatusOn(SlideView mLastSlideViewWithStatusOn) {
+        this.mLastSlideViewWithStatusOn = mLastSlideViewWithStatusOn;
     }
 
 }

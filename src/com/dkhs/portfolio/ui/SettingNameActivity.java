@@ -455,6 +455,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
+
                 uploadUserFollowStock();
             }
         }
@@ -481,17 +482,12 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
                         @Override
                         protected void afterParseData(Object object) {
-                            if (isSetPsw) {
-                                finish();
-                            } else {
-                                PortfolioApplication.getInstance().exitApp();
-                                Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
+                            uploadUserFollowCombination();
 
                         }
                     }.setLoadingDialog(this, "正在注册", false));
+        } else {
+            uploadUserFollowCombination();
         }
 
     }
@@ -517,17 +513,23 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                         protected void afterParseData(Object object) {
 
                             Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
-                            // if (isSetPsw) {
-                            // finish();
-                            // } else {
-                            // PortfolioApplication.getInstance().exitApp();
-                            // Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
-                            // startActivity(intent);
-                            // finish();
-                            // }
+                            goMainPage();
 
                         }
-                    });
+                    }.setLoadingDialog(this, "正在注册", false));
+        } else {
+            goMainPage();
+        }
+    }
+
+    private void goMainPage() {
+        if (isSetPsw) {
+            finish();
+        } else {
+            PortfolioApplication.getInstance().exitApp();
+            Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
