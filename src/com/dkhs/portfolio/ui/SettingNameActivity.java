@@ -462,62 +462,52 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting_password);
 
+    ParseHttpListener uploadStockListner = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllOptionalStock();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            uploadUserFollowCombination();
+
+        }
+    }.setLoadingDialog(this, "正在注册", false);
+
+    private VisitorDataEngine visitorEngine;
+
     public void uploadUserFollowStock() {
-
-        List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
-        StringBuilder sbIds = new StringBuilder();
-        if (null != dataList && !dataList.isEmpty()) {
-            for (SelectStockBean stock : dataList) {
-                sbIds.append(stock.id);
-                sbIds.append(",");
-            }
-            new QuotesEngineImpl().symbolFollows(sbIds.substring(0, sbIds.length() - 1),
-                    new ParseHttpListener<Object>() {
-
-                        @Override
-                        protected Object parseDateTask(String jsonData) {
-                            new VisitorDataEngine().delAllOptionalStock();
-                            return null;
-                        }
-
-                        @Override
-                        protected void afterParseData(Object object) {
-                            uploadUserFollowCombination();
-
-                        }
-                    }.setLoadingDialog(this, "正在注册", false));
-        } else {
+        if (null == visitorEngine) {
+            visitorEngine = new VisitorDataEngine();
+        }
+        if (!visitorEngine.uploadUserFollowStock(uploadStockListner)) {
             uploadUserFollowCombination();
         }
 
     }
 
+    ParseHttpListener uploadCombinationListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllCombinationBean();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+
+            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
+            goMainPage();
+
+        }
+    }.setLoadingDialog(this, "正在注册", false);
+
     public void uploadUserFollowCombination() {
-        List<CombinationBean> dataList = new VisitorDataEngine().getCombinationBySort();
-        StringBuilder sbIds = new StringBuilder();
-        if (null != dataList && !dataList.isEmpty()) {
-            for (CombinationBean stock : dataList) {
-                sbIds.append(stock.getId());
-                sbIds.append(",");
-            }
-            new FollowComEngineImpl().followCombinations(sbIds.substring(0, sbIds.length() - 1),
-                    new ParseHttpListener<Object>() {
-
-                        @Override
-                        protected Object parseDateTask(String jsonData) {
-                            new VisitorDataEngine().delAllCombinationBean();
-                            return null;
-                        }
-
-                        @Override
-                        protected void afterParseData(Object object) {
-
-                            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
-                            goMainPage();
-
-                        }
-                    }.setLoadingDialog(this, "正在注册", false));
-        } else {
+        if (!visitorEngine.uploadUserFollowCombination(uploadCombinationListener)) {
             goMainPage();
         }
     }

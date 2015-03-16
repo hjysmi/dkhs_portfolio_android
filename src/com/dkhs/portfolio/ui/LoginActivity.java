@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -40,11 +41,13 @@ import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SignupBean;
 import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -427,16 +430,15 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
             PortfolioApplication.getInstance().exitApp();
             PortfolioApplication.getInstance().setLogin(true);
-
             goMainPage();
         }
     };
 
-    private void goMainPage() {
-        Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
-        startActivity(intent);
-        finish();
-    }
+    // private void goMainPage() {
+    // Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+    // startActivity(intent);
+    // finish();
+    // }
 
     private String userName;
 
@@ -593,23 +595,26 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         };
     };
 
-    private ParseHttpListener<UserEntity> registerListener = new ParseHttpListener<UserEntity>() {
+    private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
         };
 
         @Override
-        protected UserEntity parseDateTask(String jsonData) {
+        protected SignupBean parseDateTask(String jsonData) {
             try {
+                SignupBean signupBean = DataParse.parseObjectJson(SignupBean.class, jsonData);
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
+
+                // json.optBoolean("is_new_user");
+                // UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
                 String token = (String) json.getJSONObject("token").get("access_token");
-                entity.setAccess_token(token);
-                entity.setMobile(phoneNum);
-                engine.saveLoginUserInfo(entity);
+                signupBean.getUser().setAccess_token(token);
+                signupBean.getUser().setMobile(phoneNum);
+                engine.saveLoginUserInfo(signupBean.getUser());
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
-                return entity;
+                return signupBean;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -617,17 +622,74 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
 
         @Override
-        protected void afterParseData(UserEntity entity) {
+        protected void afterParseData(SignupBean entity) {
 
             // PromptManager.closeProgressDialog();
-            if (null != entity) {
-                PortfolioApplication.getInstance().exitApp();
-                Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
-                startActivity(intent);
-                finish();
+            if (null != entity && !entity.isNewUser()) {
+                goMainPage();
+            } else if (null != entity && entity.isNewUser()) {
+                uploadUserFollowStock();
             }
         }
     };
+
+    ParseHttpListener uploadStockListner = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllOptionalStock();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            uploadUserFollowCombination();
+
+        }
+    }.setLoadingDialog(this, "正在登陆", false);
+
+    private VisitorDataEngine visitorEngine;
+
+    public void uploadUserFollowStock() {
+        if (null == visitorEngine) {
+            visitorEngine = new VisitorDataEngine();
+        }
+        if (!visitorEngine.uploadUserFollowStock(uploadStockListner)) {
+            uploadUserFollowCombination();
+        }
+
+    }
+
+    ParseHttpListener uploadCombinationListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllCombinationBean();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+
+            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
+            goMainPage();
+
+        }
+    }.setLoadingDialog(this, "正在登陆", false);
+
+    public void uploadUserFollowCombination() {
+        if (!visitorEngine.uploadUserFollowCombination(uploadCombinationListener)) {
+            goMainPage();
+        }
+    }
+
+    private void goMainPage() {
+        PortfolioApplication.getInstance().exitApp();
+        Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
     @Override
