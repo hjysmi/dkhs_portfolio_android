@@ -85,6 +85,9 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     }
 
     private void initViews() {
+        if (null != mChampionBean) {
+            updateTitleBackgroud(mChampionBean.getNetvalue() - 1);
+        }
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         // mScrollview.setScrollViewListener(mScrollViewListener);
         mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -205,12 +208,16 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     public void updateTitleBackgroud(TitleChangeEvent event) {
         if (null != event) {
             float value = event.netvalue - 1;
-            if (value < 0) {
-                getTitleView().setBackgroundResource(R.color.title_green);
-            } else {
+            updateTitleBackgroud(value);
+        }
+    }
 
-                getTitleView().setBackgroundResource(R.color.title_color);
-            }
+    private void updateTitleBackgroud(float value) {
+        if (value < 0) {
+            getTitleView().setBackgroundResource(R.color.title_green);
+        } else {
+
+            getTitleView().setBackgroundResource(R.color.title_color);
         }
     }
 
