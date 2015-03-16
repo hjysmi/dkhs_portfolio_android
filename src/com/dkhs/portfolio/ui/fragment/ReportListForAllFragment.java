@@ -86,20 +86,27 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
-        initDate();
+
         return view;
     }
 
     private void initDate() {
         if (vo != null) {
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, type, vo);
-//            System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
+            // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
         } else {
             iv.setText("暂无添加自选股");
             pb.setVisibility(View.GONE);
         }
 
+    }
+
+    private boolean isRefresh;
+
+    private void refreshData() {
+        isRefresh = true;
+        mLoadDataEngine.loadData();
     }
 
     private void initView(View view) {
@@ -136,18 +143,23 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
 
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeLayout.setRefreshing(false);
-                    }
-                }, 2000);
+                refreshData();
 
             }
         });
         mListView.setOnItemClickListener(itemBackClick);
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (null == mLoadDataEngine) {
+            initDate();
+        } else {
+            refreshData();
+        }
+    };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
         @Override
@@ -269,7 +281,12 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                     if (mLoadDataEngine.getCurrentpage() == 1)
                         mListView.setOnLoadListener(ReportListForAllFragment.this);
                 }
+                if (isRefresh) {
+                    mDataList.clear();
+                    isRefresh = false;
+                }
                 if (null != dataList && dataList.size() > 0) {
+
                     mDataList.addAll(dataList);
                     mOptionMarketAdapter.notifyDataSetChanged();
                 } else {
