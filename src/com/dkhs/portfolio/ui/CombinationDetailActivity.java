@@ -115,6 +115,9 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
             setTitleTipString(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mCombinationBean.getCreateTime())));
         }
+        if (null != mCombinationBean) {
+            updateTitleBackgroud(mCombinationBean.getNetvalue() - 1);
+        }
     }
 
     private void handleExtras(Bundle extras) {
@@ -519,12 +522,16 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     public void updateTitleBackgroud(TitleChangeEvent event) {
         if (null != event) {
             float value = event.netvalue - 1;
-            if (value < 0) {
-                getTitleView().setBackgroundResource(R.color.title_green);
-            } else {
+            updateTitleBackgroud(value);
+        }
+    }
 
-                getTitleView().setBackgroundResource(R.color.title_color);
-            }
+    private void updateTitleBackgroud(float value) {
+        if (value < 0) {
+            getTitleView().setBackgroundResource(R.color.title_green);
+        } else {
+
+            getTitleView().setBackgroundResource(R.color.title_color);
         }
     }
 
