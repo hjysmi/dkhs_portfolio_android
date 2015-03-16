@@ -17,7 +17,8 @@
             android:paddingBottom="6dp"
             android:paddingLeft="15dp"
             android:paddingRight="10dp"
-            android:paddingTop="6dp" >
+            android:paddingTop="6dp"
+            android:visibility="gone" >
 
             <TextView
                 android:id="@+id/tv_combination_name"
@@ -26,8 +27,8 @@
                 android:layout_alignParentLeft="true"
                 android:singleLine="true"
                 android:text="我的组合"
-                android:visibility="gone"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/rl_name_day"
@@ -91,7 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="480dp" />
 
-        <View style="@style/divider_line" android:visibility="gone" />
+        <View
+            style="@style/divider_line"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/combination_position"

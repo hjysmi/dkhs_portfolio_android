@@ -86,20 +86,27 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
-        initDate();
+
         return view;
     }
 
     private void initDate() {
         if (vo != null) {
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, type, vo);
-//            System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
+            // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
         } else {
             iv.setText("暂无添加自选股");
             pb.setVisibility(View.GONE);
         }
 
+    }
+
+    private boolean isRefresh;
+
+    private void refreshData() {
+        isRefresh = true;
+        mLoadDataEngine.loadData();
     }
 
     private void initView(View view) {
@@ -136,12 +143,7 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
 
             @Override
             public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeLayout.setRefreshing(false);
-                    }
-                }, 2000);
+                refreshData();
 
             }
         });
@@ -149,45 +151,54 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (null == mLoadDataEngine) {
+            initDate();
+        } else {
+            refreshData();
+        }
+    };
+
     OnItemClickListener itemBackClick = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             try {
                 String name = "";
                 Intent intent;
+                OptionNewsBean optionNewsBean = mDataList.get(position);
+
                 switch (type) {
                     case OpitionNewsEngineImple.NEWSALL:
-                        intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
-                                .getSymbol()
-                                + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
+                        intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0).getSymbol()
+                                + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
                         startActivity(intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP:
-                        if (null != mDataList.get(position).getSymbols()
-                                && mDataList.get(position).getSymbols().size() > 0) {
+                        if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
 
-                            intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols()
-                                    .get(0).getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(),
-                                    vo.getContentSubType());
+                            intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
+                                    .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
+                                    vo.getContentSubType(), optionNewsBean.getContentType());
                         } else {
-                            intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                            intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                         }
                         startActivity(intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
                         if (vo.getContentType().equals("20")) {
-                            intent = OptionListAcitivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
+                            intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                     .getSymbol()
-                                    + "", "20", mDataList.get(position).getSymbols().get(0).getAbbrName());
+                                    + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
                             startActivity(intent);
                         } else {
-                            if (null != mDataList.get(position).getSymbols()
-                                    && mDataList.get(position).getSymbols().size() > 0) {
-                                intent = ReportForOneListActivity.newIntent(context, mDataList.get(position)
-                                        .getSymbols().get(0).getSymbol(), mDataList.get(position).getSymbols().get(0)
-                                        .getAbbrName(), vo.getContentSubType());
+                            if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
+                                intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
+                                        .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
+                                        vo.getContentSubType(), optionNewsBean.getContentType());
                             } else {
-                                intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                                intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                             }
                             startActivity(intent);
                         }
@@ -198,29 +209,28 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                             switch (type) {
                                 case 1:
                                     name = "公告正文";
-                                    if (null != mDataList.get(position).getSymbols()
-                                            && mDataList.get(position).getSymbols().size() > 0) {
-                                        intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name,
-                                                mDataList.get(position).getSymbols().get(0).getAbbrName(), mDataList
-                                                        .get(position).getSymbols().get(0).getId());
+                                    if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
+                                        intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name,
+                                                optionNewsBean.getSymbols().get(0).getAbbrName(), optionNewsBean
+                                                        .getSymbols().get(0).getId());
                                         startActivity(intent);
                                     } else {
-                                        intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), name,
-                                                null, null);
+                                        intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name, null,
+                                                null);
                                         startActivity(intent);
                                     }
                                     break;
 
                                 default:
                                     name = "研报正文";
-                                    if (null != mDataList.get(position).getSymbols()
-                                            && mDataList.get(position).getSymbols().size() > 0) {
-                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position)
-                                                .getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),
-                                                mDataList.get(position).getSymbols().get(0).getAbbrName());
+                                    if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
+                                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
+                                                optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
+                                                        .getSymbols().get(0).getAbbrName(),
+                                                optionNewsBean.getContentType());
                                     } else {
-                                        intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position)
-                                                .getId(), null, null);
+                                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null,
+                                                null, null);
                                     }
                                     startActivity(intent);
                                     break;
@@ -269,7 +279,12 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                     if (mLoadDataEngine.getCurrentpage() == 1)
                         mListView.setOnLoadListener(ReportListForAllFragment.this);
                 }
+                if (isRefresh) {
+                    mDataList.clear();
+                    isRefresh = false;
+                }
                 if (null != dataList && dataList.size() > 0) {
+
                     mDataList.addAll(dataList);
                     mOptionMarketAdapter.notifyDataSetChanged();
                 } else {

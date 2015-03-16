@@ -11,9 +11,13 @@ package com.dkhs.portfolio.engine;
 import java.util.Collections;
 import java.util.List;
 
+import android.util.Log;
+
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.table.DbModel;
@@ -207,6 +211,37 @@ public class VisitorDataEngine {
             e.printStackTrace();
         }
         return sbSymbols.toString();
+    }
+
+    public boolean uploadUserFollowStock(IHttpListener listener) {
+        List<SelectStockBean> dataList = getOptionalStockListBySort();
+        StringBuilder sbIds = new StringBuilder();
+        if (null != dataList && !dataList.isEmpty()) {
+            for (SelectStockBean stock : dataList) {
+                sbIds.append(stock.id);
+                sbIds.append(",");
+            }
+            new QuotesEngineImpl().symbolFollows(sbIds.substring(0, sbIds.length() - 1), listener);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public boolean uploadUserFollowCombination(IHttpListener listener) {
+        List<CombinationBean> dataList = getCombinationBySort();
+        StringBuilder sbIds = new StringBuilder();
+        if (null != dataList && !dataList.isEmpty()) {
+            for (CombinationBean stock : dataList) {
+                sbIds.append(stock.getId());
+                sbIds.append(",");
+            }
+            new FollowComEngineImpl().followCombinations(sbIds.substring(0, sbIds.length() - 1), listener);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

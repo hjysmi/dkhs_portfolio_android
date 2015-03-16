@@ -47,6 +47,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentNews;
@@ -54,6 +56,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -109,7 +112,11 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     private void updataTitle() {
         if (null != mCombinationBean) {
             setTitle(mCombinationBean.getName());
-            setTitleTipString(getString(R.string.format_create_time, TimeUtils.getSimpleDay(mCombinationBean.getCreateTime())));
+            setTitleTipString(getString(R.string.format_create_time,
+                    TimeUtils.getSimpleDay(mCombinationBean.getCreateTime())));
+        }
+        if (null != mCombinationBean) {
+            updateTitleBackgroud(mCombinationBean.getNetvalue() - 1);
         }
     }
 
@@ -511,12 +518,30 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         }
     }
 
+    @Subscribe
+    public void updateTitleBackgroud(TitleChangeEvent event) {
+        if (null != event) {
+            float value = event.netvalue - 1;
+            updateTitleBackgroud(value);
+        }
+    }
+
+    private void updateTitleBackgroud(float value) {
+        if (value < 0) {
+            getTitleView().setBackgroundResource(R.color.title_green);
+        } else {
+
+            getTitleView().setBackgroundResource(R.color.title_color);
+        }
+    }
+
     @Override
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPause(this);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -525,5 +550,6 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        BusProvider.getInstance().register(this);
     }
 }

@@ -162,9 +162,10 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
                 Intent intent;
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
                     intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
-                            .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), subType);
+                            .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), subType, mDataList
+                            .get(position).getContentType());
                 } else {
-                    intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                    intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                 }
                 startActivity(intent);
             } catch (Exception e) {

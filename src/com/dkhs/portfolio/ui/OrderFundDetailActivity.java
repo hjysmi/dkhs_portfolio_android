@@ -19,11 +19,14 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -82,6 +85,9 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     }
 
     private void initViews() {
+        if (null != mChampionBean) {
+            updateTitleBackgroud(mChampionBean.getNetvalue() - 1);
+        }
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         // mScrollview.setScrollViewListener(mScrollViewListener);
         mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -198,6 +204,23 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     }
 
+    @Subscribe
+    public void updateTitleBackgroud(TitleChangeEvent event) {
+        if (null != event) {
+            float value = event.netvalue - 1;
+            updateTitleBackgroud(value);
+        }
+    }
+
+    private void updateTitleBackgroud(float value) {
+        if (value < 0) {
+            getTitleView().setBackgroundResource(R.color.title_green);
+        } else {
+
+            getTitleView().setBackgroundResource(R.color.title_color);
+        }
+    }
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -217,6 +240,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPause(this);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -225,5 +249,6 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        BusProvider.getInstance().register(this);
     }
 }
