@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,8 @@ public class YanbaoDetailActivity extends ModelAcitivity {
     private String optionNum;
     private String optionName;
     private Context context;
+    private static final String KEY_CONTENTTYPE = "key_contenttype";
+    private String mContentType;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -43,10 +46,15 @@ public class YanbaoDetailActivity extends ModelAcitivity {
         setContentView(R.layout.activity_yanbao_news);
         context = this;
         initView();
-        setTitle("研报正文");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             getId(extras);
+        }
+
+        if (!TextUtils.isEmpty(mContentType) && mContentType.equals("20")) {
+            setTitle("公告正文");
+        } else {
+            setTitle("研报正文");
         }
         mLoadDataEngine = new NewsTextEngineImple(mSelectStockBackListener, textId);
         mLoadDataEngine.setLoadingDialog(context);
@@ -54,10 +62,11 @@ public class YanbaoDetailActivity extends ModelAcitivity {
 
     }
 
-    public static Intent newIntent(Context context, String id, String num, String name) {
+    public static Intent newIntent(Context context, String id, String num, String name, String contentType) {
         Intent intent = new Intent(context, YanbaoDetailActivity.class);
         intent.putExtra(EXTRA, id);
         intent.putExtra(EXTRA_NUM, num);
+        intent.putExtra(KEY_CONTENTTYPE, contentType);
         intent.putExtra(EXTRA_NAME, name);
         return intent;
     }
@@ -66,6 +75,7 @@ public class YanbaoDetailActivity extends ModelAcitivity {
         textId = b.getString(EXTRA);
         optionNum = b.getString(EXTRA_NUM);
         optionName = b.getString(EXTRA_NAME);
+        mContentType = b.getString(KEY_CONTENTTYPE);
     }
 
     public void initView() {

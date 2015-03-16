@@ -38,20 +38,22 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
-//    private View mFootView;
+    // private View mFootView;
     private Context context;
     private OptionlistAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
     private LoadNewsDataEngine mLoadDataEngine;
     boolean first = true;
-//    private TextView iv;
+    // private TextView iv;
     private static final String SYMBOL = "symbol";
     private static final String NAME = "name";
     private static final String SUB = "sub";
+    private static final String KEY_CONTENTTYPE = "key_contenttype";
+    private String mContentType;
     private String symbol;
     private String name;
     private String subType;
-//    private RelativeLayout pb;
+    // private RelativeLayout pb;
     private Fragment loadDataListFragment;
     public SwipeRefreshLayout mSwipeLayout;
 
@@ -63,21 +65,29 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         context = this;
         mDataList = new ArrayList<OptionNewsBean>();
 
-        /*iv = (TextView) findViewById(android.R.id.empty);
-        pb = (RelativeLayout) findViewById(android.R.id.progress);
-        pb.setVisibility(View.VISIBLE);*/
+        /*
+         * iv = (TextView) findViewById(android.R.id.empty);
+         * pb = (RelativeLayout) findViewById(android.R.id.progress);
+         * pb.setVisibility(View.VISIBLE);
+         */
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
             symbol = extras.getString(SYMBOL);
             name = extras.getString(NAME);
             subType = extras.getString(SUB);
+            mContentType = extras.getString(KEY_CONTENTTYPE);
         }
-        ((TextView) findViewById(R.id.tv_title)).setText("研报-" + name);
-//        initView();
-//        initDate();
+        if (!TextUtils.isEmpty(mContentType) && mContentType.equals("20")) {
+            ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
+        } else {
+            ((TextView) findViewById(R.id.tv_title)).setText("研报-" + name);
+        }
+        // initView();
+        // initDate();
         replaceDataList();
     }
+
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
@@ -86,23 +96,28 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                 vo.setSymbol(symbol);
                 vo.setContentSubType(subType);
                 if (null == subType) {
-                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
-                }else{
-                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.GROUP_FOR_ONE);
+                    loadDataListFragment = ReportListForAllFragment.getFragment(vo,
+                            OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
+                } else {
+                    loadDataListFragment = ReportListForAllFragment.getFragment(vo,
+                            OpitionNewsEngineImple.GROUP_FOR_ONE);
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment)
+                        .commit();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
     }
-    public static Intent newIntent(Context context, String symbolName, String name, String subType) {
+
+    public static Intent newIntent(Context context, String symbolName, String name, String subType, String contentType) {
         Intent intent = new Intent(context, ReportForOneListActivity.class);
         Bundle b = new Bundle();
         b.putString(SYMBOL, symbolName);
         b.putString(NAME, name);
         b.putString(SUB, subType);
+        b.putString(KEY_CONTENTTYPE, contentType);
         intent.putExtras(b);
         return intent;
     }
@@ -130,10 +145,10 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
     }
 
     private void initView() {
-//        mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
+        // mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) findViewById(android.R.id.list);
 
-//        mListView.setEmptyView(iv);
+        // mListView.setEmptyView(iv);
         // mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
@@ -192,9 +207,9 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
                     intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
                             mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
-                                    .getSymbols().get(0).getAbbrName());
+                                    .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
                 } else {
-                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null);
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
                 }
                 startActivity(intent);
             } catch (Exception e) {
@@ -210,7 +225,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
             }
-//            mListView.addFooterView(mFootView);
+            // mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
             // mLoadDataEngine.setLoadingDialog(context);
@@ -223,7 +238,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-//                pb.setVisibility(View.GONE);
+                // pb.setVisibility(View.GONE);
                 mListView.onLoadMoreComplete();
                 if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                     mListView.setCanLoadMore(false);
@@ -246,7 +261,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
                     // loadFinishUpdateView();
 
                 } else {
-//                    iv.setText("暂无研报");
+                    // iv.setText("暂无研报");
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -261,7 +276,7 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
         mOptionMarketAdapter.notifyDataSetChanged();
         isLoadingMore = false;
         if (mListView != null) {
-//            mListView.removeFooterView(mFootView);
+            // mListView.removeFooterView(mFootView);
         }
     }
 
