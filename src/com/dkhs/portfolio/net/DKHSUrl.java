@@ -177,9 +177,10 @@ public class DKHSUrl {
         String hotPlate = "/api/v1/symbols/sectors/?sector_root_id=26";
     }
 
+    // DKHSUrl.Portfolio.rankingList,
     public static String[] storeURLList = { DKHSUrl.Plate.hotPlate, DKHSUrl.Portfolio.portfolio,
-            DKHSUrl.StockSymbol.optional, DKHSUrl.Portfolio.champion, DKHSUrl.Portfolio.rankingList,
-            DKHSUrl.StockSymbol.opitionmarket, DKHSUrl.StockSymbol.stocklist,
+            DKHSUrl.StockSymbol.optional, DKHSUrl.Portfolio.champion, DKHSUrl.StockSymbol.opitionmarket,
+            DKHSUrl.StockSymbol.stocklist,
 
     };
 

@@ -28,6 +28,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
     private Button btnBack;
+    private View mTitleView;
 
     /** 显示子页面的容器 */
     private RelativeLayout layoutContent;
@@ -96,6 +97,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
+        mTitleView = findViewById(R.id.includeHead);
 
         btnBack = (Button) findViewById(BACKBUTTON_ID);
 
@@ -310,6 +312,10 @@ public class ModelAcitivity extends SwipeBackActivity {
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    public View getTitleView() {
+        return mTitleView;
     }
 
 }

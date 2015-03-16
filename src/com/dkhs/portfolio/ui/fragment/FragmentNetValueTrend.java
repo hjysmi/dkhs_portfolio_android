@@ -60,7 +60,10 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
@@ -79,13 +82,13 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
     // private EditText etCombinName;
-    private TextView tvCombinName;
-    private TextView tvCombinDesc;
-    private TextView tvCombinCreateTime;
+    // private TextView tvCombinName;
+    // private TextView tvCombinDesc;
+    // private TextView tvCombinCreateTime;
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
     // private View viewNetvalueHead;
-    private ImageView ivUpDownIcon;
+    // private ImageView ivUpDownIcon;
     // private Button btnEditName;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
@@ -95,9 +98,13 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView netvalueDay;
     private TextView netvalueWeek;
     private TextView netvalueMonth;
-    private Button netvalueBtnDay;
-    private Button netvalueBtnWeek;
-    private Button netvalueBtnMonth;
+
+    private TextView tvCreateUser;
+
+    private View comView;
+    // private TextView netvalueBtnDay;
+    // private TextView netvalueBtnWeek;
+    // private TextView netvalueBtnMonth;
     private String type;
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 60;
@@ -155,21 +162,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
+        comView = view.findViewById(R.id.tv_combination_layout);
         // etCombinName = (EditText)
         // view.findViewById(R.id.et_combination_name);
         mMyCombinationEngineImpl = new MyCombinationEngineImpl();
-        ivUpDownIcon = (ImageView) view.findViewById(R.id.tv_combination_image_uporlow);
-        tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
-        tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
-        tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
+        // ivUpDownIcon = (ImageView) view.findViewById(R.id.tv_combination_image_uporlow);
+        // tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
+        // tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
+        // tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
+        tvCreateUser = (TextView) view.findViewById(R.id.tv_combination_user);
+
         netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
-        netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
+        // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
         netvalueWeek = (TextView) view.findViewById(R.id.netvalue_week);
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
-        netvalueBtnWeek = (Button) view.findViewById(R.id.netvalue_button_week);
-        netvalueBtnMonth = (Button) view.findViewById(R.id.netvalue_button_month);
+        // netvalueBtnWeek = (Button) view.findViewById(R.id.netvalue_button_week);
+        // netvalueBtnMonth = (Button) view.findViewById(R.id.netvalue_button_month);
         btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
         btnAddOptional.setOnClickListener(this);
         btnAddOptional.setVisibility(View.GONE);
@@ -197,12 +207,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private void addOptionalButton(boolean isFollow) {
         if (isFollow && null != btnAddOptional) {
             btnAddOptional.setText(R.string.delete_fllow);
-            btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
-            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
+            // btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
+            // btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
         } else if (null != btnAddOptional) {
-            btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
+            // btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
             btnAddOptional.setText(R.string.add_fllow);
-            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
+            // btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
         }
     }
 
@@ -248,6 +258,21 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void setupViewData() {
+        if (isFromOrder) {
+            tvCreateUser.setVisibility(View.VISIBLE);
+            tvCreateUser.setText(getString(R.string.format_create_name, mCombinationBean.getUser().getUsername()));
+            tvCreateUser.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser()
+                            .getUsername(), mCombinationBean.getUser().getId(), false));
+                }
+            });
+
+        } else {
+            tvCreateUser.setVisibility(View.GONE);
+        }
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
 
@@ -263,9 +288,17 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     private void updateIncreaseRatio(float netValue) {
         tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
-        tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        // tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
-
+        BusProvider.getInstance().post(new TitleChangeEvent(netValue));
+        netValue = netValue - 1;
+        if (netValue == 0) {
+            comView.setBackgroundResource(R.color.compare_select_gray);
+        } else if (netValue > 0) {
+            comView.setBackgroundResource(R.color.tag_red);
+        } else {
+            comView.setBackgroundResource(R.color.tag_green);
+        }
     }
 
     public void setColor(String type) {
@@ -274,67 +307,67 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
                 setDefViewStyle();
 
-                if (type.equals(TrendTodayChartFragment.TREND_TYPE_TODAY)) {
-
-                    netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_day()));
-                    setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_day(), netvalueBtnDay);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY)) {
-
-                    netvalueWeek.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_week()));
-                    setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_week(), netvalueBtnWeek);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendMonthChartFragment.TREND_TYPE_MONTH)) {
-                    netvalueMonth.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_month()));
-                    setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_month(), netvalueBtnMonth);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                } else {
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                }
+                // if (type.equals(TrendTodayChartFragment.TREND_TYPE_TODAY)) {
+                //
+                // netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
+                // .getChng_pct_day()));
+                // setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_day(), netvalueBtnDay);
+                // netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
+                // netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
+                // } else if (type.equals(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY)) {
+                //
+                // netvalueWeek.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
+                // .getChng_pct_week()));
+                // setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_week(), netvalueBtnWeek);
+                // netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
+                // netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
+                // } else if (type.equals(TrendMonthChartFragment.TREND_TYPE_MONTH)) {
+                // netvalueMonth.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
+                // .getChng_pct_month()));
+                // setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_month(), netvalueBtnMonth);
+                // netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
+                // netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
+                // } else {
+                // netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
+                // netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
+                // netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
+                // }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void setSelectViewStyle(float value, Button view) {
-        if (null == mWhiteColorStateList) {
-            mWhiteColorStateList = PortfolioApplication.getInstance().getResources().getColorStateList(R.color.white);
-        }
-        if (value > 0) {
-            view.setBackgroundResource(R.drawable.netvalue_red);
-        } else if (value < 0) {
-            view.setBackgroundResource(R.drawable.netvalue_blue);
-        } else {
-            view.setBackgroundResource(R.drawable.netvalue_black);
-        }
-        view.setTextColor(mWhiteColorStateList);
+    // private void setSelectViewStyle(float value, Button view) {
+    // if (null == mWhiteColorStateList) {
+    // mWhiteColorStateList = PortfolioApplication.getInstance().getResources().getColorStateList(R.color.white);
+    // }
+    // if (value > 0) {
+    // view.setBackgroundResource(R.drawable.netvalue_red);
+    // } else if (value < 0) {
+    // view.setBackgroundResource(R.drawable.netvalue_blue);
+    // } else {
+    // view.setBackgroundResource(R.drawable.netvalue_black);
+    // }
+    // view.setTextColor(mWhiteColorStateList);
+    //
+    // }
 
-    }
-
-    private ColorStateList mWhiteColorStateList;
-    private ColorStateList mGrayColorStateList;
+    // private ColorStateList mWhiteColorStateList;
+    // private ColorStateList mGrayColorStateList;
 
     private void setDefViewStyle() {
 
-        if (null == mGrayColorStateList) {
-            mGrayColorStateList = PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.gray_textcolor);
-        }
-        netvalueBtnMonth.setTextColor(mGrayColorStateList);
-        netvalueBtnDay.setTextColor(mGrayColorStateList);
-        netvalueBtnWeek.setTextColor(mGrayColorStateList);
-        netvalueDay.setTextColor(mGrayColorStateList);
-        netvalueWeek.setTextColor(mGrayColorStateList);
-        netvalueMonth.setTextColor(mGrayColorStateList);
+        // if (null == mGrayColorStateList) {
+        // mGrayColorStateList = PortfolioApplication.getInstance().getResources()
+        // .getColorStateList(R.color.gray_textcolor);
+        // }
+        // netvalueBtnMonth.setTextColor(mGrayColorStateList);
+        // netvalueBtnDay.setTextColor(mGrayColorStateList);
+        // netvalueBtnWeek.setTextColor(mGrayColorStateList);
+        // netvalueDay.setTextColor(mGrayColorStateList);
+        // netvalueWeek.setTextColor(mGrayColorStateList);
+        // netvalueMonth.setTextColor(mGrayColorStateList);
     }
 
     private HScrollTitleView hsTitle;
