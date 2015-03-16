@@ -22,7 +22,7 @@ public class SignupBean {
     @SerializedName("is_new_user")
     private boolean isNewUser;
     private UserEntity user;
-    private String token;
+    private String tokenString;
 
     public boolean isNewUser() {
         return isNewUser;
@@ -41,10 +41,10 @@ public class SignupBean {
     }
 
     public String getToken() {
-        return token;
+        return tokenString;
     }
 
     public void setToken(String token) {
-        this.token = token;
+        this.tokenString = token;
     }
 }
