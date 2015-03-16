@@ -55,6 +55,10 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         super(context, datas);
         this.context = context;
         this.isDefColor = isdefcolor;
+        mVisitorDataEngine = new VisitorDataEngine();
+        if (!PortfolioApplication.hasUserLogin()) {
+            localList = mVisitorDataEngine.getOptionalStockList();
+        }
     }
 
     @Override
