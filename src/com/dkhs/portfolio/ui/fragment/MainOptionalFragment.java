@@ -163,6 +163,9 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
     protected void displayFragmentA() {
         setOptionTitleBar();
+        if (null == tabStockFragment) {
+            return;
+        }
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         if (null != tabStockFragment && tabStockFragment.isAdded()) { // if the fragment is already in container
             ft.show(tabStockFragment);
@@ -180,6 +183,9 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
     protected void displayFragmentB() {
         setCombinationBar();
+        if (null == tabFundsFragment) {
+            return;
+        }
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         if (tabFundsFragment.isAdded()) { // if the fragment is already in container
             ft.show(tabFundsFragment);

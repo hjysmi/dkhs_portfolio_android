@@ -235,8 +235,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     // mOptionMarketAdapter.notifyDataSetChanged();
                     if (null != mOptionlistAdapter) {
                         mOptionlistAdapter.notifyDataSetChanged();
+                        loadFinishUpdateView();
                     }
-                    loadFinishUpdateView();
                 } else {
                     if (null != vo && null != vo.getPageTitle()) {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));

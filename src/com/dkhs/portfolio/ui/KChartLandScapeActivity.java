@@ -276,8 +276,11 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
                 }
-                stockQuotesBean.setBuyList(buyList);
-                stockQuotesBean.setSellList(sellList);
+                if (null != stockQuotesBean) {
+
+                    stockQuotesBean.setBuyList(buyList);
+                    stockQuotesBean.setSellList(sellList);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -290,7 +293,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
             if (null != object) {
                 mStockQuotesBean = object;
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
-                //landKlinTextTitle.setText(object.getName());
+                // landKlinTextTitle.setText(object.getName());
                 landKlinTextPrice.setText(object.getCurrent() + "");
                 landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
                 landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
@@ -335,9 +338,11 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         // indicator.setViewPager(pager);
     }
-    public void loadMore(){
+
+    public void loadMore() {
         ((KChartsLandFragment) fragmentList.get(pager.getCurrentItem())).loadMordKline();
     }
+
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragmentList;

@@ -66,10 +66,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private List<OHLCEntity> mOHLCData;
 
     /** 显示的OHLC数据起始位置 */
-    private int mDataStartIndext;
+    private int mDataStartIndext = 0;
 
     /** 显示的OHLC数据个数 */
-    private int mShowDataNum;
+    private int mShowDataNum = DEFAULT_CANDLE_NUM;
 
     /** 是否显示蜡烛详情 */
     private boolean showDetails;

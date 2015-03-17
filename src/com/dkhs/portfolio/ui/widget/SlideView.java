@@ -113,7 +113,7 @@ public class SlideView extends LinearLayout {
     private OnClickListener contentClick;
 
     public void setContentClickListener(OnClickListener clickListener) {
-//        this.contentClick = clickListener;
+        // this.contentClick = clickListener;
         if (null != mViewContent) {
             mViewContent.setOnClickListener(contentClick);
         }
@@ -144,7 +144,7 @@ public class SlideView extends LinearLayout {
         int x = (int) event.getX();
         int y = (int) event.getY();
         int scrollX = getScrollX();
-        Log.d(TAG, "x=" + x + "  y=" + y);
+        // Log.d(TAG, "x=" + x + "  y=" + y);
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
@@ -159,7 +159,7 @@ public class SlideView extends LinearLayout {
             case MotionEvent.ACTION_MOVE: {
                 int deltaX = x - mLastX;
                 int deltaY = y - mLastY;
-                if (Math.abs(deltaX) < Math.abs(deltaY) * TAN) {
+                if (Math.abs(deltaX) < Math.abs(deltaY) * TAN || Math.abs(deltaX) < 15) {
                     // 滑动不满足条件，不做横向滑动
                     break;
                 }
@@ -179,7 +179,7 @@ public class SlideView extends LinearLayout {
             case MotionEvent.ACTION_UP: {
                 int newScrollX = 0;
                 // 这里做了下判断，当松开手的时候，会自动向两边滑动，具体向哪边滑，要看当前所处的位置
-                if (scrollX - mHolderWidth * 0.75 > 0) {
+                if (scrollX - mHolderWidth * 0.5 > 0) {
                     newScrollX = mHolderWidth;
                 }
                 // 慢慢滑向终点

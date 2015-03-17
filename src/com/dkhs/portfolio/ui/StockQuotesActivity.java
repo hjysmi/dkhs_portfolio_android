@@ -543,8 +543,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
                 }
-                stockQuotesBean.setBuyList(buyList);
-                stockQuotesBean.setSellList(sellList);
+                if (null != stockQuotesBean) {
+
+                    stockQuotesBean.setBuyList(buyList);
+                    stockQuotesBean.setSellList(sellList);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -614,40 +617,41 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private float mPrePrice = 0;
 
     protected void updateStockView() {
-        if (null != mStockQuotesBean) {
-            // if (mStockBean != null && !mStockBean.isStop) {
-            tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
-            // String curentText = tvCurrent.getText().toString();
-            if (mPrePrice > 0) {
-                if (mStockQuotesBean.getCurrent() > mPrePrice) {
-                    tvCurrent.setBackgroundResource(R.color.red_bg);
-                } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
-                    tvCurrent.setBackgroundResource(R.color.green_bg);
-                }
-            }
-            mPrePrice = mStockQuotesBean.getCurrent();
-            updateCurrentText();
-            if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
-                tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
-                tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
-                tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
-                tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
-                tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
-            } else {
-                tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
-                tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
-                tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
-                tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
-                tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
-            }
-            tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
-            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate()));
-            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
-            tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
+        if (null == mStockQuotesBean) {
+            return;
         }
+        // if (mStockBean != null && !mStockBean.isStop) {
+        tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
+        // String curentText = tvCurrent.getText().toString();
+        if (mPrePrice > 0) {
+            if (mStockQuotesBean.getCurrent() > mPrePrice) {
+                tvCurrent.setBackgroundResource(R.color.red_bg);
+            } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
+                tvCurrent.setBackgroundResource(R.color.green_bg);
+            }
+        }
+        mPrePrice = mStockQuotesBean.getCurrent();
+        updateCurrentText();
+        if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
+            tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
+            tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
+            tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
+            tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
+            tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
+        } else {
+            tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
+            tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+            tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
+            tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
+            tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+        }
+        tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
+        tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate()));
+        tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
+        tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         if (isIndexType()) {
             tvLiuzhi.setText(" —");
             tvZongzhi.setText(" —");

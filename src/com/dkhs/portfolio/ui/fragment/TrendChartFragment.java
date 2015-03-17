@@ -806,7 +806,7 @@ public class TrendChartFragment extends BaseFragment {
      */
     private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-
+        
         lineData.dataList.clear();
 
         lineData.end = historyNetValue.getEnd();

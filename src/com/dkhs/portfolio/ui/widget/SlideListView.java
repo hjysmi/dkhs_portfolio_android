@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
+import com.dkhs.portfolio.ui.adapter.MyCombinationAdapter;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -27,6 +29,7 @@ public class SlideListView extends ListView {
     private static final String TAG = "SlideListView";
 
     private SlideView mFocusedItemView;
+    private MyCombinationAdapter mAdapter;
 
     public SlideListView(Context context) {
         super(context);
@@ -52,23 +55,84 @@ public class SlideListView extends ListView {
         }
     }
 
+    private int mLastPostion = INVALID_POSITION;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param ev
+     * @return
+     * @return
+     */
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        MyCombinationAdapter mAdapter = (MyCombinationAdapter) getAdapter();
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 int x = (int) event.getX();
                 int y = (int) event.getY();
                 int position = pointToPosition(x, y);
-                Log.e(TAG, "postion=" + position);
+                if (position != mLastPostion && mAdapter.getmLastSlideViewWithStatusOn() != null) {
+                    mAdapter.getmLastSlideViewWithStatusOn().shrink();
+                    mAdapter.setmLastSlideViewWithStatusOn(null);
+                    mLastPostion = INVALID_POSITION;
+                    mFocusedItemView = null;
+                    return true;
+                }
+            }
+                break;
+            case MotionEvent.ACTION_UP:
+                // mFocusedItemView = null;
+                break;
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        MyCombinationAdapter mAdapter = (MyCombinationAdapter) getAdapter();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+                int position = pointToPosition(x, y);
+                Log.e(TAG, "onTouchEvent postion=" + position);
                 if (position != INVALID_POSITION) {
                     MessageItem data = (MessageItem) getItemAtPosition(position);
                     mFocusedItemView = data.slideView;
-                    Log.e(TAG, "FocusedItemView=" + mFocusedItemView);
+                    mLastPostion = position;
+
                 }
+
             }
-            default:
+            case MotionEvent.ACTION_UP:
                 break;
         }
+        // switch (event.getAction()) {
+        // case MotionEvent.ACTION_DOWN: {
+        // int x = (int) event.getX();
+        // int y = (int) event.getY();
+        // int position = pointToPosition(x, y);
+        // Log.e(TAG, "postion=" + position);
+        // if (position != INVALID_POSITION) {
+        // MessageItem data = (MessageItem) getItemAtPosition(position);
+        // mFocusedItemView = data.slideView;
+        // Log.e(TAG, "FocusedItemView=" + mFocusedItemView);
+        // } else if (null != mFocusedItemView) {
+        // mFocusedItemView.shrink();
+        // mFocusedItemView = null;
+        // }
+        // }
+        // case MotionEvent.ACTION_UP:
+        // // mFocusedItemView = null;
+        // break;
+        // default:
+        // break;
+        // }
 
         if (mFocusedItemView != null) {
             mFocusedItemView.onRequireTouchEvent(event);
