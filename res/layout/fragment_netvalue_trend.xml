@@ -15,18 +15,6 @@
         android:paddingRight="8dp"
         android:paddingTop="12dp" >
 
-        <Button
-            android:id="@+id/btn_add_optional"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/btn_bg_optional"
-            android:paddingBottom="6dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/delete_fllow"
-            android:textColor="@color/white" />
-
         <TextView
             android:id="@+id/tv_follow"
             style="@style/hw_wrap"
@@ -37,10 +25,25 @@
         <TextView
             android:id="@+id/tv_follow_num"
             style="@style/hw_wrap"
+            android:layout_alignBottom="@+id/tv_follow"
             android:layout_toRightOf="@+id/tv_follow"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_add_optional"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_follow"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/btn_bg_optional"
+            android:paddingBottom="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/delete_fllow"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_combination"
