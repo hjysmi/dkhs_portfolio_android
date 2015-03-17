@@ -59,7 +59,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
 
     private MyCombinationActivity combinationActivity;
 
-    private static final long mCombinationRequestTime = 1000 * 300;
+    private static final long mCombinationRequestTime = 1000 * 45;
     private Timer mCombinationTimer;
 
     // private RVMyCombinationAdapter rvConbinationAdatper;

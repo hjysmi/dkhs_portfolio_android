@@ -150,20 +150,20 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
 
     private void delCombination(int position) {
         final MessageItem item = mDataList.get(position);
-        CombinationBean mCombination = (CombinationBean) item.data;
+        // CombinationBean mCombination = (CombinationBean) item.data;
         if (PortfolioApplication.hasUserLogin()) {
 
-            showDelDialog(mCombination);
+            showDelDialog(item);
         }
     }
 
-    public void showDelDialog(final CombinationBean mCombination) {
+    public void showDelDialog(final MessageItem item) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
         builder.setMessage(R.string.dialog_message_delete_combination);
         // builder.setTitle(R.string.tips);
-
+        final CombinationBean mCombination = (CombinationBean) item.data;
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
             @Override
@@ -174,7 +174,8 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
                     @Override
                     public void onSuccess(String result) {
                         // mCombinationAdapter.getDelPosition().clear();
-                        mDataList.remove(mCombination);
+
+                        mDataList.remove(item);
                         notifyDataSetChanged();
                         // rvConbinationAdatper.notifyDataSetChanged();
                         // rvConbinationAdatper.notifyItemRemoved(position)
