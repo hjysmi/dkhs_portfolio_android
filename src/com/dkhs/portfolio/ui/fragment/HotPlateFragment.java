@@ -252,4 +252,16 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
 
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        mListView.onLoadMoreComplete();
+        mListView.onRefreshComplete();
+        
+    }
+
 }

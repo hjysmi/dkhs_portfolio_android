@@ -94,6 +94,11 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
                 }
                 refreshEditView();
             }
+
+            @Override
+            public void loadFail() {
+                mSwipeLayout.setRefreshing(false);
+            }
         }, "");
 
         // }

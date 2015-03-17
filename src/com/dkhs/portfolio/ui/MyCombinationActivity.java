@@ -45,7 +45,6 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
-import com.dkhs.portfolio.ui.fragment.MyCombinationListFragment;
 import com.dkhs.portfolio.ui.fragment.MyCombinationSlideListFragment;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.google.gson.Gson;

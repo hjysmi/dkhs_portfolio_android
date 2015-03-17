@@ -277,6 +277,17 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         MobclickAgent.onPageEnd(mPageName);
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        isRefresh = false;
+
+    }
+
     // OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
     //
     // @Override

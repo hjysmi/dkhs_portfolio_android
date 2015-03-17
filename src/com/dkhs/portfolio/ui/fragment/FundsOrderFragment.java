@@ -130,7 +130,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
         super.loadFinish(object);
         mSwipeLayout.setRefreshing(false);
-        if (null != object.getResults() && object.getResults().size() > 0) {
+        if (null != object && null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
             // add by zcm -----2014.12.15
@@ -261,6 +261,18 @@ public class FundsOrderFragment extends LoadMoreListFragment {
                 isRefresh = true;
             }
         };
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        mSwipeLayout.setRefreshing(false);
+        isRefresh = false;
+
     }
 
 }
