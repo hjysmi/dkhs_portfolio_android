@@ -298,6 +298,13 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
         }
 
+        @Override
+        public void loadFail() {
+            endAnimaRefresh();
+            mSwipeLayout.setRefreshing(false);
+            
+        }
+
     };
 
     class StockLoadDataListener implements ILoadDataBackListener {

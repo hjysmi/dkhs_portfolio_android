@@ -8,8 +8,7 @@
     <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" >
+        android:layout_height="wrap_content" >
 
         <ImageView
             android:id="@+id/image"
@@ -17,39 +16,13 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="10dp"
-            android:src="@drawable/opition_edit_delete"
-            android:visibility="gone" />
+            android:src="@drawable/opition_edit_delete" />
 
-        <LinearLayout
-            android:id="@+id/layout_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/image"
-            android:gravity="center_vertical"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/drag_list_item_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dip"
-                android:text="stockname"
-                android:textColor="@color/black"
-                android:textSize="@dimen/list_text_size" />
-
-            <TextView
-                android:id="@+id/drag_list_item_text_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingLeft="5dip"
-                android:text="stocknum"
-                android:textColor="@color/position_text_lgray"
-                android:textSize="@dimen/title_text_font" />
-        </LinearLayout>
+        <View
+            android:id="@+id/start"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_toRightOf="@+id/image" />
 
         <LinearLayout
             android:id="@+id/layout_delete"
@@ -57,8 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:orientation="vertical"
-            android:visibility="invisible" >
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/drag_text_delet_pad"
@@ -68,8 +40,7 @@
             <Button
                 android:id="@+id/button_delete"
                 android:layout_width="60dp"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_height="46dp"
                 android:background="@color/red"
                 android:gravity="center"
                 android:text="删除"
@@ -100,6 +71,38 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@id/drag_text_pad"
             android:src="@drawable/opition_edit_up" />
+
+        <LinearLayout
+            android:id="@+id/layout_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/drag_item_up"
+            android:layout_toRightOf="@+id/start"
+            android:gravity="center_vertical|left"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/drag_list_item_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dip"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/list_text_size" />
+
+            <TextView
+                android:id="@+id/drag_list_item_text_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dip"
+                android:singleLine="true"
+                android:textColor="@color/position_text_lgray"
+                android:textSize="@dimen/title_text_font" />
+        </LinearLayout>
     </RelativeLayout>
 
     <RelativeLayout

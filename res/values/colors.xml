@@ -21,6 +21,7 @@
     <color name="red_bg">#ffd8d8</color>
     <color name="green_bg">#c4ffc4</color>
     <color name="white">#ffffffff</color>
+    <color name="white_60">#99ffffff</color>
     <color name="gray">#4d4c4d</color>
     <color name="yellow">#ffff00</color>
     <color name="text_press">#a0a0a0</color>

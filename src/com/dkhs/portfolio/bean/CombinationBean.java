@@ -52,6 +52,8 @@ public class CombinationBean implements Serializable {
 
     private boolean followed;
     private int sortId;
+    @SerializedName("followers_count")
+    private int followerCount;
 
     /**
      * @Title
@@ -246,6 +248,14 @@ public class CombinationBean implements Serializable {
 
     public void setSortId(int sortId) {
         this.sortId = sortId;
+    }
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
     }
 
 }

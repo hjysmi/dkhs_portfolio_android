@@ -15,11 +15,29 @@
         android:paddingRight="8dp"
         android:paddingTop="12dp" >
 
+        <TextView
+            android:id="@+id/tv_follow"
+            style="@style/hw_wrap"
+            android:text="关注:"
+            android:textColor="@color/white_60"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_follow_num"
+            style="@style/hw_wrap"
+            android:layout_alignBottom="@+id/tv_follow"
+            android:layout_toRightOf="@+id/tv_follow"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
         <Button
             android:id="@+id/btn_add_optional"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_below="@+id/tv_follow"
+            android:layout_marginTop="4dp"
             android:background="@drawable/btn_bg_optional"
             android:paddingBottom="6dp"
             android:paddingLeft="16dp"
@@ -28,20 +46,32 @@
             android:textColor="@color/white" />
 
         <TextView
+            android:id="@+id/tv_combination"
+            style="@style/hw_wrap"
+            android:layout_marginLeft="12dp"
+            android:layout_toRightOf="@+id/tv_follow_num"
+            android:drawablePadding="6dp"
+            android:text="创建人："
+            android:textColor="@color/white_60"
+            android:textSize="14sp" />
+
+        <TextView
             android:id="@+id/tv_combination_user"
             style="@style/hw_wrap"
+            android:layout_toRightOf="@+id/tv_combination"
             android:drawablePadding="6dp"
             android:drawableRight="@drawable/white_gengduo"
-            android:text="创建人：某某某"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_income"
             style="@style/hw_wrap"
-            android:layout_below="@+id/tv_combination_user"
-            android:text="累计收益率:"
-            android:textColor="@color/white"
+            android:layout_below="@+id/tv_follow"
+            android:layout_marginTop="4dp"
+            android:text="累计收益率"
+            android:textColor="@color/white_60"
             android:textSize="14sp" />
 
         <TextView
@@ -51,9 +81,10 @@
             android:layout_below="@+id/tv_income"
             android:text="—"
             android:textColor="@color/white"
-            android:textSize="46sp" />
+            android:textSize="50sp" />
 
         <LinearLayout
+            android:id="@+id/tab_netvalue"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_income_netvalue"
@@ -83,7 +114,7 @@
                     android:singleLine="true"
                     android:text="10.15%"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <View
@@ -116,7 +147,7 @@
                     android:singleLine="true"
                     android:text="—"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <View
@@ -149,7 +180,7 @@
                     android:singleLine="true"
                     android:text="—"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <View
@@ -182,9 +213,27 @@
                     android:singleLine="true"
                     android:text="—"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    android:textSize="16sp" />
             </LinearLayout>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            style="@style/hw_wrap"
+            android:layout_below="@+id/tab_netvalue"
+            android:layout_marginTop="10dp"
+            android:text="描述："
+            android:textColor="@color/white_60"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_desc_text"
+            style="@style/hw_wrap"
+            android:layout_alignBottom="@+id/tv_desc"
+            android:layout_toRightOf="@+id/tv_desc"
+            android:text="描述内容"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <!-- <View style="@style/divider_line" /> -->

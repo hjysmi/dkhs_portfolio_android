@@ -102,11 +102,12 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
                 Platform platWechat = ShareSDK.getPlatform(Wechat.NAME);
                 // Platform platWechat = ShareSDK.getPlatform(QZone.NAME);
 
-                platformList[0] = platSina;
-                platformList[1] = platWechatMoments;
-                platformList[2] = platWechat;
                 if (platformList == null) {
                     platformList = new Platform[0];
+                } else {
+                    platformList[0] = platSina;
+                    platformList[1] = platWechatMoments;
+                    platformList[2] = platWechat;
                 }
                 UIHandler.sendEmptyMessage(MSG_PLATFORM_LIST_GOT, PlatformGridView.this);
             }
@@ -254,11 +255,11 @@ public class PlatformGridView extends LinearLayout implements OnClickListener, C
             String name = plat.getName();
             reqData.put("platform", name);
             // EditPage不支持微信平台、Google+、QQ分享、Pinterest、信息和邮件，总是执行直接分享SinaWeibo\WechatMoments\Wechat
-            if(name.equals("SinaWeibo")){
+            if (name.equals("SinaWeibo")) {
                 MobclickAgent.onEvent(getContext(), "show_xinlang");
-            }else if(name.equals("WechatMoments")){
+            } else if (name.equals("WechatMoments")) {
                 MobclickAgent.onEvent(getContext(), "share_weixing_pengyou");
-            }else if(name.equals("Wechat")){
+            } else if (name.equals("Wechat")) {
                 MobclickAgent.onEvent(getContext(), "share_weixin_friend");
             }
             if ((plat instanceof CustomPlatform) || ShareCore.isUseClientToShare(name)) {

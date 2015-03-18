@@ -270,6 +270,13 @@ public class MarketCenterActivity extends RefreshModelActivity implements OnClic
 
         }
 
+        @Override
+        public void loadFail() {
+            endAnimaRefresh();
+            mSwipeLayout.setRefreshing(false);
+
+        }
+
     };
 
     class StockLoadDataListener implements ILoadDataBackListener {

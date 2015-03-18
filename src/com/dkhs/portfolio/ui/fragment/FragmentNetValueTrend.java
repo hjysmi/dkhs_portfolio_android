@@ -93,6 +93,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView netvalueMonth;
 
     private TextView tvCreateUser;
+    private TextView tvCreate;
+    private TextView tvFollowCount;
+    private TextView tvComDesc;
 
     private View comView;
     private String type;
@@ -157,6 +160,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
         tvCreateUser = (TextView) view.findViewById(R.id.tv_combination_user);
+        tvCreate = (TextView) view.findViewById(R.id.tv_combination);
+        tvFollowCount = (TextView) view.findViewById(R.id.tv_follow_num);
+        tvComDesc = (TextView) view.findViewById(R.id.tv_desc_text);
 
         netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
         // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
@@ -229,7 +235,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private void setupViewData() {
         if (isFromOrder) {
             tvCreateUser.setVisibility(View.VISIBLE);
-            tvCreateUser.setText(getString(R.string.format_create_name, mCombinationBean.getUser().getUsername()));
+            tvCreateUser.setText(mCombinationBean.getUser().getUsername());
             tvCreateUser.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -241,7 +247,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         } else {
             tvCreateUser.setVisibility(View.GONE);
+            tvCreate.setVisibility(View.GONE);
         }
+        tvComDesc.setText(mCombinationBean.getDefDescription());
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
 
@@ -693,6 +701,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                             .getChng_pct_week()));
                     netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_month()));
+                    tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
                 }
                 setColor(myType);
 

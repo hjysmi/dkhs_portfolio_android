@@ -296,10 +296,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             positionTextCreatedate.setText("成立时间: "
                     + TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
 
+            setPieList(mPositionDetailBean.getFund_percent());
+            setFootData(mPositionDetailBean.getFund_percent());
         }
-
-        setPieList(mPositionDetailBean.getFund_percent());
-        setFootData(mPositionDetailBean.getFund_percent());
 
         // System.out.println("getFund_percent:" + mPositionDetailBean.getFund_percent());
         // System.out.println("surpulsValue:" + surpulsValue());

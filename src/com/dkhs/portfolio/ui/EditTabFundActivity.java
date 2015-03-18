@@ -91,6 +91,11 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
                     optionEditList.setAdapter(adapter);
                 }
             }
+
+            @Override
+            public void loadFail() {
+
+            }
         }, "");
 
     }

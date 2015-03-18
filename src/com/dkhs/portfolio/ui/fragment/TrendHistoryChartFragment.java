@@ -74,6 +74,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     private DrawLineDataEntity historyNetvalue;
     private RelativeLayout pb;
+
     public static TrendHistoryChartFragment newInstance(String trendType) {
         TrendHistoryChartFragment fragment = new TrendHistoryChartFragment();
 
@@ -131,7 +132,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);
-            //PromptManager.showProgressDialog(getActivity(), "");
+            // PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryHistory(historyListener);
 
         }
@@ -336,7 +337,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-            //PromptManager.closeProgressDialog();
+            // PromptManager.closeProgressDialog();
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -388,6 +389,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
      */
     private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
+
         lineData.dataList.clear();
         lineData.end = historyNetValue.getEnd();
         if (null != historyNetList && historyNetList.size() > 0) {
@@ -503,7 +505,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return

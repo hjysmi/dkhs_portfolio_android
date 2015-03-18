@@ -10,7 +10,10 @@ package com.dkhs.portfolio.ui.adapter;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -147,66 +150,96 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
 
     private void delCombination(int position) {
         final MessageItem item = mDataList.get(position);
-        CombinationBean mCombination = (CombinationBean) item.data;
+        // CombinationBean mCombination = (CombinationBean) item.data;
         if (PortfolioApplication.hasUserLogin()) {
 
-            new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
-
-                @Override
-                public void onSuccess(String result) {
-                    // mCombinationAdapter.getDelPosition().clear();
-                    mDataList.remove(item);
-                    notifyDataSetChanged();
-                    // rvConbinationAdatper.notifyDataSetChanged();
-                    // rvConbinationAdatper.notifyItemRemoved(position)
-                    // mAdapter.notifyDataSetChanged();
-                    // upateDelViewStatus();
-                }
-
-                @Override
-                public void onFailure(int errCode, String errMsg) {
-                    super.onFailure(errCode, errMsg);
-                    // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                }
-
-                /**
-                 * @Title
-                 * @Description TODO: (用一句话描述这个方法的功能)
-                 * @return
-                 */
-                @Override
-                public void beforeRequest() {
-                    // TODO Auto-generated method stub
-                    super.beforeRequest();
-                }
-
-                /**
-                 * @Title
-                 * @Description TODO: (用一句话描述这个方法的功能)
-                 * @return
-                 */
-                @Override
-                public void requestCallBack() {
-                    // TODO Auto-generated method stub
-                    super.requestCallBack();
-                    // refreshData();
-                    // refresh();
-                }
-
-                @Override
-                protected Object parseDateTask(String jsonData) {
-                    // TODO Auto-generated method stub
-                    return null;
-                }
-
-                @Override
-                protected void afterParseData(Object object) {
-                    // TODO Auto-generated method stub
-
-                }
-
-            }.setLoadingDialog(mContext, "", false));
+            showDelDialog(item);
         }
+    }
+
+    public void showDelDialog(final MessageItem item) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        builder.setMessage(R.string.dialog_message_delete_combination);
+        // builder.setTitle(R.string.tips);
+        final CombinationBean mCombination = (CombinationBean) item.data;
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
+
+                    @Override
+                    public void onSuccess(String result) {
+                        // mCombinationAdapter.getDelPosition().clear();
+
+                        mDataList.remove(item);
+                        notifyDataSetChanged();
+                        // rvConbinationAdatper.notifyDataSetChanged();
+                        // rvConbinationAdatper.notifyItemRemoved(position)
+                        // mAdapter.notifyDataSetChanged();
+                        // combinationActivity.setButtonFinish();
+                        // upateDelViewStatus();
+                    }
+
+                    @Override
+                    public void onFailure(int errCode, String errMsg) {
+                        super.onFailure(errCode, errMsg);
+                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /**
+                     * @Title
+                     * @Description TODO: (用一句话描述这个方法的功能)
+                     * @return
+                     */
+                    @Override
+                    public void beforeRequest() {
+                        // TODO Auto-generated method stub
+                        super.beforeRequest();
+                    }
+
+                    /**
+                     * @Title
+                     * @Description TODO: (用一句话描述这个方法的功能)
+                     * @return
+                     */
+                    @Override
+                    public void requestCallBack() {
+                        // TODO Auto-generated method stub
+                        super.requestCallBack();
+                        // refreshData();
+                        // refresh();
+                    }
+
+                    @Override
+                    protected Object parseDateTask(String jsonData) {
+                        // TODO Auto-generated method stub
+                        return null;
+                    }
+
+                    @Override
+                    protected void afterParseData(Object object) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                }.setLoadingDialog(mContext, "", false));
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+
     }
 
     @Override
@@ -228,7 +261,7 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
         if (status == SLIDE_STATUS_ON) {
             mLastSlideViewWithStatusOn = (SlideView) view;
             // mLastSlideViewWithStatusOn.clickItemUnable();
-        }else if(status==SLIDE_STATUS_OFF){
+        } else if (status == SLIDE_STATUS_OFF) {
             mLastSlideViewWithStatusOn = null;
         }
     }

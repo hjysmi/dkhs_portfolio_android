@@ -59,7 +59,7 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
 
     private MyCombinationActivity combinationActivity;
 
-    private static final long mCombinationRequestTime = 1000 * 30;
+    private static final long mCombinationRequestTime = 1000 * 45;
     private Timer mCombinationTimer;
 
     // private RVMyCombinationAdapter rvConbinationAdatper;
@@ -116,9 +116,10 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 if (mCombinationAdapter.getmLastSlideViewWithStatusOn() != null) {
-//                    mCombinationAdapter.getmLastSlideViewWithStatusOn().shrink();
-//                    return;
+                    // mCombinationAdapter.getmLastSlideViewWithStatusOn().shrink();
+                    // return;
                     mCombinationAdapter.notifyDataSetChanged();
                     return;
                 }
@@ -138,15 +139,6 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         // rvConbinationAdatper.SetOnItemClickListener(rvMyCombinationItemListener);
     }
 
-    // @Override
-    // ListAdapter getListAdapter() {
-    // if (mAdapter == null) {
-    // mAdapter = new CombinationAdapter(getActivity(), mDataList);
-    // mAdapter.setDeleteButtonClickListener(this);
-    // }
-    // return mAdapter;
-    // }
-
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -154,7 +146,6 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
      */
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
         if (mCombinationTimer == null) {
             mCombinationTimer = new Timer(true);
@@ -188,7 +179,6 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        // mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {
@@ -196,13 +186,9 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
                     mCombinationTimer = null;
                 }
             }
-            // if (isRefresh) {
             mDataList.clear();
             mMessageList.clear();
             isRefresh = false;
-            // }
-
-            // mDataList = object.getResults();
             mDataList.addAll(object.getResults());
 
             if (!mDataList.isEmpty()) {
@@ -214,7 +200,6 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
                 }
             }
 
-            // System.out.println("datalist size :" + mDataList.size());
             mCombinationAdapter.notifyDataSetChanged();
         }
 
@@ -239,40 +224,35 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         isRefresh = true;
 
         ((UserCombinationEngineImpl) getLoadEngine()).loadAllData();
-        // UserCombinationEngineImpl.loadAllData(this);
 
     }
 
     public void setListDelStatus(boolean isDel) {
-        // rvConbinationAdatper.setDelStatus(isDel);
-        // if (isDel && null != mListView) {
-        // mListView.setOnItemClickListener(null);
-        // }
     }
 
-    private void showLongClickDialog(final String conId) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
-
-        builder.setItems(R.array.long_click_type, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                if (which == 0) {
-                    // queryFromCreateDay();
-                    // } else {
-                    // 置于页首
-
-                    setCombinationTop(conId);
-                } else if (which == 1) {
-                    // rvConbinationAdatper.setDelStatus(true);
-                    // combinationActivity.setButtonCancel();
-                }
-
-            }
-        }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
-
-    }
+    // private void showLongClickDialog(final String conId) {
+    //
+    // AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+    // android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+    //
+    // builder.setItems(R.array.long_click_type, new DialogInterface.OnClickListener() {
+    // public void onClick(DialogInterface dialog, int which) {
+    //
+    // if (which == 0) {
+    // // queryFromCreateDay();
+    // // } else {
+    // // 置于页首
+    //
+    // setCombinationTop(conId);
+    // } else if (which == 1) {
+    // // rvConbinationAdatper.setDelStatus(true);
+    // // combinationActivity.setButtonCancel();
+    // }
+    //
+    // }
+    // }).setNegativeButton(R.string.cancel, null).setCancelable(false).show();
+    //
+    // }
 
     private void setCombinationTop(String conId) {
         new MyCombinationEngineImpl().setCombinationTOp(conId, setTopListener);
@@ -287,89 +267,6 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
 
     };
 
-    private void showDelDialog(final CombinationBean mCombination) {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
-        builder.setMessage(R.string.dialog_message_delete_combination);
-        // builder.setTitle(R.string.tips);
-
-        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                new MyCombinationEngineImpl().deleteCombination(mCombination.getId() + "", new ParseHttpListener() {
-
-                    @Override
-                    public void onSuccess(String result) {
-                        // mCombinationAdapter.getDelPosition().clear();
-                        mDataList.remove(mCombination);
-                        // rvConbinationAdatper.notifyDataSetChanged();
-                        // rvConbinationAdatper.notifyItemRemoved(position)
-                        // mAdapter.notifyDataSetChanged();
-                        // combinationActivity.setButtonFinish();
-                        // upateDelViewStatus();
-                    }
-
-                    @Override
-                    public void onFailure(int errCode, String errMsg) {
-                        super.onFailure(errCode, errMsg);
-                        // Toast.makeText(PortfolioApplication.getInstance(), "删除组合失败", Toast.LENGTH_SHORT).show();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void beforeRequest() {
-                        // TODO Auto-generated method stub
-                        super.beforeRequest();
-                    }
-
-                    /**
-                     * @Title
-                     * @Description TODO: (用一句话描述这个方法的功能)
-                     * @return
-                     */
-                    @Override
-                    public void requestCallBack() {
-                        // TODO Auto-generated method stub
-                        super.requestCallBack();
-                        // refreshData();
-                        refresh();
-                    }
-
-                    @Override
-                    protected Object parseDateTask(String jsonData) {
-                        // TODO Auto-generated method stub
-                        return null;
-                    }
-
-                    @Override
-                    protected void afterParseData(Object object) {
-                        // TODO Auto-generated method stub
-
-                    }
-
-                }.setLoadingDialog(getActivity(), "", false));
-                dialog.dismiss();
-            }
-
-        });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        builder.create().show();
-
-    }
-
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_list);
 
     @Override
@@ -378,6 +275,17 @@ public class MyCombinationSlideListFragment extends RefreshLoadMoreSlideListFrag
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        isRefresh = false;
+
     }
 
     // OnItemClickListener rvMyCombinationItemListener = new OnItemClickListener() {
