@@ -46,7 +46,7 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
     public static final String ORDER_WEEK = "-chng_pct_week";
     public static final String ORDER_MONTH = "-chng_pct_month";
     // public static final String ORDER_SEASON = "-chng_pct_three_month";
-    public static final String ORDER_ALL = "-net_value";
+    public static final String ORDER_ALL = "-cumulative";
 
     private String mOrderType = ORDER_WEEK;
     private int pageIndex = 1;
