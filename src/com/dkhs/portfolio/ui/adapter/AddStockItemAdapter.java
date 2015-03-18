@@ -39,11 +39,13 @@ public class AddStockItemAdapter extends SelectStockAdatper {
      */
     public AddStockItemAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas);
+        setAddNewStock(true);
 
     }
 
     public AddStockItemAdapter(Context context, List<SelectStockBean> datas, boolean isDefColor) {
         super(context, datas, isDefColor);
+        setAddNewStock(true);
 
     }
 

@@ -41,6 +41,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
     private boolean isDefColor;
     VisitorDataEngine mVisitorDataEngine;
     private List<SelectStockBean> localList;
+    private boolean isAddNewStock;
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
@@ -59,6 +60,10 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
         if (!PortfolioApplication.hasUserLogin()) {
             localList = mVisitorDataEngine.getOptionalStockList();
         }
+    }
+
+    protected void setAddNewStock(boolean isNewstockable) {
+        this.isAddNewStock = isNewstockable;
     }
 
     @Override
@@ -130,7 +135,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             viewHolder.mCheckbox.setVisibility(View.GONE);
             // viewHolder.tvIncreaseValue.setText("—");
             // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
-        } else if (StockUitls.isNewStock(item.list_status)) {
+        } else if (StockUitls.isNewStock(item.list_status) && !isAddNewStock) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
             viewHolder.tvSuspend.setText("新股");
             viewHolder.mCheckbox.setVisibility(View.GONE);
