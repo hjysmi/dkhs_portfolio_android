@@ -48,7 +48,7 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
-        setTheme(android.R.style.Theme_Light_NoTitleBar);
+        // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         super.setContentView(R.layout.layout_model);

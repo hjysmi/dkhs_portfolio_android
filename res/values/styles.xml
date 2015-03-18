@@ -7,8 +7,12 @@
 
         <!-- 解决activity切换时的黑屏问题 -->
         <item name="android:windowIsTranslucent">true</item>
+    </style>
 
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="AppTranslucentTheme" parent="AppTheme">
+
+        <!-- 解决activity切换时的黑屏问题 -->
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light">

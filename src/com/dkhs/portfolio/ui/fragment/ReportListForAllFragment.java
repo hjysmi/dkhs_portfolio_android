@@ -267,9 +267,11 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
 
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
+            pb.setVisibility(View.GONE);
+            mListView.onLoadMoreComplete();
+            mSwipeLayout.setRefreshing(false);
             try {
-                pb.setVisibility(View.GONE);
-                mListView.onLoadMoreComplete();
+
                 if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                     mListView.setCanLoadMore(false);
                     mListView.setAutoLoadMore(false);

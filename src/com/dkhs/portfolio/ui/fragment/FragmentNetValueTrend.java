@@ -33,6 +33,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -249,7 +250,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             tvCreateUser.setVisibility(View.GONE);
             tvCreate.setVisibility(View.GONE);
         }
-        tvComDesc.setText(mCombinationBean.getDefDescription());
+//        tvComDesc.setText(mCombinationBean.getDefDescription());
+        tvComDesc.setText(Html.fromHtml(mCombinationBean.getDefDescription()));
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
 
