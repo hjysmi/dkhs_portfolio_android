@@ -58,7 +58,6 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         if (null != bunds) {
             mCombinationBean = (CombinationBean) bunds.get(DATA);
         }
-        System.out.println("================FragmentNews onCreate()======================");
     }
 
     /**
