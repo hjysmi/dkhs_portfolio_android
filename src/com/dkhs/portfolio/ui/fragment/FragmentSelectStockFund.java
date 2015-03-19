@@ -54,6 +54,7 @@ import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -89,6 +90,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected String mSecotrId;
     protected boolean isLoading;
     private RelativeLayout pb;
+    private HttpHandler loadHandler;
 
     /**
      * view视图类型
@@ -412,7 +414,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (null != loadingFinishListener) {
             loadingFinishListener.startLoadingData();
         }
-        mLoadDataEngine.loadData();
+        loadHandler = mLoadDataEngine.loadData();
         // isRefresh = true;
 
     }
@@ -425,7 +427,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
-            mLoadDataEngine.loadData();
+            loadHandler = mLoadDataEngine.loadData();
         }
     }
 
@@ -439,7 +441,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             mLoadDataEngine.cancelLoadingDialog();
             // mLoadDataEngine.refreshDatabySize(mDataList.size());
-            mLoadDataEngine.loadData();
+            loadHandler = mLoadDataEngine.loadData();
         }
     }
 
@@ -464,7 +466,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
                 }
-                mLoadDataEngine.refreshDatabySize(mDataList.size());
+                loadHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
             }
         } else {
             timeMill++;
@@ -539,6 +541,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             case STOCK_OPTIONAL_PRICE: {
                 tvEmptyText.setVisibility(View.GONE);
+                refreshSelect();
                 mListView.setEmptyView(emptyview);
                 tvEmptyText.setText(R.string.nodate_tip_optional);
 
@@ -711,7 +714,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
-            mLoadDataEngine.loadMore();
+            loadHandler = mLoadDataEngine.loadMore();
             isLoadingMore = true;
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
@@ -747,5 +750,19 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
     private IDataUpdateListener dataUpdateListener;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onDestroyView() {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        if (null != loadHandler) {
+            loadHandler.cancel();
+        }
+    }
 
 }
