@@ -19,7 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
@@ -34,6 +36,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -68,6 +71,7 @@ import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -250,7 +254,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             tvCreateUser.setVisibility(View.GONE);
             tvCreate.setVisibility(View.GONE);
         }
-//        tvComDesc.setText(mCombinationBean.getDefDescription());
+        // tvComDesc.setText(mCombinationBean.getDefDescription());
         tvComDesc.setText(Html.fromHtml(mCombinationBean.getDefDescription()));
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
@@ -587,26 +591,76 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         if (v.getId() == R.id.btn_add_optional) {
             btnAddOptional.setEnabled(false);
-            if (PortfolioApplication.getInstance().hasUserLogin()) {
-
-                if (mCombinationBean.isFollowed()) {
-                    new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
-                } else {
-
-                    new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
-                }
-            } else {
-                if (mCombinationBean.isFollowed()) {
-                    mCombinationBean.setFollowed(false);
-                    new VisitorDataEngine().delCombinationBean(mCombinationBean);
-                } else {
-                    mCombinationBean.setFollowed(true);
-                    new VisitorDataEngine().saveCombination(mCombinationBean);
-                }
-                btnAddOptional.setEnabled(true);
-                addOptionalButton(mCombinationBean.isFollowed());
+            if (mCombinationBean.isFollowed()) {
+                showDelDialog();
+            }else{
+                delFollowCombinatio();
             }
         }
+    }
+
+    private void delFollowCombinatio() {
+        if (PortfolioApplication.getInstance().hasUserLogin()) {
+
+            if (mCombinationBean.isFollowed()) {
+                new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
+            } else {
+
+                new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+            }
+        } else {
+            if (mCombinationBean.isFollowed()) {
+                mCombinationBean.setFollowed(false);
+                new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                delFollowSuccess();
+            } else {
+                mCombinationBean.setFollowed(true);
+                new VisitorDataEngine().saveCombination(mCombinationBean);
+                addFollowSuccess();
+            }
+            btnAddOptional.setEnabled(true);
+            addOptionalButton(mCombinationBean.isFollowed());
+        }
+    }
+
+    private void delFollowSuccess() {
+        PromptManager.showToast(R.string.msg_def_follow_success);
+
+        mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() - 1);
+        tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+    }
+
+    private void addFollowSuccess() {
+        PromptManager.showToast(R.string.msg_follow_success);
+        mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() + 1);
+        tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+    }
+
+    public void showDelDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        builder.setMessage(R.string.dialog_message_delfollow_combination);
+        // builder.setTitle(R.string.tips);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                delFollowCombinatio();
+            }
+
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                btnAddOptional.setEnabled(true);
+            }
+        });
+        builder.create().show();
+
     }
 
     ParseHttpListener followComListener = new ParseHttpListener<Object>() {
@@ -627,6 +681,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         protected void afterParseData(Object object) {
             mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
             addOptionalButton(mCombinationBean.isFollowed());
+            if (mCombinationBean.isFollowed()) {
+                addFollowSuccess();
+            } else {
+                delFollowSuccess();
+            }
         }
     };
 
