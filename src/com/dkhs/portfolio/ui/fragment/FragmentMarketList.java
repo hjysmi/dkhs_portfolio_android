@@ -469,7 +469,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
             // Toast.LENGTH_SHORT).show();
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            // getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -478,7 +479,9 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             SelectStockBean itemStock = mDataList.get(position);
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            // getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            //
             getActivity().finish();
         }
     };
@@ -540,7 +543,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         this.loadingFinishListener = finishListener;
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return

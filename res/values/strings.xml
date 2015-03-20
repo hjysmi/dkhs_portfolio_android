@@ -188,6 +188,7 @@
     <string name="set_password_failed">设置失败</string>
     <string name="tips">提示</string>
     <string name="dialog_message_delete_combination">您将要删除选中的组合!</string>
+    <string name="dialog_message_delfollow_combination">确认取消关注该组合?</string>
     <string name="setting_string_opinion">意见反馈</string>
     <string name="setting_string_news">新版本检测</string>
     <string name="setting_string_abortus">关于我们</string>
@@ -395,5 +396,9 @@
     <string name="click_creat_fund">点击创建组合</string>
     <string name="creat_fund">自建组合</string>
     <string name="creat_fund_name">组合名称</string>
+
+    <!-- toast message text -->
+    <string name="msg_follow_success">添加关注成功</string>
+    <string name="msg_def_follow_success">取消关注成功</string>
 
 </resources>

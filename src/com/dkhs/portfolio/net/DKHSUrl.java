@@ -130,6 +130,7 @@ public class DKHSUrl {
         String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=50&portfolio_id={0}&content_type={1}";
         String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30";
         String reportnewsoptioneachs = "/api/v1/statuses/symbol_timeline/?page_size=200&symbol={0}&content_type=30";
+        String reportnews_second_notice = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=20";
         String newstext = "/api/v1/statuses/";
     }
 

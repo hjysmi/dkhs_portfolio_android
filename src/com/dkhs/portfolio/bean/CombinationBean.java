@@ -101,8 +101,7 @@ public class CombinationBean implements Serializable {
         if (TextUtils.isEmpty(description)) {
             return PortfolioApplication.getInstance().getResources().getString(R.string.desc_def_text);
         }
-        System.out.println("getDefDescription:" + description);
-        return description.replaceAll("\\\\", "\\\\\\\\");
+        return description;
     }
 
     public String getDescription() {

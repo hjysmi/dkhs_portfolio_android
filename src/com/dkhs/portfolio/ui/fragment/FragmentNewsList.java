@@ -251,6 +251,20 @@ public class FragmentNewsList extends Fragment implements Serializable {
             }
         }
 
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                if (null != vo && null != vo.getPageTitle()) {
+                    tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+                }
+                if (null != context && context instanceof StockQuotesActivity && getadle) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                }
+            }
+
+        }
+
     };
 
     private void loadFinishUpdateView() {

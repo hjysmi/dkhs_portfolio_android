@@ -16,8 +16,9 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 
 /**
  * \
+ * 
  * @author weiting
- *
+ * 
  */
 public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNewsBean>> {
 
@@ -37,6 +38,8 @@ public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNe
 
     public interface ILoadDataBackListener {
         void loadFinish(List<OptionNewsBean> object);
+
+        void loadingFail();
     }
 
     /**
@@ -61,6 +64,22 @@ public abstract class LoadNewsDataEngine extends ParseHttpListener<List<OptionNe
             iLoadListener.loadFinish(object);
         }
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param errCode
+     * @param errMsg
+     * @return
+     */
+    @Override
+    public void onFailure(int errCode, String errMsg) {
+        // TODO Auto-generated method stub
+        super.onFailure(errCode, errMsg);
+        if (null != iLoadListener) {
+            iLoadListener.loadingFail();
+        }
     }
 
     /**
