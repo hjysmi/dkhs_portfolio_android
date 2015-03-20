@@ -290,8 +290,8 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             pb.setVisibility(View.GONE);
-            mListView.onLoadMoreComplete();
             mSwipeLayout.setRefreshing(false);
+            mListView.onLoadMoreComplete();
             try {
 
                 if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
@@ -312,11 +312,21 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                     mDataList.addAll(dataList);
                     mOptionMarketAdapter.notifyDataSetChanged();
                 } else {
-                    iv.setText("暂无公告");
+                    iv.setText("暂无资讯");
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            mSwipeLayout.setRefreshing(false);
+            if (null == mDataList || mDataList.isEmpty()) {
+                iv.setText("暂无资讯");
             }
 
         }

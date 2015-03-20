@@ -230,6 +230,14 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
         }
 
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                tv.setText("暂无研报");
+            }
+        }
+
     };
 
     private void loadFinishUpdateView() {

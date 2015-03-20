@@ -219,6 +219,15 @@ public class FragmentForOptionOnr extends Fragment {
 
         }
 
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                iv.setText("暂无研报");
+            }
+
+        }
+
     };
 
     private void loadFinishUpdateView() {
