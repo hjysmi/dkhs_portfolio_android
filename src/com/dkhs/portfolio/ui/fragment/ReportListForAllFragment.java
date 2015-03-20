@@ -9,6 +9,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
+import com.dkhs.portfolio.engine.NewsTextEngineImple;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
@@ -24,6 +25,7 @@ import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -35,6 +37,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,12 +51,15 @@ import android.widget.AdapterView.OnItemClickListener;
 public class ReportListForAllFragment extends Fragment implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
 
+    // 二级公告界面
+    public final static int NEWS_SECOND_NOTICE = 88;
+
     private boolean isLoadingMore;
     private View mFootView;
     private Context context;
     private BaseAdapter mOptionMarketAdapter;
     private List<OptionNewsBean> mDataList;
-    private LoadNewsDataEngine mLoadDataEngine;
+    private OpitionNewsEngineImple mLoadDataEngine;
     boolean first = true;
     private TextView iv;
     private RelativeLayout pb;
@@ -92,9 +98,16 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
 
     private void initDate() {
         if (vo != null) {
+            // if (type == NEWS_SECOND_NOTICE) {
+            // NewsTextEngineImple mLoadDataEngine = new NewsTextEngineImple(null, vo.getSymbol());
+            // // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
+            // mLoadDataEngine.loadData();
+            // } else {
+
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, type, vo);
             // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
+            // }
         } else {
             iv.setText("暂无添加自选股");
             pb.setVisibility(View.GONE);
@@ -123,13 +136,18 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                 mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
                 break;
             case OpitionNewsEngineImple.NEWS_OPITION_FOREACH:
-                mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
+                mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
                 break;
             case OpitionNewsEngineImple.GROUP_FOR_ONE:
-                mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
+                mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
                 break;
             case OpitionNewsEngineImple.NEWS_GROUP:
                 mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
+                break;
+            case NEWS_SECOND_NOTICE: {
+                mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
+
+            }
                 break;
             default:
                 mOptionMarketAdapter = new OptionMarketAdapter(context, mDataList);
@@ -173,7 +191,7 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                     case OpitionNewsEngineImple.NEWSALL:
                         intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0).getSymbol()
                                 + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
-                        startActivity(intent);
+                        UIUtils.startAminationActivity(getActivity(), intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP:
                         if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
@@ -181,17 +199,21 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                             intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                     .getSymbol(), optionNewsBean.getSymbols().get(0).getAbbrName(),
                                     vo.getContentSubType(), optionNewsBean.getContentType());
+                            // intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
+                            // .getId(), optionNewsBean.getSymbols().get(0).getAbbrName(), vo.getContentSubType(),
+                            // optionNewsBean.getContentType());
                         } else {
                             intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                         }
-                        startActivity(intent);
+                        // startActivity(intent);
+                        UIUtils.startAminationActivity(getActivity(), intent);
                         break;
                     case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
                         if (vo.getContentType().equals("20")) {
                             intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0)
                                     .getSymbol()
                                     + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
-                            startActivity(intent);
+                            UIUtils.startAminationActivity(getActivity(), intent);
                         } else {
                             if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
                                 intent = ReportForOneListActivity.newIntent(context, optionNewsBean.getSymbols().get(0)
@@ -200,7 +222,7 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                             } else {
                                 intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                             }
-                            startActivity(intent);
+                            UIUtils.startAminationActivity(getActivity(), intent);
                         }
 
                         break;
@@ -213,11 +235,11 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                                         intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name,
                                                 optionNewsBean.getSymbols().get(0).getAbbrName(), optionNewsBean
                                                         .getSymbols().get(0).getId());
-                                        startActivity(intent);
+                                        UIUtils.startAminationActivity(getActivity(), intent);
                                     } else {
                                         intent = NewsActivity.newIntent(context, optionNewsBean.getId(), name, null,
                                                 null);
-                                        startActivity(intent);
+                                        UIUtils.startAminationActivity(getActivity(), intent);
                                     }
                                     break;
 
@@ -232,7 +254,7 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
                                         intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null,
                                                 null, null);
                                     }
-                                    startActivity(intent);
+                                    UIUtils.startAminationActivity(getActivity(), intent);
                                     break;
                             }
 

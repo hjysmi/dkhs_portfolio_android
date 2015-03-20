@@ -169,11 +169,15 @@ public class ReportNewsAdapter extends BaseAdapter {
                 viewHolder.text.setVisibility(View.GONE);
             }
 
-            // if (mOptionNewsBean.getContentType().equals("20")) {
-            // viewHolder.tvType.setText("【公告】");
-            // viewHolder.text.setVisibility(View.GONE);
-            // } else if (mOptionNewsBean.getContentType().equals("30")) {
-            viewHolder.tvType.setText("【研报】");
+            System.out.println("mOptionNewsBean.getContentType():" + mOptionNewsBean.getContentType());
+            System.out.println("mOptionNewsBean.getTitle():" + mOptionNewsBean.getTitle());
+
+            if (mOptionNewsBean.getContentType().equals("20")) {
+                viewHolder.tvType.setText("【公告】");
+                // viewHolder.text.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvType.setText("【研报】");
+            }
             viewHolder.text.setVisibility(View.VISIBLE);
             // } else {
             // viewHolder.tvType.setText("");

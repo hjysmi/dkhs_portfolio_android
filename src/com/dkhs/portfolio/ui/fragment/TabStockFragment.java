@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
@@ -78,7 +79,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     // 5s
     private static final long mPollRequestTime = 1000 * 30;
-    private Timer mMarketTimer;
+
     private Context context;
 
     private boolean isLoading;
@@ -87,11 +88,15 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
-        // setContentView(R.layout.activity_optionalstock_list);
-        // context = this;
-        // setTitle(R.string.optional_stock);
 
     }
+
+    Handler updateHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            loadDataListFragment.refreshNoCaseTime();
+            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+        };
+    };
 
     /**
      * @Title
@@ -102,7 +107,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         replaceDataList();
     }
@@ -112,12 +116,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
         super.onResume();
 
-        if (mMarketTimer == null) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
-            System.out.println(" mMarketTimer.schedule(new RequestMarketTask()");
-        }
         reloadData();
+        updateHandler.postDelayed(updateRunnable, 30);
+
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
         // refreshEditView();
@@ -127,11 +128,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void refreshEditView() {
         if (null != dataUpdateListener && null != loadDataListFragment) {
             loadDataListFragment.refreshEditView();
-            // if (!loadDataListFragment.getDataList().isEmpty()) {
-            // dataUpdateListener.dataUpdate(false);
-            // } else {
-            // dataUpdateListener.dataUpdate(true);
-            // }
         }
     }
 
@@ -147,38 +143,16 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     @Override
     public void onStop() {
         super.onStop();
-
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
-        }
+        updateHandler.removeCallbacks(updateRunnable);
 
     }
 
-    public class RequestMarketTask extends TimerTask {
-
+    Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            // if (!isLoading) {
             loadDataListFragment.refreshNoCaseTime();
-            // }
-
         }
-    }
-
-    private void initView(View view) {
-
-    }
-
-    // OnClickListener mAddButtonClickListener = new OnClickListener() {
-    //
-    // @Override
-    // public void onClick(View v) {
-    //
-    // Intent intent = new Intent(OptionalStockListActivity.this, SelectAddOptionalActivity.class);
-    // startActivity(intent);
-    // }
-    // };
+    };
 
     private void replaceDataList() {
         // view_datalist
