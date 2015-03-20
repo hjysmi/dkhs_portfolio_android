@@ -10,8 +10,10 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.lang.reflect.Field;
 
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -68,5 +70,31 @@ public abstract class BaseFragment extends Fragment {
     public abstract int setContentLayoutId();
 
     // Fpublic abstract void initView(View view);
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param intent
+     * @return
+     */
+    @Override
+    public void startActivity(Intent intent) {
+        UIUtils.setOverridePendingAmin(getActivity());
+        super.startActivity(intent);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param intent
+     * @param requestCode
+     * @return
+     */
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        // TODO Auto-generated method stub
+        UIUtils.setOverridePendingAmin(getActivity());
+        super.startActivityForResult(intent, requestCode);
+    }
 
 }

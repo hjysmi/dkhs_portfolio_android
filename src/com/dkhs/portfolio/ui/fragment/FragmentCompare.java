@@ -80,6 +80,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -542,6 +543,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
                 // Intent intent = new Intent(getActivity(),
                 // SelectStockActivity.class);
+                // UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
                 break;

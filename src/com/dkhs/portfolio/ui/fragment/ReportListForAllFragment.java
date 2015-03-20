@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -48,7 +49,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class ReportListForAllFragment extends Fragment implements OnLoadMoreListener {
+public class ReportListForAllFragment extends BaseFragment implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
 
     // 二级公告界面
@@ -80,20 +81,18 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         vo = (NewsforModel) bundle.getSerializable(VO_NAME);
         type = bundle.getInt(TYPE_NAME);
-        View view = inflater.inflate(R.layout.activity_option_market_news, null);
         context = getActivity();
         mDataList = new ArrayList<OptionNewsBean>();
         iv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
-
-        return view;
     }
 
     private void initDate() {
@@ -352,5 +351,17 @@ public class ReportListForAllFragment extends Fragment implements OnLoadMoreList
             isLoadingMore = true;
             mLoadDataEngine.loadMore();
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.activity_option_market_news;
     }
 }

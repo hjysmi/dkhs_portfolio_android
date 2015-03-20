@@ -169,9 +169,6 @@ public class ReportNewsAdapter extends BaseAdapter {
                 viewHolder.text.setVisibility(View.GONE);
             }
 
-            System.out.println("mOptionNewsBean.getContentType():" + mOptionNewsBean.getContentType());
-            System.out.println("mOptionNewsBean.getTitle():" + mOptionNewsBean.getTitle());
-
             if (mOptionNewsBean.getContentType().equals("20")) {
                 viewHolder.tvType.setText("【公告】");
                 // viewHolder.text.setVisibility(View.GONE);

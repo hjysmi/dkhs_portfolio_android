@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -169,7 +171,8 @@ public class FragmentForOptionOnr extends Fragment {
                 } else {
                     intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
                 }
-                startActivity(intent);
+//                startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

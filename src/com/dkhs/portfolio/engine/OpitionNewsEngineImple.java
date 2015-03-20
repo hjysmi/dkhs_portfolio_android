@@ -111,7 +111,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
 
                 DKHSClient
                         .requestByGet(
-                                MessageFormat.format(DKHSUrl.News.newstext + "&page=" + (getCurrentpage() + 1),
+                                MessageFormat.format(DKHSUrl.News.reportnews_second_notice + "&page=" + (getCurrentpage() + 1),
                                         vo.getSymbol()), null, this);
                 // DKHSClient.requestByGet(DKHSUrl.News.newstext + id, null, this);
 
@@ -177,7 +177,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
                         DKHSClient
-                                .requestByGet(MessageFormat.format(DKHSUrl.News.newstext, vo.getSymbol()), null, this);
+                                .requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()), null, this);
 
                         // DKHSClient.requestByGet(
                         // MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
@@ -231,7 +231,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
                         DKHSClient
-                                .requestByGet(MessageFormat.format(DKHSUrl.News.newstext, vo.getSymbol()), null, this);
+                                .requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()), null, this);
 
                         break;
                     default:

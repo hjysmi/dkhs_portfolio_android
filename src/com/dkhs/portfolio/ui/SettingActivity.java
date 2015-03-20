@@ -223,7 +223,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     intent = new Intent(this, SetPasswordActivity.class);
                     // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
                     // intent.putExtra("is_setpassword", isSetPassword);
-                    UIUtils.startAminationActivity(this, intent);
+                    // UIUtils.startAminationActivity(this, intent);
+                    startActivity(intent);
                 }
                 break;
             case R.id.btn_setpassword:

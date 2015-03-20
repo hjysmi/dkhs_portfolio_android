@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.adapter;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.View;
@@ -24,10 +25,12 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName SelectFundAdatper
@@ -210,7 +213,9 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             if (mCheckbox.isChecked()) {
                 SelectStockBean itemStock = mDataList.get(position);
                 itemStock.isFollowed = true;
-                context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+                UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(context, itemStock));
+
+                // context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
             }
         }
     }

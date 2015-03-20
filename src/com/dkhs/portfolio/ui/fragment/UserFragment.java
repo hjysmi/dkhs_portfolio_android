@@ -142,8 +142,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void startSettingActivity() {
         Intent intent = new Intent(getActivity(), SettingActivity.class);
-        // getActivity().startActivity(intent);
-        UIUtils.startAminationActivity(getActivity(), intent);
+        startActivity(intent);
+        // UIUtils.startAminationActivity(getActivity(), intent);
     }
 
     @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout })
@@ -155,10 +155,12 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             startSettingActivity();
         } else if (R.id.user_myfunds_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
-                UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(), MyCombinationActivity.class)));
+//                getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
+//                        MyCombinationActivity.class)));
+                startActivity(new Intent(getActivity(),
+                        MyCombinationActivity.class));
             }
         }
 
     }
-
 }

@@ -131,7 +131,7 @@ public class FragmentForStockSHC  extends Fragment{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
-            startActivity(StockQuotesActivity.newIntent(getActivity(), mDataList.get(position)));
+            UIUtils.startAminationActivity(getActivity(),StockQuotesActivity.newIntent(getActivity(), mDataList.get(position)));
         }
     };
 

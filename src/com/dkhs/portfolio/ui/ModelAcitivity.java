@@ -4,6 +4,7 @@ import java.util.Hashtable;
 
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -316,6 +317,12 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     public View getTitleView() {
         return mTitleView;
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        UIUtils.setOverridePendingAmin(this);
+        super.startActivity(intent);
     }
 
 }
