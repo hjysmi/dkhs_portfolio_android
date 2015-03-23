@@ -33,14 +33,17 @@ import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -157,7 +160,9 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                startActivity(intent);
+                // startActivity(intent);
+
+                UIUtils.startAminationActivity(getActivity(), intent);
 
             }
         });
@@ -196,8 +201,14 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SectorBean bean = mSecotrList.get(position);
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
-                        bean.getAbbr_name()));
+                // startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                // bean.getAbbr_name()));
+
+                UIUtils.startAminationActivity(
+                        getActivity(),
+                        MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                                bean.getAbbr_name()));
+                //
 
             }
         });
@@ -241,7 +252,17 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
             }
         });
+        setDefTransittion();
 
+    }
+
+    private LayoutTransition mTransitioner;
+
+    private void setDefTransittion() {
+        mTransitioner = new LayoutTransition();
+        AnimationHelper.setupCustomAnimations(mTransitioner, this);
+        gvMainIndex.setLayoutTransition(mTransitioner);
+        gvPlate.setLayoutTransition(mTransitioner);
     }
 
     private boolean isLoading;
@@ -302,7 +323,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
         public void loadFail() {
             endAnimaRefresh();
             mSwipeLayout.setRefreshing(false);
-            
+
         }
 
     };
@@ -355,37 +376,38 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent intent = null;
         switch (v.getId()) {
             case R.id.btn_right_second:
                 loadingAllData();
 
                 break;
             case R.id.btn_right:
-                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                startActivity(intent);
+                intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+
                 break;
             case R.id.btn_more_index: {
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.IndexUp));
+                intent = MarketListActivity.newIntent(getActivity(), LoadViewType.IndexUp);
             }
                 break;
             case R.id.btn_more_plate: {
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateHot));
+                intent = MarketListActivity.newIntent(getActivity(), LoadViewType.PlateHot);
             }
                 break;
             case R.id.btn_more_incease: {
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.StockIncease));
+                intent = MarketListActivity.newIntent(getActivity(), LoadViewType.StockIncease);
             }
                 break;
             case R.id.btn_more_down: {
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.StockDown));
+                intent = MarketListActivity.newIntent(getActivity(), LoadViewType.StockDown);
             }
                 break;
             case R.id.btn_more_handover: {
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.StockTurnOver));
+                intent = MarketListActivity.newIntent(getActivity(), LoadViewType.StockTurnOver);
             }
                 break;
             case R.id.btn_more_amplitude: {
-                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.StockAmplit));
+                intent = MarketListActivity.newIntent(getActivity(), LoadViewType.StockAmplit);
             }
                 break;
 
@@ -401,10 +423,15 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             default:
                 break;
         }
+
+        if (null != intent) {
+            UIUtils.startAminationActivity(getActivity(), intent);
+        }
     }
 
     private void startQuoteActivity(SelectStockBean itemStock) {
-        startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+        UIUtils.startAminationActivity(getActivity(), StockQuotesActivity.newIntent(getActivity(), itemStock));
+        // startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
 
     }
 

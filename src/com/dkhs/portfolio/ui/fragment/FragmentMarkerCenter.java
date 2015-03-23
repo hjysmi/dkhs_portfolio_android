@@ -59,7 +59,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private TextView marketTextEdition;
     private LinearLayout marketLayoutUpanddown;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 5;
+    private static final long mPollRequestTime = 1000 *30;
     private boolean start = true;
 
     private WeakReference<MarketListActivity> mWeakActivity;

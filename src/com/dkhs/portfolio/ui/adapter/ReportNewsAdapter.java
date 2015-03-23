@@ -29,6 +29,7 @@ public class ReportNewsAdapter extends BaseAdapter {
     private OptionNewsBean mOptionNewsBean;
     private DisplayMetrics dm;
     private Rect rects;
+    private boolean isSecondYanbao;
 
     public ReportNewsAdapter(Context mContext, List<OptionNewsBean> mDataList) {
         this.mContext = mContext;
@@ -42,6 +43,10 @@ public class ReportNewsAdapter extends BaseAdapter {
         p.setTextSize(mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
         p.getTextBounds(text, 0, text.length(), rects);
 
+    }
+
+    public void setSecondYanBao(boolean isSecondyanbao) {
+        this.isSecondYanbao = isSecondyanbao;
     }
 
     @Override
@@ -171,9 +176,12 @@ public class ReportNewsAdapter extends BaseAdapter {
 
             if (mOptionNewsBean.getContentType().equals("20")) {
                 viewHolder.tvType.setText("【公告】");
-                // viewHolder.text.setVisibility(View.GONE);
             } else {
+                viewHolder.text.setVisibility(View.GONE);
                 viewHolder.tvType.setText("【研报】");
+            }
+            if (isSecondYanbao) {
+                viewHolder.tvType.setVisibility(View.GONE);
             }
             viewHolder.text.setVisibility(View.VISIBLE);
             // } else {

@@ -541,8 +541,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             case STOCK_OPTIONAL_PRICE: {
                 tvEmptyText.setVisibility(View.GONE);
-                refreshSelect();
-                mListView.setEmptyView(emptyview);
+                // refreshSelect();
+                // mListView.setEmptyView(emptyview);
                 tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }

@@ -91,9 +91,9 @@ public class ReportForOneListActivity extends ModelAcitivity implements OnLoadMo
             mContentType = extras.getString(KEY_CONTENTTYPE);
         }
         if (!TextUtils.isEmpty(mContentType) && mContentType.equals("20")) {
-            ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
+            ((TextView) findViewById(R.id.tv_title)).setText(name + "公告");
         } else {
-            ((TextView) findViewById(R.id.tv_title)).setText("研报-" + name);
+            ((TextView) findViewById(R.id.tv_title)).setText(name + "研报");
         }
         // initView();
         // initDate();

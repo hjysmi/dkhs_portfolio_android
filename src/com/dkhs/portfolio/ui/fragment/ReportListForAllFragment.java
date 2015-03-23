@@ -139,12 +139,14 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                 break;
             case OpitionNewsEngineImple.GROUP_FOR_ONE:
                 mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
+                ((ReportNewsAdapter) mOptionMarketAdapter).setSecondYanBao(true);
                 break;
             case OpitionNewsEngineImple.NEWS_GROUP:
                 mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
                 break;
             case NEWS_SECOND_NOTICE: {
-                mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
+                mOptionMarketAdapter = new InfoOptionAdapter(context, mDataList);
+                ((InfoOptionAdapter) mOptionMarketAdapter).setSecondNotice(true);
 
             }
                 break;

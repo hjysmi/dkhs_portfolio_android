@@ -83,10 +83,10 @@ public class CombinationUserActivity extends ModelAcitivity {
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
 
         if (isMyInfo) {
-            setTitle("我的资料");
+            setTitle("我的主页");
             tvCText.setText(R.string.text_my_manager_combin);
         } else {
-            setTitle("组合创建人资料");
+            setTitle("Ta的主页");
             tvCText.setText(R.string.text_other_manager_combin);
         }
 

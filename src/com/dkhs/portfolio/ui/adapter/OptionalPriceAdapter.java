@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.adapter;
 
 import java.util.List;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
@@ -17,6 +18,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -28,6 +30,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 /**
  * @ClassName SelectFundAdapter
@@ -126,6 +129,11 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         viewHolder.tvCurrentValue.setTextColor(textCsl);
         viewHolder.tvCurrentValue.setTextColor(ColorTemplate.getTextColor(R.color.black));
         viewHolder.tvPercentValue.setOnClickListener(percentClick);
+
+        // animation.setDuration(500);
+        // convertView.startAnimation(animation);
+        // animation = null;
+        // ObjectAnimator.ofFloat(convertView, "translationY", 500, 0);
 
         return convertView;
     }

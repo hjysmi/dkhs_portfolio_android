@@ -35,6 +35,7 @@ public class InfoOptionAdapter extends BaseAdapter {
     private ViewHodler viewHolder = null;
     private DisplayMetrics dm;
     private Rect rect;
+    private boolean isSecondNotice;
 
     public InfoOptionAdapter(Context mContext, List<OptionNewsBean> mDataList) {
         this.mContext = mContext;
@@ -47,6 +48,10 @@ public class InfoOptionAdapter extends BaseAdapter {
         String text = "正正正正正";
         p.setTextSize(mContext.getResources().getDimensionPixelOffset(R.dimen.list_text_size));
         p.getTextBounds(text, 0, text.length(), rect);
+    }
+
+    public void setSecondNotice(boolean isSecondNotice) {
+        this.isSecondNotice = isSecondNotice;
     }
 
     @Override
@@ -97,9 +102,16 @@ public class InfoOptionAdapter extends BaseAdapter {
             }
 
             if (mOptionNewsBean.getContentType().equals("20")) {
-                viewHolder.tvType.setText("【公告】");
+                if (isSecondNotice) {
+                    viewHolder.tvStockName.setVisibility(View.GONE);
+                    viewHolder.tvType.setVisibility(View.GONE);
+                } else {
+
+                    viewHolder.tvType.setText("【公告】");
+                }
                 viewHolder.text.setVisibility(View.GONE);
             } else if (mOptionNewsBean.getContentType().equals("30")) {
+
                 viewHolder.tvType.setText("【研报】");
                 viewHolder.text.setVisibility(View.VISIBLE);
             } else {
