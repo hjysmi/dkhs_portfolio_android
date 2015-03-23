@@ -76,7 +76,7 @@ public class MarketCenterActivity extends RefreshModelActivity implements OnClic
     private List<SelectStockBean> mAmpliDataList = new ArrayList<SelectStockBean>();
 
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 5;
+    private static final long mPollRequestTime = 1000 * 30;
     private boolean isTimerStart = true;
 
     public SwipeRefreshLayout mSwipeLayout;
