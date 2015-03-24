@@ -93,9 +93,10 @@ public class SearchStockEngineImpl {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
+                    return dataBean.getLast_datetime();
                 }
+                
 
-                return dataBean.getLast_datetime();
             } catch (Exception e) {
                 e.printStackTrace();
             }

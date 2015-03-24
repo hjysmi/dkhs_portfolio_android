@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.text.TextUtils;
@@ -193,7 +194,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         } else {
 
             // addItem();
-            mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
+            // mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
+            UIUtils.startAminationActivity((Activity) mContext, PositionAdjustActivity.newIntent(mContext, null));
         }
 
     }

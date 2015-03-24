@@ -77,7 +77,7 @@
             android:layout_toLeftOf="@id/tv_value"
             android:singleLine="true"
             android:ellipsize="end"
-            android:text="牛人基金2"
+            android:text="牛人组合2"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
 

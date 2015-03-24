@@ -19,7 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
@@ -33,6 +35,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Html;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,17 +55,23 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -76,15 +86,8 @@ import com.umeng.analytics.MobclickAgent;
  * @version 1.0
  */
 public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
-    // private EditText etCombinName;
-    private TextView tvCombinName;
-    private TextView tvCombinDesc;
-    private TextView tvCombinCreateTime;
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
-    // private View viewNetvalueHead;
-    private ImageView ivUpDownIcon;
-    // private Button btnEditName;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
@@ -93,9 +96,13 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView netvalueDay;
     private TextView netvalueWeek;
     private TextView netvalueMonth;
-    private Button netvalueBtnDay;
-    private Button netvalueBtnWeek;
-    private Button netvalueBtnMonth;
+
+    private TextView tvCreateUser;
+    private TextView tvCreate;
+    private TextView tvFollowCount;
+    private TextView tvComDesc;
+
+    private View comView;
     private String type;
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 60;
@@ -153,38 +160,40 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
-        // etCombinName = (EditText)
-        // view.findViewById(R.id.et_combination_name);
+        comView = view.findViewById(R.id.tv_combination_layout);
         mMyCombinationEngineImpl = new MyCombinationEngineImpl();
-        ivUpDownIcon = (ImageView) view.findViewById(R.id.tv_combination_image_uporlow);
-        tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
-        tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
-        tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
+        tvCreateUser = (TextView) view.findViewById(R.id.tv_combination_user);
+        tvCreate = (TextView) view.findViewById(R.id.tv_combination);
+        tvFollowCount = (TextView) view.findViewById(R.id.tv_follow_num);
+        tvComDesc = (TextView) view.findViewById(R.id.tv_desc_text);
+
         netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
-        netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
+        // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
         netvalueWeek = (TextView) view.findViewById(R.id.netvalue_week);
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
-        netvalueBtnWeek = (Button) view.findViewById(R.id.netvalue_button_week);
-        netvalueBtnMonth = (Button) view.findViewById(R.id.netvalue_button_month);
-        // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
-        // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
-        // btnEditName.setOnClickListener(this);
+        btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
+        btnAddOptional.setOnClickListener(this);
+        btnAddOptional.setVisibility(View.GONE);
         QueryCombinationListener listener = new QueryCombinationListener();
         mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
         // listener.setLoadingDialog(getActivity());
         initTabPage(view);
 
-        // if(null!=mCombinationBean&&
-        // mCombinationBean.getCreateUser().getId().equalsIgnoreCase(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID))){
-        //
-        //
-        // }
-
         setupViewData();
 
         return view;
+    }
+
+    private Button btnAddOptional;
+
+    private void addOptionalButton(boolean isFollow) {
+        if (isFollow && null != btnAddOptional) {
+            btnAddOptional.setText(R.string.delete_fllow);
+        } else if (null != btnAddOptional) {
+            btnAddOptional.setText(R.string.add_fllow);
+        }
     }
 
     class OnComCheckListener implements OnCheckedChangeListener {
@@ -229,6 +238,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void setupViewData() {
+        if (isFromOrder) {
+            tvCreateUser.setVisibility(View.VISIBLE);
+            tvCreateUser.setText(mCombinationBean.getUser().getUsername());
+            tvCreateUser.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser()
+                            .getUsername(), mCombinationBean.getUser().getId(), false));
+                }
+            });
+
+        } else {
+            tvCreateUser.setVisibility(View.GONE);
+            tvCreate.setVisibility(View.GONE);
+        }
+        // tvComDesc.setText(mCombinationBean.getDefDescription());
+        tvComDesc.setText(Html.fromHtml(mCombinationBean.getDefDescription()));
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
 
@@ -244,78 +271,27 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     private void updateIncreaseRatio(float netValue) {
         tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
-        tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        // tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
-
+        BusProvider.getInstance().post(new TitleChangeEvent(netValue));
+        netValue = netValue - 1;
+        if (netValue == 0) {
+            comView.setBackgroundResource(R.color.compare_select_gray);
+        } else if (netValue > 0) {
+            comView.setBackgroundResource(R.color.tag_red);
+        } else {
+            comView.setBackgroundResource(R.color.tag_green);
+        }
     }
 
     public void setColor(String type) {
         try {
             if (null != mPositionDetail) {
                 updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
-                setDefViewStyle();
-
-                if (type.equals(TrendTodayChartFragment.TREND_TYPE_TODAY)) {
-
-                    netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_day()));
-                    setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_day(), netvalueBtnDay);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY)) {
-
-                    netvalueWeek.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_week()));
-                    setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_week(), netvalueBtnWeek);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendMonthChartFragment.TREND_TYPE_MONTH)) {
-                    netvalueMonth.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_month()));
-                    setSelectViewStyle(mPositionDetail.getPortfolio().getChng_pct_month(), netvalueBtnMonth);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                } else {
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void setSelectViewStyle(float value, Button view) {
-        if (null == mWhiteColorStateList) {
-            mWhiteColorStateList = PortfolioApplication.getInstance().getResources().getColorStateList(R.color.white);
-        }
-        if (value > 0) {
-            view.setBackgroundResource(R.drawable.netvalue_red);
-        } else if (value < 0) {
-            view.setBackgroundResource(R.drawable.netvalue_blue);
-        } else {
-            view.setBackgroundResource(R.drawable.netvalue_black);
-        }
-        view.setTextColor(mWhiteColorStateList);
-
-    }
-
-    private ColorStateList mWhiteColorStateList;
-    private ColorStateList mGrayColorStateList;
-
-    private void setDefViewStyle() {
-
-        if (null == mGrayColorStateList) {
-            mGrayColorStateList = PortfolioApplication.getInstance().getResources()
-                    .getColorStateList(R.color.gray_textcolor);
-        }
-        netvalueBtnMonth.setTextColor(mGrayColorStateList);
-        netvalueBtnDay.setTextColor(mGrayColorStateList);
-        netvalueBtnWeek.setTextColor(mGrayColorStateList);
-        netvalueDay.setTextColor(mGrayColorStateList);
-        netvalueWeek.setTextColor(mGrayColorStateList);
-        netvalueMonth.setTextColor(mGrayColorStateList);
     }
 
     private HScrollTitleView hsTitle;
@@ -376,7 +352,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             oks.setUrl(shareUrl);
             oks.setTitle(mCombinationBean.getName() + " 今日收益率");
 
-            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的基金吧。"
+            String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
                     + shareUrl;
 
             oks.setText(customText);
@@ -613,7 +589,105 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
+        if (v.getId() == R.id.btn_add_optional) {
+            btnAddOptional.setEnabled(false);
+            if (mCombinationBean.isFollowed()) {
+                showDelDialog();
+            }else{
+                delFollowCombinatio();
+            }
+        }
     }
+
+    private void delFollowCombinatio() {
+        if (PortfolioApplication.getInstance().hasUserLogin()) {
+
+            if (mCombinationBean.isFollowed()) {
+                new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
+            } else {
+
+                new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+            }
+        } else {
+            if (mCombinationBean.isFollowed()) {
+                mCombinationBean.setFollowed(false);
+                new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                delFollowSuccess();
+            } else {
+                mCombinationBean.setFollowed(true);
+                new VisitorDataEngine().saveCombination(mCombinationBean);
+                addFollowSuccess();
+            }
+            btnAddOptional.setEnabled(true);
+            addOptionalButton(mCombinationBean.isFollowed());
+        }
+    }
+
+    private void delFollowSuccess() {
+        PromptManager.showToast(R.string.msg_def_follow_success);
+
+        mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() - 1);
+        tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+    }
+
+    private void addFollowSuccess() {
+        PromptManager.showToast(R.string.msg_follow_success);
+        mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() + 1);
+        tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+    }
+
+    public void showDelDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        builder.setMessage(R.string.dialog_message_delfollow_combination);
+        // builder.setTitle(R.string.tips);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                delFollowCombinatio();
+            }
+
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                btnAddOptional.setEnabled(true);
+            }
+        });
+        builder.create().show();
+
+    }
+
+    ParseHttpListener followComListener = new ParseHttpListener<Object>() {
+
+        @Override
+        public void requestCallBack() {
+            super.requestCallBack();
+            btnAddOptional.setEnabled(true);
+        };
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
+            addOptionalButton(mCombinationBean.isFollowed());
+            if (mCombinationBean.isFollowed()) {
+                addFollowSuccess();
+            } else {
+                delFollowSuccess();
+            }
+        }
+    };
 
     @Override
     public void onPauseFragment() {
@@ -673,13 +747,22 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 mPositionDetail = object;
 
                 if (null != mPositionDetail.getPortfolio()) {
-
+                    mCombinationBean = mPositionDetail.getPortfolio();
+                    if (!PortfolioApplication.hasUserLogin()) {
+                        CombinationBean comBean = new VisitorDataEngine().queryCombination(mCombinationBean.getId());
+                        if (null != comBean) {
+                            mCombinationBean.setFollowed(comBean.isFollowed());
+                        }
+                    }
+                    btnAddOptional.setVisibility(View.VISIBLE);
+                    addOptionalButton(mCombinationBean.isFollowed());
                     netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_week()));
                     netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_month()));
+                    tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
                 }
                 setColor(myType);
 
@@ -711,7 +794,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
     }
 }

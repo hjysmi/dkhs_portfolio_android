@@ -82,7 +82,8 @@ public class SplashActivity extends ModelAcitivity {
             user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
             if (user != null) {
                 if (!TextUtils.isEmpty(user.getAccess_token())
-                        && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || PortfolioApplication.getInstance().isDebug())) {
+                        && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || PortfolioApplication
+                                .getInstance().isDebug())) {
                     user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                     GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                     GlobalParams.USERNAME = user.getUsername();
@@ -129,7 +130,7 @@ public class SplashActivity extends ModelAcitivity {
     }
 
     private void goAccountMain() {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+        Intent intent = new Intent(SplashActivity.this, NewMainActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }

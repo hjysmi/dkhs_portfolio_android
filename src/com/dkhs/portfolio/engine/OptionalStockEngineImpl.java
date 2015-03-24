@@ -10,6 +10,7 @@ package com.dkhs.portfolio.engine;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
@@ -19,7 +20,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.bean.UserEntity;
@@ -65,7 +68,8 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     // public void getOptionalList(IHttpListener listener) {
     //
     // }
-    private String orderType = "followed_at";
+    private static final String DEF_ORDER_TYPE = "";
+    private String orderType = DEF_ORDER_TYPE;
 
     public void setLoadType(String orderType) {
         this.orderType = orderType;
@@ -79,11 +83,52 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             return null;
         }
         isLoading = true;
-        RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", "1");
-        params.addQueryStringParameter("sort", orderType);
-        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+
+        if (PortfolioApplication.hasUserLogin()) {
+
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            params.addQueryStringParameter("sort", orderType);
+            params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        } else {
+
+            if (null != getiLoadListener()) {
+                List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
+                StringBuilder sbIds = new StringBuilder();
+                if (null != dataList) {
+                    for (SelectStockBean stock : dataList) {
+                        sbIds.append(stock.code);
+                        sbIds.append(",");
+                    }
+                    // sbIds = sbIds.substring(0, sbIds.length()-1);
+                    // System.out.println("datalist size:" + dataList.size());
+                    // getiLoadListener().loadFinish(dataList);
+                    if (null != sbIds && sbIds.length() > 1) {
+
+                        Log.i("OptionalStockEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
+
+                        RequestParams params = new RequestParams();
+                        if (!orderType.equals(DEF_ORDER_TYPE)) {
+                            params.addQueryStringParameter("sort", orderType);
+                        }
+                        params.addQueryStringParameter("page_size", dataList.size() + "");
+                        params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+                    } else {
+                        getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+                        isLoading = false;
+                    }
+                } else {
+                    getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+                    isLoading = false;
+                    // getiLoadListener().loadFail(null);
+
+                }
+            }
+
+            return null;
+        }
     }
 
     @Override
@@ -99,7 +144,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             JSONArray resultsJsonArray = dataObject.optJSONArray("results");
             if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
                 int length = resultsJsonArray.length();
-
+                System.out.println("resultsJsonArray.length():" + length);
                 for (int i = 0; i < length; i++) {
                     JSONObject stockObject = resultsJsonArray.optJSONObject(i);
                     StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
@@ -124,9 +169,9 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (orderType.equals("followed_at")) {
-            selectList = forIndex(selectList);
-        }
+        // if (orderType.equals("followed_at")) {
+        // selectList = forIndex(selectList);
+        // }
         return selectList;
 
     }
@@ -145,27 +190,27 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
         isLoading = false;
     }
 
-    public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
-        List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
-        SelectStockBean sb;
-        int position;
-        while (datalist.size() > 0) {
-            for (int i = 0; i < datalist.size(); i++) {
-                sb = datalist.get(i);
-                position = i;
-                for (int j = i; j < datalist.size(); j++) {
-                    if (sb.index < datalist.get(j).index) {
-                        sb = datalist.get(j);
-                        position = j;
-                    }
-                }
-                datalist.remove(position);
-                tmp.add(sb);
-                break;
-            }
-        }
-        return tmp;
-    }
+    // public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
+    // List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
+    // SelectStockBean sb;
+    // int position;
+    // while (datalist.size() > 0) {
+    // for (int i = 0; i < datalist.size(); i++) {
+    // sb = datalist.get(i);
+    // position = i;
+    // for (int j = i; j < datalist.size(); j++) {
+    // if (sb.index < datalist.get(j).index) {
+    // sb = datalist.get(j);
+    // position = j;
+    // }
+    // }
+    // datalist.remove(position);
+    // tmp.add(sb);
+    // break;
+    // }
+    // }
+    // return tmp;
+    // }
 
     public static HttpHandler setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
         RequestParams params = new RequestParams();

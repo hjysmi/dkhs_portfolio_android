@@ -221,14 +221,26 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     // ////////////�??方�?//////////////
     public GridChart(Context context) {
         super(context);
+        init();
     }
 
     public GridChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init();
     }
 
     public GridChart(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
+    }
+
+    public void init() {
+        String lent = "2222.2正";
+        Paint ps = new Paint();
+        Rect rects = new Rect();
+        ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+        ps.getTextBounds(lent, 0, lent.length(), rects);
+        PADDING_LEFT = rects.width();
     }
 
     // //////////////方�?//////////////
@@ -238,12 +250,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
 
         // 设置背景色
         super.setBackgroundColor(backgroudColor);
-        String lent = "2222.2正";
-        Paint ps = new Paint();
-        Rect rects = new Rect();
-        ps.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-        ps.getTextBounds(lent, 0, lent.length(), rects);
-        PADDING_LEFT = rects.width();
+
         // 解决适配字体大小
         longtitudeFontSize = DEFAULT_AXIS_TITLE_SIZE;
         // longtitudeFontSize = DisplayUtil.sp2px(getContext(), DEFAULT_LONGTITUDE_FONT_SIZE);
@@ -324,7 +331,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         // super.invalidate();
         notifyEventAll(this);
         postInvalidate();
-        super.invalidate();
+        //super.invalidate();
 
     }
 
@@ -719,7 +726,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                                     ps.getTextBounds(axisYTitles.get(i), 0, axisYTitles.get(i).length(), rects);
                                     canvas.drawText(axisYTitles.get(i), PADDING_LEFT - rects.width(), offset - i
                                             * postOffset + latitudeFontSize / 2f, mPaintFont);
-                                } 
+                                }
                             }
 
                         }
@@ -742,8 +749,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                         } else {
                             k = mTitleHeight + rects.height() / 2;
                         }
-                        canvas.drawText(text, PADDING_LEFT - rects.width(), k + i * postOffset,
-                                mPaintFont);
+                        canvas.drawText(text, PADDING_LEFT - rects.width(), k + i * postOffset, mPaintFont);
                     }
                     break;
             }

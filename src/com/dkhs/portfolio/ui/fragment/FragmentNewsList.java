@@ -28,7 +28,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -56,7 +56,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
-    private NewsforImpleEngine vo;
+    private NewsforModel vo;
     private int types;
     private TextView tv;
     private boolean getadle = false;
@@ -92,7 +92,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         Bundle bundle = getArguments();
 
         if (null != bundle) {
-            vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+            vo = (NewsforModel) bundle.getSerializable(VO);
             // layouts = vo.getLayout();
             types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);
@@ -235,8 +235,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     // mOptionMarketAdapter.notifyDataSetChanged();
                     if (null != mOptionlistAdapter) {
                         mOptionlistAdapter.notifyDataSetChanged();
+                        loadFinishUpdateView();
                     }
-                    loadFinishUpdateView();
                 } else {
                     if (null != vo && null != vo.getPageTitle()) {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
@@ -249,6 +249,20 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                if (null != vo && null != vo.getPageTitle()) {
+                    tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
+                }
+                if (null != context && context instanceof StockQuotesActivity && getadle) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+                }
+            }
+
         }
 
     };

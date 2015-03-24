@@ -1096,7 +1096,6 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 mMinPrice = mMinPrice < entity.getLow() ? mMinPrice : entity.getLow();
                 mMaxPrice = mMaxPrice > entity.getHigh() ? mMaxPrice : entity.getHigh();
             }
-
             for (MALineEntity lineEntity : MALineData) {
                 for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
                         && i < mShowDataNum + mDataStartIndext; i++) {

@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -61,9 +62,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private ImageView settingImageHead;
     private TextView settingTextAccountText;
     private TextView settingTextNameText;
-    private Button btnLogin;
+    // private Button btnLogin;
     private View viewUserInfo;
-    private View viewLogin;
+    // private View viewLogin;
     private View viewPassword;
     private UserEntity ue;
     private TextView settingSingText;
@@ -142,10 +143,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(this);
-        viewUserInfo = findViewById(R.id.ll_userinfo_layout);
-        viewLogin = findViewById(R.id.ll_login_layout);
+        // btnLogin = (Button) findViewById(R.id.btn_login);
+        // btnLogin.setOnClickListener(this);
+        viewUserInfo = findViewById(R.id.person_setting_parent);
+        // viewLogin = findViewById(R.id.ll_login_layout);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
         settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
@@ -157,8 +158,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
         if (PortfolioApplication.hasUserLogin()) {
-            btnLogin.setVisibility(View.GONE);
-            viewLogin.setVisibility(View.GONE);
+            // btnLogin.setVisibility(View.GONE);
+            // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
@@ -173,7 +174,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             }
         } else {
-            viewLogin.setVisibility(View.VISIBLE);
+            // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.GONE);
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
 
@@ -208,19 +209,21 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                         GlobalParams.MOBILE = null;
                         dbUtils.deleteAll(UserEntity.class);
                         PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginActivity.class);
+                        // intent = new Intent(this, LoginActivity.class);
+                        intent = new Intent(this, LoginRegisterAcitvity.class);
                         startActivity(intent);
                     } catch (DbException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
                         PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginActivity.class);
+                        intent = new Intent(this, LoginRegisterAcitvity.class);
                         startActivity(intent);
                     }
                 } else {
                     intent = new Intent(this, SetPasswordActivity.class);
                     // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
                     // intent.putExtra("is_setpassword", isSetPassword);
+                    // UIUtils.startAminationActivity(this, intent);
                     startActivity(intent);
                 }
                 break;
@@ -238,7 +241,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     intent.putExtra("needClear", false);
                     intent.putExtra("is_setpassword", isSetPassword);
                 }
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
 
                 break;
             case R.id.setting_layout_password:
@@ -246,7 +249,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     return;
                 }
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_layout_username:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -254,6 +257,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(this, UserNameChangeActivity.class);
                 startActivityForResult(intent, 6);
+                UIUtils.setOverridePendingAmin(this);
                 break;
             case R.id.setting_layout_icon:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -261,14 +265,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(context, SelectPhoneFromSystem.class);
                 startActivityForResult(intent, 5);
+                UIUtils.setOverridePendingAmin(this);
                 break;
             case R.id.feed_back_layout:
                 intent = new Intent(this, FeedBackActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.rl_aboutus: {
                 intent = new Intent(this, AboutUsActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
             }
                 break;
             case R.id.setting_layout_check_version:
@@ -285,14 +290,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (null != ue)
                     b.putString(PersonSignSettingActivity.DESCRIPTION, ue.getDescription());
                 intent.putExtras(b);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_image_bound:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
                 intent = new Intent(this, BoundAccountActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             default:
                 break;

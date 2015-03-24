@@ -511,7 +511,8 @@ public class PullToRefreshPageListView extends ListView implements OnScrollListe
                 case ENDINT_LOADING:// 刷新中
 
                     // 加载中...
-                    if (mBootTipsTextView.getText().equals(R.string.p2refresh_doing_end_refresh)) {
+                    if (mBootTipsTextView.getText().equals(
+                            getResources().getString(R.string.p2refresh_doing_end_refresh))) {
                         break;
                     }
                     mBootTipsTextView.setText(R.string.p2refresh_doing_end_refresh);

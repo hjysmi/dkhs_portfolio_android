@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/view_title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/title_color" >
@@ -12,9 +13,9 @@
         android:layout_centerVertical="true"
         android:background="@null"
         android:drawableLeft="@drawable/btn_back_selector"
-        android:textColor="@color/white_textselector"
         android:padding="15dp"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter"
+        android:textColor="@color/white_textselector" />
 
     <RelativeLayout
         android:id="@+id/ll_tilte"

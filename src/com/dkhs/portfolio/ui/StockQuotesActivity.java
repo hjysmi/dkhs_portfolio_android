@@ -46,10 +46,11 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -60,9 +61,8 @@ import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
-import com.dkhs.portfolio.ui.fragment.NewsFragment;
+import com.dkhs.portfolio.ui.fragment.F10Fragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
@@ -171,6 +171,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         scrollToTop();
     }
 
+    VisitorDataEngine mVisitorDataEngine;
+    private List<SelectStockBean> localList;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -183,6 +186,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             checkValue = "0";
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
         }
+        mVisitorDataEngine = new VisitorDataEngine();
+        if (!PortfolioApplication.hasUserLogin()) {
+            localList = mVisitorDataEngine.getOptionalStockList();
+        }
+
         PortfolioApplication.getInstance().setCheckValue(checkValue);
         // DisplayMetrics dm = new DisplayMetrics();
         // WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -264,24 +272,24 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
                 name[2] = "F10";
             }
-            NewsforImpleEngine vo;
+            NewsforModel vo;
             frag = new ArrayList<Fragment>();
-            Fragment f1 = new FragmentNewsList();
-            Bundle b1 = new Bundle();
-            b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
-            vo = new NewsforImpleEngine();
-            vo.setSymbol(mStockBean.code);
-            vo.setContentType("10");
-            vo.setPageTitle("新闻正文");
-            // vo.setLayout(stockLayout);
-            b1.putSerializable(FragmentNewsList.VO, vo);
-            // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
-            f1.setArguments(b1);
+            // Fragment f1 = new FragmentNewsList();
+            // Bundle b1 = new Bundle();
+            // b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+            // vo = new NewsforImpleEngine();
+            // vo.setSymbol(mStockBean.code);
+            // vo.setContentType("10");
+            // vo.setPageTitle("新闻正文");
+            // // vo.setLayout(stockLayout);
+            // b1.putSerializable(FragmentNewsList.VO, vo);
+            // // b1.putSerializable(FragmentNewsList.LAYOUT, layouts);
+            // f1.setArguments(b1);
             // frag.add(f1);
             Fragment f2 = new FragmentNewsList();
             Bundle b2 = new Bundle();
             b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
-            vo = new NewsforImpleEngine();
+            vo = new NewsforModel();
             vo.setSymbol(mStockBean.code);
             vo.setContentType("20");
             vo.setPageTitle("公告正文");
@@ -291,18 +299,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             f2.setArguments(b2);
             frag.add(f2);
             Fragment f4 = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
-            Bundle b4 = new Bundle();
-            b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
-            vo = new NewsforImpleEngine();
-            vo.setSymbol(mStockBean.code);
-            vo.setPageTitle("研报正文");
-            // vo.setLayout(stockLayout);
-            b4.putSerializable(FragmentNewsList.VO, vo);
+            /*
+             * Bundle b4 = new Bundle();
+             * b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_OPITION_FOREACH);
+             * vo = new NewsforImpleEngine();
+             * vo.setSymbol(mStockBean.code);
+             * vo.setPageTitle("研报正文");
+             * // vo.setLayout(stockLayout);
+             * b4.putSerializable(FragmentNewsList.VO, vo);
+             */
             // b4.putSerializable(FragmentNewsList.LAYOUT, layouts);
             // f4.setArguments(b4);
             frag.add(f4);
             if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
-                Fragment f3 = new NewsFragment();
+                Fragment f3 = new F10Fragment();
                 Bundle b3 = new Bundle();
                 b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
                 frag.add(f3);
@@ -378,6 +388,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             return;
         }
         btnAddOptional.setVisibility(View.VISIBLE);
+
+        if (!PortfolioApplication.hasUserLogin()) {
+            // SelectStockBean selectBean = SelectStockBean.
+            SelectStockBean selectBean = new SelectStockBean();
+            selectBean.id = mStockQuotesBean.getId();
+            selectBean.code = mStockQuotesBean.getCode();
+            if (localList != null && localList.contains(selectBean)) {
+                mStockQuotesBean.setFollowed(true);
+            }
+        }
+
         if (mStockQuotesBean.isFollowed() && null != btnAddOptional) {
             btnAddOptional.setText(R.string.delete_fllow);
             btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
@@ -522,8 +543,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     sellItem.tag = "" + (j + 1);
                     sellList.add(sellItem);
                 }
-                stockQuotesBean.setBuyList(buyList);
-                stockQuotesBean.setSellList(sellList);
+                if (null != stockQuotesBean) {
+
+                    stockQuotesBean.setBuyList(buyList);
+                    stockQuotesBean.setSellList(sellList);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -593,40 +617,41 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private float mPrePrice = 0;
 
     protected void updateStockView() {
-        if (null != mStockQuotesBean) {
-            // if (mStockBean != null && !mStockBean.isStop) {
-            tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-            tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
-            // String curentText = tvCurrent.getText().toString();
-            if (mPrePrice > 0) {
-                if (mStockQuotesBean.getCurrent() > mPrePrice) {
-                    tvCurrent.setBackgroundResource(R.color.red_bg);
-                } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
-                    tvCurrent.setBackgroundResource(R.color.green_bg);
-                }
-            }
-            mPrePrice = mStockQuotesBean.getCurrent();
-            updateCurrentText();
-            if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
-                tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
-                tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
-                tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
-                tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
-                tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
-            } else {
-                tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
-                tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
-                tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
-                tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
-                tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
-            }
-            tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
-            tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate()));
-            tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
-            tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
+        if (null == mStockQuotesBean) {
+            return;
         }
+        // if (mStockBean != null && !mStockBean.isStop) {
+        tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
+        // String curentText = tvCurrent.getText().toString();
+        if (mPrePrice > 0) {
+            if (mStockQuotesBean.getCurrent() > mPrePrice) {
+                tvCurrent.setBackgroundResource(R.color.red_bg);
+            } else if (mStockQuotesBean.getCurrent() < mPrePrice) {
+                tvCurrent.setBackgroundResource(R.color.green_bg);
+            }
+        }
+        mPrePrice = mStockQuotesBean.getCurrent();
+        updateCurrentText();
+        if (StockUitls.isShangZhengB(mStockQuotesBean.getSymbol())) {
+            tvChange.setText(StringFromatUtils.get3PointPlus(mStockQuotesBean.getChange()));
+            tvCurrent.setText(StringFromatUtils.get3Point(mStockQuotesBean.getCurrent()));
+            tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
+            tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
+            tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
+        } else {
+            tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
+            tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
+            tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
+            tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
+            tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+        }
+        tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
+        tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate()));
+        tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
+        tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         if (isIndexType()) {
             tvLiuzhi.setText(" —");
             tvZongzhi.setText(" —");
@@ -777,24 +802,36 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     // quoteHandler.postDelayed(this, 30 * 1000);// 隔60s再执行一次
     // }
     // };
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param v
-     * @return
-     */
+
     @Override
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.btn_add_optional:
-                if (UIUtils.iStartLoginActivity(this)) {
-                    return;
-                }
-                if (mStockQuotesBean.isFollowed()) {
-                    mQuotesEngine.delfollow(mStockBean.id, baseListener);
+                if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
+                    SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
+                    if (null != selectBean) {
+                        if (selectBean.isFollowed) {
+                            // selectBean.isFollowed = false;
+                            mStockQuotesBean.setFollowed(false);
+                            mVisitorDataEngine.delOptionalStock(selectBean);
+
+                        } else {
+                            selectBean.isFollowed = true;
+                            mStockQuotesBean.setFollowed(true);
+                            selectBean.sortId = 0;
+                            mVisitorDataEngine.saveOptionalStock(selectBean);
+                        }
+                    }
+                    localList = mVisitorDataEngine.getOptionalStockList();
+                    setAddOptionalButton();
+
                 } else {
-                    mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
+                    if (mStockQuotesBean.isFollowed()) {
+                        mQuotesEngine.delfollow(mStockBean.id, baseListener);
+                    } else {
+                        mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
+                    }
                 }
                 break;
             case R.id.btn_right_second: {

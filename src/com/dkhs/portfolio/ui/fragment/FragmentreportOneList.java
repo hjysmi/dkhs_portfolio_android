@@ -24,7 +24,7 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
@@ -71,7 +71,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         }
         initView(view);
         Bundle bundle = getArguments();
-        NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+        NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
         subType = vo.getContentSubType();
         // initDate();
         UserEntity user;
@@ -90,7 +90,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
     private void initDate() {
         Bundle bundle = getArguments();
-        NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+        NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
         if (null != bundle) {
             mDataList = new ArrayList<OptionNewsBean>();
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, bundle.getInt(NEWS_TYPE), vo);
@@ -162,9 +162,10 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
                 Intent intent;
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
                     intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
-                            .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), subType);
+                            .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), subType, mDataList
+                            .get(position).getContentType());
                 } else {
-                    intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                    intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                 }
                 startActivity(intent);
             } catch (Exception e) {
@@ -227,6 +228,14 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
                 e.printStackTrace();
             }
 
+        }
+
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                tv.setText("暂无研报");
+            }
         }
 
     };

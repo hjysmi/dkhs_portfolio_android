@@ -393,7 +393,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
             if (current_type == REGIST_TYPE) {
                 if (isLoginByCaptcha) {
-                    Intent intent = new Intent(RLFActivity.this, MainActivity.class);
+                    Intent intent = new Intent(RLFActivity.this, NewMainActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(RLFActivity.this, RegisterSuccessActivity.class);

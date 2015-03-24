@@ -26,6 +26,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.widget.DKHSSwitch;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.lidroid.xutils.view.annotation.ViewInject;
 
 /**
  * @ClassName FragmentSwitchChart
@@ -93,12 +94,16 @@ public class FragmentSwitchChart extends BaseFragment {
         // mFragmentChart = TrendChartFragment.newInstance(trendType);
     }
 
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // View view = inflater.inflate(, null);
+    // initView(view);
+    // return view;
+    // }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trend_and_report, null);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         initView(view);
-        return view;
-    }
+    };
 
     // One controller for all.
     View.OnClickListener switchClickListener = new View.OnClickListener() {
@@ -286,6 +291,18 @@ public class FragmentSwitchChart extends BaseFragment {
 
         this.updHandler = updateHandler;
 
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_trend_and_report;
     }
 
 }

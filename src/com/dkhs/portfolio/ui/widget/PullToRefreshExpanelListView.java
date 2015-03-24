@@ -480,7 +480,7 @@ public class PullToRefreshExpanelListView extends ExpandableListView implements 
 				
 				// 加载中...
 				if(mEndLoadTipsTextView.getText().equals(
-						R.string.p2refresh_doing_end_refresh)){
+						getResources().getString(R.string.p2refresh_doing_end_refresh))){
 					break;
 				}
 				mEndLoadTipsTextView.setText(R.string.p2refresh_doing_end_refresh);

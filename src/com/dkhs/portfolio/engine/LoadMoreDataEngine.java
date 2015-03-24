@@ -40,6 +40,8 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
 
     public interface ILoadDataBackListener<T> {
         void loadFinish(MoreDataBean<T> object);
+
+        void loadFail();
     }
 
     /**
@@ -77,6 +79,23 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
         }
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param errCode
+     * @param errMsg
+     * @return
+     */
+    @Override
+    public void onFailure(int errCode, String errMsg) {
+        // TODO Auto-generated method stub
+        super.onFailure(errCode, errMsg);
+        if (null != iLoadListener) {
+            // iLoadListener.loadFinish(null);
+            iLoadListener.loadFail();
+        }
+    }
+
     public int getTotalcount() {
         return totalcount;
     }
@@ -99,6 +118,10 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
 
     public void setCurrentpage(int currentpage) {
         this.currentpage = currentpage;
+    }
+
+    public ILoadDataBackListener getLoadListener() {
+        return iLoadListener;
     }
 
 }
