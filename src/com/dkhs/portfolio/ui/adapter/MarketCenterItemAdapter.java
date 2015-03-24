@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui.adapter;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
@@ -17,10 +18,12 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 
 public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
     private boolean isDefColor = false;
@@ -121,8 +124,9 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
         public void onClick(View v) {
             // TODO Auto-generated method stub
             SelectStockBean itemStock = mDataList.get(position);
-
-            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+            UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+            
+//            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
         }
 
     }

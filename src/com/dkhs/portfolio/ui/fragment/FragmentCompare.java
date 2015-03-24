@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -79,6 +80,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -254,15 +256,12 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        System.out.println("===============onCreateView(" + mListCount + ")================");
-
-        View view = inflater.inflate(R.layout.fragment_compare, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         initView(view);
         maChartView = (TrendChart) view.findViewById(R.id.machart);
         initMaChart(maChartView);
-
-        return view;
     }
 
     /**
@@ -312,7 +311,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             oks.setTitleUrl(shareUrl);
             oks.setUrl(shareUrl);
 
-            String customText = "这是我的基金「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
+            String customText = "这是我的组合「" + mCombinationBean.getName() + "」从" + btnStartTime.getText() + "至"
                     + btnEndTime.getText() + "与公募基金的业绩PK结果。你也来创建属于你的基金吧。" + shareUrl;
 
             oks.setText(customText);
@@ -544,6 +543,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
                 // Intent intent = new Intent(getActivity(),
                 // SelectStockActivity.class);
+                // UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
                 break;
@@ -601,7 +601,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     setXTitle(dayNetValueList);
 
                     LineEntity mCombinationLine = new LineEntity();
-                    mCombinationLine.setTitle("我的基金");
+                    mCombinationLine.setTitle("我的组合");
                     mCombinationLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
                     mCombinationLine.setLineData(lineDataList);
                     lineEntityList.remove(combinationLineEntity);
@@ -1172,5 +1172,17 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_compare;
     }
 }

@@ -71,5 +71,6 @@
     <dimen name="adapter_line_height">7px</dimen>
     <dimen name="padding_left">90px</dimen>
     <dimen name="gray_tab_height">32dp</dimen>
+    <dimen name="main_tab_textsize">12sp</dimen>
 
 </resources>

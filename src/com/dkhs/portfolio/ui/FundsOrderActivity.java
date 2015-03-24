@@ -23,6 +23,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
@@ -102,14 +103,13 @@ public class FundsOrderActivity extends ModelAcitivity {
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_DAY));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_WEEK));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_MONTH));
         fragmentList.add(FundsOrderFragment.getFragment(FundsOrderEngineImpl.ORDER_ALL));
 
         pager = (ScrollViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new OrderFragmentAdapter(getSupportFragmentManager(), fragmentList));
+        pager.setAdapter(new BasePagerFragmentAdapter(getSupportFragmentManager(), fragmentList));
         pager.setOnPageChangeListener(pageChangeListener);
         pager.setOffscreenPageLimit(1);
         pager.setCurrentItem(titleIndex);
@@ -153,41 +153,19 @@ public class FundsOrderActivity extends ModelAcitivity {
         }
     };
 
-    private class OrderFragmentAdapter extends FragmentStatePagerAdapter {
-
-        private List<Fragment> fragmentList;
-
-        public OrderFragmentAdapter(FragmentManager fm, ArrayList<Fragment> fragmentList2) {
-            super(fm);
-            this.fragmentList = fragmentList2;
-
-        }
-
-        @Override
-        public Fragment getItem(int arg0) {
-
-            return (fragmentList == null || fragmentList.size() == 0) ? null : fragmentList.get(arg0);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList == null ? 0 : fragmentList.size();
-        }
-
-    }
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPause(this);
-	}
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPause(this);
+    }
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onResume(this);
+    }
 }

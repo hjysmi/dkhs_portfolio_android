@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -398,9 +399,17 @@ public class TrendChartFragment extends BaseFragment {
         // this.listener = (FragmentActivity) activity;
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trend_chart, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
         if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
             InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
@@ -410,7 +419,7 @@ public class TrendChartFragment extends BaseFragment {
         initView(view);
         // setupBottomTextViewData();
         updateView();
-        return view;
+
     }
 
     private void initView(View view) {
@@ -522,7 +531,7 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
-       
+
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");
@@ -557,8 +566,8 @@ public class TrendChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
-            if(UIUtils.roundAble(todayNetvalue.getTrade_status())){
-            	dataHandler.removeCallbacks(runnable);
+            if (UIUtils.roundAble(todayNetvalue.getTrade_status())) {
+                dataHandler.removeCallbacks(runnable);
             }
             DrawLineDataEntity todayLine = null;
             if (null != todayNetvalue && todayNetvalue.getChartlist() != null
@@ -763,8 +772,8 @@ public class TrendChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            if(UIUtils.roundAble(histroyValue.getTrade_status())){
-            	dataHandler.removeCallbacks(runnable);
+            if (UIUtils.roundAble(histroyValue.getTrade_status())) {
+                dataHandler.removeCallbacks(runnable);
             }
             DrawLineDataEntity lineData = null;
             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
@@ -797,7 +806,7 @@ public class TrendChartFragment extends BaseFragment {
      */
     private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-
+        
         lineData.dataList.clear();
 
         lineData.end = historyNetValue.getEnd();
@@ -989,12 +998,24 @@ public class TrendChartFragment extends BaseFragment {
             }
         }
     }
-    
+
     @Override
     public void onDestroyView() {
         // TODO Auto-generated method stub
         super.onDestroyView();
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_trend_chart;
     }
 
 }

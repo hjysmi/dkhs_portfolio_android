@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -23,7 +24,7 @@ import android.widget.LinearLayout;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -57,15 +58,20 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         if (null != bunds) {
             mCombinationBean = (CombinationBean) bunds.get(DATA);
         }
-        System.out.println("================FragmentNews onCreate()======================");
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_combination_news, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         initTabPage(view);
-        System.out.println("================FragmentNews onCreateView()======================");
-        return view;
     }
 
     private void initTabPage(View view) {
@@ -87,25 +93,26 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         // b1.putSerializable(FragmentNewsList.VO, vo);
         // f1.setArguments(b1);
         // fragmentList.add(f1);
-        Fragment f2 = new OptionMarketNewsFragment();
-        Bundle b2 = new Bundle();
-        NewsforImpleEngine vo2 = new NewsforImpleEngine();
+        /*Fragment f2 = new OptionMarketNewsFragment();
+        Bundle b2 = new Bundle();*/
+        NewsforModel vo2 = new NewsforModel();
         vo2.setPortfolioId(mCombinationBean.getId() + "");
         vo2.setContentType("20");
-        b2.putSerializable(OptionMarketNewsFragment.VO, vo2);
-        f2.setArguments(b2);
+        /*b2.putSerializable(OptionMarketNewsFragment.VO, vo2);
+        f2.setArguments(b2);*/
+        Fragment f2 = ReportListForAllFragment.getFragment(vo2, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         fragmentList.add(f2);
 
-        Fragment f3 = new FragmentreportOneList();
+        /*Fragment f3 = new FragmentreportOneList();
         Bundle b3 = new Bundle();
-        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
-        NewsforImpleEngine vo3 = new NewsforImpleEngine();
+        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);*/
+        NewsforModel vo3 = new NewsforModel();
         vo3.setPortfolioId(mCombinationBean.getId() + "");
         vo3.setContentType("30");
 
         vo3.setPageTitle("研报正文");
-        b3.putSerializable(FragmentNewsList.VO, vo3);
-        f3.setArguments(b3);
+        /*b3.putSerializable(FragmentNewsList.VO, vo3);
+        f3.setArguments(b3);*/
         /*
          * Fragment f3 = new FragmentreportOneList();
          * vo = new NewsforImpleEngine();
@@ -116,6 +123,7 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
          * b3.putSerializable(FragmentNewsList.VO, vo);
          * f3.setArguments(b3);
          */
+        Fragment f3 = ReportListForAllFragment.getFragment(vo3, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         fragmentList.add(f3);
         new FragmentSelectAdapter(getActivity(), titleArray, fragmentList, comLayout, getFragmentManager());
         /*
@@ -195,5 +203,17 @@ public class FragmentNews extends BaseFragment implements FragmentLifecycle {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_combination_news;
     }
 }

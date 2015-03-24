@@ -13,18 +13,14 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,8 +38,8 @@ import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
 import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
+import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
@@ -52,10 +48,13 @@ import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.DataUpdateEvent;
+import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnRefreshListener;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -91,6 +90,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected String mSecotrId;
     protected boolean isLoading;
     private RelativeLayout pb;
+    private HttpHandler loadHandler;
 
     /**
      * view视图类型
@@ -212,6 +212,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
         } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
+
         } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
                 || mViewType == StockViewType.MARKET_INLAND_INDEX
                 || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
@@ -232,7 +233,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         }
 
         mAdapterConbinStock.setCheckChangeListener(this);
-        initData();
+        // initData();
 
     }
 
@@ -315,32 +316,49 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 mAdapterConbinStock.notifyDataSetChanged();
 
             }
-            if (null == mDataList || mDataList.size() == 0) {
-                initNotice();
+            if (null == mDataList || mDataList.isEmpty()) {
+                updateHander.sendEmptyMessage(777);
+
             } else {
-                hideNotice();
+                updateHander.sendEmptyMessage(888);
             }
             isLoadingMore = false;
+            refreshEditView();
         }
 
         @Override
         public void loadFail(ErrorBundle error) {
-            LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            // LogUtils.e("loading fail,error code:" + error.getErrorCode());
+            if (pb != null) {
+                pb.setVisibility(View.GONE);
+            }
             if (null != mSwipeLayout) {
                 mSwipeLayout.setRefreshing(false);
             }
             if (null == mDataList || mDataList.size() == 0) {
-                initNotice();
+                // initNotice();
+                updateHander.sendEmptyMessage(777);
             } else {
-                hideNotice();
+                updateHander.sendEmptyMessage(888);
             }
             if (null != loadingFinishListener) {
                 loadingFinishListener.loadingFinish();
             }
             isLoadingMore = false;
+            refreshEditView();
         }
 
     };
+
+    public void refreshEditView() {
+        if (null != dataUpdateListener) {
+            if (!mDataList.isEmpty()) {
+                dataUpdateListener.dataUpdate(false);
+            } else {
+                dataUpdateListener.dataUpdate(true);
+            }
+        }
+    }
 
     public void setOrderType(OrderType orderType) {
         isRefresh = true;
@@ -365,7 +383,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (mLoadDataEngine instanceof OptionalStockEngineImpl) {
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
-            mLoadDataEngine.setLoadingDialog(getActivity());
+            // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.loadData();
 
         }
@@ -396,7 +414,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (null != loadingFinishListener) {
             loadingFinishListener.startLoadingData();
         }
-        mLoadDataEngine.loadData();
+        loadHandler = mLoadDataEngine.loadData();
         // isRefresh = true;
 
     }
@@ -409,7 +427,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
             }
-            mLoadDataEngine.loadData();
+            loadHandler = mLoadDataEngine.loadData();
         }
     }
 
@@ -423,7 +441,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             mLoadDataEngine.cancelLoadingDialog();
             // mLoadDataEngine.refreshDatabySize(mDataList.size());
-            mLoadDataEngine.loadData();
+            loadHandler = mLoadDataEngine.loadData();
         }
     }
 
@@ -448,7 +466,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 if (null != loadingFinishListener) {
                     loadingFinishListener.startLoadingData();
                 }
-                mLoadDataEngine.refreshDatabySize(mDataList.size());
+                loadHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
             }
         } else {
             timeMill++;
@@ -466,18 +484,32 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     public SwipeRefreshLayout mSwipeLayout;
 
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    //
+    // LinearLayout wrapper = new LinearLayout(getActivity()); // for example
+    // inflater.inflate(, wrapper, true);
+    //
+    // return wrapper;
+    // }
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        LinearLayout wrapper = new LinearLayout(getActivity()); // for example
-        inflater.inflate(R.layout.fragment_selectstock, wrapper, true);
-        tvEmptyText = (TextView) wrapper.findViewById(android.R.id.empty);
-        pb = (RelativeLayout) wrapper.findViewById(android.R.id.progress);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
-        initView(wrapper);
-        return wrapper;
+        initView(view);
+        initData();
     }
 
     private void hideNotice() {
@@ -487,16 +519,32 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         tvEmptyText.setVisibility(View.GONE);
     }
 
+    Handler updateHander = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            if (msg.what == 777) {
+                initNotice();
+            } else if (msg.what == 888) {
+                hideNotice();
+            }
+        };
+    };
+
     protected void initNotice() {
-        if (null == tvEmptyText) {
+
+        if (!isAdded() && null == tvEmptyText) {
             return;
         }
+        tvEmptyText.postInvalidate();
         tvEmptyText.setVisibility(View.VISIBLE);
         switch (mViewType) {
             case STOCK_OPTIONAL:
 
             case STOCK_OPTIONAL_PRICE: {
+                tvEmptyText.setVisibility(View.GONE);
+                // refreshSelect();
+                // mListView.setEmptyView(emptyview);
                 tvEmptyText.setText(R.string.nodate_tip_optional);
+
             }
                 break;
             case FUND_INDEX:
@@ -533,6 +581,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
+    private View emptyview;
+
     public void initView(View view) {
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
@@ -540,6 +590,18 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
         if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
+            mListView.setDividerHeight(0);
+            emptyview = view.findViewById(R.id.add_data);
+            emptyview.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+            mListView.setEmptyView(emptyview);
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
@@ -608,6 +670,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+        System.out.println("FragmentSelectStockFund onResume ");
+        if (null == mDataList || mDataList.isEmpty()) {
+            BusProvider.getInstance().post(new DataUpdateEvent(true));
+        } else {
+            BusProvider.getInstance().post(new DataUpdateEvent(false));
+        }
     }
 
     @Override
@@ -616,10 +684,17 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (!isVisibleToUser) {
             if (null != pb)
                 pb.setVisibility(View.GONE);
+        } else {
+            if (null == mDataList || mDataList.isEmpty()) {
+                BusProvider.getInstance().post(new DataUpdateEvent(true));
+            } else {
+                BusProvider.getInstance().post(new DataUpdateEvent(false));
+            }
         }
         if (null != mDataList && mDataList.size() > 0) {
             pb.setVisibility(View.GONE);
         }
+
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -639,7 +714,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             if (UIUtils.roundAble(mLoadDataEngine.getStatu()))
                 mLoadDataEngine.setCurrentpage((mDataList.size() + 49) / 50);
-            mLoadDataEngine.loadMore();
+            loadHandler = mLoadDataEngine.loadMore();
             isLoadingMore = true;
             if (null != loadingFinishListener) {
                 loadingFinishListener.startLoadingData();
@@ -652,6 +727,42 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     public void setLoadingFinishListener(ILoadingFinishListener finishListener) {
         this.loadingFinishListener = finishListener;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_selectstock;
+    }
+
+    public List<SelectStockBean> getDataList() {
+        return mDataList;
+    }
+
+    public void setDataUpdateListener(IDataUpdateListener listen) {
+        this.dataUpdateListener = listen;
+    }
+
+    private IDataUpdateListener dataUpdateListener;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void onDestroyView() {
+        // TODO Auto-generated method stub
+        super.onDestroyView();
+        if (null != loadHandler) {
+            loadHandler.cancel();
+        }
     }
 
 }

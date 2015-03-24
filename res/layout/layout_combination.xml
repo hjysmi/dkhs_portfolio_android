@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="我的基金"
+            android:text="我的组合"
             android:textSize="15sp" />
 
         <ImageButton

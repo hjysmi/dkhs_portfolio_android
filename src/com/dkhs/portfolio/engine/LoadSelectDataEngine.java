@@ -139,4 +139,12 @@ public abstract class LoadSelectDataEngine extends ParseHttpListener<List<Select
         this.statu = statu;
     }
 
+    public ILoadDataBackListener getiLoadListener() {
+        return iLoadListener;
+    }
+
+    public void setiLoadListener(ILoadDataBackListener iLoadListener) {
+        this.iLoadListener = iLoadListener;
+    }
+
 }

@@ -4,7 +4,15 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+
+        <!-- 解决activity切换时的黑屏问题 -->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="AppTranslucentTheme" parent="AppTheme">
+
+        <!-- 解决activity切换时的黑屏问题 -->
+        <item name="android:windowIsTranslucent">true</item>
     </style>
 
     <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light">
@@ -217,6 +225,30 @@
     <style name="gray_title_text">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/title_tab_text_size</item>
+    </style>
+
+    <style name="bottom_tab_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_press</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textSize">@dimen/main_tab_textsize</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+    <style name="bottom_tab_button">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:clickable">false</item>
+        <item name="android:button">@null</item>
+    </style>
+
+    <style name="bottom_tab_layout">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:clickable">true</item>
     </style>
 
 </resources>

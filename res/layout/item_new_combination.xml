@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="14dp" >
+
+    <TextView
+        android:id="@+id/tv_combin_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:ellipsize="end"
+        android:maxLength="10"
+        android:singleLine="true"
+        android:text="组合名称"
+        android:textSize="16sp" />
+
+    <LinearLayout
+        android:id="@+id/rl_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_mycob_curren_value"
+                android:layout_width="@dimen/mycombina_list_text_wid"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:text="-888%"
+                android:textColor="@color/green"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_mycob_current"
+                style="@style/hw_wrap"
+                android:layout_alignBaseline="@+id/tv_mycob_curren_value"
+                android:layout_marginTop="6dp"
+                android:layout_toLeftOf="@+id/tv_mycob_curren_value"
+                android:text="今日:"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tv_mycob_add_value"
+                android:layout_width="@dimen/mycombina_list_text_wid"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:gravity="right"
+                android:text="-12.52%"
+                android:textColor="@color/green"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tv_mycob_add"
+                style="@style/hw_wrap"
+                android:layout_alignBaseline="@+id/tv_mycob_add_value"
+                android:layout_toLeftOf="@+id/tv_mycob_add_value"
+                android:text="@string/add_up"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

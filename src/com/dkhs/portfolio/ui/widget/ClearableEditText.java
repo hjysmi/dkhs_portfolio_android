@@ -40,12 +40,13 @@ public class ClearableEditText extends EditText implements OnFocusChangeListener
      * 控件是否有焦点
      */
     private boolean hasFoucs;
-    //add by zcm ---2014.12.16
+    // add by zcm ---2014.12.16
     /**
      * 是否需要在有内容失去焦点的时候去掉清楚按钮
      */
     private boolean needClearViewVisible;
-    //add by zcm ---2014.12.16
+
+    // add by zcm ---2014.12.16
 
     public ClearableEditText(Context context) {
         this(context, null);
@@ -59,9 +60,11 @@ public class ClearableEditText extends EditText implements OnFocusChangeListener
     public ClearableEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
-        //add by zcm ---2014.12.16
-        needClearViewVisible =attrs.getAttributeBooleanValue("http://schemas.android.com/apk/res/com.dkhs.portfolio", "needVisible", false);
-        //add by zcm ---2014.12.16
+        // add by zcm ---2014.12.16
+        if (null != attrs)
+            needClearViewVisible = attrs.getAttributeBooleanValue(
+                    "http://schemas.android.com/apk/res/com.dkhs.portfolio", "needVisible", false);
+        // add by zcm ---2014.12.16
     }
 
     private void init() {
@@ -109,19 +112,19 @@ public class ClearableEditText extends EditText implements OnFocusChangeListener
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         this.hasFoucs = hasFocus;
-        //modify by zcm --- 2014.12.16
-        if(needClearViewVisible){
-        	setClearIconVisible(getText().length() > 0);
-        }else{
-        	 if (hasFocus) {
-                 setClearIconVisible(getText().length() > 0);
-                 ((EditText)v).setSelection(((EditText) v).length());
-             } else {
-             	
-                 setClearIconVisible(false);
-             }
+        // modify by zcm --- 2014.12.16
+        if (needClearViewVisible) {
+            setClearIconVisible(getText().length() > 0);
+        } else {
+            if (hasFocus) {
+                setClearIconVisible(getText().length() > 0);
+                ((EditText) v).setSelection(((EditText) v).length());
+            } else {
+
+                setClearIconVisible(false);
+            }
         }
-        //modify by zcm --- 2014.12.16
+        // modify by zcm --- 2014.12.16
     }
 
     /**

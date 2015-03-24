@@ -35,7 +35,7 @@ public class FragmentSelectAdapter {
 	private Context context;
 	private String[] nameList;
 	private List<Fragment> fragmentList;
-	private LinearLayout layout;
+	private LinearLayout titleLayout;
 	private FragmentManager mFragmentManager;
 	private LayoutInflater inflater;
 	private int[] offsetNum;
@@ -68,7 +68,7 @@ public class FragmentSelectAdapter {
 		this.context = context;
 		this.nameList = nameList;
 		this.fragmentList = fragmentList;
-		this.layout = layout;
+		this.titleLayout = layout;
 		this.mFragmentManager = fragmentManager;
 		inflater = LayoutInflater.from(context);
 		offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
@@ -139,7 +139,7 @@ public class FragmentSelectAdapter {
 				iv.getLayoutParams().width = textWid[i] + imageAddSize * 2;
 			}
 		}
-		layout.addView(view);
+		titleLayout.addView(view);
 		
 	}
 	OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
