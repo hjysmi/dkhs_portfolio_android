@@ -68,7 +68,7 @@ public class OptionListAcitivity extends ModelAcitivity {
             type = extras.getString(TYPE);
             name = extras.getString(NAME);
         }
-        ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
+        ((TextView) findViewById(R.id.tv_title)).setText(name + "公告");
         replaceDataList();
     }
 
