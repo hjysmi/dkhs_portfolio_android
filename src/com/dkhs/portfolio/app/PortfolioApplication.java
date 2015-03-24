@@ -39,7 +39,7 @@ import com.umeng.analytics.AnalyticsConfig;
 public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
 
-    private boolean isDebug = true;
+    private boolean isDebug = false;
     private boolean isLogin;
     private String checkValue = "0";
     private boolean change = false;
