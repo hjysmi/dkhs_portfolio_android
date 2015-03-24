@@ -201,14 +201,13 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SectorBean bean = mSecotrList.get(position);
-                // startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
-                // bean.getAbbr_name()));
+                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                        bean.getAbbr_name()));
 
-                UIUtils.startAminationActivity(
-                        getActivity(),
-                        MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
-                                bean.getAbbr_name()));
-                //
+                // UIUtils.startAminationActivity(
+                // getActivity(),
+                // MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                // bean.getAbbr_name()));
 
             }
         });

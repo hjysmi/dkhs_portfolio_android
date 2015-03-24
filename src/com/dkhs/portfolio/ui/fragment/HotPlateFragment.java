@@ -264,4 +264,12 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
         
     }
 
+    /**  
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+
+
 }
