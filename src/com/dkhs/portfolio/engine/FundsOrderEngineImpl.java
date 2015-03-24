@@ -16,7 +16,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.ChampionBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -96,14 +96,14 @@ public class FundsOrderEngineImpl extends LoadMoreDataEngine {
      */
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        MoreDataBean<ChampionBean> moreBean = null;
+        MoreDataBean<CombinationBean> moreBean = null;
         if (!TextUtils.isEmpty(jsonData)) {
 
             try {
 
                 Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<ChampionBean>>() {
+                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<CombinationBean>>() {
                 }.getType());
             } catch (Exception e) {
                 e.printStackTrace();

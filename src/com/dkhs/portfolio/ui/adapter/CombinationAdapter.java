@@ -103,7 +103,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         viewHolder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
         viewHolder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
-        float addValue = item.getAddUpValue();
+        float addValue = item.getCumulative();
         viewHolder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
         viewHolder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
 

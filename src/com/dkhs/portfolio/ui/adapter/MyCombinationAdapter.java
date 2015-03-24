@@ -104,7 +104,7 @@ public class MyCombinationAdapter extends BaseAdapter implements OnSlideListener
         holder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
         holder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
-        float addValue = comBean.getAddUpValue();
+        float addValue = comBean.getCumulative();
         holder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
         holder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
 

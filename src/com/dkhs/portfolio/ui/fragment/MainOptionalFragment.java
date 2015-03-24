@@ -86,8 +86,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                startActivity(intent);
-                // UIUtils.startAminationActivity(getActivity(), intent);
+                // startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
             }
         });
         btnSecRight.setOnClickListener(new OnClickListener() {
@@ -96,6 +96,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), OptionEditActivity.class);
                 // UIUtils.startAminationActivity(getActivity(), intent);
+                UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(intent, 777);
             }
         });
@@ -108,8 +109,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
-                // UIUtils.startAminationActivity(getActivity(), intent);
-                startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
+                // startActivity(intent);
             }
         });
         btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_add_select, 0, 0, 0);
@@ -127,6 +128,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
+                UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
             }
         });
