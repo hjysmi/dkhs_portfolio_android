@@ -68,13 +68,8 @@ public class OptionListAcitivity extends ModelAcitivity {
             type = extras.getString(TYPE);
             name = extras.getString(NAME);
         }
-<<<<<<< HEAD
         ((TextView) findViewById(R.id.tv_title)).setText(name + "公告");
-        initDate();
-=======
-        ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
         replaceDataList();
->>>>>>> 206ce519a783213df424c506ce01a7f701b42839
     }
 
     public static Intent newIntent(Context context, String symbolName, String type, String name) {
