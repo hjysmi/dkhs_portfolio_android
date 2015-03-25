@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * @ClassName: ParseHttpListener
@@ -180,6 +181,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         thread.start();
         mServiceLooper = thread.getLooper();
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
+       
     }
 
     private void notifyDateParse(Object object) {

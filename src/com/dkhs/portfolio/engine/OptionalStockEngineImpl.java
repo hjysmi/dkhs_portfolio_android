@@ -81,8 +81,6 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
     @Override
     public HttpHandler loadData() {
 
-        Log.e("OPtionalStockEngineImple", "OPtionalStockEngineImple loadData()");
-
         if (isLoading) {
             return null;
         }
@@ -143,14 +141,7 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
 
         isLoading = false;
 
-        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-            Log.e("OPtionalStockEngineImple", "OPtionalStockEngineImple ParseDataTask on main thread");
-        } else {
-            Log.e("OPtionalStockEngineImple", "OPtionalStockEngineImple ParseDataTask on Child   thread");
-        }
-
         MoreDataBean<StockPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
-        // List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
         MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
 
         try {

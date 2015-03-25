@@ -93,6 +93,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     private RelativeLayout pb;
     private HttpHandler loadHandler;
 
+    private boolean isDefLoad;
+
     /**
      * view视图类型
      */
@@ -397,8 +399,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
             // mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
-
+            // mLoadDataEngine.loadData();
+            // 第二次
         }
     }
 
@@ -424,10 +426,15 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
-        if (null != loadingFinishListener) {
-            loadingFinishListener.startLoadingData();
+        if (isDefLoad) {
+
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
+            loadHandler = mLoadDataEngine.loadData();
+
         }
-        loadHandler = mLoadDataEngine.loadData();
+        // 第一次
         // isRefresh = true;
 
     }
@@ -455,6 +462,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine.cancelLoadingDialog();
             // mLoadDataEngine.refreshDatabySize(mDataList.size());
             loadHandler = mLoadDataEngine.loadData();
+            // 第三次
         }
     }
 
@@ -776,6 +784,14 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (null != loadHandler) {
             loadHandler.cancel();
         }
+    }
+
+    public boolean isDefLoad() {
+        return isDefLoad;
+    }
+
+    public void setDefLoad(boolean isDefLoad) {
+        this.isDefLoad = isDefLoad;
     }
 
 }
