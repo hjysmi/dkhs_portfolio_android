@@ -269,19 +269,19 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void loadFinishUpdateView() {
         // mOptionMarketAdapter.notifyDataSetChanged();
+        int height = 0;
         if (null != mOptionlistAdapter) {
             mOptionlistAdapter.notifyDataSetChanged();
+            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+                View listItem = mOptionlistAdapter.getView(i, null, mListView);
+                listItem.measure(0, 0); // 计算子项View 的宽高
+                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+                height += list_child_item_height; // 统计所有子项的总高度
+            }
         }
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
-        }
-        int height = 0;
-        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-            View listItem = mOptionlistAdapter.getView(i, null, mListView);
-            listItem.measure(0, 0); // 计算子项View 的宽高
-            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-            height += list_child_item_height; // 统计所有子项的总高度
         }
         if (null != context && context instanceof StockQuotesActivity && getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeights(height);

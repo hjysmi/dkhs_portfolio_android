@@ -29,8 +29,8 @@ import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
-import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.MarketListActivity;
+import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
@@ -252,7 +252,7 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
@@ -261,15 +261,14 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
     public void loadFail() {
         mListView.onLoadMoreComplete();
         mListView.onRefreshComplete();
-        
+
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
      * @return
      */
-
 
 }

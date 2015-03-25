@@ -14,11 +14,12 @@ import java.util.List;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SearchFundsBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockProfileDataBean;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
@@ -95,7 +96,6 @@ public class SearchStockEngineImpl {
                     }
                     return dataBean.getLast_datetime();
                 }
-                
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,8 +143,12 @@ public class SearchStockEngineImpl {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        iLoadListener.loadFinish(selectStockList);
+        MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
+        moreDataBean.setCurrentPage(1);
+        moreDataBean.setResults(selectStockList);
+        moreDataBean.setTotalCount(selectStockList.size());
+        moreDataBean.setTotalPage(1);
+        iLoadListener.loadFinish(moreDataBean);
     }
 
     public void searchFunds(String key) {
@@ -176,7 +180,12 @@ public class SearchStockEngineImpl {
             e.printStackTrace();
         }
 
-        iLoadListener.loadFinish(selectStockList);
+        MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
+        moreDataBean.setCurrentPage(1);
+        moreDataBean.setResults(selectStockList);
+        moreDataBean.setTotalCount(selectStockList.size());
+        moreDataBean.setTotalPage(1);
+        iLoadListener.loadFinish(moreDataBean);
     }
 
     public void searchStockAndIndex(String key) {
@@ -207,8 +216,12 @@ public class SearchStockEngineImpl {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        iLoadListener.loadFinish(selectStockList);
+        MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
+        moreDataBean.setCurrentPage(1);
+        moreDataBean.setResults(selectStockList);
+        moreDataBean.setTotalCount(selectStockList.size());
+        moreDataBean.setTotalPage(1);
+        iLoadListener.loadFinish(moreDataBean);
     }
 
     public SearchStockEngineImpl(ILoadDataBackListener loadListener) {

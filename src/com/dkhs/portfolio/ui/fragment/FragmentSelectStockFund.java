@@ -26,11 +26,12 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
@@ -38,7 +39,7 @@ import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
+import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
@@ -83,7 +84,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected boolean isItemClickBack;
     protected StockViewType mViewType;
     protected boolean fromPosition = false;
-    LoadSelectDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     protected TextView tvEmptyText;
     public int timeMill;
     protected boolean flush = false;
@@ -280,8 +281,19 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
+        // @Override
+        // public void loadFinish(List<SelectStockBean> dataList) {
+        //
+        // }
+        //
+        // @Override
+        // public void loadFail(ErrorBundle error) {
+        // // LogUtils.e("loading fail,error code:" + error.getErrorCode());
+        //
+        // }
+
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
+        public void loadFinish(MoreDataBean object) {
             mListView.onLoadMoreComplete();
             mSwipeLayout.setRefreshing(false);
             pb.setVisibility(View.GONE);
@@ -311,8 +323,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             }
             // loadFinishUpdateView();
-            if (null != dataList && dataList.size() > 0 && isAdded()) {
-                mDataList.addAll(dataList);
+            if (null != object && null != object.getResults() && object.getResults().size() > 0 && isAdded()) {
+                mDataList.addAll(object.getResults());
                 mAdapterConbinStock.notifyDataSetChanged();
 
             }
@@ -324,11 +336,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             isLoadingMore = false;
             refreshEditView();
+
         }
 
         @Override
-        public void loadFail(ErrorBundle error) {
-            // LogUtils.e("loading fail,error code:" + error.getErrorCode());
+        public void loadFail() {
             if (pb != null) {
                 pb.setVisibility(View.GONE);
             }
@@ -346,6 +358,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             isLoadingMore = false;
             refreshEditView();
+
         }
 
     };

@@ -60,7 +60,6 @@ import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.CompareEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;

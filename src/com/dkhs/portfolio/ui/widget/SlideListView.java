@@ -93,8 +93,6 @@ public class SlideListView extends ListView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        MyCombinationAdapter mAdapter = (MyCombinationAdapter) getAdapter();
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 int x = (int) event.getX();

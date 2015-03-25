@@ -27,6 +27,7 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
     private int totalcount;
     private int totalpage;
     private int currentpage;
+    private int statu = -1;
 
     public LoadMoreDataEngine(ILoadDataBackListener loadListener) {
         this.iLoadListener = loadListener;
@@ -72,6 +73,7 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
             setTotalcount(object.getTotalCount());
             setTotalpage(object.getTotalPage());
             setCurrentpage(object.getCurrentPage());
+            setStatu(object.getStatu());
             if (null != iLoadListener) {
                 iLoadListener.loadFinish(object);
             }
@@ -122,6 +124,14 @@ public abstract class LoadMoreDataEngine extends ParseHttpListener<MoreDataBean>
 
     public ILoadDataBackListener getLoadListener() {
         return iLoadListener;
+    }
+
+    public int getStatu() {
+        return statu;
+    }
+
+    public void setStatu(int statu) {
+        this.statu = statu;
     }
 
 }

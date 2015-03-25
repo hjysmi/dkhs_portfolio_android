@@ -399,24 +399,28 @@ public class TrendHistoryChartFragment extends BaseFragment {
         int dashLineSize = 0;
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
-        int dataLenght = historyNetList.size();
-        for (int i = 0; i < dataLenght; i++) {
-            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            float value = todayBean.getNetvalue();
-            pointEntity.setValue(value);
-            pointEntity.setTime("日期: " + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
+        int dataLenght = 0;
+        if (null != historyNetList) {
+
+            dataLenght = historyNetList.size();
+            for (int i = 0; i < dataLenght; i++) {
+                TrendLinePointEntity pointEntity = new TrendLinePointEntity();
+                HistoryNetBean todayBean = historyNetList.get(i);
+                float value = todayBean.getNetvalue();
+                pointEntity.setValue(value);
+                pointEntity.setTime("日期: " + todayBean.getDate());
+                pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
+                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                        dashLineSize = i;
+                    }
                 }
-            }
-            lineData.dataList.add(pointEntity);
-            if (value > maxNum) {
-                maxNum = value;
-            } else if (value < minNum) {
-                minNum = value;
+                lineData.dataList.add(pointEntity);
+                if (value > maxNum) {
+                    maxNum = value;
+                } else if (value < minNum) {
+                    minNum = value;
+                }
             }
         }
         float offetValue;
