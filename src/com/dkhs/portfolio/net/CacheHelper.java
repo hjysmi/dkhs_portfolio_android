@@ -11,6 +11,7 @@ package com.dkhs.portfolio.net;
 import org.apache.http.NameValuePair;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UrlStoreBean;
@@ -58,6 +59,8 @@ public class CacheHelper {
                             .where("url", "=", mQueryUrl).and("authorization", "=", autho));
                     if (null != storeBean && !TextUtils.isEmpty(storeBean.getResponseJson())) {
                         if (null != listener && !listener.isStopRequest()) {
+                            Log.e("CacheHelper", "listener.onHttpSuccess ");
+
                             listener.onHttpSuccess(storeBean.getResponseJson());
                         }
                     }
@@ -103,7 +106,6 @@ public class CacheHelper {
                     // db.replace(storeBean);
                     db.saveOrUpdate(storeBean);
                     // db.update(storeBean, "responseJson");
-                    System.out.println("storeURLResponse url:" + mQueryUrl);
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

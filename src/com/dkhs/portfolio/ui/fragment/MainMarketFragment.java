@@ -44,6 +44,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.test.UiThreadTest;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -67,7 +68,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
     @Override
     public int setContentLayoutId() {
-        return R.layout.activity_marketcenter;
+        return R.layout.bg_activity_marketcenter;
     }
 
     @Override
@@ -125,10 +126,16 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
     @Override
     public void onResume() {
         super.onResume();
-        if (mMarketTimer == null && isTimerStart) {
-            mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+
+        if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
+            if (mMarketTimer == null && isTimerStart) {
+                mMarketTimer = new Timer(true);
+                mMarketTimer.schedule(new RequestMarketTask(), 30, mPollRequestTime);
+            }
+        } else {
+            loadingAllData();
         }
+
         // MobclickAgent.onResume(getActivity());
 
     }
@@ -294,10 +301,10 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
                 MarketCenterStockEngineImple.CURRENT, 3));
 
         plateEngine = new PlateLoadMoreEngineImpl(plateListener);
-        for (LoadMoreDataEngine mLoadDataEngine : engineList) {
-            mLoadDataEngine.loadData();
-        }
-        plateEngine.loadData();
+        // for (LoadMoreDataEngine mLoadDataEngine : engineList) {
+        // mLoadDataEngine.loadData();
+        // }
+        // plateEngine.loadData();
     }
 
     com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener plateListener = new com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener<SectorBean>() {
@@ -326,6 +333,11 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
     };
 
+    private boolean hasSetLVIncreaseHigh;
+    private boolean hasSetLVDownHigh;
+    private boolean hasSetLVHandoverHigh;
+    private boolean hasSetLVAmpltHigh;
+
     class StockLoadDataListener implements ILoadDataBackListener {
 
         private String type;
@@ -342,6 +354,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
          */
         @Override
         public void loadFinish(MoreDataBean object) {
+
             isLoading = false;
             List<SelectStockBean> dataList = Collections.EMPTY_LIST;
             if (null != object) {
@@ -352,23 +365,40 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
                     mIncreaseDataList.clear();
                     mIncreaseDataList.addAll(dataList);
                     mIncreaseAdapter.notifyDataSetChanged();
+                    if (!hasSetLVIncreaseHigh) {
+                        hasSetLVIncreaseHigh = true;
+                        UIUtils.setListViewHeightBasedOnChildren(lvIncease);
+                    }
                 } else if (type.equals(OpitionCenterStockEngineImple.ORDER_DOWN)) {
                     mDownDataList.clear();
                     mDownDataList.addAll(dataList);
                     mDownAdapter.notifyDataSetChanged();
+                    if (!hasSetLVDownHigh) {
+                        hasSetLVDownHigh = true;
+                        UIUtils.setListViewHeightBasedOnChildren(lvDown);
+                    }
                 } else if (type.equals(OpitionCenterStockEngineImple.ORDER_TURNOVER)) {
                     mTurnOverDataList.clear();
                     mTurnOverDataList.addAll(dataList);
                     mTurnOverAdapter.notifyDataSetChanged();
+                    if (!hasSetLVHandoverHigh) {
+                        hasSetLVHandoverHigh = true;
+                        UIUtils.setListViewHeightBasedOnChildren(lvHandover);
+                    }
                 } else if (type.equals(OpitionCenterStockEngineImple.ORDER_AMPLITU)) {
                     mAmpliDataList.clear();
                     mAmpliDataList.addAll(dataList);
                     mAmplitAdapter.notifyDataSetChanged();
+                    if (!hasSetLVAmpltHigh) {
+                        hasSetLVAmpltHigh = true;
+                        UIUtils.setListViewHeightBasedOnChildren(lvAmplit);
+                    }
                 } else if (type.equals(INLAND_INDEX)) {
                     mIndexDataList.clear();
                     mIndexDataList.addAll(dataList);
                     mIndexAdapter.notifyDataSetChanged();
                 }
+
             }
 
         }
@@ -458,13 +488,14 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
         @Override
         public void run() {
-            if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
-                loadingAllData();
-            }
+            // if (null != engineList && engineList.size() > 0 && UIUtils.roundAble(engineList.get(0).getStatu())) {
+            loadingAllData();
+            // }
         }
     }
 
     private void loadingAllData() {
+
         if (isLoading) {
             return;
         }

@@ -97,7 +97,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     @Override
     public void onSuccess(String jsonObject) {
-
+        // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+        // Log.e("ParseHttpListener", "run on main thread " + this);
+        //
+        // } else {
+        // Log.e("ParseHttpListener", "run on other thread " + this);
+        //
+        // }
         beginParseDate(jsonObject);
 
     }
@@ -181,7 +187,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         thread.start();
         mServiceLooper = thread.getLooper();
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
-       
+
     }
 
     private void notifyDateParse(Object object) {
