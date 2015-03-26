@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class MarketCenterGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         ViewHolder mViewHolder;
         if (convertView == null) {
             mViewHolder = new ViewHolder();
@@ -104,53 +106,8 @@ public class MarketCenterGridAdapter extends BaseAdapter {
         mViewHolder.tvPercent.setText(StringFromatUtils.get2PointPercentPlus(item.percentage));
         mViewHolder.tvIncrease.setText(StringFromatUtils.get2PointPlus(item.change));
 
-        // String path = hasHeaderIdList.get(position).getPath();
-        // mViewHolder.mImageView.setTag(path);
-        //
-        // Bitmap bitmap = NativeImageLoader.getInstance().loadNativeImage(path, mPoint, new NativeImageCallBack() {
-        //
-        // @Override
-        // public void onImageLoader(Bitmap bitmap, String path) {
-        // ImageView mImageView = (ImageView) mGridView.findViewWithTag(path);
-        // if (bitmap != null && mImageView != null) {
-        // mImageView.setImageBitmap(bitmap);
-        // }
-        // }
-        // });
-        //
-        // if (bitmap != null) {
-        // mViewHolder.mImageView.setImageBitmap(bitmap);
-        // } else {
-        // mViewHolder.mImageView.setImageResource(R.drawable.friends_sends_pictures_no);
-        // }
-
         return convertView;
     }
-
-    // @Override
-    // public View getHeaderView(int position, View convertView, ViewGroup parent) {
-    // HeaderViewHolder mHeaderHolder;
-    //
-    // if (convertView == null) {
-    // mHeaderHolder = new HeaderViewHolder();
-    // convertView = mInflater.inflate(R.layout.layout_marketcenter_header, parent, false);
-    // // mHeaderHolder.mTextView = (TextView) convertView.findViewById(R.id.header);
-    // convertView.setTag(mHeaderHolder);
-    // } else {
-    // mHeaderHolder = (HeaderViewHolder) convertView.getTag();
-    // }
-    // // mHeaderHolder.mTextView.setText(hasHeaderIdList.get(position).getTime());
-    //
-    // return convertView;
-    // }
-    //
-    // /**
-    // * 获取HeaderId, 只要HeaderId不相等就添加一个Header
-    // */
-    // @Override
-    // public long getHeaderId(int position) {
-    // return hasHeaderIdList.get(position).getHeaderId();
-    // }
 
     public static class ViewHolder {
         public ImageView mImageView;

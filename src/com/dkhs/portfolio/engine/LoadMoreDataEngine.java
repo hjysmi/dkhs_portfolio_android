@@ -10,6 +10,8 @@ package com.dkhs.portfolio.engine;
 
 import java.util.List;
 
+import android.util.Log;
+
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.lidroid.xutils.http.HttpHandler;

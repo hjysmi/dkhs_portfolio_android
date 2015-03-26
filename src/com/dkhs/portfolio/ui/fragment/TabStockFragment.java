@@ -78,7 +78,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public static final String TYPE_TCAPITAL_DOWN = "-total_capital";
 
     // 5s
-    private static final long mPollRequestTime = 1000 * 30;
+    private static final long mPollRequestTime = 1000 * 300;
 
     private Context context;
 
