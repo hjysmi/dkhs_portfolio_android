@@ -312,7 +312,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
                 mSecotrList.addAll(sectorList);
                 mPlateAdapter.notifyDataSetChanged();
             } else {
-                System.out.println("MoreDataBean is null");
+                // System.out.println("MoreDataBean is null");
             }
 
         }

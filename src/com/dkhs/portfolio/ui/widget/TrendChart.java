@@ -1098,4 +1098,17 @@ public class TrendChart extends TrendGridChart {
         this.mDoubleClicklistener = mDoubleClicklistener;
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onDetachedFromWindow() {
+        // TODO Auto-generated method stub
+        super.onDetachedFromWindow();
+        removeCallbacks(mLongPressRunnable);
+        System.out.println("onDetachedFromWindow recycle memory");
+    }
+
 }
