@@ -5,11 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
 import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PointF;
@@ -18,16 +16,14 @@ import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewTreeObserver;
+import android.view.View;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.lidroid.xutils.view.annotation.event.OnTouch;
 
 public class TrendChart extends TrendGridChart {
     /** 显示数据线 */
@@ -54,7 +50,7 @@ public class TrendChart extends TrendGridChart {
     private float lineLength;
 
     private Paint mLinePaint;
-
+    private Paint fillPaint;
     private float startPointX;
     private float endY;
     private int lineStrokeWidth;
@@ -79,18 +75,16 @@ public class TrendChart extends TrendGridChart {
     private Runnable mLongPressRunnable;
     // 移动的阈值
     private static final int TOUCH_SLOP = 20;
-    private InterceptScrollView mScrollview;
+    // private InterceptScrollView mScrollview;
     private boolean moves = false;
     private Context context;
-    private SelectStockBean mStockBean = null;
+    // private SelectStockBean mStockBean = null;
+
+    private StockViewCallBack callBack;
 
     public TrendChart(Context context) {
         super(context);
         init();
-    }
-
-    public void setScroll(InterceptScrollView mScrollview) {
-        this.mScrollview = mScrollview;
     }
 
     public TrendChart(Context context, AttributeSet attrs, int defStyle) {
@@ -114,6 +108,13 @@ public class TrendChart extends TrendGridChart {
         mLinePaint = new Paint();
         mLinePaint.setAntiAlias(true);
         // mLinePaint.setStrokeWidth(lineStrokeWidth);
+        fillPaint = new Paint();
+
+        fillPath = new Path();
+
+        fingerPaint = new Paint();
+        fingerPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+        fingerPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 
         mLongPressRunnable = new Runnable() {
 
@@ -135,7 +136,46 @@ public class TrendChart extends TrendGridChart {
                 // }
             }
         };
+        initPaint();
+    }
 
+    private void initPaint() {
+        // this.borderPaint = new Paint();
+        // this.borderPaint.setColor(this.context.getResources().getColor(2131230756));
+        // this.borderPaint.setAntiAlias(true);
+        // this.borderPaint.setStrokeWidth(DensityUtil.dip2px(this.context, 0.5F));
+        // this.longtiudePaint = new Paint();
+        // this.longtiudePaint.setStyle(Paint.Style.STROKE);
+        // this.longtiudePaint.setStrokeWidth(DensityUtil.dip2px(this.context, 0.5F));
+        // this.longtiudePaint.setAntiAlias(true);
+        // this.longtiudePaint.setColor(this.context.getResources().getColor(2131230752));
+        // float[] arrayOfFloat = new float[2];
+        // arrayOfFloat[0] = this.LINEMARGIN;
+        // arrayOfFloat[1] = this.LINEMARGIN;
+        // DashPathEffect localDashPathEffect = new DashPathEffect(arrayOfFloat, 0.0F);
+        // this.longtiudePaint.setPathEffect(localDashPathEffect);
+        // this.linePaint = new Paint();
+        // this.linePaint.setColor(this.context.getResources().getColor(2131230754));
+        // this.linePaint.setStyle(Paint.Style.STROKE);
+        // this.linePaint.setStrokeWidth(DensityUtil.dip2px(this.context, 0.5F));
+        // this.linePaint.setAntiAlias(true);
+        // this.amountPaint = new Paint();
+        // this.amountPaint.setStyle(Paint.Style.STROKE);
+        // this.amountPaint.setStrokeWidth(DensityUtil.dip2px(this.context, 0.25F));
+        // this.amountPaint.setAntiAlias(true);
+        // this.textPaint = new Paint();
+        // this.textPaint.setColor(-65536);
+        // this.textPaint.setTextSize(DensityUtil.dip2px(this.context, 10.0F));
+        // this.topTextPaint = new Paint();
+        // this.topTextPaint.setAntiAlias(true);
+        // this.topTextPaint.setTextSize(DensityUtil.dip2px(this.context, 8.0F));
+        // this.topTextPaint.setColor(this.context.getResources().getColor(2131230756));
+        // this.fillPaint = new Paint();
+        // this.fillPaint.setAntiAlias(true);
+        // this.fillPaint.setStyle(Paint.Style.FILL);
+        // this.fillPaint.setColor(Color.parseColor("#dcebf7"));
+        // this.fillPaint.setAlpha(128);
+        // this.path = new Path();
     }
 
     public void setSmallLine() {
@@ -172,9 +212,9 @@ public class TrendChart extends TrendGridChart {
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
-                if (null != mScrollview) {
-                    mScrollview.setIsfocus(true);
-                }
+                // mScrollview.setIsfocus(true);
+                getParent().requestDisallowInterceptTouchEvent(false);
+
                 Thread t = new Thread(new Runnable() {
 
                     @Override
@@ -189,9 +229,8 @@ public class TrendChart extends TrendGridChart {
                                 if (null != mTouchListener) {
                                     mTouchListener.chartTounching();
                                 }
-                                if (null != mScrollview) {
-                                    mScrollview.setIsfocus(true);
-                                }
+                                // mScrollview.setIsfocus(true);
+                                getParent().requestDisallowInterceptTouchEvent(false);
                             }
                         } catch (Exception e) {
 
@@ -229,15 +268,17 @@ public class TrendChart extends TrendGridChart {
                     if (null != mTouchListener) {
                         mTouchListener.loseTouching();
                     }
-                    if (null != mScrollview) {
-                        mScrollview.setIsfocus(false);
-                    }
+                    // mScrollview.setIsfocus(false);
+                    getParent().requestDisallowInterceptTouchEvent(true);
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (moves && !isTouch && null != mStockBean) {
-                    Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, 0);
-                    context.startActivity(intent);
+                if (moves && !isTouch) {
+                    // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, 0);
+                    // context.startActivity(intent);
+                    if (null != callBack) {
+                        callBack.stockMarkShow();
+                    }
                 }
                 isTouch = false;
                 moves = false;
@@ -246,9 +287,8 @@ public class TrendChart extends TrendGridChart {
                 if (null != mTouchListener) {
                     mTouchListener.loseTouching();
                 }
-                if (null != mScrollview) {
-                    mScrollview.setIsfocus(false);
-                }
+                // mScrollview.setIsfocus(false);
+                getParent().requestDisallowInterceptTouchEvent(true);
                 removeCallbacks(mLongPressRunnable);
 
                 break;
@@ -269,9 +309,8 @@ public class TrendChart extends TrendGridChart {
                 if (null != mTouchListener) {
                     mTouchListener.chartTounching();
                 }
-                if (null != mScrollview) {
-                    mScrollview.setIsfocus(true);
-                }
+                // mScrollview.setIsfocus(true);
+                getParent().requestDisallowInterceptTouchEvent(false);
                 // 获取点击坐标
                 clickPostX = event.getX();
                 clickPostY = event.getY();
@@ -293,13 +332,17 @@ public class TrendChart extends TrendGridChart {
         return true;
     }
 
+    private boolean isTrendChartMeasure = true;
+
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
         // mCanvas = canvas;
-
-        startPointX = mStartLineXpoint + 2;
-        endY = mGridLineHeight - axisMarginBottom;
+        super.onDraw(canvas);
+        if (this.isTrendChartMeasure) {
+            this.isTrendChartMeasure = false;
+            startPointX = mStartLineXpoint + 2;
+            endY = mGridLineHeight - axisMarginBottom;
+        }
         mLinePaint.setStrokeWidth(lineStrokeWidth);
         // 绘制平线
         drawLines(canvas);
@@ -325,14 +368,12 @@ public class TrendChart extends TrendGridChart {
         }
     }
 
+    private Paint fingerPaint;
+
     /**
      * 单点击事件
      */
     protected void drawWithFingerClick(Canvas canvas, int pointIndex) {
-
-        Paint mPaint = new Paint();
-        mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
-        mPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
 
         // 水平线长度
         float lineHLength = getWidth() - 2f;
@@ -357,13 +398,13 @@ public class TrendChart extends TrendGridChart {
 
         if (clickPostX > 0 && clickPostY > 0 && clickPostX < (mStartLineXpoint + mGridLineLenght)) {
             if (!isTouch) {
-                mPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+                fingerPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
             }
             // 显示纵线
             // if (displayCrossXOnTouch) {
             //
             // canvas.drawLine(clickPostX, axisMarginTop + xTitleTextHeight / 2, clickPostX, lineVLength, mPaint);
-            canvas.drawLine(clickPostX, mStartLineYpoint, clickPostX, lineVLength, mPaint);
+            canvas.drawLine(clickPostX, mStartLineYpoint, clickPostX, lineVLength, fingerPaint);
 
             float value = ((LinePointEntity) lineData.get(0).getLineData().get(pointIndex)).getValue();
 
@@ -376,7 +417,7 @@ public class TrendChart extends TrendGridChart {
             }
             float valueY = (float) (hightPrecent * (lineHeight));
             valueY += mStartLineYpoint;
-            canvas.drawLine(axisMarginLeft, valueY, mGridLineLenght + axisMarginLeft, valueY, mPaint);
+            canvas.drawLine(axisMarginLeft, valueY, mGridLineLenght + axisMarginLeft, valueY, fingerPaint);
 
         }
 
@@ -384,6 +425,7 @@ public class TrendChart extends TrendGridChart {
     }
 
     private float lineHeight;
+    private Path fillPath;
 
     protected void drawLines(Canvas canvas) {
         // lineLength = (super.getWidth() - startPointX - super.getAxisMarginRight());
@@ -396,7 +438,8 @@ public class TrendChart extends TrendGridChart {
         // float lineHeight = super.getHeight() - axisMarginTop - super.getAxisMarginBottom() - xTitleTextHeight;
         lineHeight = mGridLineHeight - axisMarginBottom - 2 - mStartLineYpoint;
 
-        Paint fillPaint = new Paint();
+        // Paint fillPaint = new Paint();
+        fillPaint.reset();
 
         if (null == lineData) {
             return;
@@ -417,7 +460,8 @@ public class TrendChart extends TrendGridChart {
                 // 定义起始点
                 PointF ptFirst = null;
                 // if(i==0){
-                Path fillPath = new Path();
+                // = new Path();
+                fillPath.reset();
 
                 // }
                 if (lineData != null && lineData.size() > 0) {
@@ -472,7 +516,6 @@ public class TrendChart extends TrendGridChart {
                         ptFirst = new PointF(startX, valueY);
 
                         if (fillLineIndex == i && j == 0) {
-
                             fillPaint.setColor(line.getLineColor());
                             fillPaint.setAlpha(50);
                             fillPaint.setAntiAlias(true);
@@ -517,7 +560,6 @@ public class TrendChart extends TrendGridChart {
             // (pointLineLength + 1));
             float fPointIndex = ((getTouchPoint().x - super.getAxisMarginLeft()) / (pointLineLength + 1));
             int pointIndex = Math.round(fPointIndex);
-            System.out.println("touch pointIndex:" + pointIndex);
             LineEntity lineEntity = lineData.get(0);
             int maxPointSize = lineEntity.getLineData().size();
             if (pointIndex < maxPointSize && pointIndex >= 0) {
@@ -1080,13 +1122,14 @@ public class TrendChart extends TrendGridChart {
         this.context = context;
     }
 
-    public SelectStockBean getmStockBean() {
-        return mStockBean;
-    }
-
-    public void setmStockBean(SelectStockBean mStockBean) {
-        this.mStockBean = mStockBean;
-    }
+    //
+    // public SelectStockBean getmStockBean() {
+    // return mStockBean;
+    // }
+    //
+    // public void setmStockBean(SelectStockBean mStockBean) {
+    // this.mStockBean = mStockBean;
+    // }
 
     private OnDoubleClickListener mDoubleClicklistener;
 
@@ -1108,7 +1151,14 @@ public class TrendChart extends TrendGridChart {
         // TODO Auto-generated method stub
         super.onDetachedFromWindow();
         removeCallbacks(mLongPressRunnable);
-        System.out.println("onDetachedFromWindow recycle memory");
+    }
+
+    public StockViewCallBack getCallBack() {
+        return callBack;
+    }
+
+    public void setCallBack(StockViewCallBack callBack) {
+        this.callBack = callBack;
     }
 
 }

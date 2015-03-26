@@ -65,6 +65,7 @@ import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.F10Fragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
@@ -84,7 +85,8 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-9-26 上午10:22:32
  * @version 1.0
  */
-public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, ITouchListener, Serializable {
+public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, ITouchListener, Serializable,
+        StockViewCallBack {
 
     private static final long serialVersionUID = 15121212311111156L;
     private SelectStockBean mStockBean;
@@ -177,7 +179,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        System.out.println("StockquoteActivity oncreate");
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
@@ -205,6 +206,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
         reGetDate();
+    }
+
+    private void full(boolean paramBoolean) {
+        if (paramBoolean) {
+            WindowManager.LayoutParams localLayoutParams2 = getWindow().getAttributes();
+            localLayoutParams2.flags = (0x400 | localLayoutParams2.flags);
+            getWindow().setAttributes(localLayoutParams2);
+            getWindow().addFlags(512);
+            return;
+        }
+        WindowManager.LayoutParams localLayoutParams1 = getWindow().getAttributes();
+        localLayoutParams1.flags = (0xFFFFFBFF & localLayoutParams1.flags);
+        getWindow().setAttributes(localLayoutParams1);
+        getWindow().clearFlags(512);
     }
 
     /**
@@ -582,6 +597,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
                 mStockCode);
         mStockQuotesChartFragment.setITouchListener(this);
+        mStockQuotesChartFragment.setStockViewCallBack(this);
         fragmentList.add(mStockQuotesChartFragment);
         KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode,
                 symbolType);
@@ -988,5 +1004,43 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     public void setCheckValue(String checkValue) {
         this.checkValue = checkValue;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void fadeOut() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param paramInt
+     * @return
+     */
+    @Override
+    public void setViewType(int paramInt) {
+        // TODO Auto-generated method stub
+
+    }
+
+    boolean isFull;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void stockMarkShow() {
+
+        full(true);
+        isFull = !isFull;
+
     }
 }

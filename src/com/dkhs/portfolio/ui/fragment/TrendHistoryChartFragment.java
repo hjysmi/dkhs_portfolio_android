@@ -125,10 +125,6 @@ public class TrendHistoryChartFragment extends BaseFragment {
             mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
             pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
             pb.setVisibility(View.VISIBLE);
-            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
-                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-                mMaChart.setScroll(mScrollview);
-            }
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);

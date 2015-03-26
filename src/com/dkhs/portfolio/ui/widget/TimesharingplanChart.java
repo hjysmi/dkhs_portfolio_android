@@ -54,17 +54,19 @@ public class TimesharingplanChart extends TrendChart {
      */
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        
+
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-       /* int mesasureWidth = measureWidth(widthMeasureSpec);
-        int screenWidth = measureWidth((int) DisplayUtil.getWindowSizePoint().x);
-
-        // setMeasuredDimension(mesasureWidth, (int)
-        // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
-        // System.out.println("mesasureWidth:" + mesasureWidth);
-        // System.out.println("screenWidth:" + screenWidth);
-        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));*/
+        /*
+         * int mesasureWidth = measureWidth(widthMeasureSpec);
+         * int screenWidth = measureWidth((int) DisplayUtil.getWindowSizePoint().x);
+         * 
+         * // setMeasuredDimension(mesasureWidth, (int)
+         * // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
+         * // System.out.println("mesasureWidth:" + mesasureWidth);
+         * // System.out.println("screenWidth:" + screenWidth);
+         * setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().x / 4 * 3 / 4 * 4.5f));
+         */
     }
 
     private int measureWidth(int measureSpec) {
@@ -133,9 +135,13 @@ public class TimesharingplanChart extends TrendChart {
 
     }
 
+    public float LEFTMARGIN = 10.0F;
+    public float LINEMARGIN = 2.0F;
+
     private void drawVolChart(Canvas canvas) {
+        float maxSize = (this.getMaxPointNum() + 1);
         // 蜡烛棒宽度
-        float stickWidth = ((getmGridLineLenght()) / (this.getMaxPointNum()));
+        float stickWidth = ((getmGridLineLenght() - 2.0f * this.LINEMARGIN) / maxSize);
         // 蜡烛棒起始绘制位置
         float stickX = super.getAxisMarginLeft();
         Paint mPaintStick = new Paint();
@@ -167,13 +173,6 @@ public class TimesharingplanChart extends TrendChart {
                             mPaintStick.setColor(ColorTemplate.DEF_GREEN);
                         }
 
-                        // float highY = (float) ((1f - (ohlc.getHigh() - minValue) / (maxValue - minValue))
-                        // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                        // .getAxisMarginTop());
-                        // float lowY = (float) ((1f - (ohlc.getLow() - minValue) / (maxValue - minValue))
-                        // * (super.getHeight() - super.getAxisMarginBottom() - mTitleHeight) - super
-                        // .getAxisMarginTop());
-
                         float dValue = ohlc.getTurnover() - lineentity.getMinVolNum();
 
                         float percentYPoint = 0.0f;
@@ -185,11 +184,11 @@ public class TimesharingplanChart extends TrendChart {
                         // float lowY = getmGridLineHeight() + 0;
 
                         // 绘制数据?��?据宽度判断绘制直线或方柱
-                        if (stickWidth >= 2f) {
-                            canvas.drawRect(stickX, highY, stickX + stickWidth, lowY, mPaintStick);
-                        } else {
-                            canvas.drawLine(stickX, highY, stickX, lowY, mPaintStick);
-                        }
+                        // if (stickWidth >= 2f) {
+                        // canvas.drawRect(stickX, highY, stickX + stickWidth, lowY, mPaintStick);
+                        // } else {
+                        canvas.drawLine(stickX + LINEMARGIN, highY, stickX + LINEMARGIN, lowY, mPaintStick);
+                        // }
 
                         // X位移
                         stickX = stickX + stickWidth;

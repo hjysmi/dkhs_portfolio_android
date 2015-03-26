@@ -45,6 +45,7 @@ import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -221,7 +222,7 @@ public class StockQuotesChartFragment extends Fragment {
         pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         mMaChart.setContext(getActivity());
-        mMaChart.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
+        mMaChart.setCallBack((StockViewCallBack) getActivity());
         initMaChart(mMaChart);
         initView(view);
 
@@ -787,6 +788,10 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
+    public void setStockViewCallBack(StockViewCallBack callBack) {
+        // this.mMaChart.setCallBack(callBack);
+    }
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -824,4 +829,5 @@ public class StockQuotesChartFragment extends Fragment {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
     }
+
 }

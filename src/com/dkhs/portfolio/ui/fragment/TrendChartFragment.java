@@ -411,10 +411,10 @@ public class TrendChartFragment extends BaseFragment {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-        if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
-            InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-            mMaChart.setScroll(mScrollview);
-        }
+        // if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+        // InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+        // mMaChart.setScroll(mScrollview);
+        // }
         initMaChart(mMaChart);
         initView(view);
         // setupBottomTextViewData();
