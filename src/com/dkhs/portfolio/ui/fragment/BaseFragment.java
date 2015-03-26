@@ -79,8 +79,9 @@ public abstract class BaseFragment extends Fragment {
      */
     @Override
     public void startActivity(Intent intent) {
-        UIUtils.setOverridePendingAmin(getActivity());
+        System.out.println("BaseFragment startActivity");
         super.startActivity(intent);
+        UIUtils.setOverridePendingAmin(getActivity());
     }
 
     /**

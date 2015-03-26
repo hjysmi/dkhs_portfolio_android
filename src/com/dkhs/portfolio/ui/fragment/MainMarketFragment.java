@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,17 +18,15 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ErrorBundle;
-import com.dkhs.portfolio.ui.MarketCenterActivity;
 import com.dkhs.portfolio.ui.MarketListActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.MarketCenterActivity.RequestMarketTask;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
@@ -201,14 +200,13 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SectorBean bean = mSecotrList.get(position);
-                // startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
-                // bean.getAbbr_name()));
+                startActivity(MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                        bean.getAbbr_name()));
 
-                UIUtils.startAminationActivity(
-                        getActivity(),
-                        MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
-                                bean.getAbbr_name()));
-                //
+                // UIUtils.startAminationActivity(
+                // getActivity(),
+                // MarketListActivity.newIntent(getActivity(), LoadViewType.PlateList, bean.getId(),
+                // bean.getAbbr_name()));
 
             }
         });
@@ -279,11 +277,11 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
 
     }
 
-    private List<LoadSelectDataEngine> engineList;
+    private List<LoadMoreDataEngine> engineList;
     private PlateLoadMoreEngineImpl plateEngine;
 
     private void initData() {
-        engineList = new ArrayList<LoadSelectDataEngine>();
+        engineList = new ArrayList<LoadMoreDataEngine>();
         engineList.add(new OpitionCenterStockEngineImple(new StockLoadDataListener(
                 OpitionCenterStockEngineImple.ORDER_INCREASE), StockViewType.MARKET_STOCK_UPRATIO, 10));
         engineList.add(new OpitionCenterStockEngineImple(new StockLoadDataListener(
@@ -296,7 +294,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
                 MarketCenterStockEngineImple.CURRENT, 3));
 
         plateEngine = new PlateLoadMoreEngineImpl(plateListener);
-        for (LoadSelectDataEngine mLoadDataEngine : engineList) {
+        for (LoadMoreDataEngine mLoadDataEngine : engineList) {
             mLoadDataEngine.loadData();
         }
         plateEngine.loadData();
@@ -336,10 +334,19 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             this.type = loadType;
         }
 
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @param object
+         * @return
+         */
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+        public void loadFinish(MoreDataBean object) {
             isLoading = false;
+            List<SelectStockBean> dataList = Collections.EMPTY_LIST;
+            if (null != object) {
+                dataList = object.getResults();
+            }
             if (null != dataList && !TextUtils.isEmpty(type)) {
                 if (type.equals(OpitionCenterStockEngineImple.ORDER_INCREASE)) {
                     mIncreaseDataList.clear();
@@ -363,10 +370,16 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
                     mIndexAdapter.notifyDataSetChanged();
                 }
             }
+
         }
 
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @return
+         */
         @Override
-        public void loadFail(ErrorBundle error) {
+        public void loadFail() {
             endAnimaRefresh();
             isLoading = false;
 
@@ -456,7 +469,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
             return;
         }
         isLoading = true;
-        for (LoadSelectDataEngine mLoadDataEngine : engineList) {
+        for (LoadMoreDataEngine mLoadDataEngine : engineList) {
             mLoadDataEngine.loadData();
         }
         startAnimaRefresh();

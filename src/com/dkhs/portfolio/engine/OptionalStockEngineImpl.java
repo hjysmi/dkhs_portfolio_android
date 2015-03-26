@@ -19,23 +19,29 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.StockUitls;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @ClassName StockEngineImpl
@@ -44,22 +50,17 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @date 2014-9-18 上午10:27:07
  * @version 1.0
  */
-public class OptionalStockEngineImpl extends LoadSelectDataEngine {
-    ILoadDataBackListener loadListener;
+public class OptionalStockEngineImpl extends LoadMoreDataEngine {
+    // ILoadDataBackListener loadListener;
 
     public OptionalStockEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex) {
         super(loadListener);
         this.isShowIndex = isShowIndex;
-        this.loadListener = loadListener;
+        // this.loadListener = loadListener;
     }
 
     private boolean isShowIndex;
 
-    private int totalcount;
-
-    private int totalpage;
-
-    private int currentpage;
     // private List<StockPriceBean> results = new ArrayList<StockPriceBean>();
 
     // /**
@@ -79,6 +80,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
 
     @Override
     public HttpHandler loadData() {
+
         if (isLoading) {
             return null;
         }
@@ -93,7 +95,7 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
             return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
         } else {
 
-            if (null != getiLoadListener()) {
+            if (null != getLoadListener()) {
                 List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
                 StringBuilder sbIds = new StringBuilder();
                 if (null != dataList) {
@@ -116,11 +118,13 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
                         params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
                         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
                     } else {
-                        getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+                        // MoreDataBean empty = new MoreDataBean<T>()
+                        getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
                         isLoading = false;
                     }
                 } else {
-                    getiLoadListener().loadFinish(Collections.EMPTY_LIST);
+                    getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
+
                     isLoading = false;
                     // getiLoadListener().loadFail(null);
 
@@ -132,47 +136,33 @@ public class OptionalStockEngineImpl extends LoadSelectDataEngine {
     }
 
     @Override
-    protected List<SelectStockBean> parseDateTask(String jsonData) {
+    protected MoreDataBean parseDateTask(String jsonData) {
+        // /需要优化的地方
+
         isLoading = false;
-        List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+
+        MoreDataBean<StockPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
+        MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
+
         try {
-            JSONObject dataObject = new JSONObject(jsonData);
-            totalcount = dataObject.optInt("total_count");
-            totalpage = dataObject.optInt("total_page");
-            currentpage = dataObject.optInt("current_page");
-            setStatu(dataObject.optInt("trade_status"));
-            JSONArray resultsJsonArray = dataObject.optJSONArray("results");
-            if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
-                int length = resultsJsonArray.length();
-                System.out.println("resultsJsonArray.length():" + length);
-                for (int i = 0; i < length; i++) {
-                    JSONObject stockObject = resultsJsonArray.optJSONObject(i);
-                    StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
 
-                    if (!isShowIndex) {
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                        if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(stockBean.getSymbol_type())
-                                && !stockBean.isStop()) {
-                            // results.add(stockBean);
-                            // selectList.add(selectBean);
-                            selectList.add(SelectStockBean.copy(stockBean));
-                        }
-                    } else {
-                        // selectList.add(selectBean);
-                        selectList.add(SelectStockBean.copy(stockBean));
-                    }
+            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<StockPriceBean>>() {
+            }.getType());
+            //
+            parseMoreBean.copyMoreDataBean(dataMoreBean);
+            parseMoreBean.setResults(new ArrayList<SelectStockBean>());
 
-                }
-
+            for (StockPriceBean priceBean : dataMoreBean.getResults()) {
+                // selectList.add(SelectStockBean.copy(priceBean));
+                parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
             }
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        // if (orderType.equals("followed_at")) {
-        // selectList = forIndex(selectList);
-        // }
-        return selectList;
+        return parseMoreBean;
 
     }
 

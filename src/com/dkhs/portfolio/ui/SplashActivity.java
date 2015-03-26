@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
@@ -27,7 +28,7 @@ import com.umeng.analytics.MobclickAgent;
  * (2)是，则进入GuideActivity；否，则进入MainActivity (3)2s后执行(2)操作
  * 
  */
-public class SplashActivity extends ModelAcitivity {
+public class SplashActivity extends FragmentActivity {
     boolean isFirstIn = false;
 
     private static final int GO_ACCOUNT_MAIN = 1000;
@@ -69,7 +70,7 @@ public class SplashActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
         context = this;
-        hideHead();
+        // hideHead();
         init();
         if (!PortfolioApplication.getInstance().isDebug()) {
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);

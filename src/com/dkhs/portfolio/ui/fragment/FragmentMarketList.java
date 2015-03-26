@@ -24,11 +24,12 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
@@ -36,7 +37,7 @@ import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
+import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
@@ -79,7 +80,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
     protected boolean isItemClickBack;
     protected StockViewType mViewType;
     protected boolean fromPosition = false;
-    LoadSelectDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     protected TextView tvEmptyText;
     public int timeMill;
     protected boolean flush = false;
@@ -175,10 +176,12 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
     }
 
-    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener<SelectStockBean>() {
 
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
+        public void loadFinish(MoreDataBean<SelectStockBean> object) {
+
+            object.getResults();
             mListView.onLoadMoreComplete();
             mListView.onRefreshComplete();
             // mLoadDataEngine.getTotalpage()
@@ -205,9 +208,10 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             }
 
             // loadFinishUpdateView();
-            if (null != dataList && dataList.size() > 0 && isAdded()) {
+
+            if (null != object && null != object.getResults() && object.getResults().size() > 0 && isAdded()) {
                 mDataList.clear();
-                mDataList.addAll(dataList);
+                mDataList.addAll(object.getResults());
                 mAdapterConbinStock.notifyDataSetChanged();
                 // mDataList = dataList;
 
@@ -228,8 +232,7 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         }
 
         @Override
-        public void loadFail(ErrorBundle error) {
-            LogUtils.e("loading fail,error code:" + error.getErrorCode());
+        public void loadFail() {
             isLoadingMore = false;
             if (null == mDataList || mDataList.size() == 0) {
                 initNotice();
@@ -238,8 +241,73 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
                 loadingFinishListener.loadingFinish();
             }
         }
-
     };
+
+    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    //
+    // @Override
+    // public void loadFinish(List<SelectStockBean> dataList) {
+    // mListView.onLoadMoreComplete();
+    // mListView.onRefreshComplete();
+    // // mLoadDataEngine.getTotalpage()
+    // mListView.setCurrentPage(mLoadDataEngine.getCurrentpage());
+    // mListView.setTotalPage(mLoadDataEngine.getTotalpage());
+    // if (null != loadingFinishListener) {
+    // loadingFinishListener.loadingFinish();
+    // }
+    // if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+    // mListView.setCanLoadMore(false);
+    // mListView.setAutoLoadMore(false);
+    // } else {
+    // mListView.setCanLoadMore(true);
+    // mListView.setAutoLoadMore(true);
+    // if (mLoadDataEngine.getCurrentpage() == 1)
+    // mListView.setOnLoadListener(FragmentMarketList.this);
+    // }
+    // if (flush) {
+    // // Toast.makeText(getActivity(), "没有更多的数据了",
+    // // Toast.LENGTH_SHORT).show();
+    // flush = false;
+    // // loadFinishUpdateView();
+    // return;
+    // }
+    //
+    // // loadFinishUpdateView();
+    // if (null != dataList && dataList.size() > 0 && isAdded()) {
+    // mDataList.clear();
+    // mDataList.addAll(dataList);
+    // mAdapterConbinStock.notifyDataSetChanged();
+    // // mDataList = dataList;
+    //
+    // }
+    // if (isRefresh) {
+    // // mDataList.clear();
+    // isRefresh = false;
+    // }
+    // if (isLoadingMore) {
+    //
+    // mListView.setSelection(1);
+    // }
+    // if (null == mDataList || mDataList.size() == 0) {
+    // initNotice();
+    // }
+    // isLoadingMore = false;
+    //
+    // }
+    //
+    // @Override
+    // public void loadFail(ErrorBundle error) {
+    // LogUtils.e("loading fail,error code:" + error.getErrorCode());
+    // isLoadingMore = false;
+    // if (null == mDataList || mDataList.size() == 0) {
+    // initNotice();
+    // }
+    // if (null != loadingFinishListener) {
+    // loadingFinishListener.loadingFinish();
+    // }
+    // }
+    //
+    // };
 
     public void setOrderType(OrderType orderType) {
         isRefresh = true;
@@ -469,8 +537,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
             itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
             // Toast.LENGTH_SHORT).show();
-            UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
-            // getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            // UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -479,8 +547,8 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             SelectStockBean itemStock = mDataList.get(position);
-            // getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
-            UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
+            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            // UIUtils.startAminationActivity(getActivity(), (StockQuotesActivity.newIntent(getActivity(), itemStock)));
             //
             getActivity().finish();
         }

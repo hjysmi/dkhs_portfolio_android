@@ -806,7 +806,7 @@ public class TrendChartFragment extends BaseFragment {
      */
     private float getMaxOffetValue(DrawLineDataEntity lineData, HistoryNetValue historyNetValue) {
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-        
+
         lineData.dataList.clear();
 
         lineData.end = historyNetValue.getEnd();
@@ -819,31 +819,35 @@ public class TrendChartFragment extends BaseFragment {
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-        int dataLenght = historyNetList.size();
-        for (int i = 0; i < dataLenght; i++) {
+        int dataLenght = 0;
+        if (null != historyNetList) {
 
-            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            float value = todayBean.getNetvalue();
-            // pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(value);
-            pointEntity.setTime("日期: " + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentage());
-            // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+            dataLenght = historyNetList.size();
+            for (int i = 0; i < dataLenght; i++) {
 
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
+                TrendLinePointEntity pointEntity = new TrendLinePointEntity();
+                HistoryNetBean todayBean = historyNetList.get(i);
+                float value = todayBean.getNetvalue();
+                // pointEntity.setDesc(todayBean.getDate());
+                pointEntity.setValue(value);
+                pointEntity.setTime("日期: " + todayBean.getDate());
+                pointEntity.setIncreaseRange(todayBean.getPercentage());
+                // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+
+                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                        dashLineSize = i;
+                    }
                 }
-            }
 
-            lineData.dataList.add(pointEntity);
+                lineData.dataList.add(pointEntity);
 
-            if (value > maxNum) {
-                maxNum = value;
+                if (value > maxNum) {
+                    maxNum = value;
 
-            } else if (value < minNum) {
-                minNum = value;
+                } else if (value < minNum) {
+                    minNum = value;
+                }
             }
         }
         float offetValue;

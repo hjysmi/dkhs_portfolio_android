@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,8 @@ import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnLoadMoreListener
  * @date 2014-9-22 上午9:50:28
  * @version 1.0
  */
-public abstract class LoadPageMoreListFragment extends Fragment implements ILoadDataBackListener, OnLoadMoreListener {
+public abstract class LoadPageMoreListFragment extends BaseFragment implements ILoadDataBackListener,
+        OnLoadMoreListener {
 
     PullToRefreshPageListView mListView;
     // private ListAdapter mAdapter;
@@ -57,11 +59,15 @@ public abstract class LoadPageMoreListFragment extends Fragment implements ILoad
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_page_selectstock, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         initLoadMoreList(view);
-        // setListAdatper();
-        return view;
+    }
+
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_page_selectstock;
     }
 
     // public void setListAdatper(ListAdapter mAdapter){

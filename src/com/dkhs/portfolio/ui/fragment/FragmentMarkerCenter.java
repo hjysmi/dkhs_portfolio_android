@@ -8,9 +8,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
-import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.MarketListActivity;
-import com.dkhs.portfolio.ui.MarketCenterActivity.RequestMarketTask;
+import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.RefreshModelActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
@@ -59,7 +58,7 @@ public class FragmentMarkerCenter extends BaseFragment implements OnClickListene
     private TextView marketTextEdition;
     private LinearLayout marketLayoutUpanddown;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 *30;
+    private static final long mPollRequestTime = 1000 * 30;
     private boolean start = true;
 
     private WeakReference<MarketListActivity> mWeakActivity;

@@ -73,6 +73,7 @@ public class TrendMonthChartFragment extends BaseFragment {
 
     private DrawLineDataEntity monthNetvalue;
     private RelativeLayout pb;
+
     public static TrendMonthChartFragment newInstance(String trendType) {
         TrendMonthChartFragment fragment = new TrendMonthChartFragment();
 
@@ -130,7 +131,7 @@ public class TrendMonthChartFragment extends BaseFragment {
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);
-            //PromptManager.showProgressDialog(getActivity(), "");
+            // PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryOneMonth(monthListener);
 
         }
@@ -341,7 +342,7 @@ public class TrendMonthChartFragment extends BaseFragment {
             tvIncreaseValue.setText(StringFromatUtils.get2PointPercent(addupValue));
             tvUpValue.setTextColor(ColorTemplate.getTextColor(R.color.gray_textcolor));
             tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(addupValue));
-            //PromptManager.closeProgressDialog();
+            // PromptManager.closeProgressDialog();
         } catch (Exception e) {
             // TODO: handle exception
         }
@@ -407,25 +408,29 @@ public class TrendMonthChartFragment extends BaseFragment {
         int dashLineSize = 0;
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
-        int dataLenght = historyNetList.size();
-        for (int i = 0; i < dataLenght; i++) {
-            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            float value = todayBean.getNetvalue();
-            pointEntity.setValue(value);
-            pointEntity.setTime("日期: " + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
-                }
-            }
-            lineData.dataList.add(pointEntity);
-            if (value > maxNum) {
-                maxNum = value;
+        int dataLenght = 0;
+        if (null != historyNetList) {
 
-            } else if (value < minNum) {
-                minNum = value;
+            dataLenght = historyNetList.size();
+            for (int i = 0; i < dataLenght; i++) {
+                TrendLinePointEntity pointEntity = new TrendLinePointEntity();
+                HistoryNetBean todayBean = historyNetList.get(i);
+                float value = todayBean.getNetvalue();
+                pointEntity.setValue(value);
+                pointEntity.setTime("日期: " + todayBean.getDate());
+                pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
+                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                        dashLineSize = i;
+                    }
+                }
+                lineData.dataList.add(pointEntity);
+                if (value > maxNum) {
+                    maxNum = value;
+
+                } else if (value < minNum) {
+                    minNum = value;
+                }
             }
         }
         float offetValue;
@@ -514,7 +519,7 @@ public class TrendMonthChartFragment extends BaseFragment {
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
     }
 
-    /**  
+    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @return
