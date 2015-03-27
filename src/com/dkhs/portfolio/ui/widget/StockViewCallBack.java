@@ -11,8 +11,6 @@ package com.dkhs.portfolio.ui.widget;
 public abstract interface StockViewCallBack {
     public abstract void fadeOut();
 
-    // public abstract void refresh_ok(StockMark paramStockMark);
-
     public abstract void setViewType(int paramInt);
 
     public abstract void stockMarkShow();
