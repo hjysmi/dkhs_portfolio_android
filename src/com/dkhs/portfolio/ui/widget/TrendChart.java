@@ -99,6 +99,10 @@ public class TrendChart extends TrendGridChart {
 
     private int textMargin;
 
+    // 创建画笔 画背景图
+    private Paint selectPaint;
+    private Paint textPaint;
+
     private void init() {
         // lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_stroke_width);
         lineStrokeWidth = getResources().getDimensionPixelOffset(R.dimen.line_weight_stroke_width);
@@ -115,6 +119,10 @@ public class TrendChart extends TrendGridChart {
         fingerPaint = new Paint();
         fingerPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
         fingerPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
+
+        selectPaint = new Paint();
+
+        textPaint = new Paint();
 
         mLongPressRunnable = new Runnable() {
 
@@ -213,7 +221,7 @@ public class TrendChart extends TrendGridChart {
                     mTouchListener.chartTounching();
                 }
                 // mScrollview.setIsfocus(true);
-                getParent().requestDisallowInterceptTouchEvent(false);
+                getParent().requestDisallowInterceptTouchEvent(true);
 
                 Thread t = new Thread(new Runnable() {
 
@@ -230,7 +238,7 @@ public class TrendChart extends TrendGridChart {
                                     mTouchListener.chartTounching();
                                 }
                                 // mScrollview.setIsfocus(true);
-                                getParent().requestDisallowInterceptTouchEvent(false);
+                                getParent().requestDisallowInterceptTouchEvent(true);
                             }
                         } catch (Exception e) {
 
@@ -269,7 +277,7 @@ public class TrendChart extends TrendGridChart {
                         mTouchListener.loseTouching();
                     }
                     // mScrollview.setIsfocus(false);
-                    getParent().requestDisallowInterceptTouchEvent(true);
+                    getParent().requestDisallowInterceptTouchEvent(false);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -288,7 +296,7 @@ public class TrendChart extends TrendGridChart {
                     mTouchListener.loseTouching();
                 }
                 // mScrollview.setIsfocus(false);
-                getParent().requestDisallowInterceptTouchEvent(true);
+                getParent().requestDisallowInterceptTouchEvent(false);
                 removeCallbacks(mLongPressRunnable);
 
                 break;
@@ -310,7 +318,7 @@ public class TrendChart extends TrendGridChart {
                     mTouchListener.chartTounching();
                 }
                 // mScrollview.setIsfocus(true);
-                getParent().requestDisallowInterceptTouchEvent(false);
+                getParent().requestDisallowInterceptTouchEvent(true);
                 // 获取点击坐标
                 clickPostX = event.getX();
                 clickPostY = event.getY();
@@ -334,6 +342,13 @@ public class TrendChart extends TrendGridChart {
 
     private boolean isTrendChartMeasure = true;
 
+    private float midPointx;
+    private int viewLength;
+    private int viewHeight;
+    private int margin;
+    private float startX;
+    private float marginTop;
+
     @Override
     protected void onDraw(Canvas canvas) {
         // mCanvas = canvas;
@@ -342,6 +357,20 @@ public class TrendChart extends TrendGridChart {
             this.isTrendChartMeasure = false;
             startPointX = mStartLineXpoint + 2;
             endY = mGridLineHeight - axisMarginBottom;
+            midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+
+            if (isDrawTimesharingplanChart) {
+                viewHeight = 0;
+                viewLength = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_width);
+            } else if (isDrawTrendChart) {
+                viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight) / 3 * 2;
+                viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
+            }
+
+            viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
+            viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
+            margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
+            marginTop = margin + axisMarginTop;
         }
         mLinePaint.setStrokeWidth(lineStrokeWidth);
         // 绘制平线
@@ -594,13 +623,12 @@ public class TrendChart extends TrendGridChart {
      * @return void
      */
     private void drawTimesharingInfo(Canvas canvas, int pointIndex) {
-        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
-        float startX;
-        int viewHeight = 0;
+        // float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        // float startX;
+
         // int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight);
-        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_width);
-        int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
-        float marginTop = margin + axisMarginTop;
+        // int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
+        // float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边
         if (getTouchPoint().x > midPointx) {
@@ -612,20 +640,20 @@ public class TrendChart extends TrendGridChart {
         }
 
         // 创建画笔 画背景图
-        Paint selectPaint = new Paint();
-        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
-        selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
+        // Paint selectPaint = new Paint();
+
         // int textMargin = 2;
 
         /*
          * FontMetrics fm = selectPaint.getFontMetrics();
          * int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
          */
-        Paint p = new Paint();
+        // Paint p = new Paint();
         Rect rects = new Rect();
-        p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects);
+
+        selectPaint.reset();
+        selectPaint.setTextSize(getLatitudeFontSize());
+        selectPaint.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
 
         // if (lineData.size() > 3) {
@@ -640,10 +668,15 @@ public class TrendChart extends TrendGridChart {
         }
 
         // }
+        selectPaint.reset();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
 
         RectF oval3 = new RectF(startX, marginTop, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
 
+        selectPaint.reset();
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
         selectPaint.setStrokeWidth(2);
         selectPaint.setColor(Color.LTGRAY);
@@ -698,12 +731,11 @@ public class TrendChart extends TrendGridChart {
      * @return void
      */
     private void drawTrendChartInfo(Canvas canvas, int pointIndex) {
-        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
-        float startX;
-        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight) / 3 * 2;
-        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
-        int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
-        float marginTop = margin + axisMarginTop;
+        // float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        // float startX;
+
+        // int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
+        // float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边
         if (getTouchPoint().x > midPointx) {
@@ -715,25 +747,29 @@ public class TrendChart extends TrendGridChart {
         }
 
         // 创建画笔 画背景图
-        Paint selectPaint = new Paint();
-        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
-        selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
+        // Paint selectPaint = new Paint();
+
         // int textMargin = (int) (getResources().getDimensionPixelOffset(R.dimen.float_text_margin) * 1.5);
 
-        Paint p = new Paint();
+        // Paint p = new Paint();
+        selectPaint.reset();
         Rect rects = new Rect();
-        p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects);
+        selectPaint.setTextSize(getLatitudeFontSize());
+        selectPaint.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
         viewHeight = (textTextHeight + textMargin) * 3 + textMargin;
         if (lineData.size() > 3) {
             viewHeight = (textTextHeight + textMargin) * (lineData.size() + 1) + textMargin;
         }
 
+        selectPaint.reset();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
+
         RectF oval3 = new RectF(startX, marginTop - 2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
-
+        selectPaint.reset();
         selectPaint.setStyle(Paint.Style.STROKE);// 描边
         selectPaint.setStrokeWidth(2);
         selectPaint.setColor(Color.LTGRAY);
@@ -798,12 +834,12 @@ public class TrendChart extends TrendGridChart {
      */
     private void drawSingleDataView(Canvas canvas, int pointIndex) {
 
-        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
-        float startX;
-        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_view_lenght);
-        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
-        int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
-        float marginTop = margin + axisMarginTop;
+        // float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
+        // float startX;
+        // int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_view_lenght);
+        // int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
+        // int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
+        // float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边
         if (getTouchPoint().x > midPointx) {
@@ -815,7 +851,8 @@ public class TrendChart extends TrendGridChart {
         }
 
         // 创建画笔 画背景图
-        Paint selectPaint = new Paint();
+        // Paint selectPaint = new Paint();
+        selectPaint.reset();
         selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
         selectPaint.setStyle(Paint.Style.FILL);// 充满
         selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
@@ -837,10 +874,11 @@ public class TrendChart extends TrendGridChart {
          * FontMetrics fm = selectPaint.getFontMetrics();
          * int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
          */
-        Paint p = new Paint();
+        // Paint p = new Paint();
+        selectPaint.reset();
         Rect rects = new Rect();
-        p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects);
+        selectPaint.setTextSize(getLatitudeFontSize());
+        selectPaint.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
         float preYpoint = textTextHeight + textMargin + marginTop;
         selectPaint.reset();
@@ -887,12 +925,6 @@ public class TrendChart extends TrendGridChart {
      */
     protected void drawDataView(Canvas canvas, int pointIndex) {
 
-        float midPointx = (super.getWidth() / 2.0f) + super.getAxisMarginLeft();
-        float startX;
-        int viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
-        int viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
-        int margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
-        float marginTop = margin + axisMarginTop;
         // = margin;
         // 当触摸点在左边
         if (getTouchPoint().x > midPointx) {
@@ -904,20 +936,18 @@ public class TrendChart extends TrendGridChart {
         }
 
         // 创建画笔 画背景图
-        Paint selectPaint = new Paint();
-        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
-        selectPaint.setStyle(Paint.Style.FILL);// 充满
-        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
+        // Paint selectPaint= new Paint();
+
         // int textMargin = getResources().getDimensionPixelOffset(R.dimen.float_text_margin);
 
         /*
          * FontMetrics fm = selectPaint.getFontMetrics();
          * int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
          */
-        Paint p = new Paint();
+        selectPaint.reset();
         Rect rects = new Rect();
-        p.setTextSize(getLatitudeFontSize());
-        p.getTextBounds("正", 0, "正".length(), rects);
+        selectPaint.setTextSize(getLatitudeFontSize());
+        selectPaint.getTextBounds("正", 0, "正".length(), rects);
         int textTextHeight = rects.height();
         int size = 0;
         for (int i = 0; i < lineData.size(); i++) {
@@ -930,6 +960,11 @@ public class TrendChart extends TrendGridChart {
         } else if (lineData.size() == 2) {
             viewHeight = (textTextHeight + textMargin) * (size + 1) + textMargin;
         }
+
+        selectPaint.reset();
+        selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+        selectPaint.setStyle(Paint.Style.FILL);// 充满
+        selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
 
         RectF oval3 = new RectF(startX, marginTop - 2, startX + viewLength, marginTop + viewHeight + 5);// 设置个新的长方形
         canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径

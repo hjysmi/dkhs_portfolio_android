@@ -35,22 +35,22 @@ public class TrendGridChart extends View {
 
     // ////////////默认值////////////////
     /** 默认背景色 */
-    public static final int DEFAULT_BACKGROUD_COLOR = Color.BLACK;
+    public static final int DEFAULT_BACKGROUD_COLOR = Color.WHITE;
 
     /** 默认X坐标轴颜色 */
     public static final int DEFAULT_AXIS_X_COLOR = Color.LTGRAY;
 
     /** 默认Y坐标轴颜色 */
-    public static final int DEFAULT_AXIS_Y_COLOR = Color.RED;
+    public static final int DEFAULT_AXIS_Y_COLOR = Color.LTGRAY;
 
     /** 默认经线颜色 */
-    public static final int DEFAULT_LONGITUDE_COLOR = Color.RED;
+    public static final int DEFAULT_LONGITUDE_COLOR = Color.GRAY;
 
     /** 默认纬线颜色 */
-    public static final int DEFAULT_LAITUDE_COLOR = Color.RED;
+    public static final int DEFAULT_LAITUDE_COLOR = Color.GRAY;
 
     /** 默认轴线左边距 */
-    public static final float DEFAULT_AXIS_MARGIN_LEFT = 5f;
+    public static final float DEFAULT_AXIS_MARGIN_LEFT = 10f;
 
     /** 默认轴线底边据 */
     public static final float DEFAULT_AXIS_MARGIN_BOTTOM = 0f;
@@ -59,7 +59,7 @@ public class TrendGridChart extends View {
     public static final float DEFAULT_AXIS_MARGIN_TOP = 5f;
 
     /** 默认轴线右边距 */
-    public static final float DEFAULT_AXIS_MARGIN_RIGHT = 5f;
+    public static final float DEFAULT_AXIS_MARGIN_RIGHT = 10f;
 
     /** 默认经线是否显示刻度 */
     public static final boolean DEFAULT_DISPLAY_LONGTITUDE = Boolean.TRUE;
@@ -80,13 +80,13 @@ public class TrendGridChart extends View {
     public static final boolean DEFAULT_DISPLAY_AXIS_Y_TITLE = Boolean.TRUE;
 
     /** 默认是否显示边框 */
-    public static final boolean DEFAULT_DISPLAY_BORDER = Boolean.TRUE;
+    public static final boolean DEFAULT_DISPLAY_BORDER = Boolean.FALSE;
 
     /** 默认边框颜色 */
-    public static final int DEFAULT_BORDER_COLOR = Color.RED;
+    public static final int DEFAULT_BORDER_COLOR = Color.TRANSPARENT;
 
     /** 默认经线刻度字体颜色 **/
-    private int DEFAULT_LONGTITUDE_FONT_COLOR = Color.WHITE;
+    private int DEFAULT_LONGTITUDE_FONT_COLOR = Color.GRAY;
     /** 默认经线刻度字体颜色 **/
     private int DEFAULT_LONGTITUDE_FONT_COLOR_UP = Color.RED;
     /** 默认经线刻度字体颜色 **/
@@ -95,10 +95,10 @@ public class TrendGridChart extends View {
     private int DEFAULT_LONGTITUDE_FONT_COLOR_DOWN = Color.GREEN;
 
     /** 默认经线刻度字体大小 **/
-    private int DEFAULT_LONGTITUDE_FONT_SIZE = 12;
+    private int DEFAULT_LONGTITUDE_FONT_SIZE = 10;
 
     /** 默认经线刻度字体颜色 **/
-    private int DEFAULT_LATITUDE_FONT_COLOR = Color.RED;;
+    private int DEFAULT_LATITUDE_FONT_COLOR = Color.GRAY;
 
     /** 默认经线刻度字体字体 **/
     private int DEFAULT_LATITUDE_FONT_SIZE = 15;
@@ -153,7 +153,7 @@ public class TrendGridChart extends View {
     private boolean displayAxisYTitle = DEFAULT_DISPLAY_AXIS_Y_TITLE;
 
     /** 经线颜色是否对称 */
-    private boolean displayAxisYTitleColor = Boolean.FALSE;
+    private boolean displayAxisYTitleColor = Boolean.TRUE;
 
     /** 经线是否显示 */
     private boolean displayLongitude = DEFAULT_DISPLAY_LONGTITUDE;
@@ -291,6 +291,9 @@ public class TrendGridChart extends View {
             mStartLineYpoint = axisMarginTop + xTitleTextHeight / 2;
             mStartLineXpoint = axisMarginLeft;
             mGridLineLenght = getWidth() - mStartLineXpoint - axisMarginRight;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+                setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
         }
 
         drawXtitleText(canvas);
@@ -594,7 +597,7 @@ public class TrendGridChart extends View {
         float length = super.getHeight() - axisMarginBottom;
         float postX = axisMarginLeft + 1;
 
-        // mTextPaint.reset();
+        mTextPaint.reset();
         mTextPaint.setColor(axisXColor);
 
         canvas.drawLine(postX, 0f, postX, length, mTextPaint);
@@ -609,8 +612,9 @@ public class TrendGridChart extends View {
 
         int counts = xLineCounts;
 
-        // mTextPaint.reset();
+        mTextPaint.reset();
         mTextPaint.setColor(longitudeColor);
+        // mTextPaint.setAntiAlias(true);
 
         if (counts > 1) {
             float postOffset = mGridLineLenght / (counts - 1);
@@ -1065,6 +1069,10 @@ public class TrendGridChart extends View {
 
     public int getxLineCounts() {
         return xLineCounts;
+    }
+
+    protected Paint getmTextPaint() {
+        return mTextPaint;
     }
 
 }

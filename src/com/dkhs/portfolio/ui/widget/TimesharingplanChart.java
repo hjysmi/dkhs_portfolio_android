@@ -106,7 +106,8 @@ public class TimesharingplanChart extends TrendChart {
     }
 
     private void drawVolBorder(Canvas canvas) {
-        Paint mXTitlePaint = new Paint();
+        Paint mXTitlePaint = getmTextPaint();
+        mXTitlePaint.reset();
         mXTitlePaint.setColor(getLongitudeColor());
         // mXTitlePaint.setColor(Color.RED);
         canvas.drawLine(axisMarginLeft, getmGridLineHeight(), axisMarginLeft + getmGridLineLenght(),
@@ -144,7 +145,8 @@ public class TimesharingplanChart extends TrendChart {
         float stickWidth = ((getmGridLineLenght() - 2.0f * this.LINEMARGIN) / maxSize);
         // 蜡烛棒起始绘制位置
         float stickX = super.getAxisMarginLeft();
-        Paint mPaintStick = new Paint();
+        Paint mPaintStick = getmTextPaint();
+        mPaintStick.reset();
 
         if (null != lineData && lineData.size() > 0) {
 
