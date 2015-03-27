@@ -270,7 +270,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
 
-        machart.setITouchListener(mTouchListener);
+        // machart.setITouchListener(mTouchListener);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
 

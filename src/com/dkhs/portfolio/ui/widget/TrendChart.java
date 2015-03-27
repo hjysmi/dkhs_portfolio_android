@@ -172,9 +172,9 @@ public class TrendChart extends TrendGridChart {
                 moves = true;
                 timeX = event.getX();
                 timeY = event.getY();
-                if (null != mTouchListener) {
-                    mTouchListener.chartTounching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.chartTounching();
+                // }
                 // mScrollview.setIsfocus(true);
                 getParent().requestDisallowInterceptTouchEvent(true);
 
@@ -188,9 +188,9 @@ public class TrendChart extends TrendGridChart {
                                 mCounter++;
                                 isTouch = true;
                                 moves = false;
-                                if (null != mTouchListener) {
-                                    mTouchListener.chartTounching();
-                                }
+                                // if (null != mTouchListener) {
+                                // mTouchListener.chartTounching();
+                                // }
                                 // mScrollview.setIsfocus(true);
                                 getParent().requestDisallowInterceptTouchEvent(true);
                             }
@@ -227,9 +227,9 @@ public class TrendChart extends TrendGridChart {
                 float hor = event.getY() - timeY;
                 if (Math.abs(horizontalSpacing) > 15 || Math.abs(hor) > 15 && !isTouch) {
                     moves = false;
-                    if (null != mTouchListener) {
-                        mTouchListener.loseTouching();
-                    }
+                    // if (null != mTouchListener) {
+                    // mTouchListener.loseTouching();
+                    // }
                     // mScrollview.setIsfocus(false);
                     getParent().requestDisallowInterceptTouchEvent(false);
                 }
@@ -246,9 +246,9 @@ public class TrendChart extends TrendGridChart {
                 moves = false;
                 // 释放了
                 isReleased = true;
-                if (null != mTouchListener) {
-                    mTouchListener.loseTouching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.loseTouching();
+                // }
                 // mScrollview.setIsfocus(false);
                 getParent().requestDisallowInterceptTouchEvent(false);
                 removeCallbacks(mLongPressRunnable);
@@ -268,9 +268,9 @@ public class TrendChart extends TrendGridChart {
              * 判定用户是否触摸到�?���?如果是单点触摸则�?��绘制十字线 如果是2点触控则�?��K线放大
              */
             if (event.getPointerCount() == 1) {
-                if (null != mTouchListener) {
-                    mTouchListener.chartTounching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.chartTounching();
+                // }
                 // mScrollview.setIsfocus(true);
                 getParent().requestDisallowInterceptTouchEvent(true);
                 // 获取点击坐标
@@ -319,10 +319,11 @@ public class TrendChart extends TrendGridChart {
             } else if (isDrawTrendChart) {
                 viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_fs_view_hight) / 3 * 2;
                 viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
-            }
+            } else {
 
-            viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
-            viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
+                viewLength = getResources().getDimensionPixelOffset(R.dimen.float_trend_view_width);
+                viewHeight = getResources().getDimensionPixelOffset(R.dimen.float_view_hight);
+            }
             margin = getResources().getDimensionPixelSize(R.dimen.float_view_top_margin);
             marginTop = margin + axisMarginTop;
         }
@@ -920,11 +921,11 @@ public class TrendChart extends TrendGridChart {
 
     }
 
-    private ITouchListener mTouchListener;
+//    private ITouchListener mTouchListener;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
 
     public List<LineEntity> getLineData() {
         return lineData;

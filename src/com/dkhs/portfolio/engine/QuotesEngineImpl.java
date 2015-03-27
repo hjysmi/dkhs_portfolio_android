@@ -15,6 +15,8 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
+import android.util.Log;
+
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
@@ -64,6 +66,7 @@ public class QuotesEngineImpl {
     public void queryTimeShare(String stockCode, IHttpListener listener) {
         // RequestParams params = new RequestParams();
         // params.addBodyParameter("period", "1");
+
         DKHSClient
                 .requestByGet(MessageFormat.format(DKHSUrl.StockSymbol.sfthumbnail, stockCode), null, listener, false);
 

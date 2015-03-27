@@ -17,6 +17,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -62,7 +63,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-9-3 上午10:32:39
  * @version 1.0
  */
-public class StockQuotesChartFragment extends Fragment {
+public class StockQuotesChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String ARGUMENT_STOCK_CODE = "stock_code";
 
@@ -103,6 +104,11 @@ public class StockQuotesChartFragment extends Fragment {
         fragment.setArguments(arguments);
 
         return fragment;
+    }
+
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_stock_quotes_chart;
     }
 
     @Override
@@ -215,9 +221,17 @@ public class StockQuotesChartFragment extends Fragment {
         super.onAttach(activity);
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
@@ -225,8 +239,6 @@ public class StockQuotesChartFragment extends Fragment {
         mMaChart.setCallBack((StockViewCallBack) getActivity());
         initMaChart(mMaChart);
         initView(view);
-
-        return view;
     }
 
     private void initView(View view) {
@@ -263,7 +275,7 @@ public class StockQuotesChartFragment extends Fragment {
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
 
-        machart.setITouchListener(mTouchListener);
+        // machart.setITouchListener(mTouchListener);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
 
@@ -282,11 +294,11 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
-    private ITouchListener mTouchListener;
+    // private ITouchListener mTouchListener;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
 
     private void setLineData(List<FSLinePointEntity> lineDataList) {
         if (isAdded()) {
