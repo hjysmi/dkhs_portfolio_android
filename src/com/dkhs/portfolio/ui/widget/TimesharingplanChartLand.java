@@ -50,37 +50,6 @@ public class TimesharingplanChartLand extends TrendChart {
     }
 
     /**
-     * 重新控件大小
-     */
-    /*@Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        // setMeasuredDimension(measureWidth(widthMeasureSpec), measureHeight(heightMeasureSpec));
-        int mesasureWidth = measureWidth(widthMeasureSpec);
-        int screenWidth = measureWidth((int) DisplayUtil.getWindowSizePoint().x);
-
-        // setMeasuredDimension(mesasureWidth, (int)
-        // (DisplayUtil.px2dip(getContext(),DisplayUtil.getWindowSizePoint().x/4*4.5f)));
-        // System.out.println("mesasureWidth:" + mesasureWidth);
-        // System.out.println("screenWidth:" + screenWidth);
-        setMeasuredDimension(mesasureWidth, (int) (DisplayUtil.getWindowSizePoint().y*4/5));
-    }*/
-
-    private int measureWidth(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else if (specMode == MeasureSpec.AT_MOST) {
-            result = Math.min(result, specSize);
-        }
-        return result;
-    }
-
-    /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param canvas

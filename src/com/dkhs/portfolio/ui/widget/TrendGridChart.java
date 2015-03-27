@@ -698,48 +698,6 @@ public class TrendGridChart extends View {
 
     }
 
-    // 获得来自其他图表�??知
-    // public void notifyEvent(GridChart chart) {
-    // PointF point = chart.getTouchPoint();
-    // // 如果没有�?中点
-    // if (null != point) {
-    // // 获取点击坐�?
-    // clickPostX = point.x;
-    // clickPostY = point.y;
-    // }
-    // // 设置当前控件�?��摸点
-    // touchPoint = new PointF(clickPostX, clickPostY);
-    // super.invalidate();
-    // }
-
-    // public void addNotify(ITouchEventResponse notify) {
-    // if (null == notifyList) {
-    // notifyList = new ArrayList<ITouchEventResponse>();
-    // }
-    // notifyList.add(notify);
-    // }
-    //
-    // public void removeNotify(int i) {
-    // if (null != notifyList && notifyList.size() > i) {
-    // notifyList.remove(i);
-    // }
-    // }
-    //
-    // public void removeAllNotify() {
-    // if (null != notifyList) {
-    // notifyList.clear();
-    // }
-    // }
-
-    // public void notifyEventAll(GridChart chart) {
-    // if (null != notifyList) {
-    // for (int i = 0; i < notifyList.size(); i++) {
-    // ITouchEventResponse ichart = notifyList.get(i);
-    // ichart.notifyEvent(chart);
-    // }
-    // }
-    // }
-
     public int getBackgroudColor() {
         return backgroudColor;
     }
@@ -983,41 +941,6 @@ public class TrendGridChart extends View {
     public void setDisplayCrossYOnTouch(boolean displayCrossYOnTouch) {
         this.displayCrossYOnTouch = displayCrossYOnTouch;
     }
-
-    // public PointF getTouchPoint() {
-    // return touchPoint;
-    // }
-    //
-    // public void setTouchPoint(PointF touchPoint) {
-    // this.touchPoint = touchPoint;
-    // }
-    //
-    // public boolean isTouch() {
-    // return isTouch;
-    // }
-    //
-    // public void setTouch(boolean isTouch) {
-    // this.isTouch = isTouch;
-    // }
-
-    // private boolean isIntercept = false;
-    //
-    // /**
-    // *
-    // * @param isfocus true的时候表示拦截当前事件，不继续往下分发，交给自身的onTouchEvent进行处理。
-    // * false则不拦截，继续往下传，让子控件来处理。
-    // */
-    // public synchronized void setIsfocus(boolean isfocus) {
-    // this.isIntercept = isfocus;
-    // }
-    //
-    // @Override
-    // public boolean dispatchTouchEvent(MotionEvent event) {
-    // // TODO Auto-generated method stub
-    // // return super.dispatchTouchEvent(event);
-    // return true;
-    // }
-    //
 
     public boolean isDrawXBorke() {
         return isDrawXBorke;

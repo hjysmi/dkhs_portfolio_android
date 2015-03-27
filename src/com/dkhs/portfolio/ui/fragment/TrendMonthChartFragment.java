@@ -157,40 +157,7 @@ public class TrendMonthChartFragment extends BaseFragment {
 
     private void initMaChart(final TrendChart machart) {
         machart.setBoldLine();
-
-        // machart.setAxisXColor(Color.LTGRAY);
-        // machart.setAxisYColor(Color.LTGRAY);
-
-        // machart.setDisplayBorder(false);
-
-        // machart.setLatitudeColor(Color.LTGRAY);
-
-        // machart.setAxisXColor(Color.LTGRAY);
-        // machart.setAxisYColor(Color.LTGRAY);
-        // machart.setBorderColor(Color.TRANSPARENT);
-        // machart.setBackgroudColor(Color.WHITE);
-        // machart.setAxisMarginTop(10);
-        // machart.setAxisMarginLeft(10);
-        // machart.setAxisMarginRight(10);
-
-        // machart.setLongtitudeFontSize(10);
-        // machart.setLongtitudeFontColor(Color.GRAY);
-        // machart.setDisplayAxisYTitleColor(true);
-        // machart.setLatitudeColor(Color.GRAY);
-        // machart.setLatitudeFontColor(Color.GRAY);
-        // machart.setLongitudeColor(Color.GRAY);
-
-        // machart.setDisplayAxisXTitle(true);
-        // machart.setDisplayAxisYTitle(true);
-        // machart.setDisplayLatitude(true);
-        // machart.setDisplayLongitude(true);
-
         setInitYTitle();
-
-        // if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-        // machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        // }
-
     }
 
     private void setInitYTitle() {
