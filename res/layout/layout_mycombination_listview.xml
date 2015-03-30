@@ -4,11 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.baoyz.swipemenulistview.SwipeMenuListView
-        android:id="@+id/swipemenu_listView"
-        style="@style/listViewStyle"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/swipemenu_listView"
+            style="@style/listViewStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
     <TextView
         android:id="@android:id/empty"

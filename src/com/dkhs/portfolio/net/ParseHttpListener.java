@@ -78,7 +78,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         if (null != mContext) {
             // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             // // On UI thread.
-            // LogUtils.d("requestCallBack PromptManager.closeProgressDialog");
+            LogUtils.d("requestCallBack PromptManager.closeProgressDialog");
             PromptManager.closeProgressDialog();
             // } else {
             // LogUtils.d("requestCallBack Not on UI thread");
