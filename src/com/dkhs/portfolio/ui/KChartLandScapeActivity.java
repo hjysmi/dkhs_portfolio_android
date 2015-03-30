@@ -83,7 +83,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
     private String symbolType;
     public static final String TYPE = "type";
     private int type;
-    private String checkValue = PortfolioApplication.getInstance().getCheckValue();
+    private String checkValue = "0";
 
     public static Intent newIntent(Context context, SelectStockBean bean, int type) {
         Intent intent = new Intent(context, KChartLandScapeActivity.class);
@@ -211,7 +211,7 @@ public class KChartLandScapeActivity extends FragmentActivity implements OnClick
                  * landKlineLayout.setVisibility(View.VISIBLE); }
                  */
                 pager.setCurrentItem(position);
-                PortfolioApplication.getInstance().setkLinePosition(position);
+                // PortfolioApplication.getInstance().setkLinePosition(position);
             }
         }
     };

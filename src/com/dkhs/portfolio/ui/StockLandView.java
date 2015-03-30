@@ -31,6 +31,7 @@ import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -103,9 +104,6 @@ public class StockLandView extends RelativeLayout {
         landKlinTextData = (TextView) view.findViewById(R.id.land_klin_text_data);
         if (mViewType != 0)
             hsTitle.setSelectIndex(mViewType);
-        if (null != mStockBean) {
-            landKlinTextTitle.setText(mStockBean.name);
-        }
 
         pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setCanScroll(false);
@@ -128,7 +126,10 @@ public class StockLandView extends RelativeLayout {
                  */
                 // pager.setCurrentItem(position);
                 showView(position);
-                PortfolioApplication.getInstance().setkLinePosition(position);
+                if (null != mLandStockCallBack) {
+                    mLandStockCallBack.setTabPosition(view_position);
+                }
+                // PortfolioApplication.getInstance().setkLinePosition(position);
             }
         }
     };
@@ -138,6 +139,9 @@ public class StockLandView extends RelativeLayout {
         if (visibility == View.VISIBLE) {
             if (null != mQuotesEngine && mStockBean != null) {
                 // mQuotesEngine.quotes(mStockBean.code, listener);
+                if (mLandStockCallBack.getTabPosition() != view_position) {
+                    showView(mLandStockCallBack.getTabPosition());
+                }
             }
             // this.requestFocus();
         }
@@ -269,6 +273,10 @@ public class StockLandView extends RelativeLayout {
         fragmentList.add(fragment);
         fragmentList.add(fragment2);
         fragmentList.add(fragment3);
+
+        fragment.setLandCallBack(mLandStockCallBack);
+        fragment2.setLandCallBack(mLandStockCallBack);
+        fragment3.setLandCallBack(mLandStockCallBack);
         // fragment.setUserVisibleHint(true);
 
         FragmentTransaction ftransaction = activity.getSupportFragmentManager().beginTransaction();
@@ -311,6 +319,7 @@ public class StockLandView extends RelativeLayout {
             activity.getSupportFragmentManager().beginTransaction()
                     .hide((Fragment) this.fragmentList.get(view_position)).commitAllowingStateLoss();
             view_position = postion;
+
         }
 
     }
@@ -349,6 +358,9 @@ public class StockLandView extends RelativeLayout {
 
     public void setStockBean(SelectStockBean bean) {
         this.mStockBean = bean;
+        if (null != mStockBean) {
+            landKlinTextTitle.setText(mStockBean.name);
+        }
         initTabPage();
     }
 
@@ -362,6 +374,16 @@ public class StockLandView extends RelativeLayout {
 
     public void setStockViewCallback(StockViewCallBack stockViewCallback) {
         this.stockViewCallback = stockViewCallback;
+    }
+
+    private LandStockViewCallBack mLandStockCallBack;
+
+    public LandStockViewCallBack getLandStockCallBack() {
+        return mLandStockCallBack;
+    }
+
+    public void setLandStockCallBack(LandStockViewCallBack mLandStockCallBack) {
+        this.mLandStockCallBack = mLandStockCallBack;
     }
 
 }

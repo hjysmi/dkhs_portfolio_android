@@ -19,6 +19,7 @@ import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
+import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView.DisplayDataChangeListener;
@@ -60,13 +61,14 @@ public class KChartsFragment extends Fragment {
     public static final boolean testInterface = false; // 测试，使用本地数据
     private boolean first = true;
     private Timer mMarketTimer;
-	private static final long mPollRequestTime = 1000 * 5;
-	List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
-	private boolean having = true;
-	private String symbolType;
-	private RelativeLayout pb;
-	private String checkValue = "0";
-    public static KChartsFragment getKChartFragment(Integer type, String stockcode,String symbolType) {
+    private static final long mPollRequestTime = 1000 * 5;
+    List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
+    private boolean having = true;
+    private String symbolType;
+    private RelativeLayout pb;
+    private String checkValue = "0";
+
+    public static KChartsFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
 
         KChartsFragment fg = new KChartsFragment();
         fg.setType(type);
@@ -256,16 +258,18 @@ public class KChartsFragment extends Fragment {
                 return null;
             }
 
-            /*List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
-            OHLCEntity temp = null;
-            OHLCEntity entity = null;
-            for (int i = ohlc.size() - 1; i >= 0; i--) {
-                entity = ohlc.get(i);
-                temp = new OHLCEntity(entity.getVolume(), 0, entity.getDate(), entity.getMacd(), entity.getDiff(),
-                        entity.getDea());
-                temp.setUp(entity.isup());
-                volumns.add(temp);
-            }*/
+            /*
+             * List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
+             * OHLCEntity temp = null;
+             * OHLCEntity entity = null;
+             * for (int i = ohlc.size() - 1; i >= 0; i--) {
+             * entity = ohlc.get(i);
+             * temp = new OHLCEntity(entity.getVolume(), 0, entity.getDate(), entity.getMacd(), entity.getDiff(),
+             * entity.getDea());
+             * temp.setUp(entity.isup());
+             * volumns.add(temp);
+             * }
+             */
 
             return ohlc;
         } catch (Exception e) {
@@ -608,7 +612,9 @@ public class KChartsFragment extends Fragment {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
             // fragment可见时加载数据
-            checkValue = PortfolioApplication.getInstance().getCheckValue();
+            if (null != mLandCallBack) {
+                checkValue = mLandCallBack.getCheckValue();
+            }
             mQuotesDataEngine = new QuotesEngineImpl();
             List<OHLCEntity> ohlc = getOHLCDatas();
             if (mMarketTimer == null) {
@@ -665,7 +671,8 @@ public class KChartsFragment extends Fragment {
                 List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
                 if (null == ohlcs || ohlcs.size() == 0) {
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener, getCheckValue());
+                    mQuotesDataEngine.queryKLine(mtype, mStockCode, mLandCallBack.getCheckValue(), mKlineHttpListener,
+                            getCheckValue());
                 } else {
                     if (ohlc.size() > 0) {
                         ohlcs.add(0, ohlc.get(0));
@@ -702,6 +709,16 @@ public class KChartsFragment extends Fragment {
 
     public void setCheckValue(String checkValue) {
         this.checkValue = checkValue;
+    }
+
+    private LandStockViewCallBack mLandCallBack;
+
+    public LandStockViewCallBack getLandCallBack() {
+        return mLandCallBack;
+    }
+
+    public void setLandCallBack(LandStockViewCallBack mLandCallBack) {
+        this.mLandCallBack = mLandCallBack;
     }
 
 }

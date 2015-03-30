@@ -15,12 +15,14 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.os.Build;
+import android.test.UiThreadTest;
 import android.util.AttributeSet;
 import android.view.Display;
 import android.view.WindowManager;
 
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.ColorTemplate;
+import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName TimesharingplanChart
@@ -133,9 +135,11 @@ public class TimesharingplanChart extends TrendChart {
         // 蜡烛棒宽度
         float stickWidth = ((getmGridLineLenght() - 2.0f * this.LINEMARGIN) / maxSize);
         // 蜡烛棒起始绘制位置
-        float stickX = super.getAxisMarginLeft();
+        float stickX = super.getAxisMarginLeft()+this.LINEMARGIN;
         Paint mPaintStick = getmTextPaint();
         mPaintStick.reset();
+        mPaintStick.setStyle(Paint.Style.STROKE);
+        mPaintStick.setStrokeWidth(UIUtils.dip2px(getContext(), 0.25F));
 
         if (null != lineData && lineData.size() > 0) {
 

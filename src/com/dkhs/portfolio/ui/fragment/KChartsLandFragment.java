@@ -34,6 +34,7 @@ import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
+import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
@@ -704,12 +705,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 mMarketTimer = new Timer(true);
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
             }
-            if (null != tvUnCheck) {
-                if (((StockQuotesActivity) getActivity()).getCheckValue().equals(UNCHEK)) {
+            if (null != tvUnCheck && null != mLandCallBack) {
+                if (mLandCallBack.getCheckValue().equals(UNCHEK)) {
                     tvUnCheck.setSelected(true);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(false);
-                } else if (((StockQuotesActivity) getActivity()).getCheckValue().equals(BEFORECHEK)) {
+                } else if (mLandCallBack.getCheckValue().equals(BEFORECHEK)) {
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(true);
                     tvAfterCheck.setSelected(false);
@@ -718,19 +719,19 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
                 }
-                // if (((StockQuotesActivity) getActivity()).getStickType() == (StickChart.CHECK_COLUME)) {
-                // tvTurnover.setSelected(true);
-                // tvMacd.setSelected(false);
-                // mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
-                // ((StockQuotesActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
-                // mVolumnChartView.setLatitudeNum(1);
-                // } else if (((StockQuotesActivity) getActivity()).getStickType() == (StickChart.CHECK_MACD)) {
-                // tvTurnover.setSelected(false);
-                // tvMacd.setSelected(true);
-                // mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                // ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
-                // mVolumnChartView.setLatitudeNum(3);
-                // }
+                if (mLandCallBack.getStickType() == (StickChart.CHECK_COLUME)) {
+                    tvTurnover.setSelected(true);
+                    tvMacd.setSelected(false);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                    mLandCallBack.setStickType(StickChart.CHECK_COLUME);
+                    mVolumnChartView.setLatitudeNum(1);
+                } else if (mLandCallBack.getStickType() == (StickChart.CHECK_MACD)) {
+                    tvTurnover.setSelected(false);
+                    tvMacd.setSelected(true);
+                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                    mVolumnChartView.setLatitudeNum(3);
+                }
             }
         } else {
             // 不可见时不执行操作
@@ -765,13 +766,16 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
         @Override
         public void run() {
-            StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-            if (null != m && UIUtils.roundAble(m)) {
-                mMarketTimer.cancel();
+            if (null != mLandCallBack) {
+
+                StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                if (null != m && UIUtils.roundAble(m)) {
+                    mMarketTimer.cancel();
+                }
+                String mtype = getKLineType();
+                mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,
+                        mLandCallBack.getCheckValue());
             }
-            String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,
-                    ((StockQuotesActivity) getActivity()).getCheckValue());
         }
     }
 
@@ -785,7 +789,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 if (null == ohlcs || ohlcs.size() == 0) {
                     String mtype = getKLineType();
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                            ((StockQuotesActivity) getActivity()).getCheckValue(), page);
+                            mLandCallBack.getCheckValue(), page);
                 } else {
                     if (ohlc.size() > 0) {
                         /*
@@ -838,12 +842,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     mVolumnChartView.postInvalidate();
                     refreshChartsView(ohlcs);
                     pb.setVisibility(View.VISIBLE);
-                    ((KChartLandScapeActivity) getActivity()).setCheckValue(UNCHEK);
+                    mLandCallBack.setCheckValue(UNCHEK);
                     String mtype = getKLineType();
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                            ((KChartLandScapeActivity) getActivity()).getCheckValue(), page);
-                    PortfolioApplication.getInstance().setChange(true);
-                    PortfolioApplication.getInstance().setCheckValue(UNCHEK);
+                            mLandCallBack.getCheckValue(), page);
+                    // mLandCallBack.setChange(true);
+                    mLandCallBack.setCheckValue(UNCHEK);
                 }
                 break;
             case R.id.klin_before_check:
@@ -859,12 +863,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     mVolumnChartView.setStickData(volumns, page);
                     mVolumnChartView.postInvalidate();
                     pb.setVisibility(View.VISIBLE);
-                    ((KChartLandScapeActivity) getActivity()).setCheckValue(BEFORECHEK);
+                    mLandCallBack.setCheckValue(BEFORECHEK);
                     String mtype = getKLineType();
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                            ((KChartLandScapeActivity) getActivity()).getCheckValue(), page);
-                    PortfolioApplication.getInstance().setChange(true);
-                    PortfolioApplication.getInstance().setCheckValue(BEFORECHEK);
+                            mLandCallBack.getCheckValue(), page);
+                    // mLandCallBack.setChange(true);
+                    mLandCallBack.setCheckValue(BEFORECHEK);
                 }
                 break;
             case R.id.klin_after_check:
@@ -880,12 +884,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     mVolumnChartView.setStickData(volumns, page);
                     mVolumnChartView.postInvalidate();
                     pb.setVisibility(View.VISIBLE);
-                    ((KChartLandScapeActivity) getActivity()).setCheckValue(AFTERCHEK);
+                    mLandCallBack.setCheckValue(AFTERCHEK);
                     String mtype = getKLineType();
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                            ((KChartLandScapeActivity) getActivity()).getCheckValue(), page);
-                    PortfolioApplication.getInstance().setChange(true);
-                    PortfolioApplication.getInstance().setCheckValue(AFTERCHEK);
+                            mLandCallBack.getCheckValue(), page);
+                    // mLandCallBack.setChange(true);
+                    mLandCallBack.setCheckValue(AFTERCHEK);
                 }
                 break;
             case R.id.kline_turnover:
@@ -919,6 +923,16 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
     public void setPage(int page) {
         this.page = page;
+    }
+
+    private LandStockViewCallBack mLandCallBack;
+
+    public LandStockViewCallBack getLandCallBack() {
+        return mLandCallBack;
+    }
+
+    public void setLandCallBack(LandStockViewCallBack landCallBack) {
+        this.mLandCallBack = landCallBack;
     }
 
 }

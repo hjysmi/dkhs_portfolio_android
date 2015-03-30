@@ -51,7 +51,6 @@ import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
-import com.dkhs.portfolio.ui.widget.TimesharingplanChartLand;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -81,7 +80,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     private String trendType;
     private boolean isTodayNetValue;
 
-    private TimesharingplanChartLand mMaChart;
+    private TimesharingplanChart mMaChart;
 
     private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
@@ -235,7 +234,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
+        mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initMaChart(mMaChart);
