@@ -6,7 +6,7 @@
  * @date 2014-12-22 上午11:08:12
  * @version V1.0
  */
-package com.dkhs.portfolio.ui;
+package com.dkhs.portfolio.ui.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;

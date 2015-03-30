@@ -28,6 +28,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
@@ -41,7 +42,6 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NewsforModel;
@@ -134,7 +134,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private static final long mPollRequestTime = 1000 * 15;
     private static final String TAG = "StockQuotesActivity";
 
-    private View landScapeview;
+    // private View landScapeview;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -168,6 +168,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     VisitorDataEngine mVisitorDataEngine;
     private List<SelectStockBean> localList;
     Handler viewHandler = new Handler();
+
     // private TextView tvAdd;
 
     @Override
@@ -228,16 +229,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setOnClickListener(this);
         }
 
-        landScapeview = findViewById(R.id.layout_stockline);
-        landScapeview.post(new Runnable() {
-            @Override
-            public void run() {
-                defStockViewWidth = landScapeview.getWidth();
-                defStockViewHeight = landScapeview.getHeight();
-                Log.e("StockQuotesActivity", "view has width:  " + landScapeview.getWidth() + " and height: "
-                        + landScapeview.getHeight());
-            }
-        });
+        // landScapeview = findViewById(R.id.layout_stockline);
+        // landScapeview.post(new Runnable() {
+        // @Override
+        // public void run() {
+        // defStockViewWidth = landScapeview.getWidth();
+        // defStockViewHeight = landScapeview.getHeight();
+        // Log.e("StockQuotesActivity", "view has width:  " + landScapeview.getWidth() + " and height: "
+        // + landScapeview.getHeight());
+        // }
+        // });
 
         bottomLayout = (LinearLayout) findViewById(R.id.stock_layout);
         android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
@@ -260,7 +261,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
         btnRefresh.setOnClickListener(this);
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
-   
+
         viewHandler.postDelayed(new Runnable() {
 
             @Override
@@ -287,7 +288,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }, 1000);
 
         // scrollview + listview 会滚动到底部，需要滚动到头部
-
 
     }
 
@@ -565,6 +565,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
+                landStockview.updateLandStockView(object);
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
@@ -784,6 +785,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
+            quoteHandler.removeCallbacks(updateRunnable);
+            Log.e(TAG, " ----  updateRunnable");
+
             requestData();
             quoteHandler.postDelayed(this, mPollRequestTime);// 隔60s再执行一次
         }
@@ -938,12 +942,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             PortfolioApplication.getInstance().setkLinePosition(-1);
         }
         viewHandler.postDelayed(new Runnable() {
-            
+
             @Override
             public void run() {
                 // TODO Auto-generated method stub
                 requestData();
-                
+
             }
         }, 1200);
 
@@ -1111,5 +1115,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         localAnimatorSet.playTogether(new Animator[] { bottomAnimator, headerAnimator });
         localAnimatorSet.start();
 
+    }
+
+    public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
+        if (paramInt == 4) {
+//            if ((this.landStockview.isAnimator()) || (this.stockView.isAnimator()))
+//                return false;
+            if (this.landStockview.isShown()) {
+                fadeOut();
+                return false;
+            }
+        }
+        return super.onKeyDown(paramInt, paramKeyEvent);
     }
 }

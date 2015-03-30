@@ -42,6 +42,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ChangeCheckType;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
@@ -443,7 +444,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
-                StockQuotesBean m = ((KChartLandScapeActivity) getActivity()).getmStockQuotesBean();
+                StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
                 if (null != m && UIUtils.roundAble(m)) {
                     dataHandler.removeCallbacks(runnable);
                 }

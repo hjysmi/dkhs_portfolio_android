@@ -26,46 +26,39 @@
             android:background="@color/white"
             android:layout="@layout/layout_index_quotes_header" />
 
-        <LinearLayout
-            android:id="@+id/layout_stockline"
+        <com.dkhs.portfolio.ui.widget.HScrollTitleView
+            android:id="@+id/hs_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content" />
 
-            <com.dkhs.portfolio.ui.widget.HScrollTitleView
-                android:id="@+id/hs_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <View style="@style/divider_line" />
 
-            <View style="@style/divider_line" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="315dp" >
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="315dp" >
+            <com.dkhs.portfolio.ui.widget.ScrollViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="315dp"
+                android:paddingTop="5dp" />
 
-                <com.dkhs.portfolio.ui.widget.ScrollViewPager
-                    android:id="@+id/pager"
-                    android:layout_width="fill_parent"
-                    android:layout_height="315dp"
-                    android:paddingTop="5dp" />
-
-                <Button
-                    android:id="@+id/klin_virtul_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="15dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/button_check_red"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:text="不复权  ▼"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    android:visibility="gone" />
-            </RelativeLayout>
-        </LinearLayout>
+            <Button
+                android:id="@+id/klin_virtul_check"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_check_red"
+                android:gravity="center_vertical"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="不复权  ▼"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <!-- 底部资讯 -->
 

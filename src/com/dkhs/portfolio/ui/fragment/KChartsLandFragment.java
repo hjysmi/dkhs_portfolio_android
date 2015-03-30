@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -30,6 +31,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
@@ -68,6 +70,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     private final static String TYPE = "type";
     private final static String CODE = "code";
     private final static String SYMBOLETYPE = "symboltype";
+    private static final String TAG = "KChartsLandFragment";
     private RelativeLayout pb;
     private TextView tvUnCheck;
     private TextView tvBeforeCheck;
@@ -377,7 +380,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             }
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                    ((KChartLandScapeActivity) getActivity()).getCheckValue(), page);
+            // ((StockQuotesActivity) getActivity()).getCheckValue(), page);
+                    "0", page);
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
                 first = false;
@@ -691,6 +695,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
+        Log.e(TAG, "setUserVisibleHint");
         if (isVisibleToUser) {
             // fragment可见时加载数据
             mQuotesDataEngine = new QuotesEngineImpl();
@@ -700,11 +705,11 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
             }
             if (null != tvUnCheck) {
-                if (((KChartLandScapeActivity) getActivity()).getCheckValue().equals(UNCHEK)) {
+                if (((StockQuotesActivity) getActivity()).getCheckValue().equals(UNCHEK)) {
                     tvUnCheck.setSelected(true);
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(false);
-                } else if (((KChartLandScapeActivity) getActivity()).getCheckValue().equals(BEFORECHEK)) {
+                } else if (((StockQuotesActivity) getActivity()).getCheckValue().equals(BEFORECHEK)) {
                     tvUnCheck.setSelected(false);
                     tvBeforeCheck.setSelected(true);
                     tvAfterCheck.setSelected(false);
@@ -713,19 +718,19 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvBeforeCheck.setSelected(false);
                     tvAfterCheck.setSelected(true);
                 }
-                if (((KChartLandScapeActivity) getActivity()).getStickType() == (StickChart.CHECK_COLUME)) {
-                    tvTurnover.setSelected(true);
-                    tvMacd.setSelected(false);
-                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
-                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
-                    mVolumnChartView.setLatitudeNum(1);
-                } else if (((KChartLandScapeActivity) getActivity()).getStickType() == (StickChart.CHECK_MACD)) {
-                    tvTurnover.setSelected(false);
-                    tvMacd.setSelected(true);
-                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
-                    mVolumnChartView.setLatitudeNum(3);
-                }
+                // if (((StockQuotesActivity) getActivity()).getStickType() == (StickChart.CHECK_COLUME)) {
+                // tvTurnover.setSelected(true);
+                // tvMacd.setSelected(false);
+                // mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                // ((StockQuotesActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
+                // mVolumnChartView.setLatitudeNum(1);
+                // } else if (((StockQuotesActivity) getActivity()).getStickType() == (StickChart.CHECK_MACD)) {
+                // tvTurnover.setSelected(false);
+                // tvMacd.setSelected(true);
+                // mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                // ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                // mVolumnChartView.setLatitudeNum(3);
+                // }
             }
         } else {
             // 不可见时不执行操作
@@ -760,13 +765,13 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
         @Override
         public void run() {
-            StockQuotesBean m = ((KChartLandScapeActivity) getActivity()).getmStockQuotesBean();
+            StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
             if (null != m && UIUtils.roundAble(m)) {
                 mMarketTimer.cancel();
             }
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,
-                    ((KChartLandScapeActivity) getActivity()).getCheckValue());
+                    ((StockQuotesActivity) getActivity()).getCheckValue());
         }
     }
 
@@ -780,7 +785,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                 if (null == ohlcs || ohlcs.size() == 0) {
                     String mtype = getKLineType();
                     mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                            ((KChartLandScapeActivity) getActivity()).getCheckValue(), page);
+                            ((StockQuotesActivity) getActivity()).getCheckValue(), page);
                 } else {
                     if (ohlc.size() > 0) {
                         /*

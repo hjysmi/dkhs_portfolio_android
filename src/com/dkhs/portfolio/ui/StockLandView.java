@@ -11,6 +11,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.test.UiThreadTest;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -26,6 +28,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
+import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -84,6 +87,7 @@ public class StockLandView extends RelativeLayout {
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
+        hsTitle.setLayoutWidth(UIUtils.getDisplayMetrics().heightPixels);
         view.findViewById(R.id.lank_klind_exit).setOnClickListener(new OnClickListener() {
 
             @Override
@@ -122,7 +126,8 @@ public class StockLandView extends RelativeLayout {
                  * landKlineLayout.setVisibility(View.GONE); }else{
                  * landKlineLayout.setVisibility(View.VISIBLE); }
                  */
-                pager.setCurrentItem(position);
+                // pager.setCurrentItem(position);
+                showView(position);
                 PortfolioApplication.getInstance().setkLinePosition(position);
             }
         }
@@ -132,98 +137,110 @@ public class StockLandView extends RelativeLayout {
     protected void onVisibilityChanged(View changedView, int visibility) {
         if (visibility == View.VISIBLE) {
             if (null != mQuotesEngine && mStockBean != null) {
-                mQuotesEngine.quotes(mStockBean.code, listener);
+                // mQuotesEngine.quotes(mStockBean.code, listener);
             }
-            this.requestFocus();
+            // this.requestFocus();
         }
     };
 
-    ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
+    // ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
+    //
+    // @Override
+    // protected StockQuotesBean parseDateTask(String jsonData) {
+    // StockQuotesBean stockQuotesBean = null;
+    // try {
+    // JSONArray jsonArray = new JSONArray(jsonData);
+    // JSONObject jsonOb = jsonArray.getJSONObject(0);
+    // stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
+    // if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
+    // // quoteHandler.removeCallbacks(runnable);
+    // }
+    // List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
+    // List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
+    // int i = 0;
+    // for (; i < 5; i++) {
+    // // String buyPrice :
+    // // stockQuotesBean.getBuyPrice().getBuyPrice()
+    // FiveRangeItem buyItem = new FiveRangeItem();
+    // if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
+    // String buyPrice = stockQuotesBean.getBuyPrice().getBuyPrice().get(i);
+    // if (isFloatText(buyPrice)) {
+    // buyItem.price = Float.parseFloat(buyPrice);
+    // } else {
+    // buyItem.price = 0;
+    // }
+    // String volText = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
+    // if (isFloatText(volText)) {
+    // buyItem.vol = Integer.parseInt(volText);
+    // } else {
+    // buyItem.vol = 0;
+    // }
+    // } else {
+    // buyItem.vol = 0;
+    // }
+    // buyItem.tag = "" + (i + 1);
+    // buyList.add(buyItem);
+    // }
+    // for (int j = 4; j >= 0; j--) {
+    // FiveRangeItem sellItem = new FiveRangeItem();
+    // if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
+    // String sellPrice = stockQuotesBean.getSellPrice().getSellPrice().get(j);
+    // if (isFloatText(sellPrice)) {
+    // sellItem.price = Float.parseFloat(sellPrice);
+    // } else {
+    // sellItem.price = 0;
+    // }
+    // // sellItem.price =
+    // // Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
+    // String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
+    // if (isFloatText(sellVol)) {
+    // sellItem.vol = Integer.parseInt(sellVol);
+    // } else {
+    // sellItem.vol = 0;
+    // }
+    // } else {
+    // sellItem.vol = 0;
+    // }
+    // sellItem.tag = "" + (j + 1);
+    // sellList.add(sellItem);
+    // }
+    // if (null != stockQuotesBean) {
+    //
+    // stockQuotesBean.setBuyList(buyList);
+    // stockQuotesBean.setSellList(sellList);
+    // }
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // }
+    // return stockQuotesBean;
+    // }
+    //
+    // @Override
+    // protected void afterParseData(StockQuotesBean object) {
+    // // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+    // if (null != object) {
+    // mStockQuotesBean = object;
+    // mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
+    // // landKlinTextTitle.setText(object.getName());
+    // landKlinTextPrice.setText(object.getCurrent() + "");
+    // landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
+    // landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
+    // landKlinTextData.setText(TimeUtils.getTimeString(object.getMoment()));
+    // }
+    // }
+    // };
 
-        @Override
-        protected StockQuotesBean parseDateTask(String jsonData) {
-            StockQuotesBean stockQuotesBean = null;
-            try {
-                JSONArray jsonArray = new JSONArray(jsonData);
-                JSONObject jsonOb = jsonArray.getJSONObject(0);
-                stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
-                if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
-                    // quoteHandler.removeCallbacks(runnable);
-                }
-                List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
-                List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
-                int i = 0;
-                for (; i < 5; i++) {
-                    // String buyPrice :
-                    // stockQuotesBean.getBuyPrice().getBuyPrice()
-                    FiveRangeItem buyItem = new FiveRangeItem();
-                    if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
-                        String buyPrice = stockQuotesBean.getBuyPrice().getBuyPrice().get(i);
-                        if (isFloatText(buyPrice)) {
-                            buyItem.price = Float.parseFloat(buyPrice);
-                        } else {
-                            buyItem.price = 0;
-                        }
-                        String volText = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
-                        if (isFloatText(volText)) {
-                            buyItem.vol = Integer.parseInt(volText);
-                        } else {
-                            buyItem.vol = 0;
-                        }
-                    } else {
-                        buyItem.vol = 0;
-                    }
-                    buyItem.tag = "" + (i + 1);
-                    buyList.add(buyItem);
-                }
-                for (int j = 4; j >= 0; j--) {
-                    FiveRangeItem sellItem = new FiveRangeItem();
-                    if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
-                        String sellPrice = stockQuotesBean.getSellPrice().getSellPrice().get(j);
-                        if (isFloatText(sellPrice)) {
-                            sellItem.price = Float.parseFloat(sellPrice);
-                        } else {
-                            sellItem.price = 0;
-                        }
-                        // sellItem.price =
-                        // Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
-                        String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
-                        if (isFloatText(sellVol)) {
-                            sellItem.vol = Integer.parseInt(sellVol);
-                        } else {
-                            sellItem.vol = 0;
-                        }
-                    } else {
-                        sellItem.vol = 0;
-                    }
-                    sellItem.tag = "" + (j + 1);
-                    sellList.add(sellItem);
-                }
-                if (null != stockQuotesBean) {
-
-                    stockQuotesBean.setBuyList(buyList);
-                    stockQuotesBean.setSellList(sellList);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return stockQuotesBean;
+    public void updateLandStockView(StockQuotesBean stockBean) {
+        if (null != stockBean) {
+            this.mStockQuotesBean = stockBean;
+            mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
+            // landKlinTextTitle.setText(object.getName());
+            landKlinTextPrice.setText(stockBean.getCurrent() + "");
+            landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(stockBean.getPercentage()));
+            landKlinTextValum.setText(UIUtils.getshou(stockBean.getVolume()));
+            landKlinTextData.setText(TimeUtils.getTimeString(stockBean.getMoment()));
         }
-
-        @Override
-        protected void afterParseData(StockQuotesBean object) {
-            // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
-            if (null != object) {
-                mStockQuotesBean = object;
-                mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
-                // landKlinTextTitle.setText(object.getName());
-                landKlinTextPrice.setText(object.getCurrent() + "");
-                landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
-                landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
-                landKlinTextData.setText(TimeUtils.getTimeString(object.getMoment()));
-            }
-        }
-    };
+    }
 
     private boolean isFloatText(String str) {
         try {
@@ -236,34 +253,70 @@ public class StockLandView extends RelativeLayout {
     }
 
     private void initTabPage() {
+
+        FragmentActivity activity = (FragmentActivity) mContext;
+
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartLandFragment.newInstance(
                 StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.code);
-        // mStockQuotesChartFragment.setITouchListener(this);
-        fragmentList.add(mStockQuotesChartFragment);
         KChartsLandFragment fragment = KChartsLandFragment.getKChartFragment(KChartsLandFragment.TYPE_CHART_DAY,
                 mStockBean.code, mStockBean.symbol_type);
-        // fragment.setITouchListener(this);
-        fragmentList.add(fragment);
         KChartsLandFragment fragment2 = KChartsLandFragment.getKChartFragment(KChartsLandFragment.TYPE_CHART_WEEK,
                 mStockBean.code, mStockBean.symbol_type);
-        // fragment2.setITouchListener(this);
-        fragmentList.add(fragment2);
         KChartsLandFragment fragment3 = KChartsLandFragment.getKChartFragment(KChartsLandFragment.TYPE_CHART_MONTH,
                 mStockBean.code, mStockBean.symbol_type);
-        // fragment3.setITouchListener(this);
+        fragmentList.add(mStockQuotesChartFragment);
+        fragmentList.add(fragment);
+        fragmentList.add(fragment2);
         fragmentList.add(fragment3);
+        // fragment.setUserVisibleHint(true);
+
+        FragmentTransaction ftransaction = activity.getSupportFragmentManager().beginTransaction();
+
+        ftransaction.add(R.id.land_page, (Fragment) this.fragmentList.get(0), String.valueOf(0));
+        ftransaction.add(R.id.land_page, (Fragment) this.fragmentList.get(1), String.valueOf(1));
+        ftransaction.add(R.id.land_page, (Fragment) this.fragmentList.get(2), String.valueOf(2));
+        ftransaction.add(R.id.land_page, (Fragment) this.fragmentList.get(3), String.valueOf(3));
+        ftransaction.show(mStockQuotesChartFragment);
+        ftransaction.hide(fragment);
+        ftransaction.hide(fragment2);
+        ftransaction.hide(fragment3);
+        ftransaction.commit();
+
+        // ftransaction.replace(R.id.land_page, fragment).commit();
+        // fragment3.setITouchListener(this);
+        // fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
 
         // pager.setOffscreenPageLimit(4);
-        FragmentActivity activity = (FragmentActivity) mContext;
-        pager.setAdapter(new MyPagerFragmentAdapter(activity.getSupportFragmentManager(), fragmentList));
+
+        // pager.removeAllViews();
+        // pager.setAdapter(new MyPagerFragmentAdapter(activity.getSupportFragmentManager(), fragmentList));
         // TabPageIndicator indicator = (TabPageIndicator) this.findViewById(R.id.indicator);
         // indicator.setViewPager(pager);
+        // showView(view_position);
+
+    }
+
+    private int view_position = 0;
+
+    public void showView(int postion) {
+        if (view_position != postion) {
+
+            FragmentActivity activity = (FragmentActivity) mContext;
+            activity.getSupportFragmentManager().beginTransaction().show((Fragment) this.fragmentList.get(postion))
+                    .commitAllowingStateLoss();
+            this.fragmentList.get(postion).setUserVisibleHint(true);
+            this.fragmentList.get(view_position).setUserVisibleHint(false);
+            activity.getSupportFragmentManager().beginTransaction()
+                    .hide((Fragment) this.fragmentList.get(view_position)).commitAllowingStateLoss();
+            view_position = postion;
+        }
+
     }
 
     public void loadMore() {
-        ((KChartsLandFragment) fragmentList.get(pager.getCurrentItem())).loadMordKline();
+        ((KChartsLandFragment) this.fragmentList.get(view_position)).loadMordKline();
     }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
