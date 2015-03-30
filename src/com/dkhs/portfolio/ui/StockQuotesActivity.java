@@ -37,9 +37,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import cn.sharesdk.framework.authorize.g;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -56,25 +54,30 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
+import com.dkhs.portfolio.ui.fragment.F10Fragment;
 import com.dkhs.portfolio.ui.fragment.FragmentForOptionOnr;
 import com.dkhs.portfolio.ui.fragment.FragmentForStockSHC;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
-import com.dkhs.portfolio.ui.fragment.F10Fragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -84,7 +87,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-9-26 上午10:22:32
  * @version 1.0
  */
-public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, ITouchListener, Serializable {
+public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, Serializable, StockViewCallBack {
 
     private static final long serialVersionUID = 15121212311111156L;
     private SelectStockBean mStockBean;
@@ -119,7 +122,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ScrollViewPager pager;
     private ArrayList<Fragment> fragmentList;
     private StockQuotesChartFragment mStockQuotesChartFragment;
-    private LinearLayout stockLayout;
+    private LinearLayout bottomLayout;
     private FragmentSelectAdapter mFragmentSelectAdapter;
     private StockQuotesActivity layouts;
     private View viewHeader;
@@ -127,6 +130,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private List<Fragment> frag;
     private Button klinVirtulCheck;
     private static String checkValue = "0";
+    private static final long mPollRequestTime = 1000 * 15;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
@@ -140,7 +144,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
         processExtraData();
         setupViewDatas();
-        setupViewData();
+        requestData();
         initList();
     }
 
@@ -155,7 +159,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
-        android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+        android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
         /*
          * if (0 == position) { l.height = LayoutParams.MATCH_PARENT; }
          */
@@ -166,7 +170,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     public void setLayoutHeights(int height) {
-        android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+        android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
         l.height = height + 70;
         scrollToTop();
     }
@@ -177,7 +181,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        System.out.println("StockquoteActivity oncreate");
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
@@ -198,13 +201,27 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         mQuotesEngine = new QuotesEngineImpl();
         // handle intent extras
         processExtraData();
-        initView();
         setupViewDatas();
-        android.view.ViewGroup.LayoutParams l = stockLayout.getLayoutParams();
+        initView();
+        android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
         l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
         // getResources().getDimensionPixelOffset(R.dimen.layout_height);
         initList();
         reGetDate();
+    }
+
+    private void full(boolean paramBoolean) {
+        if (paramBoolean) {
+            WindowManager.LayoutParams localLayoutParams2 = getWindow().getAttributes();
+            localLayoutParams2.flags = (0x400 | localLayoutParams2.flags);
+            getWindow().setAttributes(localLayoutParams2);
+            getWindow().addFlags(512);
+            return;
+        }
+        WindowManager.LayoutParams localLayoutParams1 = getWindow().getAttributes();
+        localLayoutParams1.flags = (0xFFFFFBFF & localLayoutParams1.flags);
+        getWindow().setAttributes(localLayoutParams1);
+        getWindow().clearFlags(512);
     }
 
     /**
@@ -220,7 +237,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             updateStockInfo();
         }
         // setAddOptionalButton();
-        initTabPage();
+        // initTabPage();
+
     }
 
     private void handleExtras(Bundle extras) {
@@ -228,7 +246,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initList() {
-        stockLayout.removeAllViews();
+        bottomLayout.removeAllViews();
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
             String[] name = new String[3];
@@ -258,7 +276,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     .newIntent(exchange, StockViewType.STOCK_HANDOVER, null, listSector, false);
             fraglist.add(f3);
             FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist,
-                    stockLayout, getSupportFragmentManager());
+                    bottomLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
         } else if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
@@ -317,7 +335,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
                 frag.add(f3);
             }
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, stockLayout,
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, bottomLayout,
                     getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
@@ -357,7 +375,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             btnAddOptional.setVisibility(View.GONE);
             btnAddOptional.setOnClickListener(this);
         }
-        stockLayout = (LinearLayout) findViewById(R.id.stock_layout);
+        bottomLayout = (LinearLayout) findViewById(R.id.stock_layout);
         klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
         klinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
@@ -376,6 +394,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         btnRefresh.setOnClickListener(this);
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
         initTabPage();
+
         // setupViewData();
         // scrollview + listview 会滚动到底部，需要滚动到头部
         scrollToTop();
@@ -418,7 +437,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private boolean isFirstLoadQuotes = true;
 
-    private void setupViewData() {
+    private void requestData() {
         if (null != mQuotesEngine && mStockBean != null) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
@@ -492,7 +511,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 JSONObject jsonOb = jsonArray.getJSONObject(0);
                 stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
                 if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
-                    quoteHandler.removeCallbacks(runnable);
+                    quoteHandler.removeCallbacks(updateRunnable);
+                } else {
+                    quoteHandler.postDelayed(updateRunnable, mPollRequestTime);
                 }
                 List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
                 List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
@@ -578,22 +599,25 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initTabPage() {
+
+        Log.e("StockQuotesActivity", "====initTabPage view");
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
                 mStockCode);
-        mStockQuotesChartFragment.setITouchListener(this);
+        // mStockQuotesChartFragment.setITouchListener(this);
+        mStockQuotesChartFragment.setStockViewCallBack(this);
         fragmentList.add(mStockQuotesChartFragment);
         KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode,
                 symbolType);
-        fragment.setITouchListener(this);
+        // fragment.setITouchListener(this);
         fragmentList.add(fragment);
         KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,
                 symbolType);
-        fragment2.setITouchListener(this);
+        // fragment2.setITouchListener(this);
         fragmentList.add(fragment2);
         KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,
                 symbolType);
-        fragment3.setITouchListener(this);
+        // fragment3.setITouchListener(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
@@ -775,21 +799,21 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     // Handler quoteHandler = new Handler();
     public void onStart() {
         super.onStart();
-        quoteHandler.postDelayed(runnable, 6);// 打开定时器，60ms后执行runnable操作
+        // quoteHandler.postDelayed(updateRunnable, 6);// 打开定时器，60ms后执行runnable操作
     };
 
     public void onStop() {
         super.onStop();
-        quoteHandler.removeCallbacks(runnable);// 关闭定时器处理
+        quoteHandler.removeCallbacks(updateRunnable);// 关闭定时器处理
     }
 
-    Runnable runnable = new Runnable() {
+    Runnable updateRunnable = new Runnable() {
 
         @Override
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
-            setupViewData();
-            quoteHandler.postDelayed(this, 5 * 1000);// 隔60s再执行一次
+            requestData();
+            quoteHandler.postDelayed(this, mPollRequestTime);// 隔60s再执行一次
         }
     };
 
@@ -836,9 +860,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 break;
             case R.id.btn_right_second: {
                 // rotateRefreshButton();
-                quoteHandler.removeCallbacks(runnable);
-                setupViewData();
-                quoteHandler.postDelayed(runnable, 6 * 1000);
+                // quoteHandler.removeCallbacks(updateRunnable);
+                requestData();
+
             }
                 break;
             case R.id.klin_virtul_check:
@@ -887,58 +911,29 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         listener.stopRequest(true);
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
-    @Override
-    public void chartTounching() {
-        if (mScrollview != null) {
-            mScrollview.setIsfocus(true);
-        }
-    }
+    // /**
+    // * @Title
+    // * @Description TODO: (用一句话描述这个方法的功能)
+    // * @return
+    // */
+    // @Override
+    // public void chartTounching() {
+    // if (mScrollview != null) {
+    // mScrollview.setIsfocus(true);
+    // }
+    // }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
-    @Override
-    public void loseTouching() {
-        if (mScrollview != null) {
-            mScrollview.setIsfocus(false);
-        }
-    }
-
-    class OnLayoutlistener implements OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            // TODO Auto-generated method stub
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    chartTounching();
-                    break;
-                case MotionEvent.ACTION_UP:
-                    loseTouching();
-                    break;
-                default:
-                    break;
-            }
-            return true;
-        }
-    }
-
-    class OnView implements OnTouchListener {
-
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            // TODO Auto-generated method stub
-            loseTouching();
-            return true;
-        }
-    }
+    // /**
+    // * @Title
+    // * @Description TODO: (用一句话描述这个方法的功能)
+    // * @return
+    // */
+    // @Override
+    // public void loseTouching() {
+    // if (mScrollview != null) {
+    // mScrollview.setIsfocus(false);
+    // }
+    // }
 
     public StockQuotesBean getmStockQuotesBean() {
         return mStockQuotesBean;
@@ -980,6 +975,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             hsTitle.setSelectIndex(PortfolioApplication.getInstance().getkLinePosition());
             PortfolioApplication.getInstance().setkLinePosition(-1);
         }
+
+        requestData();
+
     }
 
     public String getCheckValue() {
@@ -988,5 +986,65 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     public void setCheckValue(String checkValue) {
         this.checkValue = checkValue;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void fadeOut() {
+        // TODO Auto-generated method stub
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param paramInt
+     * @return
+     */
+    @Override
+    public void setViewType(int paramInt) {
+        // TODO Auto-generated method stub
+
+    }
+
+    boolean isFull;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void stockMarkShow() {
+
+        full(true);
+        initStockView();
+        isFull = !isFull;
+
+    }
+
+    private void initStockView() {
+        // DisplayMetrics localDisplayMetrics = getResources().getDisplayMetrics();
+        // // RelativeLayout.LayoutParams localLayoutParams = new RelativeLayout.LayoutParams(
+        // // localDisplayMetrics.heightPixels, localDisplayMetrics.widthPixels);
+        // // this.stockView.setLayoutParams(localLayoutParams);
+        // // this.stockView.setStockCode(this.stoid);
+        // // this.stockView.setCallBack(this);
+        // // this.stockView.setVisibility(4);
+        // // addContentView(this.stockView, localLayoutParams);
+        // ViewHelper.setPivotY(mScrollview, localDisplayMetrics.widthPixels);
+        // View localStockView = this.mScrollview;
+        // float[] arrayOfFloat = new float[1];
+        // arrayOfFloat[0] = (-localDisplayMetrics.widthPixels);
+        // ObjectAnimator localObjectAnimator1 = ObjectAnimator.ofFloat(localStockView, "y", arrayOfFloat);
+        // ObjectAnimator localObjectAnimator2 = ObjectAnimator.ofFloat(this.mScrollview, "rotation",
+        // new float[] { 90.0F });
+        // AnimatorSet localAnimatorSet = new AnimatorSet();
+        // localAnimatorSet.playTogether(new Animator[] { localObjectAnimator1, localObjectAnimator2 });
+        // localAnimatorSet.start();
     }
 }

@@ -264,46 +264,13 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
     private void initMaChart(TrendChart machart) {
 
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-
-        machart.setDisplayBorder(false);
-        // machart.setDrawXBorke(true);
-
-        machart.setLatitudeColor(Color.LTGRAY);
-
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
-        // machart.setMaxPointNum(72);
-        // machart.setDisplayAxisYTitle(false);
-        // machart.setDisplayLatitude(true);
-        // machart.setFill(true);
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-        machart.setBorderColor(Color.TRANSPARENT);
-        machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(5);
-        machart.setAxisMarginLeft(10);
-        machart.setAxisMarginRight(10);
-
-        machart.setLongtitudeFontSize(10);
-        machart.setLongtitudeFontColor(Color.GRAY);
-        machart.setDisplayAxisYTitleColor(true);
-        machart.setLatitudeColor(Color.GRAY);
-        machart.setLatitudeFontColor(Color.GRAY);
-        machart.setLongitudeColor(Color.GRAY);
         machart.setMaxValue(120);
         machart.setMinValue(0);
 
-        machart.setDisplayAxisXTitle(true);
-        machart.setDisplayAxisYTitle(true);
-        machart.setDisplayLatitude(true);
-        machart.setDisplayLongitude(true);
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
 
-        machart.setITouchListener(mTouchListener);
+        // machart.setITouchListener(mTouchListener);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
 
@@ -315,19 +282,11 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
         mMaChart.setAxisYTitles(ytitle);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
         if (isTodayNetValue) {
             initTodayTrendTitle();
         } else {
             // initTrendTitle();
         }
-        // machart.setFill(true);
-        // machart.setFillLineIndex(2);
-
-        // mMaChart.setont
 
         mMaChart.setDoubleClicklistener(new OnDoubleClickListener() {
 

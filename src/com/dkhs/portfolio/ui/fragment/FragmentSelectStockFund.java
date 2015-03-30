@@ -649,7 +649,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
             // Toast.LENGTH_SHORT).show();
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -658,7 +658,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             SelectStockBean itemStock = mDataList.get(position);
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
             getActivity().finish();
         }
     };

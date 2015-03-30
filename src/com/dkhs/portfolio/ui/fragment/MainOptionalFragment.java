@@ -96,8 +96,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), OptionEditActivity.class);
                 // UIUtils.startAminationActivity(getActivity(), intent);
-                UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(intent, 777);
+                UIUtils.setOverridePendingAmin(getActivity());
             }
         });
     }
@@ -128,8 +128,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
-                UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
+                UIUtils.setOverridePendingAmin(getActivity());
             }
         });
     }
