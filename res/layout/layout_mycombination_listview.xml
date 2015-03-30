@@ -4,16 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <com.baoyz.swipemenulistview.SwipeMenuListView
+        android:id="@+id/swipemenu_listView"
+        style="@style/listViewStyle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <com.dkhs.portfolio.ui.widget.SlideListView
-            android:id="@+id/recyclerview_vertical"
-            style="@style/listViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </RelativeLayout>
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@android:id/empty"

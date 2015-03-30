@@ -40,28 +40,17 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class FiveRangeAdapter extends BaseAdapter {
     private Context mContext;
-    private StockQuotesBean mStockBean;
+    // private StockQuotesBean mStockBean;
     private boolean isBuy;
-    private BuyPrice mBuyPrice;
-    private SellPrice mSellPrice;
-    private List<FiveRangeItem> dataList;
+    // private BuyPrice mBuyPrice;
+    // private SellPrice mSellPrice;
+    // private List<FiveRangeItem> dataList;
+
+    private List<String> volList;
+    private List<String> priceList;
 
     private float mCompareValue;
 
-    // public FiveRangeAdapter(Context mContext, StockQuotesBean stockBean, boolean isBuy) {
-    // this.mContext = mContext;
-    // this.mStockBean = stockBean;
-    // this.isBuy = isBuy;
-    // if (null != mStockBean && mStockBean.getBuyPrice() != null) {
-    // mBuyPrice = mStockBean.getBuyPrice();
-    //
-    // }
-    // if (null != mStockBean && mStockBean.getSellPrice() != null) {
-    // mSellPrice = mStockBean.getSellPrice();
-    //
-    // }
-    //
-    // }
     private ListView.LayoutParams mItemViewLayoutParams;
 
     public FiveRangeAdapter(Context mContext, boolean isBuy) {
@@ -72,10 +61,22 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     }
 
+    public FiveRangeAdapter(Context mContext, boolean isBuy, String symbol) {
+        this(mContext, isBuy);
+        this.symbol = symbol;
+    }
+
     private String symbol;
 
-    public void setList(List<FiveRangeItem> dList, String symbol) {
-        this.dataList = dList;
+    //
+    // public void setList(List<FiveRangeItem> dList, String symbol) {
+    // this.dataList = dList;
+    // this.symbol = symbol;
+    // notifyDataSetChanged();
+    // }
+    public void setList(List<String> vList, List<String> pList, String symbol) {
+        this.volList = vList;
+        this.priceList = pList;
         this.symbol = symbol;
         notifyDataSetChanged();
     }
@@ -86,10 +87,10 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        if (null != dataList) {
-            return dataList.size();
-        }
-        return 0;
+        // if (null != dataList) {
+        // return dataList.size();
+        // }
+        return 5;
     }
 
     @Override
@@ -117,31 +118,59 @@ public class FiveRangeAdapter extends BaseAdapter {
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            FiveRangeItem item = dataList.get(position);
+            // FiveRangeItem item = dataList.get(position);
             // convertView.getLayoutParams().height = (int) (mContext.getResources().getDisplayMetrics().widthPixels /
             // 13f);
             // if (!item.price.contains("-.---")) {
-            if (item.price == 0) {
+            if (null == priceList || priceList.size() <= position) {
                 viewHolder.tvPrice.setText("—");
-            } else {
 
-                viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(item.price, mCompareValue));
+            } else if (isFloatText(priceList.get(position))) {
+                float price = Float.parseFloat(priceList.get(position));
+                viewHolder.tvPrice.setTextColor(ColorTemplate.getTextColor(price, mCompareValue));
                 if (!TextUtils.isEmpty(symbol) && StockUitls.isShangZhengB(symbol)) {
-                    viewHolder.tvPrice.setText(StringFromatUtils.get3Point(item.price));
+                    viewHolder.tvPrice.setText(StringFromatUtils.get3Point(price));
                 } else {
-                    viewHolder.tvPrice.setText(StringFromatUtils.get2Point(item.price));
+                    viewHolder.tvPrice.setText(StringFromatUtils.get2Point(price));
                 }
+            } else {
+                viewHolder.tvPrice.setText("—");
             }
 
-            viewHolder.tvVol.setText(StringFromatUtils.convertToWanHand(item.vol));
+            if (null == volList || volList.size() <= position) {
+                viewHolder.tvVol.setText("—");
 
-            viewHolder.tvTag.setText(item.tag);
-            // convertView.setLayoutParams(mItemViewLayoutParams);
+            } else if (isFloatText(volList.get(position))) {
+                float vol = Float.parseFloat(volList.get(position));
+                viewHolder.tvVol.setText(StringFromatUtils.convertToWanHand(vol));
+            } else {
+                viewHolder.tvVol.setText("—");
+            }
+
+            if (isBuy) {
+                viewHolder.tvTag.setText((position + 1) + "");
+            } else {
+                viewHolder.tvTag.setText((getCount() - position) + "");
+
+            }
         } catch (NumberFormatException e) {
 
             e.printStackTrace();
         }
         return convertView;
+    }
+
+    private boolean isFloatText(String str) {
+        try {
+            float value = Float.parseFloat(str);
+            if (value != 0) {
+                return true;
+            }
+            return false;
+        } catch (NumberFormatException e) {
+            // TODO Auto-generated catch block
+            return false;
+        }
     }
 
     public final static class ViewHolder {
