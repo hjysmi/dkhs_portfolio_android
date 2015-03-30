@@ -94,7 +94,7 @@ public class StockLandView extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 if (null != stockViewCallback) {
-                    stockViewCallback.fadeOut();
+                    stockViewCallback.landViewFadeOut();
                 }
             }
         });
@@ -143,96 +143,12 @@ public class StockLandView extends RelativeLayout {
                     showView(mLandStockCallBack.getTabPosition());
                 }
             }
+            this.fragmentList.get(view_position).setUserVisibleHint(true);
             // this.requestFocus();
+        } else {
+            this.fragmentList.get(view_position).setUserVisibleHint(false);
         }
     };
-
-    // ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
-    //
-    // @Override
-    // protected StockQuotesBean parseDateTask(String jsonData) {
-    // StockQuotesBean stockQuotesBean = null;
-    // try {
-    // JSONArray jsonArray = new JSONArray(jsonData);
-    // JSONObject jsonOb = jsonArray.getJSONObject(0);
-    // stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
-    // if (null != stockQuotesBean && UIUtils.roundAble(stockQuotesBean)) {
-    // // quoteHandler.removeCallbacks(runnable);
-    // }
-    // List<FiveRangeItem> buyList = new ArrayList<FiveRangeItem>();
-    // List<FiveRangeItem> sellList = new ArrayList<FiveRangeItem>();
-    // int i = 0;
-    // for (; i < 5; i++) {
-    // // String buyPrice :
-    // // stockQuotesBean.getBuyPrice().getBuyPrice()
-    // FiveRangeItem buyItem = new FiveRangeItem();
-    // if (i < stockQuotesBean.getBuyPrice().getBuyVol().size()) {
-    // String buyPrice = stockQuotesBean.getBuyPrice().getBuyPrice().get(i);
-    // if (isFloatText(buyPrice)) {
-    // buyItem.price = Float.parseFloat(buyPrice);
-    // } else {
-    // buyItem.price = 0;
-    // }
-    // String volText = stockQuotesBean.getBuyPrice().getBuyVol().get(i);
-    // if (isFloatText(volText)) {
-    // buyItem.vol = Integer.parseInt(volText);
-    // } else {
-    // buyItem.vol = 0;
-    // }
-    // } else {
-    // buyItem.vol = 0;
-    // }
-    // buyItem.tag = "" + (i + 1);
-    // buyList.add(buyItem);
-    // }
-    // for (int j = 4; j >= 0; j--) {
-    // FiveRangeItem sellItem = new FiveRangeItem();
-    // if (j < stockQuotesBean.getSellPrice().getSellVol().size()) {
-    // String sellPrice = stockQuotesBean.getSellPrice().getSellPrice().get(j);
-    // if (isFloatText(sellPrice)) {
-    // sellItem.price = Float.parseFloat(sellPrice);
-    // } else {
-    // sellItem.price = 0;
-    // }
-    // // sellItem.price =
-    // // Float.parseFloat(stockQuotesBean.getSellPrice().getSellPrice().get(j));
-    // String sellVol = stockQuotesBean.getSellPrice().getSellVol().get(j);
-    // if (isFloatText(sellVol)) {
-    // sellItem.vol = Integer.parseInt(sellVol);
-    // } else {
-    // sellItem.vol = 0;
-    // }
-    // } else {
-    // sellItem.vol = 0;
-    // }
-    // sellItem.tag = "" + (j + 1);
-    // sellList.add(sellItem);
-    // }
-    // if (null != stockQuotesBean) {
-    //
-    // stockQuotesBean.setBuyList(buyList);
-    // stockQuotesBean.setSellList(sellList);
-    // }
-    // } catch (Exception e) {
-    // e.printStackTrace();
-    // }
-    // return stockQuotesBean;
-    // }
-    //
-    // @Override
-    // protected void afterParseData(StockQuotesBean object) {
-    // // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
-    // if (null != object) {
-    // mStockQuotesBean = object;
-    // mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
-    // // landKlinTextTitle.setText(object.getName());
-    // landKlinTextPrice.setText(object.getCurrent() + "");
-    // landKlinTextPrice.setTextColor(ColorTemplate.getUpOrDrownCSL(object.getPercentage()));
-    // landKlinTextValum.setText(UIUtils.getshou(object.getVolume()));
-    // landKlinTextData.setText(TimeUtils.getTimeString(object.getMoment()));
-    // }
-    // }
-    // };
 
     public void updateLandStockView(StockQuotesBean stockBean) {
         if (null != stockBean) {
@@ -274,6 +190,7 @@ public class StockLandView extends RelativeLayout {
         fragmentList.add(fragment2);
         fragmentList.add(fragment3);
 
+        mStockQuotesChartFragment.setLandCallBack(mLandStockCallBack);
         fragment.setLandCallBack(mLandStockCallBack);
         fragment2.setLandCallBack(mLandStockCallBack);
         fragment3.setLandCallBack(mLandStockCallBack);

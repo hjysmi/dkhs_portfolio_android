@@ -47,6 +47,7 @@ import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
+import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
@@ -443,11 +444,14 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
-                StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-                if (null != m && UIUtils.roundAble(m)) {
-                    dataHandler.removeCallbacks(runnable);
+                if (null != mLandCallBack) {
+
+                    StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                    if (null != m && UIUtils.roundAble(m)) {
+                        dataHandler.removeCallbacks(runnable);
+                    }
+                    setStockQuotesBean(m);
                 }
-                setStockQuotesBean(m);
                 if (fsDataBean != null) {
                     mFsDataBean.setCurtime(fsDataBean.getCurtime());
                     if (null == mFsDataBean.getMainstr()) {
@@ -766,7 +770,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
                 todayListener.setFromYanbao(false);
             }
-            dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
+            // dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_time);
@@ -799,5 +803,15 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
         return R.layout.fragment_stock_quotes_chart_land;
+    }
+
+    private LandStockViewCallBack mLandCallBack;
+
+    public LandStockViewCallBack getLandCallBack() {
+        return mLandCallBack;
+    }
+
+    public void setLandCallBack(LandStockViewCallBack landCallBack) {
+        this.mLandCallBack = landCallBack;
     }
 }

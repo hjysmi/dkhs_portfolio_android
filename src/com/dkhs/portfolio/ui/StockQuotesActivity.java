@@ -278,12 +278,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 // 需要优化的地方
                 // 检查是否有复权
                 // PortfolioApplication.getInstance().setCheckValue(checkValue);
-                setCheckValue(checkValue);
-                checkValue = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX);
-                if (null == checkValue) {
-                    checkValue = "0";
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
-                }
+                // setCheckValue(checkValue);
+                // checkValue = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX);
+                // if (null == checkValue) {
+                // checkValue = "0";
+                // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
+                // }
                 setFuquanView();
                 initLandStockView();
 
@@ -978,9 +978,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
      * @return
      */
     @Override
-    public void fadeOut() {
+    public void landViewFadeOut() {
         isFull = false;
         rotaVericteStockView();
+
     }
 
     /**
@@ -1093,7 +1094,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // if ((this.landStockview.isAnimator()) || (this.stockView.isAnimator()))
             // return false;
             if (this.landStockview.isShown()) {
-                fadeOut();
+                landViewFadeOut();
                 return false;
             }
         }
@@ -1155,7 +1156,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     public void setTabPosition(int position) {
 
-        // hsTitle.setSelectIndex(position);
+        hsTitle.setSelectIndex(position);
 
     }
 
