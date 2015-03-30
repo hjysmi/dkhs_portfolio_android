@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.test.UiThreadTest;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,6 +41,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 
 public class StockLandView extends RelativeLayout {
 
+    private static final String TAG = "StockLandView";
     private Context mContext;
 
     public StockLandView(Context context) {
@@ -125,10 +127,10 @@ public class StockLandView extends RelativeLayout {
                  * landKlineLayout.setVisibility(View.VISIBLE); }
                  */
                 // pager.setCurrentItem(position);
-                showView(position);
-                if (null != mLandStockCallBack) {
-                    mLandStockCallBack.setTabPosition(view_position);
+                if (null != mLandStockCallBack &&position!=mLandStockCallBack.getTabPosition()) {
+                    mLandStockCallBack.setTabPosition(position);
                 }
+                showView(position);
                 // PortfolioApplication.getInstance().setkLinePosition(position);
             }
         }
@@ -137,14 +139,18 @@ public class StockLandView extends RelativeLayout {
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
         if (visibility == View.VISIBLE) {
+            this.fragmentList.get(view_position).setUserVisibleHint(true);
             if (null != mQuotesEngine && mStockBean != null) {
                 // mQuotesEngine.quotes(mStockBean.code, listener);
                 if (mLandStockCallBack.getTabPosition() != view_position) {
-                    showView(mLandStockCallBack.getTabPosition());
+//                    showView(mLandStockCallBack.getTabPosition());
+                    hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
+
+                } else {
+                    this.fragmentList.get(view_position).setUserVisibleHint(true);
+
                 }
             }
-            this.fragmentList.get(view_position).setUserVisibleHint(true);
-            // this.requestFocus();
         } else {
             this.fragmentList.get(view_position).setUserVisibleHint(false);
         }
@@ -226,6 +232,8 @@ public class StockLandView extends RelativeLayout {
     private int view_position = 0;
 
     public void showView(int postion) {
+        Log.e(TAG, "showView POSITION:" + postion);
+
         if (view_position != postion) {
 
             FragmentActivity activity = (FragmentActivity) mContext;

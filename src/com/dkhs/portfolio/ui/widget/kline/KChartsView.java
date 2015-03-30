@@ -10,7 +10,9 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
 import android.content.Context;
@@ -989,6 +991,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 // if (null != mTouchListener) {
                 // mTouchListener.chartTounching();
                 // }
+                getParent().requestDisallowInterceptTouchEvent(true);
+
                 mVolumnChartView.setTouch(true);
                 ismove = true;
                 goToLand = true;
@@ -1009,6 +1013,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 // if (null != mTouchListener) {
                                 // mTouchListener.chartTounching();
                                 // }
+                                getParent().requestDisallowInterceptTouchEvent(true);
+
                                 mStartX = (int) (event.getX() - 2 * mCandleWidth - 6 - PADDING_LEFT);
                                 if (mOHLCData.size() < MIN_CANDLE_NUM) {
                                     mStartX = (int) (event.getX() - mCandleWidth - 3 - PADDING_LEFT);
@@ -1030,10 +1036,16 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 // if (null != mTouchListener) {
                 // mTouchListener.loseTouching();
                 // }
+                getParent().requestDisallowInterceptTouchEvent(false);
+                
                 mVolumnChartView.setTouch(false);
                 if (!showDetails && goToLand) {
-                    Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
-                    context.startActivity(intent);
+                    // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
+                    // context.startActivity(intent);
+                    // PromptManager.showToast("startActivity KChartLandScapeActivity");
+                    if (null != callBack) {
+                        callBack.stockMarkShow();
+                    }
                 }
                 showDetails = false;
                 goToLand = false;
@@ -1042,6 +1054,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     mStartX = (int) (getWidth() - 6 - (mCandleWidth + CANDLE_PADDING)
                             * (MIN_CANDLE_NUM - mOHLCData.size()) - PADDING_LEFT);
                 }
+                getParent().requestDisallowInterceptTouchEvent(false);
+
                 /*
                  * e.setLocation(getWidth() - 6, 0);
                  * mVolumnChartView.onSet(e,ismove,mDataStartIndext);
@@ -1056,6 +1070,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     // if (null != mTouchListener) {
                     // mTouchListener.loseTouching();
                     // }
+                    getParent().requestDisallowInterceptTouchEvent(false);
+
                 }
                 Log.e("hor", hor + " ----" + horizontalSpacing);
                 /*
@@ -1078,6 +1094,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     // if (null != mTouchListener) {
                     // mTouchListener.chartTounching();
                     // }
+                    getParent().requestDisallowInterceptTouchEvent(true);
+
                     if (event.getX() - PADDING_LEFT >= 0) {
                         mStartX = event.getX() - PADDING_LEFT;
                         mStartY = event.getY();
@@ -1489,6 +1507,16 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    private StockViewCallBack callBack;
+
+    public StockViewCallBack getCallBack() {
+        return callBack;
+    }
+
+    public void setCallBack(StockViewCallBack callBack) {
+        this.callBack = callBack;
     }
 
 }

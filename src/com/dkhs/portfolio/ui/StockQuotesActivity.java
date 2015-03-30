@@ -534,6 +534,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         klinVirtulCheck.setVisibility(View.VISIBLE);
                     }
                 }
+                
             }
         }
     };
@@ -587,17 +588,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         KChartsFragment fragment = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY, mStockCode,
                 symbolType);
         // fragment.setITouchListener(this);
+        fragment.setStockViewCallBack(this);
         fragment.setLandCallBack(this);
         fragmentList.add(fragment);
         KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,
                 symbolType);
         // fragment2.setITouchListener(this);
         fragment2.setLandCallBack(this);
+        fragment2.setStockViewCallBack(this);
         fragmentList.add(fragment2);
         KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,
                 symbolType);
         // fragment3.setITouchListener(this);
         fragment3.setLandCallBack(this);
+        fragment3.setStockViewCallBack(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
