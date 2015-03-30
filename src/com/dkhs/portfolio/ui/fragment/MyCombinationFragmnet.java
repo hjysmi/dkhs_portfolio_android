@@ -135,7 +135,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
                 SwipeMenuItem deleteItem = new SwipeMenuItem(MyCombinationFragmnet.this.getActivity());
                 // set item background
-                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.red)));
+                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.red_delete)));
                 // set item width
                 deleteItem.setWidth(dp2px(90));
                 deleteItem.setTitle("删除");
