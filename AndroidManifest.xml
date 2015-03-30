@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="8"
-    android:versionName="1.5.0324" >
+    android:versionName="1.5.0330" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -37,7 +37,6 @@
         android:name=".app.PortfolioApplication"
         android:allowBackup="true"
         android:allowTaskReparenting="false"
-        android:debuggable="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"

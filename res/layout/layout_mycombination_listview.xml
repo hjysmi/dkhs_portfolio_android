@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <FrameLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -13,7 +14,7 @@
             style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@android:id/empty"
