@@ -268,8 +268,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
                 initTabPage();
+            }
+        }, 400);
+        viewHandler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
                 scrollToTop();
 
                 // 需要优化的地方
@@ -288,7 +294,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 initLandStockView();
 
             }
-        }, 1000);
+        }, 800);
 
         // scrollview + listview 会滚动到底部，需要滚动到头部
 
@@ -534,7 +540,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                         klinVirtulCheck.setVisibility(View.VISIBLE);
                     }
                 }
-                
+
             }
         }
     };
@@ -963,7 +969,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 requestData();
 
             }
-        }, 1200);
+        }, 850);
 
     }
 
