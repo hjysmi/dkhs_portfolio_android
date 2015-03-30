@@ -61,7 +61,7 @@ public class KChartsFragment extends Fragment {
     public static final boolean testInterface = false; // 测试，使用本地数据
     private boolean first = true;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 5;
+    private static final long mPollRequestTime = 1000 * 45;
     List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
     private boolean having = true;
     private String symbolType;
@@ -138,11 +138,12 @@ public class KChartsFragment extends Fragment {
         }
 
     };
-    private ITouchListener mTouchListener;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
+    // private ITouchListener mTouchListener;
+    //
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
 
     private void initChartView() {
         mMyChartsView.setAxisColor(Color.LTGRAY);
@@ -151,7 +152,7 @@ public class KChartsFragment extends Fragment {
         mMyChartsView.setDisplayLongitude(false);
         mMyChartsView.setDisplayAxisXTitle(false);
         mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
-        mMyChartsView.setITouchListener(mTouchListener);
+        // mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(mStockCode);
         // mMyChartsView.setOnTouchListener(new OnChartListener());
