@@ -59,6 +59,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -511,6 +512,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
         }
         startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
+        UIUtils.setOverridePendingAmin(this);
     }
 
     private void averageValue() {
