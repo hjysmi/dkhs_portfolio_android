@@ -68,7 +68,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
     public SwipeRefreshLayout mSwipeLayout;
     public static final String TYPE_NAME = "typename";
     public static final String VO_NAME = "voname";
-    private int type;
+    private int viewType;
     private NewsforModel vo;
 
     public static ReportListForAllFragment getFragment(NewsforModel vo, int type) {
@@ -86,7 +86,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         vo = (NewsforModel) bundle.getSerializable(VO_NAME);
-        type = bundle.getInt(TYPE_NAME);
+        viewType = bundle.getInt(TYPE_NAME);
         context = getActivity();
         mDataList = new ArrayList<OptionNewsBean>();
         iv = (TextView) view.findViewById(android.R.id.empty);
@@ -103,12 +103,12 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
             // mLoadDataEngine.loadData();
             // } else {
 
-            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, type, vo);
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, viewType, vo);
             // System.out.println("new OpitionNewsEngineImple type:" + type + " vo:" + vo);
             mLoadDataEngine.loadData();
             // }
         } else {
-            iv.setText("暂无添加自选股");
+            setEmptyText();
             pb.setVisibility(View.GONE);
         }
 
@@ -127,7 +127,8 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
 
         mListView.setEmptyView(iv);
         // mListView.addFooterView(mFootView);
-        switch (type) {
+        switch (viewType) {
+            case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
             case OpitionNewsEngineImple.NEWS_GROUP_TWO:
                 mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
                 break;
@@ -188,7 +189,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                 Intent intent;
                 OptionNewsBean optionNewsBean = mDataList.get(position);
 
-                switch (type) {
+                switch (viewType) {
                     case OpitionNewsEngineImple.NEWSALL:
                         intent = OptionListAcitivity.newIntent(context, optionNewsBean.getSymbols().get(0).getSymbol()
                                 + "", "20", optionNewsBean.getSymbols().get(0).getAbbrName());
@@ -229,7 +230,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                         break;
                     default:
                         try {
-                            switch (type) {
+                            switch (viewType) {
                                 case 1:
                                     name = "公告正文";
                                     if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
@@ -313,7 +314,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
                     mDataList.addAll(dataList);
                     mOptionMarketAdapter.notifyDataSetChanged();
                 } else {
-                    iv.setText("暂无资讯");
+                    setEmptyText();
                 }
             } catch (Exception e) {
                 // TODO Auto-generated catch block
@@ -327,12 +328,21 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
             pb.setVisibility(View.GONE);
             mSwipeLayout.setRefreshing(false);
             if (null == mDataList || mDataList.isEmpty()) {
-                iv.setText("暂无资讯");
+                // iv.setText("暂无资讯");
+                setEmptyText();
             }
 
         }
 
     };
+
+    private void setEmptyText() {
+        if (viewType == OpitionNewsEngineImple.NEWS_GROUP) {
+            iv.setText("尚未添加自选股");
+        } else {
+            iv.setText("暂无资讯");
+        }
+    }
 
     private void loadFinishUpdateView() {
         mOptionMarketAdapter.notifyDataSetChanged();

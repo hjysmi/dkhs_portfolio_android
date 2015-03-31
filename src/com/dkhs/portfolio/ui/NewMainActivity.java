@@ -33,7 +33,7 @@ import android.widget.Button;
  * @date 2015-2-5 上午10:26:35
  * @version 2.0
  */
-public class NewMainActivity extends BaseActivity {
+public class NewMainActivity extends ModelAcitivity {
 
     private MenuItemFragment mMenuFragment;
     private Fragment mContentFragment;
@@ -41,8 +41,10 @@ public class NewMainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(android.R.style.Theme_Light_NoTitleBar);
-        PortfolioApplication.getInstance().addActivity(this);
+        // setTheme(android.R.style.Theme_Light_NoTitleBar);
+        // PortfolioApplication.getInstance().addActivity(this);
+        hideHead();
+        setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
 
         if (savedInstanceState == null) {

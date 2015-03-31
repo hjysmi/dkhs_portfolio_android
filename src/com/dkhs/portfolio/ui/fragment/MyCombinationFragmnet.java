@@ -51,8 +51,6 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.fragment.MyCombinationSlideListFragment.RequestCombinationTask;
-import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;

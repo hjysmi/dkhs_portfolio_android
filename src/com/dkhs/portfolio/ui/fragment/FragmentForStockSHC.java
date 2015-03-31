@@ -85,6 +85,7 @@ public class FragmentForStockSHC extends BaseFragment {
         if (bundle != null) {
             initDate();
         }
+        context = getActivity();
 
     }
 
