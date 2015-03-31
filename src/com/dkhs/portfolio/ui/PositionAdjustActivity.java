@@ -154,20 +154,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @return void
      */
     private void handleExtras(Bundle extras) {
-        // String typeValue = extras.getString(KEY_VIEW_TYPE);
-        // if (!TextUtils.isEmpty(typeValue)) {
-        // mViewType = typeValue;
-        // }
+
         isAdjustCombination = extras.getBoolean(EXTRA_ISADJUSTCOMBINATION);
         // mPositionDetailBean = (PositionDetail) extras.getSerializable(EXTRA_POSITIONDETAIL);
         mCombinationId = extras.getString(EXTRA_COMBINATION_ID);
-        // if (null != mPositionDetailBean) {
-        //
-        // if (null != mPositionDetailBean.getPositionList()) {
-        // copyDefalutList();
-        // }
-        // mCombinationId = mPositionDetailBean.getPortfolio().getId();
-        // }
+
         if (!isAdjustCombination) {
             startSelectStockActivity(true);
         }
@@ -470,28 +461,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    // private void startSelectStockActivitys(boolean create) {
-    // firse = true;
-    // List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
-    // for (ConStockBean stockBean : stockList) {
-    // SelectStockBean bean = SelectStockBean.copy(stockBean);
-    // mSelectList.add(bean);
-    // }
-    // Intent intent = new Intent(this, SelectStockActivity.class);
-    // intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
-    // Bundle b = new Bundle();
-    // b.putBoolean("fromPosition", true);
-    // b.putBoolean("isFrist", firse);
-    // // b.putString(BaseSelectActivity.FROM_CREATE_TITLE, "yes");
-    // if (create)
-    // b.putString(BaseSelectActivity.FROM_CREATE_TITLE, "yes");
-    // intent.putExtras(b);
-    // if (isAdjustCombination) {
-    // intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
-    // }
-    // startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
-    // }
-
     private void startSelectStockActivity(boolean isCreate) {
         firse = false;
         List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
@@ -651,31 +620,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             finish();
         }
 
-        // @Override
-        // public void requestErrorBack(ErrorBundle error) {
-        // if (null != error && null != error.getErrorJsonArray() && !TextUtils.isEmpty(error.getErrorKey())) {
-        //
-        // StringBuilder sb = new StringBuilder();
-        // int length = error.getErrorJsonArray().length();
-        // for (int i = 0; i < length; i++) {
-        // try {
-        // sb.append(error.getErrorJsonArray().getString(i));
-        // } catch (JSONException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // }
-        // if (error.getErrorKey().contains("raise_up")) {
-        // Toast.makeText(getApplicationContext(), "涨停股：" + sb.toString() + "无法调高占比  ", Toast.LENGTH_LONG)
-        // .show();
-        // } else if (error.getErrorKey().contains("raise_down")) {
-        // Toast.makeText(getApplicationContext(), "跌停股：" + sb.toString() + "无法调低占比  ", Toast.LENGTH_LONG)
-        // .show();
-        // }
-        // }
-        //
-        // }
-
     };
 
     private List<SubmitSymbol> generateSymbols() {
@@ -747,11 +691,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
                     new ParseHttpListener<CombinationBean>() {
 
-                        /**
-                         * @Title
-                         * @Description TODO: (用一句话描述这个方法的功能)
-                         * @return
-                         */
                         @Override
                         public void beforeRequest() {
                             // TODO Auto-generated method stub
@@ -828,16 +767,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    private void submitAdjustToServer() {
-        // new MyCombinationEngineImpl().adjustCombination(mCombinationId, symbols, new BasicHttpListener() {
-        //
-        // @Override
-        // public void onSuccess(String result) {
-        // finish();
-        // }
-        // });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -850,20 +779,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
-                        // if (createType != -1) {
-                        //
-                        // if (stockList == null) {
-                        // stockList = new ArrayList<ConStockBean>();
-                        // }
-                        // stockList.clear();
-                        // for (SelectStockBean selectBean : listStock) {
-                        // stockList.add(selectBean.parseStock());
-                        // }
-                        //
-                        // // setCombinationBack(createType);
-                        //
-                        // // } else {
-                        // }
+
                         setAddStockBack(listStock);
                         updatePieView();
 
@@ -882,11 +798,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private void updatePieView() {
         surpulsValue();
         setPieList(surValue);
-        // lvStock.removeFooterView(mFooterView);
         stockAdapter.setList(stockList);
         setFootData(surValue);
-        // stockAdapter.
-        // stockAdapter.notifyDataSetChanged();
+
         isShowAverageButton();
         lvStock.invalidate();
     }
@@ -899,22 +813,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    // private void setCombinationBack(int which) {
-    // if (null != stockList && stockList.size() > 0) {
-    // int length = stockList.size();
-    // float dutyValue = (1.0f / length);
-    // for (int i = 0; i < length; i++) {
-    // ConStockBean c = stockList.get(i);
-    // if (0 == which) {// 快速
-    // c.setPercent(dutyValue);
-    // }
-    // c.setDutyColor(ColorTemplate.getDefaultColor(i));
-    //
-    // }
-    // }
-    //
-    // }
-
     private void setAddStockBack(List<SelectStockBean> listStock) {
         int i = 0;
         List<ConStockBean> tempList = new ArrayList<ConStockBean>();
@@ -926,14 +824,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             System.out.println("csbean name:" + csBean.getName());
             if (stockList.contains(csBean)) {
                 int index = stockList.indexOf(csBean);
-                System.out.println("stockList.contains(csBean)");
-                // System.out.println("stockList.get(index).getPercent():" + stockList.get(index).getPercent());
-                // System.out.println("stockList.get(index).getDutyValue():" + stockList.get(index).getDutyValue());
-                // if (i < stockList.size()) {
                 csBean.setPercent(stockList.get(index).getPercent());
-                // csBean.setPercent(stockList.get(index).getPercent());
-                // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
-                // }
 
             }
 
@@ -945,11 +836,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
@@ -1010,12 +896,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         MobclickAgent.onResume(this);
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param value
-     * @return
-     */
     @Override
     public void updateSurpus(int value) {
         // TODO Auto-generated method stub
