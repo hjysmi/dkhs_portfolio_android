@@ -128,6 +128,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
         mListView.setEmptyView(iv);
         // mListView.addFooterView(mFootView);
         switch (viewType) {
+            case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
             case OpitionNewsEngineImple.NEWS_GROUP_TWO:
                 mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
                 break;
