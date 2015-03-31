@@ -1,5 +1,7 @@
-
 package me.imid.swipebacklayout.lib.app;
+
+import com.dkhs.portfolio.ui.BaseActivity;
+import com.dkhs.portfolio.ui.fragment.BaseFragment;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -8,7 +10,7 @@ import android.view.View;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.Utils;
 
-public class SwipeBackActivity extends FragmentActivity implements SwipeBackActivityBase {
+public class SwipeBackActivity extends BaseActivity implements SwipeBackActivityBase {
     private SwipeBackActivityHelper mHelper;
 
     @Override

@@ -132,6 +132,7 @@ public class SplashActivity extends FragmentActivity {
 
     private void goAccountMain() {
         Intent intent = new Intent(SplashActivity.this, NewMainActivity.class);
+        // Intent intent = new Intent(SplashActivity.this, TestActivity.class);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }
