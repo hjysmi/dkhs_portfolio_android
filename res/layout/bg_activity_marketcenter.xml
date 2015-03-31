@@ -36,7 +36,7 @@
                     android:background="@drawable/ic_right_more_selector" />
             </RelativeLayout>
 
-            <com.dkhs.portfolio.ui.GridViewEx
+            <com.dkhs.portfolio.ui.widget.GridViewEx
                 android:id="@+id/gv_mainindex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                     android:background="@drawable/ic_right_more_selector" />
             </RelativeLayout>
 
-            <com.dkhs.portfolio.ui.GridViewEx
+            <com.dkhs.portfolio.ui.widget.GridViewEx
                 android:id="@+id/gv_plate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

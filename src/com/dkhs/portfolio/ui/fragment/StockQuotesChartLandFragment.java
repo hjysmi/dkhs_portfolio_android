@@ -42,15 +42,16 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ChangeCheckType;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
+import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
-import com.dkhs.portfolio.ui.widget.TimesharingplanChartLand;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -80,7 +81,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     private String trendType;
     private boolean isTodayNetValue;
 
-    private TimesharingplanChartLand mMaChart;
+    private TimesharingplanChart mMaChart;
 
     private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
@@ -136,11 +137,11 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
-        mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
-        mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
+        // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
+        // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
 
     }
@@ -234,7 +235,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
+        mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initMaChart(mMaChart);
@@ -399,8 +400,10 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
             } else {
 
-                mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
-                mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
+                mBuyAdapter.setList(mStockBean.getBuyPrice().getBuyVol(), mStockBean.getBuyPrice().getBuyPrice(),
+                        mStockBean.getSymbol());
+                mSellAdapter.setList(mStockBean.getSellPrice().getSellVol(), mStockBean.getSellPrice().getSellPrice(),
+                        mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
                 mBuyAdapter.notifyDataSetChanged();
@@ -441,11 +444,14 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
-                StockQuotesBean m = ((KChartLandScapeActivity) getActivity()).getmStockQuotesBean();
-                if (null != m && UIUtils.roundAble(m)) {
-                    dataHandler.removeCallbacks(runnable);
+                if (null != mLandCallBack) {
+
+                    StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                    if (null != m && UIUtils.roundAble(m)) {
+                        dataHandler.removeCallbacks(runnable);
+                    }
+                    setStockQuotesBean(m);
                 }
-                setStockQuotesBean(m);
                 if (fsDataBean != null) {
                     mFsDataBean.setCurtime(fsDataBean.getCurtime());
                     if (null == mFsDataBean.getMainstr()) {
@@ -764,7 +770,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
                 todayListener.setFromYanbao(false);
             }
-            dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
+            // dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_time);
@@ -797,5 +803,15 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
         return R.layout.fragment_stock_quotes_chart_land;
+    }
+
+    private LandStockViewCallBack mLandCallBack;
+
+    public LandStockViewCallBack getLandCallBack() {
+        return mLandCallBack;
+    }
+
+    public void setLandCallBack(LandStockViewCallBack landCallBack) {
+        this.mLandCallBack = landCallBack;
     }
 }

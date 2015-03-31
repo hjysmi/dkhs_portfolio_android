@@ -9,7 +9,7 @@
 package com.dkhs.portfolio.ui.widget;
 
 public abstract interface StockViewCallBack {
-    public abstract void fadeOut();
+    public abstract void landViewFadeOut();
 
     public abstract void setViewType(int paramInt);
 

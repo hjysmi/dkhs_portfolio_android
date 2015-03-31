@@ -421,4 +421,12 @@ public class UIUtils {
 
     }
 
+    public static float dip2px(Context paramContext, float paramFloat) {
+        return 0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density;
+    }
+
+    public static float px2dip(Context paramContext, float paramFloat) {
+        return 0.5F + paramFloat / paramContext.getResources().getDisplayMetrics().density;
+    }
+
 }

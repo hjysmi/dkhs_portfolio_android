@@ -138,10 +138,10 @@ public class StockQuotesChartFragment extends BaseFragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
-        mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
-        mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code);
+        // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
+        // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
 
     }
@@ -394,8 +394,11 @@ public class StockQuotesChartFragment extends BaseFragment {
             // } else {
             //
             if (viewFiveRange.getVisibility() == View.VISIBLE) {
-                mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
-                mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
+                mBuyAdapter.setList(mStockBean.getBuyPrice().getBuyVol(), mStockBean.getBuyPrice().getBuyPrice(),
+                        mStockBean.getSymbol());
+                mSellAdapter.setList(mStockBean.getSellPrice().getSellVol(), mStockBean.getSellPrice().getSellPrice(),
+                        mStockBean.getSymbol());
+                // mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
             }
@@ -412,10 +415,6 @@ public class StockQuotesChartFragment extends BaseFragment {
 
     private boolean isStopStock() {
         return mSelectStockBean != null && mSelectStockBean.isStop;
-    }
-
-    private void parseFiveRangeData() {
-
     }
 
     @Override

@@ -4,16 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <com.dkhs.portfolio.ui.widget.SlideListView
-            android:id="@+id/recyclerview_vertical"
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/swipemenu_listView"
             style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </RelativeLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@android:id/empty"

@@ -18,9 +18,12 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
@@ -41,9 +44,10 @@ public class PortfolioApplication extends Application {
 
     private boolean isDebug = true;
     private boolean isLogin;
-    private String checkValue = "0";
-    private boolean change = false;
-    private int kLinePosition = -1;
+
+    // private String checkValue = "0";
+    // private boolean change = false;
+    // private int kLinePosition = -1;
 
     public static PortfolioApplication getInstance() {
         return mInstance;
@@ -136,16 +140,9 @@ public class PortfolioApplication extends Application {
     }
 
     public static boolean hasUserLogin() {
-        try {
-            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user == null) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-
+        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+            return true;
+        } else {
             return false;
         }
     }
@@ -162,28 +159,28 @@ public class PortfolioApplication extends Application {
         this.isLogin = isLogin;
     }
 
-    public String getCheckValue() {
-        return checkValue;
-    }
+    // public String getCheckValue() {
+    // return checkValue;
+    // }
+    //
+    // public void setCheckValue(String checkValue) {
+    // this.checkValue = checkValue;
+    // }
+    //
+    // public boolean isChange() {
+    // return change;
+    // }
+    //
+    // public void setChange(boolean change) {
+    // this.change = change;
+    // }
 
-    public void setCheckValue(String checkValue) {
-        this.checkValue = checkValue;
-    }
-
-    public boolean isChange() {
-        return change;
-    }
-
-    public void setChange(boolean change) {
-        this.change = change;
-    }
-
-    public int getkLinePosition() {
-        return kLinePosition;
-    }
-
-    public void setkLinePosition(int kLinePosition) {
-        this.kLinePosition = kLinePosition;
-    }
+    // public int getkLinePosition() {
+    // return kLinePosition;
+    // }
+    //
+    // public void setkLinePosition(int kLinePosition) {
+    // this.kLinePosition = kLinePosition;
+    // }
 
 }

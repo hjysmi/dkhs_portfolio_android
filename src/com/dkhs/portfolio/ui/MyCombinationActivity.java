@@ -45,6 +45,7 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
+import com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet;
 import com.dkhs.portfolio.ui.fragment.MyCombinationSlideListFragment;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.google.gson.Gson;
@@ -63,7 +64,8 @@ import com.umeng.analytics.MobclickAgent;
 public class MyCombinationActivity extends ModelAcitivity implements OnClickListener {
     private Button btnMore;
     private Button btnRefresh;
-    private MyCombinationSlideListFragment listFragment;
+
+    private MyCombinationFragmnet listFragment;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -96,7 +98,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     }
 
     private void replaceCombinationListView() {
-        listFragment = MyCombinationSlideListFragment.getFragment();
+        listFragment = new MyCombinationFragmnet();
         getSupportFragmentManager().beginTransaction().replace(R.id.content_layout, listFragment).commit();
 
     }
@@ -167,7 +169,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     // }
 
     private void clickSecondButton() {
-        listFragment.refresh();
+         listFragment.refresh();
 
     }
 

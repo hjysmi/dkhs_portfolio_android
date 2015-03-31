@@ -32,6 +32,8 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  */
 public class QuotesEngineImpl {
 
+    private static final String TAG = "QuotesEngineImpl";
+
     public void quotes(String stockCode, IHttpListener listener) {
         RequestParams params = new RequestParams();
         // params.addBodyParameter("symbols", stockCode);
