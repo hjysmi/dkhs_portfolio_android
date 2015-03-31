@@ -46,7 +46,6 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter;
 import com.dkhs.portfolio.ui.adapter.CombinationAdapter.IDelButtonListener;
 import com.dkhs.portfolio.ui.fragment.MyCombinationFragmnet;
-import com.dkhs.portfolio.ui.fragment.MyCombinationSlideListFragment;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -169,7 +168,7 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
     // }
 
     private void clickSecondButton() {
-         listFragment.refresh();
+        listFragment.refresh();
 
     }
 
