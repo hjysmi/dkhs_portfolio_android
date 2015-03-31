@@ -85,7 +85,7 @@ public class PortfolioApplication extends Application {
     private List<Activity> lists = new ArrayList<Activity>();
 
     public void addActivity(Activity activity) {
-        // lists.add(activity);
+        lists.add(activity);
     }
 
     public void exitApp() {
