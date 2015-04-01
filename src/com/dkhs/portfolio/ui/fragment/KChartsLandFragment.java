@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -34,6 +35,7 @@ import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
+import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
@@ -46,16 +48,16 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class KChartsLandFragment extends Fragment implements OnClickListener, KChartsLandCallBack {
-    public static final int TYPE_CHART_DAY = 1;
-    public static final int TYPE_CHART_WEEK = 2;
-    public static final int TYPE_CHART_MONTH = 3;
+    // public static final int TYPE_CHART_DAY = 1;
+    // public static final int TYPE_CHART_WEEK = 2;
+    // public static final int TYPE_CHART_MONTH = 3;
     private static final String UNCHEK = "0";
     private static final String BEFORECHEK = "1";
     private static final String AFTERCHEK = "2";
 
     private KChartsLandView mMyChartsView;
     private StickChart mVolumnChartView; // 成交量饼图
-    private Integer type = TYPE_CHART_DAY; // 类型，日K线，周k先，月k线
+    private Integer mViewType = KChartsFragment.TYPE_CHART_DAY; // 类型，日K线，周k先，月k线
     private String mStockCode; // 股票code
     private QuotesEngineImpl mQuotesDataEngine;
 
@@ -86,13 +88,13 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
         KChartsLandFragment fg = new KChartsLandFragment();
         Bundle b = new Bundle();
-        b.putInt(TYPE, type);
-        b.putString(CODE, stockcode);
-        b.putString(SYMBOLETYPE, symbolType);
+        b.putInt(KChartsFragment.ARGUMENT_VIEW_TYPE, type);
+        b.putString(KChartsFragment.ARGUMENT_STOCK_CODE, stockcode);
+        b.putString(KChartsFragment.ARGUMENT_SYMBOL_TYPE, symbolType);
         fg.setArguments(b);
-        fg.setType(type);
-        fg.setStockCode(stockcode);
-        fg.setSymbolType(symbolType);
+        // fg.setType(type);
+        // fg.setStockCode(stockcode);
+        // fg.setSymbolType(symbolType);
         return fg;
     }
 
@@ -100,9 +102,19 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            handleArguments(arguments);
+        }
         if (mQuotesDataEngine == null) {
             mQuotesDataEngine = new QuotesEngineImpl();
         }
+    }
+
+    private void handleArguments(Bundle arguments) {
+        mViewType = arguments.getInt(KChartsFragment.ARGUMENT_VIEW_TYPE);
+        mStockCode = arguments.getString(KChartsFragment.ARGUMENT_STOCK_CODE);
+        symbolType = arguments.getString(KChartsFragment.ARGUMENT_SYMBOL_TYPE);
     }
 
     @Override
@@ -335,7 +347,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         try {
             if (null == mStockCode) {
                 Bundle b = getArguments();
-                type = b.getInt(TYPE);
+                mViewType = b.getInt(TYPE);
                 mStockCode = b.getString(CODE);
                 symbolType = b.getString(SYMBOLETYPE);
                 mMyChartsView.setSymbolType(symbolType);
@@ -369,12 +381,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
      * @return
      */
     private String getKLineType() {
-        switch (type) {
-            case TYPE_CHART_DAY:
+        switch (mViewType) {
+            case KChartsFragment.TYPE_CHART_DAY:
                 return "d";
-            case TYPE_CHART_WEEK:
+            case KChartsFragment.TYPE_CHART_WEEK:
                 return "w";
-            case TYPE_CHART_MONTH:
+            case KChartsFragment.TYPE_CHART_MONTH:
                 return "m";
             default:
                 break;
@@ -400,20 +412,39 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
-            pb.setVisibility(View.GONE);
-            if (null != object) {
-                ohlcs.addAll(object);
-            }
-            refreshChartsView(ohlcs);
-            if (object.size() > 50 && having) {
+            // pb.setVisibility(View.GONE);
+            // if (null != object) {
+            // ohlcs.addAll(object);
+            // }
+            // refreshChartsView(ohlcs);
+            // if (object.size() > 50 && having) {
+            //
+            // mSmallerButton.setClickable(true);
+            // mSmallerButton.setSelected(false);
+            // having = false;
+            // }
 
-                mSmallerButton.setClickable(true);
-                mSmallerButton.setSelected(false);
-                having = false;
-            }
+            updateChartData(object);
 
+            if (null != mKChartDataListener) {
+                setViewTypeData(ohlcs);
+            }
         }
     };
+
+    private void updateChartData(List<OHLCEntity> lineData) {
+        pb.setVisibility(View.GONE);
+        if (null != lineData) {
+            ohlcs.addAll(lineData);
+        }
+        refreshChartsView(ohlcs);
+        if (lineData.size() > 50 && having) {
+
+            mSmallerButton.setClickable(true);
+            mSmallerButton.setSelected(false);
+            having = false;
+        }
+    }
 
     // private IHttpListener mKlineHttpListener = new BasicHttpListener() {
     //
@@ -527,11 +558,11 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
     }
 
     public Integer getType() {
-        return type;
+        return mViewType;
     }
 
     public void setType(Integer type) {
-        this.type = type;
+        this.mViewType = type;
     }
 
     public String getStockCode() {
@@ -556,8 +587,24 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         Log.e(TAG, "setUserVisibleHint :" + this);
         if (isVisibleToUser) {
             // fragment可见时加载数据
-            mQuotesDataEngine = new QuotesEngineImpl();
-            List<OHLCEntity> ohlc = getOHLCDatas();
+            // mQuotesDataEngine = new QuotesEngineImpl();
+            // List<OHLCEntity> ohlc = getOHLCDatas();
+
+            if (mQuotesDataEngine == null) {
+                mQuotesDataEngine = new QuotesEngineImpl();
+            }
+            if (null != mKChartDataListener) {
+                List<OHLCEntity> lineDatas = getViewTypeData();
+                if (null == lineDatas || lineDatas.isEmpty()) {
+                    getOHLCDatas();
+
+                } else {
+                    updateChartData(lineDatas);
+                }
+            } else {
+                getOHLCDatas();
+            }
+
             if (mMarketTimer == null) {
                 mMarketTimer = new Timer(true);
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
@@ -659,6 +706,10 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                     mMyChartsView.flushFirshData(object.get(0));
                     mVolumnChartView.flushFirstData(object.get(0));
                 }
+            }
+
+            if (null != mKChartDataListener) {
+                setViewTypeData(ohlcs);
             }
 
         }
@@ -874,4 +925,34 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
     }
 
+    private KChartDataListener mKChartDataListener;
+
+    public KChartDataListener getKChartDataListener() {
+        return mKChartDataListener;
+    }
+
+    public void setKChartDataListener(KChartDataListener mKChartDataListener) {
+        this.mKChartDataListener = mKChartDataListener;
+    }
+
+    private List<OHLCEntity> getViewTypeData() {
+        if (mViewType == KChartsFragment.TYPE_CHART_DAY) {
+            return mKChartDataListener.getDayLineDatas();
+        } else if (mViewType == KChartsFragment.TYPE_CHART_WEEK) {
+            return mKChartDataListener.getWeekLineDatas();
+        } else if (mViewType == KChartsFragment.TYPE_CHART_MONTH) {
+            return mKChartDataListener.getMonthLineDatas();
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    private void setViewTypeData(List<OHLCEntity> lineDatas) {
+        if (mViewType == KChartsFragment.TYPE_CHART_DAY) {
+            mKChartDataListener.setDayKlineDatas(lineDatas);
+        } else if (mViewType == KChartsFragment.TYPE_CHART_WEEK) {
+            mKChartDataListener.setWeekKlineDatas(lineDatas);
+        } else if (mViewType == KChartsFragment.TYPE_CHART_MONTH) {
+            mKChartDataListener.setMonthKlineDatas(lineDatas);
+        }
+    }
 }

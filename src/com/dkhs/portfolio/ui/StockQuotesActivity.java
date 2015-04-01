@@ -66,6 +66,7 @@ import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
+import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
@@ -91,7 +92,7 @@ import com.umeng.analytics.MobclickAgent;
  * @version 1.0
  */
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, Serializable, StockViewCallBack,
-        LandStockViewCallBack {
+        LandStockViewCallBack, KChartDataListener {
 
     private static final long serialVersionUID = 15121212311111156L;
     private SelectStockBean mStockBean;
@@ -136,6 +137,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private static String checkValue = "0";
     private static final long mPollRequestTime = 1000 * 15;
     private static final String TAG = "StockQuotesActivity";
+
+    private StockLandView landStockview;
 
     // private View landScapeview;
 
@@ -597,18 +600,21 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // fragment.setITouchListener(this);
         fragment.setStockViewCallBack(this);
         fragment.setLandCallBack(this);
+        fragment.setKChartDataListener(this);
         fragmentList.add(fragment);
         KChartsFragment fragment2 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK, mStockCode,
                 symbolType);
         // fragment2.setITouchListener(this);
         fragment2.setLandCallBack(this);
         fragment2.setStockViewCallBack(this);
+        fragment.setKChartDataListener(this);
         fragmentList.add(fragment2);
         KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,
                 symbolType);
         // fragment3.setITouchListener(this);
         fragment3.setLandCallBack(this);
         fragment3.setStockViewCallBack(this);
+        fragment.setKChartDataListener(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
@@ -1025,12 +1031,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-    private StockLandView landStockview;
-
     private void initLandStockView() {
         landStockview = new StockLandView(this);
         landStockview.setStockViewCallback(this);
-
+        landStockview.setKChartDataListener(this);
         DisplayMetrics localDisplayMetrics = getResources().getDisplayMetrics();
         LayoutParams localLayoutParams = new LayoutParams(localDisplayMetrics.heightPixels,
                 localDisplayMetrics.widthPixels);
@@ -1223,7 +1227,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     @Override
     public List<OHLCEntity> getWeekLineDatas() {
-        // TODO Auto-generated method stub
         return this.mWeekKChart;
     }
 

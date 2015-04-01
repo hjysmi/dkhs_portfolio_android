@@ -20,6 +20,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
+import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
@@ -388,19 +389,26 @@ public class KChartsFragment extends Fragment {
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
-            pb.setVisibility(View.GONE);
-            if (null != object) {
-                ohlcs.addAll(object);
-            }
-            refreshChartsView(ohlcs);
-            if (object.size() > 50 && having) {
-                // mSmallerButton.setClickable(true);
-                mSmallerButton.setSelected(false);
-                having = false;
+            updateChartData(object);
+            if (null != mKChartDataListener) {
+                setViewTypeData(ohlcs);
             }
 
         }
     };
+
+    private void updateChartData(List<OHLCEntity> lineData) {
+        pb.setVisibility(View.GONE);
+        if (null != lineData) {
+            ohlcs.addAll(lineData);
+        }
+        refreshChartsView(ohlcs);
+        if (lineData.size() > 50 && having) {
+            // mSmallerButton.setClickable(true);
+            mSmallerButton.setSelected(false);
+            having = false;
+        }
+    }
 
     /**
      * 从json中解析k线数据
@@ -542,8 +550,20 @@ public class KChartsFragment extends Fragment {
             if (null != mLandCallBack) {
                 checkValue = mLandCallBack.getCheckValue();
             }
-            mQuotesDataEngine = new QuotesEngineImpl();
-            getOHLCDatas();
+            if (mQuotesDataEngine == null) {
+                mQuotesDataEngine = new QuotesEngineImpl();
+            }
+            if (null != mKChartDataListener) {
+                List<OHLCEntity> lineDatas = getViewTypeData();
+                if (null == lineDatas || lineDatas.isEmpty()) {
+                    getOHLCDatas();
+
+                } else {
+                    updateChartData(lineDatas);
+                }
+            } else {
+                getOHLCDatas();
+            }
             if (mMarketTimer == null) {
                 mMarketTimer = new Timer(true);
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
@@ -556,6 +576,27 @@ public class KChartsFragment extends Fragment {
             }
         }
         super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    private List<OHLCEntity> getViewTypeData() {
+        if (mViewType == TYPE_CHART_DAY) {
+            return mKChartDataListener.getDayLineDatas();
+        } else if (mViewType == TYPE_CHART_WEEK) {
+            return mKChartDataListener.getWeekLineDatas();
+        } else if (mViewType == TYPE_CHART_MONTH) {
+            return mKChartDataListener.getMonthLineDatas();
+        }
+        return Collections.EMPTY_LIST;
+    }
+
+    private void setViewTypeData(List<OHLCEntity> lineDatas) {
+        if (mViewType == TYPE_CHART_DAY) {
+            mKChartDataListener.setDayKlineDatas(lineDatas);
+        } else if (mViewType == TYPE_CHART_WEEK) {
+            mKChartDataListener.setWeekKlineDatas(lineDatas);
+        } else if (mViewType == TYPE_CHART_MONTH) {
+            mKChartDataListener.setMonthKlineDatas(lineDatas);
+        }
     }
 
     @Override
@@ -610,6 +651,10 @@ public class KChartsFragment extends Fragment {
                     ohlcs.remove(1);
                 }
                 refreshChartsView(ohlcs);
+            }
+
+            if (null != mKChartDataListener) {
+                setViewTypeData(ohlcs);
             }
 
         }
@@ -685,6 +730,16 @@ public class KChartsFragment extends Fragment {
         if (null != mMyChartsView) {
             mMyChartsView.setCallBack(mStockCallback);
         }
+    }
+
+    private KChartDataListener mKChartDataListener;
+
+    public KChartDataListener getKChartDataListener() {
+        return mKChartDataListener;
+    }
+
+    public void setKChartDataListener(KChartDataListener mKChartDataListener) {
+        this.mKChartDataListener = mKChartDataListener;
     }
 
 }
