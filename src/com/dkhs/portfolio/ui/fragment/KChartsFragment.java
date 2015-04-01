@@ -61,7 +61,6 @@ public class KChartsFragment extends AbstractKChartView {
     private ImageButton mSmallerButton;
 
     public static final boolean testInterface = false; // 测试，使用本地数据
-    private boolean first = true;
     // private Timer mMarketTimer;
     List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
     private boolean having = true;
@@ -232,22 +231,11 @@ public class KChartsFragment extends AbstractKChartView {
      * 
      * @return
      */
-    private List<OHLCEntity> getOHLCDatas() {
+    private void queryDefData() {
 
-        // 获取K线类型，日，周，月
-        try {
-            String mtype = getKLineType();
-            // if()
-            getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener, getCheckValue());
-            if (first) {
-                // PromptManager.showProgressDialog(getActivity(), "", true);
-                first = false;
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
+        String mtype = getKLineType();
+        getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(), mKlineHttpListener,
+                getCheckValue());
     }
 
     public void regetDate(String checkValue) {
@@ -259,7 +247,7 @@ public class KChartsFragment extends AbstractKChartView {
             mVolumnChartView.setStickData(volumns);
             mVolumnChartView.postInvalidate();
             pb.setVisibility(View.VISIBLE);
-            getOHLCDatas();
+            queryDefData();
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -378,20 +366,20 @@ public class KChartsFragment extends AbstractKChartView {
             if (null != getKChartDataListener()) {
                 List<OHLCEntity> lineDatas = getViewTypeData();
                 if (null == lineDatas || lineDatas.isEmpty()) {
-                    getOHLCDatas();
+                    queryDefData();
+                    updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
 
                 } else {
                     updateChartData(lineDatas);
                 }
             } else {
-                getOHLCDatas();
+                queryDefData();
+                updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
             }
             // if (mMarketTimer == null) {
             // mMarketTimer = new Timer(true);
             // mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
             // }
-
-            updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
 
         } else {
             // 不可见时不执行操作
@@ -431,14 +419,14 @@ public class KChartsFragment extends AbstractKChartView {
             if (null != mLandCallBack) {
 
                 StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                String mtype = getKLineType();
+                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener, getCheckValue());
                 if (UIUtils.roundAble(m)) {
                     // mMarketTimer.cancel();
                     updateHandler.removeCallbacks(requestMarketRunnable);
                 } else {
                     updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
                 }
-                String mtype = getKLineType();
-                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener, getCheckValue());
             }
 
         }
@@ -468,9 +456,10 @@ public class KChartsFragment extends AbstractKChartView {
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
             if (null == ohlcs || ohlcs.size() == 0) {
-                String mtype = getKLineType();
-                getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(),
-                        mKlineHttpListener, getCheckValue());
+                // String mtype = getKLineType();
+                // getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(),
+                // mKlineHttpListener, getCheckValue());
+                queryDefData();
             } else {
                 if (object != null && !object.isEmpty()) {
                     ohlcs.add(0, object.get(0));

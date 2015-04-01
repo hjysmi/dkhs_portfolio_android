@@ -558,14 +558,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // fragment2.setITouchListener(this);
         fragment2.setLandCallBack(this);
         fragment2.setStockViewCallBack(this);
-        fragment.setKChartDataListener(this);
+        fragment2.setKChartDataListener(this);
         fragmentList.add(fragment2);
         KChartsFragment fragment3 = KChartsFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH, mStockCode,
                 symbolType);
         // fragment3.setITouchListener(this);
         fragment3.setLandCallBack(this);
         fragment3.setStockViewCallBack(this);
-        fragment.setKChartDataListener(this);
+        fragment3.setKChartDataListener(this);
         fragmentList.add(fragment3);
         // fragmentList.add(new TestFragment());
         pager = (ScrollViewPager) this.findViewById(R.id.pager);
