@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -31,6 +32,7 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.AbstractKChartView;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -47,19 +49,14 @@ import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class KChartsLandFragment extends Fragment implements OnClickListener, KChartsLandCallBack {
-    // public static final int TYPE_CHART_DAY = 1;
-    // public static final int TYPE_CHART_WEEK = 2;
-    // public static final int TYPE_CHART_MONTH = 3;
+public class KChartsLandFragment extends AbstractKChartView implements OnClickListener, KChartsLandCallBack {
+
     private static final String UNCHEK = "0";
     private static final String BEFORECHEK = "1";
     private static final String AFTERCHEK = "2";
 
     private KChartsLandView mMyChartsView;
     private StickChart mVolumnChartView; // 成交量饼图
-    private Integer mViewType = KChartsFragment.TYPE_CHART_DAY; // 类型，日K线，周k先，月k线
-    private String mStockCode; // 股票code
-    private QuotesEngineImpl mQuotesDataEngine;
 
     private ImageButton mLargerButton;
     private ImageButton mSmallerButton;
@@ -67,13 +64,9 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
     public static final boolean testInterface = false; // 测试，使用本地数据
     private boolean first = true;
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 45;
     List<OHLCEntity> ohlcs;
     private boolean having = true;
-    private String symbolType;
-    private final static String TYPE = "type";
-    private final static String CODE = "code";
-    private final static String SYMBOLETYPE = "symboltype";
+    // private String symbolType;
     private static final String TAG = "KChartsLandFragment";
     private RelativeLayout pb;
     private TextView tvUnCheck;
@@ -87,39 +80,32 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
     public static KChartsLandFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
         KChartsLandFragment fg = new KChartsLandFragment();
-        Bundle b = new Bundle();
-        b.putInt(KChartsFragment.ARGUMENT_VIEW_TYPE, type);
-        b.putString(KChartsFragment.ARGUMENT_STOCK_CODE, stockcode);
-        b.putString(KChartsFragment.ARGUMENT_SYMBOL_TYPE, symbolType);
-        fg.setArguments(b);
-        // fg.setType(type);
-        // fg.setStockCode(stockcode);
-        // fg.setSymbolType(symbolType);
+        fg.setArguments(fg.getBundle(type, stockcode, symbolType));
         return fg;
+    }
+
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_kcharts_land;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            handleArguments(arguments);
-        }
-        if (mQuotesDataEngine == null) {
-            mQuotesDataEngine = new QuotesEngineImpl();
-        }
     }
 
-    private void handleArguments(Bundle arguments) {
-        mViewType = arguments.getInt(KChartsFragment.ARGUMENT_VIEW_TYPE);
-        mStockCode = arguments.getString(KChartsFragment.ARGUMENT_STOCK_CODE);
-        symbolType = arguments.getString(KChartsFragment.ARGUMENT_SYMBOL_TYPE);
-    }
-
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_kcharts_land, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         pbLoadMore = view.findViewById(R.id.pb_loadmore);
         mMyChartsView = (KChartsLandView) view.findViewById(R.id.my_charts_view);
         mVolumnChartView = (StickChart) view.findViewById(R.id.chart_volumn);
@@ -129,15 +115,15 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         tvTurnover = (TextView) view.findViewById(R.id.kline_turnover);
         tvMacd = (TextView) view.findViewById(R.id.klin_macd);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!TextUtils.isEmpty(symbolType) && UIUtils.isSymbleIndex(symbolType)) {
+        if (!TextUtils.isEmpty(getSymbolType()) && UIUtils.isSymbleIndex(getSymbolType())) {
             view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
         }
-        if (TextUtils.isEmpty(symbolType)) {
-            symbolType = getArguments().getString(SYMBOLETYPE);
-            if (!TextUtils.isEmpty(symbolType) && UIUtils.isSymbleIndex(symbolType)) {
-                view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
-            }
-        }
+        // if (TextUtils.isEmpty(getSymbolType())) {
+        // getSymbolType() = getArguments().getString(SYMBOLETYPE);
+        // if (!TextUtils.isEmpty(getSymbolType()) && UIUtils.isSymbleIndex(getSymbolType())) {
+        // view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
+        // }
+        // }
         if (!(null != ohlcs && ohlcs.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
@@ -176,7 +162,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
             mLargerButton.setClickable(false);
             mLargerButton.setSelected(true);
         }
-        return view;
+
     }
 
     private void initChartView() {
@@ -185,21 +171,12 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         mMyChartsView.setBorderColor(Color.LTGRAY);
         mMyChartsView.setDisplayLongitude(true);
         mMyChartsView.setDisplayAxisXTitle(false);
-        // mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
-        // mMyChartsView.setITouchListener(mTouchListener);
+
         mMyChartsView.setSymbolType(getSymbolType());
-        mMyChartsView.setSymbol(mStockCode);
+        mMyChartsView.setSymbol(getStockCode());
         mMyChartsView.setContext(getActivity());
         mMyChartsView.setKChartsLandCallBack(this);
-        // mMyChartsView.setDoubleClicklistener(new OnDoubleClickListener() {
-        //
-        // @Override
-        // public void OnDoubleClick(View view) {
-        // // TODO Auto-generated method stub
-        // BusProvider.getInstance().post(new DoubleclickEvent());
-        // }
-        // });
-        // mMyChartsView.setOnTouchListener(new OnChartListener());
+
     }
 
     /*
@@ -280,9 +257,9 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
     private void refreshVolumnCharts() {
         try {
-            ArrayList<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
-            if (volumns != null && volumns.size() > 0) {
-                mVolumnChartView.setStickData(volumns, page);
+            // ArrayList<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+            if (mMyChartsView.getDisplayOHLCEntitys() != null && mMyChartsView.getDisplayOHLCEntitys().size() > 0) {
+                mVolumnChartView.setStickData(mMyChartsView.getDisplayOHLCEntitys(), page);
                 mVolumnChartView.postInvalidate();
             }
         } catch (Exception e) {
@@ -292,70 +269,20 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
     }
 
     /**
-     * 获取成交量
-     * 
-     * @param ohlc
-     * @return
-     */
-    private ArrayList<OHLCEntity> getVolumnFromOHLC(ArrayList<OHLCEntity> ohlc) {
-        try {
-            if (ohlc == null || ohlc.size() == 0) {
-                return null;
-            }
-
-            /*
-             * List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
-             * OHLCEntity temp = null;
-             * OHLCEntity entity = null;
-             * double k = 0;
-             * for (int i = ohlc.size() - 1; i >= 0; i--) {
-             * entity = ohlc.get(i);
-             * if(i%2 == 0){
-             * k = i;
-             * }else{
-             * k = -i;
-             * }
-             * temp = new OHLCEntity(entity.getVolume(), 0,
-             * entity.getDate(),entity.getMacd(),entity.getDiff(),entity.getDea());
-             * temp.setUp(entity.isup());
-             * volumns.add(temp);
-             * }
-             */
-
-            return ohlc;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * 获取k线数据
      * 
      * @return
      */
     private List<OHLCEntity> getOHLCDatas() {
-        // // 测试，使用写死数据
-        // if (testInterface) {
-        // return getTestDatas();
-        // }
 
-        // 测试
-        // mStockCode = "SZ002252";
         // 获取K线类型，日，周，月
         try {
-            if (null == mStockCode) {
-                Bundle b = getArguments();
-                mViewType = b.getInt(TYPE);
-                mStockCode = b.getString(CODE);
-                symbolType = b.getString(SYMBOLETYPE);
-                mMyChartsView.setSymbolType(symbolType);
-                mMyChartsView.setSymbol(mStockCode);
-            }
+
+            mMyChartsView.setSymbolType(getSymbolType());
+            mMyChartsView.setSymbol(getStockCode());
+            // }
             String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-            // ((StockQuotesActivity) getActivity()).getCheckValue(), page);
+            getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                     mLandCallBack.getCheckValue(), page);
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
@@ -375,58 +302,26 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         }
     }
 
-    /**
-     * 获取K线类型，日，周，月
-     * 
-     * @return
-     */
-    private String getKLineType() {
-        switch (mViewType) {
-            case KChartsFragment.TYPE_CHART_DAY:
-                return "d";
-            case KChartsFragment.TYPE_CHART_WEEK:
-                return "w";
-            case KChartsFragment.TYPE_CHART_MONTH:
-                return "m";
-            default:
-                break;
-        }
-        return "d";
-    }
-
     private IHttpListener mKlineHttpListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
         protected List<OHLCEntity> parseDateTask(String jsonData) {
             List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
-            // ohlcs = new ArrayList<OHLCEntity>();
-            // Collections.reverse(ohlc);
+
             return ohlc;
         }
 
         public void onFailure(int errCode, String errMsg) {
-            // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-            // PromptManager.closeProgressDialog();
+
             pb.setVisibility(View.GONE);
         };
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
-            // pb.setVisibility(View.GONE);
-            // if (null != object) {
-            // ohlcs.addAll(object);
-            // }
-            // refreshChartsView(ohlcs);
-            // if (object.size() > 50 && having) {
-            //
-            // mSmallerButton.setClickable(true);
-            // mSmallerButton.setSelected(false);
-            // having = false;
-            // }
 
             updateChartData(object);
 
-            if (null != mKChartDataListener) {
+            if (null != getKChartDataListener()) {
                 setViewTypeData(ohlcs);
             }
         }
@@ -446,32 +341,6 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         }
     }
 
-    // private IHttpListener mKlineHttpListener = new BasicHttpListener() {
-    //
-    // @Override
-    // public void onSuccess(String result) {
-    // try {
-    // pb.setVisibility(View.GONE);
-    // List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-    // ohlcs = new ArrayList<OHLCEntity>();
-    // for (int i = ohlc.size() - 1; i >= 0; i--) {
-    // ohlcs.add(ohlc.get(i));
-    // }
-    // refreshChartsView(ohlcs);
-    // } catch (Exception e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // // PromptManager.closeProgressDialog();
-    // }
-    //
-    // public void onFailure(int errCode, String errMsg) {
-    // // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-    // // PromptManager.closeProgressDialog();
-    // pb.setVisibility(View.GONE);
-    // };
-    // };
-
     /**
      * 从json中解析k线数据
      * 
@@ -480,10 +349,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
      */
     private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
         List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
-        // if (jsonObject == null || jsonObject.trim().length() == 0) {
-        // return entitys;
-        // }
-        // List<OHLCEntity> entity;
+
         try {
             if (!jsonObject.contains("current_page")) {
                 entitys = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
@@ -492,19 +358,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                 page = mPageOHLCEntity.getPage();
                 entitys = mPageOHLCEntity.getResults();
             }
-            // JSONArray ja = new JSONArray(jsonObject);
-            // List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
 
-            // for (int i = entity.size() - 1; i >= 0; i--) {
-            // entitys.add(entity.get(i));
-            // }
-            // int len = entitys.size();
-
-            // if (len > 50 && having) {
-            // mSmallerButton.setClickable(true);
-            // mSmallerButton.setSelected(false);
-            // having = false;
-            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -557,43 +411,11 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         }
     }
 
-    public Integer getType() {
-        return mViewType;
-    }
-
-    public void setType(Integer type) {
-        this.mViewType = type;
-    }
-
-    public String getStockCode() {
-        return mStockCode;
-    }
-
-    public void setStockCode(String mStockCode) {
-        this.mStockCode = mStockCode;
-    }
-
-    public String getSymbolType() {
-        return symbolType;
-    }
-
-    public void setSymbolType(String symbolType) {
-        this.symbolType = symbolType;
-    }
-
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
-        Log.e(TAG, "setUserVisibleHint :" + this);
         if (isVisibleToUser) {
-            // fragment可见时加载数据
-            // mQuotesDataEngine = new QuotesEngineImpl();
-            // List<OHLCEntity> ohlc = getOHLCDatas();
-
-            if (mQuotesDataEngine == null) {
-                mQuotesDataEngine = new QuotesEngineImpl();
-            }
-            if (null != mKChartDataListener) {
+            if (null != getKChartDataListener()) {
                 List<OHLCEntity> lineDatas = getViewTypeData();
                 if (null == lineDatas || lineDatas.isEmpty()) {
                     getOHLCDatas();
@@ -610,32 +432,34 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
             }
             if (null != tvUnCheck && null != mLandCallBack) {
-                if (mLandCallBack.getCheckValue().equals(UNCHEK)) {
-                    tvUnCheck.setSelected(true);
-                    tvBeforeCheck.setSelected(false);
-                    tvAfterCheck.setSelected(false);
-                } else if (mLandCallBack.getCheckValue().equals(BEFORECHEK)) {
-                    tvUnCheck.setSelected(false);
-                    tvBeforeCheck.setSelected(true);
-                    tvAfterCheck.setSelected(false);
-                } else {
-                    tvUnCheck.setSelected(false);
-                    tvBeforeCheck.setSelected(false);
-                    tvAfterCheck.setSelected(true);
-                }
-                if (mLandCallBack.getStickType() == (StickChart.CHECK_COLUME)) {
-                    tvTurnover.setSelected(true);
-                    tvMacd.setSelected(false);
-                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
-                    mLandCallBack.setStickType(StickChart.CHECK_COLUME);
-                    mVolumnChartView.setLatitudeNum(1);
-                } else if (mLandCallBack.getStickType() == (StickChart.CHECK_MACD)) {
-                    tvTurnover.setSelected(false);
-                    tvMacd.setSelected(true);
-                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                    mLandCallBack.setStickType(StickChart.CHECK_MACD);
-                    mVolumnChartView.setLatitudeNum(3);
-                }
+                // if (mLandCallBack.getCheckValue().equals(UNCHEK)) {
+                // tvUnCheck.setSelected(true);
+                // tvBeforeCheck.setSelected(false);
+                // tvAfterCheck.setSelected(false);
+                // } else if (mLandCallBack.getCheckValue().equals(BEFORECHEK)) {
+                // tvUnCheck.setSelected(false);
+                // tvBeforeCheck.setSelected(true);
+                // tvAfterCheck.setSelected(false);
+                // } else {
+                // tvUnCheck.setSelected(false);
+                // tvBeforeCheck.setSelected(false);
+                // tvAfterCheck.setSelected(true);
+                // }
+                updateCheckView(mLandCallBack.getCheckValue());
+                updateVolumView(mLandCallBack.getStickType());
+                // if (mLandCallBack.getStickType() == (StickChart.CHECK_COLUME)) {
+                // tvTurnover.setSelected(true);
+                // tvMacd.setSelected(false);
+                // mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+                // mLandCallBack.setStickType(StickChart.CHECK_COLUME);
+                // mVolumnChartView.setLatitudeNum(1);
+                // } else if (mLandCallBack.getStickType() == (StickChart.CHECK_MACD)) {
+                // tvTurnover.setSelected(false);
+                // tvMacd.setSelected(true);
+                // mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+                // mLandCallBack.setStickType(StickChart.CHECK_MACD);
+                // mVolumnChartView.setLatitudeNum(3);
+                // }
             }
         } else {
             // 不可见时不执行操作
@@ -677,8 +501,8 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                     mMarketTimer.cancel();
                 }
                 String mtype = getKLineType();
-                mQuotesDataEngine
-                        .queryKLine(mtype, mStockCode, "1", mKlineFlushListener, mLandCallBack.getCheckValue());
+                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener,
+                        mLandCallBack.getCheckValue());
             }
         }
     }
@@ -687,7 +511,6 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
         @Override
         protected List<OHLCEntity> parseDateTask(String jsonData) {
-            // TODO Auto-generated method stub
             return getOHLCDatasFromJson(jsonData);
         }
 
@@ -695,20 +518,17 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         protected void afterParseData(List<OHLCEntity> object) {
             if (null == ohlcs || ohlcs.size() == 0) {
                 String mtype = getKLineType();
-                mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener, mLandCallBack.getCheckValue(),
-                        page);
+                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
+                        mLandCallBack.getCheckValue(), page);
             } else {
                 if (null != object && object.size() > 0) {
-                    /*
-                     * ohlcs.add(0, ohlc.get(0));
-                     * ohlcs.remove(1);
-                     */
+
                     mMyChartsView.flushFirshData(object.get(0));
                     mVolumnChartView.flushFirstData(object.get(0));
                 }
             }
 
-            if (null != mKChartDataListener) {
+            if (null != getKChartDataListener()) {
                 setViewTypeData(ohlcs);
             }
 
@@ -719,41 +539,6 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         };
     };
 
-    // private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
-    //
-    // @Override
-    // public void onSuccess(String result) {
-    // try {
-    // pb.setVisibility(View.GONE);
-    // List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-    // if (null == ohlcs || ohlcs.size() == 0) {
-    // String mtype = getKLineType();
-    // mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-    // mLandCallBack.getCheckValue(), page);
-    // } else {
-    // if (ohlc.size() > 0) {
-    // /*
-    // * ohlcs.add(0, ohlc.get(0));
-    // * ohlcs.remove(1);
-    // */
-    // mMyChartsView.flushFirshData(ohlc.get(0));
-    // mVolumnChartView.flushFirstData(ohlc.get(0));
-    // }
-    // // refreshChartsView(ohlcs);
-    // }
-    // } catch (Exception e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // // PromptManager.closeProgressDialog();
-    // }
-    //
-    // public void onFailure(int errCode, String errMsg) {
-    // // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-    // // PromptManager.closeProgressDialog();
-    // pb.setVisibility(View.GONE);
-    // };
-    // };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
 
     @Override
@@ -773,9 +558,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                 if (!tvUnCheck.isSelected()) {
                     page = 1;
                     mMyChartsView.reSetdate();
-                    tvUnCheck.setSelected(true);
-                    tvBeforeCheck.setSelected(false);
-                    tvAfterCheck.setSelected(false);
+                    updateCheckView(UNCHEK);
                     ohlcs.clear();
                     ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
                     mVolumnChartView.setStickData(volumns, page);
@@ -784,7 +567,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                     pb.setVisibility(View.VISIBLE);
                     mLandCallBack.setCheckValue(UNCHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
+                    getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                             mLandCallBack.getCheckValue(), page);
                     // mLandCallBack.setChange(true);
                     mLandCallBack.setCheckValue(UNCHEK);
@@ -794,9 +577,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                 if (!tvBeforeCheck.isSelected()) {
                     page = 1;
                     mMyChartsView.reSetdate();
-                    tvUnCheck.setSelected(false);
-                    tvBeforeCheck.setSelected(true);
-                    tvAfterCheck.setSelected(false);
+                    updateCheckView(BEFORECHEK);
                     ohlcs.clear();
                     refreshChartsView(ohlcs);
                     ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
@@ -805,7 +586,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                     pb.setVisibility(View.VISIBLE);
                     mLandCallBack.setCheckValue(BEFORECHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
+                    getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                             mLandCallBack.getCheckValue(), page);
                     // mLandCallBack.setChange(true);
                     mLandCallBack.setCheckValue(BEFORECHEK);
@@ -815,9 +596,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                 if (!tvAfterCheck.isSelected()) {
                     page = 1;
                     mMyChartsView.reSetdate();
-                    tvUnCheck.setSelected(false);
-                    tvBeforeCheck.setSelected(false);
-                    tvAfterCheck.setSelected(true);
+                    updateCheckView(AFTERCHEK);
                     ohlcs.clear();
                     refreshChartsView(ohlcs);
                     ArrayList<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
@@ -826,7 +605,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                     pb.setVisibility(View.VISIBLE);
                     mLandCallBack.setCheckValue(AFTERCHEK);
                     String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
+                    getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                             mLandCallBack.getCheckValue(), page);
                     // mLandCallBack.setChange(true);
                     mLandCallBack.setCheckValue(AFTERCHEK);
@@ -834,26 +613,50 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
                 break;
             case R.id.kline_turnover:
                 if (!tvTurnover.isSelected()) {
-                    tvTurnover.setSelected(true);
-                    tvMacd.setSelected(false);
-                    mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
-                    mLandCallBack.setStickType(StickChart.CHECK_COLUME);
-                    mVolumnChartView.setLatitudeNum(1);
+                    updateVolumView(StickChart.CHECK_COLUME);
                     refreshVolumnCharts();
                 }
                 break;
             case R.id.klin_macd:
                 if (!tvMacd.isSelected()) {
-                    tvTurnover.setSelected(false);
-                    tvMacd.setSelected(true);
-                    mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                    mLandCallBack.setStickType(StickChart.CHECK_MACD);
-                    mVolumnChartView.setLatitudeNum(3);
+                    updateVolumView(StickChart.CHECK_MACD);
                     refreshVolumnCharts();
                 }
                 break;
             default:
                 break;
+        }
+    }
+
+    private void updateCheckView(String checkvalue) {
+        if (checkvalue.equals(UNCHEK)) {
+            tvUnCheck.setSelected(true);
+            tvBeforeCheck.setSelected(false);
+            tvAfterCheck.setSelected(false);
+        } else if (checkvalue.equals(BEFORECHEK)) {
+            tvUnCheck.setSelected(false);
+            tvBeforeCheck.setSelected(true);
+            tvAfterCheck.setSelected(false);
+        } else {
+            tvUnCheck.setSelected(false);
+            tvBeforeCheck.setSelected(false);
+            tvAfterCheck.setSelected(true);
+        }
+    }
+
+    private void updateVolumView(int stickType) {
+        if (stickType == (StickChart.CHECK_COLUME)) {
+            tvTurnover.setSelected(true);
+            tvMacd.setSelected(false);
+            mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
+            mLandCallBack.setStickType(StickChart.CHECK_COLUME);
+            mVolumnChartView.setLatitudeNum(1);
+        } else if (stickType == (StickChart.CHECK_MACD)) {
+            tvTurnover.setSelected(false);
+            tvMacd.setSelected(true);
+            mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
+            mLandCallBack.setStickType(StickChart.CHECK_MACD);
+            mVolumnChartView.setLatitudeNum(3);
         }
     }
 
@@ -894,7 +697,6 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
     @Override
     public void onLoadMoreDataEnd() {
-        // TODO Auto-generated method stub
 
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -905,12 +707,6 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
         });
 
     }
-
-    // private ITouchListener mTouchListener;
-    //
-    // public void setITouchListener(ITouchListener touchListener) {
-    // this.mTouchListener = touchListener;
-    // }
 
     @Override
     public void onDoubleClick(View view) {
@@ -925,34 +721,4 @@ public class KChartsLandFragment extends Fragment implements OnClickListener, KC
 
     }
 
-    private KChartDataListener mKChartDataListener;
-
-    public KChartDataListener getKChartDataListener() {
-        return mKChartDataListener;
-    }
-
-    public void setKChartDataListener(KChartDataListener mKChartDataListener) {
-        this.mKChartDataListener = mKChartDataListener;
-    }
-
-    private List<OHLCEntity> getViewTypeData() {
-        if (mViewType == KChartsFragment.TYPE_CHART_DAY) {
-            return mKChartDataListener.getDayLineDatas();
-        } else if (mViewType == KChartsFragment.TYPE_CHART_WEEK) {
-            return mKChartDataListener.getWeekLineDatas();
-        } else if (mViewType == KChartsFragment.TYPE_CHART_MONTH) {
-            return mKChartDataListener.getMonthLineDatas();
-        }
-        return Collections.EMPTY_LIST;
-    }
-
-    private void setViewTypeData(List<OHLCEntity> lineDatas) {
-        if (mViewType == KChartsFragment.TYPE_CHART_DAY) {
-            mKChartDataListener.setDayKlineDatas(lineDatas);
-        } else if (mViewType == KChartsFragment.TYPE_CHART_WEEK) {
-            mKChartDataListener.setWeekKlineDatas(lineDatas);
-        } else if (mViewType == KChartsFragment.TYPE_CHART_MONTH) {
-            mKChartDataListener.setMonthKlineDatas(lineDatas);
-        }
-    }
 }

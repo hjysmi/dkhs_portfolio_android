@@ -17,6 +17,7 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.AbstractKChartView;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
@@ -30,6 +31,8 @@ import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,71 +50,53 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class KChartsFragment extends Fragment {
-    public static final int TYPE_CHART_DAY = 1;
-    public static final int TYPE_CHART_WEEK = 2;
-    public static final int TYPE_CHART_MONTH = 3;
-
-    public static final String ARGUMENT_VIEW_TYPE = "view_type";
-    public static final String ARGUMENT_STOCK_CODE = "stock_code";
-    public static final String ARGUMENT_SYMBOL_TYPE = "symbol_type";
+public class KChartsFragment extends AbstractKChartView {
 
     private KChartsView mMyChartsView;
     private StickChart mVolumnChartView; // 成交量饼图
-    private Integer mViewType = TYPE_CHART_DAY; // 类型，日K线，周k先，月k线
-    private String mStockCode; // 股票code
-    private QuotesEngineImpl mQuotesDataEngine;
+
+    // private QuotesEngineImpl mQuotesDataEngine;
 
     private ImageButton mLargerButton;
     private ImageButton mSmallerButton;
 
     public static final boolean testInterface = false; // 测试，使用本地数据
     private boolean first = true;
-    private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 45;
+    // private Timer mMarketTimer;
     List<OHLCEntity> ohlcs = new ArrayList<OHLCEntity>();
     private boolean having = true;
-    private String symbolType;
     private RelativeLayout pb;
     private String checkValue = "0";
 
     public static KChartsFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
 
         KChartsFragment fg = new KChartsFragment();
-        // fg.setType(type);
-        // fg.setStockCode(stockcode);
-        // fg.setSymbolType(symbolType);
-        Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_VIEW_TYPE, type);
-        arguments.putString(ARGUMENT_STOCK_CODE, stockcode);
-        arguments.putString(ARGUMENT_SYMBOL_TYPE, symbolType);
-        fg.setArguments(arguments);
-
+        fg.setArguments(fg.getBundle(type, stockcode, symbolType));
         return fg;
+    }
+
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_kcharts;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle arguments = getArguments();
-        if (arguments != null) {
-            handleArguments(arguments);
-        }
-        if (mQuotesDataEngine == null) {
-            mQuotesDataEngine = new QuotesEngineImpl();
-        }
     }
 
-    private void handleArguments(Bundle arguments) {
-        mViewType = arguments.getInt(ARGUMENT_VIEW_TYPE);
-        mStockCode = arguments.getString(ARGUMENT_STOCK_CODE);
-        symbolType = arguments.getString(ARGUMENT_SYMBOL_TYPE);
-    }
-
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_kcharts, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         mMyChartsView = (KChartsView) view.findViewById(R.id.my_charts_view);
         mVolumnChartView = (StickChart) view.findViewById(R.id.chart_volumn);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
@@ -124,7 +109,7 @@ public class KChartsFragment extends Fragment {
         mMyChartsView.setStick(mVolumnChartView);
         mMyChartsView.setContext(getActivity());
         mMyChartsView.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
-        mMyChartsView.setType(mViewType);
+        mMyChartsView.setType(getViewType());
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
         // mLargerButton.setVisibility(View.INVISIBLE);
 
@@ -150,7 +135,6 @@ public class KChartsFragment extends Fragment {
             // mLargerButton.setClickable(false);
             mLargerButton.setSelected(true);
         }
-        return view;
     }
 
     private DisplayDataChangeListener mDisplayDataChangeListener = new DisplayDataChangeListener() {
@@ -161,12 +145,6 @@ public class KChartsFragment extends Fragment {
         }
 
     };
-
-    // private ITouchListener mTouchListener;
-    //
-    // public void setITouchListener(ITouchListener touchListener) {
-    // this.mTouchListener = touchListener;
-    // }
 
     private void initChartView() {
         if (null != mStockCallback) {
@@ -181,35 +159,10 @@ public class KChartsFragment extends Fragment {
         mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
         // mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
-        mMyChartsView.setSymbol(mStockCode);
+        mMyChartsView.setSymbol(getSymbolType());
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
-    /*
-     * class OnChartListener implements OnTouchListener{
-     * boolean g = true;
-     * 
-     * @Override
-     * public boolean onTouch(View v, MotionEvent event) {
-     * // TODO Auto-generated method stub
-     * if(event.getAction() == MotionEvent.ACTION_DOWN){
-     * g = true;
-     * }
-     * if(event.getAction() == MotionEvent.ACTION_MOVE){
-     * if(g){
-     * event.setLocation(0, 0);
-     * mVolumnChartView.onSet(event);
-     * }
-     * g = false;
-     * }
-     * if(event.getAction() == MotionEvent.ACTION_UP && g){
-     * mVolumnChartView.onSet(event);
-     * }
-     * return false;
-     * }
-     * 
-     * }
-     */
     private void initVloumnChartView() {
         mVolumnChartView.setAxisXColor(Color.LTGRAY);
         mVolumnChartView.setAxisYColor(Color.LTGRAY);
@@ -263,7 +216,7 @@ public class KChartsFragment extends Fragment {
 
     private void refreshVolumnCharts() {
         try {
-            ArrayList<OHLCEntity> volumns = getVolumnFromOHLC(mMyChartsView.getDisplayOHLCEntitys());
+            ArrayList<OHLCEntity> volumns = mMyChartsView.getDisplayOHLCEntitys();
             if (volumns != null && volumns.size() > 0) {
                 mVolumnChartView.setStickData(volumns);
                 mVolumnChartView.postInvalidate();
@@ -275,56 +228,17 @@ public class KChartsFragment extends Fragment {
     }
 
     /**
-     * 获取成交量
-     * 
-     * @param ohlc
-     * @return
-     */
-    private ArrayList<OHLCEntity> getVolumnFromOHLC(ArrayList<OHLCEntity> ohlc) {
-        try {
-            if (ohlc == null || ohlc.size() == 0) {
-                return null;
-            }
-
-            /*
-             * List<OHLCEntity> volumns = new ArrayList<OHLCEntity>();
-             * OHLCEntity temp = null;
-             * OHLCEntity entity = null;
-             * for (int i = ohlc.size() - 1; i >= 0; i--) {
-             * entity = ohlc.get(i);
-             * temp = new OHLCEntity(entity.getVolume(), 0, entity.getDate(), entity.getMacd(), entity.getDiff(),
-             * entity.getDea());
-             * temp.setUp(entity.isup());
-             * volumns.add(temp);
-             * }
-             */
-
-            return ohlc;
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * 获取k线数据
      * 
      * @return
      */
     private List<OHLCEntity> getOHLCDatas() {
-        // 测试，使用写死数据
-        // if (testInterface) {
-        // return getTestDatas();
-        // }
 
-        // 测试
-        // mStockCode = "SZ002252";
         // 获取K线类型，日，周，月
         try {
             String mtype = getKLineType();
             // if()
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener, getCheckValue());
+            getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener, getCheckValue());
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
                 first = false;
@@ -352,45 +266,24 @@ public class KChartsFragment extends Fragment {
         }
     }
 
-    /**
-     * 获取K线类型，日，周，月
-     * 
-     * @return
-     */
-    private String getKLineType() {
-        switch (mViewType) {
-            case TYPE_CHART_DAY:
-                return "d";
-            case TYPE_CHART_WEEK:
-                return "w";
-            case TYPE_CHART_MONTH:
-                return "m";
-            default:
-                break;
-        }
-        return "d";
-    }
-
     private IHttpListener mKlineHttpListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
         protected List<OHLCEntity> parseDateTask(String jsonData) {
             List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
-            // ohlcs = new ArrayList<OHLCEntity>();
-            // Collections.reverse(ohlc);
+
             return ohlc;
         }
 
         public void onFailure(int errCode, String errMsg) {
-            // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-            // PromptManager.closeProgressDialog();
+
             pb.setVisibility(View.GONE);
         };
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
             updateChartData(object);
-            if (null != mKChartDataListener) {
+            if (null != getKChartDataListener()) {
                 setViewTypeData(ohlcs);
             }
 
@@ -418,53 +311,10 @@ public class KChartsFragment extends Fragment {
      */
     private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
         List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
-        // if (jsonObject == null || jsonObject.trim().length() == 0) {
-        // return entitys;
-        // }
 
         try {
             // JSONArray ja = new JSONArray(jsonObject);
             entitys = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
-            // for (int i = entity.size() - 1; i >= 0; i--) {
-            // entitys.add(entity.get(i));
-            // }
-            // int len = ja.length();
-
-            /*
-             * if (len > 0) {
-             * JSONObject jo = null;
-             * OHLCEntity ohlc = null;
-             * for (int i = len - 1; i >= 0; i--) {
-             * jo = ja.getJSONObject(i);
-             * if (jo != null) {
-             * ohlc = new OHLCEntity();
-             * if (jo.has("open"))
-             * ohlc.setOpen(jo.getDouble("open"));
-             * if (jo.has("high"))
-             * ohlc.setHigh(jo.getDouble("high"));
-             * if (jo.has("low"))
-             * ohlc.setLow(jo.getDouble("low"));
-             * if (jo.has("close"))
-             * ohlc.setClose(jo.getDouble("close"));
-             * if (jo.has("tradedate"))
-             * ohlc.setDate(jo.getString("tradedate"));
-             * if (jo.has("volume"))
-             * ohlc.setVolume(jo.getDouble("volume"));
-             * if (jo.has("change"))
-             * ohlc.setChange(jo.getDouble("change"));
-             * if (jo.has("percentage"))
-             * ohlc.setPercentage(jo.getDouble("percentage"));
-             * if (jo.has("macd"))
-             * ohlc.setMacd(jo.getDouble("macd"));
-             * if (jo.has("diff"))
-             * ohlc.setDiff(jo.getDouble("diff"));
-             * if (jo.has("dea"))
-             * ohlc.setDea(jo.getDouble("dea"));
-             * entitys.add(ohlc);
-             * }
-             * }
-             * }
-             */
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -499,47 +349,19 @@ public class KChartsFragment extends Fragment {
      */
     private void changeButtonState() {
         if (mMyChartsView.isSmallest()) {
-            // mLargerButton.setVisibility(View.INVISIBLE);
-            // mLargerButton.setClickable(false);
+
             mLargerButton.setSelected(true);
         } else {
-            // mLargerButton.setVisibility(View.VISIBLE);
-            // mLargerButton.setClickable(true);
+
             mLargerButton.setSelected(false);
         }
         if (mMyChartsView.isLargest()) {
-            // mSmallerButton.setVisibility(View.INVISIBLE);
-            // mSmallerButton.setClickable(false);
+
             mSmallerButton.setSelected(true);
         } else {
-            // mSmallerButton.setVisibility(View.VISIBLE);
-            // mSmallerButton.setClickable(true);
+
             mSmallerButton.setSelected(false);
         }
-    }
-
-    public Integer getType() {
-        return mViewType;
-    }
-
-    public void setType(Integer type) {
-        this.mViewType = type;
-    }
-
-    public String getStockCode() {
-        return mStockCode;
-    }
-
-    public void setStockCode(String mStockCode) {
-        this.mStockCode = mStockCode;
-    }
-
-    public String getSymbolType() {
-        return symbolType;
-    }
-
-    public void setSymbolType(String symbolType) {
-        this.symbolType = symbolType;
     }
 
     @Override
@@ -550,10 +372,10 @@ public class KChartsFragment extends Fragment {
             if (null != mLandCallBack) {
                 checkValue = mLandCallBack.getCheckValue();
             }
-            if (mQuotesDataEngine == null) {
-                mQuotesDataEngine = new QuotesEngineImpl();
+            if (getQuotesDataEngine() == null) {
+                setQuotesDataEngine(new QuotesEngineImpl());
             }
-            if (null != mKChartDataListener) {
+            if (null != getKChartDataListener()) {
                 List<OHLCEntity> lineDatas = getViewTypeData();
                 if (null == lineDatas || lineDatas.isEmpty()) {
                     getOHLCDatas();
@@ -564,39 +386,22 @@ public class KChartsFragment extends Fragment {
             } else {
                 getOHLCDatas();
             }
-            if (mMarketTimer == null) {
-                mMarketTimer = new Timer(true);
-                mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
-            }
+            // if (mMarketTimer == null) {
+            // mMarketTimer = new Timer(true);
+            // mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+            // }
+
+            updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
+
         } else {
             // 不可见时不执行操作
-            if (mMarketTimer != null) {
-                mMarketTimer.cancel();
-                mMarketTimer = null;
-            }
+            updateHandler.removeCallbacks(requestMarketRunnable);
+            // if (mMarketTimer != null) {
+            // mMarketTimer.cancel();
+            // mMarketTimer = null;
+            // }
         }
         super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    private List<OHLCEntity> getViewTypeData() {
-        if (mViewType == TYPE_CHART_DAY) {
-            return mKChartDataListener.getDayLineDatas();
-        } else if (mViewType == TYPE_CHART_WEEK) {
-            return mKChartDataListener.getWeekLineDatas();
-        } else if (mViewType == TYPE_CHART_MONTH) {
-            return mKChartDataListener.getMonthLineDatas();
-        }
-        return Collections.EMPTY_LIST;
-    }
-
-    private void setViewTypeData(List<OHLCEntity> lineDatas) {
-        if (mViewType == TYPE_CHART_DAY) {
-            mKChartDataListener.setDayKlineDatas(lineDatas);
-        } else if (mViewType == TYPE_CHART_WEEK) {
-            mKChartDataListener.setWeekKlineDatas(lineDatas);
-        } else if (mViewType == TYPE_CHART_MONTH) {
-            mKChartDataListener.setMonthKlineDatas(lineDatas);
-        }
     }
 
     @Override
@@ -611,25 +416,46 @@ public class KChartsFragment extends Fragment {
     public void onStop() {
         super.onStop();
 
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
-        }
+        // if (mMarketTimer != null) {
+        // mMarketTimer.cancel();
+        // mMarketTimer = null;
+        // }
+        updateHandler.removeCallbacks(requestMarketRunnable);
 
     }
 
-    public class RequestMarketTask extends TimerTask {
-
+    Handler updateHandler = new Handler();
+    Runnable requestMarketRunnable = new Runnable() {
         @Override
         public void run() {
-            StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
-            if (null != m && UIUtils.roundAble(m)) {
-                mMarketTimer.cancel();
+            if (null != mLandCallBack) {
+
+                StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                if (UIUtils.roundAble(m)) {
+                    // mMarketTimer.cancel();
+                    updateHandler.removeCallbacks(requestMarketRunnable);
+                } else {
+                    updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
+                }
+                String mtype = getKLineType();
+                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener, getCheckValue());
             }
-            String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineFlushListener, getCheckValue());
+
         }
-    }
+    };
+
+    // public class RequestMarketTask extends TimerTask {
+    //
+    // @Override
+    // public void run() {
+    // StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
+    // if (null != m && UIUtils.roundAble(m)) {
+    // mMarketTimer.cancel();
+    // }
+    // String mtype = getKLineType();
+    // getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener, getCheckValue());
+    // }
+    // }
 
     private IHttpListener mKlineFlushListener = new ParseHttpListener<List<OHLCEntity>>() {
 
@@ -643,8 +469,8 @@ public class KChartsFragment extends Fragment {
         protected void afterParseData(List<OHLCEntity> object) {
             if (null == ohlcs || ohlcs.size() == 0) {
                 String mtype = getKLineType();
-                mQuotesDataEngine.queryKLine(mtype, mStockCode, mLandCallBack.getCheckValue(), mKlineHttpListener,
-                        getCheckValue());
+                getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(),
+                        mKlineHttpListener, getCheckValue());
             } else {
                 if (object != null && !object.isEmpty()) {
                     ohlcs.add(0, object.get(0));
@@ -653,7 +479,7 @@ public class KChartsFragment extends Fragment {
                 refreshChartsView(ohlcs);
             }
 
-            if (null != mKChartDataListener) {
+            if (null != getKChartDataListener()) {
                 setViewTypeData(ohlcs);
             }
 
@@ -664,36 +490,6 @@ public class KChartsFragment extends Fragment {
         };
     };
 
-    // private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
-    //
-    // @Override
-    // public void onSuccess(String result) {
-    // try {
-    // List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-    // if (null == ohlcs || ohlcs.size() == 0) {
-    // String mtype = getKLineType();
-    // mQuotesDataEngine.queryKLine(mtype, mStockCode, mLandCallBack.getCheckValue(), mKlineHttpListener,
-    // getCheckValue());
-    // } else {
-    // if (ohlc.size() > 0) {
-    // ohlcs.add(0, ohlc.get(0));
-    // ohlcs.remove(1);
-    // }
-    // refreshChartsView(ohlcs);
-    // }
-    // } catch (Exception e) {
-    // // TODO Auto-generated catch block
-    // e.printStackTrace();
-    // }
-    // // PromptManager.closeProgressDialog();
-    // }
-    //
-    // public void onFailure(int errCode, String errMsg) {
-    // // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-    // // PromptManager.closeProgressDialog();
-    // pb.setVisibility(View.GONE);
-    // };
-    // };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
 
     @Override
@@ -730,16 +526,6 @@ public class KChartsFragment extends Fragment {
         if (null != mMyChartsView) {
             mMyChartsView.setCallBack(mStockCallback);
         }
-    }
-
-    private KChartDataListener mKChartDataListener;
-
-    public KChartDataListener getKChartDataListener() {
-        return mKChartDataListener;
-    }
-
-    public void setKChartDataListener(KChartDataListener mKChartDataListener) {
-        this.mKChartDataListener = mKChartDataListener;
     }
 
 }
