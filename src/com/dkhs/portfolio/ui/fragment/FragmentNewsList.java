@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,10 @@ import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * 需要优化界面
+ * 个股行情界面，个股界面时（公告 TAB）
+ */
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
 	 * 
@@ -56,6 +61,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
+
+    private static final String TAG = "FragmentNewsList";
     private NewsforModel vo;
     private int types;
     private TextView tv;
@@ -85,10 +92,15 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // if (null != vo && vo.getContentType().equals("20")) {
 
         // }
+        if (!isViewShown) {
+            initDate();
+        }
         return view;
     }
 
     private void initDate() {
+
+        Log.e(TAG, " initDate ");
         Bundle bundle = getArguments();
 
         if (null != bundle) {
@@ -104,6 +116,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
     }
 
     private void initView(View view) {
+
+        Log.e(TAG, " initView ");
+
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
@@ -253,7 +268,10 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
         @Override
         public void loadingFail() {
-            pb.setVisibility(View.GONE);
+            if (null != pb) {
+                pb.setVisibility(View.GONE);
+            }
+
             if (null == mDataList || mDataList.isEmpty()) {
                 if (null != vo && null != vo.getPageTitle()) {
                     tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
@@ -306,6 +324,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
         MobclickAgent.onPageStart(mPageName);
     }
 
+    private boolean isViewShown;
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
@@ -340,9 +360,13 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     }
                 }
             }
-            Bundle bundle = getArguments();
-            if (bundle != null) {
+
+            if (getView() != null) {
+                isViewShown = true;
+
                 initDate();
+            } else {
+                isViewShown = false;
             }
         } else {
             // 不可见时不执行操作

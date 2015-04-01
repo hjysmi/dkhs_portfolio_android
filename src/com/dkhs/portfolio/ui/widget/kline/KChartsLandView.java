@@ -8,8 +8,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.R.color;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
-import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
+import com.dkhs.portfolio.ui.widget.KChartDataListener;
+import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -91,7 +91,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private boolean ismove = true;
     private int zoomNum = 0;
     private long currentTime;
-    private DisplayDataChangeListener mDisplayChangeListener; // 显示数据变化监听
+    // private DisplayDataChangeListener mDisplayChangeListener; // 显示数据变化监听
     private boolean go = true;
     private boolean firsttime = true;
     private String symbolType;
@@ -204,13 +204,13 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         }
     }
 
-    public DisplayDataChangeListener getDisplayChangeListener() {
-        return mDisplayChangeListener;
-    }
-
-    public void setDisplayChangeListener(DisplayDataChangeListener mDisplayChangeListener) {
-        this.mDisplayChangeListener = mDisplayChangeListener;
-    }
+    // public DisplayDataChangeListener getDisplayChangeListener() {
+    // return mDisplayChangeListener;
+    // }
+    //
+    // public void setDisplayChangeListener(DisplayDataChangeListener mDisplayChangeListener) {
+    // this.mDisplayChangeListener = mDisplayChangeListener;
+    // }
 
     private void drawCandleDetails(Canvas canvas) {
         boolean isB = false;
@@ -1017,9 +1017,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 mVolumnChartView.setTouch(true);
                 break;
             case MotionEvent.ACTION_DOWN:
-                if (null != mTouchListener) {
-                    mTouchListener.chartTounching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.chartTounching();
+                // }
+                getParent().requestDisallowInterceptTouchEvent(true);
                 mVolumnChartView.setTouch(true);
                 if (dragValue == 0) {
                     hisDrag = 0;
@@ -1044,9 +1045,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         try {
                             Thread.sleep(300);
                             if (go && !twoFingle) {
-                                if (null != mTouchListener) {
-                                    mTouchListener.chartTounching();
-                                }
+                                // if (null != mTouchListener) {
+                                // mTouchListener.chartTounching();
+                                // }
                                 mStartX = (int) (event.getX() - 2 * mCandleWidth - 6 - PADDING_LEFT);
                                 if (mOHLCData.size() < MIN_CANDLE_NUM) {
                                     mStartX = (int) (event.getX() - mCandleWidth - 3 - PADDING_LEFT);
@@ -1075,8 +1076,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         lastClick = System.currentTimeMillis();
                         // 两次点击小于300ms 也就是连续点击
                         if (lastClick - firstClick < 300) {// 判断是否是执行了双击事件
-                            if (null != mDoubleClicklistener) {
-                                mDoubleClicklistener.OnDoubleClick(this);
+                            if (null != mKCallBack) {
+                                mKCallBack.onDoubleClick(this);
                             }
                         }
                     }
@@ -1084,9 +1085,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 break;
             case MotionEvent.ACTION_UP:
                 mVolumnChartView.setTouch(false);
-                if (null != mTouchListener) {
-                    mTouchListener.loseTouching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.loseTouching();
+                // }
+                getParent().requestDisallowInterceptTouchEvent(false);
                 mVolumnChartView.setMaxStickDataNum(mShowDataNum);
                 if (!twoFingle) {
                     showDetails = false;
@@ -1127,9 +1129,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                     dragValue = rect.width();
                                     hisDrag = dragValue;
                                     if (loadMore) {
-                                        ((KChartLandScapeActivity) context).loadMore();
-                                        if (null != mDisplayChangeListener) {
-                                            mDisplayChangeListener.onLoadMoreDataStart();
+
+                                        if (null != mKCallBack) {
+                                            mKCallBack.loadMore();
+                                            mKCallBack.onLoadMoreDataStart();
                                         }
                                         loadMore = false;
                                     }
@@ -1165,9 +1168,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     float hor = event.getY() - timeY;
                     if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE && go) {
                         go = false;
-                        if (null != mTouchListener) {
-                            mTouchListener.loseTouching();
-                        }
+                        // if (null != mTouchListener) {
+                        // mTouchListener.loseTouching();
+                        // }
+                        getParent().requestDisallowInterceptTouchEvent(false);
                     }
                     /**
                      * 进行拖动K线蜡烛
@@ -1218,9 +1222,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         mVolumnChartView.setIndex(mDataStartIndext);
                     }
                     if (showDetails) {
-                        if (null != mTouchListener) {
-                            mTouchListener.chartTounching();
-                        }
+                        // if (null != mTouchListener) {
+                        // mTouchListener.chartTounching();
+                        // }
+                        getParent().requestDisallowInterceptTouchEvent(true);
                         if (event.getX() - PADDING_LEFT >= 0) {
                             mStartX = event.getX() - PADDING_LEFT;
                             mStartY = event.getY();
@@ -1262,25 +1267,15 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 }
                 break;
         }
-        /*
-         * float horizontalSpacing = event.getX() - mStartX;
-         * if (Math.abs(horizontalSpacing) < MIN_MOVE_DISTANCE) {
-         * if( System.currentTimeMillis() - currentTime > 500 && go){
-         * showDetails = true;
-         * }
-         * if(!showDetails)
-         * return true;
-         * }
-         */
 
         return true;
     }
 
-    private ITouchListener mTouchListener;
+    // private ITouchListener mTouchListener;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
 
     private void setOnTouchOnce() {
         showDetails = false;
@@ -1331,8 +1326,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             double value = mMaxPrice - mMinPrice;
             mMinPrice = mMinPrice - (value * 0.1);
             mMaxPrice = mMaxPrice + (value * 0.1);
-            if (mDisplayChangeListener != null) {
-                mDisplayChangeListener.onDisplayDataChange(getDisplayOHLCEntitys());
+            if (mKCallBack != null) {
+                mKCallBack.onDisplayDataChange(getDisplayOHLCEntitys());
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
@@ -1529,8 +1524,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     }
 
     public void setOHLCData(List<OHLCEntity> OHLCData, int page) {
-        if (null != mDisplayChangeListener) {
-            mDisplayChangeListener.onLoadMoreDataEnd();
+        if (null != mKCallBack) {
+            mKCallBack.onLoadMoreDataEnd();
         }
         if (OHLCData == null || OHLCData.size() <= 0) {
             if (page > 1) {
@@ -1733,15 +1728,15 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         this.symbol = symbol;
     }
 
-    private OnDoubleClickListener mDoubleClicklistener;
-
-    public OnDoubleClickListener getDoubleClicklistener() {
-        return mDoubleClicklistener;
-    }
-
-    public void setDoubleClicklistener(OnDoubleClickListener mDoubleClicklistener) {
-        this.mDoubleClicklistener = mDoubleClicklistener;
-    }
+    // private OnDoubleClickListener mDoubleClicklistener;
+    //
+    // public OnDoubleClickListener getDoubleClicklistener() {
+    // return mDoubleClicklistener;
+    // }
+    //
+    // public void setDoubleClicklistener(OnDoubleClickListener mDoubleClicklistener) {
+    // this.mDoubleClicklistener = mDoubleClicklistener;
+    // }
 
     public void setContext(Context context) {
         this.context = context;
@@ -1768,4 +1763,15 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         mOHLCData.clear();
         mDataStartIndext = 0;
     }
+
+    private KChartsLandCallBack mKCallBack;
+
+    public KChartsLandCallBack getKChartsLandCallBack() {
+        return mKCallBack;
+    }
+
+    public void setKChartsLandCallBack(KChartsLandCallBack mKCallBack) {
+        this.mKCallBack = mKCallBack;
+    }
+
 }

@@ -8,11 +8,14 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
+import java.util.List;
+
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 /**
  * @ClassName LandStockViewCallBack
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 横/竖屏切换，显示UI变化回调
  * @author zjz
  * @date 2015-3-30 下午1:10:29
  * @version 1.0

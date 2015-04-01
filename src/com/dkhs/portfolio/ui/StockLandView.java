@@ -27,11 +27,13 @@ import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
@@ -127,7 +129,7 @@ public class StockLandView extends RelativeLayout {
                  * landKlineLayout.setVisibility(View.VISIBLE); }
                  */
                 // pager.setCurrentItem(position);
-                if (null != mLandStockCallBack &&position!=mLandStockCallBack.getTabPosition()) {
+                if (null != mLandStockCallBack && position != mLandStockCallBack.getTabPosition()) {
                     mLandStockCallBack.setTabPosition(position);
                 }
                 showView(position);
@@ -143,7 +145,7 @@ public class StockLandView extends RelativeLayout {
             if (null != mQuotesEngine && mStockBean != null) {
                 // mQuotesEngine.quotes(mStockBean.code, listener);
                 if (mLandStockCallBack.getTabPosition() != view_position) {
-//                    showView(mLandStockCallBack.getTabPosition());
+                    // showView(mLandStockCallBack.getTabPosition());
                     hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
 
                 } else {
@@ -185,11 +187,11 @@ public class StockLandView extends RelativeLayout {
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartLandFragment.newInstance(
                 StockQuotesChartLandFragment.TREND_TYPE_TODAY, mStockBean.code);
-        KChartsLandFragment fragment = KChartsLandFragment.getKChartFragment(KChartsLandFragment.TYPE_CHART_DAY,
+        KChartsLandFragment fragment = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_DAY,
                 mStockBean.code, mStockBean.symbol_type);
-        KChartsLandFragment fragment2 = KChartsLandFragment.getKChartFragment(KChartsLandFragment.TYPE_CHART_WEEK,
+        KChartsLandFragment fragment2 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_WEEK,
                 mStockBean.code, mStockBean.symbol_type);
-        KChartsLandFragment fragment3 = KChartsLandFragment.getKChartFragment(KChartsLandFragment.TYPE_CHART_MONTH,
+        KChartsLandFragment fragment3 = KChartsLandFragment.getKChartFragment(KChartsFragment.TYPE_CHART_MONTH,
                 mStockBean.code, mStockBean.symbol_type);
         fragmentList.add(mStockQuotesChartFragment);
         fragmentList.add(fragment);
@@ -200,6 +202,15 @@ public class StockLandView extends RelativeLayout {
         fragment.setLandCallBack(mLandStockCallBack);
         fragment2.setLandCallBack(mLandStockCallBack);
         fragment3.setLandCallBack(mLandStockCallBack);
+
+        mStockQuotesChartFragment.setStockViewCallback(getStockViewCallback());
+        fragment.setStockViewCallback(getStockViewCallback());
+        fragment2.setStockViewCallback(getStockViewCallback());
+        fragment3.setStockViewCallback(getStockViewCallback());
+
+        fragment.setKChartDataListener(getKChartDataListener());
+        fragment2.setKChartDataListener(getKChartDataListener());
+        fragment3.setKChartDataListener(getKChartDataListener());
         // fragment.setUserVisibleHint(true);
 
         FragmentTransaction ftransaction = activity.getSupportFragmentManager().beginTransaction();
@@ -249,9 +260,9 @@ public class StockLandView extends RelativeLayout {
 
     }
 
-    public void loadMore() {
-        ((KChartsLandFragment) this.fragmentList.get(view_position)).loadMordKline();
-    }
+    // public void loadMore() {
+    // ((KChartsLandFragment) this.fragmentList.get(view_position)).loadMordKline();
+    // }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
@@ -309,6 +320,16 @@ public class StockLandView extends RelativeLayout {
 
     public void setLandStockCallBack(LandStockViewCallBack mLandStockCallBack) {
         this.mLandStockCallBack = mLandStockCallBack;
+    }
+
+    private KChartDataListener mKChartDataListener;
+
+    public KChartDataListener getKChartDataListener() {
+        return mKChartDataListener;
+    }
+
+    public void setKChartDataListener(KChartDataListener mKChartDataListener) {
+        this.mKChartDataListener = mKChartDataListener;
     }
 
 }

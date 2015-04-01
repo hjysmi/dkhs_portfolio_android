@@ -38,6 +38,11 @@ import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * 需要优化界面
+ * 个股行情界面，个股界面时（研报 TAB）
+ */
+
 public class FragmentForOptionOnr extends Fragment {
     private ListView mListView;
 
@@ -171,7 +176,7 @@ public class FragmentForOptionOnr extends Fragment {
                 } else {
                     intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
                 }
-//                startActivity(intent);
+                // startActivity(intent);
                 UIUtils.startAminationActivity(getActivity(), intent);
             } catch (Exception e) {
                 // TODO Auto-generated catch block

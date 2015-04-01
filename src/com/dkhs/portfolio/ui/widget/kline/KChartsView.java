@@ -9,7 +9,6 @@ import com.dkhs.portfolio.R.color;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -1037,7 +1036,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 // mTouchListener.loseTouching();
                 // }
                 getParent().requestDisallowInterceptTouchEvent(false);
-                
+
                 mVolumnChartView.setTouch(false);
                 if (!showDetails && goToLand) {
                     // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);

@@ -32,6 +32,10 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * 需要优化界面
+ * 个股行情界面，指数界面时（涨幅榜/跌幅榜/换手率榜）
+ */
 public class FragmentForStockSHC extends BaseFragment {
     /**
      * 

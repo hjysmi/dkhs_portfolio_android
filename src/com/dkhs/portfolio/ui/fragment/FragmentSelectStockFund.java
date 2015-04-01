@@ -533,7 +533,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         initData();
     }
 
-    private void hideNotice() {
+    private void hideEmptyNotice() {
+        if (null != emptyview) {
+            emptyview.setVisibility(View.GONE);
+        }
         if (null == tvEmptyText) {
             return;
         }
@@ -543,14 +546,14 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     Handler updateHander = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (msg.what == 777) {
-                initNotice();
+                showEmptyNotice();
             } else if (msg.what == 888) {
-                hideNotice();
+                hideEmptyNotice();
             }
         };
     };
 
-    protected void initNotice() {
+    protected void showEmptyNotice() {
 
         if (!isAdded() && null == tvEmptyText) {
             return;
@@ -564,6 +567,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 tvEmptyText.setVisibility(View.GONE);
                 // refreshSelect();
                 // mListView.setEmptyView(emptyview);
+                if (null != emptyview) {
+                    emptyview.setVisibility(View.VISIBLE);
+                }
                 tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }
@@ -622,7 +628,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
                 }
             });
-            mListView.setEmptyView(emptyview);
+            // mListView.setEmptyView(emptyview);
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
