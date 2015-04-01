@@ -73,6 +73,7 @@ import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
@@ -780,12 +781,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             // selectBean.isFollowed = false;
                             mStockQuotesBean.setFollowed(false);
                             mVisitorDataEngine.delOptionalStock(selectBean);
-
+                            PromptManager.showToast(R.string.msg_def_follow_success);
                         } else {
                             selectBean.isFollowed = true;
                             mStockQuotesBean.setFollowed(true);
                             selectBean.sortId = 0;
                             mVisitorDataEngine.saveOptionalStock(selectBean);
+                            PromptManager.showToast(R.string.msg_follow_success);
                         }
                     }
                     localList = mVisitorDataEngine.getOptionalStockList();

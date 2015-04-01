@@ -13,6 +13,7 @@ import java.util.List;
 import android.content.Context;
 import android.widget.CompoundButton;
 
+import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
@@ -60,8 +61,10 @@ public class AddStockItemAdapter extends SelectStockAdatper {
                     csBean.isFollowed = true;
                     csBean.sortId = 0;
                     mVisitorDataEngine.saveOptionalStock(csBean);
+                    PromptManager.showToast(R.string.msg_follow_success);
                 } else {
                     mVisitorDataEngine.delOptionalStock(csBean);
+                    PromptManager.showToast(R.string.msg_def_follow_success);
                 }
             }
 
