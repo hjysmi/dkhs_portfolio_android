@@ -1103,7 +1103,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (paramInt == 4) {
             // if ((this.landStockview.isAnimator()) || (this.stockView.isAnimator()))
             // return false;
-            if (this.landStockview.isShown()) {
+            if (null != this.landStockview && this.landStockview.isShown()) {
                 landViewFadeOut();
                 return false;
             }

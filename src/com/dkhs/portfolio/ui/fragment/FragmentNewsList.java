@@ -37,6 +37,10 @@ import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * 需要优化界面
+ * 个股行情界面，个股界面时（公告 TAB）
+ */
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
 	 * 

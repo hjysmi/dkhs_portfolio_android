@@ -48,6 +48,9 @@ import com.umeng.analytics.MobclickAgent;
  * 资讯列表
  * 
  * @author linbing
+ * /**
+ * 需要优化界面
+ * 个股行情界面，个股界面时个股界面时（F10TAB）
  * 
  */
 public class F10Fragment extends Fragment {
@@ -69,6 +72,7 @@ public class F10Fragment extends Fragment {
     private boolean getadble = false;
     private int height = 0;
     private int position = -1;
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -94,7 +98,7 @@ public class F10Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLayoutInflater = inflater;
         View view = inflater.inflate(R.layout.fragment_news, null);
-        
+
         // 初始化数据
         initailDatas();
 
@@ -104,31 +108,31 @@ public class F10Fragment extends Fragment {
     }
 
     private void initailDatas() {
-        //if (titles == null || titles.size() == 0 && null != mStockBean) {
-            // 初始化标题
-            intialTitles();
-        //}
+        // if (titles == null || titles.size() == 0 && null != mStockBean) {
+        // 初始化标题
+        intialTitles();
+        // }
     }
 
     private void intialTitles() {
-    	String url = "";
-    	switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
-		case 0:
-			url =  DKHSUrl.BASE_DEV_URL;
-			break;
-		case 1:
-			url = DKHSUrl.BASE_TEST_URL;
-			break;
-		case 2:
-			url = DKHSUrl.BASE_DEV_MAIN;
-			break;
-		case 3:
-			url = DKHSUrl.BASE_DEV_TAG;
-			break;
-		default:
-			break;
-		}
-    	 
+        String url = "";
+        switch (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL)) {
+            case 0:
+                url = DKHSUrl.BASE_DEV_URL;
+                break;
+            case 1:
+                url = DKHSUrl.BASE_TEST_URL;
+                break;
+            case 2:
+                url = DKHSUrl.BASE_DEV_MAIN;
+                break;
+            case 3:
+                url = DKHSUrl.BASE_DEV_TAG;
+                break;
+            default:
+                break;
+        }
+
         Map<String, String> title = new HashMap<String, String>();
         titles.clear();
         title.put(KEY_TITLE, "财报摘要");
@@ -143,58 +147,60 @@ public class F10Fragment extends Fragment {
         title.put(KEY_TITLE, "股东情况");
         title.put(KEY_URL, url + "/finance/company/f10/shareholders/" + mStockBean.id);
         titles.add(title);
-        /*title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "主营业务");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "核心题材");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "机构评级");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "股本情况");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "成交回报");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "大宗交易");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "融资融券");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "管理层");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "分红融资");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "公司概况");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "回顾展望");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "资本运作");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);
-        title = new HashMap<String, String>();
-        title.put(KEY_TITLE, "板块分析");
-        title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
-        titles.add(title);*/
+        /*
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "主营业务");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "核心题材");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "机构评级");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "股本情况");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "成交回报");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "大宗交易");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "融资融券");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "管理层");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "分红融资");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "公司概况");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "回顾展望");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "资本运作");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         * title = new HashMap<String, String>();
+         * title.put(KEY_TITLE, "板块分析");
+         * title.put(KEY_URL, DKHSUrl.BASE_DEV_URL + "/finance/company/f10/financeindex/101000001");
+         * titles.add(title);
+         */
     }
 
     private void initailViews(View view) {
@@ -205,67 +211,69 @@ public class F10Fragment extends Fragment {
         mListView.setGroupIndicator(this.getResources().getDrawable(R.drawable.news_expand_list_indicator));
         mListView.setOnGroupCollapseListener(onGroupCollapseListener);
         mListView.performItemClick(mListView, 0, 0);
-        /*android.view.ViewGroup.LayoutParams lp = mListView.getLayoutParams();
-        lp.height = ViewGroup.LayoutParams.MATCH_PARENT;*/
+        /*
+         * android.view.ViewGroup.LayoutParams lp = mListView.getLayoutParams();
+         * lp.height = ViewGroup.LayoutParams.MATCH_PARENT;
+         */
     }
-    private OnGroupCollapseListener onGroupCollapseListener =new OnGroupCollapseListener(){
 
-		@Override
-		public void onGroupCollapse(int groupPosition) {
-			// TODO Auto-generated method stub
-			if(!expand && !first && getadble){
-				((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-				
-			}
-			
-		}
-    	
+    private OnGroupCollapseListener onGroupCollapseListener = new OnGroupCollapseListener() {
+
+        @Override
+        public void onGroupCollapse(int groupPosition) {
+            // TODO Auto-generated method stub
+            if (!expand && !first && getadble) {
+                ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+
+            }
+
+        }
+
     };
     private OnGroupExpandListener onGroupClickListener = new OnGroupExpandListener() {
-    	
+
         @Override
         public void onGroupExpand(int groupPosition) {
-        	mListView.requestFocus();
+            mListView.requestFocus();
             mAdapter.loadPosition(groupPosition);
             position = groupPosition;
-            if(!first && getadble && position != 2){
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(11);
-            }else if(!first && getadble && position == 2){
-            	((StockQuotesActivity) getActivity()).setLayoutHeight(19);	
+            if (!first && getadble && position != 2) {
+                ((StockQuotesActivity) getActivity()).setLayoutHeight(11);
+            } else if (!first && getadble && position == 2) {
+                ((StockQuotesActivity) getActivity()).setLayoutHeight(19);
             }
             // 关闭其他的
             expand = true;
             collapseGroups(groupPosition);
         }
-        
-        
 
     };
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		// TODO Auto-generated method stub
-		try {
-			if (isVisibleToUser) {
-				getadble = true;
-				// fragment可见时加载数据
-				if(null != getActivity() && getadble&& position != 2){
-						((StockQuotesActivity) getActivity()).setLayoutHeight(11);
-				}else if(null != getActivity() && getadble && position == 2){
-	            	((StockQuotesActivity) getActivity()).setLayoutHeight(19);	
-	            }
-					
-				first = false;
-			} else {
-				// 不可见时不执行操作
-				getadble = false;
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		super.setUserVisibleHint(isVisibleToUser);
-	}
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        try {
+            if (isVisibleToUser) {
+                getadble = true;
+                // fragment可见时加载数据
+                if (null != getActivity() && getadble && position != 2) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(11);
+                } else if (null != getActivity() && getadble && position == 2) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeight(19);
+                }
+
+                first = false;
+            } else {
+                // 不可见时不执行操作
+                getadble = false;
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
     private void collapseGroups(int groupPosition) {
         int count = mAdapter.getGroupCount();
         for (int i = 0; i < count; i++) {
@@ -276,6 +284,7 @@ public class F10Fragment extends Fragment {
         }
         expand = false;
     }
+
     public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
         private int pos; // 点击的索引
@@ -341,24 +350,26 @@ public class F10Fragment extends Fragment {
                 height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
             LinearLayout.LayoutParams lp = (LayoutParams) webview.getLayoutParams();
-            /*lp.height = height;
-            webview.invalidate();
-            if(mClickItemView != null) {
-            AbsListView.LayoutParams ilp = (android.widget.AbsListView.LayoutParams)
-            mClickItemView.getLayoutParams();
-            if(ilp != null) {
-            ilp.height = height;
-            if(height > 0) {
-            mListView.invalidate();
-            }
-            }
-            }
-
-            mListView.measure(0, 0);
-            webview.invalidate();
-            webview.requestLayout();
-            webview.requestLayout();
-            mAdapter.notifyDataSetChanged();*/
+            /*
+             * lp.height = height;
+             * webview.invalidate();
+             * if(mClickItemView != null) {
+             * AbsListView.LayoutParams ilp = (android.widget.AbsListView.LayoutParams)
+             * mClickItemView.getLayoutParams();
+             * if(ilp != null) {
+             * ilp.height = height;
+             * if(height > 0) {
+             * mListView.invalidate();
+             * }
+             * }
+             * }
+             * 
+             * mListView.measure(0, 0);
+             * webview.invalidate();
+             * webview.requestLayout();
+             * webview.requestLayout();
+             * mAdapter.notifyDataSetChanged();
+             */
         }
 
         /**
@@ -374,7 +385,7 @@ public class F10Fragment extends Fragment {
                 String url = group.get(KEY_URL);
                 // mTextView.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
                 mTextView.loadUrl(url);
-                //mTextView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
+                // mTextView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
                 mTextView.getSettings().setJavaScriptEnabled(true);
 
                 mTextView.setWebViewClient(new WebViewClient() {
@@ -392,23 +403,23 @@ public class F10Fragment extends Fragment {
                         super.onPageFinished(view, url);
                         mAdapter.resetWebView(view);
                         height = mTextView.getContentHeight();
-                        if(height != 0){
-                        	//((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-                        	Log.e("mtextview", mTextView.getContentHeight()+"");
+                        if (height != 0) {
+                            // ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+                            Log.e("mtextview", mTextView.getContentHeight() + "");
                         }
                         PromptManager.closeProgressDialog();
-                        
+
                     }
 
                     @Override
                     public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                         // TODO Auto-generated method stub
-                        //<html><body><h1><strong>找不到网页</strong></h1></body></html>
+                        // <html><body><h1><strong>找不到网页</strong></h1></body></html>
                         String data = "<h1><strong>找不到网页</strong></h1>";
-                        view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\""); 
-                        //super.onReceivedError(view, errorCode, description, failingUrl);
+                        view.loadUrl("javascript:document.body.innerHTML=\"" + data + "\"");
+                        // super.onReceivedError(view, errorCode, description, failingUrl);
                     }
-                    
+
                 });
 
                 // String text = group.get(KEY_TEXT);
@@ -468,30 +479,37 @@ public class F10Fragment extends Fragment {
         }
 
     }
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		/*mListView.requestFocus();
-        mAdapter.loadPosition(0);
 
-        // 关闭其他的
-        collapseGroups(0);*/
-		/*if(!first){
-        	((StockQuotesActivity) getActivity()).setLayoutHeight(9);
-        }*/
-		mListView.setSelectedGroup(0);
-		mListView.expandGroup(0);
-		super.onResume();
-		MobclickAgent.onPageStart(mPageName);
-	}
-	private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_f10);
     @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
+    public void onResume() {
+        // TODO Auto-generated method stub
+        /*
+         * mListView.requestFocus();
+         * mAdapter.loadPosition(0);
+         * 
+         * // 关闭其他的
+         * collapseGroups(0);
+         */
+        /*
+         * if(!first){
+         * ((StockQuotesActivity) getActivity()).setLayoutHeight(9);
+         * }
+         */
+        mListView.setSelectedGroup(0);
+        mListView.expandGroup(0);
+        super.onResume();
+        MobclickAgent.onPageStart(mPageName);
+    }
+
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_f10);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
     // class TextLoadListener implements IHttpListener {
     //
     // private WebView mTextView;
