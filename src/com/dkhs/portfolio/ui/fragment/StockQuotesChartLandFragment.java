@@ -401,6 +401,12 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         }
 
         @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            pb.setVisibility(View.GONE);
+        };
+
+        @Override
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
                 if (null != mLandCallBack) {
