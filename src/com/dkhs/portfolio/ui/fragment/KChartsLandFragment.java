@@ -41,6 +41,7 @@ import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
 import com.dkhs.portfolio.ui.widget.kline.PageOHLCEntity;
@@ -708,10 +709,17 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     }
 
+    private StockViewCallBack stockViewCallback;
+
+    public void setStockViewCallback(StockViewCallBack stockViewCallback) {
+        this.stockViewCallback = stockViewCallback;
+    }
+
     @Override
     public void onDoubleClick(View view) {
-        // BusProvider.getInstance().post(new DoubleclickEvent());
-        // stockViewCallback.landViewFadeOut();
+        if (null != stockViewCallback) {
+            stockViewCallback.landViewFadeOut();
+        }
 
     }
 

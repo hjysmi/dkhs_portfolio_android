@@ -50,6 +50,7 @@ import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -113,9 +114,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // System.out.println("====StockQuotesChartFragment=onCreate=====");
-
-        // handle fragment arguments
         Bundle arguments = getArguments();
         if (arguments != null) {
             handleArguments(arguments);
@@ -138,10 +136,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
         mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code);
         mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code);
-        // fenshiPiceLine.setLineData(lineDataList);
-        // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
-        // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
-        // fenshiPiceLine.setLineData(lineDataList);
 
     }
 
@@ -203,19 +197,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     private void handleSavedInstanceState(Bundle savedInstanceState) {
     }
 
-    // private void handleExtras(Bundle extras) {
-    // // TODO private void handleExtras(Bundle extras) {
-    // // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-    // // if (null != mCombinationBean) {
-    // SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(KChartLandScapeActivity.EXTRA_STOCK);
-    // if (null != mSelectBean) {
-    // mStockId = mSelectBean.id;
-    // mStockCode = mSelectBean.code;
-    // }
-    //
-    // // }
-    // }
-
     @Override
     public void onAttach(Activity activity) {
         // o
@@ -252,14 +233,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
         mListviewBuy.setAdapter(mBuyAdapter);
         mListviewSell.setAdapter(mSellAdapter);
-        // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
-        // tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
-        // tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
-        // tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
-        // tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
-        // tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
-        // tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
-        // tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
+
     }
 
     private void initMaChart(TrendChart machart) {
@@ -292,16 +266,18 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
             @Override
             public void OnDoubleClick(View view) {
-                BusProvider.getInstance().post(new DoubleclickEvent());
+                if (null != stockViewCallback) {
+                    stockViewCallback.landViewFadeOut();
+                }
             }
         });
 
     }
 
-    private ITouchListener mTouchListener;
+    private StockViewCallBack stockViewCallback;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
+    public void setStockViewCallback(StockViewCallBack stockViewCallback) {
+        this.stockViewCallback = stockViewCallback;
     }
 
     private void setLineData(List<FSLinePointEntity> lineDataList) {
@@ -348,22 +324,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         rightYtitle.add(StringFromatUtils.get2PointPercent(1f));
         mMaChart.setAxisRightYTitles(rightYtitle);
     }
-
-    // private void initTrendTitle() {
-    // // List<String> ytitle = new ArrayList<String>();
-    // // ytitle.add("1.1051");
-    // // ytitle.add("1.0532");
-    // // ytitle.add("1.0000");
-    // // ytitle.add("1.0001");
-    // // ytitle.add("1.0522");
-    //
-    // List<String> xtitle = new ArrayList<String>();
-    // xtitle.add("2014-09-15");
-    // xtitle.add("2014-09-22");
-    // mMaChart.setMaxPointNum(7);
-    // mMaChart.setAxisYTitles(ytitle);
-    // mMaChart.setAxisXTitles(xtitle);
-    // }
 
     private List<LinePointEntity> initMA(int length) {
         List<LinePointEntity> MA5Values = new ArrayList<LinePointEntity>();

@@ -203,6 +203,11 @@ public class StockLandView extends RelativeLayout {
         fragment2.setLandCallBack(mLandStockCallBack);
         fragment3.setLandCallBack(mLandStockCallBack);
 
+        mStockQuotesChartFragment.setStockViewCallback(getStockViewCallback());
+        fragment.setStockViewCallback(getStockViewCallback());
+        fragment2.setStockViewCallback(getStockViewCallback());
+        fragment3.setStockViewCallback(getStockViewCallback());
+
         fragment.setKChartDataListener(getKChartDataListener());
         fragment2.setKChartDataListener(getKChartDataListener());
         fragment3.setKChartDataListener(getKChartDataListener());
