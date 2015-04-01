@@ -41,7 +41,6 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ChangeCheckType;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -169,7 +168,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mSelectStockBean = (SelectStockBean) extras.getSerializable(KChartLandScapeActivity.EXTRA_STOCK);
+        mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 

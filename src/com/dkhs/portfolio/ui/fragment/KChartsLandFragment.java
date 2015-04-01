@@ -29,11 +29,12 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
+import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
@@ -44,7 +45,7 @@ import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class KChartsLandFragment extends Fragment implements OnClickListener {
+public class KChartsLandFragment extends Fragment implements OnClickListener, KChartsLandCallBack {
     public static final int TYPE_CHART_DAY = 1;
     public static final int TYPE_CHART_WEEK = 2;
     public static final int TYPE_CHART_MONTH = 3;
@@ -166,65 +167,26 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         return view;
     }
 
-    private DisplayDataChangeListener mDisplayDataChangeListener = new DisplayDataChangeListener() {
-
-        @Override
-        public void onDisplayDataChange(List<OHLCEntity> entitys) {
-            refreshVolumnCharts();
-        }
-
-        @Override
-        public void onLoadMoreDataStart() {
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                    pbLoadMore.setVisibility(View.VISIBLE);
-
-                }
-            });
-        }
-
-        @Override
-        public void onLoadMoreDataEnd() {
-            // TODO Auto-generated method stub
-
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    pbLoadMore.setVisibility(View.GONE);
-
-                }
-            });
-
-        }
-
-    };
-    private ITouchListener mTouchListener;
-
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
-
     private void initChartView() {
         mMyChartsView.setAxisColor(Color.LTGRAY);
         mMyChartsView.setLongiLatitudeColor(Color.LTGRAY);
         mMyChartsView.setBorderColor(Color.LTGRAY);
         mMyChartsView.setDisplayLongitude(true);
         mMyChartsView.setDisplayAxisXTitle(false);
-        mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
-        mMyChartsView.setITouchListener(mTouchListener);
+        // mMyChartsView.setDisplayChangeListener(mDisplayDataChangeListener);
+        // mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(mStockCode);
         mMyChartsView.setContext(getActivity());
-        mMyChartsView.setDoubleClicklistener(new OnDoubleClickListener() {
-
-            @Override
-            public void OnDoubleClick(View view) {
-                // TODO Auto-generated method stub
-                BusProvider.getInstance().post(new DoubleclickEvent());
-            }
-        });
+        mMyChartsView.setKChartsLandCallBack(this);
+        // mMyChartsView.setDoubleClicklistener(new OnDoubleClickListener() {
+        //
+        // @Override
+        // public void OnDoubleClick(View view) {
+        // // TODO Auto-generated method stub
+        // BusProvider.getInstance().post(new DoubleclickEvent());
+        // }
+        // });
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
@@ -362,10 +324,10 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
      * @return
      */
     private List<OHLCEntity> getOHLCDatas() {
-        // 测试，使用写死数据
-        if (testInterface) {
-            return getTestDatas();
-        }
+        // // 测试，使用写死数据
+        // if (testInterface) {
+        // return getTestDatas();
+        // }
 
         // 测试
         // mStockCode = "SZ002252";
@@ -382,7 +344,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             String mtype = getKLineType();
             mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
             // ((StockQuotesActivity) getActivity()).getCheckValue(), page);
-                    "0", page);
+                    mLandCallBack.getCheckValue(), page);
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
                 first = false;
@@ -420,23 +382,14 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
         return "d";
     }
 
-    private IHttpListener mKlineHttpListener = new BasicHttpListener() {
+    private IHttpListener mKlineHttpListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
-        public void onSuccess(String result) {
-            try {
-                pb.setVisibility(View.GONE);
-                List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-                ohlcs = new ArrayList<OHLCEntity>();
-                for (int i = ohlc.size() - 1; i >= 0; i--) {
-                    ohlcs.add(ohlc.get(i));
-                }
-                refreshChartsView(ohlcs);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            // PromptManager.closeProgressDialog();
+        protected List<OHLCEntity> parseDateTask(String jsonData) {
+            List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
+            // ohlcs = new ArrayList<OHLCEntity>();
+            // Collections.reverse(ohlc);
+            return ohlc;
         }
 
         public void onFailure(int errCode, String errMsg) {
@@ -444,7 +397,49 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
             // PromptManager.closeProgressDialog();
             pb.setVisibility(View.GONE);
         };
+
+        @Override
+        protected void afterParseData(List<OHLCEntity> object) {
+            pb.setVisibility(View.GONE);
+            if (null != object) {
+                ohlcs.addAll(object);
+            }
+            refreshChartsView(ohlcs);
+            if (object.size() > 50 && having) {
+
+                mSmallerButton.setClickable(true);
+                mSmallerButton.setSelected(false);
+                having = false;
+            }
+
+        }
     };
+
+    // private IHttpListener mKlineHttpListener = new BasicHttpListener() {
+    //
+    // @Override
+    // public void onSuccess(String result) {
+    // try {
+    // pb.setVisibility(View.GONE);
+    // List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
+    // ohlcs = new ArrayList<OHLCEntity>();
+    // for (int i = ohlc.size() - 1; i >= 0; i--) {
+    // ohlcs.add(ohlc.get(i));
+    // }
+    // refreshChartsView(ohlcs);
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // // PromptManager.closeProgressDialog();
+    // }
+    //
+    // public void onFailure(int errCode, String errMsg) {
+    // // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+    // // PromptManager.closeProgressDialog();
+    // pb.setVisibility(View.GONE);
+    // };
+    // };
 
     /**
      * 从json中解析k线数据
@@ -454,31 +449,31 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
      */
     private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
         List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
-        if (jsonObject == null || jsonObject.trim().length() == 0) {
-            return entitys;
-        }
-        List<OHLCEntity> entity;
+        // if (jsonObject == null || jsonObject.trim().length() == 0) {
+        // return entitys;
+        // }
+        // List<OHLCEntity> entity;
         try {
             if (!jsonObject.contains("current_page")) {
-                entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+                entitys = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
             } else {
                 PageOHLCEntity mPageOHLCEntity = DataParse.parseObjectJson(PageOHLCEntity.class, jsonObject);
                 page = mPageOHLCEntity.getPage();
-                entity = mPageOHLCEntity.getResults();
+                entitys = mPageOHLCEntity.getResults();
             }
             // JSONArray ja = new JSONArray(jsonObject);
             // List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
 
-            for (int i = entity.size() - 1; i >= 0; i--) {
-                entitys.add(entity.get(i));
-            }
-            int len = entitys.size();
+            // for (int i = entity.size() - 1; i >= 0; i--) {
+            // entitys.add(entity.get(i));
+            // }
+            // int len = entitys.size();
 
-            if (len > 50 && having) {
-                mSmallerButton.setClickable(true);
-                mSmallerButton.setSelected(false);
-                having = false;
-            }
+            // if (len > 50 && having) {
+            // mSmallerButton.setClickable(true);
+            // mSmallerButton.setSelected(false);
+            // having = false;
+            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -591,7 +586,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvTurnover.setSelected(false);
                     tvMacd.setSelected(true);
                     mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                    mLandCallBack.setStickType(StickChart.CHECK_MACD);
                     mVolumnChartView.setLatitudeNum(3);
                 }
             }
@@ -635,47 +630,79 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     mMarketTimer.cancel();
                 }
                 String mtype = getKLineType();
-                mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush,
-                        mLandCallBack.getCheckValue());
+                mQuotesDataEngine
+                        .queryKLine(mtype, mStockCode, "1", mKlineFlushListener, mLandCallBack.getCheckValue());
             }
         }
     }
 
-    private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
+    private IHttpListener mKlineFlushListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
-        public void onSuccess(String result) {
-            try {
-                pb.setVisibility(View.GONE);
-                List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-                if (null == ohlcs || ohlcs.size() == 0) {
-                    String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
-                            mLandCallBack.getCheckValue(), page);
-                } else {
-                    if (ohlc.size() > 0) {
-                        /*
-                         * ohlcs.add(0, ohlc.get(0));
-                         * ohlcs.remove(1);
-                         */
-                        mMyChartsView.flushFirshData(ohlc.get(0));
-                        mVolumnChartView.flushFirstData(ohlc.get(0));
-                    }
-                    // refreshChartsView(ohlcs);
+        protected List<OHLCEntity> parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return getOHLCDatasFromJson(jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<OHLCEntity> object) {
+            if (null == ohlcs || ohlcs.size() == 0) {
+                String mtype = getKLineType();
+                mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener, mLandCallBack.getCheckValue(),
+                        page);
+            } else {
+                if (null != object && object.size() > 0) {
+                    /*
+                     * ohlcs.add(0, ohlc.get(0));
+                     * ohlcs.remove(1);
+                     */
+                    mMyChartsView.flushFirshData(object.get(0));
+                    mVolumnChartView.flushFirstData(object.get(0));
                 }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
-            // PromptManager.closeProgressDialog();
+
         }
 
         public void onFailure(int errCode, String errMsg) {
-            // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-            // PromptManager.closeProgressDialog();
             pb.setVisibility(View.GONE);
         };
     };
+
+    // private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
+    //
+    // @Override
+    // public void onSuccess(String result) {
+    // try {
+    // pb.setVisibility(View.GONE);
+    // List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
+    // if (null == ohlcs || ohlcs.size() == 0) {
+    // String mtype = getKLineType();
+    // mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener,
+    // mLandCallBack.getCheckValue(), page);
+    // } else {
+    // if (ohlc.size() > 0) {
+    // /*
+    // * ohlcs.add(0, ohlc.get(0));
+    // * ohlcs.remove(1);
+    // */
+    // mMyChartsView.flushFirshData(ohlc.get(0));
+    // mVolumnChartView.flushFirstData(ohlc.get(0));
+    // }
+    // // refreshChartsView(ohlcs);
+    // }
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // // PromptManager.closeProgressDialog();
+    // }
+    //
+    // public void onFailure(int errCode, String errMsg) {
+    // // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+    // // PromptManager.closeProgressDialog();
+    // pb.setVisibility(View.GONE);
+    // };
+    // };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
 
     @Override
@@ -759,7 +786,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvTurnover.setSelected(true);
                     tvMacd.setSelected(false);
                     mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
-                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_COLUME);
+                    mLandCallBack.setStickType(StickChart.CHECK_COLUME);
                     mVolumnChartView.setLatitudeNum(1);
                     refreshVolumnCharts();
                 }
@@ -769,7 +796,7 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
                     tvTurnover.setSelected(false);
                     tvMacd.setSelected(true);
                     mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                    ((KChartLandScapeActivity) getActivity()).setStickType(StickChart.CHECK_MACD);
+                    mLandCallBack.setStickType(StickChart.CHECK_MACD);
                     mVolumnChartView.setLatitudeNum(3);
                     refreshVolumnCharts();
                 }
@@ -795,6 +822,56 @@ public class KChartsLandFragment extends Fragment implements OnClickListener {
 
     public void setLandCallBack(LandStockViewCallBack landCallBack) {
         this.mLandCallBack = landCallBack;
+    }
+
+    @Override
+    public void onDisplayDataChange(List<OHLCEntity> entitys) {
+        refreshVolumnCharts();
+    }
+
+    @Override
+    public void onLoadMoreDataStart() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                pbLoadMore.setVisibility(View.VISIBLE);
+
+            }
+        });
+    }
+
+    @Override
+    public void onLoadMoreDataEnd() {
+        // TODO Auto-generated method stub
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pbLoadMore.setVisibility(View.GONE);
+
+            }
+        });
+
+    }
+
+    // private ITouchListener mTouchListener;
+    //
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
+
+    @Override
+    public void onDoubleClick(View view) {
+        // BusProvider.getInstance().post(new DoubleclickEvent());
+        // stockViewCallback.landViewFadeOut();
+
+    }
+
+    @Override
+    public void loadMore() {
+        loadMordKline();
+
     }
 
 }

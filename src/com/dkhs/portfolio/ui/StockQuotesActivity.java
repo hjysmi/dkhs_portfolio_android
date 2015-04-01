@@ -69,6 +69,7 @@ import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -1168,6 +1169,67 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         hsTitle.setSelectIndex(position);
 
+    }
+
+    private List<OHLCEntity> mDayKChart = Collections.EMPTY_LIST;
+    private List<OHLCEntity> mWeekKChart = Collections.EMPTY_LIST;
+    private List<OHLCEntity> mMonthKChart = Collections.EMPTY_LIST;
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public List<OHLCEntity> getDayLineDatas() {
+        // TODO Auto-generated method stub
+        return this.mDayKChart;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param kLineDatas
+     * @return
+     */
+    @Override
+    public void setDayKlineDatas(List<OHLCEntity> kLineDatas) {
+        this.mDayKChart = kLineDatas;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public List<OHLCEntity> getMonthLineDatas() {
+        return this.mMonthKChart;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param kLineDatas
+     * @return
+     */
+    @Override
+    public void setMonthKlineDatas(List<OHLCEntity> kLineDatas) {
+        this.mMonthKChart = kLineDatas;
+
+    }
+
+    @Override
+    public List<OHLCEntity> getWeekLineDatas() {
+        // TODO Auto-generated method stub
+        return this.mWeekKChart;
+    }
+
+    @Override
+    public void setWeekKlineDatas(List<OHLCEntity> kLineDatas) {
+        this.mWeekKChart = kLineDatas;
     }
 
 }

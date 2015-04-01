@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,8 +16,8 @@ import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
@@ -50,9 +51,13 @@ public class KChartsFragment extends Fragment {
     public static final int TYPE_CHART_WEEK = 2;
     public static final int TYPE_CHART_MONTH = 3;
 
+    public static final String ARGUMENT_VIEW_TYPE = "view_type";
+    public static final String ARGUMENT_STOCK_CODE = "stock_code";
+    public static final String ARGUMENT_SYMBOL_TYPE = "symbol_type";
+
     private KChartsView mMyChartsView;
     private StickChart mVolumnChartView; // 成交量饼图
-    private Integer type = TYPE_CHART_DAY; // 类型，日K线，周k先，月k线
+    private Integer mViewType = TYPE_CHART_DAY; // 类型，日K线，周k先，月k线
     private String mStockCode; // 股票code
     private QuotesEngineImpl mQuotesDataEngine;
 
@@ -72,9 +77,15 @@ public class KChartsFragment extends Fragment {
     public static KChartsFragment getKChartFragment(Integer type, String stockcode, String symbolType) {
 
         KChartsFragment fg = new KChartsFragment();
-        fg.setType(type);
-        fg.setStockCode(stockcode);
-        fg.setSymbolType(symbolType);
+        // fg.setType(type);
+        // fg.setStockCode(stockcode);
+        // fg.setSymbolType(symbolType);
+        Bundle arguments = new Bundle();
+        arguments.putInt(ARGUMENT_VIEW_TYPE, type);
+        arguments.putString(ARGUMENT_STOCK_CODE, stockcode);
+        arguments.putString(ARGUMENT_SYMBOL_TYPE, symbolType);
+        fg.setArguments(arguments);
+
         return fg;
     }
 
@@ -82,9 +93,19 @@ public class KChartsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle arguments = getArguments();
+        if (arguments != null) {
+            handleArguments(arguments);
+        }
         if (mQuotesDataEngine == null) {
             mQuotesDataEngine = new QuotesEngineImpl();
         }
+    }
+
+    private void handleArguments(Bundle arguments) {
+        mViewType = arguments.getInt(ARGUMENT_VIEW_TYPE);
+        mStockCode = arguments.getString(ARGUMENT_STOCK_CODE);
+        symbolType = arguments.getString(ARGUMENT_SYMBOL_TYPE);
     }
 
     @Override
@@ -102,7 +123,7 @@ public class KChartsFragment extends Fragment {
         mMyChartsView.setStick(mVolumnChartView);
         mMyChartsView.setContext(getActivity());
         mMyChartsView.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
-        mMyChartsView.setType(type);
+        mMyChartsView.setType(mViewType);
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
         // mLargerButton.setVisibility(View.INVISIBLE);
 
@@ -292,15 +313,16 @@ public class KChartsFragment extends Fragment {
      */
     private List<OHLCEntity> getOHLCDatas() {
         // 测试，使用写死数据
-        if (testInterface) {
-            return getTestDatas();
-        }
+        // if (testInterface) {
+        // return getTestDatas();
+        // }
 
         // 测试
         // mStockCode = "SZ002252";
         // 获取K线类型，日，周，月
         try {
             String mtype = getKLineType();
+            // if()
             mQuotesDataEngine.queryKLine(mtype, mStockCode, "0", mKlineHttpListener, getCheckValue());
             if (first) {
                 // PromptManager.showProgressDialog(getActivity(), "", true);
@@ -335,7 +357,7 @@ public class KChartsFragment extends Fragment {
      * @return
      */
     private String getKLineType() {
-        switch (type) {
+        switch (mViewType) {
             case TYPE_CHART_DAY:
                 return "d";
             case TYPE_CHART_WEEK:
@@ -348,23 +370,14 @@ public class KChartsFragment extends Fragment {
         return "d";
     }
 
-    private IHttpListener mKlineHttpListener = new BasicHttpListener() {
+    private IHttpListener mKlineHttpListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
-        public void onSuccess(String result) {
-            try {
-                pb.setVisibility(View.GONE);
-                List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-                ohlcs = new ArrayList<OHLCEntity>();
-                for (int i = ohlc.size() - 1; i >= 0; i--) {
-                    ohlcs.add(ohlc.get(i));
-                }
-                refreshChartsView(ohlcs);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            // PromptManager.closeProgressDialog();
+        protected List<OHLCEntity> parseDateTask(String jsonData) {
+            List<OHLCEntity> ohlc = getOHLCDatasFromJson(jsonData);
+            // ohlcs = new ArrayList<OHLCEntity>();
+            // Collections.reverse(ohlc);
+            return ohlc;
         }
 
         public void onFailure(int errCode, String errMsg) {
@@ -372,6 +385,21 @@ public class KChartsFragment extends Fragment {
             // PromptManager.closeProgressDialog();
             pb.setVisibility(View.GONE);
         };
+
+        @Override
+        protected void afterParseData(List<OHLCEntity> object) {
+            pb.setVisibility(View.GONE);
+            if (null != object) {
+                ohlcs.addAll(object);
+            }
+            refreshChartsView(ohlcs);
+            if (object.size() > 50 && having) {
+                // mSmallerButton.setClickable(true);
+                mSmallerButton.setSelected(false);
+                having = false;
+            }
+
+        }
     };
 
     /**
@@ -382,17 +410,17 @@ public class KChartsFragment extends Fragment {
      */
     private List<OHLCEntity> getOHLCDatasFromJson(String jsonObject) {
         List<OHLCEntity> entitys = new ArrayList<OHLCEntity>();
-        if (jsonObject == null || jsonObject.trim().length() == 0) {
-            return entitys;
-        }
+        // if (jsonObject == null || jsonObject.trim().length() == 0) {
+        // return entitys;
+        // }
 
         try {
-            JSONArray ja = new JSONArray(jsonObject);
-            List<OHLCEntity> entity = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
-            for (int i = entity.size() - 1; i >= 0; i--) {
-                entitys.add(entity.get(i));
-            }
-            int len = ja.length();
+            // JSONArray ja = new JSONArray(jsonObject);
+            entitys = DataParse.parseArrayJson(OHLCEntity.class, jsonObject);
+            // for (int i = entity.size() - 1; i >= 0; i--) {
+            // entitys.add(entity.get(i));
+            // }
+            // int len = ja.length();
 
             /*
              * if (len > 0) {
@@ -429,11 +457,7 @@ public class KChartsFragment extends Fragment {
              * }
              * }
              */
-            if (len > 50 && having) {
-                // mSmallerButton.setClickable(true);
-                mSmallerButton.setSelected(false);
-                having = false;
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -487,11 +511,11 @@ public class KChartsFragment extends Fragment {
     }
 
     public Integer getType() {
-        return type;
+        return mViewType;
     }
 
     public void setType(Integer type) {
-        this.type = type;
+        this.mViewType = type;
     }
 
     public String getStockCode() {
@@ -519,7 +543,7 @@ public class KChartsFragment extends Fragment {
                 checkValue = mLandCallBack.getCheckValue();
             }
             mQuotesDataEngine = new QuotesEngineImpl();
-            List<OHLCEntity> ohlc = getOHLCDatas();
+            getOHLCDatas();
             if (mMarketTimer == null) {
                 mMarketTimer = new Timer(true);
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
@@ -562,40 +586,69 @@ public class KChartsFragment extends Fragment {
                 mMarketTimer.cancel();
             }
             String mtype = getKLineType();
-            mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineHttpListenerFlush, getCheckValue());
+            mQuotesDataEngine.queryKLine(mtype, mStockCode, "1", mKlineFlushListener, getCheckValue());
         }
     }
 
-    private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
+    private IHttpListener mKlineFlushListener = new ParseHttpListener<List<OHLCEntity>>() {
 
         @Override
-        public void onSuccess(String result) {
-            try {
-                List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
-                if (null == ohlcs || ohlcs.size() == 0) {
-                    String mtype = getKLineType();
-                    mQuotesDataEngine.queryKLine(mtype, mStockCode, mLandCallBack.getCheckValue(), mKlineHttpListener,
-                            getCheckValue());
-                } else {
-                    if (ohlc.size() > 0) {
-                        ohlcs.add(0, ohlc.get(0));
-                        ohlcs.remove(1);
-                    }
-                    refreshChartsView(ohlcs);
+        protected List<OHLCEntity> parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return getOHLCDatasFromJson(jsonData);
+        }
+
+        @Override
+        protected void afterParseData(List<OHLCEntity> object) {
+            if (null == ohlcs || ohlcs.size() == 0) {
+                String mtype = getKLineType();
+                mQuotesDataEngine.queryKLine(mtype, mStockCode, mLandCallBack.getCheckValue(), mKlineHttpListener,
+                        getCheckValue());
+            } else {
+                if (object != null && !object.isEmpty()) {
+                    ohlcs.add(0, object.get(0));
+                    ohlcs.remove(1);
                 }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                refreshChartsView(ohlcs);
             }
-            // PromptManager.closeProgressDialog();
+
         }
 
         public void onFailure(int errCode, String errMsg) {
-            // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
-            // PromptManager.closeProgressDialog();
             pb.setVisibility(View.GONE);
         };
     };
+
+    // private IHttpListener mKlineHttpListenerFlush = new BasicHttpListener() {
+    //
+    // @Override
+    // public void onSuccess(String result) {
+    // try {
+    // List<OHLCEntity> ohlc = getOHLCDatasFromJson(result);
+    // if (null == ohlcs || ohlcs.size() == 0) {
+    // String mtype = getKLineType();
+    // mQuotesDataEngine.queryKLine(mtype, mStockCode, mLandCallBack.getCheckValue(), mKlineHttpListener,
+    // getCheckValue());
+    // } else {
+    // if (ohlc.size() > 0) {
+    // ohlcs.add(0, ohlc.get(0));
+    // ohlcs.remove(1);
+    // }
+    // refreshChartsView(ohlcs);
+    // }
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // // PromptManager.closeProgressDialog();
+    // }
+    //
+    // public void onFailure(int errCode, String errMsg) {
+    // // Toast.makeText(getActivity(), "数据获取失败！", Toast.LENGTH_LONG).show();
+    // // PromptManager.closeProgressDialog();
+    // pb.setVisibility(View.GONE);
+    // };
+    // };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
 
     @Override

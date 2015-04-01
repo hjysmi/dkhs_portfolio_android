@@ -8,7 +8,10 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
+import java.util.List;
+
 import com.dkhs.portfolio.bean.StockQuotesBean;
+import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
 /**
  * @ClassName LandStockViewCallBack
@@ -31,6 +34,18 @@ public interface LandStockViewCallBack {
     public int getTabPosition();
 
     public void setTabPosition(int position);
+
+    public List<OHLCEntity> getDayLineDatas();
+
+    public void setDayKlineDatas(List<OHLCEntity> kLineDatas);
+
+    public List<OHLCEntity> getMonthLineDatas();
+
+    public void setMonthKlineDatas(List<OHLCEntity> kLineDatas);
+
+    public List<OHLCEntity> getWeekLineDatas();
+
+    public void setWeekKlineDatas(List<OHLCEntity> kLineDatas);
 
     // public void setChange(boolean isChange);
 }

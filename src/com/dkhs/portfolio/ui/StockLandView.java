@@ -249,9 +249,9 @@ public class StockLandView extends RelativeLayout {
 
     }
 
-    public void loadMore() {
-        ((KChartsLandFragment) this.fragmentList.get(view_position)).loadMordKline();
-    }
+    // public void loadMore() {
+    // ((KChartsLandFragment) this.fragmentList.get(view_position)).loadMordKline();
+    // }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 
