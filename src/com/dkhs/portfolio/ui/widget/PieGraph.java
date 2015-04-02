@@ -170,7 +170,7 @@ public class PieGraph extends View {
 
         @Override
         public void run() {
-            sweepAngle += 6;
+            sweepAngle += 12;
             postInvalidate();
         }
     };
