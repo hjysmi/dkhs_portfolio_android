@@ -329,12 +329,16 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     };
 
     private void updateChartData(List<OHLCEntity> lineData) {
-        pb.setVisibility(View.GONE);
         if (null != lineData) {
             ohlcs.addAll(lineData);
         }
+        updateChartView();
+    }
+
+    private void updateChartView() {
         refreshChartsView(ohlcs);
-        if (lineData.size() > 50 && having) {
+        pb.setVisibility(View.GONE);
+        if (ohlcs.size() > 50 && having) {
 
             mSmallerButton.setClickable(true);
             mSmallerButton.setSelected(false);
@@ -422,7 +426,11 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                     getOHLCDatas();
 
                 } else {
-                    updateChartData(lineDatas);
+                    if (null != ohlcs) {
+                        ohlcs = lineDatas;
+                        updateChartView();
+                    }
+                    // updateChartData(lineDatas);
                 }
             } else {
                 getOHLCDatas();

@@ -557,7 +557,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     private void drawUpperRegion(Canvas canvas) {
         // 绘制蜡烛图
-        Log.e(TAG, "dragValue:" + dragValue);
         try {
             // Paint redPaint = new Paint();
             // redPaint.setColor(Color.RED);
@@ -1599,9 +1598,12 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             postInvalidate();
         } else {
             if (null != mOHLCData && mOHLCData.size() < 1) {
-                this.mOHLCData = OHLCData;
+                this.mOHLCData.clear();
+                this.mOHLCData.addAll(OHLCData);
+                // this.mOHLCData = OHLCData;
             }
         }
+
         initMALineData();
         mMACDData = new MACDEntity(mOHLCData);
         mKDJData = new KDJEntity(mOHLCData);

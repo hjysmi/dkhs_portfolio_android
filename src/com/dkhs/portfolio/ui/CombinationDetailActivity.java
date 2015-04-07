@@ -527,12 +527,7 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
     }
 
     private void updateTitleBackgroud(float value) {
-        if (value < 0) {
-            getTitleView().setBackgroundResource(R.color.title_green);
-        } else {
-
-            getTitleView().setBackgroundResource(R.color.title_color);
-        }
+        updateTitleBackgroudByValue(value);
     }
 
     @Override

@@ -140,6 +140,7 @@
     <color name="stock_gray_bg">#A0A0A0</color>
     <color name="tag_red">#FF6363</color>
     <color name="tag_green">#62BE33</color>
+    <color name="tag_gray">#969696</color>
     <color name="title_green">#4BAA1A</color>
     <color name="zuhe_divline">#DCDCDC</color>
 

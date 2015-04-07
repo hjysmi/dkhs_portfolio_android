@@ -155,7 +155,7 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
 
         // viewHolder.tvDesc.setText(mContext.getString(R.string.desc_format, item.getDescription()));
         viewHolder.tvUserName.setText(mContext.getString(R.string.format_create_name, item.getUser().getUsername()));
-        viewHolder.tvValue.setText(StringFromatUtils.get2PointPercent(increasePercent));
+        viewHolder.tvValue.setText(StringFromatUtils.get2Point(increasePercent));
         if (increasePercent == 0) {
             viewHolder.valueView.setBackgroundResource(R.drawable.bg_order_gray);
         } else if (increasePercent > 0) {
