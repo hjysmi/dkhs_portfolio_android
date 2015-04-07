@@ -409,7 +409,7 @@ public class KChartsFragment extends AbstractKChartView {
     private void pollRequestData() {
         if (null != mLandCallBack) {
             StockQuotesBean m = mLandCallBack.getStockQuotesBean();
-            if (!UIUtils.roundAble(m)) {
+            if (m != null && !UIUtils.roundAble(m)) {
                 updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
             }
         }
