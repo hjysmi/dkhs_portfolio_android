@@ -367,27 +367,18 @@ public class KChartsFragment extends AbstractKChartView {
                 List<OHLCEntity> lineDatas = getViewTypeData();
                 if (null == lineDatas || lineDatas.isEmpty()) {
                     queryDefData();
-                    updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
 
                 } else {
                     updateChartData(lineDatas);
                 }
             } else {
                 queryDefData();
-                updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
             }
-            // if (mMarketTimer == null) {
-            // mMarketTimer = new Timer(true);
-            // mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
-            // }
+            pollRequestData();
 
         } else {
             // 不可见时不执行操作
             updateHandler.removeCallbacks(requestMarketRunnable);
-            // if (mMarketTimer != null) {
-            // mMarketTimer.cancel();
-            // mMarketTimer = null;
-            // }
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
@@ -410,6 +401,18 @@ public class KChartsFragment extends AbstractKChartView {
         // }
         updateHandler.removeCallbacks(requestMarketRunnable);
 
+    }
+
+    /**
+     * 定时轮询获取K线数据
+     */
+    private void pollRequestData() {
+        if (null != mLandCallBack) {
+            StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+            if (!UIUtils.roundAble(m)) {
+                updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
+            }
+        }
     }
 
     Handler updateHandler = new Handler();

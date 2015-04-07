@@ -70,7 +70,8 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     private SwipeMenuListView mListView;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private UserCombinationEngineImpl dataEngine;
-    public SwipeRefreshLayout mSwipeLayout;
+
+    // public SwipeRefreshLayout mSwipeLayout;
 
     @Override
     public int setContentLayoutId() {
@@ -97,17 +98,17 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+        // mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        // mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
-            @Override
-            public void onRefresh() {
-                // TODO Auto-generated method
-
-                refresh();
-            }
-        });
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+        // @Override
+        // public void onRefresh() {
+        // // TODO Auto-generated method
+        //
+        // refresh();
+        // }
+        // });
+        // mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
 
         // mAppList = getPackageManager().getInstalledApplications(0);
         tvEmptyText = (TextView) view.findViewById(R.id.add_data);
@@ -410,7 +411,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
      */
     @Override
     public void loadFinish(MoreDataBean object) {
-        mSwipeLayout.setRefreshing(false);
+        // mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {

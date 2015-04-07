@@ -433,34 +433,10 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                 mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
             }
             if (null != tvUnCheck && null != mLandCallBack) {
-                // if (mLandCallBack.getCheckValue().equals(UNCHEK)) {
-                // tvUnCheck.setSelected(true);
-                // tvBeforeCheck.setSelected(false);
-                // tvAfterCheck.setSelected(false);
-                // } else if (mLandCallBack.getCheckValue().equals(BEFORECHEK)) {
-                // tvUnCheck.setSelected(false);
-                // tvBeforeCheck.setSelected(true);
-                // tvAfterCheck.setSelected(false);
-                // } else {
-                // tvUnCheck.setSelected(false);
-                // tvBeforeCheck.setSelected(false);
-                // tvAfterCheck.setSelected(true);
-                // }
+
                 updateCheckView(mLandCallBack.getCheckValue());
                 updateVolumView(mLandCallBack.getStickType());
-                // if (mLandCallBack.getStickType() == (StickChart.CHECK_COLUME)) {
-                // tvTurnover.setSelected(true);
-                // tvMacd.setSelected(false);
-                // mVolumnChartView.setCheckType(StickChart.CHECK_COLUME);
-                // mLandCallBack.setStickType(StickChart.CHECK_COLUME);
-                // mVolumnChartView.setLatitudeNum(1);
-                // } else if (mLandCallBack.getStickType() == (StickChart.CHECK_MACD)) {
-                // tvTurnover.setSelected(false);
-                // tvMacd.setSelected(true);
-                // mVolumnChartView.setCheckType(StickChart.CHECK_MACD);
-                // mLandCallBack.setStickType(StickChart.CHECK_MACD);
-                // mVolumnChartView.setLatitudeNum(3);
-                // }
+
             }
         } else {
             // 不可见时不执行操作

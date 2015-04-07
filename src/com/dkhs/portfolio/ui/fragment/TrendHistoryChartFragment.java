@@ -251,6 +251,12 @@ public class TrendHistoryChartFragment extends BaseFragment {
             }
 
         }
+        
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            pb.setVisibility(View.GONE);
+        };
     };
 
     public class DrawLineDataEntity {
