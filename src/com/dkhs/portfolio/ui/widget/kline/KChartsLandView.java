@@ -1103,13 +1103,13 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                      */
                     postInvalidate();
                     // Paint paint = new Paint();
-//                    merchPaint.reset();
-//                    merchPaint.setColor(getResources().getColor(R.color.def_gray));
-//                    merchPaint.setAntiAlias(true);
-//                    merchPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
-//                    textforFlush = "加载数据";
-//                    final Rect rect = new Rect();
-//                    merchPaint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
+                    merchPaint.reset();
+                    merchPaint.setColor(getResources().getColor(R.color.def_gray));
+                    merchPaint.setAntiAlias(true);
+                    merchPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
+                    textforFlush = "加载数据";
+                    final Rect rect = new Rect();
+                    merchPaint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
                     Thread tk = new Thread(new Runnable() {
 
                         @Override
