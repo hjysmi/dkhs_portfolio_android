@@ -325,4 +325,19 @@ public class ModelAcitivity extends SwipeBackActivity {
         UIUtils.setOverridePendingAmin(this);
     }
 
+    public void updateTitleBackgroud(int resId) {
+        getTitleView().setBackgroundResource(resId);
+    }
+
+    public void updateTitleBackgroudByValue(float value) {
+        if (value < 0) {
+            updateTitleBackgroud(R.color.tag_green);
+        } else if (value > 0) {
+            updateTitleBackgroud(R.color.tag_red);
+        } else {
+            updateTitleBackgroud(R.color.tag_gray);
+
+        }
+    }
+
 }
