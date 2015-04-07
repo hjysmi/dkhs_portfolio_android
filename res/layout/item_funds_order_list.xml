@@ -24,7 +24,7 @@
             android:singleLine="true"
             android:text="@string/week_income_rate"
             android:textColor="@color/white_60"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_value"
@@ -32,9 +32,19 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_income_text"
             android:layout_centerHorizontal="true"
-            android:text="+19.52%"
+            android:text="+19.52"
             android:textColor="@color/white"
-            android:textSize="22sp" />
+            android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tv_precent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_value"
+            android:layout_toRightOf="@+id/tv_value"
+            android:text="%"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <CheckBox
