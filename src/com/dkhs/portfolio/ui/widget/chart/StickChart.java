@@ -673,6 +673,7 @@ public class StickChart extends GridChart {
             boolean draw5 = false;
             boolean draw10 = false;
             boolean draw20 = false;
+            
             for (int j = nums; j < StickData.size() && j >= 0 && j >= index; j--) {
                 //MALineEntity lineEntity = MALineData.get(j);
 
