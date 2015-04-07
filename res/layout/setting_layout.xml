@@ -30,7 +30,10 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
-                    <include layout="@layout/layout_line_text" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/person_setting_line" />
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_icon"

@@ -284,17 +284,17 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     public void setStatusBarColor(View statusBar, int color) {
-        if (Build.VERSION.SDK_INT >= 19) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            // status bar height
-            int actionBarHeight = getActionBarHeight();
-            int statusBarHeight = getStatusBarHeight();
-            // action bar height
-            statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
-            statusBar.setBackgroundColor(color);
-        }
+        // if (Build.VERSION.SDK_INT >= 19) {
+        // Window w = getWindow();
+        // w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+        // WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // // status bar height
+        // int actionBarHeight = getActionBarHeight();
+        // int statusBarHeight = getStatusBarHeight();
+        // // action bar height
+        // statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
+        // statusBar.setBackgroundColor(color);
+        // }
     }
 
     public int getActionBarHeight() {
@@ -321,8 +321,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     @Override
     public void startActivity(Intent intent) {
-        UIUtils.setOverridePendingAmin(this);
         super.startActivity(intent);
+        UIUtils.setOverridePendingAmin(this);
     }
 
 }

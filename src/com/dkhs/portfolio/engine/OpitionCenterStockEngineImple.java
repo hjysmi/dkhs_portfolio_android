@@ -9,17 +9,21 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
-public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
+public class OpitionCenterStockEngineImple extends LoadMoreDataEngine {
 
     public final static String VALUE_EXCHANGE = "1,2";
     public final static String VALUE_EXCHANGE_SAHNG = "2";
@@ -186,42 +190,76 @@ public class OpitionCenterStockEngineImple extends LoadSelectDataEngine {
     // }
 
     @Override
-    protected List<SelectStockBean> parseDateTask(String jsonData) {
-        List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+    protected MoreDataBean parseDateTask(String jsonData) {
+        MoreDataBean<StockPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
+        MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
+
+        // List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
         try {
-            JSONObject dataObject = new JSONObject(jsonData);
-            setTotalcount(dataObject.optInt("total_count"));
-            setTotalpage(dataObject.optInt("total_page"));
-            setCurrentpage(dataObject.optInt("current_page"));
-            setStatu(dataObject.optInt("trade_status"));
-            JSONArray resultsJsonArray = dataObject.optJSONArray("results");
-            if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
-                int length = resultsJsonArray.length();
 
-                for (int i = 0; i < length; i++) {
-                    JSONObject stockObject = resultsJsonArray.optJSONObject(i);
-                    StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                    if (!TextUtils.isEmpty(orderType)) {
+            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<StockPriceBean>>() {
+            }.getType());
+            parseMoreBean.copyMoreDataBean(dataMoreBean);
+            parseMoreBean.setResults(new ArrayList<SelectStockBean>());
 
-                        if (orderType.contains(ORDER_TURNOVER_DOWN)) {
-                            stockBean.setPercentage(stockBean.getTurnover_rate());
-                        } else if (orderType.contains(ORDER_AMPLITU_DOWN)) {
-                            stockBean.setPercentage(stockBean.getAmplitude());
-                        }
+            for (StockPriceBean stockBean : dataMoreBean.getResults()) {
+                // selectList.add(SelectStockBean.copy(priceBean));
+                if (!TextUtils.isEmpty(orderType)) {
+
+                    if (orderType.contains(ORDER_TURNOVER_DOWN)) {
+                        stockBean.setPercentage(stockBean.getTurnover_rate());
+                    } else if (orderType.contains(ORDER_AMPLITU_DOWN)) {
+                        stockBean.setPercentage(stockBean.getAmplitude());
                     }
-
-                    selectList.add(SelectStockBean.copy(stockBean));
-
                 }
+
+                SelectStockBean selectBean = SelectStockBean.copy(stockBean);
+                parseMoreBean.getResults().add(selectBean);
 
             }
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+        return parseMoreBean;
 
-        return selectList;
+        // List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+        // try {
+        // JSONObject dataObject = new JSONObject(jsonData);
+        // setTotalcount(dataObject.optInt("total_count"));
+        // setTotalpage(dataObject.optInt("total_page"));
+        // setCurrentpage(dataObject.optInt("current_page"));
+        // setStatu(dataObject.optInt("trade_status"));
+        // JSONArray resultsJsonArray = dataObject.optJSONArray("results");
+        // if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
+        // int length = resultsJsonArray.length();
+        //
+        // for (int i = 0; i < length; i++) {
+        // JSONObject stockObject = resultsJsonArray.optJSONObject(i);
+        // StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
+        //
+        // if (!TextUtils.isEmpty(orderType)) {
+        //
+        // if (orderType.contains(ORDER_TURNOVER_DOWN)) {
+        // stockBean.setPercentage(stockBean.getTurnover_rate());
+        // } else if (orderType.contains(ORDER_AMPLITU_DOWN)) {
+        // stockBean.setPercentage(stockBean.getAmplitude());
+        // }
+        // }
+        //
+        // selectList.add(SelectStockBean.copy(stockBean));
+        //
+        // }
+        //
+        // }
+        //
+        // } catch (JSONException e) {
+        // e.printStackTrace();
+        // }
+        //
+        // return selectList;
     }
 
     /**

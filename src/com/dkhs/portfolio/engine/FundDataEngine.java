@@ -16,10 +16,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.dkhs.portfolio.bean.FundsPriceBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
@@ -31,7 +36,7 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @date 2014-10-9 下午2:59:04
  * @version 1.0
  */
-public class FundDataEngine extends LoadSelectDataEngine {
+public class FundDataEngine extends LoadMoreDataEngine {
 
     // private static final String ORDER_BY_DAY = "percent_day";
     private static final String ORDER_BY_MONTH = "-percent_month";
@@ -104,50 +109,82 @@ public class FundDataEngine extends LoadSelectDataEngine {
      * @return
      */
     @Override
-    protected List<SelectStockBean> parseDateTask(String jsonData) {
+    protected MoreDataBean parseDateTask(String jsonData) {
+        MoreDataBean<FundsPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
+        MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
 
-        List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
         try {
-            JSONObject dataObject = new JSONObject(jsonData);
-            setTotalcount(dataObject.optInt("total_count"));
-            setTotalpage(dataObject.optInt("total_page"));
-            setCurrentpage(dataObject.optInt("current_page"));
-            setStatu(dataObject.optInt("trade_status"));
-            JSONArray resultsJsonArray = dataObject.optJSONArray("results");
-            if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
-                int length = resultsJsonArray.length();
 
-                for (int i = 0; i < length; i++) {
-                    JSONObject stockObject = resultsJsonArray.optJSONObject(i);
-                    FundsPriceBean stockBean = DataParse.parseObjectJson(FundsPriceBean.class, stockObject);
-                    SelectStockBean selectBean = new SelectStockBean();
-                    selectBean.id = stockBean.getId();
-                    selectBean.name = stockBean.getName();
-                    // selectBean.currentValue = stockBean.getCurrent();
-                    selectBean.code = stockBean.getCode();
-                    if (mOrderType == OrderType.YEAR) {
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                        selectBean.percentage = stockBean.getPercentYear();
-                    } else if (mOrderType == OrderType.MONTH) {
+            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundsPriceBean>>() {
+            }.getType());
 
-                        selectBean.percentage = stockBean.getPercentMonth();
-                    } else if (mOrderType == OrderType.TYEAR) {
+            parseMoreBean.copyMoreDataBean(dataMoreBean);
+            parseMoreBean.setResults(new ArrayList<SelectStockBean>());
+            for (FundsPriceBean priceBean : dataMoreBean.getResults()) {
+                SelectStockBean selectBean = new SelectStockBean();
+                selectBean.id = priceBean.getId();
+                selectBean.name = priceBean.getName();
+                // selectBean.currentValue = stockBean.getCurrent();
+                selectBean.code = priceBean.getCode();
+                if (mOrderType == OrderType.YEAR) {
 
-                        selectBean.percentage = stockBean.getPercentTYear();
-                    }
-                    selectList.add(selectBean);
+                    selectBean.percentage = priceBean.getPercentYear();
+                } else if (mOrderType == OrderType.MONTH) {
 
-                    // results.add(stockBean);
+                    selectBean.percentage = priceBean.getPercentMonth();
+                } else if (mOrderType == OrderType.TYEAR) {
 
+                    selectBean.percentage = priceBean.getPercentTYear();
                 }
+                parseMoreBean.getResults().add(selectBean);
 
             }
 
-        } catch (JSONException e) {
+            // List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+            // try {
+            // JSONObject dataObject = new JSONObject(jsonData);
+            // setTotalcount(dataObject.optInt("total_count"));
+            // setTotalpage(dataObject.optInt("total_page"));
+            // setCurrentpage(dataObject.optInt("current_page"));
+            // setStatu(dataObject.optInt("trade_status"));
+            // JSONArray resultsJsonArray = dataObject.optJSONArray("results");
+            // if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
+            // int length = resultsJsonArray.length();
+            //
+            // for (int i = 0; i < length; i++) {
+            // JSONObject stockObject = resultsJsonArray.optJSONObject(i);
+            // FundsPriceBean stockBean = DataParse.parseObjectJson(FundsPriceBean.class, stockObject);
+            // SelectStockBean selectBean = new SelectStockBean();
+            // selectBean.id = stockBean.getId();
+            // selectBean.name = stockBean.getName();
+            // // selectBean.currentValue = stockBean.getCurrent();
+            // selectBean.code = stockBean.getCode();
+            // if (mOrderType == OrderType.YEAR) {
+            //
+            // selectBean.percentage = stockBean.getPercentYear();
+            // } else if (mOrderType == OrderType.MONTH) {
+            //
+            // selectBean.percentage = stockBean.getPercentMonth();
+            // } else if (mOrderType == OrderType.TYEAR) {
+            //
+            // selectBean.percentage = stockBean.getPercentTYear();
+            // }
+            // selectList.add(selectBean);
+            //
+            // // results.add(stockBean);
+            //
+            // }
+            //
+            // }
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return selectList;
+        // return selectList;
+        return parseMoreBean;
     }
 
     /**
@@ -162,7 +199,7 @@ public class FundDataEngine extends LoadSelectDataEngine {
         params.addQueryStringParameter("type", mFundsType);
         params.addQueryStringParameter("sort", mOrderType.getType());
         params.addQueryStringParameter("page_size", dataSize + "");
-       return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 

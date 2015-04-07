@@ -51,7 +51,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
-import com.dkhs.portfolio.ui.fragment.FragmentNews;
+import com.dkhs.portfolio.ui.fragment.FragmentCombinationNews;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
@@ -193,10 +193,10 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     private void replaceNewsView() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        Fragment f = new FragmentNews();
+        Fragment f = new FragmentCombinationNews();
         // Fragment f = TestFragment.getInstance();
         Bundle b = new Bundle();
-        b.putSerializable(FragmentNews.DATA, mCombinationBean);
+        b.putSerializable(FragmentCombinationNews.DATA, mCombinationBean);
         f.setArguments(b);
         ft.replace(R.id.fl_content, f);
         ft.commit();

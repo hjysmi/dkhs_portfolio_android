@@ -59,6 +59,7 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -153,22 +154,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
      * @return void
      */
     private void handleExtras(Bundle extras) {
-        // String typeValue = extras.getString(KEY_VIEW_TYPE);
-        // if (!TextUtils.isEmpty(typeValue)) {
-        // mViewType = typeValue;
-        // }
+
         isAdjustCombination = extras.getBoolean(EXTRA_ISADJUSTCOMBINATION);
         // mPositionDetailBean = (PositionDetail) extras.getSerializable(EXTRA_POSITIONDETAIL);
         mCombinationId = extras.getString(EXTRA_COMBINATION_ID);
-        // if (null != mPositionDetailBean) {
-        //
-        // if (null != mPositionDetailBean.getPositionList()) {
-        // copyDefalutList();
-        // }
-        // mCombinationId = mPositionDetailBean.getPortfolio().getId();
-        // }
+
         if (!isAdjustCombination) {
-            startSelectStockActivitys();
+            startSelectStockActivity(true);
         }
 
     }
@@ -257,28 +249,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             findViewById(R.id.create_portfolio_info).setVisibility(View.GONE);
             findViewById(R.id.rl_combinationvalue).setVisibility(View.GONE);
             findViewById(R.id.tv_myconfig_text).setVisibility(View.INVISIBLE);
-            // ViewStub viewstub = (ViewStub) findViewById(R.id.portfolio_info);
-            // if (viewstub != null) {
-            // viewstub.inflate();
-            // View inflatedView = viewstub.inflate();
-            // tvCreateTime = (TextView) inflatedView.findViewById(R.id.tv_create_time);
-            // tvTodayNetvalue = (TextView) inflatedView.findViewById(R.id.tv_today_netvalue);
-            // // tvCreateTime.setText(text)
-            // tvTodayNetvalue.setText(mPositionDetailBean.getPortfolio().getCurrentValue() + "");
-            // // tvCreateTime.setText(mPositionDetailBean.getPortfolio().getCreateTime());
-            // tvCreateTime.setText(TimeUtils.getSimpleFormatTime(mPositionDetailBean.getPortfolio().getCreateTime()));
-            // TextView tvCombinationName = (TextView) inflatedView.findViewById(R.id.tv_portfolio_name);
-            // tvCombinationName.setText(mPositionDetailBean.getPortfolio().getName());
-            // }
 
         } else {
             setTitle(R.string.create_combination);
-            // ViewStub viewstub = (ViewStub) findViewById(R.id.create_portfolio_info);
-
-            // if (viewstub != null) {
-            // View inflatedView = viewstub.inflate();
-            //
-            // }
         }
     }
 
@@ -300,9 +273,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             setFootData(mPositionDetailBean.getFund_percent());
         }
 
-        // System.out.println("getFund_percent:" + mPositionDetailBean.getFund_percent());
-        // System.out.println("surpulsValue:" + surpulsValue());
-
     }
 
     /**
@@ -319,29 +289,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
             // setStockList();
         }
-    }
-
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
-     */
-    private void setStockList() {
-
-        // System.out.println("PositionDetailBean.getCurrentDate():" + mPositionDetailBean.getCurrentDate());
-        //
-        // ConStockBean stock1 = new ConStockBean(1, 0.3f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[0]),
-        // "沪深大盘", "600123");
-        // ConStockBean stock2 = new ConStockBean(2, 0.4f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[1]),
-        // "苏宁云商", "622123");
-        // ConStockBean stock3 = new ConStockBean(3, 0.3f, getResources().getColor(ColorTemplate.DEFAULTCOLORS[2]),
-        // "阿里巴巴", "666666");
-        // // ConStockBean stock4 = new SurpusStock(surValue);
-        // stockList.add(stock1);
-        // stockList.add(stock2);
-        // stockList.add(stock3);
-        // stockList.add(stock4);
-
     }
 
     /**
@@ -376,17 +323,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         mFooterView.findViewById(R.id.view_color).setBackgroundColor(ColorTemplate.DEF_RED);
         // return foot;
     }
-
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
-     */
-    // private void initPieView() {
-    //
-    // // pieList = new ArrayList<PieSlice>();
-    // setPieList();
-    // }
 
     private void setPieList(float survalue) {
 
@@ -431,10 +367,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         for (int i = 0; i < stockList.size(); i++) {
             sum += stockList.get(i).getPercent();
         }
-        System.out.println("surpulsValue sum:" + sum);
         surValue = total - sum;
         if (surValue < 0) {
-            LogUtils.e("Position adjsut surpulsValue < 0");
 
             surValue = 0;
         }
@@ -446,19 +380,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
         surSeekbar.setProgress((int) (survalue));
         tvSurpusValue.setText(StringFromatUtils.get2PointPercent(survalue));
-    }
-
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param value
-     * @return
-     */
-    @Override
-    public void updateSurpus(int value) {
-
-        // System.out.println("surValue:" + surValue);
-
     }
 
     @Override
@@ -526,7 +447,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
                 break;
             case R.id.btn_add_postional: {
-                startSelectStockActivity();
+                startSelectStockActivity(false);
             }
                 break;
             case R.id.btn_average: {
@@ -540,27 +461,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    private void startSelectStockActivitys() {
-        firse = true;
-        List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
-        for (ConStockBean stockBean : stockList) {
-            SelectStockBean bean = SelectStockBean.copy(stockBean);
-            mSelectList.add(bean);
-        }
-        Intent intent = new Intent(this, SelectStockActivity.class);
-        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
-        Bundle b = new Bundle();
-        b.putBoolean("fromPosition", true);
-        b.putBoolean("isFrist", firse);
-        b.putString(BaseSelectActivity.FROM_CREATE_TITLE, "yes");
-        intent.putExtras(b);
-        if (isAdjustCombination) {
-            intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
-        }
-        startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
-    }
-
-    private void startSelectStockActivity() {
+    private void startSelectStockActivity(boolean isCreate) {
         firse = false;
         List<SelectStockBean> mSelectList = new ArrayList<SelectStockBean>();
         for (ConStockBean stockBean : stockList) {
@@ -572,11 +473,15 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         Bundle b = new Bundle();
         b.putBoolean("fromPosition", true);
         b.putBoolean("isFrist", firse);
+        if (isCreate) {
+            b.putString(BaseSelectActivity.FROM_CREATE_TITLE, "yes");
+        }
         intent.putExtras(b);
         if (isAdjustCombination) {
             intent.putExtra(BaseSelectActivity.KEY_ISADJUST_COMBINATION, true);
         }
         startActivityForResult(intent, REQUESTCODE_SELECT_STOCK);
+        UIUtils.setOverridePendingAmin(this);
     }
 
     private void averageValue() {
@@ -715,31 +620,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             finish();
         }
 
-        // @Override
-        // public void requestErrorBack(ErrorBundle error) {
-        // if (null != error && null != error.getErrorJsonArray() && !TextUtils.isEmpty(error.getErrorKey())) {
-        //
-        // StringBuilder sb = new StringBuilder();
-        // int length = error.getErrorJsonArray().length();
-        // for (int i = 0; i < length; i++) {
-        // try {
-        // sb.append(error.getErrorJsonArray().getString(i));
-        // } catch (JSONException e) {
-        // // TODO Auto-generated catch block
-        // e.printStackTrace();
-        // }
-        // }
-        // if (error.getErrorKey().contains("raise_up")) {
-        // Toast.makeText(getApplicationContext(), "涨停股：" + sb.toString() + "无法调高占比  ", Toast.LENGTH_LONG)
-        // .show();
-        // } else if (error.getErrorKey().contains("raise_down")) {
-        // Toast.makeText(getApplicationContext(), "跌停股：" + sb.toString() + "无法调低占比  ", Toast.LENGTH_LONG)
-        // .show();
-        // }
-        // }
-        //
-        // }
-
     };
 
     private List<SubmitSymbol> generateSymbols() {
@@ -811,11 +691,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             new MyCombinationEngineImpl().createCombination(combinationName, combinationDesc, symbolsList,
                     new ParseHttpListener<CombinationBean>() {
 
-                        /**
-                         * @Title
-                         * @Description TODO: (用一句话描述这个方法的功能)
-                         * @return
-                         */
                         @Override
                         public void beforeRequest() {
                             // TODO Auto-generated method stub
@@ -892,16 +767,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    private void submitAdjustToServer() {
-        // new MyCombinationEngineImpl().adjustCombination(mCombinationId, symbols, new BasicHttpListener() {
-        //
-        // @Override
-        // public void onSuccess(String result) {
-        // finish();
-        // }
-        // });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -914,20 +779,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
-                        // if (createType != -1) {
-                        //
-                        // if (stockList == null) {
-                        // stockList = new ArrayList<ConStockBean>();
-                        // }
-                        // stockList.clear();
-                        // for (SelectStockBean selectBean : listStock) {
-                        // stockList.add(selectBean.parseStock());
-                        // }
-                        //
-                        // // setCombinationBack(createType);
-                        //
-                        // // } else {
-                        // }
+
                         setAddStockBack(listStock);
                         updatePieView();
 
@@ -946,11 +798,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     private void updatePieView() {
         surpulsValue();
         setPieList(surValue);
-        // lvStock.removeFooterView(mFooterView);
         stockAdapter.setList(stockList);
         setFootData(surValue);
-        // stockAdapter.
-        // stockAdapter.notifyDataSetChanged();
+
         isShowAverageButton();
         lvStock.invalidate();
     }
@@ -963,22 +813,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         }
     }
 
-    // private void setCombinationBack(int which) {
-    // if (null != stockList && stockList.size() > 0) {
-    // int length = stockList.size();
-    // float dutyValue = (1.0f / length);
-    // for (int i = 0; i < length; i++) {
-    // ConStockBean c = stockList.get(i);
-    // if (0 == which) {// 快速
-    // c.setPercent(dutyValue);
-    // }
-    // c.setDutyColor(ColorTemplate.getDefaultColor(i));
-    //
-    // }
-    // }
-    //
-    // }
-
     private void setAddStockBack(List<SelectStockBean> listStock) {
         int i = 0;
         List<ConStockBean> tempList = new ArrayList<ConStockBean>();
@@ -990,14 +824,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             System.out.println("csbean name:" + csBean.getName());
             if (stockList.contains(csBean)) {
                 int index = stockList.indexOf(csBean);
-                System.out.println("stockList.contains(csBean)");
-                // System.out.println("stockList.get(index).getPercent():" + stockList.get(index).getPercent());
-                // System.out.println("stockList.get(index).getDutyValue():" + stockList.get(index).getDutyValue());
-                // if (i < stockList.size()) {
                 csBean.setPercent(stockList.get(index).getPercent());
-                // csBean.setPercent(stockList.get(index).getPercent());
-                // stockList.get(i).setDutyColor(ColorTemplate.getDefaultColor(i));
-                // }
 
             }
 
@@ -1009,11 +836,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     public void onBackPressed() {
         // TODO Auto-generated method stub
@@ -1072,5 +894,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         MobclickAgent.onResume(this);
+    }
+
+    @Override
+    public void updateSurpus(int value) {
+        // TODO Auto-generated method stub
+
     }
 }

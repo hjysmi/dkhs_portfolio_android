@@ -86,8 +86,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                startActivity(intent);
-                // UIUtils.startAminationActivity(getActivity(), intent);
+                // startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
             }
         });
         btnSecRight.setOnClickListener(new OnClickListener() {
@@ -97,6 +97,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 Intent intent = new Intent(getActivity(), OptionEditActivity.class);
                 // UIUtils.startAminationActivity(getActivity(), intent);
                 startActivityForResult(intent, 777);
+                UIUtils.setOverridePendingAmin(getActivity());
             }
         });
     }
@@ -108,8 +109,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
-                // UIUtils.startAminationActivity(getActivity(), intent);
-                startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
+                // startActivity(intent);
             }
         });
         btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_add_select, 0, 0, 0);
@@ -128,6 +129,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
                 startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
+                UIUtils.setOverridePendingAmin(getActivity());
             }
         });
     }
@@ -164,22 +166,23 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
     protected void displayFragmentA() {
         setOptionTitleBar();
-        if (null == tabStockFragment) {
-            return;
+        if (null != tabStockFragment) {
+
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            if (null != tabStockFragment && tabStockFragment.isAdded()) { // if the fragment is already in container
+                ft.show(tabStockFragment);
+            } else { // fragment needs to be added to frame container
+                ft.add(R.id.view_datalist, tabStockFragment, "A");
+            }
+            if (tabFundsFragment.isAdded()) {
+                ft.hide(tabFundsFragment);
+                tabFundsFragment.setDataUpdateListener(null);
+            }
+            tabStockFragment.setDataUpdateListener(this);
+            tabStockFragment.refreshEditView();
+            ft.commit();
         }
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (null != tabStockFragment && tabStockFragment.isAdded()) { // if the fragment is already in container
-            ft.show(tabStockFragment);
-        } else { // fragment needs to be added to frame container
-            ft.add(R.id.view_datalist, tabStockFragment, "A");
-        }
-        if (tabFundsFragment.isAdded()) {
-            ft.hide(tabFundsFragment);
-            tabFundsFragment.setDataUpdateListener(null);
-        }
-        tabStockFragment.setDataUpdateListener(this);
-        tabStockFragment.refreshEditView();
-        ft.commit();
+
     }
 
     protected void displayFragmentB() {

@@ -212,6 +212,10 @@ public class MarketListActivity extends RefreshModelActivity {
         }
     }
 
-    // public interface
+    public interface ILoadingFinishListener {
+        void loadingFinish();
+
+        void startLoadingData();
+    }
 
 }

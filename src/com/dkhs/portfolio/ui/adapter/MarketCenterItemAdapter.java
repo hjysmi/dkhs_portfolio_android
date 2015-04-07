@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -47,7 +48,8 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        // TODO Auto-generated method stub
+
+
         ViewHodler viewHolder = null;
         mStockQuotesBean = mDataList.get(position);
         if (convertView == null) {
@@ -125,8 +127,8 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
             // TODO Auto-generated method stub
             SelectStockBean itemStock = mDataList.get(position);
             UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
-            
-//            mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
+
+            // mContext.startActivity(StockQuotesActivity.newIntent(mContext, itemStock));
         }
 
     }

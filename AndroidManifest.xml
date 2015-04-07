@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="8"
+<<<<<<< HEAD
     android:versionName="1.4.0324" >
+=======
+    android:versionName="1.4.0402" >
+>>>>>>> 6a020689874b70e4f649dcfe451688f10604bb45
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -40,7 +44,7 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTranslucentTheme" >
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="54850a5cfd98c5755f000e12" >
@@ -53,7 +57,8 @@
 
         <activity
             android:name="com.dkhs.portfolio.ui.SplashActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -64,7 +69,8 @@
         <activity
             android:name="com.dkhs.portfolio.ui.NewMainActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity android:name="com.dkhs.portfolio.ui.NoAccountMainActivity" />
         <activity android:name="com.dkhs.portfolio.ui.RLFActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SetPasswordActivity" />

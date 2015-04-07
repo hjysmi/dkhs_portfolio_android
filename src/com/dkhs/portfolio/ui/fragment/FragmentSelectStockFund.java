@@ -26,11 +26,12 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
@@ -38,7 +39,7 @@ import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.MarketCenterActivity.ILoadingFinishListener;
+import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
@@ -83,7 +84,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected boolean isItemClickBack;
     protected StockViewType mViewType;
     protected boolean fromPosition = false;
-    LoadSelectDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     protected TextView tvEmptyText;
     public int timeMill;
     protected boolean flush = false;
@@ -91,6 +92,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected boolean isLoading;
     private RelativeLayout pb;
     private HttpHandler loadHandler;
+
+    private boolean isDefLoad;
 
     /**
      * view视图类型
@@ -280,8 +283,19 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
+        // @Override
+        // public void loadFinish(List<SelectStockBean> dataList) {
+        //
+        // }
+        //
+        // @Override
+        // public void loadFail(ErrorBundle error) {
+        // // LogUtils.e("loading fail,error code:" + error.getErrorCode());
+        //
+        // }
+
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
+        public void loadFinish(MoreDataBean object) {
             mListView.onLoadMoreComplete();
             mSwipeLayout.setRefreshing(false);
             pb.setVisibility(View.GONE);
@@ -311,8 +325,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
             }
             // loadFinishUpdateView();
-            if (null != dataList && dataList.size() > 0 && isAdded()) {
-                mDataList.addAll(dataList);
+            if (null != object && null != object.getResults() && object.getResults().size() > 0 && isAdded()) {
+                mDataList.addAll(object.getResults());
                 mAdapterConbinStock.notifyDataSetChanged();
 
             }
@@ -324,11 +338,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             isLoadingMore = false;
             refreshEditView();
+
         }
 
         @Override
-        public void loadFail(ErrorBundle error) {
-            // LogUtils.e("loading fail,error code:" + error.getErrorCode());
+        public void loadFail() {
             if (pb != null) {
                 pb.setVisibility(View.GONE);
             }
@@ -346,6 +360,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             }
             isLoadingMore = false;
             refreshEditView();
+
         }
 
     };
@@ -384,8 +399,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             ((OptionalStockEngineImpl) mLoadDataEngine).setLoadType(type);
             // mDataList.clear();
             // mLoadDataEngine.setLoadingDialog(getActivity());
-            mLoadDataEngine.loadData();
-
+            // mLoadDataEngine.loadData();
+            // 第二次
         }
     }
 
@@ -411,10 +426,15 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
-        if (null != loadingFinishListener) {
-            loadingFinishListener.startLoadingData();
+        if (isDefLoad) {
+
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
+            loadHandler = mLoadDataEngine.loadData();
+
         }
-        loadHandler = mLoadDataEngine.loadData();
+        // 第一次
         // isRefresh = true;
 
     }
@@ -442,6 +462,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine.cancelLoadingDialog();
             // mLoadDataEngine.refreshDatabySize(mDataList.size());
             loadHandler = mLoadDataEngine.loadData();
+            // 第三次
         }
     }
 
@@ -512,7 +533,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         initData();
     }
 
-    private void hideNotice() {
+    private void hideEmptyNotice() {
+        if (null != emptyview) {
+            emptyview.setVisibility(View.GONE);
+        }
         if (null == tvEmptyText) {
             return;
         }
@@ -522,14 +546,14 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     Handler updateHander = new Handler() {
         public void handleMessage(android.os.Message msg) {
             if (msg.what == 777) {
-                initNotice();
+                showEmptyNotice();
             } else if (msg.what == 888) {
-                hideNotice();
+                hideEmptyNotice();
             }
         };
     };
 
-    protected void initNotice() {
+    protected void showEmptyNotice() {
 
         if (!isAdded() && null == tvEmptyText) {
             return;
@@ -543,6 +567,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 tvEmptyText.setVisibility(View.GONE);
                 // refreshSelect();
                 // mListView.setEmptyView(emptyview);
+                if (null != emptyview) {
+                    emptyview.setVisibility(View.VISIBLE);
+                }
                 tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }
@@ -601,7 +628,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
                 }
             });
-            mListView.setEmptyView(emptyview);
+            // mListView.setEmptyView(emptyview);
         } else if (isItemClickBack) {
             mListView.setOnItemClickListener(itemBackClick);
         }
@@ -628,7 +655,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             itemStock.isFollowed = true;
             // Toast.makeText(getActivity(), "选择股票：" + itemStock.name,
             // Toast.LENGTH_SHORT).show();
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
         }
     };
     OnItemClickListener itemBackClick = new OnItemClickListener() {
@@ -637,7 +664,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             SelectStockBean itemStock = mDataList.get(position);
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
             getActivity().finish();
         }
     };
@@ -763,6 +790,14 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (null != loadHandler) {
             loadHandler.cancel();
         }
+    }
+
+    public boolean isDefLoad() {
+        return isDefLoad;
+    }
+
+    public void setDefLoad(boolean isDefLoad) {
+        this.isDefLoad = isDefLoad;
     }
 
 }

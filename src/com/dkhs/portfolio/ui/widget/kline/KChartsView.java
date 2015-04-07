@@ -9,8 +9,9 @@ import com.dkhs.portfolio.R.color;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
 import android.content.Context;
@@ -91,7 +92,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
     private int zoomNum = 0;
     private long currentTime;
     private DisplayDataChangeListener mDisplayChangeListener; // 显示数据变化监听
-    private boolean go = true;
+    private boolean goToLand = true;
     private boolean firsttime = true;
     private String symbolType;
     private String symbol;
@@ -134,6 +135,40 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
          * mStartX =(int) (getWidth() - 6 - ( 30 - mOHLCData.size()) * (mCandleWidth *3));
          * }
          */
+        iniPaint();
+    }
+
+    private Paint textPaint;
+    private Paint defPaint;
+    private Paint redPaint;
+    private Paint greenPaint;
+    private Paint grayPaint;
+    private Paint whitePaint;
+    private Paint yellowPaint;
+    private Paint magentaPaint;
+    private Paint merchPaint;
+
+    // private Paint
+    private void iniPaint() {
+        textPaint = new Paint();
+        defPaint = new Paint();
+        merchPaint = new Paint();
+        textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
+        textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+
+        redPaint = new Paint();
+        redPaint.setColor(Color.RED);
+        greenPaint = new Paint();
+        greenPaint.setColor(getResources().getColor(R.color.dark_green));
+        grayPaint = new Paint();
+        grayPaint.setColor(getResources().getColor(R.color.def_gray));
+
+        whitePaint = new Paint();
+        whitePaint.setColor(Color.WHITE);
+        yellowPaint = new Paint();
+        yellowPaint.setColor(Color.YELLOW);
+        magentaPaint = new Paint();
+        magentaPaint.setColor(Color.MAGENTA);
     }
 
     /*
@@ -181,16 +216,18 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             isB = true;
         }
         if (showDetails && mStartX > 3) {
-            Paint textPaintFor = new Paint();
-            textPaintFor.setStyle(Paint.Style.FILL);// 充满
-            textPaintFor.setColor(Color.WHITE);
-            textPaintFor.setAntiAlias(true);
-            FontMetrics fm = textPaintFor.getFontMetrics();
+            // Paint textPaintFor = new Paint();
+            // defPaint.setStyle(Paint.Style.FILL);// 充满
+            // defPaint.setColor(Color.WHITE);
+            // defPaint.setAntiAlias(true);
+            // FontMetrics fm = defPaint.getFontMetrics();
             // int textTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-            Paint p = new Paint();
+            // Paint p = new Paint();
+
+            defPaint.reset();
             Rect rects = new Rect();
-            p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            p.getTextBounds("正", 0, "正".length(), rects);
+            defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            defPaint.getTextBounds("正", 0, "正".length(), rects);
             int textTextHeight = rects.height();
             int textMargin = getResources().getDimensionPixelSize(R.dimen.float_text_margin);
             int addNum = MIN_CANDLE_NUM - mOHLCData.size();
@@ -199,24 +236,26 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             float top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin;
             float right = 3.0f + 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT + 10 + textMargin;
             float bottom = 5.0f + 9 * textTextHeight + textMargin * 10;
-            /*if (mOHLCData.size() < MIN_CANDLE_NUM) {
-                if (mStartX - addNum * (mCandleWidth + CANDLE_PADDING) < (width / 2.0f + PADDING_LEFT)) {
-                    right = width - 12.0f + PADDING_LEFT;
-                    left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
-                }
-            } else {*/
+            /*
+             * if (mOHLCData.size() < MIN_CANDLE_NUM) {
+             * if (mStartX - addNum * (mCandleWidth + CANDLE_PADDING) < (width / 2.0f + PADDING_LEFT)) {
+             * right = width - 12.0f + PADDING_LEFT;
+             * left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
+             * }
+             * } else {
+             */
             if (mStartX < width / 2.0f) {
                 right = width - 12.0f + PADDING_LEFT;
                 left = width - 12.0f - 9 * DEFAULT_AXIS_TITLE_SIZE + PADDING_LEFT;
             }
-            //}
+            // }
 
-            int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);            
+            int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
             if (mOHLCData.size() < MIN_CANDLE_NUM) {
                 selectIndext = (int) ((width - 2.0f - mStartX - addNum * (mCandleWidth + CANDLE_PADDING))
                         / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
             }
-            if(selectIndext < 0){
+            if (selectIndext < 0) {
                 selectIndext = 0;
             }
             double rate = (getUperChartHeight() - 2) / (mMaxPrice - mMinPrice);
@@ -226,14 +265,16 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 startX = (float) (width - 3 - (mCandleWidth + CANDLE_PADDING) * (selectIndext - mDataStartIndext)
                         - (mCandleWidth - 1) / 2 - addNum * (mCandleWidth + CANDLE_PADDING));
             }
-            Paint textPaint = new Paint();
-            textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            textPaint.setColor(Color.RED);
-            // textPaint.setFakeBoldText(true);
-            textPaint.setAntiAlias(true);
+
+            // Paint tPiant = new Paint();
+            // tPiant.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            // tPiant.setColor(Color.RED);
+            // // textPaint.setFakeBoldText(true);
+            // tPiant.setAntiAlias(true);
+
             if (null != mOHLCData.get(selectIndext).getInfo() && mOHLCData.get(selectIndext).getInfo().length() > 0) {
-                p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                p.getTextBounds(mOHLCData.get(selectIndext).getInfo(), 0, mOHLCData.get(selectIndext).getInfo()
+                defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                defPaint.getTextBounds(mOHLCData.get(selectIndext).getInfo(), 0, mOHLCData.get(selectIndext).getInfo()
                         .length(), rects);
                 left = 3.0f + PADDING_LEFT + 10 + textMargin;
                 top = 5.0f + DEFAULT_AXIS_TITLE_SIZE + 10 + textMargin * 2 + textTextHeight;
@@ -260,21 +301,28 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         leftInfo = width - 12.0f - rects.width() + PADDING_LEFT;
                     }
                 }
+
+                defPaint.reset();
+                defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                defPaint.setColor(Color.RED);
+                // textPaint.setFakeBoldText(true);
+                defPaint.setAntiAlias(true);
                 canvas.drawText(mOHLCData.get(selectIndext).getInfo(), leftInfo + 1, top - textMargin - textTextHeight,
-                        textPaint);
+                        defPaint);
             }
             // 绘制点击线条及详情区域
-            Paint paint = new Paint();
-            paint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
-            paint.setAntiAlias(true);
-            paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
+            // Paint paint = new Paint();
+            defPaint.reset();
+            defPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.blue_line));
+            defPaint.setAntiAlias(true);
+            defPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_ten_width));
             // paint.setAlpha(150);
             e.setLocation(startX, startX);
             mVolumnChartView.setIndex(mDataStartIndext);
             mVolumnChartView.onSet(e, ismove);
             canvas.drawLine(startX + PADDING_LEFT, 2.0f + DEFAULT_AXIS_TITLE_SIZE, startX + PADDING_LEFT,
-                    UPER_CHART_BOTTOM, paint);
-            canvas.drawLine(PADDING_LEFT, cl, this.getWidth(), cl, paint);// 十字光标横线
+                    UPER_CHART_BOTTOM, defPaint);
+            canvas.drawLine(PADDING_LEFT, cl, this.getWidth(), cl, defPaint);// 十字光标横线
             /*
              * if(mOHLCData.size() < MIN_CANDLE_NUM){
              * canvas.drawLine((int)(mStartX - addNum * (mCandleWidth + 3)), getHeight() - 2.0f, (int)(mStartX - addNum
@@ -284,47 +332,53 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
              * }
              */
 
-            Rect rect = new Rect((int) left, (int) top, (int) (right + 4), (int) (bottom + 4));
+            // Rect rect = new Rect((int) left, (int) top, (int) (right + 4), (int) (bottom + 4));
             // 由于图片的实际尺寸比显示出来的图像要大一些，因此需要适当更改下大小，以达到较好的效果
-            Paint paint1 = new Paint();
-            paint1.setColor(Color.WHITE);
-            paint1.setAntiAlias(true);// 去除锯齿。
-            paint1.setShadowLayer(5f, 5.0f, 5.0f, Color.BLACK); // 设置阴影层，这是关键。
-            paint1.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-            RectF rectF = new RectF(rect);
-            paint.setColor(Color.WHITE);
+            // Paint paint1 = new Paint();
+            // paint1.setColor(Color.WHITE);
+            // paint1.setAntiAlias(true);// 去除锯齿。
+            // paint1.setShadowLayer(5f, 5.0f, 5.0f, Color.BLACK); // 设置阴影层，这是关键。
+            // paint1.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+            // RectF rectF = new RectF(rect);
+            defPaint.setColor(Color.WHITE);
             // canvas.drawRoundRect(rectF, 10f, 10f, paint1);
-            RectF rectF2 = new RectF((int) left, (int) top, (int) (right), (int) (bottom));
-            paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+            // RectF rectF2 = new RectF((int) left, (int) top, (int) (right), (int) (bottom));
+            defPaint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
             // canvas.drawRoundRect(rectF2, 10f, 10f, paint);
-            Paint selectPaint = new Paint();
-            selectPaint.setAntiAlias(true);// 设置画笔的锯齿效果
-            selectPaint.setStyle(Paint.Style.FILL);// 充满
-            selectPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
+            // Paint selectPaint =new Paint();
+            merchPaint.reset();
+            merchPaint.setAntiAlias(true);// 设置画笔的锯齿效果
+            merchPaint.setStyle(Paint.Style.FILL);// 充满
+            merchPaint.setColor(PortfolioApplication.getInstance().getResources().getColor(R.color.white_lucenty));
             RectF oval3 = new RectF(left - textMargin, top - textMargin, right, bottom);// 设置个新的长方形
-            canvas.drawRoundRect(oval3, 20, 15, selectPaint);// 第二个参数是x半径，第三个参数是y半径
+            canvas.drawRoundRect(oval3, 20, 15, merchPaint);// 第二个参数是x半径，第三个参数是y半径
 
-            selectPaint.setStyle(Paint.Style.STROKE);// 描边
-            selectPaint.setStrokeWidth(2);
-            selectPaint.setColor(Color.LTGRAY);
-            canvas.drawRoundRect(oval3, 20, 15, selectPaint);
+            merchPaint.setStyle(Paint.Style.STROKE);// 描边
+            merchPaint.setStrokeWidth(2);
+            merchPaint.setColor(Color.LTGRAY);
+            canvas.drawRoundRect(oval3, 20, 15, merchPaint);
 
-            Paint borderPaint = new Paint();
-            borderPaint.setColor(Color.LTGRAY);
-            borderPaint.setStrokeWidth(2);
+            // Paint borderPaint = new Paint();
+            // borderPaint.setColor(Color.LTGRAY);
+            // borderPaint.setStrokeWidth(2);
             // canvas.drawLine(left, top, left, bottom, borderPaint);
             // canvas.drawLine(left, top, right, top, borderPaint);
             // canvas.drawLine(right, bottom, right, top, borderPaint);
             // canvas.drawLine(right, bottom, left, bottom, borderPaint);
 
             // 绘制详情文字
-            textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            textPaint.setColor(Color.DKGRAY);
+            defPaint.reset();
+            defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            defPaint.setColor(Color.RED);
             // textPaint.setFakeBoldText(true);
-            textPaint.setAntiAlias(true);
-            canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top + textMargin, textPaint);
+            defPaint.setAntiAlias(true);
+            defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            defPaint.setColor(Color.DKGRAY);
+            // textPaint.setFakeBoldText(true);
+            defPaint.setAntiAlias(true);
+            canvas.drawText("日期: " + mOHLCData.get(selectIndext).getDate(), left + 1, top + textMargin, defPaint);
 
-            canvas.drawText("开盘:", left + 1, top + textTextHeight + textMargin * 2, textPaint);
+            canvas.drawText("开盘:", left + 1, top + textTextHeight + textMargin * 2, defPaint);
             double open = mOHLCData.get(selectIndext).getOpen();
             try {
                 double ysdclose = mOHLCData.get(selectIndext + 1).getClose();
@@ -335,18 +389,18 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 }
                 if (!isB) {
                     canvas.drawText(new DecimalFormat("0.00").format(open), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f,
-                            top + textTextHeight + textMargin * 2, textPaint);
+                            top + textTextHeight + textMargin * 2, defPaint);
                 } else {
                     canvas.drawText(new DecimalFormat("0.000").format(open), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f,
-                            top + textTextHeight + textMargin * 2, textPaint);
+                            top + textTextHeight + textMargin * 2, defPaint);
                 }
             } catch (Exception e) {
                 canvas.drawText(new DecimalFormat("0.00").format(open), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top
-                        + textTextHeight + textMargin * 2, textPaint);
+                        + textTextHeight + textMargin * 2, defPaint);
             }
 
             // textPaint.setColor(Color.DKGRAY);
-            canvas.drawText("最高:", left + 1, top + textTextHeight * 2 + textMargin * 3, textPaint);
+            canvas.drawText("最高:", left + 1, top + textTextHeight * 2 + textMargin * 3, defPaint);
             double high = mOHLCData.get(selectIndext).getHigh();
             if (open < high) {
                 // textPaint.setColor(Color.DKGRAY);
@@ -355,13 +409,13 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
             if (!isB) {
                 canvas.drawText(new DecimalFormat("0.00").format(high), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top
-                        + textTextHeight * 2 + textMargin * 3, textPaint);
+                        + textTextHeight * 2 + textMargin * 3, defPaint);
             } else {
                 canvas.drawText(new DecimalFormat("0.000").format(high), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top
-                        + textTextHeight * 2 + textMargin * 3, textPaint);
+                        + textTextHeight * 2 + textMargin * 3, defPaint);
             }
             // textPaint.setColor(Color.DKGRAY);
-            canvas.drawText("最低:", left + 1, top + textTextHeight * 3 + textMargin * 4, textPaint);
+            canvas.drawText("最低:", left + 1, top + textTextHeight * 3 + textMargin * 4, defPaint);
             double low = mOHLCData.get(selectIndext).getLow();
             try {
                 double yesterday = (mOHLCData.get(selectIndext + 1).getLow() + mOHLCData.get(selectIndext + 1)
@@ -376,13 +430,13 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
             if (!isB) {
                 canvas.drawText(new DecimalFormat("0.00").format(low), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top
-                        + textTextHeight * 3 + textMargin * 4, textPaint);
+                        + textTextHeight * 3 + textMargin * 4, defPaint);
             } else {
                 canvas.drawText(new DecimalFormat("0.000").format(low), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top
-                        + textTextHeight * 3 + textMargin * 4, textPaint);
+                        + textTextHeight * 3 + textMargin * 4, defPaint);
             }
             // textPaint.setColor(Color.DKGRAY);
-            canvas.drawText("收盘:", left + 1, top + textTextHeight * 4 + textMargin * 5, textPaint);
+            canvas.drawText("收盘:", left + 1, top + textTextHeight * 4 + textMargin * 5, defPaint);
             double close = mOHLCData.get(selectIndext).getClose();
             try {
                 double yesdopen = (mOHLCData.get(selectIndext + 1).getLow() + mOHLCData.get(selectIndext + 1).getHigh()) / 2.0f;
@@ -396,21 +450,21 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
             if (!isB) {
                 canvas.drawText(new DecimalFormat("0.00").format(close), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top
-                        + textTextHeight * 4 + textMargin * 5, textPaint);
+                        + textTextHeight * 4 + textMargin * 5, defPaint);
             } else {
                 canvas.drawText(new DecimalFormat("0.000").format(close), left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f,
-                        top + textTextHeight * 4 + textMargin * 5, textPaint);
+                        top + textTextHeight * 4 + textMargin * 5, defPaint);
             }
 
             // textPaint.setColor(Color.DKGRAY);
-            canvas.drawText("涨跌:", left + 1, top + textTextHeight * 5 + textMargin * 6, textPaint);
+            canvas.drawText("涨跌:", left + 1, top + textTextHeight * 5 + textMargin * 6, defPaint);
             try {
                 if (!isB) {
                     canvas.drawText(new DecimalFormat("0.00").format(mOHLCData.get(selectIndext).getChange()), left + 1
-                            + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 5 + textMargin * 6, textPaint);
+                            + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 5 + textMargin * 6, defPaint);
                 } else {
                     canvas.drawText(new DecimalFormat("0.000").format(mOHLCData.get(selectIndext).getChange()), left
-                            + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 5 + textMargin * 6, textPaint);
+                            + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 5 + textMargin * 6, defPaint);
                 }
             } catch (Exception e) {
                 /*
@@ -420,27 +474,25 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
 
             // textPaint.setColor(Color.DKGRAY);
-            canvas.drawText("涨幅:", left + 1, top + textTextHeight * 6 + textMargin * 7, textPaint);
+            canvas.drawText("涨幅:", left + 1, top + textTextHeight * 6 + textMargin * 7, defPaint);
             try {
                 canvas.drawText(new DecimalFormat("0.00").format(mOHLCData.get(selectIndext).getPercentage()) + "%",
-                        left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 6 + textMargin * 7, textPaint);
+                        left + 1 + DEFAULT_AXIS_TITLE_SIZE * 2.5f, top + textTextHeight * 6 + textMargin * 7, defPaint);
             } catch (Exception e) {
                 canvas.drawText("--", left + 1 + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + DEFAULT_AXIS_TITLE_SIZE * 6.0f,
-                        textPaint);
+                        defPaint);
             }
 
             // textPaint.setColor(Color.DKGRAY);
-            canvas.drawText("成交量:", left + 1, top + textTextHeight * 7 + textMargin * 8, textPaint);
+            canvas.drawText("成交量:", left + 1, top + textTextHeight * 7 + textMargin * 8, defPaint);
             canvas.drawText(UIUtils.getValue(mOHLCData.get(selectIndext).getVolume()), left + 1
-                    + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight * 7 + textMargin * 8, textPaint);
+                    + DEFAULT_AXIS_TITLE_SIZE * 3.5f, top + textTextHeight * 7 + textMargin * 8, defPaint);
         }
 
     }
 
     private void drawTitles(Canvas canvas) {
-        Paint textPaint = new Paint();
-        textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
-        textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+
         if (null == symbolType) {
             return;
         }
@@ -463,10 +515,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 t = t.substring(0, 5);
                             }
                         }
-                        Paint p = new Paint();
+                        // Paint p = new Paint();
+                        defPaint.reset();
                         Rect rect = new Rect();
-                        p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        p.getTextBounds(t, 0, t.length(), rect);
+                        defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                        defPaint.getTextBounds(t, 0, t.length(), rect);
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
                                 * i, textPaint);
                     } else {
@@ -483,10 +536,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 t = t.substring(0, 5);
                             }
                         }
-                        Paint p = new Paint();
+                        defPaint.reset();
                         Rect rect = new Rect();
-                        p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        p.getTextBounds(t, 0, t.length(), rect);
+                        defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                        defPaint.getTextBounds(t, 0, t.length(), rect);
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
                                 * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
                     }
@@ -505,10 +558,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     t = t.substring(0, 5);
                 }
             }
-            Paint p = new Paint();
+            defPaint.reset();
             Rect rect = new Rect();
-            p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            p.getTextBounds(t, 0, t.length(), rect);
+            defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            defPaint.getTextBounds(t, 0, t.length(), rect);
             canvas.drawText(t, PADDING_LEFT - rect.width() - 3, DEFAULT_AXIS_TITLE_SIZE * 2 + 2, textPaint);
         }
 
@@ -534,12 +587,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         // 绘制蜡烛图
 
         try {
-            Paint redPaint = new Paint();
-            redPaint.setColor(Color.RED);
-            Paint greenPaint = new Paint();
-            greenPaint.setColor(getResources().getColor(R.color.dark_green));
-            Paint grayPaint = new Paint();
-            grayPaint.setColor(getResources().getColor(R.color.def_gray));
+
             int width = getWidth() - PADDING_LEFT;
             float tempFloatNum = mShowDataNum;
             mCandleWidth = (width - CANDLE_PADDING) / tempFloatNum - CANDLE_PADDING;
@@ -582,17 +630,18 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         canvas.drawLine(startX, highCoorid, startX, lowCoorid, redPaint);
                     }
                     if (null != entity.getInfo() && entity.getInfo().length() > 0) {
-                        Paint p = new Paint();
-                        p.setAntiAlias(true);
-                        p.setStyle(Paint.Style.FILL);
-                        p.setColor(getResources().getColor(R.color.ma10_color));
+                        // Paint p = new Paint();
+                        defPaint.reset();
+                        defPaint.setAntiAlias(true);
+                        defPaint.setStyle(Paint.Style.FILL);
+                        defPaint.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if (mCandleWidth < 3f) {
                             wid = 3f;
                         } else {
                             wid = (float) (mCandleWidth / 2);
                         }
-                        canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, p);
+                        canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, defPaint);
                     }
                 }
                 // 绘制上部曲线图及上部分MA值
@@ -604,10 +653,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
                     float startX = PADDING_LEFT;
                     float startY = 0;
-                    Paint paint = new Paint();
-                    paint.setColor(lineEntity.getLineColor());
-                    paint.setAntiAlias(true);
-                    paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                    // Paint paint = new Paint();
+                    defPaint.reset();
+                    defPaint.setColor(lineEntity.getLineColor());
+                    defPaint.setAntiAlias(true);
+                    defPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                     int selectIndext = (int) ((width - 2.0f - mStartX) / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
                     mVolumnChartView.setCurrentIndex(selectIndext);
                     mVolumnChartView.setmShowDate(mShowDataNum);
@@ -622,10 +672,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     if (lineEntity.getLineData().get(selectIndext) == 0) {
                         text = lineEntity.getTitle() + ":--";
                     }
-                    Paint p = new Paint();
+                    // Paint p = new Paint();
+                    merchPaint.reset();
                     Rect rect = new Rect();
-                    p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-                    p.getTextBounds(text, 0, text.length(), rect);
+                    merchPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                    merchPaint.getTextBounds(text, 0, text.length(), rect);
                     if (j == 0) {
                         wid = 2;
                     }/*
@@ -633,9 +684,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                       * wid = 2 + rect.width()*2/3 + wid + 5;
                       * }
                       */
-                    canvas.drawText(text, wid + PADDING_LEFT, DEFAULT_AXIS_TITLE_SIZE, paint);
+                    canvas.drawText(text, wid + PADDING_LEFT, DEFAULT_AXIS_TITLE_SIZE, defPaint);
                     wid = wid + 32 + rect.width();
-                    paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
+                    defPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                     for (int i = 0; i < mShowDataNum && mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
                         if (i != 0) {
                             if (!(startY == (float) (mMaxPrice * rate) || (null != lineEntity.getLineData().get(
@@ -643,7 +694,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 canvas.drawLine(startX, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
                                         - (CANDLE_PADDING + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT),
                                         (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i))
-                                                * rate + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
+                                                * rate + DEFAULT_AXIS_TITLE_SIZE + 4), defPaint);
                             }
                         }
                         startX = (float) (width - 2 - (CANDLE_PADDING + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT);
@@ -696,17 +747,18 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         canvas.drawLine(startX, high, startX, low, redPaint);
                     }
                     if (null != entity.getInfo() && entity.getInfo().length() > 0) {
-                        Paint p = new Paint();
-                        p.setAntiAlias(true);
-                        p.setStyle(Paint.Style.FILL);
-                        p.setColor(getResources().getColor(R.color.ma10_color));
+                        // Paint p = new Paint();
+                        defPaint.reset();
+                        defPaint.setAntiAlias(true);
+                        defPaint.setStyle(Paint.Style.FILL);
+                        defPaint.setColor(getResources().getColor(R.color.ma10_color));
                         float wid = 0;
                         if (mCandleWidth < 3f) {
                             wid = 3f;
                         } else {
                             wid = (float) (mCandleWidth / 2);
                         }
-                        canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, p);
+                        canvas.drawCircle(startX, (float) (UPER_CHART_BOTTOM - mCandleWidth), wid, defPaint);
                     }
                 }
 
@@ -717,13 +769,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
                     float startX = 0;
                     float startY = 0;
-                    Paint paint = new Paint();
-                    paint.setColor(lineEntity.getLineColor());
-                    paint.setAntiAlias(true);
-                    paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                    // Paint paint = new Paint();
+                    defPaint.reset();
+                    defPaint.setColor(lineEntity.getLineColor());
+                    defPaint.setAntiAlias(true);
+                    defPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                     int selectIndext = (int) ((width - 2.0f - mStartX - mCandleWidth * addNum - CANDLE_PADDING * addNum)
                             / (mCandleWidth + CANDLE_PADDING) + mDataStartIndext);
-                    if(selectIndext < 0){
+                    if (selectIndext < 0) {
                         selectIndext = 0;
                     }
                     mVolumnChartView.setCurrentIndex(selectIndext);
@@ -735,21 +788,22 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
                                         selectIndext - mDataStartIndext));
-                    if(lineEntity.getLineData().get(selectIndext) == 0){
+                    if (lineEntity.getLineData().get(selectIndext) == 0) {
                         text = lineEntity.getTitle() + ":--";
                     }
-                    Paint p = new Paint();
+                    // Paint p = new Paint();
+                    merchPaint.reset();
                     Rect rect = new Rect();
-                    p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
-                    p.getTextBounds(text, 0, text.length(), rect);
+                    merchPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
+                    merchPaint.getTextBounds(text, 0, text.length(), rect);
                     if (j == 0) {
                         wid = 2;
                     } else {
                         // wid = 2 + rect.width()*2/3 + wid + 5;
                     }
-                    canvas.drawText(text, wid + PADDING_LEFT, DEFAULT_AXIS_TITLE_SIZE, paint);
+                    canvas.drawText(text, wid + PADDING_LEFT, DEFAULT_AXIS_TITLE_SIZE, defPaint);
                     wid = wid + 32 + rect.width();
-                    paint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
+                    defPaint.setStrokeWidth(getResources().getDimensionPixelOffset(R.dimen.line_kline));
                     for (int i = 0; i < mShowDataNum && mDataStartIndext + i < lineEntity.getLineData().size(); i++) {
                         if (i != 0) {
                             if (!(startY == (float) (mMaxPrice * rate) || (null != lineEntity.getLineData().get(
@@ -759,7 +813,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                                                 - mCandleWidth * 0.5f + PADDING_LEFT), (float) ((mMaxPrice - lineEntity
                                                 .getLineData().get(mDataStartIndext + i))
                                                 * rate
-                                                + DEFAULT_AXIS_TITLE_SIZE + 4), paint);
+                                                + DEFAULT_AXIS_TITLE_SIZE + 4), defPaint);
                             }
                         }
                         startX = (float) (width - 2 - (CANDLE_PADDING + mCandleWidth) * (i + addNum) - mCandleWidth * 0.5f);
@@ -791,16 +845,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         // MACDData mMACDData;
         // KDJData mKDJData;
         // RSIData mRSIData;
-        Paint whitePaint = new Paint();
-        whitePaint.setColor(Color.WHITE);
-        Paint yellowPaint = new Paint();
-        yellowPaint.setColor(Color.YELLOW);
-        Paint magentaPaint = new Paint();
-        magentaPaint.setColor(Color.MAGENTA);
 
-        Paint textPaint = new Paint();
-        textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
-        textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+        // Paint textPaint = new Paint();
+        defPaint.reset();
+        defPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
+        defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
         if (mTabTitle.trim().equalsIgnoreCase("MACD")) {
             List<Double> MACD = mMACDData.getMACD();
             List<Double> DEA = mMACDData.getDEA();
@@ -820,7 +869,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
             rate = lowerHight / (high - low);
 
-            Paint paint = new Paint();
+            // Paint paint = new Paint();
+            merchPaint.reset();
             float zero = (float) (high * rate) + lowertop;
             if (zero < lowertop) {
                 zero = lowertop;
@@ -831,26 +881,26 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             for (int i = mDataStartIndext; i < mDataStartIndext + mShowDataNum && i < MACD.size(); i++) {
                 // 绘制矩形
                 if (MACD.get(i) >= 0.0) {
-                    paint.setColor(Color.RED);
+                    merchPaint.setColor(Color.RED);
                     float top = (float) ((high - MACD.get(i)) * rate) + lowertop;
                     if (zero - top < 0.55f) {
                         canvas.drawLine(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext), zero,
-                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), zero, paint);
+                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), zero, merchPaint);
                     } else {
                         canvas.drawRect(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext), top,
-                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), zero, paint);
+                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), zero, merchPaint);
                     }
 
                 } else {
-                    paint.setColor(getResources().getColor(R.color.dark_green));
+                    merchPaint.setColor(getResources().getColor(R.color.dark_green));
                     float bottom = (float) ((high - MACD.get(i)) * rate) + lowertop;
 
                     if (bottom - zero < 0.55f) {
                         canvas.drawLine(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext), zero,
-                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), zero, paint);
+                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), zero, merchPaint);
                     } else {
                         canvas.drawRect(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext), zero,
-                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), bottom, paint);
+                                viewWidth - 2 - (float) mCandleWidth * (i - mDataStartIndext), bottom, merchPaint);
                     }
                 }
 
@@ -868,11 +918,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 dif = (float) ((high - DIF.get(i)) * rate) + lowertop;
             }
 
-            canvas.drawText(new DecimalFormat("0.00").format(high), 2, lowertop + DEFAULT_AXIS_TITLE_SIZE - 2,
-                    textPaint);
+            canvas.drawText(new DecimalFormat("0.00").format(high), 2, lowertop + DEFAULT_AXIS_TITLE_SIZE - 2, defPaint);
             canvas.drawText(new DecimalFormat("0.00").format((high + low) / 2), 2, lowertop + lowerHight / 2
-                    + DEFAULT_AXIS_TITLE_SIZE, textPaint);
-            canvas.drawText(new DecimalFormat("0.00").format(low), 2, lowertop + lowerHight, textPaint);
+                    + DEFAULT_AXIS_TITLE_SIZE, defPaint);
+            canvas.drawText(new DecimalFormat("0.00").format(low), 2, lowertop + lowerHight, defPaint);
 
         } else if (mTabTitle.trim().equalsIgnoreCase("KDJ")) {
             List<Double> Ks = mKDJData.getK();
@@ -917,11 +966,10 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 j = (float) ((high - Js.get(i)) * rate) + lowertop;
             }
 
-            canvas.drawText(new DecimalFormat("0.00").format(high), 2, lowertop + DEFAULT_AXIS_TITLE_SIZE - 2,
-                    textPaint);
+            canvas.drawText(new DecimalFormat("0.00").format(high), 2, lowertop + DEFAULT_AXIS_TITLE_SIZE - 2, defPaint);
             canvas.drawText(new DecimalFormat("0.00").format((high + low) / 2), 2, lowertop + lowerHight / 2
-                    + DEFAULT_AXIS_TITLE_SIZE, textPaint);
-            canvas.drawText(new DecimalFormat("0.00").format(low), 2, lowertop + lowerHight, textPaint);
+                    + DEFAULT_AXIS_TITLE_SIZE, defPaint);
+            canvas.drawText(new DecimalFormat("0.00").format(low), 2, lowertop + lowerHight, defPaint);
 
         } else if (mTabTitle.trim().equalsIgnoreCase("RSI")) {
 
@@ -939,12 +987,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         switch (event.getAction()) {
         // 设置触摸模式
             case MotionEvent.ACTION_DOWN:
-                if (null != mTouchListener) {
-                    mTouchListener.chartTounching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.chartTounching();
+                // }
+                getParent().requestDisallowInterceptTouchEvent(true);
+
                 mVolumnChartView.setTouch(true);
                 ismove = true;
-                go = true;
+                goToLand = true;
                 currentTime = System.currentTimeMillis();
                 // TOUCH_MODE = DOWN;
                 showDetails = false;
@@ -958,10 +1008,12 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         // TODO Auto-generated method stub
                         try {
                             Thread.sleep(300);
-                            if (go) {
-                                if (null != mTouchListener) {
-                                    mTouchListener.chartTounching();
-                                }
+                            if (goToLand) {
+                                // if (null != mTouchListener) {
+                                // mTouchListener.chartTounching();
+                                // }
+                                getParent().requestDisallowInterceptTouchEvent(true);
+
                                 mStartX = (int) (event.getX() - 2 * mCandleWidth - 6 - PADDING_LEFT);
                                 if (mOHLCData.size() < MIN_CANDLE_NUM) {
                                     mStartX = (int) (event.getX() - mCandleWidth - 3 - PADDING_LEFT);
@@ -980,21 +1032,29 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 t.start();
                 break;
             case MotionEvent.ACTION_UP:
-                if (null != mTouchListener) {
-                    mTouchListener.loseTouching();
-                }
+                // if (null != mTouchListener) {
+                // mTouchListener.loseTouching();
+                // }
+                getParent().requestDisallowInterceptTouchEvent(false);
+
                 mVolumnChartView.setTouch(false);
-                if (!showDetails && go) {
-                    Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
-                    context.startActivity(intent);
+                if (!showDetails && goToLand) {
+                    // Intent intent = KChartLandScapeActivity.newIntent(context, mStockBean, type);
+                    // context.startActivity(intent);
+                    // PromptManager.showToast("startActivity KChartLandScapeActivity");
+                    if (null != callBack) {
+                        callBack.stockMarkShow();
+                    }
                 }
                 showDetails = false;
-                go = false;
+                goToLand = false;
                 mStartX = getWidth() - 6 - PADDING_LEFT;
                 if (mOHLCData.size() < MIN_CANDLE_NUM) {
                     mStartX = (int) (getWidth() - 6 - (mCandleWidth + CANDLE_PADDING)
                             * (MIN_CANDLE_NUM - mOHLCData.size()) - PADDING_LEFT);
                 }
+                getParent().requestDisallowInterceptTouchEvent(false);
+
                 /*
                  * e.setLocation(getWidth() - 6, 0);
                  * mVolumnChartView.onSet(e,ismove,mDataStartIndext);
@@ -1004,11 +1064,13 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             case MotionEvent.ACTION_MOVE:
                 float horizontalSpacing = event.getX() - timeX;
                 float hor = event.getY() - timeY;
-                if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE && go) {
-                    go = false;
-                    if (null != mTouchListener) {
-                        mTouchListener.loseTouching();
-                    }
+                if (Math.abs(horizontalSpacing) > MIN_MOVE_DISTANCE || Math.abs(hor) > MIN_MOVE_DISTANCE && goToLand) {
+                    goToLand = false;
+                    // if (null != mTouchListener) {
+                    // mTouchListener.loseTouching();
+                    // }
+                    getParent().requestDisallowInterceptTouchEvent(false);
+
                 }
                 Log.e("hor", hor + " ----" + horizontalSpacing);
                 /*
@@ -1028,9 +1090,11 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                  * }
                  */
                 if (showDetails) {
-                    if (null != mTouchListener) {
-                        mTouchListener.chartTounching();
-                    }
+                    // if (null != mTouchListener) {
+                    // mTouchListener.chartTounching();
+                    // }
+                    getParent().requestDisallowInterceptTouchEvent(true);
+
                     if (event.getX() - PADDING_LEFT >= 0) {
                         mStartX = event.getX() - PADDING_LEFT;
                         mStartY = event.getY();
@@ -1054,15 +1118,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         return true;
     }
 
-    private ITouchListener mTouchListener;
-
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
+    // private ITouchListener mTouchListener;
+    //
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
 
     private void setOnTouchOnce() {
         showDetails = false;
-        go = false;
+        goToLand = false;
         mStartX = getWidth() - 6 - PADDING_LEFT;
         if (mOHLCData.size() < MIN_CANDLE_NUM) {
             mStartX = (int) (getWidth() - 6 - (mCandleWidth + CANDLE_PADDING) * (MIN_CANDLE_NUM - mOHLCData.size()) - PADDING_LEFT);
@@ -1442,6 +1506,16 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    private StockViewCallBack callBack;
+
+    public StockViewCallBack getCallBack() {
+        return callBack;
+    }
+
+    public void setCallBack(StockViewCallBack callBack) {
+        this.callBack = callBack;
     }
 
 }

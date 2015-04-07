@@ -194,6 +194,22 @@ public class UserEngineImpl {
         }).start();
     }
 
+    public boolean hasUserLogin() {
+
+        try {
+            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            if (user == null) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+
+            return false;
+        }
+    }
+
     public void setUserHead(File file, ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("avatar", file);

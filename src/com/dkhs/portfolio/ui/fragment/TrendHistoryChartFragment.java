@@ -125,10 +125,6 @@ public class TrendHistoryChartFragment extends BaseFragment {
             mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
             pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
             pb.setVisibility(View.VISIBLE);
-            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
-                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-                mMaChart.setScroll(mScrollview);
-            }
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);
@@ -155,40 +151,7 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     private void initMaChart(final TrendChart machart) {
         machart.setBoldLine();
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-
-        machart.setDisplayBorder(false);
-
-        machart.setLatitudeColor(Color.LTGRAY);
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-        machart.setBorderColor(Color.TRANSPARENT);
-        machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(10);
-        machart.setAxisMarginRight(10);
-
-        machart.setLongtitudeFontSize(10);
-        machart.setLongtitudeFontColor(Color.GRAY);
-        machart.setDisplayAxisYTitleColor(true);
-        machart.setLatitudeColor(Color.GRAY);
-        machart.setLatitudeFontColor(Color.GRAY);
-        machart.setLongitudeColor(Color.GRAY);
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
         setInitYTitle();
-
-        machart.setDisplayAxisXTitle(true);
-        machart.setDisplayAxisYTitle(true);
-        machart.setDisplayLatitude(true);
-        machart.setDisplayLongitude(true);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
 
     }
 
@@ -288,6 +251,12 @@ public class TrendHistoryChartFragment extends BaseFragment {
             }
 
         }
+        
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            pb.setVisibility(View.GONE);
+        };
     };
 
     public class DrawLineDataEntity {
@@ -399,24 +368,28 @@ public class TrendHistoryChartFragment extends BaseFragment {
         int dashLineSize = 0;
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
-        int dataLenght = historyNetList.size();
-        for (int i = 0; i < dataLenght; i++) {
-            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            float value = todayBean.getNetvalue();
-            pointEntity.setValue(value);
-            pointEntity.setTime("日期: " + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
+        int dataLenght = 0;
+        if (null != historyNetList) {
+
+            dataLenght = historyNetList.size();
+            for (int i = 0; i < dataLenght; i++) {
+                TrendLinePointEntity pointEntity = new TrendLinePointEntity();
+                HistoryNetBean todayBean = historyNetList.get(i);
+                float value = todayBean.getNetvalue();
+                pointEntity.setValue(value);
+                pointEntity.setTime("日期: " + todayBean.getDate());
+                pointEntity.setIncreaseRange(todayBean.getPercentageBegin());
+                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                        dashLineSize = i;
+                    }
                 }
-            }
-            lineData.dataList.add(pointEntity);
-            if (value > maxNum) {
-                maxNum = value;
-            } else if (value < minNum) {
-                minNum = value;
+                lineData.dataList.add(pointEntity);
+                if (value > maxNum) {
+                    maxNum = value;
+                } else if (value < minNum) {
+                    minNum = value;
+                }
             }
         }
         float offetValue;
