@@ -54,6 +54,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private final static int MAX_CANDLE_NUM = 300;
     /** 最小可识别的移动距离 */
     private final static int MIN_MOVE_DISTANCE = 15;
+    protected static final String TAG = "KChartsLandView";
 
     /** Candle宽度 */
     private float mCandleWidth;
@@ -556,7 +557,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     private void drawUpperRegion(Canvas canvas) {
         // 绘制蜡烛图
-
+        Log.e(TAG, "dragValue:" + dragValue);
         try {
             // Paint redPaint = new Paint();
             // redPaint.setColor(Color.RED);
@@ -623,22 +624,22 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 defPaint);
                     }
                     if (dragValue > 0) {
-                        // Paint paint = new Paint();
-                        // defPaint.reset();
-                        // defPaint.setColor(getResources().getColor(R.color.def_gray));
-                        // defPaint.setAntiAlias(true);
-                        // defPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
-                        // Rect rect = new Rect();
-                        // defPaint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
-                        // float we = 0;
-                        // if (rect.width() <= dragValue) {
-                        // we = (float) (PADDING_LEFT + dragValue - rect.width());
-                        // // canvas.drawText(textforFlush, we, getHeight() / 2, paint);
-                        // } else {
-                        // int k = textforFlush.length() - (int) (textforFlush.length() * dragValue / rect.width());
-                        // // canvas.drawText(textforFlush, k, textforFlush.length(), PADDING_LEFT, getHeight() / 2,
-                        // // paint);
-                        // }
+                        Paint paint = new Paint();
+                        paint.reset();
+                        paint.setColor(getResources().getColor(R.color.def_gray));
+                        paint.setAntiAlias(true);
+                        paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
+                        Rect rect = new Rect();
+                        paint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
+                        float we = 0;
+                        if (rect.width() <= dragValue) {
+                            we = (float) (PADDING_LEFT + dragValue - rect.width());
+                            // canvas.drawText(textforFlush, we, getHeight() / 2, paint);
+                        } else {
+                            int k = textforFlush.length() - (int) (textforFlush.length() * dragValue / rect.width());
+                            // canvas.drawText(textforFlush, k, textforFlush.length(), PADDING_LEFT, getHeight() / 2,
+                            // paint);
+                        }
 
                     }
                 }
@@ -1103,18 +1104,21 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                      */
                     postInvalidate();
                     // Paint paint = new Paint();
-                    merchPaint.reset();
-                    merchPaint.setColor(getResources().getColor(R.color.def_gray));
-                    merchPaint.setAntiAlias(true);
-                    merchPaint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
+                    Paint paint = new Paint();
+                    paint.setColor(getResources().getColor(R.color.def_gray));
+                    paint.setAntiAlias(true);
+                    paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
                     textforFlush = "加载数据";
                     final Rect rect = new Rect();
-                    merchPaint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
+                    paint.getTextBounds(textforFlush, 0, textforFlush.length(), rect);
+
+                    /* 拉拽计算，平滑回弹效果 */
                     Thread tk = new Thread(new Runnable() {
 
                         @Override
                         public void run() {
                             // TODO Auto-generated method stub
+
                             int tmp = (int) (dragValue / 4);
                             boolean show = true;
                             if (dragValue < rect.width()) {
@@ -1125,12 +1129,16 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             int k = 0;
                             while (dragValue >= tmp && dragValue > 0 && k < 4) {
                                 dragValue -= tmp;
+
+                                setDragValue(dragValue);
                                 if (k == 3 && show) {
-                                    dragValue = rect.width();
+                                    // dragValue = rect.width();
                                     hisDrag = dragValue;
                                     if (loadMore) {
 
                                         if (null != mKCallBack) {
+                                            /*当需要显示加载更多的的时候，设置拖拽间距*/
+                                            setDragValue(rect.width());
                                             mKCallBack.loadMore();
                                             mKCallBack.onLoadMoreDataStart();
                                         }
@@ -1144,7 +1152,8 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 postInvalidate();
                                 mVolumnChartView.setDragValue(dragValue);
                                 if (dragValue < tmp && !show) {
-                                    dragValue = 0;
+                                    // dragValue = 0;
+                                    setDragValue(0);
                                 }
                                 k++;
                                 try {
@@ -1196,9 +1205,13 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             mVolumnChartView.setDragValue(dragValue);
                         } else {
                             if (mOHLCData.size() > MIN_CANDLE_NUM && hisDrag > 0 && dragValue > 0) {
-                                dragValue = (hisDrag + horizontalSpacing) / 2;
+                                // dragValue = (hisDrag + horizontalSpacing) / 2;
+
+                                setDragValue((hisDrag + horizontalSpacing) / 2);
+                                Log.e("xyxyxyx", " ---- MotionEvent.ACTION_MOVE  setDragValue:" + dragValue);
                             } else {
-                                dragValue = 0;
+                                // dragValue = 0;
+                                setDragValue(0);
                             }
                             mVolumnChartView.setDragValue(dragValue);
                         }
@@ -1526,6 +1539,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     public void setOHLCData(List<OHLCEntity> OHLCData, int page) {
         if (null != mKCallBack) {
             mKCallBack.onLoadMoreDataEnd();
+            // dragValue = 0;
+            /* 在加载更多完成之后，显示拖拽间距为0 */
+            setDragValue(0);
+            mVolumnChartView.setDragValue(0);
         }
         if (OHLCData == null || OHLCData.size() <= 0) {
             if (page > 1) {
@@ -1550,6 +1567,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                             setCurrentData();
                             postInvalidate();
                             mVolumnChartView.setDragValue(dragValue);
+
                             if (dragValue < tmp) {
                                 dragValue = 0;
                                 hisDrag = 0;
@@ -1772,6 +1790,14 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     public void setKChartsLandCallBack(KChartsLandCallBack mKCallBack) {
         this.mKCallBack = mKCallBack;
+    }
+
+    public double getDragValue() {
+        return dragValue;
+    }
+
+    public void setDragValue(double dragValue) {
+        this.dragValue = dragValue;
     }
 
 }

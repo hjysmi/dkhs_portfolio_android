@@ -2,11 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="8"
-<<<<<<< HEAD
-    android:versionName="1.4.0324" >
-=======
     android:versionName="1.4.0402" >
->>>>>>> 6a020689874b70e4f649dcfe451688f10604bb45
 
     <uses-sdk
         android:minSdkVersion="14"
