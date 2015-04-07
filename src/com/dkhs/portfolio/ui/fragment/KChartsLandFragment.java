@@ -473,13 +473,13 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
         public void run() {
             if (null != mLandCallBack) {
 
-                StockQuotesBean m = mLandCallBack.getStockQuotesBean();
-                if (null != m && UIUtils.roundAble(m)) {
-                    mMarketTimer.cancel();
-                }
-                String mtype = getKLineType();
-                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener,
-                        mLandCallBack.getCheckValue());
+                // StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                // if (null != m && UIUtils.roundAble(m)) {
+                // mMarketTimer.cancel();
+                // }
+                // String mtype = getKLineType();
+                // getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener,
+                // mLandCallBack.getCheckValue());
             }
         }
     }
@@ -701,6 +701,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void loadMore() {
+
+        Log.e(TAG, "------load more ------");
         loadMordKline();
 
     }
