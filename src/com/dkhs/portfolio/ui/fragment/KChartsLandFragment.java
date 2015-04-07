@@ -674,7 +674,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void onLoadMoreDataEnd() {
-
+        Log.e(TAG, "------onLoadMoreDataEnd ------");
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
