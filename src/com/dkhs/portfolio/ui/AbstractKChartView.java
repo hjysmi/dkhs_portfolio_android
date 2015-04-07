@@ -91,13 +91,16 @@ public abstract class AbstractKChartView extends BaseFragment {
 
     public List<OHLCEntity> getViewTypeData() {
         if (mViewType == TYPE_CHART_DAY) {
+            System.out.println("mKChartDataListener.getDayLineDatas size:"
+                    + mKChartDataListener.getDayLineDatas().size());
             return mKChartDataListener.getDayLineDatas();
         } else if (mViewType == TYPE_CHART_WEEK) {
             return mKChartDataListener.getWeekLineDatas();
         } else if (mViewType == TYPE_CHART_MONTH) {
             return mKChartDataListener.getMonthLineDatas();
+        } else {
+            return Collections.EMPTY_LIST;
         }
-        return Collections.EMPTY_LIST;
     }
 
     public void setViewTypeData(List<OHLCEntity> lineDatas) {
