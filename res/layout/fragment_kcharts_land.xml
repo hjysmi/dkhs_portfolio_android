@@ -85,6 +85,24 @@
             android:layout_marginBottom="1dp"
             android:layout_marginRight="10dp" />
 
+        <RelativeLayout
+            android:id="@+id/pb_loadmore"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_above="@id/chart_volumn"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="42dp"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <include
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                layout="@layout/progressbar" />
+        </RelativeLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

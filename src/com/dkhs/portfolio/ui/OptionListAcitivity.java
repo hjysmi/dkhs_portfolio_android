@@ -23,9 +23,10 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
+import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -53,18 +54,13 @@ public class OptionListAcitivity extends ModelAcitivity {
     private RelativeLayout pb;
 
     public SwipeRefreshLayout mSwipeLayout;
+    private ReportListForAllFragment loadDataListFragment;
 
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
-        setContentView(R.layout.activity_option_market_news);
-        context = this;
-        mDataList = new ArrayList<OptionNewsBean>();
-
-        iv = (TextView) findViewById(android.R.id.empty);
-        pb = (RelativeLayout) findViewById(android.R.id.progress);
-        pb.setVisibility(View.VISIBLE);
+        setContentView(R.layout.fragment_report_news);
         // iv.setText("暂无公告");
         Bundle extras = getIntent().getExtras();
         if (null != extras) {
@@ -72,8 +68,8 @@ public class OptionListAcitivity extends ModelAcitivity {
             type = extras.getString(TYPE);
             name = extras.getString(NAME);
         }
-        ((TextView) findViewById(R.id.tv_title)).setText("公告-" + name);
-        initDate();
+        ((TextView) findViewById(R.id.tv_title)).setText(name + "公告");
+        replaceDataList();
     }
 
     public static Intent newIntent(Context context, String symbolName, String type, String name) {
@@ -86,158 +82,212 @@ public class OptionListAcitivity extends ModelAcitivity {
         return intent;
     }
 
-    private void initDate() {
-        UserEntity user;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user != null) {
-                if (!TextUtils.isEmpty(user.getAccess_token())) {
-                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                }
-                String userId = user.getId() + "";
-                NewsforImpleEngine vo = new NewsforImpleEngine();
-                vo.setUserid(userId);
-                vo.setSymbol(symbol);
-                vo.setContentType(type);
-                mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
-                        OpitionNewsEngineImple.NEWSFOREACH, vo);
-                // mLoadDataEngine.setLoadingDialog(context);
-                mLoadDataEngine.loadData();
-                mLoadDataEngine.setFromYanbao(false);
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-
-    private void initView() {
-        mListView = (PullToRefreshListView) findViewById(android.R.id.list);
-
-        mListView.setEmptyView(iv);
-        mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
-        mListView.setAdapter(mOptionMarketAdapter);
-        mListView.setOnLoadListener(new OnLoadMoreListener() {
-
-            @Override
-            public void onLoadMore() {
-
-                loadMore();
-            }
-        });
-        // mListView.setOnScrollListener(new OnScrollListener() {
-        //
-        // @Override
-        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-        //
-        // switch (scrollState) {
-        // case OnScrollListener.SCROLL_STATE_IDLE:
-        //
-        // {
-        // // 判断是否滚动到底部
-        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-        //
-        //
-        // }
-        // }
-        //
-        // }
-        //
-        // }
-        //
-        // @Override
-        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        //
-        // }
-        // });
-        mListView.setOnItemClickListener(itemBackClick);
-
-        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
-        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeLayout.setRefreshing(false);
-                    }
-                }, 2000);
-
-            }
-        });
-    }
-
-    OnItemClickListener itemBackClick = new OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            // TODO Auto-generated method stub
+    private void replaceDataList() {
+        // view_datalist
+        if (null == loadDataListFragment) {
+            UserEntity user;
             try {
-                if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
-                    Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文", mDataList
-                            .get(position).getSymbols().get(0).getAbbrName(),
-                            mDataList.get(position).getSymbols().get(0).getId());
-                    startActivity(intent);
+                user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+                if (user != null) {
+                    if (!TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                    }
+                    String userId = user.getId() + "";
+                    NewsforModel vo = new NewsforModel();
+                    vo.setUserid(userId);
+                    vo.setSymbol(symbol);
+                    vo.setContentType(type);
+                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWSFOREACH);
                 } else {
-                    Intent intent = NewsActivity
-                            .newIntent(context, mDataList.get(position).getId(), "公告正文", null, null);
-                    startActivity(intent);
+                    loadDataListFragment = ReportListForAllFragment.getFragment(null,
+                            OpitionNewsEngineImple.NEWSFOREACH);
                 }
+                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment)
+                        .commit();
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
-    };
-
-    private void loadMore() {
-        if (null != mLoadDataEngine) {
-            if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
-                // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            isLoadingMore = true;
-            // mLoadDataEngine.setLoadingDialog(context);
-            mLoadDataEngine.loadMore();
-        }
     }
 
-    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    // private void initDate() {
+    // UserEntity user;
+    // try {
+    // user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+    // if (user != null) {
+    // if (!TextUtils.isEmpty(user.getAccess_token())) {
+    // user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+    // }
+    // String userId = user.getId() + "";
+    // NewsforModel vo = new NewsforModel();
+    // vo.setUserid(userId);
+    // vo.setSymbol(symbol);
+    // vo.setContentType(type);
+    // mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
+    // OpitionNewsEngineImple.NEWSFOREACH, vo);
+    // // mLoadDataEngine.setLoadingDialog(context);
+    // mLoadDataEngine.loadData();
+    // mLoadDataEngine.setFromYanbao(false);
+    // }
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    //
+    // }
 
-        @Override
-        public void loadFinish(List<OptionNewsBean> dataList) {
-            try {
-                pb.setVisibility(View.GONE);
-                if (null != dataList && dataList.size() > 0) {
-                    mDataList.addAll(dataList);
-                    if (first) {
-                        initView();
-                        first = false;
-                    }
-                    mOptionMarketAdapter.notifyDataSetChanged();
-                    loadFinishUpdateView();
+    // private void initView() {
+    // mListView = (PullToRefreshListView) findViewById(android.R.id.list);
+    //
+    // mListView.setEmptyView(iv);
+    // mOptionMarketAdapter = new OptionForOnelistAdapter(context, mDataList);
+    // mListView.setAdapter(mOptionMarketAdapter);
+    // mListView.setOnLoadListener(new OnLoadMoreListener() {
+    //
+    // @Override
+    // public void onLoadMore() {
+    //
+    // loadMore();
+    // }
+    // });
+    // // mListView.setOnScrollListener(new OnScrollListener() {
+    // //
+    // // @Override
+    // // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+    // //
+    // // switch (scrollState) {
+    // // case OnScrollListener.SCROLL_STATE_IDLE:
+    // //
+    // // {
+    // // // 判断是否滚动到底部
+    // // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+    // //
+    // //
+    // // }
+    // // }
+    // //
+    // // }
+    // //
+    // // }
+    // //
+    // // @Override
+    // // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    // //
+    // // }
+    // // });
+    // // mListView.setOnScrollListener(new OnScrollListener() {
+    // //
+    // // @Override
+    // // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+    // //
+    // // switch (scrollState) {
+    // // case OnScrollListener.SCROLL_STATE_IDLE:
+    // //
+    // // {
+    // // // åˆ¤æ–­æ˜¯å¦æ»šåŠ¨åˆ°åº•éƒ¨
+    // // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+    // //
+    // //
+    // // }
+    // // }
+    // //
+    // // }
+    // //
+    // // }
+    // //
+    // // @Override
+    // // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    // //
+    // // }
+    // // });
+    // mListView.setOnItemClickListener(itemBackClick);
+    //
+    // mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_container);
+    // mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+    // mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
+    //
+    // @Override
+    // public void onRefresh() {
+    // new Handler().postDelayed(new Runnable() {
+    // @Override
+    // public void run() {
+    // mSwipeLayout.setRefreshing(false);
+    // }
+    // }, 2000);
+    //
+    // }
+    // });
+    // }
+    //
+    // OnItemClickListener itemBackClick = new OnItemClickListener() {
+    // @Override
+    // public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    // // TODO Auto-generated method stub
+    // try {
+    // if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+    // Intent intent = NewsActivity.newIntent(context, mDataList.get(position).getId(), "公告正文", mDataList
+    // .get(position).getSymbols().get(0).getAbbrName(),
+    // mDataList.get(position).getSymbols().get(0).getId());
+    // startActivity(intent);
+    // } else {
+    // Intent intent = NewsActivity
+    // .newIntent(context, mDataList.get(position).getId(), "公告正文", null, null);
+    // startActivity(intent);
+    // }
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    // }
+    // };
+    //
+    // private void loadMore() {
+    // if (null != mLoadDataEngine) {
+    // if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+    // // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
+    // return;
+    // }
+    //
+    // isLoadingMore = true;
+    // // mLoadDataEngine.setLoadingDialog(context);
+    // mLoadDataEngine.loadMore();
+    // }
+    // }
 
-                } else {
-                    iv.setText("暂无公告");
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    //
+    // @Override
+    // public void loadFinish(List<OptionNewsBean> dataList) {
+    // try {
+    // pb.setVisibility(View.GONE);
+    // if (null != dataList && dataList.size() > 0) {
+    // mDataList.addAll(dataList);
+    // if (first) {
+    // initView();
+    // first = false;
+    // }
+    // mOptionMarketAdapter.notifyDataSetChanged();
+    // loadFinishUpdateView();
+    //
+    // } else {
+    // iv.setText("暂无公告");
+    // }
+    // } catch (Exception e) {
+    // // TODO Auto-generated catch block
+    // e.printStackTrace();
+    // }
+    //
+    // }
+    //
+    // };
 
-        }
-
-    };
-
-    private void loadFinishUpdateView() {
-        mOptionMarketAdapter.notifyDataSetChanged();
-        isLoadingMore = false;
-        if (mListView != null) {
-        }
-    }
+    // private void loadFinishUpdateView() {
+    // mOptionMarketAdapter.notifyDataSetChanged();
+    // isLoadingMore = false;
+    // if (mListView != null) {
+    // }
+    // }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market_one);
 

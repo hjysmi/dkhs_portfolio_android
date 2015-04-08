@@ -51,7 +51,7 @@ public class StickChart extends GridChart {
     private int longtitudeNum = DEFAULT_LONGTITUDE_NUM;
     
     /** K线数据 */
-    private List<OHLCEntity> StickData;
+    private ArrayList<OHLCEntity> StickData;
 
     /** 图表中�?��蜡烛线 */
     private int maxStickDataNum;
@@ -182,25 +182,31 @@ public class StickChart extends GridChart {
         return (float) tmp;
     }
     public void setMACDMaxValue(){
-        if(null != StickData){
-            maxValue = 0;
-            int k = mShowDate + index -1;
-            if(mShowDate > StickData.size()){
-                k = StickData.size() - 1;
+        try {
+            if(null != StickData){
+                maxValue = 0;
+                int k = mShowDate + index -1;
+                if(mShowDate > StickData.size()){
+                    k = StickData.size() - 1;
+                }
+                StickData.trimToSize();
+                for(int i = k; i < StickData.size() && i >= index && i >= 0; i--){
+                    if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
+                        maxValue = (float) Math.abs(StickData.get(i).getMacd());
+                    }
+                    if(i >=0 && Math.abs(StickData.get(i).getDiff()) > maxValue){
+                        maxValue = (float) Math.abs(StickData.get(i).getDiff());
+                    }
+                    if(i >=0 && Math.abs(StickData.get(i).getDea()) > maxValue){
+                        maxValue = (float) Math.abs(StickData.get(i).getDea());
+                    }
+                }
+                minValue = -maxValue;
+                //loseValue = -maxValue;
             }
-            for(int i = k; i < StickData.size() && i >= index && i >= 0; i--){
-                if(i >=0 && Math.abs(StickData.get(i).getMacd()) > maxValue){
-                    maxValue = (float) Math.abs(StickData.get(i).getMacd());
-                }
-                if(i >=0 && Math.abs(StickData.get(i).getDiff()) > maxValue){
-                    maxValue = (float) Math.abs(StickData.get(i).getDiff());
-                }
-                if(i >=0 && Math.abs(StickData.get(i).getDea()) > maxValue){
-                    maxValue = (float) Math.abs(StickData.get(i).getDea());
-                }
-            }
-            minValue = -maxValue;
-            //loseValue = -maxValue;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
     /**
@@ -571,10 +577,15 @@ public class StickChart extends GridChart {
                 Paint p = new Paint();
                 p.setTextSize(getResources().getDimensionPixelOffset(R.dimen.title_text_font));
                 Rect rect = new Rect();
+                //此值为固定写死的静态文本
+                String titile = "MACD(12.26.9)";
+                p.getTextBounds(titile, 0, titile.length() , rect);
+                wid = rect.width() + 32;
+                canvas.drawText(titile,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
                 String k = "DIFF:" + StringFromatUtils.get4Point((float)StickData.get(StickData.size() - selectIndext - 1).getDiff());
                 p.getTextBounds(k, 0, k.length() , rect);
-                canvas.drawText(k,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
-                wid = rect.width() + 32;
+                canvas.drawText(k,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+                wid = rect.width() + 32 + wid;
                 String dea = "DEA:" +  StringFromatUtils.get4Point((float)StickData.get(StickData.size() - selectIndext - 1).getDea());
                 p.getTextBounds(dea, 0, dea.length() , rect);
                 paint.setColor(getResources().getColor(R.color.ma10_color));
@@ -597,10 +608,14 @@ public class StickChart extends GridChart {
             if(num >= StickData.size()){
                 num = StickData.size() - 1;
             }
+            String titile = "MACD(12.26.9)";
+            p.getTextBounds(titile, 0, titile.length() , rect);
+            wid = rect.width() + 32;
+            canvas.drawText(titile,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
             String k = "DIFF:" +  StringFromatUtils.get4Point((float)StickData.get(num).getDiff());
             p.getTextBounds(k, 0, k.length() , rect);
-            canvas.drawText(k,  PADDING_LEFT, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
-            wid = rect.width() + 32;
+            canvas.drawText(k,  PADDING_LEFT + wid, getResources().getDimensionPixelSize(R.dimen.title_text_font), paint);
+            wid = rect.width() + 32 + wid;
             String dea = "DEA:" + StringFromatUtils.get4Point((float)StickData.get(num).getDea());
             p.getTextBounds(dea, 0, dea.length() , rect);
             paint.setColor(getResources().getColor(R.color.ma10_color));
@@ -658,6 +673,7 @@ public class StickChart extends GridChart {
             boolean draw5 = false;
             boolean draw10 = false;
             boolean draw20 = false;
+            
             for (int j = nums; j < StickData.size() && j >= 0 && j >= index; j--) {
                 //MALineEntity lineEntity = MALineData.get(j);
 
@@ -774,7 +790,7 @@ public class StickChart extends GridChart {
         }
     }
     // Push数据绘制K线图
-    public void addData(List<OHLCEntity> list,int page) {
+    public void addData(ArrayList<OHLCEntity> list,int page) {
     	OHLCEntity entity;
     	this.maxValue = 0;
     	//if(page == 1){
@@ -880,7 +896,7 @@ public class StickChart extends GridChart {
         return StickData;
     }
 
-    public void setStickData(List<OHLCEntity> stickData,int page) {
+    public void setStickData(ArrayList<OHLCEntity> stickData,int page) {
         // �?��已有数据
         if (null != StickData) {
            // if(!(page > 1)){
@@ -892,7 +908,7 @@ public class StickChart extends GridChart {
         //}
         //initMALineData();
     }
-    public void setStickData(List<OHLCEntity> stickData) {
+    public void setStickData(ArrayList<OHLCEntity> stickData) {
         // �?��已有数据
         if (null != StickData) {
             StickData.clear();

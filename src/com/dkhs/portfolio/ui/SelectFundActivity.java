@@ -65,6 +65,9 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_MAININDEX);
         FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_INDEX);
         FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_STOCK);
+        mPagerFragment.setDefLoad(true);
+        mPagerFragment2.setDefLoad(true);
+        mPagerFragment3.setDefLoad(true);
         fragmenList.add(mPagerFragment);
         fragmenList.add(mPagerFragment2);
         fragmenList.add(mPagerFragment3);
@@ -180,12 +183,12 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         mPopMoreWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mPopMoreWindow.setFocusable(true);
         mPopMoreWindow.setOnDismissListener(new OnDismissListener() {
-			
-			@Override
-			public void onDismiss() {
-				 btnOrder.setCompoundDrawables(null, null, drawable_down, null);
-			}
-		});
+
+            @Override
+            public void onDismiss() {
+                btnOrder.setCompoundDrawables(null, null, drawable_down, null);
+            }
+        });
 
         // mPopMoreWindow.setWidth(btnOrder.getWidth());
 
@@ -216,19 +219,20 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         // TODO Auto-generated method stub
         return R.array.refer_funds;
     }
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onResume(this);
+    }
 }

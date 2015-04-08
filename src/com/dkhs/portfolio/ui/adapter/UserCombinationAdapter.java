@@ -84,8 +84,8 @@ public class UserCombinationAdapter extends BaseAdapter {
         // viewHolder.tvStockCode.setVisibility(View.VISIBLE);
         //
         viewHolder.tvCName.setText(item.getName());
-        viewHolder.tvRightValue.setTextColor(ColorTemplate.getUpOrDrownCSL(item.getAddUpValue()));
-        viewHolder.tvRightValue.setText(StringFromatUtils.get2PointPercent(item.getAddUpValue()));
+        viewHolder.tvRightValue.setTextColor(ColorTemplate.getUpOrDrownCSL(item.getCumulative()));
+        viewHolder.tvRightValue.setText(StringFromatUtils.get2PointPercent(item.getCumulative()));
 
         return convertView;
     }

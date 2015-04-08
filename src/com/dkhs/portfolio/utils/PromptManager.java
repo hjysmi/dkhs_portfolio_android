@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.lidroid.xutils.util.LogUtils;
 
 /**
  * 提示信息的管理
@@ -23,6 +25,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 public class PromptManager {
     private static Dialog dialog;
     private AlertDialog a;
+    private static Toast mToast;
 
     /**
      * 默认进度条可取消
@@ -31,22 +34,32 @@ public class PromptManager {
      * @param msg
      */
     public static void showProgressDialog(Context context, String msg) {
-        try {
 
-            if (null != dialog && dialog.isShowing()) {
-                dialog.dismiss();
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            // On UI thread.
+            LogUtils.d("beforeRequest PromptManager.showProgressDialog");
+            // PromptManager.showProgressDialog(mContext, msg, isHideDialog);
+
+            try {
+
+                if (null != dialog && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                View v = View.inflate(context, R.layout.progressbar, null);
+                TextView tv = (TextView) v.findViewById(R.id.tv_desc);
+                tv.setText(msg);
+                dialog = new Dialog(context, R.style.dialog);
+                RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+                dialog.setContentView(v, params);
+                // dialog.setCancelable(false);
+                dialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            View v = View.inflate(context, R.layout.progressbar, null);
-            TextView tv = (TextView) v.findViewById(R.id.tv_desc);
-            tv.setText(msg);
-            dialog = new Dialog(context, R.style.dialog);
-            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            dialog.setContentView(v, params);
-            // dialog.setCancelable(false);
-            dialog.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            // Not on UI thread.
+            LogUtils.d("beforeRequest Not on UI thread");
         }
     }
 
@@ -82,16 +95,21 @@ public class PromptManager {
 
     public static void closeProgressDialog() {
 
-        try {
-            if (dialog != null && dialog.isShowing()) {
-                dialog.dismiss();
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+
+            try {
+                if (dialog != null && dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+            } catch (final IllegalArgumentException e) {
+                // Handle or log or ignore
+            } catch (final Exception e) {
+                // Handle or log or ignore
+            } finally {
+                dialog = null;
             }
-        } catch (final IllegalArgumentException e) {
-            // Handle or log or ignore
-        } catch (final Exception e) {
-            // Handle or log or ignore
-        } finally {
-            dialog = null;
+        } else {
+            LogUtils.d("requestCallBack Not on UI thread");
         }
 
     }
@@ -154,12 +172,14 @@ public class PromptManager {
                 .show();
 
     }
-    public static DisplayMetrics getDisplay(Context context){
-    	DisplayMetrics dm = new DisplayMetrics();
+
+    public static DisplayMetrics getDisplay(Context context) {
+        DisplayMetrics dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         return dm;
     }
+
     /**
      * 显示错误提示框
      * 
@@ -175,24 +195,38 @@ public class PromptManager {
                 .show();
     }
 
-    public static void showToast(String msg) {
+    public static void showToast(String msg, int duration) {
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            if (mToast == null) {
+                mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
+            } else {
+                mToast.cancel();
+                mToast = Toast.makeText(PortfolioApplication.getInstance(), msg, duration);
+                // mToast.setText(msg);
+                // mToast.setDuration(duration);
+            }
+            mToast.show();
+        }
+    }
 
-        Toast.makeText(PortfolioApplication.getInstance(), msg, Toast.LENGTH_LONG).show();
+    public static void showLToast(String msg) {
+        showToast(msg, Toast.LENGTH_LONG);
     }
 
     public static void showShortToast(String msg) {
-
-        Toast.makeText(PortfolioApplication.getInstance(), msg, Toast.LENGTH_SHORT).show();
+        showToast(msg, Toast.LENGTH_SHORT);
     }
 
     public static void showShortToast(int msgResId) {
-
-        Toast.makeText(PortfolioApplication.getInstance(), msgResId, Toast.LENGTH_SHORT).show();
+        showShortToast(PortfolioApplication.getInstance().getResources().getString(msgResId));
     }
 
     public static void showToast(int msgResId) {
+        showLToast(PortfolioApplication.getInstance().getResources().getString(msgResId));
+    }
 
-        Toast.makeText(PortfolioApplication.getInstance(), msgResId, Toast.LENGTH_LONG).show();
+    public static void showToast(String msg) {
+        showLToast(msg);
     }
 
     // 当测试阶段时true

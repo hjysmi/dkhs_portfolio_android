@@ -160,6 +160,12 @@ public class FragmentReportForm extends Fragment {
             }
         }
 
+        @Override
+        public void loadFail() {
+            // TODO Auto-generated method stub
+
+        }
+
     };
 
 }

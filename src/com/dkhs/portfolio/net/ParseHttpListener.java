@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * @ClassName: ParseHttpListener
@@ -54,33 +55,34 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
     public ParseHttpListener cancelLoadingDialog() {
         this.mContext = null;
         this.msg = "";// mContext.getString(R.string.loading);
-
+        PromptManager.closeProgressDialog();
         return this;
     }
 
     @Override
     public void beforeRequest() {
         if (null != mContext) {
-            if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-                // On UI thread.
-                LogUtils.d("PromptManager.showProgressDialog");
-                PromptManager.showProgressDialog(mContext, msg, isHideDialog);
-            } else {
-                // Not on UI thread.
-                LogUtils.d("Not on UI thread");
-            }
+            // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            // // On UI thread.
+            // LogUtils.d("beforeRequest PromptManager.showProgressDialog");
+            PromptManager.showProgressDialog(mContext, msg, isHideDialog);
+            // } else {
+            // // Not on UI thread.
+            // LogUtils.d("beforeRequest Not on UI thread");
+            // }
         }
     }
 
     @Override
     public void requestCallBack() {
         if (null != mContext) {
-            if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
-                // On UI thread.
-                PromptManager.closeProgressDialog();
-            } else {
-                LogUtils.d("Not on UI thread");
-            }
+            // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            // // On UI thread.
+            LogUtils.d("requestCallBack PromptManager.closeProgressDialog");
+            PromptManager.closeProgressDialog();
+            // } else {
+            // LogUtils.d("requestCallBack Not on UI thread");
+            // }
         }
 
     }
@@ -95,7 +97,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     @Override
     public void onSuccess(String jsonObject) {
-
+        // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+        // Log.e("ParseHttpListener", "run on main thread " + this);
+        //
+        // } else {
+        // Log.e("ParseHttpListener", "run on other thread " + this);
+        //
+        // }
         beginParseDate(jsonObject);
 
     }
@@ -179,6 +187,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         thread.start();
         mServiceLooper = thread.getLooper();
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
+
     }
 
     private void notifyDateParse(Object object) {

@@ -21,18 +21,19 @@
             android:visibility="gone" />
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/rl_fiverange"
         android:layout_width="88dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
         android:padding="5dp" >
 
         <RelativeLayout
             android:id="@+id/layout_sell"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="10dp" >
+            android:layout_gravity="center"
+            android:layout_weight="1" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -46,7 +47,7 @@
                 android:id="@+id/list_five_range_sall"
                 style="@style/listViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:dividerHeight="0dp"
                 android:orientation="vertical" />
         </RelativeLayout>
@@ -62,10 +63,10 @@
 
         <RelativeLayout
             android:id="@+id/layout_buy"
-            android:layout_width="88dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/view_divider" >
+            android:layout_gravity="center"
+            android:layout_weight="1" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -79,11 +80,11 @@
                 android:id="@+id/list_five_range_buy"
                 style="@style/listViewStyle"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:clickable="false"
                 android:dividerHeight="0dp"
                 android:orientation="vertical" />
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </LinearLayout>

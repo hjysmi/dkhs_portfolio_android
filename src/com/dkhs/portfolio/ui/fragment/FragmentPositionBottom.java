@@ -366,9 +366,12 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
 
                 break;
             case R.id.tv_history: {
-                // 历史调仓记录
-                startActivity(HistoryPositionDetailActivity.newIntent(getActivity(), mPositionDetail.getPortfolio()
-                        .getId()));
+                if (null != mPositionDetail && null != mPositionDetail.getPortfolio()) {
+
+                    // 历史调仓记录
+                    startActivity(HistoryPositionDetailActivity.newIntent(getActivity(), mPositionDetail.getPortfolio()
+                            .getId()));
+                }
             }
                 break;
 

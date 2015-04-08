@@ -80,9 +80,6 @@ public class DKHSClient {
     private static HttpHandler requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
             final IHttpListener listener, boolean isShowTip) {
         final CacheHelper cacheHelper = new CacheHelper(method, url, params);
-        if (cacheHelper.isCacheUrl()) {
-            cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
-        }
 
         if (NetUtil.checkNetWork()) {
 
@@ -110,13 +107,11 @@ public class DKHSClient {
                             } else {
                                 LogUtils.e("Authorization token is null,Exit app");
                                 // PortfolioApplication.getInstance().exitApp();
-                                PromptManager.showToast("Authorization token is null,请重新登录");
                             }
                         }
 
                     } catch (DbException e) {
                         e.printStackTrace();
-                        PromptManager.showToast("Authorization token is null,请重新登录");
                         LogUtils.e("Authorization token is null,Exit app");
                         // PortfolioApplication.getInstance().exitApp();
                     }
@@ -159,6 +154,9 @@ public class DKHSClient {
 
                 @Override
                 public void onFailure(HttpException error, String msg) {
+                    if (cacheHelper.isCacheUrl()) {
+                        cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
+                    }
                     if (null != listener) {
                         listener.requestCallBack();
                     }
@@ -174,6 +172,11 @@ public class DKHSClient {
                 }
             });
         } else {
+
+            if (cacheHelper.isCacheUrl()) {
+                cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
+            }
+
             if (null != listener) {
                 listener.requestCallBack();
                 listener.onHttpFailure(123, "网络未连接");

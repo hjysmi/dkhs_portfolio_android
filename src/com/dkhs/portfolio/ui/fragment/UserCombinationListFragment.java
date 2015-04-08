@@ -13,17 +13,14 @@ import java.util.List;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
-import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.CombinationBean.CombinationUser;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
@@ -152,10 +149,10 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CombinationBean cBean = mDataList.get(position);
-                CombinationUser user = new ChampionBean().new CombinationUser();
+                CombinationUser user = new CombinationBean.CombinationUser();
                 user.setId(mUserId);
                 user.setUsername(mUserName);
-                cBean.setCreateUser(user);
+                cBean.setUser(user);
 
                 getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false, null));
             }
@@ -196,5 +193,16 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
                 getLoadEngine().loadData();
             }
         };
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        mSwipeLayout.setRefreshing(false);
+
     }
 }

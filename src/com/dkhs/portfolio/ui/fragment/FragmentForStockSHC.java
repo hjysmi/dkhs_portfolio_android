@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,9 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
@@ -31,7 +32,11 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class FragmentForStockSHC  extends Fragment{
+/**
+ * 需要优化界面
+ * 个股行情界面，指数界面时（涨幅榜/跌幅榜/换手率榜）
+ */
+public class FragmentForStockSHC extends BaseFragment {
     /**
      * 
      */
@@ -39,7 +44,7 @@ public class FragmentForStockSHC  extends Fragment{
 
     private Context context;
     private List<SelectStockBean> mDataList;
-    private LoadSelectDataEngine mLoadDataEngine;
+    private LoadMoreDataEngine mLoadDataEngine;
     boolean first = true;
     private View view;
     public final static String NEWS_TYPE = "newsNum";
@@ -62,13 +67,9 @@ public class FragmentForStockSHC  extends Fragment{
     private String list_sector;
     private boolean setColor;
     private RelativeLayout pb;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
 
-    }
-    public static Fragment newIntent(String exchange,StockViewType sort,String symbol_stype,String list_sector,boolean setColor){
+    public static Fragment newIntent(String exchange, StockViewType sort, String symbol_stype, String list_sector,
+            boolean setColor) {
         FragmentForStockSHC mFragmentForStockSHC = new FragmentForStockSHC();
         Bundle b = new Bundle();
         b.putString(EXCHANGE, exchange);
@@ -79,21 +80,48 @@ public class FragmentForStockSHC  extends Fragment{
         mFragmentForStockSHC.setArguments(b);
         return mFragmentForStockSHC;
     }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        view = inflater.inflate(R.layout.activity_option_market_news, null);
-        context = getActivity();
+        super.onCreate(savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
             initDate();
         }
+        context = getActivity();
+
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         initView(view);
-        if (null != context && context instanceof StockQuotesActivity&& getadle) {
+        if (null != context && context instanceof StockQuotesActivity && getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
-        return view;
     }
+
+    // @Override
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    // // TODO Auto-generated method stub
+    // view = inflater.inflate(R.layout.activity_option_market_news, null);
+    // context = getActivity();
+    //
+    // initView(view);
+    // if (null != context && context instanceof StockQuotesActivity && getadle) {
+    // ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+    // }
+    // return view;
+    // }
 
     private void initDate() {
         Bundle bundle = getArguments();
@@ -113,64 +141,94 @@ public class FragmentForStockSHC  extends Fragment{
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         mDataList = new ArrayList<SelectStockBean>();
-        
+
         mListView = (ListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(tv);
-        if(setColor){
+        if (setColor) {
             mOptionlistAdapter = new MarketCenterItemAdapter(context, mDataList);
-        }else{
-            mOptionlistAdapter = new MarketCenterItemAdapter(context, mDataList,true);
+        } else {
+            mOptionlistAdapter = new MarketCenterItemAdapter(context, mDataList, true);
         }
         mListView.setAdapter(mOptionlistAdapter);
-        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(),sort, 10,list_sector,symbol_stype,exchange);
+        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 10, list_sector,
+                symbol_stype, exchange);
         mLoadDataEngine.loadData();
-        
 
     }
+
     OnItemClickListener itemBackClick = new OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
-            startActivity(StockQuotesActivity.newIntent(getActivity(), mDataList.get(position)));
+            UIUtils.startAminationActivity(getActivity(),
+                    StockQuotesActivity.newIntent(getActivity(), mDataList.get(position)));
         }
     };
 
-    class StockLoadDataListener implements ILoadDataBackListener {
+    class StockLoadDataListener implements com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener {
 
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @param object
+         * @return
+         */
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
+        public void loadFinish(MoreDataBean object) {
             pb.setVisibility(View.GONE);
-            if (null != dataList) {
+            if (null != object && null != object.getResults()) {
                 mDataList.clear();
-                mDataList.addAll(dataList);
+                mDataList.addAll(object.getResults());
                 mOptionlistAdapter.notifyDataSetChanged();
                 loadFinishUpdateView();
             }
+
         }
 
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @return
+         */
         @Override
-        public void loadFail(ErrorBundle error) {
-            
+        public void loadFail() {
+            pb.setVisibility(View.GONE);
 
         }
+
+        // @Override
+        // public void loadFinish(List<SelectStockBean> dataList) {
+        // pb.setVisibility(View.GONE);
+        // if (null != dataList) {
+        // mDataList.clear();
+        // mDataList.addAll(dataList);
+        // mOptionlistAdapter.notifyDataSetChanged();
+        // loadFinishUpdateView();
+        // }
+        // }
+        //
+        // @Override
+        // public void loadFail(ErrorBundle error) {
+        //
+        // }
 
     }
 
     private void loadFinishUpdateView() {
         // mOptionMarketAdapter.notifyDataSetChanged();
         try {
+            int height = 0;
             if (null != mOptionlistAdapter) {
                 mOptionlistAdapter.notifyDataSetChanged();
+
+                for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+                    View listItem = mOptionlistAdapter.getView(i, null, mListView);
+                    listItem.measure(0, 0); // 计算子项View 的宽高
+                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+                    height += list_child_item_height; // 统计所有子项的总高度
+                }
             }
-            int height = 0;
-            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-                View listItem = mOptionlistAdapter.getView(i, null, mListView);
-                listItem.measure(0, 0); // 计算子项View 的宽高
-                int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
-                height += list_child_item_height; // 统计所有子项的总高度
-            }
-            if (null != context
-                    && context instanceof StockQuotesActivity && getadle) {
+            if (null != context && context instanceof StockQuotesActivity && getadle) {
                 ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
             }
         } catch (Exception e) {
@@ -180,11 +238,12 @@ public class FragmentForStockSHC  extends Fragment{
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
+
     @Override
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
     }
 
@@ -192,14 +251,14 @@ public class FragmentForStockSHC  extends Fragment{
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        //SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         if (mMarketTimer == null && isTimerStart) {
             mMarketTimer = new Timer(true);
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
         MobclickAgent.onPageStart(mPageName);
     }
-    
+
     @Override
     public void onStop() {
         // TODO Auto-generated method stub
@@ -209,36 +268,36 @@ public class FragmentForStockSHC  extends Fragment{
             mMarketTimer = null;
         }
     }
+
     public class RequestMarketTask extends TimerTask {
 
         @Override
         public void run() {
             if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
-                    mLoadDataEngine.loadData();
+                mLoadDataEngine.loadData();
             }
         }
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
-            if(isVisibleToUser){
+            if (isVisibleToUser) {
                 getadle = true;
-                if(null == mDataList || mDataList.size() < 2){
-                    if (null != context
-                            && context instanceof StockQuotesActivity&& getadle) {
+                if (null == mDataList || mDataList.size() < 2) {
+                    if (null != context && context instanceof StockQuotesActivity && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
-                }else if(null != mDataList){
+                } else if (null != mDataList) {
                     int height = 0;
                     for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
                         View listItem = mOptionlistAdapter.getView(i, null, mListView);
                         listItem.measure(0, 0); // 计算子项View 的宽高
-                        int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+                        int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
                         height += list_child_item_height; // 统计所有子项的总高度
                     }
-                    if (null != context
-                            && context instanceof StockQuotesActivity && getadle) {
+                    if (null != context && context instanceof StockQuotesActivity && getadle) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
                     }
                 }
@@ -248,5 +307,17 @@ public class FragmentForStockSHC  extends Fragment{
             getadle = false;
         }
         super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.activity_option_market_news;
     }
 }

@@ -13,22 +13,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
-import android.widget.ScrollView;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
-import com.dkhs.portfolio.ui.fragment.FragmentPositionDetail;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -67,7 +65,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.activity_order_funddetail);
-        setTitle("牛人基金");
+        // setTitle("牛人基金");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -87,7 +85,11 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     }
 
     private void initViews() {
+        if (null != mChampionBean) {
+            updateTitleBackgroud(mChampionBean.getNetvalue() - 1);
+        }
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
+        // mScrollview.setScrollViewListener(mScrollViewListener);
         mScrollview.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -96,6 +98,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
                 mScrollview.fullScroll(View.FOCUS_UP);
             }
         });
+
         mViewHeader = findViewById(R.id.rl_combination_header);
         mViewBottom = findViewById(R.id.combination_position);
         if (isClickable) {
@@ -109,6 +112,19 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
         replaceTrendView();
     }
+
+    // ScrollViewListener mScrollViewListener = new ScrollViewListener() {
+    //
+    // @Override
+    // public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
+    // // TODO Auto-generated method stub
+    // if (mScrollview.getScrollY() >= getResources().getDimensionPixelOffset(R.dimen.layout_height_all)) {
+    // chartTounching();
+    // }
+    // Log.e("mScrollViewListener", mScrollview.getScrollY() + "---" + mScrollview.getHeight());
+    // }
+    //
+    // };
 
     private void replaceTrendView() {
 
@@ -126,9 +142,12 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     private void initData() {
         if (null != mChampionBean) {
+            setTitle(mChampionBean.getName());
+            setTitleTipString(getString(R.string.format_create_time,
+                    TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
 
             tvConName.setText(mChampionBean.getName());
-            tvUserName.setText(mChampionBean.getCreateUser().getUsername());
+            tvUserName.setText(mChampionBean.getUser().getUsername());
             tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDefDescription()));
             tvCreateDay.setText(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
@@ -154,8 +173,8 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         switch (id) {
             case R.id.rl_combination_header: {
                 // PromptManager.showToast("查看用户信息");
-                startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getCreateUser().getUsername(),
-                        mChampionBean.getCreateUser().getId(), false));
+                startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getUser().getUsername(),
+                        mChampionBean.getUser().getId(), false));
             }
                 break;
             case R.id.tv_position_tip:
@@ -185,6 +204,18 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
 
     }
 
+    @Subscribe
+    public void updateTitleBackgroud(TitleChangeEvent event) {
+        if (null != event) {
+            float value = event.netvalue - 1;
+            updateTitleBackgroud(value);
+        }
+    }
+
+    private void updateTitleBackgroud(float value) {
+        updateTitleBackgroudByValue(value);
+    }
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -204,6 +235,7 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         super.onPause();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPause(this);
+        BusProvider.getInstance().unregister(this);
     }
 
     @Override
@@ -212,5 +244,6 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        BusProvider.getInstance().register(this);
     }
 }

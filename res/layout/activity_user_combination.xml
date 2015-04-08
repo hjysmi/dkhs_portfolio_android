@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="基金名称" />
+            android:text="@string/creat_fund_name" />
 
         <TextView
             style="@style/gray_title_text"

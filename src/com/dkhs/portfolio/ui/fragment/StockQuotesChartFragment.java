@@ -17,6 +17,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -45,6 +46,7 @@ import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -61,7 +63,7 @@ import com.umeng.analytics.MobclickAgent;
  * @date 2014-9-3 上午10:32:39
  * @version 1.0
  */
-public class StockQuotesChartFragment extends Fragment {
+public class StockQuotesChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String ARGUMENT_STOCK_CODE = "stock_code";
 
@@ -105,6 +107,11 @@ public class StockQuotesChartFragment extends Fragment {
     }
 
     @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_stock_quotes_chart;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -131,10 +138,10 @@ public class StockQuotesChartFragment extends Fragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
-        mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
-        mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code);
+        // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
+        // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
 
     }
@@ -214,18 +221,24 @@ public class StockQuotesChartFragment extends Fragment {
         super.onAttach(activity);
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         mMaChart.setContext(getActivity());
-        mMaChart.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
+        mMaChart.setCallBack((StockViewCallBack) getActivity());
         initMaChart(mMaChart);
         initView(view);
-
-        return view;
     }
 
     private void initView(View view) {
@@ -252,46 +265,17 @@ public class StockQuotesChartFragment extends Fragment {
 
     private void initMaChart(TrendChart machart) {
 
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-
-        machart.setDisplayBorder(false);
-        // machart.setDrawXBorke(true);
-
-        machart.setLatitudeColor(Color.LTGRAY);
-
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
-        // machart.setMaxPointNum(72);
-        // machart.setDisplayAxisYTitle(false);
-        // machart.setDisplayLatitude(true);
-        // machart.setFill(true);
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-        machart.setBorderColor(Color.TRANSPARENT);
-        machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(5);
-        machart.setAxisMarginLeft(10);
-        machart.setAxisMarginRight(10);
-
-        machart.setLongtitudeFontSize(10);
-        machart.setLongtitudeFontColor(Color.GRAY);
-        machart.setDisplayAxisYTitleColor(true);
-        machart.setLatitudeColor(Color.GRAY);
-        machart.setLatitudeFontColor(Color.GRAY);
-        machart.setLongitudeColor(Color.GRAY);
         machart.setMaxValue(120);
         machart.setMinValue(0);
 
-        machart.setDisplayAxisXTitle(true);
-        machart.setDisplayAxisYTitle(true);
-        machart.setDisplayLatitude(true);
-        machart.setDisplayLongitude(true);
+        // machart.setDisplayAxisXTitle(true);
+        // machart.setDisplayAxisYTitle(true);
+        // machart.setDisplayLatitude(true);
+        // machart.setDisplayLongitude(true);
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
 
-        machart.setITouchListener(mTouchListener);
+        // machart.setITouchListener(mTouchListener);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
 
@@ -303,25 +287,18 @@ public class StockQuotesChartFragment extends Fragment {
 
         mMaChart.setAxisYTitles(ytitle);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
         if (isTodayNetValue) {
             initTodayTrendTitle();
         } else {
-            // initTrendTitle();
         }
-        // machart.setFill(true);
-        // machart.setFillLineIndex(2);
 
     }
 
-    private ITouchListener mTouchListener;
+    // private ITouchListener mTouchListener;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
-    }
+    // public void setITouchListener(ITouchListener touchListener) {
+    // this.mTouchListener = touchListener;
+    // }
 
     private void setLineData(List<FSLinePointEntity> lineDataList) {
         if (isAdded()) {
@@ -417,8 +394,11 @@ public class StockQuotesChartFragment extends Fragment {
             // } else {
             //
             if (viewFiveRange.getVisibility() == View.VISIBLE) {
-                mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
-                mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
+                mBuyAdapter.setList(mStockBean.getBuyPrice().getBuyVol(), mStockBean.getBuyPrice().getBuyPrice(),
+                        mStockBean.getSymbol());
+                mSellAdapter.setList(mStockBean.getSellPrice().getSellVol(), mStockBean.getSellPrice().getSellPrice(),
+                        mStockBean.getSymbol());
+                // mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
             }
@@ -435,10 +415,6 @@ public class StockQuotesChartFragment extends Fragment {
 
     private boolean isStopStock() {
         return mSelectStockBean != null && mSelectStockBean.isStop;
-    }
-
-    private void parseFiveRangeData() {
-
     }
 
     @Override
@@ -477,6 +453,12 @@ public class StockQuotesChartFragment extends Fragment {
 
             return fsDataBean;
         }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            pb.setVisibility(View.GONE);
+        };
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
@@ -787,6 +769,10 @@ public class StockQuotesChartFragment extends Fragment {
 
     }
 
+    public void setStockViewCallBack(StockViewCallBack callBack) {
+        // this.mMaChart.setCallBack(callBack);
+    }
+
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
@@ -824,4 +810,5 @@ public class StockQuotesChartFragment extends Fragment {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
     }
+
 }

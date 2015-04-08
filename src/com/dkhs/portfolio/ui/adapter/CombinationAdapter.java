@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.text.TextUtils;
@@ -102,7 +103,7 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         viewHolder.tvCurrent.setTextColor(ColorTemplate.getUpOrDrownCSL(currenValue));
         viewHolder.tvCurrent.setText(StringFromatUtils.get2PointPercentPlus(currenValue));
 
-        float addValue = item.getAddUpValue();
+        float addValue = item.getCumulative();
         viewHolder.tvAddup.setTextColor(ColorTemplate.getUpOrDrownCSL(addValue));
         viewHolder.tvAddup.setText(StringFromatUtils.get2PointPercentPlus(addValue));
 
@@ -193,7 +194,8 @@ public class CombinationAdapter extends BaseAdapter implements OnCheckedChangeLi
         } else {
 
             // addItem();
-            mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
+            // mContext.startActivity(PositionAdjustActivity.newIntent(mContext, null));
+            UIUtils.startAminationActivity((Activity) mContext, PositionAdjustActivity.newIntent(mContext, null));
         }
 
     }
