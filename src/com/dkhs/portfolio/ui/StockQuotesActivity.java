@@ -739,6 +739,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
+            if (mStockQuotesBean.isFollowed()) {
+                PromptManager.showDelFollowToast();
+            } else {
+
+                PromptManager.showFollowToast();
+            }
             mStockQuotesBean.setFollowed(!mStockQuotesBean.isFollowed());
             setAddOptionalButton();
         }
@@ -781,13 +787,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             // selectBean.isFollowed = false;
                             mStockQuotesBean.setFollowed(false);
                             mVisitorDataEngine.delOptionalStock(selectBean);
-                            PromptManager.showToast(R.string.msg_def_follow_success);
+                            PromptManager.showDelFollowToast();
                         } else {
                             selectBean.isFollowed = true;
                             mStockQuotesBean.setFollowed(true);
                             selectBean.sortId = 0;
                             mVisitorDataEngine.saveOptionalStock(selectBean);
-                            PromptManager.showToast(R.string.msg_follow_success);
+                            PromptManager.showFollowToast();
                         }
                     }
                     localList = mVisitorDataEngine.getOptionalStockList();
