@@ -78,7 +78,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public static final String TYPE_TCAPITAL_DOWN = "-total_capital";
 
     // 5s
-    private static final long mPollRequestTime = 1000 * 30;
+    private static final long mPollRequestTime = 1000 * 300;
 
     private Context context;
 
@@ -93,8 +93,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            loadDataListFragment.refreshNoCaseTime();
-            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+            // reloadData();
+
         };
     };
 
@@ -116,7 +116,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
         super.onResume();
 
-        reloadData();
         updateHandler.postDelayed(updateRunnable, 30);
 
         MobclickAgent.onPageStart(mPageName);
@@ -150,7 +149,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
-            loadDataListFragment.refreshNoCaseTime();
+            // loadDataListFragment.refreshNoCaseTime();
+            reloadData();
+            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
         }
     };
 
@@ -224,6 +225,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         if (null != loadDataListFragment) {
             isLoading = true;
             loadDataListFragment.setOptionalOrderType(orderType);
+            loadDataListFragment.refreshNoCaseTime();
         }
     }
 

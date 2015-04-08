@@ -71,7 +71,6 @@ import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
-import com.dkhs.portfolio.ui.widget.SlideListView.MessageItem;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -276,7 +275,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         BusProvider.getInstance().post(new TitleChangeEvent(netValue));
         netValue = netValue - 1;
         if (netValue == 0) {
-            comView.setBackgroundResource(R.color.compare_select_gray);
+            comView.setBackgroundResource(R.color.tag_gray);
         } else if (netValue > 0) {
             comView.setBackgroundResource(R.color.tag_red);
         } else {
@@ -593,7 +592,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             btnAddOptional.setEnabled(false);
             if (mCombinationBean.isFollowed()) {
                 showDelDialog();
-            }else{
+            } else {
                 delFollowCombinatio();
             }
         }

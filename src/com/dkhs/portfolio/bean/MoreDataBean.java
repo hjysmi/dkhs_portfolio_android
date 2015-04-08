@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
@@ -30,35 +32,64 @@ public class MoreDataBean<T> {
     private int statu;
     @SerializedName("results")
     private List<T> results;
+
     public int getTotalCount() {
         return totalCount;
     }
+
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
     }
+
     public int getTotalPage() {
         return totalPage;
     }
+
     public void setTotalPage(int totalPage) {
         this.totalPage = totalPage;
     }
+
     public int getCurrentPage() {
         return currentPage;
     }
+
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
     }
+
     public List<T> getResults() {
         return results;
     }
+
     public void setResults(List<T> results) {
         this.results = results;
     }
-	public int getStatu() {
-		return statu;
-	}
-	public void setStatu(int statu) {
-		this.statu = statu;
-	}
-    
+
+    public int getStatu() {
+        return statu;
+    }
+
+    public void setStatu(int statu) {
+        this.statu = statu;
+    }
+
+    public static class EmptyMoreBean extends MoreDataBean {
+        public EmptyMoreBean() {
+            setTotalCount(0);
+            setCurrentPage(0);
+            setTotalPage(0);
+            setStatu(-1);
+            setResults(Collections.EMPTY_LIST);
+        }
+    }
+
+    public void copyMoreDataBean(MoreDataBean moreBean) {
+        this.currentPage = moreBean.getCurrentPage();
+        // this.results = new ArrayList();
+        this.statu = moreBean.getStatu();
+        this.totalCount = moreBean.getTotalCount();
+        this.totalPage = moreBean.getTotalPage();
+
+    }
+
 }

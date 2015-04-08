@@ -19,9 +19,10 @@ import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ErrorBundle;
@@ -33,7 +34,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class OptionEditActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
-    LoadSelectDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     private DragListAdapter adapter;
     private Context context;
     private Button btnRight;
@@ -69,14 +70,15 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            adapter = new DragListAdapter(context, dataList, optionEditList);
+        public void loadFinish(MoreDataBean object) {
+            adapter = new DragListAdapter(context, object.getResults(), optionEditList);
             optionEditList.setAdapter(adapter);
             optionEditList.setOnItemClickListener(new OnListener());
+
         }
 
         @Override
-        public void loadFail(ErrorBundle error) {
+        public void loadFail() {
             // TODO Auto-generated method stub
 
         }

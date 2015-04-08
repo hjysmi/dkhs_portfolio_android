@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -275,7 +276,8 @@ public class UIUtils {
     }
 
     public static boolean roundAble(StockQuotesBean stockQuotesBean) {
-        if (!(stockQuotesBean.getTrade_status().equals("0") || stockQuotesBean.getTrade_status().equals("3"))) {
+        if (!TextUtils.isEmpty(stockQuotesBean.getTrade_status())
+                && !(stockQuotesBean.getTrade_status().equals("0") || stockQuotesBean.getTrade_status().equals("3"))) {
             return true;
         }
         return false;
@@ -419,6 +421,14 @@ public class UIUtils {
         if (Build.VERSION.SDK_INT >= 19) {
         } // 透明状态栏
 
+    }
+
+    public static float dip2px(Context paramContext, float paramFloat) {
+        return 0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density;
+    }
+
+    public static float px2dip(Context paramContext, float paramFloat) {
+        return 0.5F + paramFloat / paramContext.getResources().getDisplayMetrics().density;
     }
 
 }

@@ -32,7 +32,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FollowComListEngineImpl;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
@@ -53,7 +53,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class EditTabFundActivity extends ModelAcitivity implements OnClickListener {
 
     private DragFundListView optionEditList;
-    LoadSelectDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     private DragFundListAdapter adapter;
     // private Context context;
     private Button btnRight;

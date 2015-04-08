@@ -33,7 +33,7 @@ import android.widget.Button;
  * @date 2015-2-5 上午10:26:35
  * @version 2.0
  */
-public class NewMainActivity extends BaseActivity {
+public class NewMainActivity extends ModelAcitivity {
 
     private MenuItemFragment mMenuFragment;
     private Fragment mContentFragment;
@@ -41,8 +41,10 @@ public class NewMainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTheme(android.R.style.Theme_Light_NoTitleBar);
-        PortfolioApplication.getInstance().addActivity(this);
+        // setTheme(android.R.style.Theme_Light_NoTitleBar);
+        // PortfolioApplication.getInstance().addActivity(this);
+        hideHead();
+        setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
 
         if (savedInstanceState == null) {
@@ -102,7 +104,10 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentA() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (null != fragmentA && fragmentA.isAdded()) { // if the fragment is already in container
+        if (null == fragmentA) {
+            fragmentA = new MainOptionalFragment();
+        }
+        if (fragmentA.isAdded()) { // if the fragment is already in container
             ft.show(fragmentA);
         } else { // fragment needs to be added to frame container
             ft.add(R.id.content_layout, fragmentA, "A");
@@ -121,6 +126,9 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentB() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (null == fragmentB) {
+            fragmentB = new MainMarketFragment();
+        }
         if (null != fragmentB && fragmentB.isAdded()) { // if the fragment is already in container
             ft.show(fragmentB);
         } else { // fragment needs to be added to frame container
@@ -140,6 +148,9 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentC() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (null == fragmentC) {
+            fragmentC = new MainInfoFragment();
+        }
         if (null != fragmentC && fragmentC.isAdded()) { // if the fragment is already in container
             ft.show(fragmentC);
         } else { // fragment needs to be added to frame container
@@ -159,6 +170,9 @@ public class NewMainActivity extends BaseActivity {
 
     protected void displayFragmentD() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (null == fragmentD) {
+            fragmentD = new UserFragment();
+        }
         if (null != fragmentD && fragmentD.isAdded()) { // if the fragment is already in container
             ft.show(fragmentD);
         } else { // fragment needs to be added to frame container

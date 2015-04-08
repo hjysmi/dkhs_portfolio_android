@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
@@ -65,7 +67,6 @@ public abstract class BasicHttpListener implements IHttpListener {
                 e.printStackTrace();
             }
         }
-
         onSuccess(result);
 
     }

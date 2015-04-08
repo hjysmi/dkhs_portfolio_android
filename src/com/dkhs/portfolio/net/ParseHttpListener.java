@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 /**
  * @ClassName: ParseHttpListener
@@ -77,7 +78,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         if (null != mContext) {
             // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             // // On UI thread.
-            // LogUtils.d("requestCallBack PromptManager.closeProgressDialog");
+            LogUtils.d("requestCallBack PromptManager.closeProgressDialog");
             PromptManager.closeProgressDialog();
             // } else {
             // LogUtils.d("requestCallBack Not on UI thread");
@@ -96,7 +97,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
 
     @Override
     public void onSuccess(String jsonObject) {
-
+        // if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+        // Log.e("ParseHttpListener", "run on main thread " + this);
+        //
+        // } else {
+        // Log.e("ParseHttpListener", "run on other thread " + this);
+        //
+        // }
         beginParseDate(jsonObject);
 
     }
@@ -180,6 +187,7 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         thread.start();
         mServiceLooper = thread.getLooper();
         mServiceHandler.obtainMessage(MSG_PARSEDATE, jsonObject).sendToTarget();
+
     }
 
     private void notifyDateParse(Object object) {

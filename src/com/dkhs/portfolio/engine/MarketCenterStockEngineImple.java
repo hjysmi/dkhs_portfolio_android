@@ -10,16 +10,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
-public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
+public class MarketCenterStockEngineImple extends LoadMoreDataEngine {
     private final static String EXCHANGE = "1,2";
 
     public final static String ORDER_INCREASE = "-percentage";
@@ -91,39 +95,63 @@ public class MarketCenterStockEngineImple extends LoadSelectDataEngine {
     }
 
     @Override
-    protected List<SelectStockBean> parseDateTask(String jsonData) {
-        List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
-        JSONObject dataObject = null;
+    protected MoreDataBean parseDateTask(String jsonData) {
+        MoreDataBean<StockPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
+        MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
         try {
-            dataObject = new JSONObject(jsonData);
-            setTotalcount(dataObject.optInt("total_count"));
-            setTotalpage(dataObject.optInt("total_page"));
-            setCurrentpage(dataObject.optInt("current_page"));
-            setStatu(dataObject.optInt("trade_status"));
-            JSONArray resultsJsonArray = dataObject.optJSONArray("results");
-            if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
-                int length = resultsJsonArray.length();
 
-                for (int i = 0; i < length; i++) {
-                    JSONObject stockObject = resultsJsonArray.optJSONObject(i);
-                    StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
-                    SelectStockBean s = SelectStockBean.copy(stockBean);
-                    s.setStatus(dataObject.optInt("trade_status"));
-                    selectList.add(s);
+            Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-                    // results.add(stockBean);
+            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<StockPriceBean>>() {
+            }.getType());
+            parseMoreBean.copyMoreDataBean(dataMoreBean);
+            parseMoreBean.setResults(new ArrayList<SelectStockBean>());
 
-                }
+            for (StockPriceBean stockBean : dataMoreBean.getResults()) {
+                // selectList.add(SelectStockBean.copy(priceBean));
+                SelectStockBean s = SelectStockBean.copy(stockBean);
+                s.setStatus(dataMoreBean.getStatu());
+                parseMoreBean.getResults().add(s);
 
             }
 
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            // loadListener.setStatu(dataObject.optInt("trade_status"));
         }
+        return parseMoreBean;
 
-        return selectList;
+        // List<SelectStockBean> selectList = new ArrayList<SelectStockBean>();
+        // JSONObject dataObject = null;
+        // try {
+        // dataObject = new JSONObject(jsonData);
+        // setTotalcount(dataObject.optInt("total_count"));
+        // setTotalpage(dataObject.optInt("total_page"));
+        // setCurrentpage(dataObject.optInt("current_page"));
+        // setStatu(dataObject.optInt("trade_status"));
+        // JSONArray resultsJsonArray = dataObject.optJSONArray("results");
+        // if (null != resultsJsonArray && resultsJsonArray.length() > 0) {
+        // int length = resultsJsonArray.length();
+        //
+        // for (int i = 0; i < length; i++) {
+        // JSONObject stockObject = resultsJsonArray.optJSONObject(i);
+        // StockPriceBean stockBean = DataParse.parseObjectJson(StockPriceBean.class, stockObject);
+        // SelectStockBean s = SelectStockBean.copy(stockBean);
+        // s.setStatus(dataObject.optInt("trade_status"));
+        // selectList.add(s);
+        //
+        // // results.add(stockBean);
+        //
+        // }
+        //
+        // }
+        //
+        // } catch (JSONException e) {
+        // e.printStackTrace();
+        // } finally {
+        // // loadListener.setStatu(dataObject.optInt("trade_status"));
+        // }
+        //
+        // return selectList;
     }
 
     public int getStatus() {

@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,10 @@ import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * 需要优化界面
+ * 个股行情界面，个股界面时（公告 TAB）
+ */
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
 	 * 
@@ -56,6 +61,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
+
+    private static final String TAG = "FragmentNewsList";
     private NewsforModel vo;
     private int types;
     private TextView tv;
@@ -85,10 +92,15 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // if (null != vo && vo.getContentType().equals("20")) {
 
         // }
+        if (!isViewShown) {
+            initDate();
+        }
         return view;
     }
 
     private void initDate() {
+
+        Log.e(TAG, " initDate ");
         Bundle bundle = getArguments();
 
         if (null != bundle) {
@@ -104,6 +116,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
     }
 
     private void initView(View view) {
+
+        Log.e(TAG, " initView ");
+
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
@@ -253,13 +268,17 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
         @Override
         public void loadingFail() {
-            pb.setVisibility(View.GONE);
+            if (null != pb) {
+                pb.setVisibility(View.GONE);
+            }
+
             if (null == mDataList || mDataList.isEmpty()) {
                 if (null != vo && null != vo.getPageTitle()) {
                     tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
                 }
                 if (null != context && context instanceof StockQuotesActivity && getadle) {
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+
+                    ((StockQuotesActivity) context).setLayoutHeight(0);
                 }
             }
 
@@ -269,19 +288,19 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void loadFinishUpdateView() {
         // mOptionMarketAdapter.notifyDataSetChanged();
+        int height = 0;
         if (null != mOptionlistAdapter) {
             mOptionlistAdapter.notifyDataSetChanged();
+            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+                View listItem = mOptionlistAdapter.getView(i, null, mListView);
+                listItem.measure(0, 0); // 计算子项View 的宽高
+                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+                height += list_child_item_height; // 统计所有子项的总高度
+            }
         }
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
-        }
-        int height = 0;
-        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-            View listItem = mOptionlistAdapter.getView(i, null, mListView);
-            listItem.measure(0, 0); // 计算子项View 的宽高
-            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-            height += list_child_item_height; // 统计所有子项的总高度
         }
         if (null != context && context instanceof StockQuotesActivity && getadle) {
             ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
@@ -305,6 +324,8 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
     }
+
+    private boolean isViewShown;
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -340,9 +361,13 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     }
                 }
             }
-            Bundle bundle = getArguments();
-            if (bundle != null) {
+
+            if (getView() != null) {
+                isViewShown = true;
+
                 initDate();
+            } else {
+                isViewShown = false;
             }
         } else {
             // 不可见时不执行操作
