@@ -557,7 +557,6 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
     private void drawUpperRegion(Canvas canvas) {
         // 绘制蜡烛图
-        Log.e(TAG, "dragValue:" + dragValue);
         try {
             // Paint redPaint = new Paint();
             // redPaint.setColor(Color.RED);

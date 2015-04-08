@@ -279,12 +279,16 @@ public class KChartsFragment extends AbstractKChartView {
     };
 
     private void updateChartData(List<OHLCEntity> lineData) {
-        pb.setVisibility(View.GONE);
         if (null != lineData) {
             ohlcs.addAll(lineData);
         }
+        updateChartView();
+    }
+
+    private void updateChartView() {
+        pb.setVisibility(View.GONE);
         refreshChartsView(ohlcs);
-        if (lineData.size() > 50 && having) {
+        if (ohlcs.size() > 50 && having) {
             // mSmallerButton.setClickable(true);
             mSmallerButton.setSelected(false);
             having = false;
@@ -369,7 +373,10 @@ public class KChartsFragment extends AbstractKChartView {
                     queryDefData();
 
                 } else {
-                    updateChartData(lineDatas);
+                    if (null != ohlcs) {
+                        ohlcs = lineDatas;
+                        updateChartView();
+                    }
                 }
             } else {
                 queryDefData();
@@ -409,7 +416,7 @@ public class KChartsFragment extends AbstractKChartView {
     private void pollRequestData() {
         if (null != mLandCallBack) {
             StockQuotesBean m = mLandCallBack.getStockQuotesBean();
-            if (!UIUtils.roundAble(m)) {
+            if (m != null && !UIUtils.roundAble(m)) {
                 updateHandler.postDelayed(requestMarketRunnable, mPollRequestTime);
             }
         }

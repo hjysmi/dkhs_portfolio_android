@@ -251,11 +251,11 @@
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈意见</string>
-    <string name="day_income_rate">日收益率:</string>
-    <string name="week_income_rate">周收益率:</string>
-    <string name="month_income_rate">月收益率:</string>
-    <string name="season_income_rate">季收益率:</string>
-    <string name="all_income_rate">累计收益率:</string>
+    <string name="day_income_rate">日收益</string>
+    <string name="week_income_rate">周收益</string>
+    <string name="month_income_rate">月收益</string>
+    <string name="season_income_rate">季收益</string>
+    <string name="all_income_rate">累计收益</string>
     <string name="more_combination_tip">最多只能添加20个组合组合</string>
     <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛</string>
     <string name="change_combination_name">修改组合名称</string>

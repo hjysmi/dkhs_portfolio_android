@@ -329,12 +329,16 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     };
 
     private void updateChartData(List<OHLCEntity> lineData) {
-        pb.setVisibility(View.GONE);
         if (null != lineData) {
             ohlcs.addAll(lineData);
         }
+        updateChartView();
+    }
+
+    private void updateChartView() {
         refreshChartsView(ohlcs);
-        if (lineData.size() > 50 && having) {
+        pb.setVisibility(View.GONE);
+        if (ohlcs.size() > 50 && having) {
 
             mSmallerButton.setClickable(true);
             mSmallerButton.setSelected(false);
@@ -422,7 +426,11 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                     getOHLCDatas();
 
                 } else {
-                    updateChartData(lineDatas);
+                    if (null != ohlcs) {
+                        ohlcs = lineDatas;
+                        updateChartView();
+                    }
+                    // updateChartData(lineDatas);
                 }
             } else {
                 getOHLCDatas();
@@ -473,13 +481,13 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
         public void run() {
             if (null != mLandCallBack) {
 
-                StockQuotesBean m = mLandCallBack.getStockQuotesBean();
-                if (null != m && UIUtils.roundAble(m)) {
-                    mMarketTimer.cancel();
-                }
-                String mtype = getKLineType();
-                getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener,
-                        mLandCallBack.getCheckValue());
+                // StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                // if (null != m && UIUtils.roundAble(m)) {
+                // mMarketTimer.cancel();
+                // }
+                // String mtype = getKLineType();
+                // getQuotesDataEngine().queryKLine(mtype, getStockCode(), "1", mKlineFlushListener,
+                // mLandCallBack.getCheckValue());
             }
         }
     }
@@ -674,7 +682,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void onLoadMoreDataEnd() {
-
+        Log.e(TAG, "------onLoadMoreDataEnd ------");
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -701,6 +709,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void loadMore() {
+
+        Log.e(TAG, "------load more ------");
         loadMordKline();
 
     }
