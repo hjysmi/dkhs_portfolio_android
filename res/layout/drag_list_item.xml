@@ -56,7 +56,7 @@
 
             <TextView
                 android:id="@+id/drag_text_delet_pad"
-                android:layout_width="10dp"
+                android:layout_width="30dp"
                 android:layout_height="wrap_content" />
 
             <Button
@@ -76,7 +76,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
             android:layout_toLeftOf="@id/layout_delete"
             android:src="@drawable/opition_edit_move" />
 
@@ -84,7 +83,8 @@
             android:id="@+id/drag_text_pad"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/drag_list_item_image" />
+            android:layout_toLeftOf="@id/drag_list_item_image"
+            android:background="@color/red" />
 
         <ImageView
             android:id="@+id/drag_item_up"
