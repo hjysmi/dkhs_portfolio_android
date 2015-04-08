@@ -362,7 +362,7 @@ public class KChartsFragment extends AbstractKChartView {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        // TODO Auto-generated method stub
+        System.out.println(this + " setUserVisibleHint :" + isVisibleToUser);
         if (isVisibleToUser) {
             // fragment可见时加载数据
             if (null != mLandCallBack) {

@@ -518,6 +518,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         // Paint p = new Paint();
                         defPaint.reset();
                         Rect rect = new Rect();
+                        defPaint.setAntiAlias(true);
                         defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
                         defPaint.getTextBounds(t, 0, t.length(), rect);
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
@@ -1160,15 +1161,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 mMinPrice = mMinPrice < entity.getLow() ? mMinPrice : entity.getLow();
                 mMaxPrice = mMaxPrice > entity.getHigh() ? mMaxPrice : entity.getHigh();
             }
-            for (MALineEntity lineEntity : MALineData) {
-                for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
-                        && i < mShowDataNum + mDataStartIndext; i++) {
-                    mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity.getLineData().get(
-                            i);
-                    mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity.getLineData().get(
-                            i);
-                }
-            }
+            // for (MALineEntity lineEntity : MALineData) {
+            // for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
+            // && i < mShowDataNum + mDataStartIndext; i++) {
+            // mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity.getLineData().get(
+            // i);
+            // mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity.getLineData().get(
+            // i);
+            // }
+            // }
             double value = mMaxPrice - mMinPrice;
             mMinPrice = mMinPrice - (value * 0.1);
             mMaxPrice = mMaxPrice + (value * 0.1);
