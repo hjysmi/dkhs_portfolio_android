@@ -100,7 +100,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     private double dragValue = 0;
     private double hisDrag = 0;
     private Context context;
-    private boolean loadMore = true;
+    private boolean isLoadMore = true;
     private boolean loadAble = true;
 
     public KChartsLandView(Context context) {
@@ -625,7 +625,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                     if (dragValue > 0) {
                         Paint paint = new Paint();
                         paint.reset();
-                        paint.setColor(getResources().getColor(R.color.def_gray));
+                        paint.setColor(getResources().getColor(R.color.white));
                         paint.setAntiAlias(true);
                         paint.setTextSize(getResources().getDimensionPixelOffset(R.dimen.setting_text_phone));
                         Rect rect = new Rect();
@@ -1133,15 +1133,15 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                                 if (k == 3 && show) {
                                     // dragValue = rect.width();
                                     hisDrag = dragValue;
-                                    if (loadMore) {
-
+                                    Log.e("LoadMore", "-----------isLoadMore:" + isLoadMore + "---------");
+                                    if (isLoadMore) {
                                         if (null != mKCallBack) {
-                                            /*当需要显示加载更多的的时候，设置拖拽间距*/
+                                            /* 当需要显示加载更多的的时候，设置拖拽间距 */
                                             setDragValue(rect.width());
                                             mKCallBack.loadMore();
                                             mKCallBack.onLoadMoreDataStart();
                                         }
-                                        loadMore = false;
+                                        isLoadMore = false;
                                     }
                                 }
                                 if (!show) {
@@ -1536,6 +1536,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     }
 
     public void setOHLCData(List<OHLCEntity> OHLCData, int page) {
+
+        Log.e("LoadMore", "-----------setOHLCData page:" + page + "-----------");
+        Log.e("LoadMore", "-----------setOHLCData size:" + OHLCData.size() + "-----------");
         if (null != mKCallBack) {
             mKCallBack.onLoadMoreDataEnd();
             // dragValue = 0;
@@ -1587,9 +1590,9 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 return;
             }
         }
-        if (page > 1 && !(mOHLCData.get(0).getDate().equals(OHLCData.get(0).getDate())) && !loadMore) {
+        if (page > 1 && !(mOHLCData.get(0).getDate().equals(OHLCData.get(0).getDate())) && !isLoadMore) {
             this.mOHLCData.addAll(OHLCData);
-            loadMore = true;
+            isLoadMore = true;
 
             mDataStartIndext = (int) (mDataStartIndext + (hisDrag / (mCandleWidth + 3)));
             hisDrag = 0;
@@ -1602,6 +1605,10 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                 this.mOHLCData = OHLCData;
             }
         }
+
+        if (page > 1 && hasMoreData(page)) {
+            isLoadMore = true;
+        }
         initMALineData();
         mMACDData = new MACDEntity(mOHLCData);
         mKDJData = new KDJEntity(mOHLCData);
@@ -1609,6 +1616,17 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
 
         setCurrentData();
         postInvalidate();
+    }
+
+    private boolean hasMoreData(int page) {
+        if (null != mOHLCData) {
+            int fullDataSize = (299/* second page size */* (page - 1) + 300/* first page size */);
+            if (mOHLCData.size() < fullDataSize) {
+                return false;
+            }
+
+        }
+        return true;
     }
 
     private void initMALineData() {
@@ -1760,11 +1778,11 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
     }
 
     public boolean isLoadMore() {
-        return loadMore;
+        return isLoadMore;
     }
 
     public void setLoadMore(boolean loadMore) {
-        this.loadMore = loadMore;
+        this.isLoadMore = loadMore;
     }
 
     public boolean isLoadAble() {

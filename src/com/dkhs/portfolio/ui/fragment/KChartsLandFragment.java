@@ -319,7 +319,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
-
+            Log.e("LoadMore", "-----------afterParseData---------");
             updateChartData(object);
 
             if (null != getKChartDataListener()) {
@@ -670,6 +670,8 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void onLoadMoreDataStart() {
+        Log.e("LoadMore", "-----------onLoadMoreDataStart-----------");
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -682,7 +684,9 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     @Override
     public void onLoadMoreDataEnd() {
-        Log.e(TAG, "------onLoadMoreDataEnd ------");
+
+        Log.e("LoadMore", "-----------onLoadMoreDataEnd-----------");
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -710,7 +714,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     @Override
     public void loadMore() {
 
-        Log.e(TAG, "------load more ------");
+        Log.e("LoadMore", "-----------loadMore-----------");
         loadMordKline();
 
     }
