@@ -706,8 +706,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     break;
                 case REQUEST_CHECK:
                     checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
+                    // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
+
                     setFuquanView();
+                    if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
+                        ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
+                    }
                     break;
             }
         }
@@ -725,9 +729,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             klinVirtulCheck.setText("后复权  ▼");
             // PortfolioApplication.getInstance().setCheckValue("2");
         }
-        if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
-            ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
-        }
+
+        // if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
+        // ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
+        // }
     }
 
     private void setTitleDate() {
@@ -820,6 +825,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 b.putString(ChangeCheckType.CHECK_TYPE, checkValue);
                 intent.putExtras(b);
                 startActivityForResult(intent, REQUEST_CHECK);
+
                 break;
             default:
                 break;

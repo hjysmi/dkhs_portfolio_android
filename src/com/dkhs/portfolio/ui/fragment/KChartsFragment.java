@@ -234,8 +234,8 @@ public class KChartsFragment extends AbstractKChartView {
     private void queryDefData() {
 
         String mtype = getKLineType();
-        getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(), mKlineHttpListener,
-                getCheckValue());
+        getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener, getCheckValue());
+
     }
 
     public void regetDate(String checkValue) {
@@ -248,6 +248,10 @@ public class KChartsFragment extends AbstractKChartView {
             mVolumnChartView.postInvalidate();
             pb.setVisibility(View.VISIBLE);
             queryDefData();
+
+            // getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
+            // mLandCallBack.getCheckValue(), page);
+
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
