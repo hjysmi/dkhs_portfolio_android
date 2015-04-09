@@ -42,7 +42,7 @@ import com.umeng.analytics.AnalyticsConfig;
 public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
 
-    private boolean isDebug = true;
+    private boolean isDebug = false;
     private boolean isLogin;
 
     // private String checkValue = "0";
@@ -99,7 +99,6 @@ public class PortfolioApplication extends Application {
     }
 
     public void clearActivities() {
-        System.out.println("lists size :" + lists.size());
         if (lists.size() > 1) {
             for (int i = 0; i < lists.size() - 1; i++) {
                 Activity activity = lists.get(i);

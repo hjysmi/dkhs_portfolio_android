@@ -155,6 +155,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         merchPaint = new Paint();
         textPaint.setColor(DEFAULT_AXIS_Y_TITLE_COLOR);
         textPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+        textPaint.setAntiAlias(true);
 
         redPaint = new Paint();
         redPaint.setColor(Color.RED);
@@ -190,7 +191,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             //
             drawCandle(canvas);
             drawLowerRegion(canvas);
-            drawTitles(canvas);
+            // drawTitles(canvas);
             drawCandleDetails(canvas);
             if (firsttime) {
                 setOnTouchOnce();
@@ -518,6 +519,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         // Paint p = new Paint();
                         defPaint.reset();
                         Rect rect = new Rect();
+                        defPaint.setAntiAlias(true);
                         defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
                         defPaint.getTextBounds(t, 0, t.length(), rect);
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
@@ -538,6 +540,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         }
                         defPaint.reset();
                         Rect rect = new Rect();
+                        defPaint.setAntiAlias(true);
                         defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
                         defPaint.getTextBounds(t, 0, t.length(), rect);
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
@@ -559,6 +562,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 }
             }
             defPaint.reset();
+            defPaint.setAntiAlias(true);
             Rect rect = new Rect();
             defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
             defPaint.getTextBounds(t, 0, t.length(), rect);
@@ -1160,15 +1164,15 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                 mMinPrice = mMinPrice < entity.getLow() ? mMinPrice : entity.getLow();
                 mMaxPrice = mMaxPrice > entity.getHigh() ? mMaxPrice : entity.getHigh();
             }
-            for (MALineEntity lineEntity : MALineData) {
-                for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
-                        && i < mShowDataNum + mDataStartIndext; i++) {
-                    mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity.getLineData().get(
-                            i);
-                    mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity.getLineData().get(
-                            i);
-                }
-            }
+            // for (MALineEntity lineEntity : MALineData) {
+            // for (int i = mDataStartIndext; i < lineEntity.getLineData().size()
+            // && i < mShowDataNum + mDataStartIndext; i++) {
+            // mMinPrice = mMinPrice < lineEntity.getLineData().get(i) ? mMinPrice : lineEntity.getLineData().get(
+            // i);
+            // mMaxPrice = mMaxPrice > lineEntity.getLineData().get(i) ? mMaxPrice : lineEntity.getLineData().get(
+            // i);
+            // }
+            // }
             double value = mMaxPrice - mMinPrice;
             mMinPrice = mMinPrice - (value * 0.1);
             mMaxPrice = mMaxPrice + (value * 0.1);
