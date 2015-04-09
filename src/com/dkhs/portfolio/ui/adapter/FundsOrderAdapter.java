@@ -261,8 +261,10 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         } else {
             if (mCombinationBean.isFollowed()) {
                 new VisitorDataEngine().saveCombination(mCombinationBean);
+                PromptManager.showFollowToast();
             } else {
                 new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                PromptManager.showDelFollowToast();
             }
             // btnAddOptional.setEnabled(true);
             // addOptionalButton(mCombinationBean.isFollowed());
@@ -294,7 +296,8 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
 
         @Override
         protected void afterParseData(Object object) {
-            PromptManager.showToast(R.string.msg_follow_success);
+            // PromptManager.showToast(R.string.msg_follow_success);
+            PromptManager.showFollowToast();
             // mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
             // addOptionalButton(mCombinationBean.isFollowed());
             // if (mCombinationBean.isFollowed()) {
@@ -326,7 +329,7 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
 
         @Override
         protected void afterParseData(Object object) {
-            PromptManager.showToast(R.string.msg_def_follow_success);
+            PromptManager.showDelFollowToast();
             // mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
             // addOptionalButton(mCombinationBean.isFollowed());
             // if (mCombinationBean.isFollowed()) {

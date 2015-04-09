@@ -208,8 +208,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                         public void run() {
                             DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
 
-                            GlobalParams.ACCESS_TOCKEN = null;
-                            GlobalParams.MOBILE = null;
                             try {
                                 dbUtils.deleteAll(UserEntity.class);
                             } catch (DbException e) {
@@ -217,7 +215,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                             }
                         };
                     }.start();
-
+                    GlobalParams.ACCESS_TOCKEN = null;
+                    GlobalParams.MOBILE = null;
                     PortfolioApplication.getInstance().exitApp();
                     // intent = new Intent(this, LoginActivity.class);
                     intent = new Intent(this, LoginRegisterAcitvity.class);
