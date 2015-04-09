@@ -140,6 +140,7 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
             viewHolder.tvValue = (TextView) row.findViewById(R.id.tv_value);
             viewHolder.tvIncomeText = (TextView) row.findViewById(R.id.tv_income_text);
             viewHolder.valueView = row.findViewById(R.id.layout_value);
+            viewHolder.ivJiangPai = (ImageView) row.findViewById(R.id.iv_jiangpai);
             row.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) row.getTag();
@@ -164,6 +165,20 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
             viewHolder.valueView.setBackgroundResource(R.drawable.bg_order_green);
         }
 
+        if (position == 0) {
+            viewHolder.ivJiangPai.setImageResource(R.drawable.ic_jinpai);
+            viewHolder.ivJiangPai.setVisibility(View.VISIBLE);
+        } else if (position == 1) {
+            viewHolder.ivJiangPai.setImageResource(R.drawable.ic_yinpai);
+            viewHolder.ivJiangPai.setVisibility(View.VISIBLE);
+        } else if (position == 2) {
+            viewHolder.ivJiangPai.setImageResource(R.drawable.ic_tongpai);
+            viewHolder.ivJiangPai.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.ivJiangPai.setVisibility(View.GONE);
+
+        }
+
         viewHolder.tvCombinationName.setText(item.getName());
         return row;
     }
@@ -175,6 +190,7 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         View valueView;
         TextView tvIncomeText;
         CheckBox cbFollowed;
+        ImageView ivJiangPai;
     }
 
     @Override
