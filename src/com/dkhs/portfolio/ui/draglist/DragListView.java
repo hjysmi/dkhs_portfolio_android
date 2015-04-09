@@ -3,7 +3,6 @@ package com.dkhs.portfolio.ui.draglist;
 import java.util.List;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.SelectStockBean;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -136,7 +135,7 @@ public class DragListView extends ListView {
     public void review(int position) {
         DragListAdapter adapter = (DragListAdapter) getAdapter();
         if (null != adapter && adapter.getList().size() > 0) {
-            List<SelectStockBean> list = adapter.getList();
+            List<DragListItem> list = adapter.getList();
             for (int i = 0; i < list.size(); i++) {
                 if (i != position) {
                     ViewGroup dragger = (ViewGroup) getChildAt(i);
@@ -243,7 +242,7 @@ public class DragListView extends ListView {
         return false;
     }
 
-    public List<SelectStockBean> getList() {
+    public List<DragListItem> getList() {
         return ((DragListAdapter) getAdapter()).getList();
     }
 
