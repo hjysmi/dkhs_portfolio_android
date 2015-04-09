@@ -18,6 +18,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.draglist.DragListItem;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.table.DbModel;
@@ -36,27 +37,37 @@ public class VisitorDataEngine {
     /**
      * 添加自选股到本地
      */
-    public void saveOptionalStock(SelectStockBean stockbean) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
-        try {
-            db.save(stockbean);
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void saveOptionalStock(final SelectStockBean stockbean) {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    db.save(stockbean);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+        }.start();
     }
 
     /**
      * 添加自选股到本地
      */
-    public void saveCombination(CombinationBean combean) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
-        try {
-            db.save(combean);
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void saveCombination(final CombinationBean combean) {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    db.save(combean);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            };
+        }.start();
+
     }
 
     /**
@@ -70,6 +81,22 @@ public class VisitorDataEngine {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public void replaceDragStock(List<DragListItem> stockList) {
+        new Thread() {
+            public void run() {
+                // DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                // try {
+                // db.replaceAll(stockList);
+                // } catch (DbException e) {
+                // // TODO Auto-generated catch block
+                // e.printStackTrace();
+                // }
+
+            };
+        }.start();
+
     }
 
     /**

@@ -34,8 +34,9 @@ public class SelectStockBean implements Serializable {
     public float change;
     public boolean isFollowed;
     public boolean isStop;
+    public boolean is_alert;
 
-    public long sortId;
+    public int sortId;
     public int status;
     public float total_capital;
 
@@ -97,6 +98,7 @@ public class SelectStockBean implements Serializable {
         selectBean.change = stockBean.getChange();
         selectBean.list_status = stockBean.getList_status();
         selectBean.total_capital = stockBean.getTotal_capital();
+        selectBean.is_alert = stockBean.isIs_alert();
         return selectBean;
     }
 
@@ -145,7 +147,7 @@ public class SelectStockBean implements Serializable {
         return sortId;
     }
 
-    public void setSortId(long index) {
+    public void setSortId(int index) {
         this.sortId = index;
     }
 

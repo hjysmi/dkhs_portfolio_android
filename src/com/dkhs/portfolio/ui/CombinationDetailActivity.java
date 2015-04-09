@@ -204,29 +204,29 @@ public class CombinationDetailActivity extends ModelAcitivity implements OnClick
 
     ScrollViewPager mViewPager;
 
-    private void initTabPage() {
-
-        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        // fragmentList.add(FragmentNetValueTrend.newInstance(false));
-        fragmentList.add(TestFragment.getInstance());
-        fragmentList.add(new FragmentCompare());
-        // fragmentList.add(TestFragment.getInstance());
-        fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
-        fragmentList.add(TestFragment.getInstance());
-        // Fragment f = new FragmentNews();
-        // fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
-        // Fragment f = new FragmentNews();
-        // Bundle b = new Bundle();
-        // b.putSerializable(FragmentNews.DATA, mCombinationBean);
-        // f.setArguments(b);
-        // fragmentList.add(f);
-
-        mViewPager = (ScrollViewPager) findViewById(R.id.pager);
-        mViewPager.setCanScroll(false);
-        mPagerAdapter = new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
-        mViewPager.setAdapter(mPagerAdapter);
-        mViewPager.setOnPageChangeListener(pageChangeListener);
-    }
+//    private void initTabPage() {
+//
+//        ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
+//        // fragmentList.add(FragmentNetValueTrend.newInstance(false));
+//        fragmentList.add(TestFragment.getInstance());
+//        fragmentList.add(new FragmentCompare());
+//        // fragmentList.add(TestFragment.getInstance());
+//        fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
+//        fragmentList.add(TestFragment.getInstance());
+//        // Fragment f = new FragmentNews();
+//        // fragmentList.add(FragmentPositionDetail.newInstance(mCombinationBean.getId()));
+//        // Fragment f = new FragmentNews();
+//        // Bundle b = new Bundle();
+//        // b.putSerializable(FragmentNews.DATA, mCombinationBean);
+//        // f.setArguments(b);
+//        // fragmentList.add(f);
+//
+//        mViewPager = (ScrollViewPager) findViewById(R.id.pager);
+//        mViewPager.setCanScroll(false);
+//        mPagerAdapter = new MyPagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
+//        mViewPager.setAdapter(mPagerAdapter);
+//        mViewPager.setOnPageChangeListener(pageChangeListener);
+//    }
 
     private class MyPagerFragmentAdapter extends FragmentPagerAdapter {
 

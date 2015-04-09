@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
@@ -30,10 +29,13 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /***
  * 自定义适配器
@@ -41,9 +43,9 @@ import android.widget.TextView;
  * @author zhangjia
  * 
  */
-public class DragListAdapter extends BaseAdapter {
+public abstract class DragListAdapter extends BaseAdapter implements OnCheckedChangeListener {
     private static final String TAG = "DragListAdapter";
-    private List<SelectStockBean> dataList;
+    private List<DragListItem> dataList = new ArrayList<DragListItem>();
     // private ArrayList<Integer> arrayDrawables;
     private Context context;
     public boolean isHidden;
@@ -52,7 +54,12 @@ public class DragListAdapter extends BaseAdapter {
     private int his = 0;
     private DragListView mDragListView;
 
-    public DragListAdapter(Context context, List<SelectStockBean> dataList, DragListView mDragListView) {
+    public DragListAdapter(Context context, DragListView mDragListView) {
+        this.context = context;
+        this.mDragListView = mDragListView;
+    }
+
+    public DragListAdapter(Context context, List<DragListItem> dataList, DragListView mDragListView) {
         this.context = context;
         this.dataList = dataList;
         this.mDragListView = mDragListView;
@@ -98,18 +105,25 @@ public class DragListAdapter extends BaseAdapter {
         final Button btn = (Button) convertView.findViewById(R.id.button_delete);
         TextView txv = (TextView) convertView.findViewById(R.id.drag_text_delet_pad);
         ImageView imageUp = (ImageView) convertView.findViewById(R.id.drag_item_up);
+        CheckBox cbAlert = (CheckBox) convertView.findViewById(R.id.cb_tixing);
         RelativeLayout layoutCover = (RelativeLayout) convertView.findViewById(R.id.drag_cover);
         // imageView.setImageResource(arrayDrawables.get(position));
 
         imageUp.setOnClickListener(new ClickForUp(position));
         image.setOnClickListener(new OnDele(btn, txv));
         btn.setOnClickListener(new Click(position, btn));
-        textView.setText(dataList.get(position).name);
-        tvId.setText(dataList.get(position).code);
-        // layoutCover.setOnTouchListener(new OnCover(image,btn));
+        DragListItem item = dataList.get(position);
+        textView.setText(item.getName());
+        tvId.setText(item.getDesc());
+        cbAlert.setOnCheckedChangeListener(null);
+        cbAlert.setTag(position);
+        if (item.isAlert()) {
+            cbAlert.setChecked(true);
+        } else {
+            cbAlert.setChecked(false);
+        }
+        cbAlert.setOnCheckedChangeListener(this);
         if (isChanged) {
-            // Log.i("wanggang", "position == " + position);
-            // Log.i("wanggang", "holdPosition == " + invisilePosition);
             if (position == invisilePosition) {
                 if (!ShowItem) {
                     convertView.findViewById(R.id.drag_list_item_text).setVisibility(View.INVISIBLE);
@@ -117,8 +131,6 @@ public class DragListAdapter extends BaseAdapter {
                     convertView.findViewById(R.id.image).setVisibility(View.INVISIBLE);
                     convertView.findViewById(R.id.drag_list_item_text_id).setVisibility(View.INVISIBLE);
                     convertView.findViewById(R.id.drag_item_up).setVisibility(View.INVISIBLE);
-                    // convertView.findViewById(R.id.check_del).setVisibility(View.INVISIBLE);
-                    // convertView.setVisibility(View.INVISIBLE);
                 }
             }
             if (lastFlag != -1) {
@@ -137,29 +149,13 @@ public class DragListAdapter extends BaseAdapter {
                 }
             }
 
-            // if(lastFlag != -1){
-            // if(lastFlag == 1){
-            // if(position < invisilePosition){
-            // if(position == invisilePosition - 1){
-            // convertView.findViewById(R.id.drag_list_item_text).setVisibility(View.INVISIBLE);
-            // convertView.findViewById(R.id.drag_list_item_image).setVisibility(View.INVISIBLE);
-            // convertView.findViewById(R.id.check_del).setVisibility(View.INVISIBLE);
-            // }
-            // // Animation animation;
-            // // if(isSameDragDirection){
-            // // animation = getToSelfAnimation(0, height);
-            // // }else{
-            // // animation = getFromSelfAnimation(0, -height);
-            // // }
-            // // convertView.startAnimation(animation);
-            // }
-            // }else{
-            //
-            // }
-            // }
         }
         return convertView;
     }
+
+    public abstract void onDeleteClick(int position);
+
+    public abstract void onAlertClick(int position, boolean isCheck);
 
     class OnDele implements OnClickListener {
         Button btn;
@@ -180,7 +176,7 @@ public class DragListAdapter extends BaseAdapter {
 
     }
 
-    public List<SelectStockBean> getList() {
+    public List<DragListItem> getList() {
         return dataList;
     }
 
@@ -226,23 +222,7 @@ public class DragListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-            PromptManager.showProgressDialog(context, null);
-            if (PortfolioApplication.getInstance().hasUserLogin()) {
-
-                mQuotesEngine.delfollow(dataList.get(position).id, baseListener);
-                station = position;
-            } else {
-                new VisitorDataEngine().delOptionalStock(dataList.get(position));
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        PromptManager.closeProgressDialog();
-                        dataList.remove(dataList.get(position));
-                        notifyDataSetChanged();
-                    }
-                }, 200);
-            }
+            onDeleteClick(position);
 
         }
 
@@ -276,10 +256,8 @@ public class DragListAdapter extends BaseAdapter {
     private boolean ShowItem = false;
 
     public void exchange(int startPosition, int endPosition) {
-        System.out.println(startPosition + "--" + endPosition);
         // holdPosition = endPosition;
-        SelectStockBean startObject = getItem(startPosition);
-        System.out.println(startPosition + "========" + endPosition);
+        DragListItem startObject = getItem(startPosition);
         Log.d("ON", "startPostion ==== " + startPosition);
         Log.d("ON", "endPosition ==== " + endPosition);
         if (startPosition < endPosition) {
@@ -294,10 +272,8 @@ public class DragListAdapter extends BaseAdapter {
     }
 
     public void exchangeCopy(int startPosition, int endPosition) {
-        System.out.println(startPosition + "--" + endPosition);
         // holdPosition = endPosition;
-        SelectStockBean startObject = getCopyItem(startPosition);
-        System.out.println(startPosition + "========" + endPosition);
+        DragListItem startObject = getCopyItem(startPosition);
         Log.d("ON", "startPostion ==== " + startPosition);
         Log.d("ON", "endPosition ==== " + endPosition);
         if (startPosition < endPosition) {
@@ -311,7 +287,7 @@ public class DragListAdapter extends BaseAdapter {
         // notifyDataSetChanged();
     }
 
-    public SelectStockBean getCopyItem(int position) {
+    public DragListItem getCopyItem(int position) {
         return mCopyList.get(position);
     }
 
@@ -321,7 +297,7 @@ public class DragListAdapter extends BaseAdapter {
     }
 
     @Override
-    public SelectStockBean getItem(int position) {
+    public DragListItem getItem(int position) {
         return dataList.get(position);
     }
 
@@ -330,24 +306,24 @@ public class DragListAdapter extends BaseAdapter {
         return position;
     }
 
-    public void addDragItem(int start, SelectStockBean obj) {
+    public void addDragItem(int start, DragListItem obj) {
         Log.i(TAG, "start" + start);
-        SelectStockBean title = dataList.get(start);
+        DragListItem title = dataList.get(start);
         dataList.remove(start);// 删除该项
         dataList.add(start, obj);// 添加删除项
     }
 
-    private ArrayList<SelectStockBean> mCopyList = new ArrayList<SelectStockBean>();
+    private ArrayList<DragListItem> mCopyList = new ArrayList<DragListItem>();
 
     public void copyList() {
         mCopyList.clear();
-        for (SelectStockBean str : dataList) {
+        for (DragListItem str : dataList) {
             mCopyList.add(str);
         }
     }
 
     public void putUp(int position) {
-        SelectStockBean tmp = dataList.get(position);
+        DragListItem tmp = dataList.get(position);
         mCopyList.clear();
         mCopyList.add(tmp);
         dataList.remove(position);
@@ -359,7 +335,7 @@ public class DragListAdapter extends BaseAdapter {
 
     public void pastList() {
         dataList.clear();
-        for (SelectStockBean str : mCopyList) {
+        for (DragListItem str : mCopyList) {
             dataList.add(str);
         }
     }
@@ -403,5 +379,28 @@ public class DragListAdapter extends BaseAdapter {
         go.setDuration(100);
         go.setInterpolator(new AccelerateInterpolator());
         return go;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        onAlertClick((Integer) buttonView.getTag(), isChanged);
+
+    }
+
+    public int getStation() {
+        return station;
+    }
+
+    public void setStation(int station) {
+        this.station = station;
+    }
+
+    public List<DragListItem> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<DragListItem> dataList) {
+        this.dataList = dataList;
     }
 }

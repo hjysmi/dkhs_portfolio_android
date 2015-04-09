@@ -426,7 +426,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void scrollToTop() {
-        Log.e(TAG, "scrollToTop");
         mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         // mScrollview.smoothScrollTo(0, 0);
         mScrollview.setScrollViewListener(mScrollViewListener);
@@ -540,7 +539,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void initTabPage() {
 
-        Log.e(TAG, "====initTabPage view");
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
         mStockQuotesChartFragment = StockQuotesChartFragment.newInstance(StockQuotesChartFragment.TREND_TYPE_TODAY,
                 mStockCode);
@@ -691,7 +689,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("StockquoteActivity onActivityResult");
         if (resultCode == RESULT_OK) {
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
@@ -706,8 +703,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     break;
                 case REQUEST_CHECK:
                     checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
+                    // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
+
                     setFuquanView();
+                    if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
+                        ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
+                    }
                     break;
             }
         }
@@ -725,9 +726,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             klinVirtulCheck.setText("后复权  ▼");
             // PortfolioApplication.getInstance().setCheckValue("2");
         }
-        if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
-            ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
-        }
+
+        // if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
+        // ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
+        // }
     }
 
     private void setTitleDate() {
@@ -739,6 +741,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSuccess(String result) {
+            if (mStockQuotesBean.isFollowed()) {
+                PromptManager.showDelFollowToast();
+            } else {
+
+                PromptManager.showFollowToast();
+            }
             mStockQuotesBean.setFollowed(!mStockQuotesBean.isFollowed());
             setAddOptionalButton();
         }
@@ -781,13 +789,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             // selectBean.isFollowed = false;
                             mStockQuotesBean.setFollowed(false);
                             mVisitorDataEngine.delOptionalStock(selectBean);
-                            PromptManager.showToast(R.string.msg_def_follow_success);
+                            PromptManager.showDelFollowToast();
                         } else {
                             selectBean.isFollowed = true;
                             mStockQuotesBean.setFollowed(true);
                             selectBean.sortId = 0;
                             mVisitorDataEngine.saveOptionalStock(selectBean);
-                            PromptManager.showToast(R.string.msg_follow_success);
+                            PromptManager.showFollowToast();
                         }
                     }
                     localList = mVisitorDataEngine.getOptionalStockList();
@@ -814,6 +822,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 b.putString(ChangeCheckType.CHECK_TYPE, checkValue);
                 intent.putExtras(b);
                 startActivityForResult(intent, REQUEST_CHECK);
+
                 break;
             default:
                 break;
@@ -1014,6 +1023,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         bottomLayout.setVisibility(View.VISIBLE);
         viewHeader.setVisibility(View.VISIBLE);
         landStockview.setVisibility(View.INVISIBLE);
+        fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(true);
         showHead();
         ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[] { 1.0F })
                 .setDuration(100L);
@@ -1045,6 +1055,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 viewHeader.setVisibility(View.GONE);
                 hideHead();
                 landStockview.setVisibility(View.VISIBLE);
+                fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(false);
             }
 
             public void onAnimationStart(Animator paramAnimator) {

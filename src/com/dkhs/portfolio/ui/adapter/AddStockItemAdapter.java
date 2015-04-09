@@ -61,10 +61,10 @@ public class AddStockItemAdapter extends SelectStockAdatper {
                     csBean.isFollowed = true;
                     csBean.sortId = 0;
                     mVisitorDataEngine.saveOptionalStock(csBean);
-                    PromptManager.showToast(R.string.msg_follow_success);
+                    PromptManager.showFollowToast();
                 } else {
                     mVisitorDataEngine.delOptionalStock(csBean);
-                    PromptManager.showToast(R.string.msg_def_follow_success);
+                    PromptManager.showDelFollowToast();
                 }
             }
 
@@ -109,7 +109,7 @@ public class AddStockItemAdapter extends SelectStockAdatper {
             // mDataList.remove(location)
             int index = mDataList.indexOf(object);
             mDataList.get(index).isFollowed = false;
-
+            PromptManager.showDelFollowToast();
         }
 
     };
@@ -142,6 +142,7 @@ public class AddStockItemAdapter extends SelectStockAdatper {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            PromptManager.showFollowToast();
 
         }
 

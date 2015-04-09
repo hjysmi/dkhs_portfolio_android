@@ -17,10 +17,13 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -39,7 +42,7 @@ import com.dkhs.portfolio.utils.PromptManager;
  * @author zhangjia
  * 
  */
-public class DragFundListAdapter extends BaseAdapter {
+public class DragFundListAdapter extends BaseAdapter implements OnCheckedChangeListener {
     private static final String TAG = "DragListAdapter";
     private List<CombinationBean> dataList = new ArrayList<CombinationBean>();
     // private ArrayList<Integer> arrayDrawables;
@@ -99,12 +102,24 @@ public class DragFundListAdapter extends BaseAdapter {
         ImageView imageUp = (ImageView) convertView.findViewById(R.id.drag_item_up);
         RelativeLayout layoutCover = (RelativeLayout) convertView.findViewById(R.id.drag_cover);
         // imageView.setImageResource(arrayDrawables.get(position));
+        CheckBox cbAlert = (CheckBox) convertView.findViewById(R.id.cb_tixing);
 
         imageUp.setOnClickListener(new ClickForUp(position));
         image.setOnClickListener(new OnDele(btn, txv));
         btn.setOnClickListener(new Click(position, btn));
+        CombinationBean item = dataList.get(position);
         textView.setText(dataList.get(position).getName());
         tvId.setText(dataList.get(position).getUser().getUsername());
+
+        cbAlert.setOnCheckedChangeListener(null);
+        cbAlert.setTag(item);
+        if (item.isIs_alert()) {
+            cbAlert.setChecked(true);
+        } else {
+            cbAlert.setChecked(false);
+        }
+        cbAlert.setOnCheckedChangeListener(this);
+
         // layoutCover.setOnTouchListener(new OnCover(image,btn));
         if (isChanged) {
             // Log.i("wanggang", "position == " + position);
@@ -401,5 +416,10 @@ public class DragFundListAdapter extends BaseAdapter {
         go.setDuration(100);
         go.setInterpolator(new AccelerateInterpolator());
         return go;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
     }
 }

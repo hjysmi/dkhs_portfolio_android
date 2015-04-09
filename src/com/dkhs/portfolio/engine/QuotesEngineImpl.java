@@ -55,6 +55,15 @@ public class QuotesEngineImpl {
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.StockSymbol.symbolfollow, id + ""), params, listener);
     }
 
+    public void symbolAlert(String id, boolean isAlert, IHttpListener listener) {
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("is_alert", Boolean.toString(isAlert));
+        // params.addBodyParameter("symbol", id + "");
+        // params.addBodyParameter("buy_in", "0");
+        // params.addBodyParameter("sell_out", "0");
+        DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.StockSymbol.symbolfollow, id), params, listener);
+    }
+
     public void symbolFollows(String ids, IHttpListener listener) {
         RequestParams params = new RequestParams();
         DKHSClient.requestByPost(MessageFormat.format(DKHSUrl.StockSymbol.symbolfollow, ids), params, listener);
