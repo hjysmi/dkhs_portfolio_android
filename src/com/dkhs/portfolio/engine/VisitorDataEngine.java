@@ -36,27 +36,37 @@ public class VisitorDataEngine {
     /**
      * 添加自选股到本地
      */
-    public void saveOptionalStock(SelectStockBean stockbean) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
-        try {
-            db.save(stockbean);
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void saveOptionalStock(final SelectStockBean stockbean) {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    db.save(stockbean);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+        }.start();
     }
 
     /**
      * 添加自选股到本地
      */
-    public void saveCombination(CombinationBean combean) {
-        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
-        try {
-            db.save(combean);
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    public void saveCombination(final CombinationBean combean) {
+        new Thread() {
+            public void run() {
+                DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+                try {
+                    db.save(combean);
+                } catch (DbException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+            };
+        }.start();
+
     }
 
     /**

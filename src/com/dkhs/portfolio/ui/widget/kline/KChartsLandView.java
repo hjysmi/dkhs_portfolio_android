@@ -488,6 +488,7 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
                         // Paint p = new Paint();
                         merchPaint.reset();
                         Rect rect = new Rect();
+                        merchPaint.setAntiAlias(true);
                         merchPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
                         merchPaint.getTextBounds(t, 0, t.length(), rect);
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()

@@ -203,22 +203,25 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 break;
             case R.id.btn_exit:
                 if (isSetPassword) {
-                    DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-                    try {
-                        GlobalParams.ACCESS_TOCKEN = null;
-                        GlobalParams.MOBILE = null;
-                        dbUtils.deleteAll(UserEntity.class);
-                        PortfolioApplication.getInstance().exitApp();
-                        // intent = new Intent(this, LoginActivity.class);
-                        intent = new Intent(this, LoginRegisterAcitvity.class);
-                        startActivity(intent);
-                    } catch (DbException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginRegisterAcitvity.class);
-                        startActivity(intent);
-                    }
+
+                    new Thread() {
+                        public void run() {
+                            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+
+                            try {
+                                dbUtils.deleteAll(UserEntity.class);
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
+                        };
+                    }.start();
+                    GlobalParams.ACCESS_TOCKEN = null;
+                    GlobalParams.MOBILE = null;
+                    PortfolioApplication.getInstance().exitApp();
+                    // intent = new Intent(this, LoginActivity.class);
+                    intent = new Intent(this, LoginRegisterAcitvity.class);
+                    startActivity(intent);
+
                 } else {
                     intent = new Intent(this, SetPasswordActivity.class);
                     // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);

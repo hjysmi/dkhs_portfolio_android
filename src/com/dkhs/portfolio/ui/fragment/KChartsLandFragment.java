@@ -555,7 +555,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                     getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                             mLandCallBack.getCheckValue(), page);
                     // mLandCallBack.setChange(true);
-                    mLandCallBack.setCheckValue(UNCHEK);
                 }
                 break;
             case R.id.klin_before_check:
@@ -574,7 +573,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                     getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                             mLandCallBack.getCheckValue(), page);
                     // mLandCallBack.setChange(true);
-                    mLandCallBack.setCheckValue(BEFORECHEK);
                 }
                 break;
             case R.id.klin_after_check:
@@ -593,7 +591,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                     getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener,
                             mLandCallBack.getCheckValue(), page);
                     // mLandCallBack.setChange(true);
-                    mLandCallBack.setCheckValue(AFTERCHEK);
                 }
                 break;
             case R.id.kline_turnover:
