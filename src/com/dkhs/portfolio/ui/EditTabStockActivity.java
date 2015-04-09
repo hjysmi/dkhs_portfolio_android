@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,13 +34,21 @@ import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
-public class OptionEditActivity extends ModelAcitivity implements OnClickListener {
+public class EditTabStockActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
-    LoadMoreDataEngine mLoadDataEngine;
+    // LoadMoreDataEngine mLoadDataEngine;
     private DragListAdapter adapter;
     private Context context;
     private Button btnRight;
     private LinearLayout layout;
+
+    public static Intent newIntent(Context context, List<SelectStockBean> dataList) {
+        Intent intent = new Intent(context, EditTabStockActivity.class);
+        // extras
+        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) dataList);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -47,14 +57,27 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         setContentView(R.layout.activity_option_edit);
         setTitle(R.string.title_edit_optional_stock);
 
-        context = this;
-        mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
-        initView();
-        if (mLoadDataEngine != null) {
-            // mDataList.clear();
-            mLoadDataEngine.setLoadingDialog(this);
-            mLoadDataEngine.loadData();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
         }
+
+        context = this;
+        // mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
+        initView();
+        // if (mLoadDataEngine != null) {
+        // // mDataList.clear();
+        // mLoadDataEngine.setLoadingDialog(this);
+        // mLoadDataEngine.loadData();
+        // }
+
+    }
+
+    private List<SelectStockBean> mStockList;
+
+    private void handleExtras(Bundle extras) {
+
+        mStockList = (ArrayList<SelectStockBean>) extras.getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
 
     }
 
@@ -65,25 +88,30 @@ public class OptionEditActivity extends ModelAcitivity implements OnClickListene
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
+
+        adapter = new DragListAdapter(context, mStockList, optionEditList);
+        optionEditList.setAdapter(adapter);
+        optionEditList.setOnItemClickListener(new OnListener());
+
     }
 
-    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
-
-        @Override
-        public void loadFinish(MoreDataBean object) {
-            adapter = new DragListAdapter(context, object.getResults(), optionEditList);
-            optionEditList.setAdapter(adapter);
-            optionEditList.setOnItemClickListener(new OnListener());
-
-        }
-
-        @Override
-        public void loadFail() {
-            // TODO Auto-generated method stub
-
-        }
-
-    };
+    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
+    //
+    // @Override
+    // public void loadFinish(MoreDataBean object) {
+    // adapter = new DragListAdapter(context, object.getResults(), optionEditList);
+    // optionEditList.setAdapter(adapter);
+    // optionEditList.setOnItemClickListener(new OnListener());
+    //
+    // }
+    //
+    // @Override
+    // public void loadFail() {
+    // // TODO Auto-generated method stub
+    //
+    // }
+    //
+    // };
 
     public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
         List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();

@@ -102,7 +102,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.OptionEditActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.EditTabStockActivity" />
         <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ChangeCombinationNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />

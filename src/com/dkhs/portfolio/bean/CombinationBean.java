@@ -55,6 +55,8 @@ public class CombinationBean implements Serializable {
     @SerializedName("followers_count")
     private int followerCount;
 
+    private boolean is_alert;
+
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -279,6 +281,14 @@ public class CombinationBean implements Serializable {
         public void setUsername(String username) {
             this.username = username;
         }
+    }
+
+    public boolean isIs_alert() {
+        return is_alert;
+    }
+
+    public void setIs_alert(boolean is_alert) {
+        this.is_alert = is_alert;
     }
 
 }

@@ -30,10 +30,13 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 /***
  * 自定义适配器
@@ -41,7 +44,7 @@ import android.widget.TextView;
  * @author zhangjia
  * 
  */
-public class DragListAdapter extends BaseAdapter {
+public class DragListAdapter extends BaseAdapter implements OnCheckedChangeListener {
     private static final String TAG = "DragListAdapter";
     private List<SelectStockBean> dataList;
     // private ArrayList<Integer> arrayDrawables;
@@ -98,14 +101,24 @@ public class DragListAdapter extends BaseAdapter {
         final Button btn = (Button) convertView.findViewById(R.id.button_delete);
         TextView txv = (TextView) convertView.findViewById(R.id.drag_text_delet_pad);
         ImageView imageUp = (ImageView) convertView.findViewById(R.id.drag_item_up);
+        CheckBox cbAlert = (CheckBox) convertView.findViewById(R.id.cb_tixing);
         RelativeLayout layoutCover = (RelativeLayout) convertView.findViewById(R.id.drag_cover);
         // imageView.setImageResource(arrayDrawables.get(position));
 
         imageUp.setOnClickListener(new ClickForUp(position));
         image.setOnClickListener(new OnDele(btn, txv));
         btn.setOnClickListener(new Click(position, btn));
-        textView.setText(dataList.get(position).name);
-        tvId.setText(dataList.get(position).code);
+        SelectStockBean item = dataList.get(position);
+        textView.setText(item.name);
+        tvId.setText(item.code);
+        cbAlert.setOnCheckedChangeListener(null);
+        cbAlert.setTag(item);
+        if (item.is_alert) {
+            cbAlert.setChecked(true);
+        } else {
+            cbAlert.setChecked(false);
+        }
+        cbAlert.setOnCheckedChangeListener(this);
         // layoutCover.setOnTouchListener(new OnCover(image,btn));
         if (isChanged) {
             // Log.i("wanggang", "position == " + position);
@@ -276,10 +289,8 @@ public class DragListAdapter extends BaseAdapter {
     private boolean ShowItem = false;
 
     public void exchange(int startPosition, int endPosition) {
-        System.out.println(startPosition + "--" + endPosition);
         // holdPosition = endPosition;
         SelectStockBean startObject = getItem(startPosition);
-        System.out.println(startPosition + "========" + endPosition);
         Log.d("ON", "startPostion ==== " + startPosition);
         Log.d("ON", "endPosition ==== " + endPosition);
         if (startPosition < endPosition) {
@@ -294,10 +305,8 @@ public class DragListAdapter extends BaseAdapter {
     }
 
     public void exchangeCopy(int startPosition, int endPosition) {
-        System.out.println(startPosition + "--" + endPosition);
         // holdPosition = endPosition;
         SelectStockBean startObject = getCopyItem(startPosition);
-        System.out.println(startPosition + "========" + endPosition);
         Log.d("ON", "startPostion ==== " + startPosition);
         Log.d("ON", "endPosition ==== " + endPosition);
         if (startPosition < endPosition) {
@@ -403,5 +412,16 @@ public class DragListAdapter extends BaseAdapter {
         go.setDuration(100);
         go.setInterpolator(new AccelerateInterpolator());
         return go;
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (isChecked) {
+            PromptManager.showToast("添加提醒");
+        } else {
+            PromptManager.showToast("取消提醒");
+
+        }
+
     }
 }
