@@ -45,7 +45,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public abstract class DragListAdapter extends BaseAdapter implements OnCheckedChangeListener {
     private static final String TAG = "DragListAdapter";
-    private List<DragListItem> dataList;
+    private List<DragListItem> dataList = new ArrayList<DragListItem>();
     // private ArrayList<Integer> arrayDrawables;
     private Context context;
     public boolean isHidden;
@@ -53,6 +53,11 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
     private int station = 0;
     private int his = 0;
     private DragListView mDragListView;
+
+    public DragListAdapter(Context context, DragListView mDragListView) {
+        this.context = context;
+        this.mDragListView = mDragListView;
+    }
 
     public DragListAdapter(Context context, List<DragListItem> dataList, DragListView mDragListView) {
         this.context = context;
@@ -111,7 +116,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         textView.setText(item.getName());
         tvId.setText(item.getDesc());
         cbAlert.setOnCheckedChangeListener(null);
-        cbAlert.setTag(item);
+        cbAlert.setTag(position);
         if (item.isAlert()) {
             cbAlert.setChecked(true);
         } else {
@@ -148,12 +153,10 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         return convertView;
     }
 
-    
     public abstract void onDeleteClick(int position);
-    public abstract void onAlertClick(int position);
-    
-    
-    
+
+    public abstract void onAlertClick(int position, boolean isCheck);
+
     class OnDele implements OnClickListener {
         Button btn;
         TextView tv;
@@ -219,7 +222,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         @Override
         public void onClick(View v) {
             // TODO Auto-generated method stub
-           onDeleteClick(position);
+            onDeleteClick(position);
 
         }
 
@@ -380,12 +383,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (isChecked) {
-            PromptManager.showToast("添加提醒");
-        } else {
-            PromptManager.showToast("取消提醒");
 
-        }
+        onAlertClick((Integer) buttonView.getTag(), isChanged);
 
     }
 
@@ -395,5 +394,13 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void setStation(int station) {
         this.station = station;
+    }
+
+    public List<DragListItem> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<DragListItem> dataList) {
+        this.dataList = dataList;
     }
 }

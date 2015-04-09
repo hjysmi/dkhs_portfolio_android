@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.app.Activity;
@@ -20,6 +21,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +91,8 @@ public class StockQuotesChartFragment extends BaseFragment {
 
     // private long mStockId;
     private String mStockCode;
-    LineEntity fenshiPiceLine;
+    private LineEntity fenshiPiceLine;
+    private LineEntity averageLine;
 
     private SelectStockBean mSelectStockBean;
     private RelativeLayout pb;
@@ -135,6 +138,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         }
 
         fenshiPiceLine = new LineEntity();
+        averageLine = new LineEntity();
+        averageLine.setLineColor(PortfolioApplication.getInstance().getResources().getColor(R.color.orange));
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
@@ -300,19 +305,17 @@ public class StockQuotesChartFragment extends BaseFragment {
     // this.mTouchListener = touchListener;
     // }
 
-    private void setLineData(List<FSLinePointEntity> lineDataList) {
+    private void setLineData(List<FSLinePointEntity> lineDataList, List<LinePointEntity> avaLines) {
         if (isAdded()) {
-            List<LineEntity> lines = new ArrayList<LineEntity>();
+            LinkedList<LineEntity> lines = new LinkedList<LineEntity>();
 
             fenshiPiceLine.setLineData(lineDataList);
-            LineEntity averageLine = new LineEntity();
-            averageLine.setLineColor(PortfolioApplication.getInstance().getResources().getColor(R.color.orange));
-            averageLine.setLineData(averagelineData);
+
+            averageLine.setLineData(avaLines);
 
             lines.add(0, fenshiPiceLine);
-            if (null != mStockBean && !StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+            if (null != mSelectStockBean && !StockUitls.isIndexStock(mSelectStockBean.getSymbol_type())) {
                 lines.add(averageLine);
-
             }
             mMaChart.setLineData(lines);
         }
@@ -405,7 +408,7 @@ public class StockQuotesChartFragment extends BaseFragment {
             //
             // }
 
-            if (isStopStock() || null == lineDataList || lineDataList.size() < 1) {
+            if (isStopStock() || null == fenshiLineData || fenshiLineData.size() < 1) {
                 // setYTitle(mStockBean.getLastClose(), mStockBean.getLastClose() * 0.01f);
                 // mMaChart.invalidate();
                 setStopYTitle(mStockBean.getLastClose());
@@ -485,7 +488,7 @@ public class StockQuotesChartFragment extends BaseFragment {
                     if (mainList != null && mainList.size() > 0) {
                         setYTitle(fsDataBean.getLast_close(), getMaxOffetValue(fsDataBean.getLast_close(), mainList));
                         setTodayPointTitle();
-                        setLineData(lineDataList);
+                        setLineData(fenshiLineData, averagelineData);
                         //
                         // String lasttime = dayNetValueList.get(dayNetValueList.size() - 1).getTimestamp();
                         // // int zIndex = lasttime.indexOf("T");
@@ -507,7 +510,7 @@ public class StockQuotesChartFragment extends BaseFragment {
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
     private float getMaxOffetValue(float baseNum, List<TimeStock> mainList) {
-        lineDataList.clear();
+        fenshiLineData.clear();
         averagelineData.clear();
 
         // float baseNum = mainList.get(0).getCurrent();
@@ -559,7 +562,7 @@ public class StockQuotesChartFragment extends BaseFragment {
             pointEntity.setTurnover(bean.getVolume());
 
             averagePoint.setValue(bean.getAvgline());
-            lineDataList.add(pointEntity);
+            fenshiLineData.add(pointEntity);
             averagelineData.add(averagePoint);
         }
 
@@ -575,7 +578,7 @@ public class StockQuotesChartFragment extends BaseFragment {
         return offetValue;
     }
 
-    List<FSLinePointEntity> lineDataList = new ArrayList<FSLinePointEntity>();
+    List<FSLinePointEntity> fenshiLineData = new ArrayList<FSLinePointEntity>();
     List<LinePointEntity> averagelineData = new ArrayList<LinePointEntity>();
 
     /**

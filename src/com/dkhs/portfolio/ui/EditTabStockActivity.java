@@ -30,14 +30,16 @@ import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
+import com.dkhs.portfolio.ui.draglist.DragListItem;
 import com.dkhs.portfolio.ui.draglist.DragListView;
+import com.dkhs.portfolio.ui.draglist.StockDragAdapter;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
 public class EditTabStockActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
     // LoadMoreDataEngine mLoadDataEngine;
-    private DragListAdapter adapter;
+    private StockDragAdapter adapter;
     private Context context;
     private Button btnRight;
     private LinearLayout layout;
@@ -89,7 +91,8 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
 
-        adapter = new DragListAdapter(context, mStockList, optionEditList);
+        adapter = new StockDragAdapter(context, optionEditList);
+        adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());
 
@@ -155,14 +158,14 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                     return;
                 }
                 try {
-                    List<SelectStockBean> list = optionEditList.getList();
+                    List<DragListItem> list = optionEditList.getList();
                     // JSONArray jsonArray = JSONArray.fromObject(list);
                     JSONArray json = new JSONArray();
                     for (int i = 0; i < list.size(); i++) {
-                        SelectStockBean vo = list.get(i);
+                        DragListItem vo = list.get(i);
                         JSONObject jo = new JSONObject();
                         vo.setSortId(i + 1);
-                        jo.put("symbol_id", vo.id);
+                        jo.put("symbol_id", vo.getId());
                         jo.put("sort_index", i + 1);
                         json.put(jo);
                     }
@@ -172,7 +175,9 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                         OptionalStockEngineImpl.setIndex(userInfoListener.setLoadingDialog(this, "保存中...", false),
                                 json.toString());
                     } else {
-                        new VisitorDataEngine().replaceOptionStock(list);
+
+                        // 未完成
+                        // new VisitorDataEngine().replaceOptionStock(list);
                         PromptManager.showToast("修改成功");
                         finish();
                     }
