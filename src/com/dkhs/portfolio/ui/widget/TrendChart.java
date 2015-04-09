@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -421,7 +422,6 @@ public class TrendChart extends TrendGridChart {
         int lineSize = lineData.size();
         for (int i = 0; i < lineSize; i++) {
             LineEntity line = (LineEntity) lineData.get(i);
-
             if (line.isDisplay()) {
                 mLinePaint.setColor(line.getLineColor());
 
@@ -921,7 +921,7 @@ public class TrendChart extends TrendGridChart {
 
     }
 
-//    private ITouchListener mTouchListener;
+    // private ITouchListener mTouchListener;
 
     // public void setITouchListener(ITouchListener touchListener) {
     // this.mTouchListener = touchListener;
