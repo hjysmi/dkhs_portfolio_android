@@ -111,7 +111,7 @@ public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
         }
 
         if (tabIndex == 2) {
-            if (item.total_capital == 0) {
+            if (item.total_capital == 0 || StockUitls.isIndexStock(item.symbol_type)) {
 
                 viewHolder.tvPercentValue.setText("—");
             } else {
