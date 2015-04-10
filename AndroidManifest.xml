@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="10"
-    android:versionName="1.4.0409" >
+    android:versionName="1.4.0410" >
 
     <uses-sdk
         android:minSdkVersion="14"
