@@ -17,50 +17,50 @@ package com.dkhs.portfolio.bean;
  */
 public class DragListItem {
 
-    private String id;
-    private String name;
-    private String desc;
-    private boolean isAlert;
-    private int sortId;
+    private String itemId;
+    private String itemName;
+    private String itemDesc;
+    private boolean itemTixing;
+    private int itemSortId;
 
-    public String getId() {
-        return id;
+    public String getItemId() {
+        return itemId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
-    public String getName() {
-        return name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getItemDesc() {
+        return itemDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setItemDesc(String itemDesc) {
+        this.itemDesc = itemDesc;
     }
 
-    public boolean isAlert() {
-        return isAlert;
+    public boolean isItemTixing() {
+        return itemTixing;
     }
 
-    public void setAlert(boolean isAlert) {
-        this.isAlert = isAlert;
+    public void setItemTixing(boolean itemTixing) {
+        this.itemTixing = itemTixing;
     }
 
-    public int getSortId() {
-        return sortId;
+    public int getItemSortId() {
+        return itemSortId;
     }
 
-    public void setSortId(int sortId) {
-        this.sortId = sortId;
+    public void setItemSortId(int itemSortId) {
+        this.itemSortId = itemSortId;
     }
 
 }
