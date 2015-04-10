@@ -159,6 +159,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                 }
                 try {
                     List<DragListItem> list = optionEditList.getList();
+                    // List<SelectStockBean> list = optionEditList.getList();
                     // JSONArray jsonArray = JSONArray.fromObject(list);
                     JSONArray json = new JSONArray();
                     for (int i = 0; i < list.size(); i++) {
@@ -177,7 +178,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                     } else {
 
                         // 未完成
-                        // new VisitorDataEngine().replaceOptionStock(list);
+                        new VisitorDataEngine().replaceOptionStock(list);
                         PromptManager.showToast("修改成功");
                         finish();
                     }

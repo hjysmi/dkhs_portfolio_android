@@ -242,9 +242,9 @@ public class DragListView extends ListView {
         return false;
     }
 
-    public List<DragListItem> getList() {
-        return ((DragListAdapter) getAdapter()).getList();
-    }
+//    public List<DragListItem> getList() {
+//        return ((DragListAdapter) getAdapter()).getList();
+//    }
 
     public void setAnima(int startX, int endX, View view, final View v1, final View v2) {
         Animation animation = null;
