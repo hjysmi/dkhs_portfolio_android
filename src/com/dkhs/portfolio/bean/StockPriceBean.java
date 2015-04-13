@@ -30,7 +30,7 @@ public class StockPriceBean {
     private float turnover_rate;
     private float amplitude;
     @SerializedName("sort_index")
-    public int index;
+    public long index;
     // 涨跌幅
     @SerializedName("percentage")
     private float percentage;
@@ -71,11 +71,11 @@ public class StockPriceBean {
         this.id = id;
     }
 
-    public int getIndex() {
+    public long getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(long index) {
         this.index = index;
     }
 

@@ -37,7 +37,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
     public boolean isStop;
     public boolean is_alert;
 
-    public int sortId;
+    public long sortId;
     public int status;
     public float total_capital;
 
@@ -285,7 +285,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
     }
 
     @Override
-    public int getItemSortId() {
+    public long getItemSortId() {
         // TODO Auto-generated method stub
         return this.sortId;
     }

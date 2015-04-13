@@ -31,14 +31,14 @@ import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
-import com.dkhs.portfolio.ui.draglist.StockDragAdapter;
+import com.dkhs.portfolio.ui.draglist.DragStockAdapter;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
 public class EditTabStockActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
     // LoadMoreDataEngine mLoadDataEngine;
-    private StockDragAdapter adapter;
+    private DragStockAdapter adapter;
     private Context context;
     private Button btnRight;
     private LinearLayout layout;
@@ -90,7 +90,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
 
-        adapter = new StockDragAdapter(context, optionEditList);
+        adapter = new DragStockAdapter(context, optionEditList);
         adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());
@@ -115,27 +115,27 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
     //
     // };
 
-    public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
-        List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
-        SelectStockBean sb;
-        int position;
-        while (datalist.size() > 0) {
-            for (int i = 0; i < datalist.size(); i++) {
-                sb = datalist.get(i);
-                position = i;
-                for (int j = i; j < datalist.size(); j++) {
-                    if (sb.sortId < datalist.get(j).sortId) {
-                        sb = datalist.get(j);
-                        position = j;
-                    }
-                }
-                datalist.remove(position);
-                tmp.add(sb);
-                break;
-            }
-        }
-        return tmp;
-    }
+    // public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
+    // List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
+    // SelectStockBean sb;
+    // int position;
+    // while (datalist.size() > 0) {
+    // for (int i = 0; i < datalist.size(); i++) {
+    // sb = datalist.get(i);
+    // position = i;
+    // for (int j = i; j < datalist.size(); j++) {
+    // if (sb.sortId < datalist.get(j).sortId) {
+    // sb = datalist.get(j);
+    // position = j;
+    // }
+    // }
+    // datalist.remove(position);
+    // tmp.add(sb);
+    // break;
+    // }
+    // }
+    // return tmp;
+    // }
 
     class OnListener implements OnItemClickListener {
 
@@ -169,6 +169,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                         jo.put("symbol_id", vo.getId());
                         jo.put("sort_index", i + 1);
                         json.put(jo);
+                        
                     }
                     Log.e("listindex", json.toString());
                     if (PortfolioApplication.hasUserLogin()) {

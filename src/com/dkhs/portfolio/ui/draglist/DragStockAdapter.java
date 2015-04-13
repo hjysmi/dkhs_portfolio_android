@@ -32,11 +32,11 @@ import android.widget.TextView;
  * @date 2015-4-9 下午3:23:45
  * @version 1.0
  */
-public class StockDragAdapter extends DragListAdapter {
+public class DragStockAdapter extends DragListAdapter {
 
     private QuotesEngineImpl mQuotesEngine;
 
-    public StockDragAdapter(Context context, DragListView mDragListView) {
+    public DragStockAdapter(Context context, DragListView mDragListView) {
         super(context, mDragListView);
         mQuotesEngine = new QuotesEngineImpl();
 
@@ -45,60 +45,39 @@ public class StockDragAdapter extends DragListAdapter {
     public void setAdapterData(List<SelectStockBean> stockList) {
         parseToDragItem(stockList);
         notifyDataSetChanged();
-        this.stockList = stockList;
-        setDataList(dataList);
+        // this.stockList = stockList;
+        // setDataList(dataList);
 
     }
 
-    private List<SelectStockBean> stockList = new ArrayList<SelectStockBean>();
-
-    // private List<DragListItem> dataList = new ArrayList<DragListItem>();
-    // public StockDragAdapter(Context context, List<DragListItem> stockList, DragListView mDragListView) {
-    // // parseToDragItem(stockList);
-    // // super(context, dataList, mDragListView);
-    // }
-    private List<DataEntry> dataList = new ArrayList<DataEntry>();
+    // private List<SelectStockBean> stockList = new ArrayList<SelectStockBean>();
 
     private void parseToDragItem(List<SelectStockBean> stockList) {
+        List<DataEntry> dataList = new ArrayList<DataEntry>();
         for (SelectStockBean stockBean : stockList) {
             DataEntry<SelectStockBean> dataBean = new DataEntry<SelectStockBean>();
             dataBean.elment = stockBean;
             dataList.add(dataBean);
         }
+        setDataList(dataList);
     }
-
-    //
-    // for (SelectStockBean stockBean : stockList) {
-    // DragListItem dragItem = new DragListItem();
-    // dragItem.setAlert(stockBean.is_alert);
-    // dragItem.setDesc(stockBean.code);
-    // dragItem.setId(stockBean.id + "");
-    // dragItem.setName(stockBean.name);
-    // dragItem.setSortId(stockBean.sortId);
-    // getDataList().add(dragItem);
-    // }
-    // }
-
-    // public StockDragAdapter(Context context, List<DragListItem> dataList, DragListView mDragListView) {
-    // super(context, dataList, mDragListView);
-    // }
 
     @Override
     public void onDeleteClick(final int position) {
         PromptManager.showProgressDialog(context, null);
-        SelectStockBean stockBean = stockList.get(position);
+        SelectStockBean stockBean = (SelectStockBean) getDataList().get(position).elment;
         if (PortfolioApplication.getInstance().hasUserLogin()) {
             mQuotesEngine.delfollow(stockBean.id, baseListener);
             // station = position;
             setStation(position);
         } else {
-            new VisitorDataEngine().delOptionalStock(stockList.get(position));
+            new VisitorDataEngine().delOptionalStock(stockBean);
             new Handler().postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
                     PromptManager.closeProgressDialog();
-                    stockList.remove(stockList.get(position));
+                    getDataList().remove(position);
                     notifyDataSetChanged();
                 }
             }, 200);
@@ -118,7 +97,6 @@ public class StockDragAdapter extends DragListAdapter {
     }
 
     public List<SelectStockBean> getStockList() {
-        // return stockList;
         List<SelectStockBean> stockList = new ArrayList<SelectStockBean>();
         for (DataEntry entry : getList()) {
             stockList.add((SelectStockBean) entry.elment);
@@ -126,22 +104,4 @@ public class StockDragAdapter extends DragListAdapter {
         return stockList;
     }
 
-    @Override
-    public void setViewDate(int position, TextView tvName, TextView tvDesc, CheckBox cbTixing) {
-        DataEntry entry = getList().get(position);
-        DragListItem item = (DragListItem) entry.elment;
-        // System.out.println("setViewDate position:" + position + " name:" + item.getName());
-
-        tvName.setText(item.getItemName());
-        tvDesc.setText(item.getItemDesc());
-        cbTixing.setOnCheckedChangeListener(null);
-        cbTixing.setTag(position);
-        if (item.isItemTixing()) {
-            cbTixing.setChecked(true);
-        } else {
-            cbTixing.setChecked(false);
-        }
-        cbTixing.setOnCheckedChangeListener(this);
-
-    }
 }
