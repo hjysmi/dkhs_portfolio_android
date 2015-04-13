@@ -61,7 +61,7 @@ public class PortfolioApplication extends Application {
         super.onCreate();
         mInstance = this;
         if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
-             copyDataBaseToPhone();
+            copyDataBaseToPhone();
         }
 
         // 注册crashHandler

@@ -19,6 +19,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -34,8 +35,11 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class StockRemindActivity extends ModelAcitivity implements OnClickListener {
 
     public static final String ARGUMENT_STOCK = "agrument_stock";
+    public static final String ARGUMENT_COMBINATION = "agrument_combination";
+    public static final String ARGUMENT_IS_COMBINATION = "agrument_is_combination";
     private Button btnRight;
     private SelectStockBean mStockBean;
+    private CombinationBean mComBean;
 
     private boolean isCombinationSetting = false;
 
@@ -95,6 +99,14 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     public static Intent newStockIntent(Context context, SelectStockBean stock) {
         Intent intent = new Intent(context, StockRemindActivity.class);
         intent.putExtra(ARGUMENT_STOCK, stock);
+        intent.putExtra(ARGUMENT_IS_COMBINATION, false);
+        return intent;
+    }
+
+    public static Intent newCombinatIntent(Context context, CombinationBean conBean) {
+        Intent intent = new Intent(context, StockRemindActivity.class);
+        intent.putExtra(ARGUMENT_COMBINATION, conBean);
+        intent.putExtra(ARGUMENT_IS_COMBINATION, true);
         return intent;
     }
 
@@ -113,6 +125,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     private void handleExtras(Bundle extras) {
         mStockBean = (SelectStockBean) extras.get(ARGUMENT_STOCK);
+        mComBean = (CombinationBean) extras.get(ARGUMENT_COMBINATION);
+        isCombinationSetting = extras.getBoolean(ARGUMENT_IS_COMBINATION);
     }
 
     private void initView() {
@@ -135,6 +149,15 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         viewAdjustRemind.setVisibility(View.VISIBLE);
         viewNoticeRemind.setVisibility(View.GONE);
         viewYanbaoRemind.setVisibility(View.GONE);
+
+        if (null != mComBean) {
+            tvStockName.setText(mComBean.getName());
+            String perText = getString(R.string.format_percent,
+                    StringFromatUtils.get2PointPercent(mComBean.getCumulative()));
+            tvPercent.setText(perText);
+            perText = getString(R.string.format_combination_price, mComBean.getNetvalue());
+            tvPrice.setText(perText);
+        }
 
     }
 
