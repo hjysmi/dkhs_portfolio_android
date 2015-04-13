@@ -115,6 +115,7 @@
         <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity" />
+        <activity android:name="com.dkhs.portfolio.ui.StockRemindActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.KChartLandScapeActivity"
             android:configChanges="orientation|screenSize"

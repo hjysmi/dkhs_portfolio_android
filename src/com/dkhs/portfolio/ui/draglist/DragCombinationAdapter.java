@@ -20,11 +20,13 @@ import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 /**
@@ -89,7 +91,12 @@ public class DragCombinationAdapter extends DragListAdapter {
     }
 
     @Override
-    public void onAlertClick(int position, boolean isCheck) {
+    public void onAlertClick(CompoundButton buttonView, int position, boolean isCheck) {
+        if (UIUtils.iStartLoginActivity(context)) {// 如果当前是游客模式，无法设置提醒，需要跳转到登陆页
+            buttonView.setChecked(!isCheck);
+            return;
+        }
+
         if (isCheck) {
             PromptManager.showToast("添加提醒");
         } else {

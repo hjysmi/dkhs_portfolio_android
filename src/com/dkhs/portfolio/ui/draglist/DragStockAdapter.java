@@ -17,12 +17,16 @@ import com.dkhs.portfolio.bean.DragListItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
+import com.dkhs.portfolio.ui.StockRemindActivity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 /**
@@ -45,8 +49,6 @@ public class DragStockAdapter extends DragListAdapter {
     public void setAdapterData(List<SelectStockBean> stockList) {
         parseToDragItem(stockList);
         notifyDataSetChanged();
-        // this.stockList = stockList;
-        // setDataList(dataList);
 
     }
 
@@ -68,7 +70,6 @@ public class DragStockAdapter extends DragListAdapter {
         SelectStockBean stockBean = (SelectStockBean) getDataList().get(position).elment;
         if (PortfolioApplication.getInstance().hasUserLogin()) {
             mQuotesEngine.delfollow(stockBean.id, baseListener);
-            // station = position;
             setStation(position);
         } else {
             new VisitorDataEngine().delOptionalStock(stockBean);
@@ -86,14 +87,25 @@ public class DragStockAdapter extends DragListAdapter {
     }
 
     @Override
-    public void onAlertClick(int position, boolean isCheck) {
-        if (isCheck) {
-            PromptManager.showToast("添加提醒");
-        } else {
-            PromptManager.showToast("取消提醒");
+    public void onAlertClick(CompoundButton buttonView, int position, boolean isCheck) {
 
+        buttonView.setChecked(!isCheck);
+        if (UIUtils.iStartLoginActivity(context)) {// 如果当前是游客模式，无法设置提醒，需要跳转到登陆页
+            return;
         }
 
+        SelectStockBean stockBean = (SelectStockBean) getDataList().get(position).elment;
+        // if (isCheck) {
+        // PromptManager.showToast("添加提醒");
+        // } else {
+        // PromptManager.showToast("取消提醒");
+        //
+        // }
+        startRemindActivity(stockBean);
+    }
+
+    private void startRemindActivity(SelectStockBean stockBean) {
+        UIUtils.startAminationActivity((Activity) context, StockRemindActivity.newStockIntent(context, stockBean));
     }
 
     public List<SelectStockBean> getStockList() {

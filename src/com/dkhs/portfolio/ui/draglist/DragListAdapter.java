@@ -167,7 +167,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public abstract void onDeleteClick(int position);
 
-    public abstract void onAlertClick(int position, boolean isCheck);
+    public abstract void onAlertClick(CompoundButton buttonView, int position, boolean isCheck);
 
     // public abstract void setViewDate(int position, TextView tvName, TextView tvDesc, CheckBox cbTixing);
 
@@ -398,7 +398,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-        onAlertClick((Integer) buttonView.getTag(), isChanged);
+        onAlertClick(buttonView, (Integer) buttonView.getTag(), isChanged);
 
     }
 

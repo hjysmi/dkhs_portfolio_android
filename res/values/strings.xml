@@ -401,4 +401,7 @@
     <string name="msg_follow_success">添加关注成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
+    <!-- 提醒设置 -->
+    <string name="title_remind">提醒设置</string>
+
 </resources>
