@@ -30,7 +30,6 @@ import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListAdapter;
-import com.dkhs.portfolio.ui.draglist.DragListItem;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.ui.draglist.StockDragAdapter;
 import com.dkhs.portfolio.utils.PromptManager;

@@ -13,6 +13,7 @@ import java.util.List;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.DataEntry;
+import com.dkhs.portfolio.bean.DragListItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -128,10 +129,10 @@ public class StockDragAdapter extends DragListAdapter {
     @Override
     public void setViewDate(int position, TextView tvName, TextView tvDesc, CheckBox cbTixing) {
         DataEntry entry = getList().get(position);
-        SelectStockBean item = (SelectStockBean) entry.elment;
-        System.out.println("setViewDate position:" + position + " name:" + item.getName());
+        DragListItem item = (DragListItem) entry.elment;
+        // System.out.println("setViewDate position:" + position + " name:" + item.getName());
 
-        tvName.setText(item.getName());
+        tvName.setText(item.getItemName());
         tvDesc.setText(item.getItemDesc());
         cbTixing.setOnCheckedChangeListener(null);
         cbTixing.setTag(position);
