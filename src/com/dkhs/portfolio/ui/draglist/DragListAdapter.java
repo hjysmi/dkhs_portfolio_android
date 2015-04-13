@@ -6,10 +6,13 @@ import java.util.Set;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.DataEntry;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.utils.PromptManager;
 
 import android.R.integer;
@@ -45,11 +48,11 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
  */
 public abstract class DragListAdapter extends BaseAdapter implements OnCheckedChangeListener {
     private static final String TAG = "DragListAdapter";
-    private List<DragListItem> dataList = new ArrayList<DragListItem>();
+    private List<DataEntry> dataList = new ArrayList<DataEntry>();
     // private ArrayList<Integer> arrayDrawables;
-    private Context context;
+    public Context context;
     public boolean isHidden;
-    private QuotesEngineImpl mQuotesEngine;
+
     private int station = 0;
     private int his = 0;
     private DragListView mDragListView;
@@ -59,11 +62,11 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         this.mDragListView = mDragListView;
     }
 
-    public DragListAdapter(Context context, List<DragListItem> dataList, DragListView mDragListView) {
+    public DragListAdapter(Context context, List<DataEntry> dataList, DragListView mDragListView) {
         this.context = context;
         this.dataList = dataList;
         this.mDragListView = mDragListView;
-        mQuotesEngine = new QuotesEngineImpl();
+
         // this.arrayDrawables = arrayDrawables;
     }
 
@@ -112,17 +115,10 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         imageUp.setOnClickListener(new ClickForUp(position));
         image.setOnClickListener(new OnDele(btn, txv));
         btn.setOnClickListener(new Click(position, btn));
-        DragListItem item = dataList.get(position);
-        textView.setText(item.getName());
-        tvId.setText(item.getDesc());
-        cbAlert.setOnCheckedChangeListener(null);
-        cbAlert.setTag(position);
-        if (item.isAlert()) {
-            cbAlert.setChecked(true);
-        } else {
-            cbAlert.setChecked(false);
-        }
-        cbAlert.setOnCheckedChangeListener(this);
+        // T item = dataList.get(position);
+
+        setViewDate(position, textView, tvId, cbAlert);
+
         if (isChanged) {
             if (position == invisilePosition) {
                 if (!ShowItem) {
@@ -157,6 +153,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public abstract void onAlertClick(int position, boolean isCheck);
 
+    public abstract void setViewDate(int position, TextView tvName, TextView tvDesc, CheckBox cbTixing);
+
     class OnDele implements OnClickListener {
         Button btn;
         TextView tv;
@@ -176,7 +174,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     }
 
-    public List<DragListItem> getList() {
+    public List<DataEntry> getList() {
         return dataList;
     }
 
@@ -257,7 +255,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void exchange(int startPosition, int endPosition) {
         // holdPosition = endPosition;
-        DragListItem startObject = getItem(startPosition);
+        DataEntry startObject = getItem(startPosition);
         Log.d("ON", "startPostion ==== " + startPosition);
         Log.d("ON", "endPosition ==== " + endPosition);
         if (startPosition < endPosition) {
@@ -273,7 +271,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void exchangeCopy(int startPosition, int endPosition) {
         // holdPosition = endPosition;
-        DragListItem startObject = getCopyItem(startPosition);
+        DataEntry startObject = getCopyItem(startPosition);
         Log.d("ON", "startPostion ==== " + startPosition);
         Log.d("ON", "endPosition ==== " + endPosition);
         if (startPosition < endPosition) {
@@ -287,7 +285,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         // notifyDataSetChanged();
     }
 
-    public DragListItem getCopyItem(int position) {
+    public DataEntry getCopyItem(int position) {
         return mCopyList.get(position);
     }
 
@@ -297,7 +295,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
     }
 
     @Override
-    public DragListItem getItem(int position) {
+    public DataEntry getItem(int position) {
         return dataList.get(position);
     }
 
@@ -306,24 +304,24 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         return position;
     }
 
-    public void addDragItem(int start, DragListItem obj) {
+    public void addDragItem(int start, DataEntry obj) {
         Log.i(TAG, "start" + start);
-        DragListItem title = dataList.get(start);
+        DataEntry title = dataList.get(start);
         dataList.remove(start);// 删除该项
         dataList.add(start, obj);// 添加删除项
     }
 
-    private ArrayList<DragListItem> mCopyList = new ArrayList<DragListItem>();
+    private ArrayList<DataEntry> mCopyList = new ArrayList<DataEntry>();
 
     public void copyList() {
         mCopyList.clear();
-        for (DragListItem str : dataList) {
+        for (DataEntry str : dataList) {
             mCopyList.add(str);
         }
     }
 
     public void putUp(int position) {
-        DragListItem tmp = dataList.get(position);
+        DataEntry tmp = dataList.get(position);
         mCopyList.clear();
         mCopyList.add(tmp);
         dataList.remove(position);
@@ -335,7 +333,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public void pastList() {
         dataList.clear();
-        for (DragListItem str : mCopyList) {
+        for (DataEntry str : mCopyList) {
             dataList.add(str);
         }
     }
@@ -396,11 +394,11 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         this.station = station;
     }
 
-    public List<DragListItem> getDataList() {
+    public List<DataEntry> getDataList() {
         return dataList;
     }
 
-    public void setDataList(List<DragListItem> dataList) {
+    public void setDataList(List<DataEntry> dataList) {
         this.dataList = dataList;
     }
 }

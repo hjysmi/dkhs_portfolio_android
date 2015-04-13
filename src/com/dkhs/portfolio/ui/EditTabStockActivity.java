@@ -153,16 +153,18 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         // TODO Auto-generated method stub
         switch (v.getId()) {
             case R.id.btn_right:
-                if (null == optionEditList || optionEditList.getList().isEmpty()) {
+                if (null == adapter || adapter.getStockList().isEmpty()) {
                     finish();
                     return;
                 }
                 try {
-                    List<DragListItem> list = optionEditList.getList();
+                    // List<DragListItem> list = optionEditList.getList();
+                    List<SelectStockBean> list = adapter.getStockList();
                     // JSONArray jsonArray = JSONArray.fromObject(list);
                     JSONArray json = new JSONArray();
                     for (int i = 0; i < list.size(); i++) {
-                        DragListItem vo = list.get(i);
+                        SelectStockBean vo = list.get(i);
+                        // SelectStockBean stock = ((SelectStockBean)vo);
                         JSONObject jo = new JSONObject();
                         vo.setSortId(i + 1);
                         jo.put("symbol_id", vo.getId());
@@ -177,7 +179,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                     } else {
 
                         // 未完成
-                        // new VisitorDataEngine().replaceOptionStock(list);
+                        new VisitorDataEngine().replaceOptionStock(list);
                         PromptManager.showToast("修改成功");
                         finish();
                     }

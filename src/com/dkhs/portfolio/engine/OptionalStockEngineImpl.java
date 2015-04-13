@@ -156,7 +156,19 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
 
             for (StockPriceBean priceBean : dataMoreBean.getResults()) {
                 // selectList.add(SelectStockBean.copy(priceBean));
-                parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
+//                parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
+
+                if (!isShowIndex) {
+
+                    if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(priceBean.getSymbol_type()) && !priceBean.isStop()) {
+                        // results.add(stockBean);
+                        // selectList.add(selectBean);
+                        parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
+                    }
+                } else {
+                    parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
+                }
+
             }
 
         } catch (Exception e) {

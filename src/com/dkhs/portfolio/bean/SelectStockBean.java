@@ -23,7 +23,8 @@ import com.lidroid.xutils.db.annotation.Unique;
  * @date 2014-9-18 下午2:42:46
  * @version 1.0
  */
-public class SelectStockBean implements Serializable {
+public class SelectStockBean extends DragListItem implements Serializable {
+
     private static final long serialVersionUID = 12955478254888L;
     public String name;
     public float currentValue;
@@ -44,6 +45,20 @@ public class SelectStockBean implements Serializable {
     public String symbol_type;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
+
+    public DataEntry<SelectStockBean> entry = null;
+
+    public SelectStockBean() {
+        this.entry = new DataEntry<SelectStockBean>();
+    }
+
+    public DataEntry<SelectStockBean> getEntry() {
+        return entry;
+    }
+
+    public void setEntry(DataEntry<SelectStockBean> entry) {
+        this.entry = entry;
+    }
 
     public static SelectStockBean copy(ConStockBean stockBean) {
 
@@ -251,4 +266,32 @@ public class SelectStockBean implements Serializable {
         return serialVersionUID;
     }
 
+    @Override
+    public String getItemDesc() {
+        // TODO Auto-generated method stub
+        return this.code;
+    }
+
+    @Override
+    public String getItemId() {
+        // TODO Auto-generated method stub
+        return this.id + "";
+    }
+
+    @Override
+    public String getItemName() {
+        // TODO Auto-generated method stub
+        return this.name;
+    }
+
+    @Override
+    public int getItemSortId() {
+        // TODO Auto-generated method stub
+        return this.sortId;
+    }
+
+    @Override
+    public boolean isItemTixing() {
+        return this.is_alert;
+    }
 }
