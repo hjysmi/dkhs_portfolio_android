@@ -11,8 +11,12 @@ package com.dkhs.portfolio.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -140,6 +144,16 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             setStockStyle();
         }
 
+        etPriceUp.addTextChangedListener(priceUpTextWatch);
+        etPriceUp.setOnFocusChangeListener(new OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus && TextUtils.isEmpty(etPriceUp.getText())) {
+                    swPriceUp.setChecked(false);
+                }
+            }
+        });
     }
 
     private void setCombinationStyle() {
@@ -185,4 +199,26 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
 
     }
+
+    TextWatcher priceUpTextWatch = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // TODO Auto-generated method stub
+            // mTextView.setText(s);//将输入的内容实时显示
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            // if (TextUtils.isEmpty(s)) {
+            // showPageView();
+            // } else {
+            // showSearchListView(s.toString());
+            // }
+        }
+    };
 }

@@ -3,6 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -266,7 +268,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
-    <RelativeLayout
+
+    <RelativeLayout
         android:id="@+id/rl_yanbao_remind"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
