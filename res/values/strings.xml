@@ -407,9 +407,13 @@
     <string name="format_percent">涨跌幅   %1$s</string>
     <string name="format_stock_price">股价   %1$s</string>
     <string name="format_combination_price">净值   %1$s</string>
-    <string name="format_low_tip">较当前价%1$s，应大于当前价</string>
-    <string name="format_comlow_tip">较当前净值%1$s，应大于当前净值</string>
-    <string name="format_comhigh_tip">较当前净值%1$s，应小于当前净值</string>
+    <string name="format_priceup_tip">较当前价涨%1$s</string>
+    <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>
+    <string name="format_priceup_low_tip">较当前价跌%1$s，应大于当前价</string>
+    <string name="format_priceup_low_more_tip">较当前价跌超过%1$s，应大于当前价</string>
+    <string name="format_high_tip">较当前价涨%1$s，应小于当前价</string>
+    <string name="format_comlow_tip">较当前净值跌%1$s，应大于当前净值</string>
+    <string name="format_comhigh_tip">较当前净值涨%1$s，应小于当前净值</string>
     <string name="stock_price_up_text">股价涨到</string>
     <string name="stock_price_down_text">股价跌到</string>
     <string name="day_percent_text">日涨跌幅</string>
@@ -419,6 +423,5 @@
     <string name="remind_notice_text">公告提醒</string>
     <string name="remind_yanbao_text">研报提醒</string>
     <string name="tip_day_percent">日涨跌幅输入错误</string>
-    
 
 </resources>

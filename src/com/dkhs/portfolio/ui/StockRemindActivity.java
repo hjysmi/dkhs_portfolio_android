@@ -8,16 +8,22 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -25,9 +31,13 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.lidroid.xutils.view.annotation.event.OnCompoundButtonCheckedChange;
+import com.lidroid.xutils.view.annotation.event.OnFocusChange;
 
 /**
  * @ClassName StockRemindActivity
@@ -36,7 +46,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
  * @date 2015-4-13 下午2:07:36
  * @version 1.0
  */
-public class StockRemindActivity extends ModelAcitivity implements OnClickListener {
+public class StockRemindActivity extends ModelAcitivity implements OnClickListener, OnCheckedChangeListener,
+        OnFocusChangeListener {
 
     public static final String ARGUMENT_STOCK = "agrument_stock";
     public static final String ARGUMENT_COMBINATION = "agrument_combination";
@@ -145,15 +156,6 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
 
         etPriceUp.addTextChangedListener(priceUpTextWatch);
-        etPriceUp.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus && TextUtils.isEmpty(etPriceUp.getText())) {
-                    swPriceUp.setChecked(false);
-                }
-            }
-        });
     }
 
     private void setCombinationStyle() {
@@ -187,19 +189,21 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
-    @Override
+    @OnClick({ R.id.btn_right, })
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right: {
 
             }
                 break;
+
             default:
                 break;
         }
 
     }
 
+    private String strBefore;
     TextWatcher priceUpTextWatch = new TextWatcher() {
 
         @Override
@@ -209,16 +213,143 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             // TODO Auto-generated method stub
-            // mTextView.setText(s);//将输入的内容实时显示
+            strBefore = s.toString();
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            // if (TextUtils.isEmpty(s)) {
-            // showPageView();
-            // } else {
-            // showSearchListView(s.toString());
-            // }
+            String textString = s.toString();
+            // 一定要加上此判断，否则会进入死循环
+            if (textString.equals(strBefore)) {
+                return;
+            }
+
+            int editStart = etPriceUp.getSelectionStart();
+            if (!isAllowInputText(textString)) {
+                etPriceUp.setText(strBefore);
+                etPriceUp.setSelection(strBefore.length());
+
+            } else {
+                strBefore = s.toString();
+                etPriceUp.setText(s);
+                etPriceUp.setSelection(editStart);
+            }
+            float priceUpFloat = priceUpTip(s.toString(), mStockBean.getCurrentValue());
+            tvUpTip.setVisibility(View.VISIBLE);
+            setPriceUpTip(priceUpFloat);
+
         }
     };
+
+    private void setPriceUpTip(float priceUpFloat) {
+        if (priceUpFloat > 0) {
+            if (priceUpFloat > 300) {
+                tvUpTip.setText(getString(R.string.format_priceup_more_tip, StringFromatUtils.get2PointPercent(300)));
+
+            } else {
+                tvUpTip.setText(getString(R.string.format_priceup_tip, StringFromatUtils.get2PointPercent(priceUpFloat)));
+
+            }
+        } else {
+            if (priceUpFloat > -300) {
+
+                tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_priceup_low_tip,
+                        StringFromatUtils.get2PointPercent(Math.abs(priceUpFloat)))));
+
+            } else {
+                tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_priceup_low_more_tip,
+                        StringFromatUtils.get2PointPercent(300))));
+            }
+        }
+    }
+
+    private String setColorText(int resFormatId, String valueStr) {
+        String htmlRed = "<font  color=\"red\">" + valueStr + "</font>";
+        return getString(resFormatId, htmlRed);
+    }
+
+    private boolean isAllowInputText(String str) {
+
+        if (TextUtils.isEmpty(str)) {
+            return true;
+        }
+        // 匹配XXXXXX.XXX
+        String compText = "^(\\d{0,6})|(\\d{0,6}?(\\.\\d{0,3}))$";
+        Pattern p = Pattern.compile(compText);
+        Matcher m = p.matcher(str);
+        return m.matches();
+    }
+
+    private float priceUpTip(String input, float compareValue) {
+        try {
+
+            float inputValue = Float.parseFloat(input);
+            float uPercent = (inputValue - compareValue) * 100 / compareValue;
+            return uPercent;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+    }
+
+    @OnCompoundButtonCheckedChange({ R.id.sw_price_up, R.id.sw_price_down, R.id.sw_day_percent })
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        EditText editText = null;
+        switch (buttonView.getId()) {
+            case R.id.sw_price_up: {
+                editText = etPriceUp;
+            }
+                break;
+            case R.id.sw_price_down: {
+                editText = etPriceDown;
+            }
+                break;
+            case R.id.sw_day_percent: {
+                editText = etDayPercent;
+            }
+                break;
+            default:
+                break;
+        }
+
+        if (null != editText) {
+            if (isChecked) {
+                editText.requestFocus();
+            } else {
+                editText.clearFocus();
+            }
+        }
+    }
+
+    @OnFocusChange({ R.id.et_priceup, R.id.et_pricedown, R.id.et_daypercent })
+    public void onFocusChange(View v, boolean hasFocus) {
+        Switch switchButtom = null;
+        switch (v.getId()) {
+            case R.id.et_priceup: {
+                switchButtom = swPriceUp;
+            }
+                break;
+            case R.id.et_pricedown: {
+                switchButtom = swPriceDown;
+            }
+                break;
+            case R.id.et_daypercent: {
+                switchButtom = swDayPercent;
+            }
+                break;
+
+            default:
+                break;
+        }
+        if (null != switchButtom) {
+            if (hasFocus) {
+                switchButtom.setChecked(true);
+            }
+            if (!hasFocus && TextUtils.isEmpty(etPriceUp.getText())) {
+                switchButtom.setChecked(false);
+            }
+        }
+    }
+
 }
