@@ -444,8 +444,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             if (priceDownFloat > -300) {
                 if (isCombinationSetting) {
 
-                    tvDownTip
-                            .setText(getString(R.string.format_cpricedown_tip, StringFromatUtils.get2PointPercent(300)));
+                    tvDownTip.setText(getString(R.string.format_cpricedown_tip,
+                            StringFromatUtils.get2PointPercent(priceDownFloat)));
                 } else {
 
                     tvDownTip
@@ -518,7 +518,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private float priceUpTip(String input, float compareValue) {
         try {
             float inputValue = Float.parseFloat(input);
-            float uPercent = (inputValue - compareValue) * 100 / compareValue;
+            float uPercent = ((inputValue - compareValue) / compareValue) * 100;
             return uPercent;
         } catch (Exception e) {
             e.printStackTrace();
