@@ -43,6 +43,9 @@ public class DKHSUrl {
         // 添加关注组合
         String addFollow = "/api/v1/portfolio/{0}/follow/";
 
+        // 设置提醒
+        String remind = "/api/v1/portfolio/{0}/follow/";
+
         // 创建我的组合
         String create = "/api/v1/portfolio/";
         // 删除组合
@@ -80,6 +83,9 @@ public class DKHSUrl {
         // 查股票实时行情信息，包含5档信息
         String quotes = "/api/v1/symbols/{0}/quote/";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
+
+        // 股票提醒设置
+        String remimd = "/api/v1/symbols/{0}/follow/";
         String unfollow = "/api/v1/symbols/{0}/unfollow/";
 
         // GET /api/v1/quotes/symbols_profile/

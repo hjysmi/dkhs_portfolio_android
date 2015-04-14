@@ -24,7 +24,7 @@ import com.lidroid.xutils.db.annotation.NoAutoIncrement;
  * @date 2014-8-27 下午3:06:15
  * @version 1.0
  */
-public class CombinationBean implements Serializable {
+public class CombinationBean extends DragListItem implements Serializable {
 
     private static final long serialVersionUID = 12959959598L;
     @NoAutoIncrement
@@ -55,7 +55,8 @@ public class CombinationBean implements Serializable {
     @SerializedName("followers_count")
     private int followerCount;
 
-    private boolean is_alert;
+    @SerializedName("alert_settings")
+    private PortfolioAlertBean alertBean;
 
     /**
      * @Title
@@ -283,12 +284,72 @@ public class CombinationBean implements Serializable {
         }
     }
 
-    public boolean isIs_alert() {
-        return is_alert;
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public String getItemName() {
+        // TODO Auto-generated method stub
+        return this.name;
     }
 
-    public void setIs_alert(boolean is_alert) {
-        this.is_alert = is_alert;
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public String getItemDesc() {
+        if (null != this.user) {
+
+            return this.user.getUsername();
+        }
+        return "";
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public String getItemId() {
+        return this.id;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public long getItemSortId() {
+        return this.sortId;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public boolean isItemTixing() {
+        return this.alertBean == null ? false : true;
+    }
+
+    public PortfolioAlertBean getAlertBean() {
+        return alertBean;
+    }
+
+    public void setAlertBean(PortfolioAlertBean alertBean) {
+        this.alertBean = alertBean;
     }
 
 }
