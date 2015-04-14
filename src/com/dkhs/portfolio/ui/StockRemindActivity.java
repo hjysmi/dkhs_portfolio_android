@@ -298,7 +298,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             }
 
             int editStart = etPriceUp.getSelectionStart();
-            if (!isAllowInputText(textString)) {
+            if (!isAllowPriceInputText(textString)) {
                 etPriceUp.setText(strBefore);
                 etPriceUp.setSelection(strBefore.length());
 
@@ -336,7 +336,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             }
 
             int editStart = etPriceDown.getSelectionStart();
-            if (!isAllowInputText(textString)) {
+            if (!isAllowPriceInputText(textString)) {
                 etPriceDown.setText(strBefore);
                 etPriceDown.setSelection(strBefore.length());
 
@@ -350,6 +350,38 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             tvDownTip.setVisibility(View.VISIBLE);
             // setPriceUpTip(priceUpFloat);
             setPriceDownTip(priceDownFloat);
+
+        }
+    };
+    TextWatcher percentTextWatch = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            strBefore = s.toString();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String textString = s.toString();
+            // 一定要加上此判断，否则会进入死循环
+            if (textString.equals(strBefore)) {
+                return;
+            }
+
+            int editStart = etDayPercent.getSelectionStart();
+            if (!isAllowPercentInputText(textString)) {
+                etDayPercent.setText(strBefore);
+                etDayPercent.setSelection(strBefore.length());
+
+            } else {
+                strBefore = s.toString();
+                etDayPercent.setText(s);
+                etDayPercent.setSelection(editStart);
+            }
 
         }
     };
@@ -459,13 +491,25 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         return getString(resFormatId, htmlRed);
     }
 
-    private boolean isAllowInputText(String str) {
+    private boolean isAllowPriceInputText(String str) {
 
         if (TextUtils.isEmpty(str)) {
             return true;
         }
         // 匹配XXXXXX.XXX
         String compText = "^(\\d{0,6})|(\\d{0,6}?(\\.\\d{0,3}))$";
+        Pattern p = Pattern.compile(compText);
+        Matcher m = p.matcher(str);
+        return m.matches();
+    }
+
+    private boolean isAllowPercentInputText(String str) {
+
+        if (TextUtils.isEmpty(str)) {
+            return true;
+        }
+        // 匹配XXXXXX.XXX
+        String compText = "^(\\d{0,6})|(\\d{0,6}?(\\.\\d{0,2}))$";
         Pattern p = Pattern.compile(compText);
         Matcher m = p.matcher(str);
         return m.matches();

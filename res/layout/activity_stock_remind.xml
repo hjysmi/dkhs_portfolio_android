@@ -130,7 +130,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@+id/tv_pricedown_text"
                 android:background="@drawable/edittext_remin_bg"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textSize="17sp" />
 
             <TextView
@@ -182,7 +182,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@+id/tv_daypercent_text"
                 android:background="@drawable/edittext_remin_bg"
-                android:inputType="number"
+                android:inputType="numberDecimal"
                 android:textSize="17sp" />
 
             <TextView
