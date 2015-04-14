@@ -445,7 +445,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                 if (isCombinationSetting) {
 
                     tvDownTip.setText(getString(R.string.format_cpricedown_tip,
-                            StringFromatUtils.get2PointPercent(priceDownFloat)));
+                            StringFromatUtils.get2PointPercent(Math.abs(priceDownFloat))));
                 } else {
 
                     tvDownTip

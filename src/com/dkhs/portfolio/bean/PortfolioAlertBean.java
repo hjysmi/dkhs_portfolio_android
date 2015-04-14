@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import java.io.Serializable;
+
 /**
  * @ClassName PortfolioAlertBean
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -15,7 +17,7 @@ package com.dkhs.portfolio.bean;
  * @date 2015-4-14 下午7:03:36
  * @version 1.0
  */
-public class PortfolioAlertBean {
+public class PortfolioAlertBean implements Serializable {
     private float portfolio_price_up;// 27.8 # 股价涨到提醒，0取消订阅
     private float portfolio_price_down;// ：27.8，#股价跌倒提醒,0取消订阅
     private float portfolio_percentage;// ：0.05， # 股价当日涨跌幅提醒，为NULL时和不传等效,0取消订阅
@@ -25,6 +27,7 @@ public class PortfolioAlertBean {
         this.portfolio_price_up = priceUp;
         this.portfolio_price_down = priceDown;
         this.portfolio_percentage = percent;
+        setAdjustAlert(isAdjuest);
 
     }
 
