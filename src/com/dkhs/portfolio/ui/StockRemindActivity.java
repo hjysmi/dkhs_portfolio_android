@@ -11,13 +11,16 @@ package com.dkhs.portfolio.ui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -27,10 +30,22 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.AlertSetBean;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.PortfolioAlertBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
+import com.dkhs.portfolio.engine.QuetosStockEngineImple;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
+import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -111,6 +126,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     @ViewInject(R.id.sw_yanbao_remind)
     private Switch swYanbaoRemind;
 
+    private boolean isPriceUpOK;
+
     public static Intent newStockIntent(Context context, SelectStockBean stock) {
         Intent intent = new Intent(context, StockRemindActivity.class);
         intent.putExtra(ARGUMENT_STOCK, stock);
@@ -156,6 +173,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
 
         etPriceUp.addTextChangedListener(priceUpTextWatch);
+        etPriceDown.addTextChangedListener(priceDownTextWatch);
     }
 
     private void setCombinationStyle() {
@@ -173,6 +191,10 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             tvPercent.setText(perText);
             perText = getString(R.string.format_combination_price, mComBean.getNetvalue());
             tvPrice.setText(perText);
+
+            if (null != mComBean.getAlertBean()) {
+                setAlertView(mComBean.getAlertBean());
+            }
         }
 
     }
@@ -186,14 +208,66 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             tvPercent.setText(perText);
             perText = getString(R.string.format_stock_price, mStockBean.getCurrentValue());
             tvPrice.setText(perText);
+            if (null != mStockBean.alertSetBean) {
+                setAlertView(mStockBean.alertSetBean);
+            }
         }
+    }
+
+    private void setAlertView(AlertSetBean alerBean) {
+        // AlertSetBean alerBean = mStockBean.alertSetBean;
+        if (alerBean.getStock_price_up() > 0) {
+            etPriceUp.setText(alerBean.getStock_price_up() + "");
+            swPriceUp.setChecked(true);
+            isPriceUpOK = true;
+        }
+        if (alerBean.getStock_price_down() > 0) {
+            isPriceDownOk = true;
+            etPriceDown.setText(alerBean.getStock_price_down() + "");
+            swPriceDown.setChecked(true);
+        }
+        if (alerBean.getStock_percentage() > 0) {
+            etDayPercent.setText(alerBean.getStock_percentage() + "");
+            swDayPercent.setChecked(true);
+        }
+        swNoticeRemind.setChecked(alerBean.isNoticeRemind());
+        swYanbaoRemind.setChecked(alerBean.isYanbaoRemind());
+    }
+
+    private void setAlertView(PortfolioAlertBean alerBean) {
+        // AlertSetBean alerBean = mStockBean.alertSetBean;
+        if (alerBean.getPortfolio_price_up() > 0) {
+            etPriceUp.setText(alerBean.getPortfolio_price_up() + "");
+            swPriceUp.setChecked(true);
+            isPriceUpOK = true;
+        }
+        if (alerBean.getPortfolio_price_down() > 0) {
+            isPriceDownOk = true;
+            etPriceDown.setText(alerBean.getPortfolio_price_down() + "");
+            swPriceDown.setChecked(true);
+        }
+        if (alerBean.getPortfolio_percentage() > 0) {
+            etDayPercent.setText(alerBean.getPortfolio_percentage() + "");
+            swDayPercent.setChecked(true);
+        }
+        swAdjustRemind.setChecked(alerBean.isAdjustAlert());
     }
 
     @OnClick({ R.id.btn_right, })
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right: {
+                if (swPriceUp.isChecked() && swPriceDown.isChecked() && !isPriceDownOk && !isPriceUpOK) {// 下跌目标价高于最新价&&下跌目标价高于最新价
+                    showAlertDialog(R.string.msg_price_error);
+                } else if (swPriceUp.isChecked() && !isPriceUpOK) {// 上涨目标低于最新价
+                    showAlertDialog(R.string.msg_priceup_toolow);
+                } else if (swPriceDown.isChecked() && !isPriceDownOk) {// 下跌目标价高于最新价
+                    showAlertDialog(R.string.msg_pricedown_toohigh);
 
+                } else {
+
+                    postRemindToServer();
+                }
             }
                 break;
 
@@ -212,7 +286,6 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            // TODO Auto-generated method stub
             strBefore = s.toString();
         }
 
@@ -234,31 +307,149 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                 etPriceUp.setText(s);
                 etPriceUp.setSelection(editStart);
             }
-            float priceUpFloat = priceUpTip(s.toString(), mStockBean.getCurrentValue());
+
+            float priceUpFloat = priceUpTip(s.toString(),
+                    isCombinationSetting ? mComBean.getNetvalue() : mStockBean.getCurrentValue());
             tvUpTip.setVisibility(View.VISIBLE);
             setPriceUpTip(priceUpFloat);
 
         }
     };
 
-    private void setPriceUpTip(float priceUpFloat) {
-        if (priceUpFloat > 0) {
-            if (priceUpFloat > 300) {
-                tvUpTip.setText(getString(R.string.format_priceup_more_tip, StringFromatUtils.get2PointPercent(300)));
+    TextWatcher priceDownTextWatch = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            strBefore = s.toString();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String textString = s.toString();
+            // 一定要加上此判断，否则会进入死循环
+            if (textString.equals(strBefore)) {
+                return;
+            }
+
+            int editStart = etPriceDown.getSelectionStart();
+            if (!isAllowInputText(textString)) {
+                etPriceDown.setText(strBefore);
+                etPriceDown.setSelection(strBefore.length());
 
             } else {
-                tvUpTip.setText(getString(R.string.format_priceup_tip, StringFromatUtils.get2PointPercent(priceUpFloat)));
+                strBefore = s.toString();
+                etPriceDown.setText(s);
+                etPriceDown.setSelection(editStart);
+            }
+            float priceDownFloat = priceUpTip(s.toString(),
+                    isCombinationSetting ? mComBean.getNetvalue() : mStockBean.getCurrentValue());
+            tvDownTip.setVisibility(View.VISIBLE);
+            // setPriceUpTip(priceUpFloat);
+            setPriceDownTip(priceDownFloat);
 
+        }
+    };
+
+    private void setPriceUpTip(float priceUpFloat) {
+
+        if (priceUpFloat > 0) {
+            isPriceUpOK = true;
+            if (priceUpFloat > 300) {
+                if (isCombinationSetting) {
+
+                    tvUpTip.setText(getString(R.string.format_cpriceup_more_tip,
+                            StringFromatUtils.get2PointPercent(300)));
+                } else {
+
+                    tvUpTip.setText(getString(R.string.format_priceup_more_tip, StringFromatUtils.get2PointPercent(300)));
+                }
+            } else {
+                if (isCombinationSetting) {
+
+                    tvUpTip.setText(getString(R.string.format_cpriceup_tip,
+                            StringFromatUtils.get2PointPercent(priceUpFloat)));
+                } else {
+
+                    tvUpTip.setText(getString(R.string.format_priceup_tip,
+                            StringFromatUtils.get2PointPercent(priceUpFloat)));
+                }
             }
         } else {
+            isPriceUpOK = false;
             if (priceUpFloat > -300) {
-
-                tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_priceup_low_tip,
-                        StringFromatUtils.get2PointPercent(Math.abs(priceUpFloat)))));
+                if (isCombinationSetting) {
+                    tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_cpriceup_low_tip,
+                            StringFromatUtils.get2PointPercent(Math.abs(priceUpFloat)))));
+                } else {
+                    tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_priceup_low_tip,
+                            StringFromatUtils.get2PointPercent(Math.abs(priceUpFloat)))));
+                }
 
             } else {
-                tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_priceup_low_more_tip,
-                        StringFromatUtils.get2PointPercent(300))));
+
+                if (isCombinationSetting) {
+                    tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_cpriceup_low_more_tip,
+                            StringFromatUtils.get2PointPercent(300))));
+
+                } else {
+
+                    tvUpTip.setText(Html.fromHtml(setColorText(R.string.format_priceup_low_more_tip,
+                            StringFromatUtils.get2PointPercent(300))));
+                }
+            }
+        }
+    }
+
+    private boolean isPriceDownOk;
+
+    private void setPriceDownTip(float priceDownFloat) {
+        if (priceDownFloat < 0) {
+            isPriceDownOk = true;
+            if (priceDownFloat > -300) {
+                if (isCombinationSetting) {
+
+                    tvDownTip
+                            .setText(getString(R.string.format_cpricedown_tip, StringFromatUtils.get2PointPercent(300)));
+                } else {
+
+                    tvDownTip
+                            .setText(getString(R.string.format_pricedown_tip, StringFromatUtils.get2PointPercent(300)));
+                }
+            } else {
+                if (isCombinationSetting) {
+                    tvDownTip.setText(getString(R.string.format_cpricedown_more_tip,
+                            StringFromatUtils.get2PointPercent((Math.abs(priceDownFloat)))));
+                } else {
+
+                    tvDownTip.setText(getString(R.string.format_pricedown_more_tip,
+                            StringFromatUtils.get2PointPercent((Math.abs(priceDownFloat)))));
+                }
+            }
+        } else {
+            isPriceDownOk = false;
+            if (priceDownFloat < 300) {
+                if (isCombinationSetting) {
+                    tvDownTip.setText(Html.fromHtml(setColorText(R.string.format_cpricedown_high_tip,
+                            StringFromatUtils.get2PointPercent(priceDownFloat))));
+                } else {
+
+                    tvDownTip.setText(Html.fromHtml(setColorText(R.string.format_pricedown_high_tip,
+                            StringFromatUtils.get2PointPercent(priceDownFloat))));
+                }
+            } else {
+                if (isCombinationSetting) {
+
+                    tvDownTip.setText(Html.fromHtml(setColorText(R.string.format_cpricedown_high_more_tip,
+                            StringFromatUtils.get2PointPercent(300))));
+                } else {
+
+                    tvDownTip.setText(Html.fromHtml(setColorText(R.string.format_pricedown_high_more_tip,
+                            StringFromatUtils.get2PointPercent(300))));
+                }
             }
         }
     }
@@ -282,7 +473,6 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     private float priceUpTip(String input, float compareValue) {
         try {
-
             float inputValue = Float.parseFloat(input);
             float uPercent = (inputValue - compareValue) * 100 / compareValue;
             return uPercent;
@@ -325,17 +515,21 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     @OnFocusChange({ R.id.et_priceup, R.id.et_pricedown, R.id.et_daypercent })
     public void onFocusChange(View v, boolean hasFocus) {
         Switch switchButtom = null;
+        EditText editText = null;
         switch (v.getId()) {
             case R.id.et_priceup: {
                 switchButtom = swPriceUp;
+                editText = etPriceUp;
             }
                 break;
             case R.id.et_pricedown: {
                 switchButtom = swPriceDown;
+                editText = etPriceDown;
             }
                 break;
             case R.id.et_daypercent: {
                 switchButtom = swDayPercent;
+                editText = etDayPercent;
             }
                 break;
 
@@ -346,9 +540,71 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             if (hasFocus) {
                 switchButtom.setChecked(true);
             }
-            if (!hasFocus && TextUtils.isEmpty(etPriceUp.getText())) {
+            if (!hasFocus && null != editText && TextUtils.isEmpty(editText.getText())) {
                 switchButtom.setChecked(false);
             }
+        }
+    }
+
+    private void showAlertDialog(final int messageId) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+
+        builder.setMessage(messageId).setPositiveButton(R.string.btn_reinput, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                if (messageId == R.string.msg_priceup_toolow || messageId == R.string.msg_price_error) {
+                    etPriceUp.requestFocus();
+                } else if (messageId == R.string.msg_pricedown_toohigh) {
+                    etPriceDown.requestFocus();
+                }
+                dialog.dismiss();
+
+            }
+        });
+        builder.show();
+
+    }
+
+    private void postRemindToServer() {
+
+        float priceUp = swPriceUp.isChecked() ? parseToFloat(etPriceUp) : 0;
+        float priceDown = swPriceUp.isChecked() ? parseToFloat(etPriceDown) : 0;
+        float dayPercent = swDayPercent.isChecked() ? parseToFloat(etDayPercent) : 0;
+        if (isCombinationSetting) {
+            new MyCombinationEngineImpl().portfolioRemind(mComBean.getId(), priceUp, priceDown, dayPercent,
+                    swAdjustRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
+        } else {
+
+            new QuotesEngineImpl().stockRemind(mStockBean.getId() + "", priceUp, priceDown, dayPercent,
+                    swNoticeRemind.isChecked(), swYanbaoRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
+        }
+    }
+
+    ParseHttpListener remindHttpListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            PromptManager.showToast("提醒设置成功");
+            finish();
+
+        }
+    };
+
+    private float parseToFloat(EditText edtext) {
+        try {
+            return Float.parseFloat(edtext.getText().toString());
+        } catch (Exception e) {
+            return 0;
         }
     }
 

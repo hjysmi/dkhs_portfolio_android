@@ -411,9 +411,18 @@
     <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>
     <string name="format_priceup_low_tip">较当前价跌%1$s，应大于当前价</string>
     <string name="format_priceup_low_more_tip">较当前价跌超过%1$s，应大于当前价</string>
-    <string name="format_high_tip">较当前价涨%1$s，应小于当前价</string>
-    <string name="format_comlow_tip">较当前净值跌%1$s，应大于当前净值</string>
-    <string name="format_comhigh_tip">较当前净值涨%1$s，应小于当前净值</string>
+    <string name="format_pricedown_tip">较当前价跌%1$s</string>
+    <string name="format_pricedown_more_tip">较当前价跌超过%1$s</string>
+    <string name="format_pricedown_high_tip">较当前价涨%1$s，应小于当前价</string>
+    <string name="format_pricedown_high_more_tip">较当前价涨超过%1$s，应小于当前价</string>
+    <string name="format_cpriceup_tip">较当前净值涨%1$s</string>
+    <string name="format_cpriceup_more_tip">较当前净值涨超过%1$s</string>
+    <string name="format_cpriceup_low_tip">较当前净值跌%1$s，应大于当前净值</string>
+    <string name="format_cpriceup_low_more_tip">较当前净值跌超过%1$s，应大于当前净值</string>
+    <string name="format_cpricedown_tip">较当前净值跌%1$s</string>
+    <string name="format_cpricedown_more_tip">较当前净值跌超过%1$s</string>
+    <string name="format_cpricedown_high_tip">较当前净值涨%1$s，应小于当前净值</string>
+    <string name="format_cpricedown_high_more_tip">较当前净值涨超过%1$s，应小于当前净值</string>
     <string name="stock_price_up_text">股价涨到</string>
     <string name="stock_price_down_text">股价跌到</string>
     <string name="day_percent_text">日涨跌幅</string>
@@ -423,5 +432,9 @@
     <string name="remind_notice_text">公告提醒</string>
     <string name="remind_yanbao_text">研报提醒</string>
     <string name="tip_day_percent">日涨跌幅输入错误</string>
+    <string name="msg_priceup_toolow">上涨目标低于最新价</string>
+    <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
+    <string name="msg_price_error">目标价输入错误</string>
+    <string name="btn_reinput">重新输入</string>
 
 </resources>

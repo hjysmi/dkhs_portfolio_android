@@ -35,7 +35,9 @@ public class SelectStockBean extends DragListItem implements Serializable {
     public float change;
     public boolean isFollowed;
     public boolean isStop;
-    public boolean is_alert;
+    // public boolean is_alert;
+
+    public AlertSetBean alertSetBean;
 
     public long sortId;
     public int status;
@@ -113,7 +115,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
         selectBean.change = stockBean.getChange();
         selectBean.list_status = stockBean.getList_status();
         selectBean.total_capital = stockBean.getTotal_capital();
-        selectBean.is_alert = stockBean.isIs_alert();
+        selectBean.alertSetBean = stockBean.getAlertBean();
         return selectBean;
     }
 
@@ -292,6 +294,6 @@ public class SelectStockBean extends DragListItem implements Serializable {
 
     @Override
     public boolean isItemTixing() {
-        return this.is_alert;
+        return this.alertSetBean == null ? false : true;
     }
 }

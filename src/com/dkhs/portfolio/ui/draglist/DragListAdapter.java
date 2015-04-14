@@ -397,7 +397,7 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        buttonView.setChecked(!isChecked);
         onAlertClick(buttonView, (Integer) buttonView.getTag(), isChanged);
 
     }

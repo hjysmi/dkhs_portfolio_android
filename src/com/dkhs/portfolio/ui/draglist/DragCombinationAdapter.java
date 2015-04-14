@@ -94,7 +94,6 @@ public class DragCombinationAdapter extends DragListAdapter {
 
     @Override
     public void onAlertClick(CompoundButton buttonView, int position, boolean isCheck) {
-        buttonView.setChecked(!isCheck);
         if (UIUtils.iStartLoginActivity(context)) {// 如果当前是游客模式，无法设置提醒，需要跳转到登陆页
             return;
         }

@@ -37,7 +37,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class EditTabStockActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
-    // LoadMoreDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     private DragStockAdapter adapter;
     private Context context;
     private Button btnRight;
@@ -64,13 +64,8 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         }
 
         context = this;
-        // mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
         initView();
-        // if (mLoadDataEngine != null) {
-        // // mDataList.clear();
-        // mLoadDataEngine.setLoadingDialog(this);
-        // mLoadDataEngine.loadData();
-        // }
+        mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
 
     }
 
@@ -97,45 +92,24 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
 
     }
 
-    // ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
-    //
-    // @Override
-    // public void loadFinish(MoreDataBean object) {
-    // adapter = new DragListAdapter(context, object.getResults(), optionEditList);
-    // optionEditList.setAdapter(adapter);
-    // optionEditList.setOnItemClickListener(new OnListener());
-    //
-    // }
-    //
-    // @Override
-    // public void loadFail() {
-    // // TODO Auto-generated method stub
-    //
-    // }
-    //
-    // };
+    ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
-    // public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
-    // List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
-    // SelectStockBean sb;
-    // int position;
-    // while (datalist.size() > 0) {
-    // for (int i = 0; i < datalist.size(); i++) {
-    // sb = datalist.get(i);
-    // position = i;
-    // for (int j = i; j < datalist.size(); j++) {
-    // if (sb.sortId < datalist.get(j).sortId) {
-    // sb = datalist.get(j);
-    // position = j;
-    // }
-    // }
-    // datalist.remove(position);
-    // tmp.add(sb);
-    // break;
-    // }
-    // }
-    // return tmp;
-    // }
+        @Override
+        public void loadFinish(MoreDataBean object) {
+            // adapter = new DragListAdapter(context, object.getResults(), optionEditList);
+            // optionEditList.setAdapter(adapter);
+            // optionEditList.setOnItemClickListener(new OnListener());
+            adapter.setAdapterData(object.getResults());
+
+        }
+
+        @Override
+        public void loadFail() {
+            // TODO Auto-generated method stub
+
+        }
+
+    };
 
     class OnListener implements OnItemClickListener {
 
@@ -169,7 +143,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
                         jo.put("symbol_id", vo.getId());
                         jo.put("sort_index", i + 1);
                         json.put(jo);
-                        
+
                     }
                     Log.e("listindex", json.toString());
                     if (PortfolioApplication.hasUserLogin()) {
@@ -225,6 +199,8 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         MobclickAgent.onPause(this);
     }
 
+    private boolean isFirstLoad = true;
+
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
@@ -232,5 +208,14 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         MobclickAgent.onResume(this);
+        if (isFirstLoad) {
+            isFirstLoad = false;
+            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
+        } else {
+            if (mLoadDataEngine != null) {
+                mLoadDataEngine.setLoadingDialog(this);
+                mLoadDataEngine.loadData();
+            }
+        }
     }
 }

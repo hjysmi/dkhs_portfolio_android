@@ -55,7 +55,8 @@ public class CombinationBean extends DragListItem implements Serializable {
     @SerializedName("followers_count")
     private int followerCount;
 
-    private boolean is_alert;
+    @SerializedName("alert_settings")
+    private PortfolioAlertBean alertBean;
 
     /**
      * @Title
@@ -283,14 +284,6 @@ public class CombinationBean extends DragListItem implements Serializable {
         }
     }
 
-    public boolean isIs_alert() {
-        return is_alert;
-    }
-
-    public void setIs_alert(boolean is_alert) {
-        this.is_alert = is_alert;
-    }
-
     /**
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
@@ -348,7 +341,15 @@ public class CombinationBean extends DragListItem implements Serializable {
      */
     @Override
     public boolean isItemTixing() {
-        return this.is_alert;
+        return this.alertBean == null ? false : true;
+    }
+
+    public PortfolioAlertBean getAlertBean() {
+        return alertBean;
+    }
+
+    public void setAlertBean(PortfolioAlertBean alertBean) {
+        this.alertBean = alertBean;
     }
 
 }
