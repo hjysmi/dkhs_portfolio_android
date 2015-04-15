@@ -251,5 +251,8 @@ public class PromptManager {
     public static void showDelFollowToast() {
         showToast(R.string.msg_def_follow_success);
     }
+    
+    
+    
 
 }

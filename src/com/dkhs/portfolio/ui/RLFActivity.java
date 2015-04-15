@@ -109,7 +109,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 dpg.dismiss();
-                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+                // startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
                 finish();
             }
         });
