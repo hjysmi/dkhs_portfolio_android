@@ -53,6 +53,8 @@ public class UserEngineImpl {
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.login, params, listener);
     }
 
+
+
     /**
      * 设置密码
      * 
@@ -259,6 +261,25 @@ public class UserEngineImpl {
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("captcha", captcha);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.bind_mobile, params, listener);
+    }
+
+    /**
+     *   获取  用户的token 值
+     *   todo 未测试
+     * @param user_id
+     * @param nickName
+     * @param portrait_uri
+     * @param listener
+     */
+    public  void getToken(String user_id,String nickName,String portrait_uri,BasicHttpListener listener  ){
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("user_id", user_id);
+        params.addBodyParameter("name", nickName);
+//        params.addBodyParameter("portrait_uri",portrait_uri);
+        params.addBodyParameter("portrait_uri", "http://su.bdimg.com/static/superplus/img/logo_white_ee663702.png");
+        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.get_token, params, listener);
+
     }
 
 }

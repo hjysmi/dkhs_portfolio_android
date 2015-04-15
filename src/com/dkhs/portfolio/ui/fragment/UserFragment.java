@@ -26,11 +26,16 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 import io.rong.imkit.RongIM;
 
@@ -47,13 +52,15 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private View viewLogin;
     @ViewInject(R.id.ll_userinfo_layout)
     private View viewUserInfo;
-
     @ViewInject(R.id.setting_image_head)
     private ImageView settingImageHead;
     @ViewInject(R.id.setting_text_account_text)
     private TextView settingTextAccountText;
     @ViewInject(R.id.setting_text_name_text)
     private TextView settingTextNameText;
+    @ViewInject(R.id.tv_unread_count)
+    private TextView unreadCountTV;
+
 
     @Override
     public int setContentLayoutId() {
@@ -66,6 +73,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         setTitle(R.string.title_user);
+
+
     }
 
     /**
@@ -75,8 +84,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
      */
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
+
         super.onResume();
+        BusProvider.getInstance().post(new NewMessageEvent());
         updateUserInfo();
 
     }
@@ -94,6 +104,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             }
         });
 
+        BusProvider.getInstance().register(this);
         updateUserInfo();
 
     }
@@ -129,6 +140,17 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             viewUserInfo.setVisibility(View.GONE);
 
         }
+
+        int totalCount=RongIM.getInstance().getTotalUnreadCount();
+
+        if(totalCount > 0){
+            unreadCountTV.setVisibility(View.VISIBLE);
+            unreadCountTV.setText(totalCount+"");
+        }else{
+            unreadCountTV.setVisibility(View.GONE);
+        }
+
+
     }
 
     // public String setAccount(String account) {
@@ -168,15 +190,24 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     @OnClick(R.id.message_center_layout)
     public void messageCenterClick(View v) {
-
-
-
-        RongIM.getInstance().startPrivateChat(getActivity(), "33", "h");
         RongIM.getInstance().startConversationList(getActivity());
-
-
     }
 
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void  updateMessageCenter(NewMessageEvent newMessageEvent){
+
+
+        updateUserInfo();
+
+    }
 
 
 }

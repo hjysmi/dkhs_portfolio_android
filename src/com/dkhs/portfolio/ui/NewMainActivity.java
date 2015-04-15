@@ -10,6 +10,12 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.ConstantValue;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
@@ -17,14 +23,23 @@ import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.utils.JsonUtil;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
  * @ClassName NewMainActivity
@@ -47,6 +62,7 @@ public class NewMainActivity extends ModelAcitivity {
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
 
+
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             mMenuFragment = new MenuItemFragment();
@@ -68,6 +84,80 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
+
+        initRM();
+
+
+    }
+
+    /**
+     * 设置消息通知的token
+     */
+    private void initRM() {
+
+        LogUtils.e("initRM");
+        UserEntity user = null;
+        try {
+            user = DbUtils.create(PortfolioApplication.getInstance())
+                    .findFirst(UserEntity.class);
+
+            if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+
+
+
+
+
+                engine.getToken(user.getId()+"",user.getUsername(),user.getAvatar_xs(), new BasicHttpListener() {
+                    @Override
+                    public void onSuccess(String result) {
+
+
+
+                        LogUtils.e(JsonUtil.format(result));
+
+
+                    }
+
+                            @Override
+                            public void onFailure(int errCode, String errMsg) {
+                                super.onFailure(errCode, errMsg);
+
+                                LogUtils.e("onFailure "+errMsg);
+                            }
+                        }
+
+                );
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+
+        String token = "e6AOw1Bpi/giPRFUdRHg68gDsJ/MCRXv0xD+lhrR5MvlzCXOyzUahpqsb+SYzpfB0a353iJKEyQ=";
+
+        // 连接融云服务器。
+        try {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                @Override
+                public void onSuccess(String s) {
+                    // 此处处理连接成功。
+                    Log.d("Connect:", "Login successfully.");
+                    BusProvider.getInstance().post(new NewMessageEvent());
+                    RongIM.getInstance().setReceiveMessageListener(listener);
+
+
+                }
+
+                @Override
+                public void onError(ErrorCode errorCode) {
+                    // 此处处理连接错误。
+                    Log.d("Connect:", "Login failed.");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void showContentIndex(int index) {
@@ -189,5 +279,18 @@ public class NewMainActivity extends ModelAcitivity {
         }
         ft.commit();
     }
+   final  RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
+        @Override
+        public void onReceived(RongIMClient.Message message, int left) {
+            // 输出消息类型。
+            Log.d("Receive:---","收到");
+            NewMainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    BusProvider.getInstance().post(new NewMessageEvent());
+                }
+            });
 
+        }
+    };
 }

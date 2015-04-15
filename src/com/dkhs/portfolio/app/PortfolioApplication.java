@@ -25,6 +25,8 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.service.ReLoadDataService;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -52,6 +54,8 @@ public class PortfolioApplication extends Application {
     // private boolean change = false;
     // private int kLinePosition = -1;
 
+    // 声明消息监听器，建议在 Application 中声明为成员变量。
+
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
@@ -68,34 +72,17 @@ public class PortfolioApplication extends Application {
         }
 
         // 注册crashHandler
-        CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
 
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
+        //注册融云sdk
         RongIM.init(this);
 
-        String token = "e6AOw1Bpi/giPRFUdRHg68gDsJ/MCRXv0xD+lhrR5MvlzCXOyzUahpqsb+SYzpfB0a353iJKEyQ=";
 
-        // 连接融云服务器。
-        try {
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
-                @Override
-                public void onSuccess(String s) {
-                    // 此处处理连接成功。
-                    Log.d("Connect:", "Login successfully.");
-                }
 
-                @Override
-                public void onError(ErrorCode errorCode) {
-                    // 此处处理连接错误。
-                    Log.d("Connect:", "Login failed.");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 

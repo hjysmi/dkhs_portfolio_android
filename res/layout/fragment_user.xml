@@ -138,8 +138,9 @@
             </RelativeLayout>
 
             <View
-               style="@style/divider_line"
-                />
+                style="@style/divider_line"
+                android:layout_marginTop="@dimen/combin_horSpacing" />
+
             <RelativeLayout
                 android:id="@+id/message_center_layout"
                 android:layout_width="match_parent"
@@ -151,6 +152,7 @@
                 android:paddingTop="10dp" >
 
                 <ImageView
+                    android:id="@+id/image_detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -160,12 +162,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/menu_icon_myteam"
+                    android:drawableLeft="@drawable/menu_message_center"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="@string/message_center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/setting_text_name" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="12"
+                    android:textSize="12sp"
+                    android:background="@drawable/bg_un_read_count"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="2dp"
+                    android:id="@+id/tv_unread_count"
+                    android:layout_toLeftOf="@+id/image_detail"
+                    android:layout_height="wrap_content" />
             </RelativeLayout>
 
             <View style="@style/divider_line" />

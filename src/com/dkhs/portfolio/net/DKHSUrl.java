@@ -19,6 +19,7 @@ public class DKHSUrl {
 
     // 测试
     public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
+//    public static final String BASE_TEST_URL = "http://192.168.107.75:8000";
 
     // 开发
     public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
@@ -174,6 +175,7 @@ public class DKHSUrl {
         // 添加用户反馈
         String add_feed = "/api/v1/apps/";
         String bind_mobile = "/api/v1/accounts/bind_mobile/";
+        String get_token="/api/v1/apps/rong/user_get_token/";
     }
 
     public interface MainPage {
