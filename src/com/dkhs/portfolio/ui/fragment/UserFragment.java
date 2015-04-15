@@ -32,6 +32,8 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
+import io.rong.imkit.RongIM;
+
 /**
  * @ClassName UserFragment
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -163,4 +165,18 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         }
 
     }
+
+    @OnClick(R.id.message_center_layout)
+    public void messageCenterClick(View v) {
+
+
+
+        RongIM.getInstance().startPrivateChat(getActivity(), "33", "h");
+        RongIM.getInstance().startConversationList(getActivity());
+
+
+    }
+
+
+
 }
