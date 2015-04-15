@@ -638,7 +638,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(Object object) {
-            PromptManager.showToast("提醒设置成功");
+            // PromptManager.showToast("提醒设置成功");
+            PromptManager.showCustomToast(R.drawable.ic_toast_dagou, R.string.toast_remind_success);
             finish();
 
         }
