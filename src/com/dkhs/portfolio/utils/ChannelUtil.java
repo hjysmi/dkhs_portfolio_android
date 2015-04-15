@@ -1,4 +1,4 @@
-﻿package com.dkhs.portfolio.utils;
+package com.dkhs.portfolio.utils;
 
 import java.io.IOException;
 import java.util.Enumeration;
