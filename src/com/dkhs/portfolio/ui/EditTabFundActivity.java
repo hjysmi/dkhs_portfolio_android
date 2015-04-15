@@ -8,7 +8,6 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,19 +28,15 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.draglist.DragFundListAdapter;
-import com.dkhs.portfolio.ui.draglist.DragFundListView;
+import com.dkhs.portfolio.ui.draglist.DragCombinationAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
 
 /**
  * @ClassName EditTabFundActivity
@@ -52,9 +47,9 @@ import com.dkhs.portfolio.utils.UIUtils;
  */
 public class EditTabFundActivity extends ModelAcitivity implements OnClickListener {
 
-    private DragFundListView optionEditList;
+    private DragListView optionEditList;
     LoadMoreDataEngine mLoadDataEngine;
-    private DragFundListAdapter adapter;
+    private DragCombinationAdapter adapter;
     // private Context context;
     private Button btnRight;
     private LinearLayout layout;
@@ -87,7 +82,9 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
                 if (null != object.getResults()) {
                     mdateList.clear();
                     mdateList.addAll(object.getResults());
-                    adapter = new DragFundListAdapter(EditTabFundActivity.this, mdateList);
+                    // adapter = new DragFundListAdapter(EditTabFundActivity.this, mdateList);
+                    adapter = new DragCombinationAdapter(EditTabFundActivity.this, optionEditList);
+                    adapter.setAdapterData(mdateList);
                     optionEditList.setAdapter(adapter);
                 }
             }
@@ -117,7 +114,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initView() {
-        optionEditList = (DragFundListView) findViewById(R.id.option_edit_list);
+        optionEditList = (DragListView) findViewById(R.id.option_edit_list);
         layout = (LinearLayout) findViewById(R.id.layout);
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
@@ -130,7 +127,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right:
-                if (null == optionEditList || optionEditList.getList().isEmpty()) {
+                if (null == optionEditList || adapter.getConList().isEmpty()) {
                     finish();
                     return;
                 }
@@ -146,7 +143,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
 
     private void sortIndexToserver() {
         try {
-            List<CombinationBean> list = optionEditList.getList();
+            List<CombinationBean> list = adapter.getConList();
             JSONArray json = new JSONArray();
             for (int i = 0; i < list.size(); i++) {
                 CombinationBean vo = list.get(i);
