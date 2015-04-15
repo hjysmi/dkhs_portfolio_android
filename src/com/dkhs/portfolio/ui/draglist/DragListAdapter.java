@@ -7,6 +7,7 @@ import java.util.Set;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.DataEntry;
+import com.dkhs.portfolio.bean.DragListItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -101,8 +102,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
          */
         convertView = LayoutInflater.from(context).inflate(R.layout.drag_list_item, null);
         RelativeLayout layout = (RelativeLayout) convertView.findViewById(R.id.layout);
-        TextView textView = (TextView) convertView.findViewById(R.id.drag_list_item_text);
-        TextView tvId = (TextView) convertView.findViewById(R.id.drag_list_item_text_id);
+        TextView tvName = (TextView) convertView.findViewById(R.id.drag_list_item_text);
+        TextView tvDesc = (TextView) convertView.findViewById(R.id.drag_list_item_text_id);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.drag_list_item_image);
         ImageView image = (ImageView) convertView.findViewById(R.id.image);
         final Button btn = (Button) convertView.findViewById(R.id.button_delete);
@@ -117,7 +118,22 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         btn.setOnClickListener(new Click(position, btn));
         // T item = dataList.get(position);
 
-        setViewDate(position, textView, tvId, cbAlert);
+        // setViewDate(position, textView, tvId, cbAlert);
+
+        DataEntry entry = getList().get(position);
+        DragListItem item = (DragListItem) entry.elment;
+        // System.out.println("setViewDate position:" + position + " name:" + item.getName());
+
+        tvName.setText(item.getItemName());
+        tvDesc.setText(item.getItemDesc());
+        cbAlert.setOnCheckedChangeListener(null);
+        cbAlert.setTag(position);
+        if (item.isItemTixing()) {
+            cbAlert.setChecked(true);
+        } else {
+            cbAlert.setChecked(false);
+        }
+        cbAlert.setOnCheckedChangeListener(this);
 
         if (isChanged) {
             if (position == invisilePosition) {
@@ -151,9 +167,9 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     public abstract void onDeleteClick(int position);
 
-    public abstract void onAlertClick(int position, boolean isCheck);
+    public abstract void onAlertClick(CompoundButton buttonView, int position, boolean isCheck);
 
-    public abstract void setViewDate(int position, TextView tvName, TextView tvDesc, CheckBox cbTixing);
+    // public abstract void setViewDate(int position, TextView tvName, TextView tvDesc, CheckBox cbTixing);
 
     class OnDele implements OnClickListener {
         Button btn;
@@ -381,8 +397,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-        onAlertClick((Integer) buttonView.getTag(), isChanged);
+        buttonView.setChecked(!isChecked);
+        onAlertClick(buttonView, (Integer) buttonView.getTag(), isChanged);
 
     }
 

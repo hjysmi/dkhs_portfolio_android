@@ -21,7 +21,7 @@ public class DragListItem {
     private String itemName;
     private String itemDesc;
     private boolean itemTixing;
-    private int itemSortId;
+    private long itemSortId;
 
     public String getItemId() {
         return itemId;
@@ -55,7 +55,7 @@ public class DragListItem {
         this.itemTixing = itemTixing;
     }
 
-    public int getItemSortId() {
+    public long getItemSortId() {
         return itemSortId;
     }
 

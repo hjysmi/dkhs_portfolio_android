@@ -10,8 +10,10 @@ import org.apache.http.message.BasicNameValuePair;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.dkhs.portfolio.bean.AlertSetBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.PortfolioAlertBean;
 import com.dkhs.portfolio.bean.SubmitSymbol;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -219,4 +221,30 @@ public class MyCombinationEngineImpl {
 
     }
 
+    /**
+     * 
+     * 设置组合提醒
+     */
+    public void portfolioRemind(String comId, float priceUp, float priceDown, float percent, boolean isAjust,
+            IHttpListener listener) {
+
+        PortfolioAlertBean alertSetBean = new PortfolioAlertBean(priceUp, priceDown, percent, isAjust);
+
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("is_alert", "1");
+        params.addBodyParameter("alert_settings", new Gson().toJson(alertSetBean));
+        DKHSClient.request(HttpMethod.POST, MessageFormat.format(DKHSUrl.Portfolio.remind, comId), params, listener);
+    }
+
+    /**
+     * 
+     * 取消组合提醒
+     */
+    public void delPortfolioRemind(String comId, IHttpListener listener) {
+        PortfolioAlertBean alertSetBean = new PortfolioAlertBean(0, 0, 0, false);
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("is_alert", "0");
+        params.addBodyParameter("alert_settings", new Gson().toJson(alertSetBean));
+        DKHSClient.request(HttpMethod.POST, MessageFormat.format(DKHSUrl.Portfolio.remind, comId), params, listener);
+    }
 }

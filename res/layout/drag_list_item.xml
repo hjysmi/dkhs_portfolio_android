@@ -92,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dip"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/list_text_size" />
 
@@ -101,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:paddingLeft="5dip"
+                android:singleLine="true"
                 android:textColor="@color/position_text_lgray"
                 android:textSize="@dimen/title_text_font" />
         </LinearLayout>

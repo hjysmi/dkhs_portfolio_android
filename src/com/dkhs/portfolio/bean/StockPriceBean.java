@@ -30,7 +30,7 @@ public class StockPriceBean {
     private float turnover_rate;
     private float amplitude;
     @SerializedName("sort_index")
-    public int index;
+    public long index;
     // 涨跌幅
     @SerializedName("percentage")
     private float percentage;
@@ -48,7 +48,10 @@ public class StockPriceBean {
     @SerializedName("chng_pct_year_sofar")
     private float tyearPercentage;
 
-    private boolean is_alert;
+    // private boolean is_alert;
+
+    @SerializedName("alert_settings")
+    private AlertSetBean alertBean;
 
     // 总市值
     private float total_capital;
@@ -71,11 +74,11 @@ public class StockPriceBean {
         this.id = id;
     }
 
-    public int getIndex() {
+    public long getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
+    public void setIndex(long index) {
         this.index = index;
     }
 
@@ -219,12 +222,12 @@ public class StockPriceBean {
         this.total_capital = total_capital;
     }
 
-    public boolean isIs_alert() {
-        return is_alert;
+    public AlertSetBean getAlertBean() {
+        return alertBean;
     }
 
-    public void setIs_alert(boolean is_alert) {
-        this.is_alert = is_alert;
+    public void setAlertBean(AlertSetBean alertBean) {
+        this.alertBean = alertBean;
     }
 
 }
