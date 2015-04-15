@@ -32,6 +32,9 @@ import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.AnalyticsConfig;
 
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+
 /**
  * @ClassName PortfolioApplication
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -69,6 +72,30 @@ public class PortfolioApplication extends Application {
 
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
+
+        RongIM.init(this);
+
+        String token = "e6AOw1Bpi/giPRFUdRHg68gDsJ/MCRXv0xD+lhrR5MvlzCXOyzUahpqsb+SYzpfB0a353iJKEyQ=";
+
+        // 连接融云服务器。
+        try {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                @Override
+                public void onSuccess(String s) {
+                    // 此处处理连接成功。
+                    Log.d("Connect:", "Login successfully.");
+                }
+
+                @Override
+                public void onError(ErrorCode errorCode) {
+                    // 此处处理连接错误。
+                    Log.d("Connect:", "Login failed.");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

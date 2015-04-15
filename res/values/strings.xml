@@ -396,7 +396,7 @@
     <string name="click_creat_fund">点击创建组合</string>
     <string name="creat_fund">自建组合</string>
     <string name="creat_fund_name">组合名称</string>
-
+    <string name="message_center">消息中心</string>
     <!-- toast message text -->
     <string name="msg_follow_success">添加关注成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
