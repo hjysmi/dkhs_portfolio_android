@@ -154,6 +154,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 btnTabRight.setEnabled(false);
                 btnTabLeft.setEnabled(true);
                 displayFragmentA();
+                // PromptManager.showCustomToast(R.drawable.ic_toast_gantan, R.string.message_timeout);
             }
                 break;
             case R.id.btn_titletab_left: {

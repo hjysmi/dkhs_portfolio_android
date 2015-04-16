@@ -47,6 +47,7 @@ import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
 import com.dkhs.portfolio.ui.widget.kline.PageOHLCEntity;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView.DisplayDataChangeListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -116,7 +117,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
         tvTurnover = (TextView) view.findViewById(R.id.kline_turnover);
         tvMacd = (TextView) view.findViewById(R.id.klin_macd);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if (!TextUtils.isEmpty(getSymbolType()) && UIUtils.isSymbleIndex(getSymbolType())) {
+        if (!TextUtils.isEmpty(getSymbolType()) && StockUitls.isIndexStock(getSymbolType())) {
             view.findViewById(R.id.land_kline_layout).setVisibility(View.GONE);
         }
         // if (TextUtils.isEmpty(getSymbolType())) {

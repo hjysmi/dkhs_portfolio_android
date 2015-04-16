@@ -16,6 +16,8 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.utils.WechatClientNotExistException;
+import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -24,6 +26,7 @@ import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -114,26 +117,17 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
         @Override
         public void onError(Platform plat, int action, Throwable t) {
-            System.out.println("PlatformActionListener onComplete()");
             t.printStackTrace();
 
             Message msg = new Message();
             msg.arg1 = 2;
             msg.arg2 = action;
-            msg.obj = plat;
+            msg.obj = t;
             platFormAction.sendMessage(msg);
         }
 
         @Override
         public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
-
-            System.out.println("PlatformActionListener onComplete()");
-            System.out.println("action:" + action);
-            System.out.println("platform user id:" + plat.getDb().getUserId());
-            System.out.println("platform user name:" + plat.getDb().getUserName());
-            System.out.println("platform  name:" + plat.getName());
-            System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
-            System.out.println("platform  getToken:" + plat.getDb().getToken());
 
             res.put("plat", plat);
             Message msg = new Message();
@@ -147,7 +141,6 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
 
         @Override
         public void onCancel(Platform plat, int action) {
-            System.out.println("PlatformActionListener onCancel()");
             Message msg = new Message();
             msg.arg1 = 3;
             msg.arg2 = action;
@@ -191,6 +184,22 @@ public class BoundAccountActivity extends ModelAcitivity implements OnClickListe
                 }
                     break;
                 case 2: {
+                    String failtext = "";
+                    if (msg.obj instanceof WechatClientNotExistException) {
+                        failtext = getResources().getString(R.string.wechat_client_inavailable);
+                    } else if (msg.obj instanceof WechatTimelineNotSupportedException) {
+                        failtext = getResources().getString(R.string.wechat_client_inavailable);
+                    } else if (msg.obj instanceof java.lang.Throwable && msg.obj.toString() != null
+                            && msg.obj.toString().contains("prevent duplicate publication")) {
+
+                        failtext = getResources().getString(R.string.oauth_fail);
+                    } else if (msg.obj.toString().contains("error")) {
+                        failtext = getResources().getString(R.string.oauth_fail);
+
+                    } else {
+                        failtext = getResources().getString(R.string.oauth_fail);
+                    }
+                    PromptManager.showToast(failtext);
                 }
                     break;
                 case 3: {

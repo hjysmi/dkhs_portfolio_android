@@ -174,6 +174,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         etPriceUp.addTextChangedListener(priceUpTextWatch);
         etPriceDown.addTextChangedListener(priceDownTextWatch);
+        etDayPercent.addTextChangedListener(percentTextWatch);
     }
 
     private void setCombinationStyle() {
