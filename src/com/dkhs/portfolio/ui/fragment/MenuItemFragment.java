@@ -9,9 +9,13 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.config.APPConfig;
 import com.dkhs.portfolio.ui.NewMainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -122,6 +126,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         mIndex = index;
         setupView();
 
+
         // BusProvider.getInstance().post(new TabSelectEvent(index));
         ((NewMainActivity) getActivity()).showContentIndex(index);
         // App.getInstance().mTabIndex = index;
@@ -147,6 +152,8 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
+            newCountTV.setVisibility(View.GONE);
         }
 
     }
@@ -191,11 +198,16 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     @Subscribe
     public void updateMessageCenter(NewMessageEvent newMessageEvent){
 
-        int totalCount= RongIM.getInstance().getTotalUnreadCount();
 
-        if(totalCount > 0){
-            newCountTV.setVisibility(View.VISIBLE);
-            newCountTV.setText(totalCount+"");
+        if (PortfolioApplication.hasUserLogin()) {
+            int totalCount= RongIM.getInstance().getTotalUnreadCount();
+
+            boolean  isShow= PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
+            if (totalCount > 0 && isShow) {
+                newCountTV.setVisibility(View.VISIBLE);
+            } else {
+                newCountTV.setVisibility(View.GONE);
+            }
         }else{
             newCountTV.setVisibility(View.GONE);
         }

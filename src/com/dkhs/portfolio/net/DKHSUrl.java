@@ -175,7 +175,7 @@ public class DKHSUrl {
         // 添加用户反馈
         String add_feed = "/api/v1/apps/";
         String bind_mobile = "/api/v1/accounts/bind_mobile/";
-        String get_token="/api/v1/apps/rong/user_get_token/";
+        String get_token="/api/v1/im/token/";
     }
 
     public interface MainPage {

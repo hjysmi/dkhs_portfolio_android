@@ -86,7 +86,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     public void onResume() {
 
         super.onResume();
-        BusProvider.getInstance().post(new NewMessageEvent());
         updateUserInfo();
 
     }
@@ -141,11 +140,16 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         }
 
-        int totalCount=RongIM.getInstance().getTotalUnreadCount();
 
-        if(totalCount > 0){
-            unreadCountTV.setVisibility(View.VISIBLE);
-            unreadCountTV.setText(totalCount+"");
+        if (PortfolioApplication.hasUserLogin()) {
+            int totalCount = RongIM.getInstance().getTotalUnreadCount();
+
+            if (totalCount > 0) {
+                unreadCountTV.setVisibility(View.VISIBLE);
+                unreadCountTV.setText(totalCount + "");
+            } else {
+                unreadCountTV.setVisibility(View.GONE);
+            }
         }else{
             unreadCountTV.setVisibility(View.GONE);
         }
@@ -190,7 +194,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     @OnClick(R.id.message_center_layout)
     public void messageCenterClick(View v) {
-        RongIM.getInstance().startConversationList(getActivity());
+        if (!UIUtils.iStartLoginActivity(getActivity())) {
+            RongIM.getInstance().startConversationList(getActivity());
+        }
     }
 
     @Override

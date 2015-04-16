@@ -274,11 +274,10 @@ public class UserEngineImpl {
     public  void getToken(String user_id,String nickName,String portrait_uri,BasicHttpListener listener  ){
 
         RequestParams params = new RequestParams();
-        params.addBodyParameter("user_id", user_id);
-        params.addBodyParameter("name", nickName);
-//        params.addBodyParameter("portrait_uri",portrait_uri);
-        params.addBodyParameter("portrait_uri", "http://su.bdimg.com/static/superplus/img/logo_white_ee663702.png");
-        DKHSClient.request(HttpMethod.POST, DKHSUrl.User.get_token, params, listener);
+        params.addQueryStringParameter("user_id", user_id);
+        params.addQueryStringParameter("name", nickName);
+        params.addQueryStringParameter("portrait_uri",portrait_uri);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_token, params, listener);
 
     }
 
