@@ -132,6 +132,7 @@
     <string name="delete_fllow">取消自选</string>
     <string name="add_fllow">加入自选</string>
     <string name="turnover">换手率</string>
+    <string name="turnovev_range">换手榜</string>
     <string name="html_blankspace">&#160;</string>
     <string name="start_netvalue">起始:</string>
     <string name="end_netvalue">结束:</string>
@@ -202,6 +203,7 @@
     <string name="function_ace">牛人</string>
     <string name="function_optional">自选股</string>
     <string name="function_notice">公告</string>
+    <string name="function_f10">F10</string>
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外</string>
@@ -375,6 +377,8 @@
     <string name="market_title_ampli">振幅榜</string>
     <string name="market_title_down">跌幅榜</string>
     <string name="market_title_index">国内指数</string>
+    <string name="stop_stock">停牌</string>
+    <string name="exit_stock">退市</string>
 
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
@@ -437,5 +441,6 @@
     <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
     <string name="msg_price_error">目标价输入错误</string>
     <string name="btn_reinput">重新输入</string>
+    <string name="toast_remind_success">提醒成功</string>
 
 </resources>

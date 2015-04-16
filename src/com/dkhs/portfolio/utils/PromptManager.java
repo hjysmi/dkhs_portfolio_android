@@ -8,8 +8,12 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Looper;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -250,6 +254,33 @@ public class PromptManager {
 
     public static void showDelFollowToast() {
         showToast(R.string.msg_def_follow_success);
+    }
+
+    /*
+     * 从布局文件中加载布局并且自定义显示Toast
+     */
+    public static void showCustomToast(int iconResId, int messageResId) {
+
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+
+            // 获取LayoutInflater对象，该对象可以将布局文件转换成与之一致的view对象
+            // 将布局文件转换成相应的View对象
+            View layout = View.inflate(PortfolioApplication.getInstance(), R.layout.layout_custom_toast, null);
+            // 从layout中按照id查找imageView对象
+            ImageView imageView = (ImageView) layout.findViewById(R.id.ivForToast);
+            // 设置ImageView的图片
+            imageView.setImageResource(iconResId);
+            // 从layout中按照id查找TextView对象
+            TextView textView = (TextView) layout.findViewById(R.id.tvForToast);
+            // 设置TextView的text内容
+            textView.setText(messageResId);
+            // 实例化一个Toast对象
+            Toast toast = new Toast(PortfolioApplication.getInstance());
+            toast.setDuration(Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+            toast.setView(layout);
+            toast.show();
+        }
     }
 
 }

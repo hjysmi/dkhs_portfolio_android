@@ -19,6 +19,7 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
@@ -50,6 +51,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -394,7 +396,24 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
         }
     }
 
+    Handler uiHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 777:
+                    startLoadData();
+                    break;
+                case 888:
+                    endLoadData();
+                    break;
+
+                default:
+                    break;
+            }
+        };
+    };
+
     public void refresh() {
+        uiHandler.sendEmptyMessage(777);
         isRefresh = true;
 
         dataEngine.loadAllData();
@@ -412,6 +431,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     @Override
     public void loadFinish(MoreDataBean object) {
         // mSwipeLayout.setRefreshing(false);
+        uiHandler.sendEmptyMessage(888);
         if (null != object.getResults()) {
             if (!UIUtils.roundAble(object.getStatu())) {
                 if (mCombinationTimer != null) {
@@ -436,6 +456,18 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
     @Override
     public void loadFail() {
         isRefresh = false;
+    }
+
+    private void startLoadData() {
+        if (getActivity() instanceof MyCombinationActivity) {
+            ((MyCombinationActivity) getActivity()).rotateRefreshButton();
+        }
+    }
+
+    private void endLoadData() {
+        if (getActivity() instanceof MyCombinationActivity) {
+            ((MyCombinationActivity) getActivity()).stopRefreshAnimation();
+        }
     }
 
     public void createNewCombination() {

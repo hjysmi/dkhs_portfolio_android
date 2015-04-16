@@ -394,13 +394,6 @@ public class UIUtils {
         return false;
     }
 
-    public static boolean isSymbleIndex(String type) {
-        if (type.equals("5")) {
-            return true;
-        }
-        return false;
-    }
-
     public static void startAminationActivity(Activity context, Intent intent) {
         context.startActivity(intent);
         // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);

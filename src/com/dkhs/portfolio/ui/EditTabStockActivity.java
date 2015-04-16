@@ -99,8 +99,9 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
             // adapter = new DragListAdapter(context, object.getResults(), optionEditList);
             // optionEditList.setAdapter(adapter);
             // optionEditList.setOnItemClickListener(new OnListener());
-            adapter.setAdapterData(object.getResults());
-
+            // adapter.setAdapterData(object.getResults());
+            updateRemindValue(object.getResults());
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -110,6 +111,15 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         }
 
     };
+
+    private void updateRemindValue(List<SelectStockBean> newStockList) {
+        for (SelectStockBean stockBean : newStockList) {
+            if (mStockList.contains(stockBean)) {
+                int position = mStockList.indexOf(stockBean);
+                mStockList.get(position).alertSetBean = stockBean.alertSetBean;
+            }
+        }
+    }
 
     class OnListener implements OnItemClickListener {
 

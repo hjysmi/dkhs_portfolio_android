@@ -330,9 +330,7 @@
 
 
 
-        <activity
-            android:name="io.rong.voipkit.activity.CallSideActivity"
-            android:screenOrientation="portrait" />
+       
 
         <activity
             android:name="io.rong.voipkit.activity.CalledSideActivity"
@@ -348,10 +346,12 @@
         </activity>
         <activity android:name=".ui.RCChatListActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:path="/conversationlist"
@@ -359,11 +359,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RCChatActivity"
+        <activity
+            android:name="io.rong.imkit.RongSecActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:pathPrefix="/conversation/"
@@ -373,43 +377,39 @@
         <activity android:name=".ui.RCChatSettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:pathPrefix="/conversationsetting/"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name="io.rong.voipkit.activity.CallSideActivity"
+            android:screenOrientation="portrait" />
+       
 
         <service
             android:name="io.rong.imkit.service.RongIMService"
             android:enabled="true"
             android:exported="false"
-            android:priority="1000"></service>
-
+            android:priority="1000" >
+        </service>
         <service
             android:name="io.rong.imlib.push.PushService"
-            android:process="io.rong.push">
+            android:process="io.rong.push" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="io.rong.push" />
             </intent-filter>
         </service>
-
         <service
             android:name="io.rong.imlib.push.CommandService"
-            android:process="io.rong.push">
+            android:process="io.rong.push" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="io.rong.command" />
             </intent-filter>
         </service>
 
         <receiver
             android:name="io.rong.imlib.push.PushReceiver"
-            android:process="io.rong.push">
+            android:process="io.rong.push" >
             <intent-filter>
                 <action android:name="io.rong.imlib.action.push.heartbeat" />
             </intent-filter>
@@ -420,9 +420,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <receiver
-            android:name="io.rong.imlib.push.PushMessageReceiver">
+        <receiver android:name="io.rong.imlib.push.PushMessageReceiver" >
             <intent-filter>
                 <action android:name="io.rong.push.message" />
             </intent-filter>
