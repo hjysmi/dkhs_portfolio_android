@@ -484,7 +484,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         public void onError(Platform plat, int action, Throwable t) {
-            System.out.println("PlatformActionListener onError()");
+            // System.out.println("PlatformActionListener onError()");
             t.printStackTrace();
 
             Message msg = new Message();
@@ -498,13 +498,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
 
             // Toast.makeText(getApplicationContext(), text, duration)
-            System.out.println("PlatformActionListener onComplete()");
-            System.out.println("action:" + action);
-            System.out.println("platform user id:" + plat.getDb().getUserId());
-            System.out.println("platform user name:" + plat.getDb().getUserName());
-            System.out.println("platform  name:" + plat.getName());
-            System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
-            System.out.println("platform  getToken:" + plat.getDb().getToken());
+            // System.out.println("PlatformActionListener onComplete()");
+            // System.out.println("action:" + action);
+            // System.out.println("platform user id:" + plat.getDb().getUserId());
+            // System.out.println("platform user name:" + plat.getDb().getUserName());
+            // System.out.println("platform  name:" + plat.getName());
+            // System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
+            // System.out.println("platform  getToken:" + plat.getDb().getToken());
 
             res.put("plat", plat);
             Message msg = new Message();
@@ -543,13 +543,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         if (platname.contains(SinaWeibo.NAME)) {
                             platname = "weibo";
                             imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
-                            System.out.println("avatar_large:" + imageUrl);
                         } else if (platname.contains(Wechat.NAME)) {
                             platname = "weixin";
                         } else {
                             platname = "qq";
                             imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
-                            System.out.println("avatar_large:" + imageUrl);
                         }
                         ThreePlatform platData = new ThreePlatform();
                         platData.setAccess_token(plat.getDb().getToken());
