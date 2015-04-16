@@ -10,28 +10,37 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.fragment.BaseFragment;
+import com.dkhs.portfolio.bean.RongTokenBean;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
-import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.Button;
+import android.text.TextUtils;
+import android.util.Log;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
+ * @author zjz
+ * @version 2.0
  * @ClassName NewMainActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-5 上午10:26:35
- * @version 2.0
  */
 public class NewMainActivity extends ModelAcitivity {
 
@@ -46,6 +55,7 @@ public class NewMainActivity extends ModelAcitivity {
         hideHead();
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
+
 
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
@@ -68,6 +78,74 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
+
+        initRM();
+
+
+    }
+
+    /**
+     * 设置消息通知的token
+     */
+    private void initRM() {
+
+        UserEntity user = null;
+        try {
+            user = DbUtils.create(PortfolioApplication.getInstance())
+                    .findFirst(UserEntity.class);
+
+            if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+
+                engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
+                            @Override
+                            public void onSuccess(String result) {
+                                RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class, result);
+                                if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                                    connectRongIM(rongTolenBean.getToken());
+                                }
+                            }
+                        }
+                );
+            }
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    /**
+     * 连接融云服务器。
+     *
+     * @param token
+     */
+    private void connectRongIM(String token) {
+
+        try {
+            RongIM.connect(token, new RongIMClient.ConnectCallback() {
+
+                @Override
+                public void onSuccess(String s) {
+                    // 此处处理连接成功。
+                    LogUtils.d("Connect: Login successfully.");
+                    /**
+                     * 开启显示 下方 tab 选项'我的' 的
+                     */
+                    BusProvider.getInstance().post(new NewMessageEvent());
+                    RongIM.getInstance().setReceiveMessageListener(listener);
+
+
+                }
+
+                @Override
+                public void onError(ErrorCode errorCode) {
+                    // 此处处理连接错误。
+                    LogUtils.d("Connect: Login failed.");
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void showContentIndex(int index) {
@@ -77,20 +155,20 @@ public class NewMainActivity extends ModelAcitivity {
                 // Intent intent = new Intent(this, MainActivity.class);
                 // startActivity(intent);
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_2: {
                 displayFragmentB();
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_3: {
                 displayFragmentC();
 
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_4: {
                 displayFragmentD();
             }
-                break;
+            break;
 
             default:
                 break;
@@ -190,4 +268,20 @@ public class NewMainActivity extends ModelAcitivity {
         ft.commit();
     }
 
+    final RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
+        @Override
+        public void onReceived(RongIMClient.Message message, int left) {
+            // 输出消息类型。
+            Log.d("Receive:---", "收到");
+            NewMainActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
+                    BusProvider.getInstance().post(new NewMessageEvent());
+                }
+            });
+
+
+        }
+    };
 }

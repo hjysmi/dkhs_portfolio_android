@@ -46,6 +46,7 @@ import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.config.APPConfig;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSUrl;
@@ -56,6 +57,7 @@ import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
@@ -682,6 +684,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private void goMainPage() {
+
+
+        //设置小红点可以出现
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE,true);
         PortfolioApplication.getInstance().exitApp();
         Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
         startActivity(intent);
