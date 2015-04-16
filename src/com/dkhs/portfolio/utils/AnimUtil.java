@@ -47,6 +47,7 @@ public class AnimUtil {
         AnimationSet animationSet=new AnimationSet(true);
         animationSet.addAnimation(scaleAnimation);
         animationSet.addAnimation(alphaAnimation);
+//        animationSet
         animationSet.setDuration(APPConfig.ANIM_DURATION);
         animationSet.setAnimationListener(new Animation.AnimationListener() {
             @Override

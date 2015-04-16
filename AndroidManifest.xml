@@ -161,27 +161,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -192,29 +171,6 @@
             	的类，这个类可以监听到页面的生命周期，也可以获QQ空间网页分享权页面的各种UI控件。 
             	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             -->
             <meta-data
                 android:name="QZoneWebShareAdapter"
@@ -222,11 +178,6 @@
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
             	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
-
-
-
-
-
 
 
             -->
@@ -295,7 +246,6 @@
             android:screenOrientation="portrait">
 
 
-
             
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -328,8 +278,6 @@
 
 
 
-
-
        
 
         <activity
@@ -359,8 +307,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.RCChatActivity"
-        <activity
-            android:name="io.rong.imkit.RongSecActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -374,13 +320,25 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+
+
+
+
         <activity android:name=".ui.RCChatSettingActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-        <activity
-            android:name="io.rong.voipkit.activity.CallSideActivity"
-            android:screenOrientation="portrait" />
-       
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="io.rong.imkit.demo"
+                    android:pathPrefix="/conversationsetting/"
+                    android:scheme="rong"/>
+            </intent-filter>
+        </activity>
+
 
         <service
             android:name="io.rong.imkit.service.RongIMService"
