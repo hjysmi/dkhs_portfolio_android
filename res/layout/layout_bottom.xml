@@ -11,6 +11,7 @@
         android:orientation="horizontal"
         android:paddingBottom="4dp"
 
+        android:paddingTop="4dp"
         android:weightSum="4" >
 
         <RelativeLayout
@@ -79,13 +80,15 @@
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="2dp"
                 android:text=""
-                android:textSize="10sp"
+                android:textSize="1sp"
+                android:layout_marginLeft="-4dp"
                 android:visibility="gone"
                 android:textColor="@color/white"
-                android:background="@drawable/bg_bottom_new"
+              android:background="@drawable/bg_bottom_new"
                 android:id="@+id/tv_new_count"
                 android:layout_toRightOf="@+id/btn_tab4"
                 android:layout_height="wrap_content" />
+
 
             <TextView
                 android:id="@+id/tv_tab4"

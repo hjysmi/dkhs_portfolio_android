@@ -10,5 +10,9 @@ package com.dkhs.portfolio.config;
 public class APPConfig {
 
 
+    /**
+     *
+     */
+    public static  int ANIM_DURATION=500;
 
 }

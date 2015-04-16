@@ -293,14 +293,7 @@
         <activity
             android:name="io.rong.imkit.RongActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:pathPrefix="/conversationsetting/"
-                    android:scheme="rong" />
-            </intent-filter>
+
 
 
             
@@ -333,33 +326,9 @@
 
         </activity>
 
-        <activity
-            android:name="io.rong.imkit.RongSingleActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:path="/conversationlist"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
 
-        <activity
-            android:name="io.rong.imkit.RongSecActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:pathPrefix="/conversation/"
-                    android:scheme="rong" />
-            </intent-filter>
-        </activity>
+
+
 
         <activity
             android:name="io.rong.voipkit.activity.CallSideActivity"
@@ -374,6 +343,42 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:host="io.rong.imkit.demo"
                     android:path="/calledsideactivity"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.RCChatListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:path="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.RCChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.RCChatSettingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/conversationsetting/"
                     android:scheme="rong" />
             </intent-filter>
         </activity>

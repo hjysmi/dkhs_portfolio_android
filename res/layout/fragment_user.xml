@@ -179,6 +179,7 @@
                     android:id="@+id/tv_unread_count"
                     android:layout_toLeftOf="@+id/image_detail"
                     android:layout_height="wrap_content" />
+                <!---->
             </RelativeLayout>
 
             <View style="@style/divider_line" />

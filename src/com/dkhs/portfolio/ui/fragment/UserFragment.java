@@ -142,6 +142,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
 
         if (PortfolioApplication.hasUserLogin()) {
+
+
             int totalCount = RongIM.getInstance().getTotalUnreadCount();
 
             if (totalCount > 0) {
@@ -195,6 +197,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     @OnClick(R.id.message_center_layout)
     public void messageCenterClick(View v) {
         if (!UIUtils.iStartLoginActivity(getActivity())) {
+            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
+            BusProvider.getInstance().post(new NewMessageEvent());
             RongIM.getInstance().startConversationList(getActivity());
         }
     }

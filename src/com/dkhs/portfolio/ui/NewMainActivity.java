@@ -133,7 +133,6 @@ public class NewMainActivity extends ModelAcitivity {
                     /**
                      * 开启显示 下方 tab 选项'我的' 的
                      */
-
                     BusProvider.getInstance().post(new NewMessageEvent());
                     RongIM.getInstance().setReceiveMessageListener(listener);
 
