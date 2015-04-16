@@ -321,10 +321,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         bottomLayout.removeAllViews();
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
-            String[] name = new String[3];
-            name[0] = "涨幅榜";
-            name[1] = "跌幅榜";
-            name[2] = "换手率榜";
+            String[] stockListTiles = getResources().getStringArray(R.array.select_optional_stock);
             String exchange;
             String listSector = null;
             if (mStockCode.equals("SH000001")) {
@@ -347,7 +344,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             Fragment f3 = FragmentForStockSHC
                     .newIntent(exchange, StockViewType.STOCK_HANDOVER, null, listSector, false);
             fraglist.add(f3);
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist,
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, stockListTiles, fraglist,
                     bottomLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);

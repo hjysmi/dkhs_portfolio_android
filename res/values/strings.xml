@@ -131,6 +131,7 @@
     <string name="delete_fllow">取消自选</string>
     <string name="add_fllow">加入自选</string>
     <string name="turnover">换手率</string>
+    <string name="turnovev_range">换手榜</string>
     <string name="html_blankspace">&#160;</string>
     <string name="start_netvalue">起始:</string>
     <string name="end_netvalue">结束:</string>
