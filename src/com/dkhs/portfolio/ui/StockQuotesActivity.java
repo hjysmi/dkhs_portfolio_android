@@ -357,10 +357,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // name = new String[2];
             // }
             // name[0] = "新闻";
-            String[] name = new String[3];
-            name[0] = "公告";
-            name[1] = "研报";
-            name[2] = "F10";
+            String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
             // if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
             // }
             NewsforModel vo;
@@ -385,7 +382,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
             bottmoTabFragmentList.add(f10Fragment);
             // }
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name,
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, stockListTiles,
                     bottmoTabFragmentList, bottomLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
