@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="11"
-    android:versionName="1.5.0414" >
+    android:versionName="1.5.0415" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -157,31 +157,7 @@
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。 
-            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -190,45 +166,14 @@
             <!--
             	QZoneWebShareAdapter表示一个继承自cn.sharesdk.tencent.qzone.QZoneWebShareAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获QQ空间网页分享权页面的各种UI控件。 
-            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="QZoneWebShareAdapter"
                 android:value="cn.sharesdk.demo.MyQZoneWebShareAdapter" />
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
-            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
-
-
-
-
-
-
-
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
             -->
             <intent-filter>
                 <data android:scheme="db-7janx53ilz11gbs" />
@@ -242,14 +187,7 @@
             <!--
             	如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
             	事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
-            	则分享结束以后不能得到正确的回调
-
-
-
-
-
-
-
+            	则分享结束以后不能得到正确的回调
             -->
             <intent-filter>
                 <data android:scheme="tencent1103511496" />
@@ -282,8 +220,6 @@
             android:name="com.dkhs.portfolio.service.ReLoadDataService"
             android:exported="false" />
 
-
-
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="k51hidwq1fqzb" />
@@ -292,87 +228,92 @@
 
         <activity
             android:name="io.rong.imkit.RongActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:pathPrefix="/conversationsetting/"
                     android:scheme="rong" />
             </intent-filter>
-
-
-            
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:path="/grouplist"
                     android:scheme="rong" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:path="/conversationgrouplist"
                     android:scheme="rong" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:pathPrefix="/friend/"
                     android:scheme="rong" />
             </intent-filter>
-
         </activity>
-
         <activity
             android:name="io.rong.imkit.RongSingleActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:path="/conversationlist"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="io.rong.imkit.RongSecActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data
                     android:host="com.dkhs.portfolio"
                     android:pathPrefix="/conversation/"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="io.rong.voipkit.activity.CallSideActivity"
             android:screenOrientation="portrait" />
-
         <activity
             android:name="io.rong.voipkit.activity.CalledSideActivity"
             android:excludeFromRecents="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="io.rong.voipkit.calledSideActivity.action" />
+
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="io.rong.imkit.demo"
+
+                <data
+                    android:host="io.rong.imkit.demo"
                     android:path="/calledsideactivity"
                     android:scheme="rong" />
             </intent-filter>
@@ -382,29 +323,30 @@
             android:name="io.rong.imkit.service.RongIMService"
             android:enabled="true"
             android:exported="false"
-            android:priority="1000"></service>
-
+            android:priority="1000" >
+        </service>
         <service
             android:name="io.rong.imlib.push.PushService"
-            android:process="io.rong.push">
+            android:process="io.rong.push" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="io.rong.push" />
             </intent-filter>
         </service>
-
         <service
             android:name="io.rong.imlib.push.CommandService"
-            android:process="io.rong.push">
+            android:process="io.rong.push" >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="io.rong.command" />
             </intent-filter>
         </service>
 
         <receiver
             android:name="io.rong.imlib.push.PushReceiver"
-            android:process="io.rong.push">
+            android:process="io.rong.push" >
             <intent-filter>
                 <action android:name="io.rong.imlib.action.push.heartbeat" />
             </intent-filter>
@@ -415,9 +357,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <receiver
-            android:name="io.rong.imlib.push.PushMessageReceiver">
+        <receiver android:name="io.rong.imlib.push.PushMessageReceiver" >
             <intent-filter>
                 <action android:name="io.rong.push.message" />
             </intent-filter>

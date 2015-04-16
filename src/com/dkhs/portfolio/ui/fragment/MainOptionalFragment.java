@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -153,7 +154,6 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 btnTabRight.setEnabled(false);
                 btnTabLeft.setEnabled(true);
                 displayFragmentA();
-
             }
                 break;
             case R.id.btn_titletab_left: {

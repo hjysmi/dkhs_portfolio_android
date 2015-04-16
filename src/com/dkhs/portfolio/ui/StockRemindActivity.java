@@ -310,8 +310,14 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
             float priceUpFloat = priceUpTip(s.toString(),
                     isCombinationSetting ? mComBean.getNetvalue() : mStockBean.getCurrentValue());
-            tvUpTip.setVisibility(View.VISIBLE);
-            setPriceUpTip(priceUpFloat);
+            if (priceUpFloat == 0) {
+                tvUpTip.setVisibility(View.INVISIBLE);
+
+            } else {
+
+                tvUpTip.setVisibility(View.VISIBLE);
+                setPriceUpTip(priceUpFloat);
+            }
 
         }
     };
@@ -347,9 +353,13 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             }
             float priceDownFloat = priceUpTip(s.toString(),
                     isCombinationSetting ? mComBean.getNetvalue() : mStockBean.getCurrentValue());
-            tvDownTip.setVisibility(View.VISIBLE);
-            // setPriceUpTip(priceUpFloat);
-            setPriceDownTip(priceDownFloat);
+            if (priceDownFloat == 0) {
+                tvDownTip.setVisibility(View.INVISIBLE);
+            } else {
+
+                tvDownTip.setVisibility(View.VISIBLE);
+                setPriceDownTip(priceDownFloat);
+            }
 
         }
     };
@@ -638,7 +648,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(Object object) {
-            PromptManager.showToast("提醒设置成功");
+            // PromptManager.showToast("提醒设置成功");
+            PromptManager.showCustomToast(R.drawable.ic_toast_dagou, R.string.toast_remind_success);
             finish();
 
         }
