@@ -112,6 +112,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvChengjiaoLiang;
     private TextView tvChengjiaoE;
     private TextView tvHuanShouLv;
+    private TextView tvStockStatus;
+    private View viewPriceChange;
     private TextView tvLiuzhi;
     private TextView tvZongzhi;
     private TextView tvShiying;
@@ -226,6 +228,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
             tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
             tvHuanShouLv = (TextView) viewHeader.findViewById(R.id.tv_huan_value);
+            tvStockStatus = (TextView) viewHeader.findViewById(R.id.tv_stock_status);
+            viewPriceChange = (View) viewHeader.findViewById(R.id.layout_change_price);
             tvLiuzhi = (TextView) viewHeader.findViewById(R.id.tv_liuzhi_value);
             tvZongzhi = (TextView) viewHeader.findViewById(R.id.tv_zongzhi_value);
             tvShiying = (TextView) viewHeader.findViewById(R.id.tv_shiying_value);
@@ -631,7 +635,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
         setTitleTipString(mStockQuotesBean.getTradetile() + " "
                 + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
-        // }
+        if (StockUitls.isDelistStock(mStockBean.list_status)) {// 退市股票
+            tvStockStatus.setVisibility(View.VISIBLE);
+            viewPriceChange.setVisibility(View.GONE);
+            tvStockStatus.setText(R.string.exit_stock);
+
+        } else if (mStockBean.isStop) {// 停牌股票
+            tvStockStatus.setVisibility(View.VISIBLE);
+            viewPriceChange.setVisibility(View.GONE);
+            tvStockStatus.setText(R.string.stop_stock);
+
+        } else {
+            tvStockStatus.setVisibility(View.GONE);
+            viewPriceChange.setVisibility(View.VISIBLE);
+        }
     }
 
     private ColorStateList getTextColor(float value) {

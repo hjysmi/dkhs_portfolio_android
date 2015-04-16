@@ -129,12 +129,12 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
 
         if (StockUitls.isDelistStock(item.list_status)) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
-            viewHolder.tvSuspend.setText("退市");
+            viewHolder.tvSuspend.setText(R.string.exit_stock);
             viewHolder.mCheckbox.setVisibility(View.GONE);
             // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);
         } else if (item.isStop) {
             viewHolder.tvSuspend.setVisibility(View.VISIBLE);
-            viewHolder.tvSuspend.setText("停牌");
+            viewHolder.tvSuspend.setText(R.string.stop_stock);
             viewHolder.mCheckbox.setVisibility(View.GONE);
             // viewHolder.tvIncreaseValue.setText("—");
             // viewHolder.tvIncreaseValue.setVisibility(View.INVISIBLE);

@@ -27,11 +27,24 @@
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
-            <RelativeLayout
+            <TextView
+                android:id="@+id/tv_stock_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_current_price"
-                android:layout_centerHorizontal="true" >
+                android:layout_centerHorizontal="true"
+                android:text="停牌"
+                android:textColor="@color/theme_color"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/layout_change_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_current_price"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" >
 
                 <TextView
                     android:id="@+id/tv_up_price"
