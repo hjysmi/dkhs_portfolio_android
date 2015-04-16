@@ -24,6 +24,8 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -94,6 +96,20 @@ public class MyCombinationActivity extends ModelAcitivity implements OnClickList
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
                 null, null, null);
 
+    }
+
+    public void rotateRefreshButton() {
+        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing), null,
+                null, null);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
+        btnRefresh.startAnimation(animation);
+    }
+
+    public void stopRefreshAnimation() {
+
+        btnRefresh.clearAnimation();
+        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh), null,
+                null, null);
     }
 
     private void replaceCombinationListView() {
