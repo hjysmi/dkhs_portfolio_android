@@ -12,7 +12,7 @@ import io.rong.imkit.fragment.ConversationSettingFragment;
  * @author useradmin
  * @version 1.0
  * @ClassName zwm
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO(会话设置)
  * @date 2015/4/16.15:22
  */
 public class RCChatSettingActivity extends ModelAcitivity {

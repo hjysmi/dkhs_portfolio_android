@@ -19,10 +19,11 @@ import io.rong.imlib.RongIMClient;
  * @author useradmin
  * @version 1.0
  * @ClassName zwm
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO(单聊界面)
  * @date 2015/4/16.15:21
  */
 public class RCChatActivity extends ModelAcitivity {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,12 +33,13 @@ public class RCChatActivity extends ModelAcitivity {
         String data = intent.getDataString();
 
         final Uri uri = Uri.parse(data);
-        LogUtils.e(data);
+
         setTitle(uri.getQueryParameter("title"));
         getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
         getRightButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //todo 这里偷懒了。 要根据uri的值设置 ConversationType
                 RongIM.getInstance().startConversationSetting(RCChatActivity.this, RongIMClient.ConversationType.PRIVATE, uri.getQueryParameter("targetId"));
             }
         });

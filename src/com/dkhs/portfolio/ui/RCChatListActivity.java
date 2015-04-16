@@ -11,7 +11,7 @@ import io.rong.imkit.fragment.ConversationListFragment;
  * @author useradmin
  * @version 1.0
  * @ClassName zwm
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO(会话列表)
  * @date 2015/4/16.15:21
  */
 public class RCChatListActivity extends ModelAcitivity {
