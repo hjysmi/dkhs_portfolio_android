@@ -100,7 +100,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
     private void initDate() {
 
-        Log.e(TAG, " initDate ");
         Bundle bundle = getArguments();
 
         if (null != bundle) {
@@ -116,8 +115,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
     }
 
     private void initView(View view) {
-
-        Log.e(TAG, " initView ");
 
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         tv = (TextView) view.findViewById(android.R.id.empty);
