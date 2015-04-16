@@ -15,6 +15,7 @@ import com.dkhs.portfolio.ui.NewMainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
+import com.dkhs.portfolio.utils.AnimUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -153,7 +154,9 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
-            newCountTV.setVisibility(View.GONE);
+
+            AnimUtil.dismissScale(newCountTV);
+//            newCountTV.setVisibility(View.GONE);
         }
 
     }
@@ -204,12 +207,15 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
             boolean  isShow= PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
             if (totalCount > 0 && isShow) {
-                newCountTV.setVisibility(View.VISIBLE);
+//                newCountTV.setVisibility(View.VISIBLE);
+                AnimUtil.showScale(newCountTV);
             } else {
-                newCountTV.setVisibility(View.GONE);
+                AnimUtil.dismissScale(newCountTV);
+//                newCountTV.setVisibility(View.GONE);
             }
         }else{
-            newCountTV.setVisibility(View.GONE);
+            AnimUtil.dismissScale(newCountTV);
+//            newCountTV.setVisibility(View.GONE);
         }
 
     }

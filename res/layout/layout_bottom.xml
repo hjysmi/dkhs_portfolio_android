@@ -81,7 +81,7 @@
                 android:layout_marginTop="2dp"
                 android:text=""
                 android:textSize="1sp"
-                android:layout_marginLeft="-4dp"
+                android:layout_marginLeft="-5dp"
                 android:visibility="gone"
                 android:textColor="@color/white"
               android:background="@drawable/bg_bottom_new"
