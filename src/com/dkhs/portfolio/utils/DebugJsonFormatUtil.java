@@ -8,7 +8,7 @@ package com.dkhs.portfolio.utils;
  * @Description json 格式化 输出
  * @date 2015/4/15.10:36
  */
-public class JsonUtil {
+public class DebugJsonFormatUtil {
 
     /**
      * 得到格式化json数据  退格用\t 换行用\r

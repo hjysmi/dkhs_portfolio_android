@@ -15,6 +15,12 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.ScaleAnimation;
+
 
 /**
  * @ClassName AnimationHelper
@@ -24,6 +30,11 @@ import android.view.View;
  * @version 1.0
  */
 public class AnimationHelper {
+
+    /**
+     *动画时长
+     */
+    public static  int ANIM_DURATION=500;
 
     // 生成自定义动画
     public static void setupCustomAnimations(LayoutTransition transittioner, Object taget) {
@@ -89,6 +100,59 @@ public class AnimationHelper {
         });
 
         transittioner.setDuration(300);
+
+    }
+
+    public static void  showScale(View view){
+        if(view.getVisibility() == View.VISIBLE){
+            return;
+        }
+        view.setVisibility(View.VISIBLE);
+        ScaleAnimation scaleAnimation=new ScaleAnimation(0.5f,1,0.5f,1, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
+
+        AnimationSet animationSet=new AnimationSet(true);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.setInterpolator(new DecelerateInterpolator());
+        animationSet.setDuration(ANIM_DURATION);
+
+        view.startAnimation(animationSet);
+
+
+    }
+    public static void  dismissScale(final View view){
+        if(view.getVisibility() == View.GONE){
+            return;
+        }
+        view.setVisibility(View.VISIBLE);
+        ScaleAnimation scaleAnimation=new ScaleAnimation(1,0.5f,1,0.5f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0.5f);
+
+        AnimationSet animationSet=new AnimationSet(true);
+        animationSet.addAnimation(scaleAnimation);
+        animationSet.addAnimation(alphaAnimation);
+        animationSet.setInterpolator(new DecelerateInterpolator());
+        animationSet.setDuration(ANIM_DURATION/2);
+        animationSet.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        view.startAnimation(animationSet);
+
 
     }
 

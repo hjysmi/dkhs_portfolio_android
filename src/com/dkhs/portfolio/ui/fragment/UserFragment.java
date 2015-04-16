@@ -141,6 +141,12 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         }
 
 
+        updateMessageCenterState();
+
+
+    }
+
+    private void updateMessageCenterState() {
         if (PortfolioApplication.hasUserLogin()) {
 
 
@@ -155,8 +161,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         }else{
             unreadCountTV.setVisibility(View.GONE);
         }
-
-
     }
 
     // public String setAccount(String account) {
@@ -216,7 +220,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     public void  updateMessageCenter(NewMessageEvent newMessageEvent){
 
 
-        updateUserInfo();
+        updateMessageCenterState();
 
     }
 

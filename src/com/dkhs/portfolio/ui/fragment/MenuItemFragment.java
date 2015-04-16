@@ -10,12 +10,11 @@ package com.dkhs.portfolio.ui.fragment;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.config.APPConfig;
 import com.dkhs.portfolio.ui.NewMainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
-import com.dkhs.portfolio.utils.AnimUtil;
+import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -155,8 +154,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectView(tabLayout4);
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
 
-            AnimUtil.dismissScale(newCountTV);
-//            newCountTV.setVisibility(View.GONE);
+            AnimationHelper.dismissScale(newCountTV);
         }
 
     }
@@ -207,15 +205,12 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
             boolean  isShow= PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
             if (totalCount > 0 && isShow) {
-//                newCountTV.setVisibility(View.VISIBLE);
-                AnimUtil.showScale(newCountTV);
+                AnimationHelper.showScale(newCountTV);
             } else {
-                AnimUtil.dismissScale(newCountTV);
-//                newCountTV.setVisibility(View.GONE);
+                AnimationHelper.dismissScale(newCountTV);
             }
         }else{
-            AnimUtil.dismissScale(newCountTV);
-//            newCountTV.setVisibility(View.GONE);
+            AnimationHelper.dismissScale(newCountTV);
         }
 
     }
