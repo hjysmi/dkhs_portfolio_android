@@ -109,6 +109,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void updateUserInfo() {
+        //标记  已阅，红点不见
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
+        BusProvider.getInstance().post(new NewMessageEvent());
         if (PortfolioApplication.hasUserLogin()) {
             viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
@@ -201,9 +204,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     @OnClick(R.id.message_center_layout)
     public void messageCenterClick(View v) {
         if (!UIUtils.iStartLoginActivity(getActivity())) {
-            //标记  已阅，红点不见
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
-            BusProvider.getInstance().post(new NewMessageEvent());
+
             RongIM.getInstance().startConversationList(getActivity());
         }
     }

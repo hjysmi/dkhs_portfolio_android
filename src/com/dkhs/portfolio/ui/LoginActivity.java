@@ -46,7 +46,6 @@ import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.config.APPConfig;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSUrl;

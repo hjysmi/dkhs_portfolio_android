@@ -287,7 +287,7 @@
             <intent-filter>
                 <action android:name="io.rong.voipkit.calledSideActivity.action" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="io.rong.imkit.demo"
+                <data android:host="com.dkhs.portfolio"
                     android:path="/calledsideactivity"
                     android:scheme="rong" />
             </intent-filter>
@@ -323,17 +323,14 @@
 
 
 
-
         <activity android:name=".ui.RCChatSettingActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data
-                    android:host="io.rong.imkit.demo"
+                    android:host="com.dkhs.portfolio"
                     android:pathPrefix="/conversationsetting/"
                     android:scheme="rong"/>
             </intent-filter>
