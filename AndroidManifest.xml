@@ -322,12 +322,21 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.RCChatSettingActivity"
 
 
 
-       
+        <activity android:name=".ui.RCChatSettingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/conversationsetting/"
+                    android:scheme="rong"/>
+            </intent-filter>
+        </activity>
 
 
         <service
