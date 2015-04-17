@@ -126,7 +126,28 @@
 -keep class com.google.api.client.**
 -keep class com.google.maps.android.**
 -keep class libcore.**
+-keep class * extends java.lang.annotation.Annotation { *; }
 -dontwarn org.junit.**
 -dontwarn org.mockito.**
 -dontwarn org.robolectric.**
 -dontwarn com.bumptech.glide.GlideTest
+
+
+# GoogleGson 
+-keep class com.badlogic.** { *; }
+-keep class * implements com.badlogic.gdx.utils.Json*
+-keep class com.google.** { *; }
+
+#添加融云代码混淆
+-keepattributes Exceptions,InnerClasses
+-keep class io.rong.** {*;}
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+    public static java.lang.String TABLENAME;
+}
+-keep class **$Properties
+-dontwarn  org.eclipse.jdt.annotation.**
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
