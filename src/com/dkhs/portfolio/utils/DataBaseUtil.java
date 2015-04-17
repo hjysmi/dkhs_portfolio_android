@@ -56,9 +56,10 @@ public class DataBaseUtil {
             db = SQLiteDatabase.openDatabase(databaseFilename, null, SQLiteDatabase.OPEN_READONLY);
         } catch (SQLiteException e) {
             return false;
-        }
-        if (db != null) {
-            db.close();
+        } finally {
+            if (db != null) {
+                db.close();
+            }
         }
         return db != null ? true : false;
     }
