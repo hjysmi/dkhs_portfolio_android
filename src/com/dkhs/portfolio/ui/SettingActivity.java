@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,7 +46,10 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import io.rong.imkit.RongIM;
 
 /**
  * 软件设置界面
@@ -218,6 +222,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     GlobalParams.ACCESS_TOCKEN = null;
                     GlobalParams.MOBILE = null;
                     PortfolioApplication.getInstance().exitApp();
+
+
+                    /**
+                     * 取消通知栏的通知
+                     */
+                    NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notiManager.cancelAll();
+                    //断开融云连接
+                    RongIM.getInstance().disconnect(false);
                     // intent = new Intent(this, LoginActivity.class);
                     intent = new Intent(this, LoginRegisterAcitvity.class);
                     startActivity(intent);

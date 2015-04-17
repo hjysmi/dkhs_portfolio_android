@@ -94,7 +94,8 @@ public class NewMainActivity extends ModelAcitivity {
             user = DbUtils.create(PortfolioApplication.getInstance())
                     .findFirst(UserEntity.class);
 
-            if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+            //判断登陆状态
+            if (user != null && !TextUtils.isEmpty(user.getAccess_token())&& PortfolioApplication.hasUserLogin() ) {
 
                 engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
                             @Override
@@ -122,6 +123,7 @@ public class NewMainActivity extends ModelAcitivity {
     private void connectRongIM(String token) {
 
         try {
+
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
                 @Override
@@ -129,7 +131,7 @@ public class NewMainActivity extends ModelAcitivity {
                     // 此处处理连接成功。
                     LogUtils.d("Connect: Login successfully.");
                     /**
-                     * 开启显示 下方 tab 选项'我的' 的
+                     * 开启显示 下方 tab 选项'我的' 的小红点
                      */
                     BusProvider.getInstance().post(new NewMessageEvent());
                     RongIM.getInstance().setReceiveMessageListener(listener);
@@ -273,6 +275,7 @@ public class NewMainActivity extends ModelAcitivity {
         public void onReceived(RongIMClient.Message message, int left) {
             // 输出消息类型。
             Log.d("Receive:---", "收到");
+
             NewMainActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -280,6 +283,7 @@ public class NewMainActivity extends ModelAcitivity {
                     BusProvider.getInstance().post(new NewMessageEvent());
                 }
             });
+
 
 
         }
