@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.UIUtils;
 
 public class ModelAcitivity extends SwipeBackActivity {
@@ -30,6 +31,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
     private Button btnBack;
     private View mTitleView;
+    protected UserEngineImpl engine;
 
     /** 显示子页面的容器 */
     private RelativeLayout layoutContent;
@@ -49,6 +51,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
+        engine = new UserEngineImpl();
+
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
