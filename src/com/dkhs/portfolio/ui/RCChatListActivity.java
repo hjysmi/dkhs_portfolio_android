@@ -7,9 +7,9 @@ import com.dkhs.portfolio.ui.fragment.InvalidStateFragment;
 import io.rong.imkit.fragment.ConversationListFragment;
 
 /**
- * @author useradmin
+ * @author zwm
  * @version 1.0
- * @ClassName zwm
+ * @ClassName RCChatListActivity
  * @Description TODO(会话列表)
  * @date 2015/4/16.15:21
  */

@@ -357,7 +357,7 @@
     <string name="nodate_tip_funds">暂无新建组合</string>
     <string name="nodate_tip_inland_index">暂无国内指数数据</string>
     <string name="nodate_tip">暂无数据</string>
-    <string name="nodata_login_out">您还未登陆</string>
+    <string name="nodata_login_out">您还未登录</string>
 
     <!-- 行情中心 -->
     <string name="market_index_name">指数名称</string>

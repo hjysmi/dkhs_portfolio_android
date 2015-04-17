@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import com.dkhs.portfolio.R;
 
 /**
- * @author useradmin
+ * @author zwm
  * @version 1.0
- * @ClassName zwm
+ * @ClassName InvalidStateFragment
  * @Description TODO(通知栏点击事件:当用户未登陆状态时候显示 )
  * @date 2015/4/17.12:10
  */

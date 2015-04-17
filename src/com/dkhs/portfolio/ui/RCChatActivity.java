@@ -17,16 +17,16 @@ import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.RongIMClient;
 
 /**
- * @author useradmin
+ * @author zwm
  * @version 1.0
- * @ClassName zwm
+ * @ClassName RCChatActivity
  * @Description TODO(单聊界面)
  * @date 2015/4/16.15:21
  */
 public class RCChatActivity extends ModelAcitivity {
 
 
-    private RongIMClient.ConversationType  conversationType;
+    private RongIMClient.ConversationType conversationType;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,44 +39,38 @@ public class RCChatActivity extends ModelAcitivity {
         final Uri uri = Uri.parse(data);
 
 
-
         final String targetId = uri.getQueryParameter("targetId");
 
         String title = uri.getQueryParameter("title");
 
-        String conversationTypeStr=uri.getLastPathSegment();
+        String conversationTypeStr = uri.getLastPathSegment();
 
-       LogUtils.e(RongIMClient.ConversationType.SYSTEM.getName());
+        LogUtils.e(RongIMClient.ConversationType.SYSTEM.getName());
 
-        conversationType= RongIMClient.ConversationType.valueOf(conversationTypeStr.toUpperCase());
+        conversationType = RongIMClient.ConversationType.valueOf(conversationTypeStr.toUpperCase());
 
 
-        if(TextUtils.isEmpty(title)){
-            new  GetConversationTitleTask().execute(targetId);
-        }else{
+        if (TextUtils.isEmpty(title)) {
+            new GetConversationTitleTask().execute(targetId);
+        } else {
             setTitle(title);
         }
 
 
-
-
-
-        if(PortfolioApplication.hasUserLogin()) {
+        if (PortfolioApplication.hasUserLogin()) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new ConversationFragment()).commit();
             getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
             getRightButton().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    RongIM.getInstance().startConversationSetting(RCChatActivity.this,conversationType, targetId);
+                    RongIM.getInstance().startConversationSetting(RCChatActivity.this, conversationType, targetId);
                 }
             });
 
-        }else{
+        } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new InvalidStateFragment()).commit();
         }
-
-
 
 
     }
@@ -84,31 +78,31 @@ public class RCChatActivity extends ModelAcitivity {
     /**
      * 获取会话的标题
      */
-   class GetConversationTitleTask extends AsyncTask<String,Void,Void>{
+    class GetConversationTitleTask extends AsyncTask<String, Void, String> {
 
 
-       private  String title;
-       @Override
-       protected Void doInBackground(String... params) {
-
-           RongIMClient client = RongIM.getInstance().getRongIMClient();
-           RongIMClient.Conversation conversation = client.getConversation(conversationType, params[0]);
-           LogUtils.e(conversation.getConversationTitle());
-           title=conversation.getConversationTitle();
-
-           return null;
-       }
-
-       @Override
-       protected void onPostExecute(Void aVoid) {
 
 
-           if(TextUtils.isEmpty(title)){
-               title=getResources().getString(R.string.message_center);
-       }
+        @Override
+        protected String doInBackground(String... params) {
 
-           setTitle(title);
-           super.onPostExecute(aVoid);
-       }
-   }
+            RongIMClient client = RongIM.getInstance().getRongIMClient();
+            RongIMClient.Conversation conversation = client.getConversation(conversationType, params[0]);
+            LogUtils.e(conversation.getConversationTitle());
+
+            return conversation.getConversationTitle();
+        }
+
+        @Override
+        protected void onPostExecute(String  str) {
+
+
+            if (TextUtils.isEmpty(str)) {
+                str = getResources().getString(R.string.message_center);
+            }
+
+            setTitle(str);
+            super.onPostExecute(str);
+        }
+    }
 }
