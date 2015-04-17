@@ -411,7 +411,8 @@
     <string name="title_remind">提醒设置</string>
     <string name="price_units">元</string>
     <string name="format_percent">涨跌幅   %1$s</string>
-    <string name="format_stock_price">股价   %1$s</string>
+    <string name="format_stock_price">最新价   %1$s</string>
+    <string name="format_com_percent">日涨跌幅   %1$s</string>
     <string name="format_combination_price">净值   %1$s</string>
     <string name="format_priceup_tip">较当前价涨%1$s</string>
     <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>

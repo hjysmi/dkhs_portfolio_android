@@ -684,9 +684,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private void goMainPage() {
 
-
-        //设置小红点可以出现
-        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE,true);
+        // 设置小红点可以出现
+        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
         PortfolioApplication.getInstance().exitApp();
         Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
         startActivity(intent);

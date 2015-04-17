@@ -47,6 +47,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -93,6 +94,10 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private TextView tvUpTip;
     @ViewInject(R.id.tv_pricedown_tip)
     private TextView tvDownTip;
+    @ViewInject(R.id.tv_priceup_units)
+    private TextView tvUpUnit;
+    @ViewInject(R.id.tv_pricedown_units)
+    private TextView tvDownUnit;
     @ViewInject(R.id.tv_daypercent_tip)
     private TextView tvDayPercentTip;
 
@@ -184,6 +189,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         viewAdjustRemind.setVisibility(View.VISIBLE);
         viewNoticeRemind.setVisibility(View.GONE);
         viewYanbaoRemind.setVisibility(View.GONE);
+        tvDownUnit.setVisibility(View.GONE);
+        tvUpUnit.setVisibility(View.GONE);
 
         if (null != mComBean) {
             tvStockName.setText(mComBean.getName());
@@ -207,7 +214,16 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             String perText = getString(R.string.format_percent,
                     StringFromatUtils.get2PointPercent(mStockBean.getPercentage()));
             tvPercent.setText(perText);
-            perText = getString(R.string.format_stock_price, mStockBean.getCurrentValue());
+
+            if (StockUitls.isShangZhengB(mStockBean.getCode())) {
+                perText = getString(R.string.format_stock_price,
+                        StringFromatUtils.get3Point(mStockBean.getCurrentValue()));
+            } else {
+                perText = getString(R.string.format_stock_price,
+                        StringFromatUtils.get2Point(mStockBean.getCurrentValue()));
+
+            }
+
             tvPrice.setText(perText);
             if (null != mStockBean.alertSetBean) {
                 setAlertView(mStockBean.alertSetBean);

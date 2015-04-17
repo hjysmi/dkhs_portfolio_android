@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="11"
-    android:versionName="1.5.0414" >
+    android:versionName="1.5.0417" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -287,12 +287,13 @@
             <intent-filter>
                 <action android:name="io.rong.voipkit.calledSideActivity.action" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:host="com.dkhs.portfolio"
+                <data android:host="io.rong.imkit.demo"
                     android:path="/calledsideactivity"
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.RCChatListActivity"
+        <activity
+            android:name=".ui.RCChatListActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -306,7 +307,8 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.RCChatActivity"
+        <activity
+            android:name=".ui.RCChatActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -320,21 +322,12 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.RCChatSettingActivity"
 
 
 
-        <activity android:name=".ui.RCChatSettingActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="com.dkhs.portfolio"
-                    android:pathPrefix="/conversationsetting/"
-                    android:scheme="rong"/>
-            </intent-filter>
-        </activity>
+       
 
 
         <service
