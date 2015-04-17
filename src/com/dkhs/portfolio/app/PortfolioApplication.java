@@ -77,12 +77,13 @@ public class PortfolioApplication extends Application {
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
-        //注册融云sdk
-        RongIM.init(this);
+        try {
 
-
-
-
+            // 注册融云sdk
+            RongIM.init(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

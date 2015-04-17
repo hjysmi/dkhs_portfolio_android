@@ -643,7 +643,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private void postRemindToServer() {
 
         float priceUp = swPriceUp.isChecked() ? parseToFloat(etPriceUp) : 0;
-        float priceDown = swPriceUp.isChecked() ? parseToFloat(etPriceDown) : 0;
+        float priceDown = swPriceDown.isChecked() ? parseToFloat(etPriceDown) : 0;
         float dayPercent = swDayPercent.isChecked() ? parseToFloat(etDayPercent) : 0;
         if (isCombinationSetting) {
             new MyCombinationEngineImpl().portfolioRemind(mComBean.getId(), priceUp, priceDown, dayPercent,
