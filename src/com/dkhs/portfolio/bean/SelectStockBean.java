@@ -45,6 +45,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
 
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
+    public String symbol;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
 
@@ -116,6 +117,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
         selectBean.list_status = stockBean.getList_status();
         selectBean.total_capital = stockBean.getTotal_capital();
         selectBean.alertSetBean = stockBean.getAlertBean();
+        selectBean.symbol = stockBean.getSymbol();
         return selectBean;
     }
 

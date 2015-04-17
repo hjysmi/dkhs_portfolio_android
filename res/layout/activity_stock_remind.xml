@@ -29,7 +29,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_percent"
+            android:id="@+id/tv_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_stock_name"
@@ -38,12 +38,12 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_price"
+            android:id="@+id/tv_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/tv_percent"
+            android:layout_alignBottom="@+id/tv_price"
             android:layout_marginLeft="26dp"
-            android:layout_toRightOf="@+id/tv_percent"
+            android:layout_toRightOf="@+id/tv_price"
             android:textColor="@color/person_setting_phonecolor"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -78,6 +78,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@+id/tv_priceup_text"
                 android:background="@drawable/edittext_remin_bg"
+                android:gravity="right"
                 android:inputType="numberDecimal"
                 android:textSize="17sp" />
 
@@ -130,6 +131,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@+id/tv_pricedown_text"
                 android:background="@drawable/edittext_remin_bg"
+                android:gravity="right"
                 android:inputType="numberDecimal"
                 android:textSize="17sp" />
 
@@ -182,6 +184,7 @@
                 android:layout_marginLeft="18dp"
                 android:layout_toRightOf="@+id/tv_daypercent_text"
                 android:background="@drawable/edittext_remin_bg"
+                android:gravity="right"
                 android:inputType="numberDecimal"
                 android:textSize="17sp" />
 
