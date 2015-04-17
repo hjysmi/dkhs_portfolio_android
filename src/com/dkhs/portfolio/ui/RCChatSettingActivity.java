@@ -1,17 +1,13 @@
 package com.dkhs.portfolio.ui;
 
-import android.app.Activity;
 import android.os.Bundle;
-
 import com.dkhs.portfolio.R;
-
-import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imkit.fragment.ConversationSettingFragment;
 
 /**
- * @author useradmin
+ * @author zwm
  * @version 1.0
- * @ClassName zwm
+ * @ClassName RCChatSettingActivity
  * @Description TODO(会话设置)
  * @date 2015/4/16.15:22
  */
