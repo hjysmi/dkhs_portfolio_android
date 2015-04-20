@@ -14,6 +14,7 @@ import com.dkhs.portfolio.ui.NewMainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
+import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -201,13 +202,19 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
 
         if (PortfolioApplication.hasUserLogin()) {
-            int totalCount= RongIM.getInstance().getTotalUnreadCount();
+           RongIM rongIM= RongIM.getInstance();
 
-            boolean  isShow= PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
-            if (totalCount > 0 && isShow) {
-                AnimationHelper.showScale(newCountTV);
-            } else {
-                AnimationHelper.dismissScale(newCountTV);
+            if(rongIM !=null) {
+                int totalCount = RongIM.getInstance().getTotalUnreadCount();
+
+                boolean isShow = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
+                if (totalCount > 0 && isShow) {
+                    AnimationHelper.showScale(newCountTV);
+                } else {
+                    AnimationHelper.dismissScale(newCountTV);
+                }
+            }else{
+                BusProvider.getInstance().post(new RongConnectEvent());
             }
         }else{
             AnimationHelper.dismissScale(newCountTV);
