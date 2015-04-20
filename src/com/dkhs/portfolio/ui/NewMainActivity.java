@@ -16,6 +16,7 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
@@ -25,6 +26,7 @@ import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
+import com.squareup.otto.Subscribe;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -55,7 +57,7 @@ public class NewMainActivity extends ModelAcitivity {
         hideHead();
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
-
+        BusProvider.getInstance().register(this);
 
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
@@ -78,38 +80,41 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
-
-        initRM();
-
+        initRM(null);
 
     }
 
     /**
      * 设置消息通知的token
      */
-    private void initRM() {
+    @Subscribe
+    public void initRM(RongConnectEvent rongConnectEvent) {
 
-        UserEntity user = null;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance())
-                    .findFirst(UserEntity.class);
 
-            //判断登陆状态
-            if (user != null && !TextUtils.isEmpty(user.getAccess_token())&& PortfolioApplication.hasUserLogin() ) {
+        //判断登陆状态
+        if (PortfolioApplication.hasUserLogin()) {
 
-                engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
-                            @Override
-                            public void onSuccess(String result) {
-                                RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class, result);
-                                if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
-                                    connectRongIM(rongTolenBean.getToken());
+            UserEntity user = null;
+            try {
+                user = DbUtils.create(PortfolioApplication.getInstance())
+                        .findFirst(UserEntity.class);
+                if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+
+                    engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class, result);
+                                    if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                                        connectRongIM(rongTolenBean.getToken());
+                                    }
                                 }
                             }
-                        }
-                );
+                    );
+                }
+            } catch (DbException e) {
+                e.printStackTrace();
             }
-        } catch (DbException e) {
-            e.printStackTrace();
+
         }
 
 
@@ -283,9 +288,6 @@ public class NewMainActivity extends ModelAcitivity {
                     BusProvider.getInstance().post(new NewMessageEvent());
                 }
             });
-
-
-
         }
     };
 }

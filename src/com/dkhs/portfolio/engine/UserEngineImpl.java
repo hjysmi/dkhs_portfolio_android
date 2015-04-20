@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.engine;
 
+import android.os.AsyncTask;
+
 import java.io.File;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -13,6 +15,8 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
@@ -175,10 +179,13 @@ public class UserEngineImpl {
     }
 
     private void saveUser(final UserEntity user) {
-        new Thread(new Runnable() {
+
+
+
+        new AsyncTask<Void,Void,Boolean>(){
+
             @Override
-            public void run() {
-                // TODO Auto-generated method stub
+            protected Boolean doInBackground(Void... params) {
                 UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
@@ -188,12 +195,26 @@ public class UserEngineImpl {
                         dbutil.delete(dbentity);
                     }
                     dbutil.save(entity);
+                    return true;
+
                 } catch (DbException e) {
-                    // TODO Auto-generated catch block
+
                     e.printStackTrace();
+                    return false;
                 }
+
             }
-        }).start();
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                if(aBoolean){
+                    //及时通知app连接融云服务器
+                    BusProvider.getInstance().post(new RongConnectEvent());
+                }
+                super.onPostExecute(aBoolean);
+            }
+        }.execute();
+
     }
 
     public boolean hasUserLogin() {
