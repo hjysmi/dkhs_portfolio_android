@@ -34,7 +34,7 @@ import com.lidroid.xutils.util.LogUtils;
 
 /**
  * @ClassName RongConnect
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description 依赖于融云API的连接实现，及连接状态的监听
  * @author zjz
  * @date 2015-4-20 下午5:46:52
  * @version 1.0
