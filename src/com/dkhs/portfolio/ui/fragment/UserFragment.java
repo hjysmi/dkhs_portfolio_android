@@ -208,14 +208,11 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
                 RongIM rongIM=   RongIM.getInstance();
 
-                if(rongIM !=null) {
-                    rongIM.startConversationList(getActivity());
-                }else{
-
-                    startActivity(new Intent(getActivity(),
-                            RCChatListActivity.class));
+                if(rongIM ==null) {
                     BusProvider.getInstance().post(new RongConnectEvent());
                 }
+                startActivity(new Intent(getActivity(),
+                        RCChatListActivity.class));
             }
         }
 

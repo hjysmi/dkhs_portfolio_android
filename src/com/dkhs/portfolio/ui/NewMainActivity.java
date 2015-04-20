@@ -91,27 +91,30 @@ public class NewMainActivity extends ModelAcitivity {
     public void initRM(RongConnectEvent rongConnectEvent) {
 
 
-        UserEntity user = null;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance())
-                    .findFirst(UserEntity.class);
+        //判断登陆状态
+        if (PortfolioApplication.hasUserLogin()) {
 
-            //判断登陆状态
-            if (user != null && !TextUtils.isEmpty(user.getAccess_token())&& PortfolioApplication.hasUserLogin() ) {
+            UserEntity user = null;
+            try {
+                user = DbUtils.create(PortfolioApplication.getInstance())
+                        .findFirst(UserEntity.class);
+                if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
 
-                engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
-                            @Override
-                            public void onSuccess(String result) {
-                                RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class, result);
-                                if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
-                                    connectRongIM(rongTolenBean.getToken());
+                    engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
+                                @Override
+                                public void onSuccess(String result) {
+                                    RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class, result);
+                                    if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                                        connectRongIM(rongTolenBean.getToken());
+                                    }
                                 }
                             }
-                        }
-                );
+                    );
+                }
+            } catch (DbException e) {
+                e.printStackTrace();
             }
-        } catch (DbException e) {
-            e.printStackTrace();
+
         }
 
 
