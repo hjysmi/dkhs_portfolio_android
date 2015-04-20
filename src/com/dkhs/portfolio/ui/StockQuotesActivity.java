@@ -184,6 +184,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         Log.e(TAG, " --- onCreate--");
+
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
@@ -268,7 +269,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             public void run() {
                 initTabPage();
             }
-        }, 400);
+        }, 100);
         viewHandler.postDelayed(new Runnable() {
 
             @Override
@@ -432,7 +433,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private boolean isFirstLoadQuotes = true;
 
     private void requestData() {
-
         if (null != mQuotesEngine && mStockBean != null) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
@@ -501,6 +501,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected StockQuotesBean parseDateTask(String jsonData) {
+
             StockQuotesBean stockQuotesBean = null;
             try {
                 JSONArray jsonArray = new JSONArray(jsonData);
@@ -524,6 +525,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         protected void afterParseData(StockQuotesBean object) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+
             stopRefreshAnimation();
             if (null != object) {
                 mStockQuotesBean = object;
@@ -781,8 +783,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             quoteHandler.removeCallbacks(updateRunnable);
-            Log.e(TAG, " ----  updateRunnable");
-
             requestData();
             quoteHandler.postDelayed(this, mPollRequestTime);// 隔60s再执行一次
         }
@@ -945,11 +945,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                requestData();
 
+                requestData();
             }
-        }, 850);
+
+        }, 150);
 
     }
 

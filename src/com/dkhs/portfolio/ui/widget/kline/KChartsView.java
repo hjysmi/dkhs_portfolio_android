@@ -201,6 +201,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        Log.e("K线加载", "Kchartsview ondraw finish");
+
     }
 
     public DisplayDataChangeListener getDisplayChangeListener() {
