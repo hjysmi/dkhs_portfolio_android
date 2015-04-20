@@ -209,7 +209,6 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     /** 标题高度 */
     public static final int DEFAULT_TITLE_HEIGHT = 14;
     /** 当前第一个蜡烛所在列表中的位置 */
-    
 
     protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; // 标题的高度
     public boolean ismove;
@@ -331,7 +330,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         // super.invalidate();
         notifyEventAll(this);
         postInvalidate();
-        //super.invalidate();
+        // super.invalidate();
 
     }
 
@@ -614,12 +613,14 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                             Rect rect = new Rect();
                             p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
                             p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
+
                             canvas.drawText(axisXTitles.get(i), i * postOffset + PADDING_LEFT - rect.width() / 2,
                                     super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
                         }
                     } else
                     // 绘制刻度
                     if (displayAxisXTitle) {
+
                         // if (i < counts && i > 0) {
                         if (i == 0) {
                             canvas.drawText(axisXTitles.get(i), i
@@ -1074,7 +1075,5 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     public void setCheckType(int checkType) {
         this.checkType = checkType;
     }
-
-    
 
 }

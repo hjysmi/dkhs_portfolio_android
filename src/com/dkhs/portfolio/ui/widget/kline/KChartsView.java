@@ -1076,7 +1076,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                     getParent().requestDisallowInterceptTouchEvent(false);
 
                 }
-                Log.e("hor", hor + " ----" + horizontalSpacing);
+                // Log.e("hor", hor + " ----" + horizontalSpacing);
                 /*
                  * if (mOHLCData == null || mOHLCData.size() <= 0) {
                  * return true;
@@ -1208,21 +1208,21 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         return result;
     }
 
-    private void zoomIn() {
-        mShowDataNum++;
-        if (mShowDataNum > mOHLCData.size()) {
-            mShowDataNum = MIN_CANDLE_NUM > mOHLCData.size() ? MIN_CANDLE_NUM : mOHLCData.size();
-        }
-
-    }
-
-    private void zoomOut() {
-        mShowDataNum--;
-        if (mShowDataNum < MIN_CANDLE_NUM) {
-            mShowDataNum = MIN_CANDLE_NUM;
-        }
-
-    }
+    // private void zoomIn() {
+    // mShowDataNum++;
+    // if (mShowDataNum > mOHLCData.size()) {
+    // mShowDataNum = MIN_CANDLE_NUM > mOHLCData.size() ? MIN_CANDLE_NUM : mOHLCData.size();
+    // }
+    //
+    // }
+    //
+    // private void zoomOut() {
+    // mShowDataNum--;
+    // if (mShowDataNum < MIN_CANDLE_NUM) {
+    // mShowDataNum = MIN_CANDLE_NUM;
+    // }
+    //
+    // }
 
     /** 缩小 */
     private void zoomIn(int size) {
