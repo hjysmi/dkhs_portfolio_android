@@ -21,6 +21,7 @@ import com.dkhs.portfolio.bean.UrlStoreBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -94,27 +95,19 @@ public class DKHSClient {
 
                 } else {
 
-                    try {
-                        UserEntity user = DbUtils.create(PortfolioApplication.getInstance())
-                                .findFirst(UserEntity.class);
-
-                        if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-                            user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                            GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
-                            GlobalParams.MOBILE = user.getMobile();
-                            if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-                                params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
-                            } else {
-                                LogUtils.e("Authorization token is null,Exit app");
-                                // PortfolioApplication.getInstance().exitApp();
-                            }
+                    UserEntity user = UserEngineImpl.getUserEntity();
+                    if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                        GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                        GlobalParams.MOBILE = user.getMobile();
+                        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                        } else {
+                            LogUtils.e("Authorization token is null,Exit app");
+                            // PortfolioApplication.getInstance().exitApp();
                         }
-
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                        LogUtils.e("Authorization token is null,Exit app");
-                        // PortfolioApplication.getInstance().exitApp();
                     }
+
                 }
 
             }

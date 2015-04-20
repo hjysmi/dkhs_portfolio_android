@@ -53,8 +53,6 @@ public class UserEngineImpl {
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.login, params, listener);
     }
 
-
-
     /**
      * 设置密码
      * 
@@ -264,21 +262,32 @@ public class UserEngineImpl {
     }
 
     /**
-     *   获取  用户的token 值
-     *   todo 未测试
+     * 获取 用户的token 值
+     * todo 未测试
+     * 
      * @param user_id
      * @param nickName
      * @param portrait_uri
      * @param listener
      */
-    public  void getToken(String user_id,String nickName,String portrait_uri,BasicHttpListener listener  ){
+    public void getToken(String user_id, String nickName, String portrait_uri, BasicHttpListener listener) {
 
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("user_id", user_id);
         params.addQueryStringParameter("name", nickName);
-        params.addQueryStringParameter("portrait_uri",portrait_uri);
+        params.addQueryStringParameter("portrait_uri", portrait_uri);
         DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_token, params, listener);
 
+    }
+
+    public static UserEntity getUserEntity() {
+        try {
+            return DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

@@ -25,6 +25,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -85,29 +86,22 @@ public class OptionListAcitivity extends ModelAcitivity {
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            UserEntity user;
-            try {
-                user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-                if (user != null) {
-                    if (!TextUtils.isEmpty(user.getAccess_token())) {
-                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                    }
-                    String userId = user.getId() + "";
-                    NewsforModel vo = new NewsforModel();
-                    vo.setUserid(userId);
-                    vo.setSymbol(symbol);
-                    vo.setContentType(type);
-                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWSFOREACH);
-                } else {
-                    loadDataListFragment = ReportListForAllFragment.getFragment(null,
-                            OpitionNewsEngineImple.NEWSFOREACH);
+            UserEntity user = UserEngineImpl.getUserEntity();
+            if (user != null) {
+                if (!TextUtils.isEmpty(user.getAccess_token())) {
+                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment)
-                        .commit();
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                String userId = user.getId() + "";
+                NewsforModel vo = new NewsforModel();
+                vo.setUserid(userId);
+                vo.setSymbol(symbol);
+                vo.setContentType(type);
+                loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWSFOREACH);
+            } else {
+                loadDataListFragment = ReportListForAllFragment.getFragment(null, OpitionNewsEngineImple.NEWSFOREACH);
             }
+            getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+
         }
     }
 
