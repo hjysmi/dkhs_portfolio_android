@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -45,7 +46,20 @@ public class RCChatActivity extends ModelAcitivity {
 
         String conversationTypeStr = uri.getLastPathSegment();
 
-        LogUtils.e(RongIMClient.ConversationType.SYSTEM.getName());
+
+        RongIM.setConversationBehaviorListener(new RongIM.ConversationBehaviorListener() {
+            @Override
+            public boolean onClickUserPortrait(Context context, RongIMClient.ConversationType conversationType, RongIMClient.UserInfo userInfo) {
+                return false;
+            }
+
+            @Override
+            public boolean onClickMessage(Context context, RongIMClient.Message message) {
+
+                LogUtils.e(message.getContent()+"");
+                return true  ;
+            }
+        });
 
         conversationType = RongIMClient.ConversationType.valueOf(conversationTypeStr.toUpperCase());
 
