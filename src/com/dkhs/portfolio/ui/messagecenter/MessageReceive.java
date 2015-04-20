@@ -11,6 +11,7 @@ package com.dkhs.portfolio.ui.messagecenter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 /**
  * @ClassName MessageReceive
@@ -21,9 +22,15 @@ import android.content.Intent;
  */
 public class MessageReceive extends BroadcastReceiver {
 
+    public static Intent getMessageIntent() {
+        String intentfilter = "com.dkhs.portfolio.SENDMESSAGE";
+        Intent intent = new Intent(intentfilter); // 对应setAction()
+        return intent;
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        Log.d("MessageReceive", "收到消息---");
     }
 
 }

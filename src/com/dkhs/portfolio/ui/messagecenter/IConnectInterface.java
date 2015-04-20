@@ -15,7 +15,7 @@ package com.dkhs.portfolio.ui.messagecenter;
  * @date 2015-4-20 下午4:13:10
  * @version 1.0
  */
-public interface IConnectManager {
+public interface IConnectInterface {
     public void connect();
 
     public boolean isConnecting();
