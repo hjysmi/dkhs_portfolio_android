@@ -178,9 +178,7 @@ public class UserEngineImpl {
 
     private void saveUser(final UserEntity user) {
 
-
-
-        new AsyncTask<Void,Void,Boolean>(){
+        new AsyncTask<Void, Void, Boolean>() {
 
             @Override
             protected Boolean doInBackground(Void... params) {
@@ -205,8 +203,8 @@ public class UserEngineImpl {
 
             @Override
             protected void onPostExecute(Boolean aBoolean) {
-                if(aBoolean){
-                    //及时通知app连接融云服务器
+                if (aBoolean) {
+                    // 及时通知app连接融云服务器
                     BusProvider.getInstance().post(new RongConnectEvent());
                 }
                 super.onPostExecute(aBoolean);
@@ -303,7 +301,12 @@ public class UserEngineImpl {
 
     public static UserEntity getUserEntity() {
         try {
-            return DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
+            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+            UserEntity user = null;
+            if (null != dbUtils) {
+                user = dbUtils.findFirst(UserEntity.class);
+            }
+            return user;
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

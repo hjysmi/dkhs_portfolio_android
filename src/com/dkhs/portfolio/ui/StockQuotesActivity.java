@@ -437,10 +437,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
             if (isFirstLoadQuotes) {
-                mQuotesEngine.quotes(mStockBean.code, listener);
+                mQuotesEngine.quotes(mStockBean.code, quoteListener);
                 isFirstLoadQuotes = false;
             } else {
-                mQuotesEngine.quotesNotTip(mStockBean.code, listener);
+                mQuotesEngine.quotesNotTip(mStockBean.code, quoteListener);
             }
             // listener.setLoadingDialog(context);
         }
@@ -497,7 +497,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         }
     };
-    ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
+    ParseHttpListener quoteListener = new ParseHttpListener<StockQuotesBean>() {
 
         @Override
         protected StockQuotesBean parseDateTask(String jsonData) {
@@ -530,7 +530,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
-                landStockview.updateLandStockView(object);
+                if (null != landStockview) {
+                    landStockview.updateLandStockView(mStockQuotesBean);
+                }
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
@@ -871,7 +873,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        listener.stopRequest(true);
+        quoteListener.stopRequest(true);
     }
 
     // /**
@@ -1027,6 +1029,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         AnimatorSet localAnimatorSet = new AnimatorSet();
         localAnimatorSet.playTogether(new Animator[] { localObjectAnimator1, localObjectAnimator2 });
         localAnimatorSet.start();
+        if (null != mStockQuotesBean) {
+            landStockview.updateLandStockView(mStockQuotesBean);
+        }
 
     }
 
