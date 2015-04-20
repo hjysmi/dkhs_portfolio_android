@@ -25,6 +25,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
@@ -41,7 +42,7 @@ import com.umeng.analytics.MobclickAgent;
  * @author weiting
  * 
  */
-public class NoticesActivity extends ModelAcitivity{
+public class NoticesActivity extends ModelAcitivity {
     private PullToRefreshListView mListView;
 
     private boolean isLoadingMore;
@@ -56,6 +57,7 @@ public class NoticesActivity extends ModelAcitivity{
 
     public SwipeRefreshLayout mSwipeLayout;
     private ReportListForAllFragment loadDataListFragment;
+
     @Override
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
@@ -64,31 +66,26 @@ public class NoticesActivity extends ModelAcitivity{
         setTitle(R.string.function_notice);
         replaceDataList();
     }
+
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            UserEntity user;
-            try {
-                user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-                if (user != null) {
-                    if (!TextUtils.isEmpty(user.getAccess_token())) {
-                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                    }
-                    String userId = user.getId() + "";
-                    NewsforModel vo = new NewsforModel();
-                    vo.setUserid(userId);
-                    loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWSALL);
-                }else{
-                    loadDataListFragment = ReportListForAllFragment.getFragment(null, OpitionNewsEngineImple.NEWSALL);
+            UserEntity user = UserEngineImpl.getUserEntity();
+            if (user != null) {
+                if (!TextUtils.isEmpty(user.getAccess_token())) {
+                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                String userId = user.getId() + "";
+                NewsforModel vo = new NewsforModel();
+                vo.setUserid(userId);
+                loadDataListFragment = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWSALL);
+            } else {
+                loadDataListFragment = ReportListForAllFragment.getFragment(null, OpitionNewsEngineImple.NEWSALL);
             }
+            getSupportFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+
         }
     }
-
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_market);
 

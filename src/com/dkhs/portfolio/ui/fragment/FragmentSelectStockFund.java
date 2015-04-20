@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -662,7 +663,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             SelectStockBean itemStock = mDataList.get(position);
             startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
             getActivity().finish();

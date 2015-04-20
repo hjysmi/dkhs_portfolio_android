@@ -12,6 +12,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.RongTokenBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -90,39 +91,31 @@ public class NewMainActivity extends ModelAcitivity {
     @Subscribe
     public void initRM(RongConnectEvent rongConnectEvent) {
 
-
-        //判断登陆状态
+        // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {
 
-            UserEntity user = null;
-            try {
-                user = DbUtils.create(PortfolioApplication.getInstance())
-                        .findFirst(UserEntity.class);
-                if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+            UserEntity user = UserEngineImpl.getUserEntity();
+            if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
 
-                    engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
-                                @Override
-                                public void onSuccess(String result) {
-                                    RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class, result);
-                                    if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
-                                        connectRongIM(rongTolenBean.getToken());
-                                    }
-                                }
-                            }
-                    );
-                }
-            } catch (DbException e) {
-                e.printStackTrace();
+                engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class,
+                                result);
+                        if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                            connectRongIM(rongTolenBean.getToken());
+                        }
+                    }
+                });
             }
 
         }
-
 
     }
 
     /**
      * 连接融云服务器。
-     *
+     * 
      * @param token
      */
     private void connectRongIM(String token) {
@@ -140,7 +133,6 @@ public class NewMainActivity extends ModelAcitivity {
                      */
                     BusProvider.getInstance().post(new NewMessageEvent());
                     RongIM.getInstance().setReceiveMessageListener(listener);
-
 
                 }
 
@@ -162,20 +154,20 @@ public class NewMainActivity extends ModelAcitivity {
                 // Intent intent = new Intent(this, MainActivity.class);
                 // startActivity(intent);
             }
-            break;
+                break;
             case MenuItemFragment.TABINDEX_2: {
                 displayFragmentB();
             }
-            break;
+                break;
             case MenuItemFragment.TABINDEX_3: {
                 displayFragmentC();
 
             }
-            break;
+                break;
             case MenuItemFragment.TABINDEX_4: {
                 displayFragmentD();
             }
-            break;
+                break;
 
             default:
                 break;

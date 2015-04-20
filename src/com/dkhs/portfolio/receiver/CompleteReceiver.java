@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.ui;
+package com.dkhs.portfolio.receiver;
 
 import java.io.File;
 

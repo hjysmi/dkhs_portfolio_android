@@ -184,6 +184,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         Log.e(TAG, " --- onCreate--");
+
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
@@ -268,7 +269,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             public void run() {
                 initTabPage();
             }
-        }, 400);
+        }, 100);
         viewHandler.postDelayed(new Runnable() {
 
             @Override
@@ -432,15 +433,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private boolean isFirstLoadQuotes = true;
 
     private void requestData() {
-
         if (null != mQuotesEngine && mStockBean != null) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
             if (isFirstLoadQuotes) {
-                mQuotesEngine.quotes(mStockBean.code, listener);
+                mQuotesEngine.quotes(mStockBean.code, quoteListener);
                 isFirstLoadQuotes = false;
             } else {
-                mQuotesEngine.quotesNotTip(mStockBean.code, listener);
+                mQuotesEngine.quotesNotTip(mStockBean.code, quoteListener);
             }
             // listener.setLoadingDialog(context);
         }
@@ -497,10 +497,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         }
     };
-    ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
+    ParseHttpListener quoteListener = new ParseHttpListener<StockQuotesBean>() {
 
         @Override
         protected StockQuotesBean parseDateTask(String jsonData) {
+
             StockQuotesBean stockQuotesBean = null;
             try {
                 JSONArray jsonArray = new JSONArray(jsonData);
@@ -524,11 +525,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         protected void afterParseData(StockQuotesBean object) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+
             stopRefreshAnimation();
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
-                landStockview.updateLandStockView(object);
+                if (null != landStockview) {
+                    landStockview.updateLandStockView(mStockQuotesBean);
+                }
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
@@ -781,8 +785,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             quoteHandler.removeCallbacks(updateRunnable);
-            Log.e(TAG, " ----  updateRunnable");
-
             requestData();
             quoteHandler.postDelayed(this, mPollRequestTime);// 隔60s再执行一次
         }
@@ -871,7 +873,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        listener.stopRequest(true);
+        quoteListener.stopRequest(true);
     }
 
     // /**
@@ -945,11 +947,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                requestData();
 
+                requestData();
             }
-        }, 850);
+
+        }, 150);
 
     }
 
@@ -1027,6 +1029,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         AnimatorSet localAnimatorSet = new AnimatorSet();
         localAnimatorSet.playTogether(new Animator[] { localObjectAnimator1, localObjectAnimator2 });
         localAnimatorSet.start();
+        if (null != mStockQuotesBean) {
+            landStockview.updateLandStockView(mStockQuotesBean);
+        }
 
     }
 
