@@ -23,6 +23,7 @@ import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -280,6 +281,8 @@ public class NewMainActivity extends ModelAcitivity {
                     BusProvider.getInstance().post(new NewMessageEvent());
                 }
             });
+            
+            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
         }
     };
 }

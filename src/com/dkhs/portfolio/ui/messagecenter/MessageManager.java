@@ -37,7 +37,13 @@ import android.util.Log;
  * @date 2015-4-20 下午3:50:03
  * @version 1.0
  */
-public class MessageManager implements IConnectInterface {
+public final class MessageManager {
+
+    // 当前登录用户信息
+    private UserEntity mUserEntity;
+
+    // 当获取用户数据后，就开始初始化融云连接
+    // 注销后，需要断开连接，当监听到断开连接后，才正确退出。
 
     private static class SingleMessageManager {
         private static final MessageManager INSTANCE = new MessageManager();
@@ -51,94 +57,17 @@ public class MessageManager implements IConnectInterface {
 
     private void init() {
         Log.i(TAG, "------- init() -------");
-    }
-
-    public static final MessageManager getInstance() {
-        return SingleMessageManager.INSTANCE;
-    }
-
-    @Override
-    public void connect() {
-        UserEntity user = UserEngineImpl.getUserEntity();
-        if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-
-            new UserEngineImpl().getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(),
-                    new BasicHttpListener() {
-                        @Override
-                        public void onSuccess(String result) {
-                            RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(
-                                    RongTokenBean.class, result);
-                            if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
-                                connectRongIM(rongTolenBean.getToken());
-                            }
-                        }
-                    });
-        }
-
-    }
-
-    /**
-     * 连接融云服务器。
-     * 
-     * @param token
-     */
-    private void connectRongIM(String token) {
-
         try {
 
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-
-                @Override
-                public void onSuccess(String s) {
-                    // 此处处理连接成功。
-                    LogUtils.d("Connect: Login successfully.");
-                    /**
-                     * 开启显示 下方 tab 选项'我的' 的小红点
-                     */
-                    BusProvider.getInstance().post(new NewMessageEvent());
-                    RongIM.getInstance().setReceiveMessageListener(listener);
-
-                }
-
-                @Override
-                public void onError(ErrorCode errorCode) {
-                    // 此处处理连接错误。
-                    LogUtils.d("Connect: Login failed.");
-                }
-            });
+            // 注册融云sdk
+            RongIM.init(PortfolioApplication.getInstance());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    final RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
-        @Override
-        public void onReceived(RongIMClient.Message message, int left) {
-            // 输出消息类型。
-            Log.d("Receive:---", "收到");
-
-            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
-            // NewMainActivity.this.runOnUiThread(new Runnable() {
-            // @Override
-            // public void run() {
-            // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
-            // BusProvider.getInstance().post(new NewMessageEvent());
-            // }
-            // });
-        }
-    };
-
-    @Override
-    public boolean isConnecting() {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public void disConnect() {
-        // 断开融云连接
-        RongIM.getInstance().disconnect(false);
-
+    public static final MessageManager getInstance() {
+        return SingleMessageManager.INSTANCE;
     }
 
 }
