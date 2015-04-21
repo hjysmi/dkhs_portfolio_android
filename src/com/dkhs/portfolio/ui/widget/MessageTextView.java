@@ -40,20 +40,8 @@ public class MessageTextView  extends TextView {
     @Override
     public void setText(CharSequence text, BufferType type) {
 
-
-
-        if(text instanceof SpannableStringBuilder){
-            SpannableStringBuilder sb= (SpannableStringBuilder) text;
-
-            SpannableString spannableString=new SpannableString(sb.toString());
-
-
             setAutoLinkMask(0);
-            super.setText(spannableString.toString(), type);
-
-
-        }
-
+            super.setText(text, type);
     }
 
 
