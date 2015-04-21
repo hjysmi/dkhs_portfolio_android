@@ -236,13 +236,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     }.start();
                     GlobalParams.ACCESS_TOCKEN = null;
                     GlobalParams.MOBILE = null;
+                    GlobalParams.LOGIN_USER = null;
 
                     // 断开融云连接
                     // RongIM.getInstance().disconnect(false);
                     MessageManager.getInstance().disConnect();
 
                     // 注销消息中心的联系，需要一段延迟
-                    handler.sendEmptyMessageDelayed(333, 300);
+                    handler.sendEmptyMessageDelayed(333, 600);
                     PromptManager.showProgressDialog(this, "", false);
 
                 } else {

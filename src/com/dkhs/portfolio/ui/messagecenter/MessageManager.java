@@ -75,6 +75,7 @@ public final class MessageManager {
     }
 
     public void disConnect() {
+        hasNewUnread = false;
         mConnct.disConnect();
     }
 
