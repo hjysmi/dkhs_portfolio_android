@@ -40,6 +40,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -237,20 +238,16 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     GlobalParams.MOBILE = null;
 
                     // 断开融云连接
-                    RongIM.getInstance().disconnect(false);
+                    // RongIM.getInstance().disconnect(false);
+                    MessageManager.getInstance().disConnect();
 
                     // 注销消息中心的联系，需要一段延迟
                     handler.sendEmptyMessageDelayed(333, 300);
                     PromptManager.showProgressDialog(this, "", false);
-                    // intent = new Intent(this, LoginActivity.class);
-
-                    // if (connectStatus == ConnectionStatus.DISCONNECTED) {
 
                 } else {
                     intent = new Intent(this, SetPasswordActivity.class);
-                    // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
-                    // intent.putExtra("is_setpassword", isSetPassword);
-                    // UIUtils.startAminationActivity(this, intent);
+
                     startActivity(intent);
                 }
                 break;

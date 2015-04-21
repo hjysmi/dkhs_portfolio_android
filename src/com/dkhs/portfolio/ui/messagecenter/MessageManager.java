@@ -55,7 +55,6 @@ public final class MessageManager {
     }
 
     private void init() {
-        Log.i(TAG, "------- init() -------");
         mConnct = new RongConnect();
     }
 
@@ -75,6 +74,10 @@ public final class MessageManager {
         mConnct.connect();
     }
 
+    public void disConnect() {
+        mConnct.disConnect();
+    }
+
     public boolean isHasNewUnread() {
         return hasNewUnread;
     }
@@ -88,9 +91,5 @@ public final class MessageManager {
     public int getTotalUnreadCount() {
         return mConnct.getUnReadCount();
     }
-
-    // public void setTotalUnreadCount(int mTotalUnreadCount) {
-    // this.mTotalUnreadCount = mTotalUnreadCount;
-    // }
 
 }

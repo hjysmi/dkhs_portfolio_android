@@ -199,13 +199,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         } else if (R.id.message_center_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-                RongIM rongIM = RongIM.getInstance();
-
-                if (rongIM == null) {
-                    // 请求重新连接
-                    // BusProvider.getInstance().post(new RongConnectEvent());
-                    MessageManager.getInstance().connect();
-                }
+                // RongIM rongIM = RongIM.getInstance();
+                //
+                // if (rongIM == null) {
+                // // 请求重新连接
+                // // BusProvider.getInstance().post(new RongConnectEvent());
+                // MessageManager.getInstance().connect();
+                // }
                 startActivity(new Intent(getActivity(), RCChatListActivity.class));
             }
         }

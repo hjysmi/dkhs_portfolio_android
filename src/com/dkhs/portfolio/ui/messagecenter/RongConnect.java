@@ -60,6 +60,28 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
         init();
     }
 
+    /**
+     * RongIM.init(this) 后直接可注册的Listener。
+     */
+    private void initDefaultListener() {
+        // RongIM.setGetUserInfoProvider(this, true);//设置用户信息提供者。
+        // RongIM.setGetFriendsProvider(this);//设置好友信息提供者.
+        // RongIM.setGetGroupInfoProvider(this);//设置群组信息提供者。
+        // RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
+        // RongIM.setLocationProvider(this);//设置地理位置提供者,不用位置的同学可以注掉此行代码
+    }
+
+    /*
+     * 连接成功注册。
+     * <p/>
+     * 在RongIM-connect-onSuccess后调用。
+     */
+    public void setOtherListener() {
+        // RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
+        RongIM.getInstance().setReceiveMessageListener(listener);
+        RongIM.getInstance().setConnectionStatusListener(this);// 设置连接状态监听器。
+    }
+
     private void init() {
         Log.i(TAG, "------- init() -------");
         try {
@@ -68,7 +90,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
             // context上下文
             // RongIM.init(this);
             RongIM.init(PortfolioApplication.getInstance());
-            // RongIM.getInstance().setConnectionStatusListener(this);// 设置网络连接状态监听器。
+            initDefaultListener();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,16 +131,10 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
                 @Override
                 public void onSuccess(String s) {
                     // 此处处理连接成功。
-                    LogUtils.d("Connect: Login successfully.");
-                    /**
-                     * 开启显示 下方 tab 选项'我的' 的小红点
-                     */
-                    // BusProvider.getInstance().post(new NewMessageEvent());
-                    RongIM.getInstance().setReceiveMessageListener(listener);
+                    setOtherListener();
                     int unreadCount = getUnReadCount();
                     if (unreadCount > 0) {
                         MessageManager.getInstance().setHasNewUnread(true);
-                        // MessageManager.getInstance().setTotalUnreadCount(unreadCount);
                     }
                 }
 
@@ -137,7 +153,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
         @Override
         public void onReceived(RongIMClient.Message message, int left) {
             // 输出消息类型。
-            Log.d("Receive:---", "收到");
+            Log.d("OnReceiveMessageListener", "收到");
 
             RongIMClient.MessageContent messageContent = message.getContent();
 
@@ -176,12 +192,8 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
             }
 
             /**
-             * demo 代码 开发者需替换成自己的代码。
+             * 需替换成自己的代码。
              */
-            // Intent in = new Intent();
-            // in.setAction(MainActivity.ACTION_DMEO_RECEIVE_MESSAGE);
-            // in.putExtra("rongCloud", RongIM.getInstance().getTotalUnreadCount());
-            // mContext.sendBroadcast(in);
 
             PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
             // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
@@ -213,10 +225,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
         // public RongIM.ConnectionStatusListener.ConnectionStatus RongIMgetCurrentConnectionStatus()
         RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
                 .getCurrentConnectionStatus();
-        // connectStatus == ConnectionStatus.CONNECTED
-        // if (connectStatus == ConnectionStatus.CONNECTED) {
-        //
-        // }
+
         return connectStatus == ConnectionStatus.CONNECTED;
     }
 

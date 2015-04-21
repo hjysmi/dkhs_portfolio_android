@@ -88,8 +88,6 @@ public class NewMainActivity extends ModelAcitivity {
             MessageManager.getInstance().connect();
         }
 
-        // initRM(null);
-
     }
 
     public void showContentIndex(int index) {
@@ -212,21 +210,4 @@ public class NewMainActivity extends ModelAcitivity {
         ft.commit();
     }
 
-    // final RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
-    // @Override
-    // public void onReceived(RongIMClient.Message message, int left) {
-    // // 输出消息类型。
-    // Log.d("Receive:---", "收到");
-    //
-    // NewMainActivity.this.runOnUiThread(new Runnable() {
-    // @Override
-    // public void run() {
-    // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
-    // BusProvider.getInstance().post(new NewMessageEvent());
-    // }
-    // });
-    //
-    // PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
-    // }
-    // };
 }

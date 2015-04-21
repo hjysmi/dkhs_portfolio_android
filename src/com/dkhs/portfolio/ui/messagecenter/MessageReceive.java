@@ -31,6 +31,10 @@ public class MessageReceive extends BroadcastReceiver {
         return intent;
     }
 
+    /**
+     * 
+     * 收到新消息后的处理逻辑
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("MessageReceive", "收到消息---");
