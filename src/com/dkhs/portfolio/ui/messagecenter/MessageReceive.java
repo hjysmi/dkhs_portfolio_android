@@ -31,6 +31,7 @@ public class MessageReceive extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("MessageReceive", "收到消息---");
+        MessageManager.getInstance().notifyNewMessage();
     }
 
 }

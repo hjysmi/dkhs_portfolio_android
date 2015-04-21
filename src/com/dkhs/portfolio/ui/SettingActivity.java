@@ -50,6 +50,7 @@ import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
 
 /**
  * 软件设置界面
@@ -78,6 +79,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case 333: {
+                    // 当退出登录后，需要清空通知栏上的通知列表
+                    NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notiManager.cancelAll();
+                    PortfolioApplication.getInstance().exitApp();
+                    Intent intent = new Intent(SettingActivity.this, LoginRegisterAcitvity.class);
+                    startActivity(intent);
+                    RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
+                            .getCurrentConnectionStatus();
+                    PromptManager.closeProgressDialog();
+                }
+                    break;
                 default:
                     break;
             }
@@ -92,6 +105,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         // UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
+
+        RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
+                .getCurrentConnectionStatus();
+        System.out.println("ConnectionStatus:" + connectStatus.toString());
         // initData();
         // loadCombinationData();
     }
@@ -221,19 +238,16 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     }.start();
                     GlobalParams.ACCESS_TOCKEN = null;
                     GlobalParams.MOBILE = null;
-                    PortfolioApplication.getInstance().exitApp();
 
-
-                    /**
-                     * 取消通知栏的通知
-                     */
-                    NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    notiManager.cancelAll();
-                    //断开融云连接
+                    // 断开融云连接
                     RongIM.getInstance().disconnect(false);
+
+                    // 注销消息中心的联系，需要一段延迟
+                    handler.sendEmptyMessageDelayed(333, 300);
+                    PromptManager.showProgressDialog(this, "", false);
                     // intent = new Intent(this, LoginActivity.class);
-                    intent = new Intent(this, LoginRegisterAcitvity.class);
-                    startActivity(intent);
+
+                    // if (connectStatus == ConnectionStatus.DISCONNECTED) {
 
                 } else {
                     intent = new Intent(this, SetPasswordActivity.class);

@@ -18,6 +18,7 @@ import io.rong.message.ProfileNotificationMessage;
 import io.rong.message.RichContentMessage;
 import io.rong.message.TextMessage;
 import io.rong.message.VoiceMessage;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
@@ -43,8 +44,35 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
 
     protected static final String TAG = "RongConnect";
 
+    // 当获取用户数据后，就开始初始化融云连接
+    // 注销后，需要断开连接，当监听到断开连接后，才正确退出。
+    //
+
+    // IMKit SDK调用第一步 初始化
+    // context上下文
+    // RongIM.init(this);
+
+    // IMKit SDK调用第二步
+    // 建立与服务器的连接 rong connect
+
+    private void init() {
+        Log.i(TAG, "------- init() -------");
+        try {
+
+            // IMKit SDK调用第一步 初始化
+            // context上下文
+            // RongIM.init(this);
+            RongIM.init(PortfolioApplication.getInstance());
+            RongIM.getInstance().setConnectionStatusListener(this);// 设置连接状态监听器。
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void connect() {
+
         UserEntity user = UserEngineImpl.getUserEntity();
         if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
 
@@ -81,7 +109,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
                     /**
                      * 开启显示 下方 tab 选项'我的' 的小红点
                      */
-                    BusProvider.getInstance().post(new NewMessageEvent());
+                    // BusProvider.getInstance().post(new NewMessageEvent());
                     RongIM.getInstance().setReceiveMessageListener(listener);
 
                 }
@@ -160,8 +188,15 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
 
     @Override
     public boolean isConnecting() {
-        // TODO Auto-generated method stub
-        return false;
+        // 连接状态可能是UNKNOWN
+        // public RongIM.ConnectionStatusListener.ConnectionStatus RongIMgetCurrentConnectionStatus()
+        RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
+                .getCurrentConnectionStatus();
+        // connectStatus == ConnectionStatus.CONNECTED
+        if (connectStatus == ConnectionStatus.CONNECTED) {
+
+        }
+        return RongIM.getInstance() != null;
     }
 
     @Override

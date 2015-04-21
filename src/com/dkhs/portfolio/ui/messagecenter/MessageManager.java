@@ -42,9 +42,6 @@ public final class MessageManager {
     // 当前登录用户信息
     private UserEntity mUserEntity;
 
-    // 当获取用户数据后，就开始初始化融云连接
-    // 注销后，需要断开连接，当监听到断开连接后，才正确退出。
-
     private static class SingleMessageManager {
         private static final MessageManager INSTANCE = new MessageManager();
     }
@@ -56,18 +53,25 @@ public final class MessageManager {
     }
 
     private void init() {
-        Log.i(TAG, "------- init() -------");
-        try {
-
-            // 注册融云sdk
-            RongIM.init(PortfolioApplication.getInstance());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Log.i(TAG, "------- init() -------");
+        // try {
+        //
+        // // 注册融云sdk
+        // RongIM.init(PortfolioApplication.getInstance());
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
     }
 
     public static final MessageManager getInstance() {
         return SingleMessageManager.INSTANCE;
+    }
+
+    /**
+     * 通知有新的未读消息，需要更新主页 我的tab的小红点
+     */
+    public void notifyNewMessage() {
+        BusProvider.getInstance().post(new NewMessageEvent());
     }
 
 }

@@ -81,6 +81,7 @@ public class PortfolioApplication extends Application {
 
             // 注册融云sdk
             RongIM.init(this);
+           
         } catch (Exception e) {
             e.printStackTrace();
         }

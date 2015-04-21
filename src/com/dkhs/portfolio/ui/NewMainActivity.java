@@ -37,6 +37,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
 import io.rong.imlib.RongIMClient;
 
 /**
@@ -106,6 +107,7 @@ public class NewMainActivity extends ModelAcitivity {
                         if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
                             connectRongIM(rongTolenBean.getToken());
                         }
+
                     }
                 });
             }
@@ -281,7 +283,7 @@ public class NewMainActivity extends ModelAcitivity {
                     BusProvider.getInstance().post(new NewMessageEvent());
                 }
             });
-            
+
             PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
         }
     };
