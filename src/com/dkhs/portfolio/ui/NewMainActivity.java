@@ -17,12 +17,12 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
-import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
@@ -83,71 +83,13 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
-        initRM(null);
-
-    }
-
-    /**
-     * 设置消息通知的token
-     */
-    @Subscribe
-    public void initRM(RongConnectEvent rongConnectEvent) {
-
         // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {
-
-            UserEntity user = UserEngineImpl.getUserEntity();
-            if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-
-                engine.getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(), new BasicHttpListener() {
-                    @Override
-                    public void onSuccess(String result) {
-                        RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class,
-                                result);
-                        if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
-                            connectRongIM(rongTolenBean.getToken());
-                        }
-
-                    }
-                });
-            }
-
+            MessageManager.getInstance().connect();
         }
 
-    }
+        // initRM(null);
 
-    /**
-     * 连接融云服务器。
-     * 
-     * @param token
-     */
-    private void connectRongIM(String token) {
-
-        try {
-
-            RongIM.connect(token, new RongIMClient.ConnectCallback() {
-
-                @Override
-                public void onSuccess(String s) {
-                    // 此处处理连接成功。
-                    LogUtils.d("Connect: Login successfully.");
-                    /**
-                     * 开启显示 下方 tab 选项'我的' 的小红点
-                     */
-                    BusProvider.getInstance().post(new NewMessageEvent());
-                    RongIM.getInstance().setReceiveMessageListener(listener);
-
-                }
-
-                @Override
-                public void onError(ErrorCode errorCode) {
-                    // 此处处理连接错误。
-                    LogUtils.d("Connect: Login failed.");
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public void showContentIndex(int index) {
@@ -270,21 +212,21 @@ public class NewMainActivity extends ModelAcitivity {
         ft.commit();
     }
 
-    final RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
-        @Override
-        public void onReceived(RongIMClient.Message message, int left) {
-            // 输出消息类型。
-            Log.d("Receive:---", "收到");
-
-            NewMainActivity.this.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
-                    BusProvider.getInstance().post(new NewMessageEvent());
-                }
-            });
-
-            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
-        }
-    };
+    // final RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
+    // @Override
+    // public void onReceived(RongIMClient.Message message, int left) {
+    // // 输出消息类型。
+    // Log.d("Receive:---", "收到");
+    //
+    // NewMainActivity.this.runOnUiThread(new Runnable() {
+    // @Override
+    // public void run() {
+    // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
+    // BusProvider.getInstance().post(new NewMessageEvent());
+    // }
+    // });
+    //
+    // PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
+    // }
+    // };
 }

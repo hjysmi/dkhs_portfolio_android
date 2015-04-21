@@ -31,6 +31,7 @@ import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -55,6 +56,10 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
     // IMKit SDK调用第二步
     // 建立与服务器的连接 rong connect
 
+    public RongConnect() {
+        init();
+    }
+
     private void init() {
         Log.i(TAG, "------- init() -------");
         try {
@@ -63,7 +68,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
             // context上下文
             // RongIM.init(this);
             RongIM.init(PortfolioApplication.getInstance());
-            RongIM.getInstance().setConnectionStatusListener(this);// 设置连接状态监听器。
+            // RongIM.getInstance().setConnectionStatusListener(this);// 设置网络连接状态监听器。
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -74,20 +79,19 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
     public void connect() {
 
         UserEntity user = UserEngineImpl.getUserEntity();
-        if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
 
-            new UserEngineImpl().getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(),
-                    new BasicHttpListener() {
-                        @Override
-                        public void onSuccess(String result) {
-                            RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(
-                                    RongTokenBean.class, result);
-                            if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
-                                connectRongIM(rongTolenBean.getToken());
-                            }
+        // 先向服务器请求用户连接融云的token，取得token后再去连接融云的服务器。
+        new UserEngineImpl().getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(),
+                new BasicHttpListener() {
+                    @Override
+                    public void onSuccess(String result) {
+                        RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class,
+                                result);
+                        if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                            connectRongIM(rongTolenBean.getToken());
                         }
-                    });
-        }
+                    }
+                });
 
     }
 
@@ -111,7 +115,11 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
                      */
                     // BusProvider.getInstance().post(new NewMessageEvent());
                     RongIM.getInstance().setReceiveMessageListener(listener);
-
+                    int unreadCount = getUnReadCount();
+                    if (unreadCount > 0) {
+                        MessageManager.getInstance().setHasNewUnread(true);
+                        // MessageManager.getInstance().setTotalUnreadCount(unreadCount);
+                    }
                 }
 
                 @Override
@@ -176,6 +184,8 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
             // mContext.sendBroadcast(in);
 
             PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
+            // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
+            // BusProvider.getInstance().post(new NewMessageEvent());
             // NewMainActivity.this.runOnUiThread(new Runnable() {
             // @Override
             // public void run() {
@@ -186,17 +196,28 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
         }
     };
 
+    public int getUnReadCount() {
+        int unreadCount = 0;
+        if (RongIM.getInstance() != null) {
+            unreadCount = RongIM.getInstance().getTotalUnreadCount();
+        }
+        return unreadCount;
+    }
+
     @Override
     public boolean isConnecting() {
+        if (RongIM.getInstance() == null) {
+            return false;
+        }
         // 连接状态可能是UNKNOWN
         // public RongIM.ConnectionStatusListener.ConnectionStatus RongIMgetCurrentConnectionStatus()
         RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
                 .getCurrentConnectionStatus();
         // connectStatus == ConnectionStatus.CONNECTED
-        if (connectStatus == ConnectionStatus.CONNECTED) {
-
-        }
-        return RongIM.getInstance() != null;
+        // if (connectStatus == ConnectionStatus.CONNECTED) {
+        //
+        // }
+        return connectStatus == ConnectionStatus.CONNECTED;
     }
 
     @Override

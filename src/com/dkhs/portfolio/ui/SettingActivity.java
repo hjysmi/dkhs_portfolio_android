@@ -106,9 +106,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         initViews();
         setListener();
 
-        RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
-                .getCurrentConnectionStatus();
-        System.out.println("ConnectionStatus:" + connectStatus.toString());
         // initData();
         // loadCombinationData();
     }

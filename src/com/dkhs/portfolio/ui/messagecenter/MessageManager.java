@@ -39,8 +39,10 @@ import android.util.Log;
  */
 public final class MessageManager {
 
-    // 当前登录用户信息
-    private UserEntity mUserEntity;
+    private RongConnect mConnct;
+    private boolean hasNewUnread;
+
+    // private int mTotalUnreadCount;
 
     private static class SingleMessageManager {
         private static final MessageManager INSTANCE = new MessageManager();
@@ -53,14 +55,8 @@ public final class MessageManager {
     }
 
     private void init() {
-        // Log.i(TAG, "------- init() -------");
-        // try {
-        //
-        // // 注册融云sdk
-        // RongIM.init(PortfolioApplication.getInstance());
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
+        Log.i(TAG, "------- init() -------");
+        mConnct = new RongConnect();
     }
 
     public static final MessageManager getInstance() {
@@ -71,7 +67,30 @@ public final class MessageManager {
      * 通知有新的未读消息，需要更新主页 我的tab的小红点
      */
     public void notifyNewMessage() {
-        BusProvider.getInstance().post(new NewMessageEvent());
+        // mTotalUnreadCount = RongConnect.
+        BusProvider.getInstance().post(new NewMessageEvent(isHasNewUnread()));
     }
+
+    public void connect() {
+        mConnct.connect();
+    }
+
+    public boolean isHasNewUnread() {
+        return hasNewUnread;
+    }
+
+    public void setHasNewUnread(boolean hasNewUnread) {
+        this.hasNewUnread = hasNewUnread;
+        // BusProvider.getInstance().post(new NewMessageEvent());
+        notifyNewMessage();
+    }
+
+    public int getTotalUnreadCount() {
+        return mConnct.getUnReadCount();
+    }
+
+    // public void setTotalUnreadCount(int mTotalUnreadCount) {
+    // this.mTotalUnreadCount = mTotalUnreadCount;
+    // }
 
 }

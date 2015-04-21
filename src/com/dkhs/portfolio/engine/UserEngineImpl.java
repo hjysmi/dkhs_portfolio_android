@@ -16,7 +16,6 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
@@ -168,6 +167,7 @@ public class UserEngineImpl {
 
     public void saveLoginUserInfo(UserEntity entity) {
         GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
+        GlobalParams.LOGIN_USER = entity;
 
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
@@ -203,10 +203,10 @@ public class UserEngineImpl {
 
             @Override
             protected void onPostExecute(Boolean aBoolean) {
-                if (aBoolean) {
-                    // 及时通知app连接融云服务器
-                    BusProvider.getInstance().post(new RongConnectEvent());
-                }
+                // if (aBoolean) {
+                // // 及时通知app连接融云服务器
+                // BusProvider.getInstance().post(new RongConnectEvent());
+                // }
                 super.onPostExecute(aBoolean);
             }
         }.execute();
@@ -214,19 +214,13 @@ public class UserEngineImpl {
     }
 
     public boolean hasUserLogin() {
-
-        try {
-            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user == null) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-
+        UserEntity user = getUserEntity();
+        if (user == null) {
             return false;
+        } else {
+            return true;
         }
+
     }
 
     public void setUserHead(File file, ParseHttpListener<UserEntity> listener) {
@@ -300,13 +294,16 @@ public class UserEngineImpl {
     }
 
     public static UserEntity getUserEntity() {
+        if (GlobalParams.LOGIN_USER != null) {
+            return GlobalParams.LOGIN_USER;
+        }
         try {
             DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-            UserEntity user = null;
+            // UserEntity user = null;
             if (null != dbUtils) {
-                user = dbUtils.findFirst(UserEntity.class);
+                GlobalParams.LOGIN_USER = dbUtils.findFirst(UserEntity.class);
             }
-            return user;
+            return GlobalParams.LOGIN_USER;
         } catch (DbException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

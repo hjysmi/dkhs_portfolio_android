@@ -27,6 +27,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -77,14 +78,16 @@ public class PortfolioApplication extends Application {
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
-        try {
+        MessageManager.getInstance();
 
-            // 注册融云sdk
-            RongIM.init(this);
-           
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // try {
+        //
+        // // 注册融云sdk
+        // RongIM.init(this);
+        //
+        // } catch (Exception e) {
+        // e.printStackTrace();
+        // }
 
     }
 
