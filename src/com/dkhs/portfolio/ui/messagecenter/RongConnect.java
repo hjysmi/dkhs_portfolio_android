@@ -231,8 +231,10 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
 
     @Override
     public void disConnect() {
-        // 断开融云连接
-        RongIM.getInstance().disconnect(false);
+        if (RongIM.getInstance() != null) {
+            // 断开融云连接
+            RongIM.getInstance().disconnect(false);
+        }
 
     }
 
