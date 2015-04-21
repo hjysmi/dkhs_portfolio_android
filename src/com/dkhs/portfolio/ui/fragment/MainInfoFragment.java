@@ -25,6 +25,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
@@ -66,20 +67,15 @@ public class MainInfoFragment extends BaseTitleFragment {
 
     private void initView(View view) {
         layout = (LinearLayout) view.findViewById(R.id.yanbao_layout);
-        UserEntity user;
         String userId = null;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user != null) {
-                if (!TextUtils.isEmpty(user.getAccess_token())) {
-                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                }
-                userId = user.getId() + "";
+        UserEntity user = UserEngineImpl.getUserEntity();
+        if (user != null) {
+            if (!TextUtils.isEmpty(user.getAccess_token())) {
+                user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
             }
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            userId = user.getId() + "";
         }
+
         // System.out.println("userId:" + userId);
         String[] name = getResources().getStringArray(R.array.main_info_title);
         NewsforModel infoEngine;

@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -159,6 +160,8 @@ public class KChartsFragment extends AbstractKChartView {
         // mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(getSymbolType());
+        mMyChartsView.setShowLowerChartTabs(false);
+        mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
@@ -199,10 +202,9 @@ public class KChartsFragment extends AbstractKChartView {
      */
     private void refreshChartsView(List<OHLCEntity> ohlc) {
         try {
+
             mMyChartsView.setOHLCData(ohlc);
-            mMyChartsView.setShowLowerChartTabs(false);
-            mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
-            mMyChartsView.postInvalidate();
+            // mMyChartsView.postInvalidate();
 
             // 刷新成交量
             refreshVolumnCharts();
@@ -232,6 +234,7 @@ public class KChartsFragment extends AbstractKChartView {
      * @return
      */
     private void queryDefData() {
+
 
         String mtype = getKLineType();
         getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener, getCheckValue());
@@ -398,7 +401,6 @@ public class KChartsFragment extends AbstractKChartView {
     public void onResume() {
 
         super.onResume();
-
         MobclickAgent.onPageStart(mPageName);
     }
 
@@ -469,6 +471,7 @@ public class KChartsFragment extends AbstractKChartView {
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
+            pb.setVisibility(View.GONE);
             if (null == ohlcs || ohlcs.size() == 0) {
                 // String mtype = getKLineType();
                 // getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(),

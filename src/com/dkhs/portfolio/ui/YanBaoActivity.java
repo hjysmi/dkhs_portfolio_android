@@ -16,6 +16,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentreportOneList;
@@ -48,24 +49,19 @@ public class YanBaoActivity extends ModelAcitivity {
     }
 
     private void initList() {
-        UserEntity user;
         String userId = null;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user != null) {
-                if (!TextUtils.isEmpty(user.getAccess_token())) {
-                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                }
-                userId = user.getId() + "";
+        UserEntity user = UserEngineImpl.getUserEntity();
+        if (user != null) {
+            if (!TextUtils.isEmpty(user.getAccess_token())) {
+                user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
             }
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            userId = user.getId() + "";
         }
+
         String[] name = getResources().getStringArray(R.array.yanbao_items);
         NewsforModel vo;
         List<Fragment> frag = new ArrayList<Fragment>();
-        
+
         vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("304");

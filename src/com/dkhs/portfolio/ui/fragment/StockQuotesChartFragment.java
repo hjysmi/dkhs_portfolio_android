@@ -420,33 +420,34 @@ public class StockQuotesChartFragment extends BaseFragment {
         return mSelectStockBean != null && mSelectStockBean.isStop;
     }
 
-    @Override
-    public void onConfigurationChanged(android.content.res.Configuration newConfig) {
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            viewFiveRange.setVisibility(View.GONE);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // viewFiveRange.setVisibility(View.GONE);
-            new Handler().postDelayed(new Runnable() {
-
-                public void run() {
-                    if (isAdded() && mStockBean != null && null != viewFiveRange) {
-                        if (!StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
-                            viewFiveRange.setVisibility(View.VISIBLE);
-                        }
-                    }
-
-                }
-
-            }, 1200);
-        }
-    };
+    // @Override
+    // public void onConfigurationChanged(android.content.res.Configuration newConfig) {
+    // // Checks the orientation of the screen
+    // if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+    // viewFiveRange.setVisibility(View.GONE);
+    // } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+    // // viewFiveRange.setVisibility(View.GONE);
+    // new Handler().postDelayed(new Runnable() {
+    //
+    // public void run() {
+    // if (isAdded() && mStockBean != null && null != viewFiveRange) {
+    // if (!StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+    // viewFiveRange.setVisibility(View.VISIBLE);
+    // }
+    // }
+    //
+    // }
+    //
+    // }, 1200);
+    // }
+    // };
 
     FSDataBean mFsDataBean = new FSDataBean();
     ParseHttpListener todayListener = new ParseHttpListener<FSDataBean>() {
 
         @Override
         protected FSDataBean parseDateTask(String jsonData) {
+
             FSDataBean fsDataBean = null;
             try {
                 fsDataBean = DataParse.parseObjectJson(FSDataBean.class, jsonData);
@@ -465,10 +466,12 @@ public class StockQuotesChartFragment extends BaseFragment {
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
+
+            pb.setVisibility(View.GONE);
             try {
                 StockQuotesBean m = ((StockQuotesActivity) getActivity()).getmStockQuotesBean();
                 if (null != m && UIUtils.roundAble(m)) {
-                    dataHandler.removeCallbacks(runnable);
+                    dataHandler.removeCallbacks(requestRunnable);
                 }
 
                 if (fsDataBean != null) {
@@ -497,12 +500,11 @@ public class StockQuotesChartFragment extends BaseFragment {
                     }
 
                 }
-                pb.setVisibility(View.GONE);
+
             } catch (Exception e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
         }
     };
 
@@ -742,13 +744,12 @@ public class StockQuotesChartFragment extends BaseFragment {
 
     public void onStart() {
         // System.out.println("====StockQuotesChartFragment=onStart=====");
-
         super.onStart();
         if (null != mStockBean) {
             setStockQuotesBean(mStockBean);
         }
         if (trendType.equals(TREND_TYPE_TODAY)) {
-            dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
+            dataHandler.postDelayed(requestRunnable, 6);// 打开定时器，60ms后执行runnable操作
         }
 
     };
@@ -768,7 +769,7 @@ public class StockQuotesChartFragment extends BaseFragment {
 
     public void onStop() {
         super.onStop();
-        dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+        dataHandler.removeCallbacks(requestRunnable);// 关闭定时器处理
 
     }
 
@@ -776,10 +777,11 @@ public class StockQuotesChartFragment extends BaseFragment {
         // this.mMaChart.setCallBack(callBack);
     }
 
-    Runnable runnable = new Runnable() {
+    Runnable requestRunnable = new Runnable() {
         @Override
         public void run() {
             // System.out.println("====StockQuotesChartFragment=run update=====");
+
             dataHandler.sendEmptyMessage(1722);
             if (mQuotesDataEngine == null) {
                 return;

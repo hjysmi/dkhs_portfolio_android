@@ -26,6 +26,7 @@ import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -74,15 +75,10 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
         subType = vo.getContentSubType();
         // initDate();
-        UserEntity user;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (null == user) {
-                tv.setText("暂无添加自选股");
-                pb.setVisibility(View.GONE);
-            }
-        } catch (Exception e) {
-
+        UserEntity user = UserEngineImpl.getUserEntity();
+        if (null == user) {
+            tv.setText("暂无添加自选股");
+            pb.setVisibility(View.GONE);
         }
 
         return view;

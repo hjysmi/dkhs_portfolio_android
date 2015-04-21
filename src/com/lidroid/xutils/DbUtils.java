@@ -1,11 +1,11 @@
 /*
  * Copyright (c) 2013. wyouflf (wyouflf@gmail.com)
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class DbUtils {
 
-    //*************************************** create instance ****************************************************
+    // *************************************** create instance ****************************************************
 
     /**
      * key: dbName
@@ -57,7 +57,6 @@ public class DbUtils {
         this.database = createDatabase(config);
         this.daoConfig = config;
     }
-
 
     private synchronized static DbUtils getInstance(DaoConfig daoConfig) {
         DbUtils dao = daoMap.get(daoConfig.getDbName());
@@ -117,7 +116,8 @@ public class DbUtils {
         return getInstance(config);
     }
 
-    public static DbUtils create(Context context, String dbDir, String dbName, int dbVersion, DbUpgradeListener dbUpgradeListener) {
+    public static DbUtils create(Context context, String dbDir, String dbName, int dbVersion,
+            DbUpgradeListener dbUpgradeListener) {
         DaoConfig config = new DaoConfig(context);
         config.setDbDir(dbDir);
         config.setDbName(dbName);
@@ -148,7 +148,8 @@ public class DbUtils {
         return daoConfig;
     }
 
-    //*********************************************** operations ********************************************************
+    // *********************************************** operations
+    // ********************************************************
 
     public void saveOrUpdate(Object entity) throws DbException {
         try {
@@ -164,7 +165,8 @@ public class DbUtils {
     }
 
     public void saveOrUpdateAll(List<?> entities) throws DbException {
-        if (entities == null || entities.size() == 0) return;
+        if (entities == null || entities.size() == 0)
+            return;
         try {
             beginTransaction();
 
@@ -193,7 +195,8 @@ public class DbUtils {
     }
 
     public void replaceAll(List<?> entities) throws DbException {
-        if (entities == null || entities.size() == 0) return;
+        if (entities == null || entities.size() == 0)
+            return;
         try {
             beginTransaction();
 
@@ -222,7 +225,8 @@ public class DbUtils {
     }
 
     public void saveAll(List<?> entities) throws DbException {
-        if (entities == null || entities.size() == 0) return;
+        if (entities == null || entities.size() == 0)
+            return;
         try {
             beginTransaction();
 
@@ -253,7 +257,8 @@ public class DbUtils {
     }
 
     public void saveBindingIdAll(List<?> entities) throws DbException {
-        if (entities == null || entities.size() == 0) return;
+        if (entities == null || entities.size() == 0)
+            return;
         try {
             beginTransaction();
 
@@ -271,7 +276,8 @@ public class DbUtils {
     }
 
     public void deleteById(Class<?> entityType, Object idValue) throws DbException {
-        if (!tableIsExist(entityType)) return;
+        if (!tableIsExist(entityType))
+            return;
         try {
             beginTransaction();
 
@@ -284,7 +290,8 @@ public class DbUtils {
     }
 
     public void delete(Object entity) throws DbException {
-        if (!tableIsExist(entity.getClass())) return;
+        if (!tableIsExist(entity.getClass()))
+            return;
         try {
             beginTransaction();
 
@@ -297,7 +304,8 @@ public class DbUtils {
     }
 
     public void delete(Class<?> entityType, WhereBuilder whereBuilder) throws DbException {
-        if (!tableIsExist(entityType)) return;
+        if (!tableIsExist(entityType))
+            return;
         try {
             beginTransaction();
 
@@ -310,7 +318,8 @@ public class DbUtils {
     }
 
     public void deleteAll(List<?> entities) throws DbException {
-        if (entities == null || entities.size() == 0 || !tableIsExist(entities.get(0).getClass())) return;
+        if (entities == null || entities.size() == 0 || !tableIsExist(entities.get(0).getClass()))
+            return;
         try {
             beginTransaction();
 
@@ -329,7 +338,8 @@ public class DbUtils {
     }
 
     public void update(Object entity, String... updateColumnNames) throws DbException {
-        if (!tableIsExist(entity.getClass())) return;
+        if (!tableIsExist(entity.getClass()))
+            return;
         try {
             beginTransaction();
 
@@ -342,7 +352,8 @@ public class DbUtils {
     }
 
     public void update(Object entity, WhereBuilder whereBuilder, String... updateColumnNames) throws DbException {
-        if (!tableIsExist(entity.getClass())) return;
+        if (!tableIsExist(entity.getClass()))
+            return;
         try {
             beginTransaction();
 
@@ -355,7 +366,8 @@ public class DbUtils {
     }
 
     public void updateAll(List<?> entities, String... updateColumnNames) throws DbException {
-        if (entities == null || entities.size() == 0 || !tableIsExist(entities.get(0).getClass())) return;
+        if (entities == null || entities.size() == 0 || !tableIsExist(entities.get(0).getClass()))
+            return;
         try {
             beginTransaction();
 
@@ -370,7 +382,8 @@ public class DbUtils {
     }
 
     public void updateAll(List<?> entities, WhereBuilder whereBuilder, String... updateColumnNames) throws DbException {
-        if (entities == null || entities.size() == 0 || !tableIsExist(entities.get(0).getClass())) return;
+        if (entities == null || entities.size() == 0 || !tableIsExist(entities.get(0).getClass()))
+            return;
         try {
             beginTransaction();
 
@@ -386,7 +399,8 @@ public class DbUtils {
 
     @SuppressWarnings("unchecked")
     public <T> T findById(Class<T> entityType, Object idValue) throws DbException {
-        if (!tableIsExist(entityType)) return null;
+        if (!tableIsExist(entityType))
+            return null;
 
         Table table = Table.get(this, entityType);
         Selector selector = Selector.from(entityType).where(table.id.getColumnName(), "=", idValue);
@@ -418,7 +432,8 @@ public class DbUtils {
 
     @SuppressWarnings("unchecked")
     public <T> T findFirst(Selector selector) throws DbException {
-        if (!tableIsExist(selector.getEntityType())) return null;
+        if (!tableIsExist(selector.getEntityType()))
+            return null;
 
         String sql = selector.limit(1).toString();
         long seq = CursorUtils.FindCacheSequence.getSeq();
@@ -451,10 +466,11 @@ public class DbUtils {
 
     @SuppressWarnings("unchecked")
     public <T> List<T> findAll(Selector selector) throws DbException {
-        if (!tableIsExist(selector.getEntityType())) return null;
+        if (!tableIsExist(selector.getEntityType()))
+            return null;
 
         String sql = selector.toString();
-        System.out.println("sql:"+sql);
+        System.out.println("sql:" + sql);
         long seq = CursorUtils.FindCacheSequence.getSeq();
         findTempCache.setSeq(seq);
         Object obj = findTempCache.get(sql);
@@ -502,7 +518,8 @@ public class DbUtils {
     }
 
     public DbModel findDbModelFirst(DbModelSelector selector) throws DbException {
-        if (!tableIsExist(selector.getEntityType())) return null;
+        if (!tableIsExist(selector.getEntityType()))
+            return null;
 
         Cursor cursor = execQuery(selector.limit(1).toString());
         if (cursor != null) {
@@ -538,7 +555,8 @@ public class DbUtils {
     }
 
     public List<DbModel> findDbModelAll(DbModelSelector selector) throws DbException {
-        if (!tableIsExist(selector.getEntityType())) return null;
+        if (!tableIsExist(selector.getEntityType()))
+            return null;
 
         List<DbModel> dbModelList = new ArrayList<DbModel>();
 
@@ -559,7 +577,8 @@ public class DbUtils {
 
     public long count(Selector selector) throws DbException {
         Class<?> entityType = selector.getEntityType();
-        if (!tableIsExist(entityType)) return 0;
+        if (!tableIsExist(entityType))
+            return 0;
 
         Table table = Table.get(this, entityType);
         DbModelSelector dmSelector = selector.select("count(" + table.id.getColumnName() + ") as count");
@@ -570,7 +589,7 @@ public class DbUtils {
         return count(Selector.from(entityType));
     }
 
-    //******************************************** config ******************************************************
+    // ******************************************** config ******************************************************
 
     public static class DaoConfig {
         private Context context;
@@ -620,7 +639,7 @@ public class DbUtils {
 
         /**
          * set database dir
-         *
+         * 
          * @param dbDir If dbDir is null or empty, use the app default db dir.
          */
         public void setDbDir(String dbDir) {
@@ -643,12 +662,16 @@ public class DbUtils {
                 result = SQLiteDatabase.openOrCreateDatabase(dbFile, null);
             }
         } else {
-            result = config.getContext().openOrCreateDatabase(config.getDbName(), 0, null);
+            try {
+                result = config.getContext().openOrCreateDatabase(config.getDbName(), 0, null);
+            } catch (Exception e) {
+                result = null;
+            }
         }
         return result;
     }
 
-    //***************************** private operations with out transaction *****************************
+    // ***************************** private operations with out transaction *****************************
     private void saveOrUpdateWithoutTransaction(Object entity) throws DbException {
         Table table = Table.get(this, entity.getClass());
         Id id = table.id;
@@ -681,7 +704,7 @@ public class DbUtils {
         }
     }
 
-    //************************************************ tools ***********************************
+    // ************************************************ tools ***********************************
 
     private long getLastAutoIncrementId(String tableName) throws DbException {
         long id = -1;
@@ -717,7 +740,8 @@ public class DbUtils {
             return true;
         }
 
-        Cursor cursor = execQuery("SELECT COUNT(*) AS c FROM sqlite_master WHERE type='table' AND name='" + table.tableName + "'");
+        Cursor cursor = execQuery("SELECT COUNT(*) AS c FROM sqlite_master WHERE type='table' AND name='"
+                + table.tableName + "'");
         if (cursor != null) {
             try {
                 if (cursor.moveToNext()) {
@@ -760,7 +784,8 @@ public class DbUtils {
     }
 
     public void dropTable(Class<?> entityType) throws DbException {
-        if (!tableIsExist(entityType)) return;
+        if (!tableIsExist(entityType))
+            return;
         String tableName = TableUtils.getTableName(entityType);
         execNonQuery("DROP TABLE " + tableName);
         Table.remove(this, entityType);
@@ -774,7 +799,7 @@ public class DbUtils {
         }
     }
 
-    ///////////////////////////////////// exec sql /////////////////////////////////////////////////////
+    // /////////////////////////////////// exec sql /////////////////////////////////////////////////////
     private void debugSql(String sql) {
         if (debug) {
             LogUtils.d(sql);
@@ -808,7 +833,6 @@ public class DbUtils {
             writeLocked = false;
         }
     }
-
 
     public void execNonQuery(SqlInfo sqlInfo) throws DbException {
         debugSql(sqlInfo.getSql());
@@ -850,7 +874,7 @@ public class DbUtils {
         }
     }
 
-    /////////////////////// temp cache ////////////////////////////////////////////////////////////////
+    // ///////////////////// temp cache ////////////////////////////////////////////////////////////////
     private final FindTempCache findTempCache = new FindTempCache();
 
     private class FindTempCache {
