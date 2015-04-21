@@ -156,7 +156,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         if (PortfolioApplication.hasUserLogin()) {
                 RongIM rongIM=RongIM.getInstance();
                 if(rongIM != null) {
-                    int totalCount = RongIM.getInstance().getTotalUnreadCount();
+                    int totalCount = rongIM.getTotalUnreadCount();
 
                     if (totalCount > 0) {
                         unreadCountTV.setVisibility(View.VISIBLE);
