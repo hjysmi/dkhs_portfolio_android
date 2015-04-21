@@ -26,10 +26,10 @@ public class MessageTextView  extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MessageTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+//    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    // public MessageTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    // super(context, attrs, defStyleAttr, defStyleRes);
+    // }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
