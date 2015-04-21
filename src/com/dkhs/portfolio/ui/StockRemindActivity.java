@@ -475,17 +475,17 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                             StringFromatUtils.get2PointPercent(Math.abs(priceDownFloat))));
                 } else {
 
-                    tvDownTip
-                            .setText(getString(R.string.format_pricedown_tip, StringFromatUtils.get2PointPercent(300)));
+                    tvDownTip.setText(getString(R.string.format_pricedown_tip,
+                            StringFromatUtils.get2PointPercent(Math.abs(priceDownFloat))));
                 }
             } else {
                 if (isCombinationSetting) {
                     tvDownTip.setText(getString(R.string.format_cpricedown_more_tip,
-                            StringFromatUtils.get2PointPercent((Math.abs(priceDownFloat)))));
+                            StringFromatUtils.get2PointPercent((300))));
                 } else {
 
                     tvDownTip.setText(getString(R.string.format_pricedown_more_tip,
-                            StringFromatUtils.get2PointPercent((Math.abs(priceDownFloat)))));
+                            StringFromatUtils.get2PointPercent((300))));
                 }
             }
         } else {
