@@ -74,16 +74,15 @@
                     android:gravity="center_vertical|right"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.dkhs.portfolio.ui.widget.MessageTextView
                         android:id="@+id/conversation_message_content_left_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center_vertical"
-                        android:autoLink="all"
-                        android:bufferType="spannable"
                         android:gravity="left|center_vertical"
                         android:lineSpacingExtra="@dimen/px_to_dip_6"
                         android:paddingLeft="@dimen/px_to_dip_25"
+                        android:autoLink="none"
                         android:paddingRight="@dimen/px_to_dip_10"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
@@ -141,7 +140,7 @@
                         android:id="@+id/conversation_message_content_right_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:autoLink="all"
+                        android:autoLink="none"
                         android:gravity="left|center_vertical"
                         android:lineSpacingExtra="@dimen/px_to_dip_6"
                         android:paddingLeft="@dimen/px_to_dip_10"

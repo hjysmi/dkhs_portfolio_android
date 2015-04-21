@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/connect_state"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/px_to_dip_68"
+            android:layout_height="0dp"
             android:background="#FBE8E8"
             android:drawableLeft="@drawable/rc_ic_warning"
             android:drawablePadding="@dimen/px_to_dip_16"

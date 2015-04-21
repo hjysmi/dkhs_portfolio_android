@@ -1,10 +1,12 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
@@ -15,6 +17,10 @@ import com.lidroid.xutils.util.LogUtils;
 import io.rong.imkit.RongIM;
 import io.rong.imkit.fragment.ConversationFragment;
 import io.rong.imlib.RongIMClient;
+import io.rong.message.ImageMessage;
+import io.rong.message.RichContentMessage;
+import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
 
 /**
  * @author zwm
@@ -27,6 +33,8 @@ public class RCChatActivity extends ModelAcitivity {
 
 
     private RongIMClient.ConversationType conversationType;
+
+    private static final  String   TAG="RCChatActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,37 @@ public class RCChatActivity extends ModelAcitivity {
 
         String conversationTypeStr = uri.getLastPathSegment();
 
-        LogUtils.e(RongIMClient.ConversationType.SYSTEM.getName());
+
+        RongIM.setConversationBehaviorListener(new RongIM.ConversationBehaviorListener() {
+            @Override
+            public boolean onClickUserPortrait(Context context, RongIMClient.ConversationType conversationType, RongIMClient.UserInfo userInfo) {
+                return false;
+            }
+
+            @Override
+            public boolean onClickMessage(Context context, RongIMClient.Message message) {
+
+
+
+                RongIMClient.MessageContent messageContent = message.getContent();
+                if (messageContent instanceof TextMessage) {// 文本消息
+                    TextMessage textMessage = (TextMessage) messageContent;
+                    Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
+                    Log.d(TAG, "onReceived-TextMessage:" + textMessage.getPushContent());
+                } else if (messageContent instanceof ImageMessage) {// 图片消息
+                    ImageMessage imageMessage = (ImageMessage) messageContent;
+                    Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
+                } else if (messageContent instanceof VoiceMessage) {// 语音消息
+                    VoiceMessage voiceMessage = (VoiceMessage) messageContent;
+                    Log.d(TAG, "onReceived-voiceMessage:" + voiceMessage.getUri().toString());
+                } else if (messageContent instanceof RichContentMessage) {// 图文消息
+                    RichContentMessage richContentMessage = (RichContentMessage) messageContent;
+                    Log.d(TAG, "onReceived-RichContentMessage:" + richContentMessage.getContent());
+                }
+
+                return true  ;
+            }
+        });
 
         conversationType = RongIMClient.ConversationType.valueOf(conversationTypeStr.toUpperCase());
 
@@ -80,27 +118,21 @@ public class RCChatActivity extends ModelAcitivity {
      */
     class GetConversationTitleTask extends AsyncTask<String, Void, String> {
 
-
-
-
         @Override
         protected String doInBackground(String... params) {
 
             RongIMClient client = RongIM.getInstance().getRongIMClient();
             RongIMClient.Conversation conversation = client.getConversation(conversationType, params[0]);
             LogUtils.e(conversation.getConversationTitle());
-
             return conversation.getConversationTitle();
         }
 
         @Override
         protected void onPostExecute(String  str) {
 
-
             if (TextUtils.isEmpty(str)) {
                 str = getResources().getString(R.string.message_center);
             }
-
             setTitle(str);
             super.onPostExecute(str);
         }
