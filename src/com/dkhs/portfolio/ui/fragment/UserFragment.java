@@ -110,10 +110,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void updateUserInfo() {
-        // 标记 已阅，红点不见
-        // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
-
-        // MessageManager.getInstance().setHasNewUnread(false);
 
         if (PortfolioApplication.hasUserLogin()) {
             viewLogin.setVisibility(View.GONE);

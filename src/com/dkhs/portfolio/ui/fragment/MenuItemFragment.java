@@ -151,7 +151,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
-            // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
             MessageManager.getInstance().setHasNewUnread(false);
             AnimationHelper.dismissScale(newCountTV);
         }
@@ -194,39 +193,36 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         clickTab(id);
     }
 
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        if (PortfolioApplication.hasUserLogin() && MessageManager.getInstance().isHasNewUnread()
+                && MessageManager.getInstance().getTotalUnreadCount() > 0) {
+            updateNewMessageView(true);
+
+        } else {
+
+            updateNewMessageView(false);
+        }
+
+    }
+
     @Subscribe
     public void updateMessageCenter(NewMessageEvent newMessageEvent) {
 
-        // if (PortfolioApplication.hasUserLogin()) {
         if (null != newMessageEvent) {
-            if (newMessageEvent.hasUnread) {
-                AnimationHelper.showScale(newCountTV);
-            } else {
-                AnimationHelper.dismissScale(newCountTV);
-            }
+            updateNewMessageView(newMessageEvent.hasUnread);
         }
-        // RongIM rongIM = RongIM.getInstance();
-        //
-        // if (rongIM != null) {
-        // int totalCount = RongIM.getInstance().getTotalUnreadCount();
-        //
-        // boolean isShow = PortfolioPreferenceManager
-        // .getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
-        // if (totalCount > 0 && isShow) {
-        // AnimationHelper.showScale(newCountTV);
-        // } else {
-        // AnimationHelper.dismissScale(newCountTV);
-        // }
-        // } else {
-        //
-        // // 请求重新连接
-        // // BusProvider.getInstance().post(new RongConnectEvent());
-        // MessageManager.getInstance().connect();
-        // }
-        // } else {
-        // AnimationHelper.dismissScale(newCountTV);
-        // }
 
+    }
+
+    private void updateNewMessageView(boolean showNewIcon) {
+        if (showNewIcon) {
+            AnimationHelper.showScale(newCountTV);
+        } else {
+            AnimationHelper.dismissScale(newCountTV);
+        }
     }
 
 }
