@@ -8,6 +8,9 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,9 +31,16 @@ public class MessageReceive extends BroadcastReceiver {
         return intent;
     }
 
+    /**
+     * 
+     * 收到新消息后的处理逻辑
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("MessageReceive", "收到消息---");
+        MessageManager.getInstance().notifyNewMessage();
+        // BusProvider.getInstance().post(new NewMessageEvent());
+        MessageManager.getInstance().setHasNewUnread(true);
     }
 
 }

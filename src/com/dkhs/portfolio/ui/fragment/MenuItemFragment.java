@@ -14,7 +14,7 @@ import com.dkhs.portfolio.ui.NewMainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
-import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -90,7 +90,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         arguments.putInt(KEY_TABINDEX, value);
         fragment.setArguments(arguments);
 
-
         return fragment;
     }
 
@@ -127,7 +126,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         mIndex = index;
         setupView();
 
-
         // BusProvider.getInstance().post(new TabSelectEvent(index));
         ((NewMainActivity) getActivity()).showContentIndex(index);
         // App.getInstance().mTabIndex = index;
@@ -153,8 +151,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
-            PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
-
+            MessageManager.getInstance().setHasNewUnread(false);
             AnimationHelper.dismissScale(newCountTV);
         }
 
@@ -180,7 +177,6 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         rButton.setEnabled(false);
     }
 
-
     @Override
     public void onDestroy() {
         BusProvider.getInstance().unregister(this);
@@ -197,29 +193,36 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         clickTab(id);
     }
 
-    @Subscribe
-    public void updateMessageCenter(NewMessageEvent newMessageEvent){
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        if (PortfolioApplication.hasUserLogin() && MessageManager.getInstance().isHasNewUnread()
+                && MessageManager.getInstance().getTotalUnreadCount() > 0) {
+            updateNewMessageView(true);
 
+        } else {
 
-        if (PortfolioApplication.hasUserLogin()) {
-           RongIM rongIM= RongIM.getInstance();
-
-            if(rongIM !=null) {
-                int totalCount = RongIM.getInstance().getTotalUnreadCount();
-
-                boolean isShow = PortfolioPreferenceManager.getBooleanValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE);
-                if (totalCount > 0 && isShow) {
-                    AnimationHelper.showScale(newCountTV);
-                } else {
-                    AnimationHelper.dismissScale(newCountTV);
-                }
-            }else{
-                BusProvider.getInstance().post(new RongConnectEvent());
-            }
-        }else{
-            AnimationHelper.dismissScale(newCountTV);
+            updateNewMessageView(false);
         }
 
+    }
+
+    @Subscribe
+    public void updateMessageCenter(NewMessageEvent newMessageEvent) {
+
+        if (null != newMessageEvent) {
+            updateNewMessageView(newMessageEvent.hasUnread);
+        }
+
+    }
+
+    private void updateNewMessageView(boolean showNewIcon) {
+        if (showNewIcon) {
+            AnimationHelper.showScale(newCountTV);
+        } else {
+            AnimationHelper.dismissScale(newCountTV);
+        }
     }
 
 }

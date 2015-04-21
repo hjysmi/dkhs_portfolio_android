@@ -30,7 +30,7 @@ import com.dkhs.portfolio.ui.RCChatListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
-import com.dkhs.portfolio.ui.eventbus.RongConnectEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
@@ -64,7 +64,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     @ViewInject(R.id.tv_unread_count)
     private TextView unreadCountTV;
 
-
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_user;
@@ -76,7 +75,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         setTitle(R.string.title_user);
-
 
     }
 
@@ -112,9 +110,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void updateUserInfo() {
-        //标记  已阅，红点不见
-        PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, false);
-        BusProvider.getInstance().post(new NewMessageEvent());
+
         if (PortfolioApplication.hasUserLogin()) {
             viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
@@ -146,27 +142,22 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         }
 
-
         updateMessageCenterState();
-
 
     }
 
     private void updateMessageCenterState() {
         if (PortfolioApplication.hasUserLogin()) {
-                RongIM rongIM=RongIM.getInstance();
-                if(rongIM != null) {
-                    int totalCount = RongIM.getInstance().getTotalUnreadCount();
-
-                    if (totalCount > 0) {
-                        unreadCountTV.setVisibility(View.VISIBLE);
-                        unreadCountTV.setText(totalCount + "");
-                    } else {
-                        unreadCountTV.setVisibility(View.GONE);
-                    }
-                }else{
-                    unreadCountTV.setVisibility(View.GONE);
-                }
+            // RongIM rongIM = RongIM.getInstance();
+            // if (rongIM != null) {
+            // int totalCount = RongIM.getInstance().getTotalUnreadCount();
+            int totalCount = MessageManager.getInstance().getTotalUnreadCount();
+            if (totalCount > 0) {
+                unreadCountTV.setVisibility(View.VISIBLE);
+                unreadCountTV.setText(totalCount + "");
+            } else {
+                unreadCountTV.setVisibility(View.GONE);
+            }
 
         }
     }
@@ -188,7 +179,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
 
-    @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout,R.id.message_center_layout })
+    @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout, R.id.message_center_layout })
     public void onClick(View v) {
         int id = v.getId();
         if (R.id.btn_login == id) {
@@ -197,36 +188,35 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             startSettingActivity();
         } else if (R.id.user_myfunds_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
-//                getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
-//                        MyCombinationActivity.class)));
-                startActivity(new Intent(getActivity(),
-                        MyCombinationActivity.class));
+                // getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
+                // MyCombinationActivity.class)));
+                startActivity(new Intent(getActivity(), MyCombinationActivity.class));
             }
-        }else if (R.id.message_center_layout == id) {
+        } else if (R.id.message_center_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
 
-
-                RongIM rongIM=   RongIM.getInstance();
-
-                if(rongIM ==null) {
-                    BusProvider.getInstance().post(new RongConnectEvent());
-                }
-                startActivity(new Intent(getActivity(),
-                        RCChatListActivity.class));
+                // RongIM rongIM = RongIM.getInstance();
+                //
+                // if (rongIM == null) {
+                // // 请求重新连接
+                // // BusProvider.getInstance().post(new RongConnectEvent());
+                // MessageManager.getInstance().connect();
+                // }
+                startActivity(new Intent(getActivity(), RCChatListActivity.class));
             }
         }
 
     }
 
-//    @OnClick(R.id.message_center_layout)
-//    public void messageCenterClick(View v) {
-//
-//        if (!UIUtils.iStartLoginActivity(getActivity())) {
-//
-//            Toast.makeText(getActivity(),"t",Toast.LENGTH_LONG).show();
-//            RongIM.getInstance().startConversationList(getActivity());
-//        }
-//    }
+    // @OnClick(R.id.message_center_layout)
+    // public void messageCenterClick(View v) {
+    //
+    // if (!UIUtils.iStartLoginActivity(getActivity())) {
+    //
+    // Toast.makeText(getActivity(),"t",Toast.LENGTH_LONG).show();
+    // RongIM.getInstance().startConversationList(getActivity());
+    // }
+    // }
 
     @Override
     public void onDestroy() {
@@ -237,12 +227,10 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     @Subscribe
-    public void  updateMessageCenter(NewMessageEvent newMessageEvent){
-
+    public void updateMessageCenter(NewMessageEvent newMessageEvent) {
 
         updateMessageCenterState();
 
     }
-
 
 }

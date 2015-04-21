@@ -27,6 +27,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
@@ -54,16 +55,12 @@ public class PortfolioApplication extends Application {
     // private boolean change = false;
     // private int kLinePosition = -1;
 
-    // 声明消息监听器，建议在 Application 中声明为成员变量。
-
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
-        // setMetaData(ChannelUtil.getChannel(this));
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         super.onCreate();
         mInstance = this;
@@ -77,24 +74,8 @@ public class PortfolioApplication extends Application {
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
-        try {
+        MessageManager.getInstance();
 
-            // 注册融云sdk
-            RongIM.init(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void setMetaData(String changevalue) {
-        ApplicationInfo appi;
-        try {
-            appi = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            appi.metaData.putString("UMENG_CHANNEL", changevalue);
-        } catch (NameNotFoundException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private List<Activity> lists = new ArrayList<Activity>();
@@ -147,9 +128,7 @@ public class PortfolioApplication extends Application {
                     }
                 };
             }.start();
-            // } catch (IOException e) {
-            // throw new Error("Error copying database");
-            // }
+
         }
     }
 
@@ -172,29 +151,5 @@ public class PortfolioApplication extends Application {
     public void setLogin(boolean isLogin) {
         this.isLogin = isLogin;
     }
-
-    // public String getCheckValue() {
-    // return checkValue;
-    // }
-    //
-    // public void setCheckValue(String checkValue) {
-    // this.checkValue = checkValue;
-    // }
-    //
-    // public boolean isChange() {
-    // return change;
-    // }
-    //
-    // public void setChange(boolean change) {
-    // this.change = change;
-    // }
-
-    // public int getkLinePosition() {
-    // return kLinePosition;
-    // }
-    //
-    // public void setkLinePosition(int kLinePosition) {
-    // this.kLinePosition = kLinePosition;
-    // }
 
 }
