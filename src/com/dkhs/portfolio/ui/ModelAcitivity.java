@@ -1,16 +1,18 @@
 package com.dkhs.portfolio.ui;
 
-import android.app.Activity;
-import android.graphics.Color;
+import java.util.Hashtable;
+
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -19,18 +21,22 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.utils.UIUtils;
 
-public class ModelAcitivity extends BaseActivity {
+public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
+    private Button btnBack;
+    private View mTitleView;
+    protected UserEngineImpl engine;
 
     /** 显示子页面的容器 */
     private RelativeLayout layoutContent;
 
     /** 返回按钮 */
-    private Button btnBack;
 
     // private LinearLayout llBack;
 
@@ -41,15 +47,27 @@ public class ModelAcitivity extends BaseActivity {
         onCreate(arg0, R.layout.layout_model_default);
     }
 
+    private SwipeBackLayout mSwipeBackLayout;
+
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
-        setTheme(android.R.style.Theme_Light_NoTitleBar);
+        engine = new UserEngineImpl();
+
+        // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         super.setContentView(R.layout.layout_model);
+
+        mSwipeBackLayout = getSwipeBackLayout();
+        // 设置可以滑动的区域，推荐用屏幕像素的一半来指定
+        mSwipeBackLayout.setEdgeSize(100);
+        // 设定滑动关闭的方向，SwipeBackLayout.EDGE_ALL表示向下、左、右滑动均可。EDGE_LEFT，EDGE_RIGHT，EDGE_BOTTOM
+        mSwipeBackLayout.setEdgeTrackingEnabled(SwipeBackLayout.EDGE_LEFT);
+        // saveTrackingMode(SwipeBackLayout.EDGE_ALL);
         // ViewStub view = (ViewStub) findViewById(R.id.layout_model_right);
         // view.setLayoutResource(titleLayout);
         // view.inflate();
+        // setStatusBarColor(findViewById(R.id.statusBarBackground), getResources().getColor(R.color.red));
         stepTitleView();
     }
 
@@ -84,6 +102,7 @@ public class ModelAcitivity extends BaseActivity {
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
+        mTitleView = findViewById(R.id.includeHead);
 
         btnBack = (Button) findViewById(BACKBUTTON_ID);
 
@@ -249,6 +268,13 @@ public class ModelAcitivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        UIUtils.outAminationActivity(this);
+        // overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
     }
@@ -261,36 +287,61 @@ public class ModelAcitivity extends BaseActivity {
         this.btnBack = btnBack;
     }
 
-    public void setupUI(View view) {
+    public void setStatusBarColor(View statusBar, int color) {
+        // if (Build.VERSION.SDK_INT >= 19) {
+        // Window w = getWindow();
+        // w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+        // WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        // // status bar height
+        // int actionBarHeight = getActionBarHeight();
+        // int statusBarHeight = getStatusBarHeight();
+        // // action bar height
+        // statusBar.getLayoutParams().height = actionBarHeight + statusBarHeight;
+        // statusBar.setBackgroundColor(color);
+        // }
+    }
 
-        // Set up touch listener for non-text box views to hide keyboard.
-        if (!(view instanceof EditText)) {
-
-            view.setOnTouchListener(new OnTouchListener() {
-
-                public boolean onTouch(View v, MotionEvent event) {
-                    hideSoftKeyboard(ModelAcitivity.this);
-                    return false;
-                }
-
-            });
+    public int getActionBarHeight() {
+        int actionBarHeight = 0;
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
         }
+        return actionBarHeight;
+    }
 
-        // If a layout container, iterate over children and seed recursion.
-        if (view instanceof ViewGroup) {
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
 
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+    public View getTitleView() {
+        return mTitleView;
+    }
 
-                View innerView = ((ViewGroup) view).getChildAt(i);
+    @Override
+    public void startActivity(Intent intent) {
+        super.startActivity(intent);
+        UIUtils.setOverridePendingAmin(this);
+    }
 
-                setupUI(innerView);
-            }
+    public void updateTitleBackgroud(int resId) {
+        getTitleView().setBackgroundResource(resId);
+    }
+
+    public void updateTitleBackgroudByValue(float value) {
+        if (value < 0) {
+            updateTitleBackgroud(R.color.tag_green);
+        } else if (value > 0) {
+            updateTitleBackgroud(R.color.tag_red);
+        } else {
+            updateTitleBackgroud(R.color.tag_gray);
+
         }
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager) activity
-                .getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-    }
 }

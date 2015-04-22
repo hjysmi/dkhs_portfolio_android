@@ -16,6 +16,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -34,15 +35,19 @@ import cn.sharesdk.framework.utils.UIHandler;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.utils.WechatClientNotExistException;
+import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
 import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SignupBean;
 import com.dkhs.portfolio.bean.ThreePlatform;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -51,6 +56,7 @@ import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
@@ -139,6 +145,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             setTitle(R.string.login);
             getBtnBack().setText(R.string.cancel);
             getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            if (!TextUtils.isEmpty(phoneNum)) {
+                etUserName.setText(phoneNum);
+                setupLastUserInfo();
+            }
         } else {
             hideHead();
             if (!TextUtils.isEmpty(phoneNum)) {
@@ -169,6 +179,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     private void handleExtras(Bundle extras) {
 
         phoneNum = extras.getString(EXTRA_PHONENUM);
+        if (TextUtils.isEmpty(phoneNum)) {
+            phoneNum = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
+        }
         isLoginByAnnoy = extras.getBoolean(EXTRA_LOGINANNOY);
 
     }
@@ -418,16 +431,15 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
             PortfolioApplication.getInstance().exitApp();
             PortfolioApplication.getInstance().setLogin(true);
-
             goMainPage();
         }
     };
 
-    private void goMainPage() {
-        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        startActivity(intent);
-        finish();
-    }
+    // private void goMainPage() {
+    // Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+    // startActivity(intent);
+    // finish();
+    // }
 
     private String userName;
 
@@ -473,13 +485,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         public void onError(Platform plat, int action, Throwable t) {
-            System.out.println("PlatformActionListener onError()");
+            // System.out.println("PlatformActionListener onError()");
             t.printStackTrace();
 
             Message msg = new Message();
             msg.arg1 = 2;
             msg.arg2 = action;
-            msg.obj = plat;
+            msg.obj = t;
             platFormAction.sendMessage(msg);
         }
 
@@ -487,13 +499,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
 
             // Toast.makeText(getApplicationContext(), text, duration)
-            System.out.println("PlatformActionListener onComplete()");
-            System.out.println("action:" + action);
-            System.out.println("platform user id:" + plat.getDb().getUserId());
-            System.out.println("platform user name:" + plat.getDb().getUserName());
-            System.out.println("platform  name:" + plat.getName());
-            System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
-            System.out.println("platform  getToken:" + plat.getDb().getToken());
+            // System.out.println("PlatformActionListener onComplete()");
+            // System.out.println("action:" + action);
+            // System.out.println("platform user id:" + plat.getDb().getUserId());
+            // System.out.println("platform user name:" + plat.getDb().getUserName());
+            // System.out.println("platform  name:" + plat.getName());
+            // System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
+            // System.out.println("platform  getToken:" + plat.getDb().getToken());
 
             res.put("plat", plat);
             Message msg = new Message();
@@ -532,28 +544,41 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         if (platname.contains(SinaWeibo.NAME)) {
                             platname = "weibo";
                             imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
-                            System.out.println("avatar_large:" + imageUrl);
                         } else if (platname.contains(Wechat.NAME)) {
                             platname = "weixin";
                         } else {
                             platname = "qq";
                             imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
-                            System.out.println("avatar_large:" + imageUrl);
                         }
                         ThreePlatform platData = new ThreePlatform();
                         platData.setAccess_token(plat.getDb().getToken());
                         platData.setOpenid(plat.getDb().getUserId());
                         platData.setAvatar(imageUrl);
                         platData.setRefresh_token("");
+                        phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
                                 platData, registerListener.setLoadingDialog(LoginActivity.this));
                     }
                 }
                     break;
                 case 2: {
-                    // Toast.makeText(getApplicationContext(), "PlatformActionListener onError()", Toast.LENGTH_SHORT)
-                    // .show();
-                    PromptManager.showToast("授权失败，请稍后重试.");
+                    String failtext = "";
+                    if (msg.obj instanceof WechatClientNotExistException) {
+                        failtext = getResources().getString(R.string.wechat_client_inavailable);
+                    } else if (msg.obj instanceof WechatTimelineNotSupportedException) {
+                        failtext = getResources().getString(R.string.wechat_client_inavailable);
+                    } else if (msg.obj instanceof java.lang.Throwable && msg.obj.toString() != null
+                            && msg.obj.toString().contains("prevent duplicate publication")) {
+
+                        failtext = getResources().getString(R.string.oauth_fail);
+                    } else if (msg.obj.toString().contains("error")) {
+                        failtext = getResources().getString(R.string.oauth_fail);
+
+                    } else {
+                        failtext = getResources().getString(R.string.oauth_fail);
+                    }
+                    PromptManager.showToast(failtext);
+
                 }
                     break;
                 case 3: {
@@ -569,23 +594,26 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         };
     };
 
-    private ParseHttpListener<UserEntity> registerListener = new ParseHttpListener<UserEntity>() {
+    private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
         };
 
         @Override
-        protected UserEntity parseDateTask(String jsonData) {
+        protected SignupBean parseDateTask(String jsonData) {
             try {
+                SignupBean signupBean = DataParse.parseObjectJson(SignupBean.class, jsonData);
                 JSONObject json = new JSONObject(jsonData);
-                UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
+
+                // json.optBoolean("is_new_user");
+                // UserEntity entity = DataParse.parseObjectJson(UserEntity.class, json.getJSONObject("user"));
                 String token = (String) json.getJSONObject("token").get("access_token");
-                entity.setAccess_token(token);
-                entity.setMobile(phoneNum);
-                engine.saveLoginUserInfo(entity);
+                signupBean.getUser().setAccess_token(token);
+                signupBean.getUser().setMobile(phoneNum);
+                engine.saveLoginUserInfo(signupBean.getUser());
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT, phoneNum);
-                return entity;
+                return signupBean;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -593,17 +621,76 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         }
 
         @Override
-        protected void afterParseData(UserEntity entity) {
+        protected void afterParseData(SignupBean entity) {
 
             // PromptManager.closeProgressDialog();
-            if (null != entity) {
-
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+            if (null != entity && !entity.isNewUser()) {
+                goMainPage();
+            } else if (null != entity && entity.isNewUser()) {
+                uploadUserFollowStock();
             }
         }
     };
+
+    ParseHttpListener uploadStockListner = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllOptionalStock();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            uploadUserFollowCombination();
+
+        }
+    }.setLoadingDialog(this, "正在登陆", false);
+
+    private VisitorDataEngine visitorEngine;
+
+    public void uploadUserFollowStock() {
+        if (null == visitorEngine) {
+            visitorEngine = new VisitorDataEngine();
+        }
+        if (!visitorEngine.uploadUserFollowStock(uploadStockListner)) {
+            uploadUserFollowCombination();
+        }
+
+    }
+
+    ParseHttpListener uploadCombinationListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllCombinationBean();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+
+            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
+            goMainPage();
+
+        }
+    }.setLoadingDialog(this, "正在登陆", false);
+
+    public void uploadUserFollowCombination() {
+        if (!visitorEngine.uploadUserFollowCombination(uploadCombinationListener)) {
+            goMainPage();
+        }
+    }
+
+    private void goMainPage() {
+
+        // 设置小红点可以出现
+        PortfolioApplication.getInstance().exitApp();
+        Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_login);
 
     @Override

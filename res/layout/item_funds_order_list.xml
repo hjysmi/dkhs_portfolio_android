@@ -3,100 +3,99 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/lv_white_selector" >
+    android:background="@drawable/lv_white_selector"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="10dp" >
+
+    <RelativeLayout
+        android:id="@+id/layout_value"
+        android:layout_width="122dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/bg_order_red"
+        android:gravity="center_vertical"
+        android:paddingBottom="4dp"
+        android:paddingTop="6dp" >
+
+        <TextView
+            android:id="@+id/tv_income_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:singleLine="true"
+            android:text="@string/week_income_rate"
+            android:textColor="@color/white_60"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_income_text"
+            android:layout_centerHorizontal="true"
+            android:text="+19.52"
+            android:textColor="@color/white"
+            android:textSize="27sp" />
+
+        <TextView
+            android:id="@+id/tv_precent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tv_value"
+            android:layout_toRightOf="@+id/tv_value"
+            android:text="%"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_jiangpai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/ic_jinpai"
+        android:visibility="gone" />
+
+    <CheckBox
+        android:id="@+id/cb_add_follow"
+        style="@style/hw_wrap"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:button="@drawable/cb_order_add_follow"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
 
     <RelativeLayout
         android:id="@+id/rl_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <ImageView
-            android:id="@+id/iv_gold_award"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
-            android:contentDescription="ddd"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_sliver_award"
-            tools:ignore="HardcodedText" />
-
-        <TextView
-            android:id="@+id/tv_order_index"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
-            android:background="@drawable/bg_order_index"
-            android:gravity="center"
-            android:text="99"
-            android:visibility="gone" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="4dp"
+        android:layout_toLeftOf="@+id/cb_add_follow"
+        android:layout_toRightOf="@+id/layout_value" >
 
         <TextView
             android:id="@+id/tv_create_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/iv_gold_award"
             android:singleLine="true"
             android:text="创建人:大牛"
             android:textColor="@color/darker_gray"
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/tv_income_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_create_user"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:singleLine="true"
-            android:text="@string/week_income_rate"
-            android:textColor="@color/darker_gray"
-            android:textSize="14sp" />
-		<TextView
-            android:id="@+id/tv_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_income_text"
-            android:layout_marginRight="10dp"
-            android:text="+19.52%"
-            android:textColor="@color/def_red"
-            android:textSize="22sp" />
-        <TextView
             android:id="@+id/tv_champion_combination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="3dp"
             android:layout_below="@+id/tv_create_user"
-            android:layout_toRightOf="@+id/iv_gold_award"
-            android:layout_toLeftOf="@id/tv_value"
-            android:singleLine="true"
             android:ellipsize="end"
-            android:text="牛人基金2"
+            android:paddingRight="3dp"
+            android:singleLine="true"
+            android:text="牛人组合2"
             android:textSize="18sp"
             tools:ignore="HardcodedText" />
-
-        
     </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_desc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_desc"
-        android:background="@color/theme_gray"
-        android:paddingBottom="8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="18dp"
-        android:paddingTop="8dp"
-        android:singleLine="true"
-        android:text="描述：的反垄断法结束两地分居"
-        android:textColor="@color/darker_gray"
-        android:textColorHighlight="@color/darker_gray" />
 
 </RelativeLayout>

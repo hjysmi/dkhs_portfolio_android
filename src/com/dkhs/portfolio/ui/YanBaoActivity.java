@@ -14,12 +14,13 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentNewsList;
-import com.dkhs.portfolio.ui.fragment.FragmentreportNewsList;
 import com.dkhs.portfolio.ui.fragment.FragmentreportOneList;
+import com.dkhs.portfolio.ui.fragment.ReportListForAllFragment;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -48,60 +49,37 @@ public class YanBaoActivity extends ModelAcitivity {
     }
 
     private void initList() {
-        UserEntity user;
         String userId = null;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user != null) {
-                if (!TextUtils.isEmpty(user.getAccess_token())) {
-                    user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                }
-                userId = user.getId() + "";
+        UserEntity user = UserEngineImpl.getUserEntity();
+        if (user != null) {
+            if (!TextUtils.isEmpty(user.getAccess_token())) {
+                user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
             }
-        } catch (DbException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            userId = user.getId() + "";
         }
+
         String[] name = getResources().getStringArray(R.array.yanbao_items);
-        NewsforImpleEngine vo;
+        NewsforModel vo;
         List<Fragment> frag = new ArrayList<Fragment>();
-        Fragment f1 = new FragmentreportOneList();
-        vo = new NewsforImpleEngine();
+
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("304");
-        Bundle b1 = new Bundle();
-        b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP);
-        b1.putSerializable(FragmentNewsList.VO, vo);
-        f1.setArguments(b1);
+        Fragment f1 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP);
         frag.add(f1);
-        Fragment f2 = new FragmentreportNewsList();
-        Bundle b2 = new Bundle();
-        vo = new NewsforImpleEngine();
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("303");
-        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP);
-        b2.putSerializable(FragmentNewsList.VO, vo);
-        f2.setArguments(b2);
-        // frag.add(f2);
-        Fragment f3 = new FragmentreportNewsList();
-        Bundle b3 = new Bundle();
-        b3.putString(FragmentNewsList.NEWS_TYPE, "302");
-        vo = new NewsforImpleEngine();
+        Fragment f2 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP);
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("302");
-        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_TWO);
-        b3.putSerializable(FragmentNewsList.VO, vo);
-        f3.setArguments(b3);
+        Fragment f3 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP_TWO);
         frag.add(f3);
-        Fragment f4 = new FragmentreportNewsList();
-        Bundle b4 = new Bundle();
-        b4.putString(FragmentNewsList.NEWS_TYPE, "301");
-        vo = new NewsforImpleEngine();
+        vo = new NewsforModel();
         vo.setUserid(userId);
         vo.setContentSubType("301");
-        b4.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_TWO);
-        b4.putSerializable(FragmentNewsList.VO, vo);
-        f4.setArguments(b4);
+        Fragment f4 = ReportListForAllFragment.getFragment(vo, OpitionNewsEngineImple.NEWS_GROUP_TWO);
         frag.add(f4);
         new FragmentSelectAdapter(context, name, frag, layout, getSupportFragmentManager());
     }

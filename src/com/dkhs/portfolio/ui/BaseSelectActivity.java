@@ -87,7 +87,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
         if (extras != null) {
             handleExtras(extras);
         }
-        setupUI(findViewById(R.id.rl_base_add_view));
         initView();
         setupViewData();
         btnBack.setOnClickListener(new OnBackListener());
@@ -346,6 +345,8 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             // add by zcm --- 2014.12.16
             if (!TextUtils.isEmpty(etSearchKey.getText().toString())) {
                 etSearchKey.setText("");
+                etSearchKey.requestFocus();
+                etSearchKey.clearFocus();
                 return;
             }
             // add by zcm --- 2014.12.16

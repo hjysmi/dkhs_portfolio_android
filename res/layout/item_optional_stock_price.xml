@@ -8,12 +8,13 @@
     android:paddingBottom="5dp"
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
-    android:paddingTop="5dp" >
+    android:paddingTop="5dp"
+    android:weightSum="7" >
 
     <RelativeLayout
         android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1" >
+        android:layout_weight="3" >
 
         <TextView
             android:id="@+id/tv_stock_name"
@@ -25,6 +26,7 @@
             android:id="@+id/tv_stock_num"
             style="@style/hw_wrap"
             android:layout_below="@+id/tv_stock_name"
+            android:singleLine="true"
             android:textColor="@android:color/darker_gray"
             android:textSize="10sp" />
     </RelativeLayout>
@@ -33,31 +35,38 @@
         android:id="@+id/tv_current_value"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
-        android:layout_weight="1"
+        android:layout_marginRight="30dp"
+        android:layout_weight="2"
         android:gravity="right"
         android:textColor="@color/red"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textSize="18sp" />
 
-    <TextView
-        android:id="@+id/tv_percent_value"
-        android:layout_width="1dp"
+    <RelativeLayout
+        android:layout_width="2dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:text="+0.43%"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:layout_weight="2" >
+
+        <TextView
+            android:id="@+id/tv_percent_value"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/red"
+            android:gravity="center"
+            android:text="+0.43%"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_increase_value"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="right"
         android:text="103.16"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 
 </LinearLayout>

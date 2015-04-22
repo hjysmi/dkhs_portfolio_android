@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,9 +28,10 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -72,7 +74,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     private View mFootView;
     private boolean isFund;
 
-    LoadSelectDataEngine mLoadDataEngine;
+    LoadMoreDataEngine mLoadDataEngine;
     SearchStockEngineImpl mSearchEngine;
 
     public static FragmentSearchStockFund getStockFragment() {
@@ -152,20 +154,25 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
         @Override
-        public void loadFinish(List<SelectStockBean> dataList) {
-            if (null != dataList) {
-                mDataList.addAll(dataList);
-                mAdapterConbinStock.notifyDataSetChanged();
+        public void loadFinish(MoreDataBean object) {
+            if (null != object && null != object.getResults()) {
+                mDataList.addAll(object.getResults());
+                updateHandler.sendEmptyMessage(777);
             }
-
         }
 
         @Override
-        public void loadFail(ErrorBundle error) {
+        public void loadFail() {
             // TODO Auto-generated method stub
 
         }
 
+    };
+
+    Handler updateHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            mAdapterConbinStock.notifyDataSetChanged();
+        };
     };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {

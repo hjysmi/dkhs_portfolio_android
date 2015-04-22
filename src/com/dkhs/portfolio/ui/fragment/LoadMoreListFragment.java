@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.empty_listview, null);
         initLoadMoreList(view);
+
         // setListAdatper();
         return view;
     }
@@ -70,8 +72,12 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         tvEmptyText.setVisibility(View.VISIBLE);
     }
 
-    private void initLoadMoreList(View view) {
+    public SwipeRefreshLayout mSwipeLayout;
 
+    private void initLoadMoreList(View view) {
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeLayout.setOnRefreshListener(setOnRefreshListener());
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
 
@@ -96,6 +102,8 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     abstract ListAdapter getListAdapter();
 
     abstract LoadMoreDataEngine getLoadEngine();
+
+    abstract SwipeRefreshLayout.OnRefreshListener setOnRefreshListener();
 
     abstract OnItemClickListener getItemClickListener();
 
@@ -157,7 +165,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
 
     public void setHttpHandler(HttpHandler mHttpHandler) {
         if (null != this.mHttpHandler) {
-            mHttpHandler.cancel();
+            this.mHttpHandler.cancel();
         }
         this.mHttpHandler = mHttpHandler;
     }

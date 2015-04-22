@@ -48,6 +48,14 @@ public class StockPriceBean {
     @SerializedName("chng_pct_year_sofar")
     private float tyearPercentage;
 
+    // private boolean is_alert;
+
+    @SerializedName("alert_settings")
+    private AlertSetBean alertBean;
+
+    // 总市值
+    private float total_capital;
+
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     private String symbol_type;
 
@@ -204,6 +212,22 @@ public class StockPriceBean {
 
     public void setAmplitude(float amplitude) {
         this.amplitude = amplitude;
+    }
+
+    public float getTotal_capital() {
+        return total_capital;
+    }
+
+    public void setTotal_capital(float total_capital) {
+        this.total_capital = total_capital;
+    }
+
+    public AlertSetBean getAlertBean() {
+        return alertBean;
+    }
+
+    public void setAlertBean(AlertSetBean alertBean) {
+        this.alertBean = alertBean;
     }
 
 }

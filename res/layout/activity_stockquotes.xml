@@ -28,30 +28,45 @@
 
         <com.dkhs.portfolio.ui.widget.HScrollTitleView
             android:id="@+id/hs_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <View style="@style/divider_line" />
 
-        <com.dkhs.portfolio.ui.widget.ScrollViewPager
-            android:id="@+id/pager"
-            android:layout_width="fill_parent"
-            android:layout_height="310dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="315dp" >
+
+            <com.dkhs.portfolio.ui.widget.ScrollViewPager
+                android:id="@+id/pager"
+                android:layout_width="fill_parent"
+                android:layout_height="315dp"
+                android:paddingTop="5dp" />
+
+            <Button
+                android:id="@+id/klin_virtul_check"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_check_red"
+                android:gravity="center_vertical"
+                android:paddingBottom="2dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:text="不复权  ▼"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone" />
+        </RelativeLayout>
 
         <!-- 底部资讯 -->
+
         <LinearLayout
             android:id="@+id/stock_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
-        </LinearLayout>
-        <!--
-             <fragment
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            class="com.dkhs.portfolio.ui.fragment.NewsFragment" />
-        -->
+            android:orientation="vertical" />
     </LinearLayout>
->
 
 </com.dkhs.portfolio.ui.widget.InterceptScrollView>

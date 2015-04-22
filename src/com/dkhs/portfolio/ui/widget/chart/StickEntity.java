@@ -14,7 +14,9 @@ public class StickEntity {
 	private int color; //颜色值
 	
 	private boolean up; //是否提升
-	
+	private double macd;
+	private double diff;
+	private double dea;
 	public double getHigh() {
 		return high;
 	}
@@ -55,14 +57,42 @@ public class StickEntity {
 		this.up = up;
 	}
 
-	public StickEntity(double high, double low, String date) {
+	public StickEntity(double high, double low, String date,double macd,double diff,double dea) {
 		super();
 		this.high = high;
 		this.low = low;
 		this.date = date;
+		this.macd = macd;
+		this.diff = diff;
+		this.dea = dea;
 	}
 
 	public StickEntity() {
 		super();
 	}
+
+    public double getMacd() {
+        return macd;
+    }
+
+    public void setMacd(double macd) {
+        this.macd = macd;
+    }
+
+    public double getDiff() {
+        return diff;
+    }
+
+    public void setDiff(double diff) {
+        this.diff = diff;
+    }
+
+    public double getDea() {
+        return dea;
+    }
+
+    public void setDea(double dea) {
+        this.dea = dea;
+    }
+	
 }

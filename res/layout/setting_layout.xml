@@ -14,46 +14,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingTop="15dp" >
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/person_setting_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical" >
-
-                <LinearLayout
-                    android:id="@+id/ll_login_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="vertical" >
-
-                    <View style="@style/divider_line" />
-
-                    <Button
-                        android:id="@+id/btn_login"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_margin="20dp"
-                        android:background="@drawable/btn_blue_border"
-                        android:paddingLeft="18dp"
-                        android:paddingRight="18dp"
-                        android:text="马上登录"
-                        android:textColor="@color/blue"
-                        android:textSize="18sp" />
-                </LinearLayout>
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <LinearLayout
                     android:id="@+id/ll_userinfo_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone" >
+                    android:orientation="vertical" >
 
-                    <include layout="@layout/layout_line_text" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/person_setting_line" />
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_icon"
@@ -175,13 +155,13 @@
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
 
-                    <include layout="@layout/layout_line" />
-
                     <RelativeLayout
                         android:id="@+id/setting_layout_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/btn_white_selector" >
+
+                        <include layout="@layout/layout_line" />
 
                         <ImageView
                             android:id="@+id/setting_image_password_right"

@@ -72,32 +72,34 @@
     <string name="subscribe_more_category">更多频道</string>
     <string name="subscribe_manager_category_info">单击增删频道，长按拖拽排序</string>
     <string name="login_title">多块好省登录</string>
+
     <string name="noaccout">还没有账号?</string>
     <string name="find_passwrod">找回密码</string>
-    <string name="portfolio_text">投资基金</string>
-    <string name="combin">基金：%1$d</string>
+    <string name="portfolio_text">投资组合</string>
+    <string name="combin">组合：%1$d</string>
     <string name="optional_stock_format">自选股:%1$d</string>
     <string name="optional_stock">自选股</string>
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
+    <string name="funds_name">组合名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
     <string name="more">更多</string>
-    <string name="portfolio_position">持仓基金</string>
+    <string name="portfolio_position">持仓组合</string>
     <string name="duty_percent">%1$d&#037;</string>
-    <string name="my_combination">我的基金</string>
+    <string name="my_combination">我的组合</string>
     <string name="desc_format">描述:%1$s</string>
     <string name="desc_def_text">还没有描述内容呢</string>
     <string name="current">当前:</string>
     <string name="add_up">累计:</string>
-    <string name="create_combination">配置基金</string>
+    <string name="create_combination">配置组合</string>
     <string name="adjust_combination">持仓调整</string>
-    <string name="add_combination">添加基金</string>
-    <string name="del_combination">删除基金</string>
+    <string name="add_combination">添加组合</string>
+    <string name="del_combination">删除组合</string>
     <string name="quotes_format">(%1$s)</string>
-    <string name="combination_name">基金名称</string>
-    <string name="combination_desc">基金描述</string>
+    <string name="combination_name">组合名称</string>
+    <string name="combination_desc">组合描述</string>
     <string name="conb_desc_hint">简要描述 20字以内</string>
     <string name="my_config">我的配置</string>
     <string name="add_postional">添加个股</string>
@@ -107,9 +109,9 @@
     <string name="create_time_format">成立时间 :%1$s</string>
     <string name="descrition_format">简介:%1$s</string>
     <string name="position_from_to">从%1$s调至%2$s</string>
-    <string name="select_fund">选择参照基金 </string>
+    <string name="select_fund">选择参照基金</string>
     <string name="select_stock">添加个股 </string>
-    <string name="create_funds">创建基金 </string>
+    <string name="create_funds">创建组合 </string>
     <string name="search_fund_hint">代码或简拼 </string>
     <string name="add_postional_format">添加(%1$d)</string>
     <string name="add_text">添加</string>
@@ -130,6 +132,7 @@
     <string name="delete_fllow">取消自选</string>
     <string name="add_fllow">加入自选</string>
     <string name="turnover">换手率</string>
+    <string name="turnovev_range">换手榜</string>
     <string name="html_blankspace">&#160;</string>
     <string name="start_netvalue">起始:</string>
     <string name="end_netvalue">结束:</string>
@@ -151,7 +154,7 @@
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
     <string name="add_up_value">累计收益率</string>
-    <string name="dialog_before_createday_title">查询时间早于基金创建时间</string>
+    <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">起始时间不能早于创建前1个月</string>
     <string name="hint_account">手机号/邮箱地址</string>
@@ -186,11 +189,12 @@
     <string name="set_password_success">设置成功</string>
     <string name="set_password_failed">设置失败</string>
     <string name="tips">提示</string>
-    <string name="dialog_message_delete_combination">您将要删除选中的基金!</string>
+    <string name="dialog_message_delete_combination">您将要删除选中的组合!</string>
+    <string name="dialog_message_delfollow_combination">确认取消关注该组合?</string>
     <string name="setting_string_opinion">意见反馈</string>
     <string name="setting_string_news">新版本检测</string>
     <string name="setting_string_abortus">关于我们</string>
-    <string name="setting_string_public">公开基金持仓明细</string>
+    <string name="setting_string_public">公开组合持仓明细</string>
     <string name="setting_string_public_title">公开持仓明细</string>
     <string name="setting_string_publicexplan">公开后可参与排名及比赛等活动</string>
     <string name="setting_string_exit">退出登录</string>
@@ -199,11 +203,12 @@
     <string name="function_ace">牛人</string>
     <string name="function_optional">自选股</string>
     <string name="function_notice">公告</string>
+    <string name="function_f10">F10</string>
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外</string>
-    <string name="function_combination">自建基金</string>
-    <string name="fund_order">基金排行</string>
+    <string name="function_combination">自建组合</string>
+    <string name="fund_order">组合排行</string>
     <string name="function_f">排行</string>
     <string name="function_fund_order">排行</string>
     <string name="function_market">行情</string>
@@ -222,7 +227,7 @@
     <string name="marketcenter_title">行情中心</string>
     <string name="report">研报</string>
     <string name="format_create_name">创建人:%1$s</string>
-    <string name="format_create_time">创建时间:%1$s</string>
+    <string name="format_create_time">创建于:%1$s</string>
     <string name="setting_password_hint">请输入密码,不少于6位</string>
     <string name="password_setting_title">修改密码</string>
     <string name="password_setting_old">原密码不能为空</string>
@@ -236,27 +241,27 @@
     <string name="tip_message_dashline">注:虚线为模拟复盘走势</string>
     <string name="text_no_open">该用户未开放查看权限</string>
     <string name="text_combin_open">查看持仓明细</string>
-    <string name="combination_wornning_text">公开后别人可能看到这只基金的持仓明细</string>
+    <string name="combination_wornning_text">公开后别人可能看到这只组合的持仓明细</string>
     <string name="combination_wornning_name">隐私设置：</string>
     <string name="feed_back_title">意见反馈</string>
     <string name="feed_back_hint">请输入您的反馈意见（500字以内）</string>
     <string name="feed_back_com_title">QQ、邮箱、手机</string>
     <string name="feed_back_notice">您的联系方式有助于我们沟通解决问题</string>
-    <string name="text_other_manager_combin">他管理的基金一览</string>
-    <string name="text_my_manager_combin">我管理的基金一览</string>
+    <string name="text_other_manager_combin">Ta管理的组合一览</string>
+    <string name="text_my_manager_combin">我管理的组合一览</string>
     <string name="sign_text_title">个人签名</string>
     <string name="format_sign_text_title">个人签名:%1$s</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈意见</string>
-    <string name="day_income_rate">日收益率:</string>
-    <string name="week_income_rate">周收益率:</string>
-    <string name="month_income_rate">月收益率:</string>
-    <string name="season_income_rate">季收益率:</string>
-    <string name="all_income_rate">累计收益率:</string>
-    <string name="more_combination_tip">最多只能添加20个基金组合</string>
+    <string name="day_income_rate">日收益</string>
+    <string name="week_income_rate">周收益</string>
+    <string name="month_income_rate">月收益</string>
+    <string name="season_income_rate">季收益</string>
+    <string name="all_income_rate">累计收益</string>
+    <string name="more_combination_tip">最多只能添加20个组合组合</string>
     <string name="bound_account_notice">绑定以下账号，可以用它们登录谁牛</string>
-    <string name="change_combination_name">修改基金名称</string>
+    <string name="change_combination_name">修改组合名称</string>
     <string name="change_position">调整仓位</string>
     <string name="privacy_setting">隐私设置</string>
     <string name="privacy_everyday_record">历史收益记录</string>
@@ -276,10 +281,10 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">①打造最佳理财服务，寻找牛股票基金！</string>
-    <string name="about_dus_2">②一秒创建基金，随时随地地管理您的投资组合。</string>
-    <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的基金收益，与公募基金PK。</string>
-    <string name="about_dus_4">④查询更新基金排行、追踪捕获牛基牛人、与专业的基金经理PK，看谁牛！</string>
+    <string name="about_dus_1">①打造最佳理财服务，寻找牛股票组合！</string>
+    <string name="about_dus_2">②一秒创建组合，随时随地地管理您的投资组合。</string>
+    <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的组合收益，与公募组合PK。</string>
+    <string name="about_dus_4">④查询更新组合排行、追踪捕获牛基牛人、与专业的组合经理PK，看谁牛！</string>
     <string name="about_phone">联 系 电 话 ：0592-5573789</string>
     <string name="about_url">商 务 合 作 ：yunying@dkhs.com</string>
     <string name="about_weixin">微信公众号：shuiniu</string>
@@ -316,8 +321,8 @@
     <string name="count_privacy_setting">隐私设置</string>
     <string name="count_option_adjust">持仓组合调整</string>
     <string name="count_person_sign">个人签名</string>
-    <string name="count_fund_order">牛人基金</string>
-    <string name="count_fund_order_line">牛人基金曲线</string>
+    <string name="count_fund_order">牛人组合</string>
+    <string name="count_fund_order_line">牛人组合曲线</string>
     <string name="count_option_market">全部公告</string>
     <string name="count_option_market_one">个股公告</string>
     <string name="count_option_edit">编辑自选股</string>
@@ -334,24 +339,25 @@
     <string name="count_feed_back">意见反馈</string>
     <string name="count_history_value">历史收益记录</string>
     <string name="count_dialog_getphoto">获取照片对话框</string>
-    <string name="count_combination_compare">基金比较</string>
+    <string name="count_combination_compare">组合比较</string>
     <string name="count_combination_adjust">持仓调整</string>
     <string name="count_combination_text">相关信息</string>
-    <string name="count_combination_name_change">修改基金名称</string>
+    <string name="count_combination_name_change">修改组合名称</string>
     <string name="count_dound_email">绑定邮箱</string>
     <string name="count_dound_third_account">绑定第三方账号</string>
     <string name="count_trend_history">至今收益曲线图</string>
     <string name="count_trend_month">月收益曲线图</string>
     <string name="count_trend_seven">7日收益曲线图</string>
     <string name="count_trend_today">日收益曲线图</string>
-    <string name="count_user_combination_list">用户基金列表</string>
+    <string name="count_user_combination_list">用户组合列表</string>
     <string name="password_digts">0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLIMNOPQRSTUVWXYZ`¬!"£$%^*()~=#{}[];':,./?/*-_+&#060;&#062;&#064;&#038;</string>
 
     <!-- 无数据时提示语 -->
     <string name="nodate_tip_optional">暂无添加自选股</string>
-    <string name="nodate_tip_funds">暂无新建基金</string>
+    <string name="nodate_tip_funds">暂无新建组合</string>
     <string name="nodate_tip_inland_index">暂无国内指数数据</string>
     <string name="nodate_tip">暂无数据</string>
+    <string name="nodata_login_out">您还未登录</string>
 
     <!-- 行情中心 -->
     <string name="market_index_name">指数名称</string>
@@ -364,34 +370,79 @@
     <string name="plate_name">行业名称</string>
     <string name="plate_leader_stock">领涨股</string>
     <string name="market_updown_ratio">涨跌幅</string>
+    <string name="market_updown_change">涨跌额</string>
+    <string name="market_updown_total_capit">总市值</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
     <string name="market_title_ampli">振幅榜</string>
     <string name="market_title_down">跌幅榜</string>
     <string name="market_title_index">国内指数</string>
+    <string name="stop_stock">停牌</string>
+    <string name="exit_stock">退市</string>
 
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
     <string name="message_server_error">数据请求失败,请稍后重试.</string>
 
-    <!-- 打包渠道名称 -->
-    <string name="anzhuo">安卓市场</string>
-    <string name="anzhi">安智市场</string>
-    <string name="com91">91助手</string>
-    <string name="cn360">360手机助手</string>
-    <string name="yingyonghui">应用汇</string>
-    <string name="xiaomi">小米应用商场</string>
-    <string name="yingyongbao">腾讯应用宝</string>
-    <string name="mumayi">木蚂蚁</string>
-    <string name="yiyou">优亿市场</string>
-    <string name="wandoujia">豌豆夹</string>
-    <string name="anfen">安粉网</string>
-    <string name="meizu">魅族应用中心</string>
-    <string name="lenovomm">联想乐商店</string>
-    <string name="yiyonghui">易用汇</string>
-    <string name="baidu">百度手机助手</string>
-    <string name="baoping">宝瓶网</string>
-    <string name="sohu">搜狐应用中心</string>
+    <!-- Main page -->
+    <string name="tab_1">自选</string>
+    <string name="tab_2">行情</string>
+    <string name="tab_3">资讯</string>
+    <string name="tab_4">我的</string>
+    <string name="title_user">我的</string>
+    <string name="title_info">信息资讯</string>
+    <string name="title_edit_optional_fund">编辑自选组合</string>
+    <string name="title_edit_optional_stock">编辑自选股</string>
+
+    <!-- optional tab -->
+    <string name="net_value">净值</string>
+    <string name="today_up_ratio">今日涨幅</string>
+    <string name="click_add_stock">点击添加自选股</string>
+    <string name="click_creat_fund">点击创建组合</string>
+    <string name="creat_fund">自建组合</string>
+    <string name="creat_fund_name">组合名称</string>
+    <string name="message_center">消息中心</string>
+    <!-- toast message text -->
+    <string name="msg_follow_success">添加关注成功</string>
+    <string name="msg_def_follow_success">取消关注成功</string>
+
+    <!-- 提醒设置 -->
+    <string name="title_remind">提醒设置</string>
+    <string name="price_units">元</string>
+    <string name="format_percent">涨跌幅   %1$s</string>
+    <string name="format_stock_price">最新价   %1$s</string>
+    <string name="format_com_percent">日涨跌幅   %1$s</string>
+    <string name="format_combination_price">净值   %1$s</string>
+    <string name="format_priceup_tip">较当前价涨%1$s</string>
+    <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>
+    <string name="format_priceup_low_tip">较当前价跌%1$s，应大于当前价</string>
+    <string name="format_priceup_low_more_tip">较当前价跌超过%1$s，应大于当前价</string>
+    <string name="format_pricedown_tip">较当前价跌%1$s</string>
+    <string name="format_pricedown_more_tip">较当前价跌超过%1$s</string>
+    <string name="format_pricedown_high_tip">较当前价涨%1$s，应小于当前价</string>
+    <string name="format_pricedown_high_more_tip">较当前价涨超过%1$s，应小于当前价</string>
+    <string name="format_cpriceup_tip">较当前净值涨%1$s</string>
+    <string name="format_cpriceup_more_tip">较当前净值涨超过%1$s</string>
+    <string name="format_cpriceup_low_tip">较当前净值跌%1$s，应大于当前净值</string>
+    <string name="format_cpriceup_low_more_tip">较当前净值跌超过%1$s，应大于当前净值</string>
+    <string name="format_cpricedown_tip">较当前净值跌%1$s</string>
+    <string name="format_cpricedown_more_tip">较当前净值跌超过%1$s</string>
+    <string name="format_cpricedown_high_tip">较当前净值涨%1$s，应小于当前净值</string>
+    <string name="format_cpricedown_high_more_tip">较当前净值涨超过%1$s，应小于当前净值</string>
+    <string name="stock_price_up_text">股价涨到</string>
+    <string name="stock_price_down_text">股价跌到</string>
+    <string name="day_percent_text">日涨跌幅</string>
+    <string name="combination_price_up_text">净值涨到</string>
+    <string name="combination_price_down_text">净值跌到</string>
+    <string name="remind_adjust_text">调仓提醒</string>
+    <string name="remind_notice_text">公告提醒</string>
+    <string name="remind_yanbao_text">研报提醒</string>
+    <string name="tip_day_percent">日涨跌幅输入错误</string>
+    <string name="msg_priceup_toolow">上涨目标低于最新价</string>
+    <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
+    <string name="msg_price_error">目标价输入错误</string>
+    <string name="btn_reinput">重新输入</string>
+    <string name="toast_remind_success">提醒成功</string>
 
 </resources>

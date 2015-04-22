@@ -19,7 +19,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
@@ -33,6 +35,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.Html;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,14 +55,19 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
@@ -76,15 +85,8 @@ import com.umeng.analytics.MobclickAgent;
  * @version 1.0
  */
 public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
-    // private EditText etCombinName;
-    private TextView tvCombinName;
-    private TextView tvCombinDesc;
-    private TextView tvCombinCreateTime;
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
-    // private View viewNetvalueHead;
-    private ImageView ivUpDownIcon;
-    // private Button btnEditName;
     private CombinationBean mCombinationBean;
     private MyCombinationEngineImpl mMyCombinationEngineImpl;
     MyPagerFragmentAdapter mPagerAdapter;
@@ -93,9 +95,13 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView netvalueDay;
     private TextView netvalueWeek;
     private TextView netvalueMonth;
-    private Button netvalueBtnDay;
-    private Button netvalueBtnWeek;
-    private Button netvalueBtnMonth;
+
+    private TextView tvCreateUser;
+    private TextView tvCreate;
+    private TextView tvFollowCount;
+    private TextView tvComDesc;
+
+    private View comView;
     private String type;
     private Timer mMarketTimer;
     private static final long mPollRequestTime = 1000 * 60;
@@ -153,38 +159,40 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_netvalue_trend, null);
-        // etCombinName = (EditText)
-        // view.findViewById(R.id.et_combination_name);
+        comView = view.findViewById(R.id.tv_combination_layout);
         mMyCombinationEngineImpl = new MyCombinationEngineImpl();
-        ivUpDownIcon = (ImageView) view.findViewById(R.id.tv_combination_image_uporlow);
-        tvCombinDesc = (TextView) view.findViewById(R.id.tv_combination_desc);
-        tvCombinCreateTime = (TextView) view.findViewById(R.id.tv_combination_time);
-        tvCombinName = (TextView) view.findViewById(R.id.tv_combination_name);
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
+        tvCreateUser = (TextView) view.findViewById(R.id.tv_combination_user);
+        tvCreate = (TextView) view.findViewById(R.id.tv_combination);
+        tvFollowCount = (TextView) view.findViewById(R.id.tv_follow_num);
+        tvComDesc = (TextView) view.findViewById(R.id.tv_desc_text);
+
         netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
-        netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
+        // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
         netvalueWeek = (TextView) view.findViewById(R.id.netvalue_week);
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
-        netvalueBtnWeek = (Button) view.findViewById(R.id.netvalue_button_week);
-        netvalueBtnMonth = (Button) view.findViewById(R.id.netvalue_button_month);
-        // viewNetvalueHead = view.findViewById(R.id.tv_combination_layout);
-        // btnEditName = (Button) view.findViewById(R.id.btn_edit_combinname);
-        // btnEditName.setOnClickListener(this);
+        btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
+        btnAddOptional.setOnClickListener(this);
+        btnAddOptional.setVisibility(View.GONE);
         QueryCombinationListener listener = new QueryCombinationListener();
         mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
-        //listener.setLoadingDialog(getActivity());
+        // listener.setLoadingDialog(getActivity());
         initTabPage(view);
-
-        // if(null!=mCombinationBean&&
-        // mCombinationBean.getCreateUser().getId().equalsIgnoreCase(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERID))){
-        //
-        //
-        // }
 
         setupViewData();
 
         return view;
+    }
+
+    private Button btnAddOptional;
+
+    private void addOptionalButton(boolean isFollow) {
+        if (isFollow && null != btnAddOptional) {
+            btnAddOptional.setText(R.string.delete_fllow);
+        } else if (null != btnAddOptional) {
+            btnAddOptional.setText(R.string.add_fllow);
+        }
     }
 
     class OnComCheckListener implements OnCheckedChangeListener {
@@ -195,11 +203,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             if (isChecked) {
                 QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
-                //listener.setLoadingDialog(getActivity());
+                // listener.setLoadingDialog(getActivity());
             } else {
                 QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
                 mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
-                //listener.setLoadingDialog(getActivity());
+                // listener.setLoadingDialog(getActivity());
             }
         }
 
@@ -229,6 +237,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void setupViewData() {
+        if (isFromOrder) {
+            tvCreateUser.setVisibility(View.VISIBLE);
+            tvCreateUser.setText(mCombinationBean.getUser().getUsername());
+            tvCreateUser.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser()
+                            .getUsername(), mCombinationBean.getUser().getId(), false));
+                }
+            });
+
+        } else {
+            tvCreateUser.setVisibility(View.GONE);
+            tvCreate.setVisibility(View.GONE);
+        }
+        // tvComDesc.setText(mCombinationBean.getDefDescription());
+        tvComDesc.setText(Html.fromHtml(mCombinationBean.getDefDescription()));
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
 
@@ -237,172 +263,39 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            // System.out.println("hand update message");
-            // float netValue = (Float) msg.obj;
-            // if (netValue > 1) {
-            // ivUpDownIcon.setImageResource(R.drawable.ic_combination_up);
-            // viewNetvalueHead.setBackgroundResource(R.color.red);
-            // } else if (netValue < 1) {
-            // ivUpDownIcon.setImageResource(R.drawable.ic_combination_down);
-            // viewNetvalueHead.setBackgroundResource(R.color.green);
-            //
-            // } else {
-            // ivUpDownIcon.setImageDrawable(null);
-            // viewNetvalueHead.setBackgroundResource(R.color.red);
-            // }
-            // updateIncreaseRatio(netValue);
+
             replaceFragment(todayFragment);
         };
     };
 
     private void updateIncreaseRatio(float netValue) {
-        // tvIncreaseValue.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue -
-        // 1));
         tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
-        tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
+        // tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
         tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
-
+        BusProvider.getInstance().post(new TitleChangeEvent(netValue));
+        netValue = netValue - 1;
+        if (netValue == 0) {
+            comView.setBackgroundResource(R.color.tag_gray);
+        } else if (netValue > 0) {
+            comView.setBackgroundResource(R.color.tag_red);
+        } else {
+            comView.setBackgroundResource(R.color.tag_green);
+        }
     }
 
     public void setColor(String type) {
         try {
             if (null != mPositionDetail) {
                 updateIncreaseRatio(mPositionDetail.getPortfolio().getNetvalue());
-                if (type.equals(TrendTodayChartFragment.TREND_TYPE_TODAY)) {
-                    netvalueDay.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_day()));
-                    // netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
-                    netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
-                            .getChng_pct_day()));
-                    netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    // netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
-                    netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
-                            .getChng_pct_week()));
-                    netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_month() + "%");
-                    netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
-                            .getChng_pct_month()));
-                    netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    if (mPositionDetail.getPortfolio().getChng_pct_day() > 0) {
-                        netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_red);
-                        netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.white));
-                    } else if (mPositionDetail.getPortfolio().getChng_pct_day() < 0) {
-                        netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_blue);
-                        netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.white));
-                    } else {
-                        netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_black);
-                        netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.white));
-                    }
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY)) {
-                    netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
-                    netvalueWeek.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_week()));
-                    netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
-                    netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_month() + "%");
-                    if (mPositionDetail.getPortfolio().getChng_pct_week() > 0) {
-                        netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_red);
-                        netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.white));
-                    } else if (mPositionDetail.getPortfolio().getChng_pct_week() < 0) {
-                        netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_blue);
-                        netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.white));
-                    } else {
-                        netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                                .getColorStateList(R.color.white));
-                        netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_black);
-                    }
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                } else if (type.equals(TrendMonthChartFragment.TREND_TYPE_MONTH)) {
-                    netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
-                    netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
-                    netvalueMonth.setTextColor(ColorTemplate.getUpOrDrownCSL(mPositionDetail.getPortfolio()
-                            .getChng_pct_month()));
-                    netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_month() + "%");
-                    if (mPositionDetail.getPortfolio().getChng_pct_month() > 0) {
-                        netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_red);
-                        netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance()
-                                .getResources().getColorStateList(R.color.white));
-                    } else if (mPositionDetail.getPortfolio().getChng_pct_week() < 0) {
-                        netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_blue);
-                        netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance()
-                                .getResources().getColorStateList(R.color.white));
-                    } else {
-                        netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_black);
-                        netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance()
-                                .getResources().getColorStateList(R.color.white));
-                    }
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                } else {
-                    netvalueDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueDay.setText(mPositionDetail.getPortfolio().getChng_pct_day() + "%");
-                    netvalueWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueWeek.setText(mPositionDetail.getPortfolio().getChng_pct_week() + "%");
-                    netvalueMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueMonth.setText(mPositionDetail.getPortfolio().getChng_pct_three_month() + "%");
-                    netvalueBtnMonth.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnDay.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnWeek.setBackgroundResource(R.drawable.netvalue_gray);
-                    netvalueBtnDay.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueBtnWeek.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                    netvalueBtnMonth.setTextColor((ColorStateList) PortfolioApplication.getInstance().getResources()
-                            .getColorStateList(R.color.gray_textcolor));
-                }
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
     private HScrollTitleView hsTitle;
-    // privaet view
     private ScrollViewPager mViewPager;
-
     private ArrayList<Fragment> fragmentList;
-
-    // private void replaceDataList(Fragment fragment) {
-    // // view_datalist
-    // // if (null == loadDataListFragment) {
-    // // loadDataListFragment =
-    // loadDataListFragment.getStockFragment(ViewType.STOCK_OPTIONAL_PRICE);
-    // // }
-    // getChildFragmentManager().beginTransaction().replace(R.id.rl_trend_layout,
-    // fragment).commit();
-    // }
 
     TrendChartFragment mtrendFragment = new TrendChartFragment();
 
@@ -458,7 +351,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             oks.setUrl(shareUrl);
             oks.setTitle(mCombinationBean.getName() + " 今日收益率");
 
-            String customText = "这是我的基金「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的基金吧。"
+            String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
                     + shareUrl;
 
             oks.setText(customText);
@@ -485,18 +378,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             content.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
             Bitmap bitmap = content.getDrawingCache();
 
-            /* 方法一，可以recycle */
-            // content.buildDrawingCache(true);
-            // Bitmap bitmap = content.getDrawingCache(true).copy(Config.RGB_565, false);
-            // content.destroyDrawingCache();
-
-            // Bitmap bitmap = convertViewToBitmap(mMaChart);
-
             String extr = Environment.getExternalStorageDirectory() + "/CrashLog/";
-            // File mFolder = new File(extr + "/capture/image");
-            // if (!mFolder.exists()) {
-            // mFolder.mkdir();
-            // }
 
             String s = "tmp.png";
 
@@ -584,26 +466,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         String[] titleArray = getResources().getStringArray(R.array.trend_title);
         fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
-        // FragmentSwitchChart todayFragment =
-        // FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_TODAY);
-        // todayFragment.setUpdateHandler(updateHandler);
-        // fragmentList.add(todayFragment);
-        // fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_SEVENDAY));
-        // fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_MONTH));
-        // fragmentList.add(FragmentSwitchChart.newInstance(TrendChartFragment.TREND_TYPE_HISTORY));
-
-        // fragmentList.add(TestFragment.getInstance());
-        // fragmentList.add(TestFragment.getInstance());
-        // fragmentList.add(TestFragment.getInstance());
-        // fragmentList.add(TestFragment.getInstance());
-
-        //
-        // mViewPager = (ScrollViewPager) view.findViewById(R.id.pager);
-        // mViewPager.setCanScroll(false);
-        // mPagerAdapter = new MyPagerFragmentAdapter(getChildFragmentManager(),
-        // fragmentList, titleArray);
-        // mViewPager.setAdapter(mPagerAdapter);
-        // mViewPager.setOnPageChangeListener(pageChangeListener);
 
         hsTitle = (HScrollTitleView) view.findViewById(R.id.hs_title);
         // String[] titleArray =
@@ -611,25 +473,19 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
 
-        // TabPageIndicator indicator = (TabPageIndicator)
-        // view.findViewById(R.id.indicator);
-        // indicator.setViewPager(mViewPager);
-        // replaceFragment(fragmentList.get(0));
-        // mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
         if (null != type) {
             if (type.equals(FundsOrderEngineImpl.ORDER_DAY)) {
-                hsTitle.setSelectIndex(0);
+                // hsTitle.setSelectIndex(0);
+
             } else if (type.equals(FundsOrderEngineImpl.ORDER_WEEK)) {
                 hsTitle.setSelectIndex(1);
             } else if (type.equals(FundsOrderEngineImpl.ORDER_MONTH)) {
                 hsTitle.setSelectIndex(2);
+            } else if (type.equals(FundsOrderEngineImpl.ORDER_ALL)) {
+                hsTitle.setSelectIndex(3);
             }
 
         }
-        // mSwitchFragment = FragmentSwitchChart.newInstance(
-        // TrendChartFragment.TREND_TYPE_TODAY, isFromOrder);
-        // mtrendFragment.setSelectType(TrendChartFragment.TREND_TYPE_TODAY);
-        // replaceFragment(mtrendFragment);
         updateHandler.sendEmptyMessageDelayed(200, 50);
     }
 
@@ -638,7 +494,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         @Override
         public void onSelectPosition(int position) {
 
-            // replaceFragment(fragmentList.get(position));
             String type = TrendTodayChartFragment.TREND_TYPE_TODAY;
             Fragment curFragment = null;
             switch (position) {
@@ -732,50 +587,109 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        // switch (id) {
-        // case R.id.btn_edit_combinname: {
 
-        // if (tvCombinName.getVisibility() == View.VISIBLE) {
-        // btnEditName.setBackgroundResource(R.drawable.action_alias_ok);
-        // // etCombinName.setHint(tvCombinName.getText());
-        // etCombinName.setText(tvCombinName.getText());
-        // tvCombinName.setVisibility(View.GONE);
-        // etCombinName.setVisibility(View.VISIBLE);
-        // } else {
-        // String nameText = etCombinName.getText().toString();
-        // if (TextUtils.isEmpty(nameText)) {
-        // // tvCombinName.setText(etCombinName.getText());
-        // // Toast.makeText(getActivity(), R.string.tips_combination_name_null,
-        // Toast.LENGTH_LONG).show();
-        // } else {
-        // tvCombinName.setText(etCombinName.getText());
-        // new
-        // MyCombinationEngineImpl().updateCombination(mCombinationBean.getId()
-        // + "", nameText, null);
-        // }
-        // tvCombinName.setVisibility(View.VISIBLE);
-        // etCombinName.setVisibility(View.GONE);
-        // btnEditName.setBackgroundResource(R.drawable.action_alias);
-        // }
-        // }
-        //
-        // break;
-        //
-        // default:
-        // break;
-        // }
+        if (v.getId() == R.id.btn_add_optional) {
+            btnAddOptional.setEnabled(false);
+            if (mCombinationBean.isFollowed()) {
+                showDelDialog();
+            } else {
+                delFollowCombinatio();
+            }
+        }
+    }
+
+    private void delFollowCombinatio() {
+        if (PortfolioApplication.getInstance().hasUserLogin()) {
+
+            if (mCombinationBean.isFollowed()) {
+                new FollowComEngineImpl().defFollowCombinations(mCombinationBean.getId(), followComListener);
+            } else {
+
+                new FollowComEngineImpl().followCombinations(mCombinationBean.getId(), followComListener);
+            }
+        } else {
+            if (mCombinationBean.isFollowed()) {
+                mCombinationBean.setFollowed(false);
+                new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                delFollowSuccess();
+            } else {
+                mCombinationBean.setFollowed(true);
+                new VisitorDataEngine().saveCombination(mCombinationBean);
+                addFollowSuccess();
+            }
+            btnAddOptional.setEnabled(true);
+            addOptionalButton(mCombinationBean.isFollowed());
+        }
+    }
+
+    private void delFollowSuccess() {
+        PromptManager.showToast(R.string.msg_def_follow_success);
+
+        mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() - 1);
+        tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+    }
+
+    private void addFollowSuccess() {
+        PromptManager.showToast(R.string.msg_follow_success);
+        mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() + 1);
+        tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+    }
+
+    public void showDelDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        builder.setMessage(R.string.dialog_message_delfollow_combination);
+        // builder.setTitle(R.string.tips);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                delFollowCombinatio();
+            }
+
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                btnAddOptional.setEnabled(true);
+            }
+        });
+        builder.create().show();
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
+    ParseHttpListener followComListener = new ParseHttpListener<Object>() {
+
+        @Override
+        public void requestCallBack() {
+            super.requestCallBack();
+            btnAddOptional.setEnabled(true);
+        };
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
+            addOptionalButton(mCombinationBean.isFollowed());
+            if (mCombinationBean.isFollowed()) {
+                addFollowSuccess();
+            } else {
+                delFollowSuccess();
+            }
+        }
+    };
+
     @Override
     public void onPauseFragment() {
-        System.out.println("Fragment net value trend onPauseFragment（）");
 
     }
 
@@ -830,7 +744,27 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         protected void afterParseData(PositionDetail object) {
             if (null != object) {
                 mPositionDetail = object;
+
+                if (null != mPositionDetail.getPortfolio()) {
+                    mCombinationBean = mPositionDetail.getPortfolio();
+                    if (!PortfolioApplication.hasUserLogin()) {
+                        CombinationBean comBean = new VisitorDataEngine().queryCombination(mCombinationBean.getId());
+                        if (null != comBean) {
+                            mCombinationBean.setFollowed(comBean.isFollowed());
+                        }
+                    }
+                    btnAddOptional.setVisibility(View.VISIBLE);
+                    addOptionalButton(mCombinationBean.isFollowed());
+                    netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                            .getChng_pct_day()));
+                    netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                            .getChng_pct_week()));
+                    netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
+                            .getChng_pct_month()));
+                    tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+                }
                 setColor(myType);
+
             }
 
         }
@@ -859,7 +793,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
     }
 }

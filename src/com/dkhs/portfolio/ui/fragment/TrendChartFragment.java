@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -398,19 +399,27 @@ public class TrendChartFragment extends BaseFragment {
         // this.listener = (FragmentActivity) activity;
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trend_chart, null);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
         mMaChart = (TrendChart) view.findViewById(R.id.machart);
-        if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
-            InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-            mMaChart.setScroll(mScrollview);
-        }
+        // if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
+        // InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
+        // mMaChart.setScroll(mScrollview);
+        // }
         initMaChart(mMaChart);
         initView(view);
         // setupBottomTextViewData();
         updateView();
-        return view;
+
     }
 
     private void initView(View view) {
@@ -458,40 +467,6 @@ public class TrendChartFragment extends BaseFragment {
 
     private void initMaChart(final TrendChart machart) {
         machart.setBoldLine();
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-
-        machart.setDisplayBorder(false);
-
-        machart.setLatitudeColor(Color.LTGRAY);
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-        machart.setBorderColor(Color.TRANSPARENT);
-        machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(10);
-        machart.setAxisMarginRight(10);
-
-        machart.setLongtitudeFontSize(10);
-        machart.setLongtitudeFontColor(Color.GRAY);
-        machart.setDisplayAxisYTitleColor(true);
-        machart.setLatitudeColor(Color.GRAY);
-        machart.setLatitudeFontColor(Color.GRAY);
-        machart.setLongitudeColor(Color.GRAY);
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
-
-        machart.setDisplayAxisXTitle(true);
-        machart.setDisplayAxisYTitle(true);
-        machart.setDisplayLatitude(true);
-        machart.setDisplayLongitude(true);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
     }
 
     private List<LineEntity> lines;
@@ -522,7 +497,7 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     private void initTodayTrendTitle() {
-       
+
         List<String> xtitle = new ArrayList<String>();
         xtitle.add("9:30");
         xtitle.add("10:30");
@@ -557,8 +532,8 @@ public class TrendChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             TodayNetValue todayNetvalue = DataParse.parseObjectJson(TodayNetValue.class, jsonData);
-            if(UIUtils.roundAble(todayNetvalue.getTrade_status())){
-            	dataHandler.removeCallbacks(runnable);
+            if (UIUtils.roundAble(todayNetvalue.getTrade_status())) {
+                dataHandler.removeCallbacks(runnable);
             }
             DrawLineDataEntity todayLine = null;
             if (null != todayNetvalue && todayNetvalue.getChartlist() != null
@@ -763,8 +738,8 @@ public class TrendChartFragment extends BaseFragment {
         @Override
         protected DrawLineDataEntity parseDateTask(String jsonData) {
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
-            if(UIUtils.roundAble(histroyValue.getTrade_status())){
-            	dataHandler.removeCallbacks(runnable);
+            if (UIUtils.roundAble(histroyValue.getTrade_status())) {
+                dataHandler.removeCallbacks(runnable);
             }
             DrawLineDataEntity lineData = null;
             if (null != histroyValue && histroyValue.getChartlist() != null && histroyValue.getChartlist().size() > 0) {
@@ -810,31 +785,35 @@ public class TrendChartFragment extends BaseFragment {
         float baseNum = historyNetValue.getBegin();
         float maxNum = baseNum, minNum = baseNum;
         // List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
-        int dataLenght = historyNetList.size();
-        for (int i = 0; i < dataLenght; i++) {
+        int dataLenght = 0;
+        if (null != historyNetList) {
 
-            TrendLinePointEntity pointEntity = new TrendLinePointEntity();
-            HistoryNetBean todayBean = historyNetList.get(i);
-            float value = todayBean.getNetvalue();
-            // pointEntity.setDesc(todayBean.getDate());
-            pointEntity.setValue(value);
-            pointEntity.setTime("日期: " + todayBean.getDate());
-            pointEntity.setIncreaseRange(todayBean.getPercentage());
-            // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+            dataLenght = historyNetList.size();
+            for (int i = 0; i < dataLenght; i++) {
 
-            if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
-                if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
-                    dashLineSize = i;
+                TrendLinePointEntity pointEntity = new TrendLinePointEntity();
+                HistoryNetBean todayBean = historyNetList.get(i);
+                float value = todayBean.getNetvalue();
+                // pointEntity.setDesc(todayBean.getDate());
+                pointEntity.setValue(value);
+                pointEntity.setTime("日期: " + todayBean.getDate());
+                pointEntity.setIncreaseRange(todayBean.getPercentage());
+                // pointEntity.setIncreaseRange((value - baseNum) / baseNum * 100);
+
+                if (dashLineSize == 0 && TimeUtils.simpleDateToCalendar(todayBean.getDate()) != null) {
+                    if (TimeUtils.simpleDateToCalendar(todayBean.getDate()).after(mCreateCalender)) {
+                        dashLineSize = i;
+                    }
                 }
-            }
 
-            lineData.dataList.add(pointEntity);
+                lineData.dataList.add(pointEntity);
 
-            if (value > maxNum) {
-                maxNum = value;
+                if (value > maxNum) {
+                    maxNum = value;
 
-            } else if (value < minNum) {
-                minNum = value;
+                } else if (value < minNum) {
+                    minNum = value;
+                }
             }
         }
         float offetValue;
@@ -989,12 +968,24 @@ public class TrendChartFragment extends BaseFragment {
             }
         }
     }
-    
+
     @Override
     public void onDestroyView() {
         // TODO Auto-generated method stub
         super.onDestroyView();
         dataHandler.removeCallbacks(runnable);// 关闭定时器处理
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_trend_chart;
     }
 
 }

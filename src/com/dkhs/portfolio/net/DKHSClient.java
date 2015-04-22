@@ -13,16 +13,15 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 
-import android.content.Intent;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UrlStoreBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.ui.NoAccountMainActivity;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -30,6 +29,7 @@ import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
@@ -80,7 +80,8 @@ public class DKHSClient {
 
     private static HttpHandler requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
             final IHttpListener listener, boolean isShowTip) {
-        // HttpUtils mHttpUtils = new HttpUtils();
+        final CacheHelper cacheHelper = new CacheHelper(method, url, params);
+
         if (NetUtil.checkNetWork()) {
 
             if (null == params) {
@@ -94,30 +95,19 @@ public class DKHSClient {
 
                 } else {
 
-                    // mHttpUtils = new HttpUtils();
-                    try {
-                        UserEntity user = DbUtils.create(PortfolioApplication.getInstance())
-                                .findFirst(UserEntity.class);
-
-                        if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
-                            user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
-                            GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
-                            GlobalParams.MOBILE = user.getMobile();
-                            if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-                                params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
-                            } else {
-                                LogUtils.e("Authorization token is null,Exit app");
-                                // PortfolioApplication.getInstance().exitApp();
-                                PromptManager.showToast("Authorization token is null,请重新登录");
-                            }
+                    UserEntity user = UserEngineImpl.getUserEntity();
+                    if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                        GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                        GlobalParams.MOBILE = user.getMobile();
+                        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                        } else {
+                            LogUtils.e("Authorization token is null,Exit app");
+                            // PortfolioApplication.getInstance().exitApp();
                         }
-
-                    } catch (DbException e) {
-                        e.printStackTrace();
-                        PromptManager.showToast("Authorization token is null,请重新登录");
-                        LogUtils.e("Authorization token is null,Exit app");
-                        // PortfolioApplication.getInstance().exitApp();
                     }
+
                 }
 
             }
@@ -150,10 +140,16 @@ public class DKHSClient {
                         listener.onHttpSuccess(result);
                     }
 
+                    if (cacheHelper.isCacheUrl()) {
+                        cacheHelper.storeURLResponse(GlobalParams.ACCESS_TOCKEN, result);
+                    }
                 }
 
                 @Override
                 public void onFailure(HttpException error, String msg) {
+                    if (cacheHelper.isCacheUrl()) {
+                        cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
+                    }
                     if (null != listener) {
                         listener.requestCallBack();
                     }
@@ -169,6 +165,11 @@ public class DKHSClient {
                 }
             });
         } else {
+
+            if (cacheHelper.isCacheUrl()) {
+                cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
+            }
+
             if (null != listener) {
                 listener.requestCallBack();
                 listener.onHttpFailure(123, "网络未连接");

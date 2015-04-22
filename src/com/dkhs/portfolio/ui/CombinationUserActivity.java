@@ -83,10 +83,10 @@ public class CombinationUserActivity extends ModelAcitivity {
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
 
         if (isMyInfo) {
-            setTitle("我的资料");
+            setTitle("我的主页");
             tvCText.setText(R.string.text_my_manager_combin);
         } else {
-            setTitle("基金经理资料");
+            setTitle("Ta的主页");
             tvCText.setText(R.string.text_other_manager_combin);
         }
 
@@ -127,6 +127,8 @@ public class CombinationUserActivity extends ModelAcitivity {
 
     protected void updateUserView(UserEntity object) {
         BitmapUtils bitmapUtils = new BitmapUtils(this);
+        bitmapUtils.configDefaultLoadingImage(R.drawable.ic_user_head);
+        bitmapUtils.configDefaultLoadFailedImage(R.drawable.ic_user_head);
         if (null != object.getAvatar_md() && object.getAvatar_md().length() > 35) {
             bitmapUtils.display(ivHeader, object.getAvatar_md());
         }

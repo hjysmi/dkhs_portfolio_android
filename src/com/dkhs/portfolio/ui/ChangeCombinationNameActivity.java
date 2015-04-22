@@ -50,8 +50,19 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
         combination_desc = (EditText) findViewById(R.id.combination_desc);
         combination_name = (EditText) findViewById(R.id.combination_name);
         combination_name.setText(mCombinationBean.getName());
-        combination_desc.setText(TextUtils.isEmpty(mCombinationBean.getDescription()) ? "" : mCombinationBean
-                .getDescription());
+        if (TextUtils.isEmpty(mCombinationBean.getDescription())) {
+            combination_desc.setHint(R.string.desc_def_text);
+        } else {
+            combination_desc.setText(mCombinationBean.getDescription());
+        }
+
+        // combination_desc.setText(TextUtils.isEmpty(mCombinationBean.getDescription()) ? "" : mCombinationBean
+        // .getDescription());
+        // String text = TextUtils.isEmpty(mCombinationBean.getDescription()) ? "" : mCombinationBean
+        // .getDescription();
+        // if(text.equals("还没有描述内容呢")){
+        // combination_desc.setText("");
+        // }
     }
 
     public static final String EXTRA_COMBINATION = "extra_combination";
@@ -73,7 +84,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
                 //
                 String combinationName = combination_name.getText().toString().trim();
                 if (TextUtils.isEmpty(combinationName)) {
-                    PromptManager.showToast("基金名称不能为空");
+                    PromptManager.showToast("组合名称不能为空");
                     return;
                 }
                 if (combinationName.length() < 3 || combinationName.length() > 10) {
@@ -115,22 +126,25 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
 
         finish();
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_name_change);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(
+            R.string.count_combination_name_change);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

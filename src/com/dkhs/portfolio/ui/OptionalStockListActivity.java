@@ -125,7 +125,7 @@ public class OptionalStockListActivity extends ModelAcitivity implements OnClick
             @Override
             public void onClick(View v) {
                 // loadDataListFragment.refresh();
-                Intent intent = new Intent(context, OptionEditActivity.class);
+                Intent intent = new Intent(context, EditTabStockActivity.class);
                 startActivity(intent);
             }
         });

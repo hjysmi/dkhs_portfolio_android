@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -35,10 +36,16 @@ import com.dkhs.portfolio.utils.UIUtils;
 public class SearchStockAdatper extends BaseAdatperSelectStockFund {
 
     private boolean isCombination;
+    VisitorDataEngine mVisitorDataEngine;
+    private List<SelectStockBean> localList;
 
     public SearchStockAdatper(Context context, List<SelectStockBean> datas, boolean isCombination) {
         super(context, datas);
         this.isCombination = isCombination;
+        mVisitorDataEngine = new VisitorDataEngine();
+        if (!PortfolioApplication.hasUserLogin()) {
+            localList = mVisitorDataEngine.getOptionalStockList();
+        }
     }
 
     @Override
@@ -71,18 +78,29 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
             }
             viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         } else {
-            final CheckBox cbBox = viewHolder.mCheckbox;
-            viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+            // final CheckBox cbBox = viewHolder.mCheckbox;
+            // viewHolder.mCheckbox.setOnClickListener(new OnClickListener() {
+            //
+            // @Override
+            // public void onClick(View v) {
+            // cbBox.setChecked(false);
+            // UIUtils.iStartLoginActivity(mContext);
+            //
+            // }
+            // });
 
-                @Override
-                public void onClick(View v) {
-                    cbBox.setChecked(false);
-                    UIUtils.iStartLoginActivity(mContext);
+            viewHolder.mCheckbox.setOnCheckedChangeListener(null);
+            viewHolder.mCheckbox.setTag(item);
+            // 如果是游客模式
+            if (null != localList) {
+                viewHolder.mCheckbox.setChecked(localList.contains(item));
+            } else {
 
-                }
-            });
+                viewHolder.mCheckbox.setChecked(item.isFollowed);
+            }
+            viewHolder.mCheckbox.setOnCheckedChangeListener(this);
         }
-        System.out.println("SelectStockBean list status:" + item.list_status);
+        // System.out.println("SelectStockBean list status:" + item.list_status);
         if (isCombination) {
             if (item.isStop) {
                 viewHolder.tvSuspend.setVisibility(View.VISIBLE);
@@ -94,6 +112,9 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
                 viewHolder.tvSuspend.setVisibility(View.VISIBLE);
                 viewHolder.tvSuspend.setText("新股");
                 viewHolder.mCheckbox.setVisibility(View.GONE);
+            } else {
+                viewHolder.tvSuspend.setVisibility(View.GONE);
+                viewHolder.mCheckbox.setVisibility(View.VISIBLE);
             }
 
         }

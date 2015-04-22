@@ -19,9 +19,12 @@
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
     <color name="red_bg">#ffd8d8</color>
+    <color name="red_delete">#E63435</color>
     <color name="green_bg">#c4ffc4</color>
     <color name="white">#ffffffff</color>
+    <color name="white_60">#99ffffff</color>
     <color name="gray">#4d4c4d</color>
+    <color name="yellow">#ffff00</color>
     <color name="text_press">#a0a0a0</color>
     <color name="def_0">#2f74ff</color>
     <color name="def_1">#9933cc</color>
@@ -109,6 +112,7 @@
     <color name="position_text_lgray">#acacac</color>
     <color name="darker_gray">#aaa</color>
     <color name="combition_gray">#979797</color>
+    <color name="share_bg">#88000000</color>
 
     <drawable name="red">#ff0000</drawable>
     <drawable name="gray">#4d4c4d</drawable>
@@ -133,5 +137,11 @@
 
     <color name="point_lighter_gray">#b2a0a0a0</color>
     <color name="point_white">#b2ffffff</color>
+    <color name="stock_gray_bg">#A0A0A0</color>
+    <color name="tag_red">#FF6363</color>
+    <color name="tag_green">#62BE33</color>
+    <color name="tag_gray">#969696</color>
+    <color name="title_green">#4BAA1A</color>
+    <color name="zuhe_divline">#DCDCDC</color>
 
 </resources>

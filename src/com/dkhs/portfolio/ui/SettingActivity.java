@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -38,13 +40,18 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
 
 /**
  * 软件设置界面
@@ -61,9 +68,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private ImageView settingImageHead;
     private TextView settingTextAccountText;
     private TextView settingTextNameText;
-    private Button btnLogin;
+    // private Button btnLogin;
     private View viewUserInfo;
-    private View viewLogin;
+    // private View viewLogin;
+    private View viewPassword;
     private UserEntity ue;
     private TextView settingSingText;
     private boolean login = false;
@@ -72,6 +80,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     private Handler handler = new Handler() {
         public void handleMessage(Message msg) {
             switch (msg.what) {
+                case 333: {
+                    // 当退出登录后，需要清空通知栏上的通知列表
+                    NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    notiManager.cancelAll();
+                    PortfolioApplication.getInstance().exitApp();
+                    Intent intent = new Intent(SettingActivity.this, LoginRegisterAcitvity.class);
+                    startActivity(intent);
+                    RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
+                            .getCurrentConnectionStatus();
+                    PromptManager.closeProgressDialog();
+                }
+                    break;
                 default:
                     break;
             }
@@ -86,6 +106,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         // UserEngineImpl.queryThreePlatBind(bindsListener);
         initViews();
         setListener();
+
         // initData();
         // loadCombinationData();
     }
@@ -93,6 +114,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void initData() {
         UserEngineImpl engine = new UserEngineImpl();
         engine.getSettingMessage(listener);
+        engine.queryThreePlatBind(bindsListener);
         listener.setLoadingDialog(context);
         if (!TextUtils.isEmpty(GlobalParams.MOBILE)) {
             engine.isSetPassword(GlobalParams.MOBILE, new ParseHttpListener<Object>() {
@@ -123,7 +145,9 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public void setListener() {
         findViewById(R.id.btn_exit).setOnClickListener(this);
         findViewById(R.id.btn_setpassword).setOnClickListener(this);
-        findViewById(R.id.setting_layout_password).setOnClickListener(this);
+        viewPassword = findViewById(R.id.setting_layout_password);
+        viewPassword.setVisibility(View.GONE);
+        viewPassword.setOnClickListener(this);
         findViewById(R.id.setting_layout_username).setOnClickListener(this);
         findViewById(R.id.setting_layout_icon).setOnClickListener(this);
         findViewById(R.id.feed_back_layout).setOnClickListener(this);
@@ -132,15 +156,16 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         findViewById(R.id.setting_layout_sign).setOnClickListener(this);
         findViewById(R.id.setting_image_bound).setOnClickListener(this);
         settingSingText = (TextView) findViewById(R.id.setting_sing_text);
+
     }
 
     public void initViews() {
         // TODO Auto-generated method stub
         setTitle(R.string.setting);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnLogin.setOnClickListener(this);
-        viewUserInfo = findViewById(R.id.ll_userinfo_layout);
-        viewLogin = findViewById(R.id.ll_login_layout);
+        // btnLogin = (Button) findViewById(R.id.btn_login);
+        // btnLogin.setOnClickListener(this);
+        viewUserInfo = findViewById(R.id.person_setting_parent);
+        // viewLogin = findViewById(R.id.ll_login_layout);
         settingLayoutGroup = (LinearLayout) findViewById(R.id.setting_layout_group);
         settingImageHead = (ImageView) findViewById(R.id.setting_image_head);
         settingTextAccountText = (TextView) findViewById(R.id.setting_text_account_text);
@@ -152,8 +177,8 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
         if (PortfolioApplication.hasUserLogin()) {
-            btnLogin.setVisibility(View.GONE);
-            viewLogin.setVisibility(View.GONE);
+            // btnLogin.setVisibility(View.GONE);
+            // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
             String url = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_HEADER_URL);
             if (!TextUtils.isEmpty(url) && !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
@@ -168,7 +193,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
             }
         } else {
-            viewLogin.setVisibility(View.VISIBLE);
+            // viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.GONE);
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
 
@@ -197,25 +222,33 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 break;
             case R.id.btn_exit:
                 if (isSetPassword) {
-                    DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
-                    try {
-                        GlobalParams.ACCESS_TOCKEN = null;
-                        GlobalParams.MOBILE = null;
-                        dbUtils.deleteAll(UserEntity.class);
-                        PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                    } catch (DbException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        PortfolioApplication.getInstance().exitApp();
-                        intent = new Intent(this, LoginActivity.class);
-                        startActivity(intent);
-                    }
+
+                    new Thread() {
+                        public void run() {
+                            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+
+                            try {
+                                dbUtils.deleteAll(UserEntity.class);
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
+                        };
+                    }.start();
+                    GlobalParams.ACCESS_TOCKEN = null;
+                    GlobalParams.MOBILE = null;
+                    GlobalParams.LOGIN_USER = null;
+
+                    // 断开融云连接
+                    // RongIM.getInstance().disconnect(false);
+                    MessageManager.getInstance().disConnect();
+
+                    // 注销消息中心的联系，需要一段延迟
+                    handler.sendEmptyMessageDelayed(333, 600);
+                    PromptManager.showProgressDialog(this, "", false);
+
                 } else {
                     intent = new Intent(this, SetPasswordActivity.class);
-                    // intent.putExtra("type", SetPasswordActivity.LOGOUT_TYPE);
-                    // intent.putExtra("is_setpassword", isSetPassword);
+
                     startActivity(intent);
                 }
                 break;
@@ -233,7 +266,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     intent.putExtra("needClear", false);
                     intent.putExtra("is_setpassword", isSetPassword);
                 }
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
 
                 break;
             case R.id.setting_layout_password:
@@ -241,7 +274,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     return;
                 }
                 intent = new Intent(this, SettingPasswordOnSettingActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_layout_username:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -249,6 +282,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(this, UserNameChangeActivity.class);
                 startActivityForResult(intent, 6);
+                UIUtils.setOverridePendingAmin(this);
                 break;
             case R.id.setting_layout_icon:
                 if (UIUtils.iStartLoginActivity(this)) {
@@ -256,14 +290,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(context, SelectPhoneFromSystem.class);
                 startActivityForResult(intent, 5);
+                UIUtils.setOverridePendingAmin(this);
                 break;
             case R.id.feed_back_layout:
                 intent = new Intent(this, FeedBackActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.rl_aboutus: {
                 intent = new Intent(this, AboutUsActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
             }
                 break;
             case R.id.setting_layout_check_version:
@@ -280,14 +315,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (null != ue)
                     b.putString(PersonSignSettingActivity.DESCRIPTION, ue.getDescription());
                 intent.putExtras(b);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_image_bound:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
                 intent = new Intent(this, BoundAccountActivity.class);
-                startActivity(intent);
+                UIUtils.startAminationActivity(this, intent);
                 break;
             default:
                 break;
@@ -423,10 +458,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         protected void afterParseData(List<BindThreePlat> entity) {
-            if (null != entity && entity.size() > 0) {
-                Message msg = updateHandler.obtainMessage(777);
-                msg.obj = entity;
-                msg.sendToTarget();
+            if (!entity.isEmpty()) {
+                for (int i = 0; i < entity.size(); i++) {
+                    BindThreePlat palt = entity.get(i);
+                    if (palt.getProvider().equalsIgnoreCase("mobile") || palt.getProvider().equalsIgnoreCase("email")) {
+                        if (palt.isStatus()) {
+                            viewPassword.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                // Message msg = updateHandler.obtainMessage(777);
+                // msg.obj = entity;
+                // msg.sendToTarget();
             }
 
         }

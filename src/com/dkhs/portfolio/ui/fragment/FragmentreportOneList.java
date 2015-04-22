@@ -6,13 +6,16 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -21,13 +24,13 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -48,6 +51,9 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     private String subType;
     private boolean uservivible = false;
     private RelativeLayout pb;
+
+    public SwipeRefreshLayout mSwipeLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -61,36 +67,31 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         context = getActivity();
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if(!(null != mDataList && mDataList.size() > 0)){
+        if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
         initView(view);
         Bundle bundle = getArguments();
-        NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+        NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
         subType = vo.getContentSubType();
-        //initDate();
-        UserEntity user;
-        try {
-            user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if(null == user){
-                tv.setText("暂无添加自选股");
-                pb.setVisibility(View.GONE);
-            }
-        }catch(Exception e){
-            
+        // initDate();
+        UserEntity user = UserEngineImpl.getUserEntity();
+        if (null == user) {
+            tv.setText("暂无添加自选股");
+            pb.setVisibility(View.GONE);
         }
-        
+
         return view;
     }
 
     private void initDate() {
         Bundle bundle = getArguments();
-        NewsforImpleEngine vo = (NewsforImpleEngine) bundle.getSerializable(VO);
+        NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
         if (null != bundle) {
             mDataList = new ArrayList<OptionNewsBean>();
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, bundle.getInt(NEWS_TYPE), vo);
             mLoadDataEngine.loadData();
-//            mLoadDataEngine.setLoadingDialog(getActivity());
+            // mLoadDataEngine.setLoadingDialog(getActivity());
             mLoadDataEngine.setFromYanbao(false);
         }
 
@@ -100,36 +101,51 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setEmptyView(view.findViewById(android.R.id.empty));
-//        mListView.addFooterView(mFootView);
+        // mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new ReportNewsAdapter(context, mDataList);
         mListView.setAdapter(mOptionMarketAdapter);
+        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        mSwipeLayout.setOnRefreshListener(new OnRefreshListener() {
 
-//        mListView.removeFooterView(mFootView);
-//        mListView.setOnScrollListener(new OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView absListView, int scrollState) {
-//
-//                switch (scrollState) {
-//                    case OnScrollListener.SCROLL_STATE_IDLE:
-//
-//                    {
-//                        // 判断是否滚动到底部
-//                        if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
-//                            loadMore();
-//
-//                        }
-//                    }
-//
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//
-//            }
-//        });
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeLayout.setRefreshing(false);
+                    }
+                }, 2000);
+
+            }
+        });
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
+
+        // mListView.removeFooterView(mFootView);
+        // mListView.setOnScrollListener(new OnScrollListener() {
+        //
+        // @Override
+        // public void onScrollStateChanged(AbsListView absListView, int scrollState) {
+        //
+        // switch (scrollState) {
+        // case OnScrollListener.SCROLL_STATE_IDLE:
+        //
+        // {
+        // // 判断是否滚动到底部
+        // if (absListView.getLastVisiblePosition() == absListView.getCount() - 1 && !isLoadingMore) {
+        // loadMore();
+        //
+        // }
+        // }
+        //
+        // }
+        //
+        // }
+        //
+        // @Override
+        // public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        //
+        // }
+        // });
         mListView.setOnItemClickListener(itemBackClick);
 
     }
@@ -142,9 +158,10 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
                 Intent intent;
                 if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
                     intent = ReportForOneListActivity.newIntent(context, mDataList.get(position).getSymbols().get(0)
-                            .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), subType);
+                            .getSymbol(), mDataList.get(position).getSymbols().get(0).getAbbrName(), subType, mDataList
+                            .get(position).getContentType());
                 } else {
-                    intent = ReportForOneListActivity.newIntent(context, null, null, null);
+                    intent = ReportForOneListActivity.newIntent(context, null, null, null, null);
                 }
                 startActivity(intent);
             } catch (Exception e) {
@@ -173,27 +190,26 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
-            	mListView.onLoadMoreComplete();
-            	pb.setVisibility(View.GONE);
-            	if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine
-    					.getTotalpage()) {
-            		mListView.setCanLoadMore(false);
-    				mListView.setAutoLoadMore(false);
-            	}else{
-            		mListView.setCanLoadMore(true);
-    				mListView.setAutoLoadMore(true);
-    				if(mLoadDataEngine.getCurrentpage() == 1)
-    					mListView.setOnLoadListener(FragmentreportOneList.this);
-            	}
+                mListView.onLoadMoreComplete();
+                pb.setVisibility(View.GONE);
+                if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
+                    mListView.setCanLoadMore(false);
+                    mListView.setAutoLoadMore(false);
+                } else {
+                    mListView.setCanLoadMore(true);
+                    mListView.setAutoLoadMore(true);
+                    if (mLoadDataEngine.getCurrentpage() == 1)
+                        mListView.setOnLoadListener(FragmentreportOneList.this);
+                }
                 if (null != dataList && dataList.size() > 0) {
-                    //mDataList.clear();
+                    // mDataList.clear();
                     mDataList.addAll(dataList);
                     if (first) {
                         initView(view);
                         first = false;
                     }
                     mOptionMarketAdapter.notifyDataSetChanged();
-//                    loadFinishUpdateView();
+                    // loadFinishUpdateView();
                     mOptionMarketAdapter.notifyDataSetChanged();
                     isLoadingMore = false;
                     if (mListView != null) {
@@ -210,6 +226,14 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
         }
 
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                tv.setText("暂无研报");
+            }
+        }
+
     };
 
     private void loadFinishUpdateView() {
@@ -221,31 +245,34 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_yanbao);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-	    /*if(uservivible){
-            initDate();
-        }*/
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        /*
+         * if(uservivible){
+         * initDate();
+         * }
+         */
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
             // fragment可见时加载数据
-            //initDate();
+            // initDate();
             initDate();
         } else {
             // 不可见时不执行操作
@@ -254,9 +281,9 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-	@Override
-	public void onLoadMore() {
-		 mLoadDataEngine.loadMore();
-	}
-	
+    @Override
+    public void onLoadMore() {
+        mLoadDataEngine.loadMore();
+    }
+
 }

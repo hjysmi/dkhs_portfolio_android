@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,18 +27,24 @@ import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.NewsforImpleEngine;
+import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.YanbaoNewsActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class FragmentForOptionOnr extends Fragment{
-	private ListView mListView;
+/**
+ * 需要优化界面
+ * 个股行情界面，个股界面时（研报 TAB）
+ */
+
+public class FragmentForOptionOnr extends Fragment {
+    private ListView mListView;
 
     private boolean isLoadingMore;
     private View mFootView;
@@ -54,70 +61,73 @@ public class FragmentForOptionOnr extends Fragment{
     private String name;
     private String subType;
     private View view;
-	private boolean getadble = false;
-	private RelativeLayout pb;
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		view = inflater.inflate(R.layout.activity_option_market_news, null);
-		context = getActivity();
-		pb = (RelativeLayout) view.findViewById(android.R.id.progress);
-        if(!(null != mDataList && mDataList.size() > 0)){
+    private boolean getadble = false;
+    private RelativeLayout pb;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        view = inflater.inflate(R.layout.activity_option_market_news, null);
+        context = getActivity();
+        pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+        if (!(null != mDataList && mDataList.size() > 0)) {
             pb.setVisibility(View.VISIBLE);
         }
-		mDataList = new ArrayList<OptionNewsBean>();
-		
-		iv = (TextView) view.findViewById(android.R.id.empty);
-        // iv.setText("暂无公告");
-		Bundle extras = getArguments();
-		if(null != extras){
-			symbol = extras.getString(SYMBOL);
-			name = extras.getString(NAME);
-			subType = extras.getString(SUB);
-		}
-		if(null != view.findViewById(R.id.tv_title)){
-			((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
-		}
-		initView(view);
-		
-		return view;
-	}
+        mDataList = new ArrayList<OptionNewsBean>();
 
-	public static Fragment newIntent(Context context, String symbolName,String name,String subType) {
+        iv = (TextView) view.findViewById(android.R.id.empty);
+        // iv.setText("暂无公告");
+        Bundle extras = getArguments();
+        if (null != extras) {
+            symbol = extras.getString(SYMBOL);
+            name = extras.getString(NAME);
+            subType = extras.getString(SUB);
+        }
+        if (null != view.findViewById(R.id.tv_title)) {
+            ((TextView) view.findViewById(R.id.tv_title)).setText("研报-" + name);
+        }
+        initView(view);
+
+        return view;
+    }
+
+    public static Fragment newIntent(Context context, String symbolName, String name, String subType) {
         Fragment f = new FragmentForOptionOnr();
         Bundle b = new Bundle();
         b.putString(SYMBOL, symbolName);
         b.putString(NAME, name);
         b.putString(SUB, subType);
-         f.setArguments(b);
+        f.setArguments(b);
         return f;
     }
-	private void initDate(){
-			try {
-    			    Bundle extras = getArguments();
-    		        if(null != extras){
-    		            symbol = extras.getString(SYMBOL);
-    		            name = extras.getString(NAME);
-    		            subType = extras.getString(SUB);
-    		        }
-					NewsforImpleEngine vo = new NewsforImpleEngine();
-					vo.setSymbol(symbol);
-					vo.setContentSubType(subType);
-					mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,OpitionNewsEngineImple.NEWS_OPITION_FOREACH,vo);
-					//mLoadDataEngine.setLoadingDialog(context);;
-					((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
-					mLoadDataEngine.setFromYanbao(false);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-	}
-	private void initView(View view) {
+
+    private void initDate() {
+        try {
+            Bundle extras = getArguments();
+            if (null != extras) {
+                symbol = extras.getString(SYMBOL);
+                name = extras.getString(NAME);
+                subType = extras.getString(SUB);
+            }
+            NewsforModel vo = new NewsforModel();
+            vo.setSymbol(symbol);
+            vo.setContentSubType(subType);
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
+                    OpitionNewsEngineImple.NEWS_OPITION_FOREACH, vo);
+            // mLoadDataEngine.setLoadingDialog(context);;
+            ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
+            mLoadDataEngine.setFromYanbao(false);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    private void initView(View view) {
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(android.R.id.list);
-        
+
         mListView.setEmptyView(iv);
         mListView.addFooterView(mFootView);
         mOptionMarketAdapter = new OptionlistAdapter(context, mDataList);
@@ -149,31 +159,34 @@ public class FragmentForOptionOnr extends Fragment{
 
             }
         });
-            mListView.setOnItemClickListener(itemBackClick);
+        mListView.setOnItemClickListener(itemBackClick);
 
     }
+
     OnItemClickListener itemBackClick = new OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			// TODO Auto-generated method stub
-			try {
-				Intent intent;
-				if(null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() >0){
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), mDataList.get(position).getSymbols().get(0).getSymbol(),mDataList.get(position).getSymbols().get(0).getAbbrName());
-				}else{
-					intent = YanbaoNewsActivity.newIntent(context, mDataList.get(position).getId(), null,null);
-				}
-				startActivity(intent);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            // TODO Auto-generated method stub
+            try {
+                Intent intent;
+                if (null != mDataList.get(position).getSymbols() && mDataList.get(position).getSymbols().size() > 0) {
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(),
+                            mDataList.get(position).getSymbols().get(0).getSymbol(), mDataList.get(position)
+                                    .getSymbols().get(0).getAbbrName(), mDataList.get(position).getContentType());
+                } else {
+                    intent = YanbaoDetailActivity.newIntent(context, mDataList.get(position).getId(), null, null, null);
+                }
+                // startActivity(intent);
+                UIUtils.startAminationActivity(getActivity(), intent);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     };
 
     public void loadMore() {
-        if (null != mLoadDataEngine&& !isLoadingMore && getadble) {
+        if (null != mLoadDataEngine && !isLoadingMore && getadble) {
             if (mLoadDataEngine.getCurrentpage() >= mLoadDataEngine.getTotalpage()) {
                 // Toast.makeText(context, "没有更多的数据了", Toast.LENGTH_SHORT).show();
                 return;
@@ -181,42 +194,52 @@ public class FragmentForOptionOnr extends Fragment{
             mListView.addFooterView(mFootView);
 
             isLoadingMore = true;
-            //mLoadDataEngine.setLoadingDialog(context);;
+            // mLoadDataEngine.setLoadingDialog(context);;
             mLoadDataEngine.loadMore();
         }
     }
+
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
         @Override
         public void loadFinish(List<OptionNewsBean> dataList) {
             try {
                 pb.setVisibility(View.GONE);
-				if (null != dataList&&dataList.size()>0) {
-				    mDataList.addAll(dataList);
-				    if(first){
-				    	//initView(view);
-				    	first = false;
-				    }
-				    mOptionMarketAdapter.notifyDataSetChanged();
-				    loadFinishUpdateView();
-				    
-				}else{
-					if (null != context
-                            && context instanceof StockQuotesActivity&&getadble) {
+                if (null != dataList && dataList.size() > 0) {
+                    mDataList.addAll(dataList);
+                    if (first) {
+                        // initView(view);
+                        first = false;
+                    }
+                    mOptionMarketAdapter.notifyDataSetChanged();
+                    loadFinishUpdateView();
+
+                } else {
+                    if (null != context && context instanceof StockQuotesActivity && getadble) {
                         ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
-				    iv.setText("暂无研报");
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+                    iv.setText("暂无研报");
+                }
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void loadingFail() {
+            pb.setVisibility(View.GONE);
+            if (null == mDataList || mDataList.isEmpty()) {
+                iv.setText("暂无研报");
+            }
 
         }
 
     };
+
     private void loadFinishUpdateView() {
-    	mOptionMarketAdapter.notifyDataSetChanged();
+        mOptionMarketAdapter.notifyDataSetChanged();
         isLoadingMore = false;
         if (mListView != null) {
             mListView.removeFooterView(mFootView);
@@ -225,58 +248,57 @@ public class FragmentForOptionOnr extends Fragment{
         for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
             View listItem = mOptionMarketAdapter.getView(i, null, mListView);
             listItem.measure(0, 0); // 计算子项View 的宽高
-            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
+            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
             height += list_child_item_height; // 统计所有子项的总高度
         }
-        if (null != context
-                && context instanceof StockQuotesActivity && getadble) {
+        if (null != context && context instanceof StockQuotesActivity && getadble) {
             ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
         }
     }
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		// TODO Auto-generated method stub
-		if(isVisibleToUser){
-		    initDate();
-			getadble = true;
-			if(null == mDataList || mDataList.size() < 2){
-				if (null != context
-                        && context instanceof StockQuotesActivity&& getadble) {
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        // TODO Auto-generated method stub
+        if (isVisibleToUser) {
+            initDate();
+            getadble = true;
+            if (null == mDataList || mDataList.size() < 2) {
+                if (null != context && context instanceof StockQuotesActivity && getadble) {
                     ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                 }
-			}else if(null != mDataList){
-			    int height = 0;
-		        for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
-		            View listItem = mOptionMarketAdapter.getView(i, null, mListView);
-		            listItem.measure(0, 0); // 计算子项View 的宽高
-		            int list_child_item_height = listItem.getMeasuredHeight()+mListView.getDividerHeight();
-		            height += list_child_item_height; // 统计所有子项的总高度
-		        }
-		        if (null != context
-		                && context instanceof StockQuotesActivity && getadble) {
-		            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-		        }
-			}
-		}else{
-			getadble = false;
-		}
-		super.setUserVisibleHint(isVisibleToUser);
-	}
-	private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_yanbao);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-	}
+            } else if (null != mDataList) {
+                int height = 0;
+                for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
+                    View listItem = mOptionMarketAdapter.getView(i, null, mListView);
+                    listItem.measure(0, 0); // 计算子项View 的宽高
+                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+                    height += list_child_item_height; // 统计所有子项的总高度
+                }
+                if (null != context && context instanceof StockQuotesActivity && getadble) {
+                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+                }
+            }
+        } else {
+            getadble = false;
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_yanbao);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+    }
 }

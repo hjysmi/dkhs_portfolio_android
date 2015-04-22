@@ -1,6 +1,7 @@
 package com.dkhs.portfolio.ui;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,10 +28,15 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
@@ -448,17 +455,73 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-                if (isSetPsw) {
-                    finish();
-                } else {
-                    Intent intent = new Intent(SettingNameActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
+
+                uploadUserFollowStock();
             }
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_setting_password);
+
+    ParseHttpListener uploadStockListner = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllOptionalStock();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+            uploadUserFollowCombination();
+
+        }
+    }.setLoadingDialog(this, "正在注册", false);
+
+    private VisitorDataEngine visitorEngine;
+
+    public void uploadUserFollowStock() {
+        if (null == visitorEngine) {
+            visitorEngine = new VisitorDataEngine();
+        }
+        if (!visitorEngine.uploadUserFollowStock(uploadStockListner)) {
+            uploadUserFollowCombination();
+        }
+
+    }
+
+    ParseHttpListener uploadCombinationListener = new ParseHttpListener<Object>() {
+
+        @Override
+        protected Object parseDateTask(String jsonData) {
+            new VisitorDataEngine().delAllCombinationBean();
+            return null;
+        }
+
+        @Override
+        protected void afterParseData(Object object) {
+
+            Log.i("uploadUserFollowCombination", "uploadUserFollowCombination success");
+            goMainPage();
+
+        }
+    }.setLoadingDialog(this, "正在注册", false);
+
+    public void uploadUserFollowCombination() {
+        if (!visitorEngine.uploadUserFollowCombination(uploadCombinationListener)) {
+            goMainPage();
+        }
+    }
+
+    private void goMainPage() {
+        if (isSetPsw) {
+            finish();
+        } else {
+            PortfolioApplication.getInstance().exitApp();
+            Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
 
     @Override
     public void onPause() {

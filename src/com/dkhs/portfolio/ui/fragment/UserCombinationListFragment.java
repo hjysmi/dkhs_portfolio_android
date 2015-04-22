@@ -13,17 +13,14 @@ import java.util.List;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
-import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.CombinationBean.CombinationUser;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
@@ -38,6 +35,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,9 +104,11 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
+        mSwipeLayout.setRefreshing(false);
         if (null != object.getResults()) {
 
             // mDataList = object.getResults();
+            mDataList.clear();
             mDataList.addAll(object.getResults());
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
@@ -149,10 +149,10 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CombinationBean cBean = mDataList.get(position);
-                CombinationUser user = new ChampionBean().new CombinationUser();
+                CombinationUser user = new CombinationBean.CombinationUser();
                 user.setId(mUserId);
                 user.setUsername(mUserName);
-                cBean.setCreateUser(user);
+                cBean.setUser(user);
 
                 getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false, null));
             }
@@ -175,5 +175,34 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    OnRefreshListener setOnRefreshListener() {
+        // TODO Auto-generated method stub
+        return new OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                getLoadEngine().loadData();
+            }
+        };
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        mSwipeLayout.setRefreshing(false);
+
     }
 }

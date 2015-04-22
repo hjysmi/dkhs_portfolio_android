@@ -18,16 +18,25 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.service.ReLoadDataService;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.AnalyticsConfig;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
 
 /**
  * @ClassName PortfolioApplication
@@ -42,14 +51,16 @@ public class PortfolioApplication extends Application {
     private boolean isDebug = true;
     private boolean isLogin;
 
+    // private String checkValue = "0";
+    // private boolean change = false;
+    // private int kLinePosition = -1;
+
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
 
     @Override
     public void onCreate() {
-        // TODO Auto-generated method stub
-        // setMetaData(ChannelUtil.getChannel(this));
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         super.onCreate();
         mInstance = this;
@@ -63,16 +74,8 @@ public class PortfolioApplication extends Application {
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
-    }
+        MessageManager.getInstance();
 
-    private void setMetaData(String changevalue) {
-        ApplicationInfo appi;
-        try {
-            appi = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            appi.metaData.putString("UMENG_CHANNEL", changevalue);
-        } catch (NameNotFoundException e1) {
-            e1.printStackTrace();
-        }
     }
 
     private List<Activity> lists = new ArrayList<Activity>();
@@ -92,7 +95,6 @@ public class PortfolioApplication extends Application {
     }
 
     public void clearActivities() {
-        System.out.println("lists size :" + lists.size());
         if (lists.size() > 1) {
             for (int i = 0; i < lists.size() - 1; i++) {
                 Activity activity = lists.get(i);
@@ -126,23 +128,14 @@ public class PortfolioApplication extends Application {
                     }
                 };
             }.start();
-            // } catch (IOException e) {
-            // throw new Error("Error copying database");
-            // }
+
         }
     }
 
     public static boolean hasUserLogin() {
-        try {
-            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user == null) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-
+        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+            return true;
+        } else {
             return false;
         }
     }

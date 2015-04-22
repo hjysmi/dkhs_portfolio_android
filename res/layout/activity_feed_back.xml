@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:orientation="vertical"
         >
-        <EditText
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
@@ -53,7 +53,7 @@
 	        android:paddingLeft="20dp"
 	    	android:paddingRight="20dp"
             >
-        <EditText 
+        <com.dkhs.portfolio.ui.widget.ClearableEditText 
             android:background="@null"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

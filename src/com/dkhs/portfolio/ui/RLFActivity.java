@@ -109,7 +109,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             public void onClick(DialogInterface dialog, int which) {
                 // TODO Auto-generated method stub
                 dpg.dismiss();
-                startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
+                // startActivity(LoginActivity.getLoginActivity(RLFActivity.this, etPhoneNum.getText().toString()));
                 finish();
             }
         });
@@ -393,7 +393,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             PromptManager.closeProgressDialog();
             if (current_type == REGIST_TYPE) {
                 if (isLoginByCaptcha) {
-                    Intent intent = new Intent(RLFActivity.this, MainActivity.class);
+                    Intent intent = new Intent(RLFActivity.this, NewMainActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(RLFActivity.this, RegisterSuccessActivity.class);

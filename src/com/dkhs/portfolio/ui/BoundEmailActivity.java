@@ -339,7 +339,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
             PromptManager.closeProgressDialog();
             if (current_type == REGIST_TYPE) {
                 if (isLoginByCaptcha) {
-                    Intent intent = new Intent(BoundEmailActivity.this, MainActivity.class);
+                    Intent intent = new Intent(BoundEmailActivity.this, NewMainActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(BoundEmailActivity.this, RegisterSuccessActivity.class);
