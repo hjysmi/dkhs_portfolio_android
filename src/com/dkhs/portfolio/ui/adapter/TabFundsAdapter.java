@@ -17,12 +17,18 @@ import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.FollowComListEngineImpl;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.TabFundTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
+import com.dkhs.portfolio.ui.fragment.TabStockFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -64,41 +70,25 @@ public class TabFundsAdapter extends BaseAdapter {
 
         final CombinationBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.getName());
-        // if (TextUtils.isEmpty(item.getDescription().trim())) {
-        // viewHolder.tvStockNum.setText(mContext.getString(R.string.desc_format,
-        // mContext.getString(R.string.desc_def_text)));
-        // } else {
-
         viewHolder.tvStockNum.setText(item.getUser().getUsername());
-        // }
-
-        viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.getChng_pct_day()));
-        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercentPlus(item.getChng_pct_day()));
-        // if (StockUitls.isDelistStock(item.list_status)) {
-        // viewHolder.tvPercentValue.setText("退市");
-        // viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
-        // // viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
-        // } else if (item.isStop) {
-        // viewHolder.tvPercentValue.setText("停牌");
-        // // viewHolder.tvPercentValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
-        // viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
-        // } else {
-        // // viewHolder.tvIncearseValue.setTextColor(textCsl);
-        // viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT_BOLD);
-        // // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
-        // viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
-        // viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
-        // // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
-        // }
-        // if (StockUitls.isShangZhengB(item.code)) {
-        // viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
-        //
-        // } else {
-        // viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
-        // }
-        // viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
         viewHolder.tvCurrentValue.setTextColor(ColorTemplate.getTextColor(R.color.black));
         viewHolder.tvCurrentValue.setText(StringFromatUtils.get4Point(item.getNetvalue()));
+
+        float precentValue = 0;
+        if (tabIndex == 0) { // 显示日收益率
+            precentValue = item.getChng_pct_day();
+        } else if (tabIndex == 1) {// 显示周收益率
+            precentValue = item.getChng_pct_week();
+
+        } else { // 显示月收益率
+            precentValue = item.getChng_pct_month();
+
+        }
+
+        viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(precentValue));
+        viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercentPlus(precentValue));
+        viewHolder.tvPercentValue.setOnClickListener(percentClick);
+
         return convertView;
     }
 
@@ -148,4 +138,33 @@ public class TabFundsAdapter extends BaseAdapter {
         // TODO Auto-generated method stub
         return 0;
     }
+
+    int tabIndex = 0;
+    // private static final int updat
+
+    private OnClickListener percentClick = new OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+            // change percent value
+            tabIndex++;
+            tabIndex = tabIndex % 3;
+            if (tabIndex == 0) {
+                BusProvider.getInstance().post(new TabFundTitleChangeEvent(FollowComListEngineImpl.ORDER_DAY_UP));
+                // PromptManager.showToast("Change tab text to:日收益");
+
+            } else if (tabIndex == 1) {
+                // PromptManager.showToast("Change tab text to:周收益");
+                BusProvider.getInstance().post(new TabFundTitleChangeEvent(FollowComListEngineImpl.ORDER_WEEK_UP));
+
+            } else {
+                // PromptManager.showToast("Change tab text to:月收益");
+                BusProvider.getInstance().post(new TabFundTitleChangeEvent(FollowComListEngineImpl.ORDER_MONTH_UP));
+
+            }
+
+            notifyDataSetChanged();
+
+        }
+    };
 }

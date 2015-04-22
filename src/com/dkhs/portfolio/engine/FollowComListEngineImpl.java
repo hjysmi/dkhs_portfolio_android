@@ -35,9 +35,19 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 public class FollowComListEngineImpl extends LoadMoreDataEngine {
 
     // 净值、涨幅、置顶序号
-    public static final String ORDER_CUMULATIVE_UP = "chng_pct_day";
     public static final String ORDER_NET_VALUE_UP = "net_value";
-    public static final String ORDER_CUMULATIVE_DOWN = "-chng_pct_day";
+
+    // 日收益
+    public static final String ORDER_DAY_UP = "chng_pct_day";
+    public static final String ORDER_DAY_DOWN = "-chng_pct_day";
+    // 周收益
+    public static final String ORDER_WEEK_DOWN = "-chng_pct_week";
+    public static final String ORDER_WEEK_UP = "chng_pct_week";
+
+    // 月收益
+    public static final String ORDER_MONTH_DOWN = "-chng_pct_month";
+    public static final String ORDER_MONTH_UP = "chng_pct_month";
+
     public static final String ORDER_NET_VALUE_DOWN = "-net_value";
     public static final String ORDER_DEFALUT = "";
 

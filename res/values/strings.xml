@@ -72,7 +72,6 @@
     <string name="subscribe_more_category">更多频道</string>
     <string name="subscribe_manager_category_info">单击增删频道，长按拖拽排序</string>
     <string name="login_title">多块好省登录</string>
-
     <string name="noaccout">还没有账号?</string>
     <string name="find_passwrod">找回密码</string>
     <string name="portfolio_text">投资组合</string>
@@ -398,6 +397,9 @@
     <!-- optional tab -->
     <string name="net_value">净值</string>
     <string name="today_up_ratio">今日涨幅</string>
+    <string name="day_income">日收益</string>
+    <string name="week_income">周收益</string>
+    <string name="month_income">月收益</string>
     <string name="click_add_stock">点击添加自选股</string>
     <string name="click_creat_fund">点击创建组合</string>
     <string name="creat_fund">自建组合</string>

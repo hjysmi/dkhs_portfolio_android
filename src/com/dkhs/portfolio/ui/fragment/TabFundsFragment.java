@@ -35,12 +35,15 @@ import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.ui.eventbus.TabFundTitleChangeEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Subscribe;
 
 /**
  * @ClassName TabFundsFragment
@@ -118,20 +121,26 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
+        BusProvider.getInstance().register(this);
+
         refreshEditView();
         refresh();
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
     public void refreshEditView() {
-        // if (null != dataUpdateListener) {
         if (!mDataList.isEmpty()) {
             dataUpdate(false);
         } else {
             dataUpdate(true);
         }
 
-        // }
     }
 
     public void setDataUpdateListener(IDataUpdateListener listen) {
@@ -279,7 +288,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     }
 
     private TextView viewLastClick;
-    private String orderType;
+    private String orderType = FollowComListEngineImpl.ORDER_DEFALUT;
 
     // private final String typeCurrentUp = "current";
     // private final String typePercentageUp = "percentage";
@@ -336,8 +345,10 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     private boolean isUpOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(UserCombinationEngineImpl.ORDER_CUMULATIVE_UP) || orderType
-                        .equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP))) {
+                && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
+                        || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP)
+                        || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
+                            .equals(FollowComListEngineImpl.ORDER_MONTH_UP))) {
             return true;
         }
         return false;
@@ -345,8 +356,10 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     private boolean isDownOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(UserCombinationEngineImpl.ORDER_CUMULATIVE_DOWN) || orderType
-                        .equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN))) {
+                && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
+                        || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN)
+                        || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_DOWN) || orderType
+                            .equals(FollowComListEngineImpl.ORDER_MONTH_DOWN))) {
             return true;
         }
         return false;
@@ -362,11 +375,42 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         return false;
     }
 
+    private boolean isPercentType(String type) {
+        if (!TextUtils.isEmpty(orderType)
+                && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
+                        || orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
+                        || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
+                            .equals(FollowComListEngineImpl.ORDER_WEEK_DOWN))
+                || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_UP)
+                || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_DOWN)) {
+            return true;
+        }
+        return false;
+    }
+
+    private int lastPercentTextIds = 0;
+
     private void setDownType(TextView currentSelectView) {
         if (currentSelectView == tvCurrent) {
             orderType = UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_DOWN;
+            // orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_DOWN;
+            if (tvPercentgae.getText().equals(getString(R.string.day_income))) {
+                // 涨跌幅
+                orderType = FollowComListEngineImpl.ORDER_DAY_DOWN;
+                lastPercentTextIds = R.string.day_income;
+            } else if (tvPercentgae.getText().equals(getString(R.string.week_income))) {
+                // 涨跌额
+                orderType = FollowComListEngineImpl.ORDER_WEEK_DOWN;
+                lastPercentTextIds = R.string.week_income;
+
+            } else if (tvPercentgae.getText().equals(getString(R.string.month_income))) {
+                // 总市值
+                orderType = FollowComListEngineImpl.ORDER_MONTH_DOWN;
+                lastPercentTextIds = R.string.month_income;
+
+            }
+
         }
         setDrawableDown(currentSelectView);
     }
@@ -375,7 +419,22 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
         if (currentSelectView == tvCurrent) {
             orderType = UserCombinationEngineImpl.ORDER_NET_VALUE_UP;
         } else if (currentSelectView == tvPercentgae) {
-            orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_UP;
+            // orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_UP;
+            if (tvPercentgae.getText().equals(getString(R.string.day_income))) {
+                // 涨跌幅
+                orderType = FollowComListEngineImpl.ORDER_DAY_UP;
+                lastPercentTextIds = R.string.day_income;
+            } else if (tvPercentgae.getText().equals(getString(R.string.week_income))) {
+                // 涨跌额
+                orderType = FollowComListEngineImpl.ORDER_WEEK_UP;
+                lastPercentTextIds = R.string.week_income;
+
+            } else if (tvPercentgae.getText().equals(getString(R.string.month_income))) {
+                // 总市值
+                orderType = FollowComListEngineImpl.ORDER_MONTH_UP;
+                lastPercentTextIds = R.string.month_income;
+
+            }
         }
         setDrawableUp(currentSelectView);
     }
@@ -414,5 +473,40 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     public void setmDataList(List<CombinationBean> mDataList) {
         this.mDataList = mDataList;
+    }
+
+    @Subscribe
+    public void onTabTitleChange(TabFundTitleChangeEvent event) {
+        if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
+            // PromptManager.showToast("Change tab text to:总市值");
+            int currentTextId = 0;
+            if (event.tabType.equalsIgnoreCase(FollowComListEngineImpl.ORDER_WEEK_UP)) {
+                tvPercentgae.setText(R.string.week_income);
+                currentTextId = R.string.week_income;
+                // PromptManager.showToast("Change tab text to:涨跌幅");
+            } else if (event.tabType.equalsIgnoreCase(FollowComListEngineImpl.ORDER_MONTH_UP)) {
+                tvPercentgae.setText(R.string.month_income);
+                currentTextId = R.string.month_income;
+                // PromptManager.showToast("Change tab text to:涨跌额");
+
+            } else {
+                // PromptManager.showToast("Change tab text to:总市值");
+                tvPercentgae.setText(R.string.day_income);
+                currentTextId = R.string.day_income;
+            }
+
+            setTextDrawableHide(tvPercentgae);
+            if (isPercentType(orderType) && lastPercentTextIds > 0 && lastPercentTextIds == currentTextId) {
+
+                if (isDefOrder(orderType)) {
+                    setDefType(tvPercentgae);
+                } else if (isDownOrder(orderType)) {
+                    setDownType(tvPercentgae);
+                } else {
+                    setUpType(tvPercentgae);
+                }
+
+            }
+        }
     }
 }
