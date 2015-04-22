@@ -12,6 +12,7 @@ import android.graphics.Path.Direction;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -28,6 +29,8 @@ public class PieGraph extends View {
     private OnSliceClickedListener listener;
     private int maxValue = 100;
     private int defalutColor = Color.parseColor("#AA66CC");
+
+    private float sweepAngle = 0;
 
     public PieGraph(Context context) {
         super(context);
@@ -95,7 +98,12 @@ public class PieGraph extends View {
         // int surpusValue = maxValue - totalValue;
         // addEmptyPieSlice(surpusValue > 0 ? surpusValue : 0);
         // }
-
+        if (getSweepAngle() <= 359) {
+            handler.postDelayed(updateRunnable, 1);
+        } else {
+            setSweepAngle(359.99f);
+            handler.removeCallbacks(updateRunnable);
+        }
         int count = 0;
         Path p = new Path();
         for (PieSlice slice : slices) {
@@ -103,12 +111,18 @@ public class PieGraph extends View {
             paint.setColor(slice.getColor());
             RectF rectF;
             currentSweep = (slice.getValue() / maxValue) * (360);
-            currentSweep = currentSweep == 360 ? 359.999f : currentSweep;
+            float endAngle = currentAngle + currentSweep;
+            float maxAngle = getSweepAngle() + 270;
+            float maxSweepAngle = maxAngle > endAngle ? currentSweep : getSweepAngle() + 270 - currentAngle;
+            // currentSweep = currentSweep == 360 ? getSweepAngle() : currentSweep;
+            // currentSweep = currentSweep == 360 ? 359.99f : currentSweep;
             rectF = new RectF(paddingLeft, midY - radius, paddingLeft + 2 * radius, midY + radius);
-            p.arcTo(rectF, currentAngle + arcPadding, currentSweep - arcPadding);
+            p.arcTo(rectF, currentAngle + arcPadding, maxSweepAngle - arcPadding);
             RectF innerRectF = new RectF(paddingLeft + circleWidth, midY - innerRadius, paddingLeft + circleWidth
                     + 2.0f * innerRadius, midY + innerRadius);
-            p.arcTo(innerRectF, (currentAngle + arcPadding) + (currentSweep - arcPadding), -(currentSweep - arcPadding));
+            float arcAngle = (currentAngle + arcPadding) + (maxSweepAngle - arcPadding);
+            // arcAngle = arcAngle>getSweepAngle()+270?getSweepAngle()
+            p.arcTo(innerRectF, arcAngle, -(maxSweepAngle - arcPadding));
             p.close();
 
             slice.setPath(p);
@@ -143,10 +157,23 @@ public class PieGraph extends View {
             }
 
             currentAngle = currentAngle + currentSweep;
+            if (currentAngle > getSweepAngle() + 270) {
+                break;
+            }
 
             count++;
         }
     }
+
+    Handler handler = new Handler();
+    Runnable updateRunnable = new Runnable() {
+
+        @Override
+        public void run() {
+            sweepAngle += 12;
+            postInvalidate();
+        }
+    };
 
     private void drawCenterText(Canvas canvas) {
         Paint textPaint = new Paint();
@@ -194,6 +221,14 @@ public class PieGraph extends View {
     // return true;
     // }
 
+    public void setSweepAngle(float sweepAngle) {
+        this.sweepAngle = sweepAngle;
+    }
+
+    public float getSweepAngle() {
+        return sweepAngle;
+    }
+
     private void addEmptyPieSlice(float value) {
         PieSlice slice = new PieSlice();
         slice.setColor(Color.RED);
@@ -207,6 +242,7 @@ public class PieGraph extends View {
 
     public void setSlices(ArrayList<PieSlice> slices) {
         this.slices = slices;
+        setSweepAngle(0);
         postInvalidate();
     }
 

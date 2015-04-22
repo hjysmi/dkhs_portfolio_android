@@ -7,12 +7,6 @@
         <item>删除图片</item>
         <item>取消</item>
     </string-array>
-    <string-array name="menu_items">
-        <item>行情</item>
-        <item>自选股</item>
-        <item>我的组合</item>
-        <item>新闻资讯</item>
-    </string-array>
     <string-array name="refer_funds">
         <item>主要指数</item>
         <item>指数基金</item>
@@ -70,55 +64,16 @@
         <item>周K</item>
         <item>月K</item>
     </string-array>
-    <string-array name="menu_img_items">
-        <item>menu_icon_profit</item>
-        <item>menu_icon_stock</item>
-        <item>menu_icon_collection</item>
-        <item>menu_icon_cal</item>
-    </string-array>
-    <string-array name="left_menu_img_items">
-        <item>自建基金</item>
-        <item>自选股</item>
-        <item>行情</item>
-        <item>基金排行</item>
-        <item>公告</item>
-        <item>研报</item>
-    </string-array>
-    <string-array name="left_menu_img">
-        <item>menu_icon_myteam</item>
-        <item>menu_icon_optional</item>
-        <item>menu_icon_market</item>
-        <item>menu_icon_seniority</item>
-        <item>menu_icon_notice</item>
-        <item>menu_icon_study</item>
-    </string-array>
     <string-array name="yanbao_items">
         <item>公司</item>
         <!-- <item>行业</item> -->
         <item>策略</item>
         <item>宏观</item>
     </string-array>
-    <string-array name="color_ids">
-        <item>R.color.def_1</item>
-        <item>R.color.def_2</item>
-        <item>R.color.def_3</item>
-        <item>R.color.def_4</item>
-        <item>R.color.def_5</item>
-        <item>R.color.def_6</item>
-        <item>R.color.def_7</item>
-        <item>R.color.def_8</item>
-        <item>R.color.def_9</item>
-        <item>R.color.def_10</item>
-        <item>R.color.def_11</item>
-        <item>R.color.def_12</item>
-        <item>R.color.def_13</item>
-        <item>R.color.def_14</item>
-        <item>R.color.def_15</item>
-        <item>R.color.def_16</item>
-        <item>R.color.def_17</item>
-        <item>R.color.def_18</item>
-        <item>R.color.def_19</item>
-        <item>R.color.def_20</item>
+    <string-array name="main_info_title">
+        <item>自选</item>
+        <item>宏观</item>
+        <item>策略</item>
     </string-array>
     <string-array name="fund_detail_more">
         <item>@string/change_combination_name</item>

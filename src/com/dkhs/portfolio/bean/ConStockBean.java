@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.view.annotation.ViewInject;
@@ -28,8 +29,8 @@ public class ConStockBean extends StockBean implements Serializable {
     protected int dutyColor;
     protected float currentValue;
     protected float increaseValue;
-//    // 涨幅(不需要再*100，5.71代表5.71%), float
-//    private float increase_percent;
+    // // 涨幅(不需要再*100，5.71代表5.71%), float
+    // private float increase_percent;
     // 是否停牌 1是 0否
     @SerializedName("is_stop")
     private int isStop;
@@ -60,16 +61,16 @@ public class ConStockBean extends StockBean implements Serializable {
     public ConStockBean() {
     }
 
-//    public int getDutyValue() {
-//        if (dutyValue == -1) {
-//            dutyValue = (int) (percent * 100);
-//        }
-//        return dutyValue;
-//    }
+    // public int getDutyValue() {
+    // if (dutyValue == -1) {
+    // dutyValue = (int) (percent * 100);
+    // }
+    // return dutyValue;
+    // }
 
-//    public void setDutyValue(int dutyValue) {
-//        this.dutyValue = dutyValue;
-//    }
+    // public void setDutyValue(int dutyValue) {
+    // this.dutyValue = dutyValue;
+    // }
 
     public String getName() {
         return stockName;
@@ -110,6 +111,19 @@ public class ConStockBean extends StockBean implements Serializable {
         } else {
             return false;
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int hashCode() {
+        return Arrays.hashCode(new Object[] { stockId, // auto-boxed
+                stockCode, // auto-boxed
+                stockName, });
     }
 
     @Override
@@ -173,6 +187,5 @@ public class ConStockBean extends StockBean implements Serializable {
     public void setList_status(String list_status) {
         this.list_status = list_status;
     }
-
 
 }

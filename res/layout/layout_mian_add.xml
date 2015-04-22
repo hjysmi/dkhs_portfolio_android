@@ -20,7 +20,7 @@
         android:layout_below="@+id/iv_plus"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4dp"
-        android:text="创建我的基金"
+        android:text="创建我的组合"
         android:textColor="@color/blue"
         android:textSize="18sp" />
 

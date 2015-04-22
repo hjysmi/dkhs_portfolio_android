@@ -176,13 +176,13 @@ public class TimeUtils {
         return null;
     }
 
-    public static boolean isValidFormatForIfModifiedSinceHeader(String timestamp) {
-        try {
-            return VALID_IFMODIFIEDSINCE_FORMAT.parse(timestamp) != null;
-        } catch (Exception ex) {
-            return false;
-        }
-    }
+    // public static boolean isValidFormatForIfModifiedSinceHeader(String timestamp) {
+    // try {
+    // return VALID_IFMODIFIEDSINCE_FORMAT.parse(timestamp) != null;
+    // } catch (Exception ex) {
+    // return false;
+    // }
+    // }
 
     public static long timestampToMillis(String timestamp, long defaultValue) {
         if (TextUtils.isEmpty(timestamp)) {

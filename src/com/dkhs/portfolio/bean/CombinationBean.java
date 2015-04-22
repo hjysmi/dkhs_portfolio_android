@@ -14,8 +14,8 @@ import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean.CombinationUser;
 import com.google.gson.annotations.SerializedName;
+import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
 /**
  * @ClassName ConbinationBean
@@ -27,13 +27,14 @@ import com.google.gson.annotations.SerializedName;
 public class CombinationBean implements Serializable {
 
     private static final long serialVersionUID = 12959959598L;
+    @NoAutoIncrement
     private String id;
     private String name;
-    private CombinationUser createUser;
+    private CombinationUser user;
     private String description;
     // private float percent;
-    @SerializedName("cumulative")
-    private float addUpValue;
+    // @SerializedName("cumulative")
+    // private float addUpValue;
     @SerializedName("net_value")
     private float netvalue;
     @SerializedName("created_at")
@@ -47,6 +48,12 @@ public class CombinationBean implements Serializable {
     private float chng_pct_month;
     private float chng_pct_week;
     private float chng_pct_three_month;
+    private float cumulative;
+
+    private boolean followed;
+    private int sortId;
+    @SerializedName("followers_count")
+    private int followerCount;
 
     /**
      * @Title
@@ -73,14 +80,6 @@ public class CombinationBean implements Serializable {
     // public void setCurrentValue(float currentValue) {
     // this.percent = currentValue;
     // }
-
-    public float getAddUpValue() {
-        return addUpValue;
-    }
-
-    public void setAddUpValue(float addUpValue) {
-        this.addUpValue = addUpValue;
-    }
 
     public String getId() {
         return id;
@@ -150,30 +149,22 @@ public class CombinationBean implements Serializable {
         this.ispublics = ispublics;
     }
 
-    public CombinationUser getCreateUser() {
-        return createUser;
-    }
-
-    public void setCreateUser(CombinationUser createUser) {
-        this.createUser = createUser;
-    }
-
-    public static CombinationBean parse(ChampionBean cBean) {
-        CombinationBean bean = new CombinationBean();
-        bean.ispublic = cBean.getIs_public();
-        bean.createUser = cBean.getUser();
-        bean.createTime = cBean.getCreated_at();
-        bean.id = cBean.getId();
-        bean.description = cBean.getDescription();
-        bean.name = cBean.getName();
-        bean.netvalue = cBean.getNet_value();
-        bean.setIspublic(cBean.getIs_public());
-        bean.chng_pct_day = cBean.getChng_pct_day();
-        bean.chng_pct_week = cBean.getChng_pct_week();
-        bean.chng_pct_month = cBean.getChng_pct_month();
-        bean.chng_pct_three_month = cBean.getChng_pct_three_month();
-        return bean;
-    }
+    // public static CombinationBean parse(ChampionBean cBean) {
+    // CombinationBean bean = new CombinationBean();
+    // bean.ispublic = cBean.getIs_public();
+    // bean.user = cBean.getUser();
+    // bean.createTime = cBean.getCreated_at();
+    // bean.id = cBean.getId();
+    // bean.description = cBean.getDescription();
+    // bean.name = cBean.getName();
+    // bean.netvalue = cBean.getNet_value();
+    // bean.setIspublic(cBean.getIs_public());
+    // bean.chng_pct_day = cBean.getChng_pct_day();
+    // bean.chng_pct_week = cBean.getChng_pct_week();
+    // bean.chng_pct_month = cBean.getChng_pct_month();
+    // bean.chng_pct_three_month = cBean.getChng_pct_three_month();
+    // return bean;
+    // }
 
     public float getChng_pct_day() {
         return chng_pct_day;
@@ -224,6 +215,69 @@ public class CombinationBean implements Serializable {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public CombinationUser getUser() {
+        return user;
+    }
+
+    public void setUser(CombinationUser user) {
+        this.user = user;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
+
+    public int getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(int sortId) {
+        this.sortId = sortId;
+    }
+
+    public int getFollowerCount() {
+        return followerCount;
+    }
+
+    public void setFollowerCount(int followerCount) {
+        this.followerCount = followerCount;
+    }
+
+    public float getCumulative() {
+        return cumulative;
+    }
+
+    public void setCumulative(float cumulative) {
+        this.cumulative = cumulative;
+    }
+
+    public static class CombinationUser implements Serializable {
+
+        private static final long serialVersionUID = 12894595218L;
+        private String id;
+        private String username;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
         }
     }
 

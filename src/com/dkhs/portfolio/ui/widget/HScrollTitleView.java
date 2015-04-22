@@ -157,8 +157,9 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             tv.setTextColor(getContext().getResources().getColor(R.color.black));
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
+
             // tv.setPadding(0, 5, 0, 5);
-            tv.setGravity(Gravity.CENTER);
+            tv.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
             tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
             tv.setText(nameList[i]);
             tv.setOnClickListener(new OnItemListener(i));
@@ -170,6 +171,46 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         }
         addView(view);
         setAnima(offset, offset);
+    }
+
+    public void setLayoutWidth(int widthPixels) {
+        removeAllViews();
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_horizontal_scroll_title, null);
+        iv = (ImageView) view.findViewById(R.id.selectadapter_parent_icon);
+        iv.getLayoutParams().width = indiatorWidth;
+        // DisplayMetrics dm = new DisplayMetrics();
+        // WindowManager m = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        // m.getDefaultDisplay().getMetrics(dm);
+        LinearLayout ll = (LinearLayout) view.findViewById(R.id.selectadapter_parent_layout);
+        if (nameList.length * indiatorWidth <= widthPixels) {
+            ll.setLayoutParams(new LinearLayout.LayoutParams(widthPixels, getContext().getResources()
+                    .getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
+            offset = (widthPixels / nameList.length - indiatorWidth) / 2;
+        } else {
+            ll.setLayoutParams(new LinearLayout.LayoutParams(nameList.length * indiatorWidth, getContext()
+                    .getResources().getDimensionPixelSize(R.dimen.gray_tab_height) - 7));
+        }
+        tvList = new TextView[nameList.length];
+        for (int i = 0; i < nameList.length; i++) {
+            TextView tv = new TextView(getContext());
+            tv.setTextColor(getContext().getResources().getColor(R.color.black));
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getContext().getResources().getDimensionPixelSize(R.dimen.title_tab_text_size));
+
+            // tv.setPadding(0, 5, 0, 5);
+            tv.setGravity(Gravity.CENTER | Gravity.CENTER_VERTICAL);
+            tv.setLayoutParams(new LinearLayout.LayoutParams(indiatorWidth, LayoutParams.MATCH_PARENT, 1.0f));
+            tv.setText(nameList[i]);
+            tv.setOnClickListener(new OnItemListener(i));
+            ll.addView(tv);
+            tvList[i] = tv;
+            if (i == 0) {
+                tv.setTextColor(getContext().getResources().getColor(R.color.red));
+            }
+        }
+        addView(view);
+        setAnima(offset, offset);
+
     }
 
     private int currentPosition = 0;

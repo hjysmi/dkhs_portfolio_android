@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -40,16 +41,17 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.ChangeCheckType;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.KChartLandScapeActivity;
+import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
+import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.TimesharingplanChart;
-import com.dkhs.portfolio.ui.widget.TimesharingplanChartLand;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -79,7 +81,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     private String trendType;
     private boolean isTodayNetValue;
 
-    private TimesharingplanChartLand mMaChart;
+    private TimesharingplanChart mMaChart;
 
     private QuotesEngineImpl mQuotesDataEngine;
     private CombinationBean mCombinationBean;
@@ -112,9 +114,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // System.out.println("====StockQuotesChartFragment=onCreate=====");
-
-        // handle fragment arguments
         Bundle arguments = getArguments();
         if (arguments != null) {
             handleArguments(arguments);
@@ -135,12 +134,8 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false);
-        // fenshiPiceLine.setLineData(lineDataList);
-        mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
-        mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
-        // fenshiPiceLine.setLineData(lineDataList);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code);
 
     }
 
@@ -167,7 +162,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mSelectStockBean = (SelectStockBean) extras.getSerializable(KChartLandScapeActivity.EXTRA_STOCK);
+        mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 
@@ -202,29 +197,25 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     private void handleSavedInstanceState(Bundle savedInstanceState) {
     }
 
-    // private void handleExtras(Bundle extras) {
-    // // TODO private void handleExtras(Bundle extras) {
-    // // mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
-    // // if (null != mCombinationBean) {
-    // SelectStockBean mSelectBean = (SelectStockBean) extras.getSerializable(KChartLandScapeActivity.EXTRA_STOCK);
-    // if (null != mSelectBean) {
-    // mStockId = mSelectBean.id;
-    // mStockCode = mSelectBean.code;
-    // }
-    //
-    // // }
-    // }
-
     @Override
     public void onAttach(Activity activity) {
         // o
         super.onAttach(activity);
+
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_stock_quotes_chart_land, null);
-        mMaChart = (TimesharingplanChartLand) view.findViewById(R.id.timesharingchart);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initMaChart(mMaChart);
@@ -233,7 +224,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
                 && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
         }
-        return view;
     }
 
     private void initView(View view) {
@@ -243,58 +233,18 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
         mListviewBuy.setAdapter(mBuyAdapter);
         mListviewSell.setAdapter(mSellAdapter);
-        // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
-        // tvTimeRight = (TextView) view.findViewById(R.id.tv_time_right);
-        // tvNetValue = (TextView) view.findViewById(R.id.tv_now_netvalue);
-        // tvUpValue = (TextView) view.findViewById(R.id.tv_updown_value);
-        // tvIncreaseValue = (TextView) view.findViewById(R.id.tv_increase_value);
-        // tvStartText = (TextView) view.findViewById(R.id.tv_netvalue_text);
-        // tvEndText = (TextView) view.findViewById(R.id.tv_updown_text);
-        // tvIncreaseText = (TextView) view.findViewById(R.id.tv_increase_text);
+
     }
 
     private void initMaChart(TrendChart machart) {
 
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-
-        machart.setDisplayBorder(false);
-        // machart.setDrawXBorke(true);
-
-        machart.setLatitudeColor(Color.LTGRAY);
-
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
-        // machart.setMaxPointNum(72);
-        // machart.setDisplayAxisYTitle(false);
-        // machart.setDisplayLatitude(true);
-        // machart.setFill(true);
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-        machart.setBorderColor(Color.TRANSPARENT);
-        machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(5);
-        machart.setAxisMarginLeft(10);
-        machart.setAxisMarginRight(10);
-
-        machart.setLongtitudeFontSize(10);
-        machart.setLongtitudeFontColor(Color.GRAY);
-        machart.setDisplayAxisYTitleColor(true);
-        machart.setLatitudeColor(Color.GRAY);
-        machart.setLatitudeFontColor(Color.GRAY);
-        machart.setLongitudeColor(Color.GRAY);
         machart.setMaxValue(120);
         machart.setMinValue(0);
 
-        machart.setDisplayAxisXTitle(true);
-        machart.setDisplayAxisYTitle(true);
-        machart.setDisplayLatitude(true);
-        machart.setDisplayLongitude(true);
         machart.setFill(true);
         machart.setDrawFirstLineInfo(true);
 
-        machart.setITouchListener(mTouchListener);
+        // machart.setITouchListener(mTouchListener);
         List<String> ytitle = new ArrayList<String>();
         List<String> rightYtitle = new ArrayList<String>();
 
@@ -306,34 +256,28 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
         mMaChart.setAxisYTitles(ytitle);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
-
         if (isTodayNetValue) {
             initTodayTrendTitle();
         } else {
             // initTrendTitle();
         }
-        // machart.setFill(true);
-        // machart.setFillLineIndex(2);
-
-        // mMaChart.setont
 
         mMaChart.setDoubleClicklistener(new OnDoubleClickListener() {
 
             @Override
             public void OnDoubleClick(View view) {
-                BusProvider.getInstance().post(new DoubleclickEvent());
+                if (null != stockViewCallback) {
+                    stockViewCallback.landViewFadeOut();
+                }
             }
         });
 
     }
 
-    private ITouchListener mTouchListener;
+    private StockViewCallBack stockViewCallback;
 
-    public void setITouchListener(ITouchListener touchListener) {
-        this.mTouchListener = touchListener;
+    public void setStockViewCallback(StockViewCallBack stockViewCallback) {
+        this.stockViewCallback = stockViewCallback;
     }
 
     private void setLineData(List<FSLinePointEntity> lineDataList) {
@@ -381,22 +325,6 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         mMaChart.setAxisRightYTitles(rightYtitle);
     }
 
-    // private void initTrendTitle() {
-    // // List<String> ytitle = new ArrayList<String>();
-    // // ytitle.add("1.1051");
-    // // ytitle.add("1.0532");
-    // // ytitle.add("1.0000");
-    // // ytitle.add("1.0001");
-    // // ytitle.add("1.0522");
-    //
-    // List<String> xtitle = new ArrayList<String>();
-    // xtitle.add("2014-09-15");
-    // xtitle.add("2014-09-22");
-    // mMaChart.setMaxPointNum(7);
-    // mMaChart.setAxisYTitles(ytitle);
-    // mMaChart.setAxisXTitles(xtitle);
-    // }
-
     private List<LinePointEntity> initMA(int length) {
         List<LinePointEntity> MA5Values = new ArrayList<LinePointEntity>();
         NetValueEngine outer = new NetValueEngine("0");
@@ -431,8 +359,10 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
             } else {
 
-                mBuyAdapter.setList(mStockBean.getBuyList(), mStockBean.getSymbol());
-                mSellAdapter.setList(mStockBean.getSellList(), mStockBean.getSymbol());
+                mBuyAdapter.setList(mStockBean.getBuyPrice().getBuyVol(), mStockBean.getBuyPrice().getBuyPrice(),
+                        mStockBean.getSymbol());
+                mSellAdapter.setList(mStockBean.getSellPrice().getSellVol(), mStockBean.getSellPrice().getSellPrice(),
+                        mStockBean.getSymbol());
                 mBuyAdapter.setCompareValue(mStockBean.getLastClose());
                 mSellAdapter.setCompareValue(mStockBean.getLastClose());
                 mBuyAdapter.notifyDataSetChanged();
@@ -471,13 +401,22 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         }
 
         @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            pb.setVisibility(View.GONE);
+        };
+
+        @Override
         protected void afterParseData(FSDataBean fsDataBean) {
             try {
-                StockQuotesBean m = ((KChartLandScapeActivity) getActivity()).getmStockQuotesBean();
-                if (null != m && UIUtils.roundAble(m)) {
-                    dataHandler.removeCallbacks(runnable);
+                if (null != mLandCallBack) {
+
+                    StockQuotesBean m = mLandCallBack.getStockQuotesBean();
+                    if (null != m && UIUtils.roundAble(m)) {
+                        dataHandler.removeCallbacks(runnable);
+                    }
+                    setStockQuotesBean(m);
                 }
-                setStockQuotesBean(m);
                 if (fsDataBean != null) {
                     mFsDataBean.setCurtime(fsDataBean.getCurtime());
                     if (null == mFsDataBean.getMainstr()) {
@@ -796,7 +735,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
                 mQuotesDataEngine.queryMoreTimeShare(mStockCode, mFsDataBean.getCurtime(), todayListener);
                 todayListener.setFromYanbao(false);
             }
-            dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
+            // dataHandler.postDelayed(this, 30 * 1000);// 隔30s再执行一次
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_time);
@@ -817,5 +756,27 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return R.layout.fragment_stock_quotes_chart_land;
+    }
+
+    private LandStockViewCallBack mLandCallBack;
+
+    public LandStockViewCallBack getLandCallBack() {
+        return mLandCallBack;
+    }
+
+    public void setLandCallBack(LandStockViewCallBack landCallBack) {
+        this.mLandCallBack = landCallBack;
     }
 }

@@ -165,7 +165,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
 
     public void setHttpHandler(HttpHandler mHttpHandler) {
         if (null != this.mHttpHandler) {
-            mHttpHandler.cancel();
+            this.mHttpHandler.cancel();
         }
         this.mHttpHandler = mHttpHandler;
     }

@@ -74,6 +74,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private DrawLineDataEntity mTodayLineData;
     private RelativeLayout pb;
+
     public static TrendTodayChartFragment newInstance(String trendType) {
         TrendTodayChartFragment fragment = new TrendTodayChartFragment();
 
@@ -128,15 +129,11 @@ public class TrendTodayChartFragment extends BaseFragment {
             mMaChart = (TrendChart) rootView.findViewById(R.id.machart);
             pb = (RelativeLayout) rootView.findViewById(android.R.id.progress);
             pb.setVisibility(View.VISIBLE);
-            if (getActivity().getClass().getName().equals("com.dkhs.portfolio.ui.OrderFundDetailActivity")) {
-                InterceptScrollView mScrollview = ((OrderFundDetailActivity) getActivity()).getScroll();
-                mMaChart.setScroll(mScrollview);
-            }
             initMaChart(mMaChart);
             // setupBottomTextViewData();
             initView(rootView);
             initTodayTrendTitle();
-            //PromptManager.showProgressDialog(getActivity(), "");
+            // PromptManager.showProgressDialog(getActivity(), "");
             mNetValueDataEngine.requeryToday(todayListener);
         }
         // 缓存的rootView需要判断是否已经被加过parent， 如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
@@ -163,41 +160,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private void initMaChart(final TrendChart machart) {
         machart.setBoldLine();
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-
-        machart.setDisplayBorder(false);
-
-        machart.setLatitudeColor(Color.LTGRAY);
-
-        machart.setAxisXColor(Color.LTGRAY);
-        machart.setAxisYColor(Color.LTGRAY);
-        machart.setBorderColor(Color.TRANSPARENT);
-        machart.setBackgroudColor(Color.WHITE);
-        machart.setAxisMarginTop(10);
-        machart.setAxisMarginLeft(10);
-        machart.setAxisMarginRight(10);
-
-        machart.setLongtitudeFontSize(10);
-        machart.setLongtitudeFontColor(Color.GRAY);
-        machart.setDisplayAxisYTitleColor(true);
-        machart.setLatitudeColor(Color.GRAY);
-        machart.setLatitudeFontColor(Color.GRAY);
-        machart.setLongitudeColor(Color.GRAY);
-        // machart.setMaxValue(120);
-        // machart.setMinValue(0);
-
-        machart.setDisplayAxisXTitle(true);
-        machart.setDisplayAxisYTitle(true);
-        machart.setDisplayLatitude(true);
-        machart.setDisplayLongitude(true);
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            machart.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        }
         setInitYTitle();
-
     }
 
     private List<LineEntity> lines;
@@ -276,10 +239,16 @@ public class TrendTodayChartFragment extends BaseFragment {
 
                 mTodayLineData = todayNetvalue;
                 setTodayViewLoad();
-                //PromptManager.closeProgressDialog();
+                // PromptManager.closeProgressDialog();
             }
 
         }
+
+        @Override
+        public void onFailure(int errCode, String errMsg) {
+            super.onFailure(errCode, errMsg);
+            pb.setVisibility(View.GONE);
+        };
     };
 
     public class DrawLineDataEntity {
@@ -546,5 +515,17 @@ public class TrendTodayChartFragment extends BaseFragment {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public int setContentLayoutId() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 }

@@ -1,4 +1,3 @@
-
 package com.dkhs.portfolio.utils;
 
 import java.io.ByteArrayInputStream;
@@ -10,6 +9,7 @@ import java.text.DecimalFormat;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +24,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -275,7 +276,8 @@ public class UIUtils {
     }
 
     public static boolean roundAble(StockQuotesBean stockQuotesBean) {
-        if (!(stockQuotesBean.getTrade_status().equals("0") || stockQuotesBean.getTrade_status().equals("3"))) {
+        if (!TextUtils.isEmpty(stockQuotesBean.getTrade_status())
+                && !(stockQuotesBean.getTrade_status().equals("0") || stockQuotesBean.getTrade_status().equals("3"))) {
             return true;
         }
         return false;
@@ -301,7 +303,7 @@ public class UIUtils {
                 volume = volume / 100000000;
                 text = new DecimalFormat("0.00").format(volume) + "亿";
             }
-            if(volume == 0){
+            if (volume == 0) {
                 text = "--";
             }
         } catch (Exception e) {
@@ -309,33 +311,37 @@ public class UIUtils {
         }
         return text;
     }
+
     /**
      * 匹配K线图无网络时经线标题值
+     * 
      * @param value
      * @return
      */
-    public static String nongNet(String value){
-        if(value.equals("-1.00") || value.equals("-1")){
+    public static String nongNet(String value) {
+        if (value.equals("-1.00") || value.equals("-1")) {
             value = "—";
-        }else if(Double.valueOf(value) < 0){
+        } else if (Double.valueOf(value) < 0) {
             value = "0.00";
         }
         return value;
     }
-    public static String getshou(double volume){
+
+    public static String getshou(double volume) {
         String text = null;
         volume = volume / 100;
         if (volume < 10000) {
             text = new DecimalFormat("0.00").format(volume) + "手";
-        } else if(volume > 10000 && volume < 100000000){
-            volume = volume/10000;
+        } else if (volume > 10000 && volume < 100000000) {
+            volume = volume / 10000;
             text = new DecimalFormat("0.00").format(volume) + "万手";
-        }else{
-            volume = volume/100000000;
+        } else {
+            volume = volume / 100000000;
             text = new DecimalFormat("0.00").format(volume) + "亿手";
         }
         return text;
     }
+
     public static int getTextWidth(String text, int textSize) {
         Paint p = new Paint();
         Rect rect = new Rect();
@@ -370,24 +376,59 @@ public class UIUtils {
             return false;
         }
     }
-    public static boolean hasSmartBar(){
-        /*try {
-            Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
-            
-            return ((Boolean) method.invoke(null)).booleanValue();
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }*/
-        if (Build.DEVICE.equals("mx2")||Build.DEVICE.equals("mx3")||Build.DEVICE.equals("mx4pro")) {            
-            return true;         
-        } 
-        return false;
-    }
-    public static boolean isSymbleIndex(String type){
-        if(type.equals("5")){
+
+    public static boolean hasSmartBar() {
+        /*
+         * try {
+         * Method method = Class.forName("android.os.Build").getMethod("hasSmartBar");
+         * 
+         * return ((Boolean) method.invoke(null)).booleanValue();
+         * } catch (Exception e) {
+         * // TODO Auto-generated catch block
+         * e.printStackTrace();
+         * }
+         */
+        if (Build.DEVICE.equals("mx2") || Build.DEVICE.equals("mx3") || Build.DEVICE.equals("mx4pro")) {
             return true;
         }
         return false;
     }
+
+    public static boolean isSymbleIndex(String type) {
+        if (type.equals("5")) {
+            return true;
+        }
+        return false;
+    }
+
+    public static void startAminationActivity(Activity context, Intent intent) {
+        context.startActivity(intent);
+        // context.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+        setOverridePendingAmin(context);
+    }
+
+    public static void setOverridePendingAmin(Activity activity) {
+        activity.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
+    }
+
+    public static void outAminationActivity(Activity context) {
+        context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
+
+    }
+
+    public static void isShow() {
+        // if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >= 19) {
+        } // 透明状态栏
+
+    }
+
+    public static float dip2px(Context paramContext, float paramFloat) {
+        return 0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density;
+    }
+
+    public static float px2dip(Context paramContext, float paramFloat) {
+        return 0.5F + paramFloat / paramContext.getResources().getDisplayMetrics().density;
+    }
+
 }

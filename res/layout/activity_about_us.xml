@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="谁牛 Android0.5.1"
+        android:text="谁牛 Android 1.0"
         android:textSize="18sp"
         android:id="@+id/about_version"
         android:textStyle="bold" />

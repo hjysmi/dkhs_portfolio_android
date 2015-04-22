@@ -68,15 +68,20 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
     private static StringBuffer crashinfo;
 
-    private static CrashHandler crashhandler;
+    private volatile static CrashHandler crashhandler;
 
     private CrashHandler() {
     };
 
     public static CrashHandler getInstance(Context ctx) {
+
         if (crashhandler == null) {
-            crashhandler = new CrashHandler();
-            crashhandler.init(ctx);
+            synchronized (CrashHandler.class) {
+                if (crashhandler == null) {
+                    crashhandler = new CrashHandler();
+                    crashhandler.init(ctx);
+                }
+            }
         }
         return crashhandler;
     }

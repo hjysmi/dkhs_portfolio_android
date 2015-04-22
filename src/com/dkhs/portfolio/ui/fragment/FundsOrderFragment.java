@@ -13,15 +13,12 @@ import java.util.List;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.ChampionBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine;
-import com.dkhs.portfolio.engine.LoadSelectDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
@@ -35,6 +32,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
@@ -66,7 +64,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public static final String ORDER_TYPE_ALL = "net_value";
     private String mOrderType;
     private FundsOrderAdapter mAdapter;
-    private List<ChampionBean> mDataList = new ArrayList<ChampionBean>();
+    private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private FundsOrderEngineImpl orderEngine;
     private boolean isvisible = false;
 
@@ -125,12 +123,26 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         }
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param view
+     * @param savedInstanceState
+     * @return
+     */
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onViewCreated(view, savedInstanceState);
+        mListView.setDividerHeight(0);
+    }
+
     @Override
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
         mSwipeLayout.setRefreshing(false);
-        if (null != object.getResults() && object.getResults().size() > 0) {
+        if (null != object && null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
             setListViewVisible();
             // add by zcm -----2014.12.15
@@ -197,6 +209,12 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         // TODO Auto-generated method stub
         super.onResume();
         MobclickAgent.onPageStart(mPageName);
+
+        if (isvisible) {
+            // loadData();
+            dataHandler.removeCallbacks(runnable);
+            dataHandler.postDelayed(runnable, 60);
+        }
     }
 
     @Override
@@ -236,8 +254,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 getActivity().startActivity(
-                        OrderFundDetailActivity.getIntent(getActivity(),
-                                CombinationBean.parse(mDataList.get(position)), true, mOrderType));
+                        OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true, mOrderType));
             }
         };
     }
@@ -261,6 +278,18 @@ public class FundsOrderFragment extends LoadMoreListFragment {
                 isRefresh = true;
             }
         };
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    public void loadFail() {
+        mSwipeLayout.setRefreshing(false);
+        isRefresh = false;
+
     }
 
 }
