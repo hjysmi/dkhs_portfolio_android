@@ -109,7 +109,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
                     public void onSuccess(String result) {
                         RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class,
                                 result);
-                        if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
+                        if (null != rongTolenBean && !TextUtils.isEmpty(rongTolenBean.getToken())) {
                             connectRongIM(rongTolenBean.getToken());
                         }
                     }

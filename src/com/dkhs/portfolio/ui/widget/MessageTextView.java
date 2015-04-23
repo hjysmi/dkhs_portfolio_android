@@ -13,7 +13,7 @@ import android.widget.TextView;
  * @date 2015/4/20.16:53
  * @Description TODO(去除消息中的AutoLink 属性)
  */
-public class MessageTextView  extends TextView {
+public class MessageTextView extends TextView {
     public MessageTextView(Context context) {
         super(context);
     }
@@ -26,22 +26,15 @@ public class MessageTextView  extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MessageTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
+    // public MessageTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    // super(context, attrs, defStyleAttr, defStyleRes);
+    // }
 
     @Override
     public void setText(CharSequence text, BufferType type) {
 
-            setAutoLinkMask(0);
-            super.setText(text, type);
+        setAutoLinkMask(0);
+        super.setText(text, type);
     }
-
-
-
-
-
-
 
 }
