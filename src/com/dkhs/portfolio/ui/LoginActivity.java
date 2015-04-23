@@ -143,8 +143,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         if (isLoginByAnnoy) {
             setupDefalutUserInfo();
             setTitle(R.string.login);
-            getBtnBack().setText(R.string.cancel);
-            getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            // getBtnBack().setText(R.string.cancel);
+            getBtnBack().setText("取消");
+            // getBtnBack().setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             if (!TextUtils.isEmpty(phoneNum)) {
                 etUserName.setText(phoneNum);
                 setupLastUserInfo();

@@ -1,17 +1,12 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.Hashtable;
-
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +17,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.UIUtils;
 
 public class ModelAcitivity extends SwipeBackActivity {
@@ -29,7 +25,7 @@ public class ModelAcitivity extends SwipeBackActivity {
     public final int RIGHTBUTTON_ID = R.id.btn_right;
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
-    private Button btnBack;
+    private TextImageButton btnBack;
     private View mTitleView;
     protected UserEngineImpl engine;
 
@@ -104,7 +100,7 @@ public class ModelAcitivity extends SwipeBackActivity {
         layoutContent = (RelativeLayout) findViewById(R.id.layoutContent);
         mTitleView = findViewById(R.id.includeHead);
 
-        btnBack = (Button) findViewById(BACKBUTTON_ID);
+        btnBack = (TextImageButton) findViewById(BACKBUTTON_ID);
 
         // llBack = (LinearLayout) findViewById(R.id.llHeadBack);
 
@@ -279,11 +275,11 @@ public class ModelAcitivity extends SwipeBackActivity {
         super.onDestroy();
     }
 
-    public Button getBtnBack() {
+    public TextImageButton getBtnBack() {
         return btnBack;
     }
 
-    public void setBtnBack(Button btnBack) {
+    public void setBtnBack(TextImageButton btnBack) {
         this.btnBack = btnBack;
     }
 
