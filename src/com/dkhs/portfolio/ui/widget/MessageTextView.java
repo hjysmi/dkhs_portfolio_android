@@ -31,6 +31,7 @@ public class MessageTextView  extends TextView {
     // super(context, attrs, defStyleAttr, defStyleRes);
     // }
 
+
     @Override
     public void setText(CharSequence text, BufferType type) {
 
