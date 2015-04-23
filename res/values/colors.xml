@@ -8,6 +8,7 @@
     <color name="theme_gray">#F5F5F5</color>
     <color name="theme_gray_press">#d0d0d0</color>
     <color name="round">#b2ffffff</color>
+    <color name="md_grey_800">#424242</color>
     <color name="drivi_line">#d0d0d0</color>
     <color name="edit_textcolor">#d0d0d0</color>
     <color name="gray_textcolor">#979797</color>
@@ -23,6 +24,8 @@
     <color name="green_bg">#c4ffc4</color>
     <color name="white">#ffffffff</color>
     <color name="white_60">#99ffffff</color>
+    <color name="white_10">#1affffff</color>
+
     <color name="gray">#4d4c4d</color>
     <color name="yellow">#ffff00</color>
     <color name="text_press">#a0a0a0</color>

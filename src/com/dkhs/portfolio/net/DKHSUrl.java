@@ -71,6 +71,10 @@ public class DKHSUrl {
 
         // 组合编辑排序
         String sort = "/api/v1/portfolio/following/sort/";
+        //获取关注的人
+        String get_frients="/api/v1/users/%s/friends/";
+        //获取粉丝
+        String get_followers="/api/v1/users/%s/followers/";
 
     }
 
@@ -180,6 +184,9 @@ public class DKHSUrl {
         String add_feed = "/api/v1/apps/";
         String bind_mobile = "/api/v1/accounts/bind_mobile/";
         String get_token="/api/v1/im/token/";
+
+
+
     }
 
     public interface MainPage {

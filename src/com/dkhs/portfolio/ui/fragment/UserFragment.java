@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.RCChatListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
@@ -179,13 +181,18 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
 
+    private void startUserInfoActivity(){
+        Intent intent = CombinationUserActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(), UserEngineImpl.getUserEntity().getId() + "", true);
+        startActivity(intent);
+    }
+
     @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout, R.id.message_center_layout })
     public void onClick(View v) {
         int id = v.getId();
         if (R.id.btn_login == id) {
             UIUtils.iStartLoginActivity(getActivity());
         } else if (R.id.ll_userinfo_layout == id) {
-            startSettingActivity();
+            startUserInfoActivity();
         } else if (R.id.user_myfunds_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
                 // getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
