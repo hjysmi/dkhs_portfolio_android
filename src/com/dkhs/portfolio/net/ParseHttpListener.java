@@ -32,6 +32,11 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         return this;
     }
 
+    public ParseHttpListener setLoadingDialog(Context context, int msgid, boolean isCancelable) {
+        setLoadingDialog(context, context.getString(msgid), isCancelable);
+        return this;
+    }
+
     public ParseHttpListener setLoadingDialog(Context context, String msg) {
         this.mContext = context;
         this.msg = msg;
@@ -49,6 +54,13 @@ public abstract class ParseHttpListener<T> extends BasicHttpListener {
         this.mContext = context;
         this.msg = "";// mContext.getString(R.string.loading);
 
+        return this;
+    }
+
+    public ParseHttpListener setLoadingDialog(Context context, boolean isCancelable) {
+        this.mContext = context;
+        this.msg = "";// mContext.getString(R.string.loading);
+        this.isHideDialog = isCancelable;
         return this;
     }
 
