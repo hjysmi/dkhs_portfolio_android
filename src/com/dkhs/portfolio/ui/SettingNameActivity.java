@@ -232,7 +232,6 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                System.out.println("etUserName onTextChanged" + s);
             }
 
             @Override
@@ -240,7 +239,6 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                 // 在文本变化之前先获取到文本值
                 strBefore = s.toString();
 
-                System.out.println("etUserName beforeTextChanged" + s);
             }
 
             @Override
@@ -383,11 +381,11 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         etUserName.setText(text);
         if (TextUtils.isEmpty(text)) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>昵称不能为空</font>"));
             etUserName.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(text) < 4) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于4个字符</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>昵称不能小于4个字符</font>"));
             etUserName.requestFocus();
         }
         return isValid;
