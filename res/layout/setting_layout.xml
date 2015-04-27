@@ -21,8 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                android:visibility="gone" >
+                android:orientation="vertical" >
 
                 <LinearLayout
                     android:id="@+id/ll_userinfo_layout"
@@ -138,7 +137,6 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@id/setting_image_name_right"
-                            android:paddingRight="10dp"
                             android:text=""
                             android:textColor="@color/person_setting_phonecolor"
                             android:textSize="@dimen/setting_text_phone" />
