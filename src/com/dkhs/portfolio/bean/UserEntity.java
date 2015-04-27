@@ -60,6 +60,16 @@ public class UserEntity {
     private String avatar_lg;
     private String date_joined;
 
+    private boolean me_follow;
+
+    public boolean isMe_follow() {
+        return me_follow;
+    }
+
+    public void setMe_follow(boolean me_follow) {
+        this.me_follow = me_follow;
+    }
+
     public int getSymbols_count() {
         return symbols_count;
     }

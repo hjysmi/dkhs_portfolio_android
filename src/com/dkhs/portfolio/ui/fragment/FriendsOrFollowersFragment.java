@@ -37,6 +37,7 @@ public class FriendsOrFollowersFragment extends LoadMoreListFragment {
     private PeopleEngineImpl peopleEngine = null;
     private PeopleEngineImpl.TYPE type;
     private BaseAdapter adapter;
+    private String userId;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -44,7 +45,7 @@ public class FriendsOrFollowersFragment extends LoadMoreListFragment {
         super.onCreate(arg0);
         Intent intent = getActivity().getIntent();
         String getTypeStr = intent.getStringExtra(FriendsOrFollowersActivity.KEY);
-
+        userId= intent.getStringExtra(FriendsOrFollowersActivity.USER_ID);
         if (getTypeStr.equals(FriendsOrFollowersActivity.FRIENDS)) {
             type = PeopleEngineImpl.TYPE.FRIENDS;
         } else if (getTypeStr.equals(FriendsOrFollowersActivity.FOLLOWER)) {
@@ -105,7 +106,7 @@ public class FriendsOrFollowersFragment extends LoadMoreListFragment {
     LoadMoreDataEngine getLoadEngine() {
 
         if (null == peopleEngine) {
-            peopleEngine = new PeopleEngineImpl(this, type);
+            peopleEngine = new PeopleEngineImpl(this, type,userId);
         }
         return peopleEngine;
     }

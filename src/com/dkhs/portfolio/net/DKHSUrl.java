@@ -184,6 +184,8 @@ public class DKHSUrl {
         String add_feed = "/api/v1/apps/";
         String bind_mobile = "/api/v1/accounts/bind_mobile/";
         String get_token="/api/v1/im/token/";
+        String follow="/api/v1/users/%s/follow/";
+        String unfollow="/api/v1/users/%s/unfollow/";
 
 
 

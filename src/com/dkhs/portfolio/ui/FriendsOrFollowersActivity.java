@@ -17,8 +17,10 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
 
 
     public static final String KEY="type";
+    public static final String USER_ID="user_id";
     public static final String FRIENDS="friends";
     public static final String FOLLOWER="follower";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

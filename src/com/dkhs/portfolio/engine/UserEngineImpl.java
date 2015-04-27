@@ -25,17 +25,17 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
+ * @author zcm
+ * @version 1.0
  * @ClassName UserEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zcm
  * @date 2014-10-08 下午2:25:01
- * @version 1.0
  */
 public class UserEngineImpl {
 
     /**
      * 登录
-     * 
+     *
      * @param username
      * @param password
      * @param logintype
@@ -58,7 +58,7 @@ public class UserEngineImpl {
 
     /**
      * 设置密码
-     * 
+     *
      * @param password
      * @param captcha
      * @param listener
@@ -73,7 +73,7 @@ public class UserEngineImpl {
 
     /**
      * 修改密码
-     * 
+     *
      * @param oldpassword
      * @param newpassword
      * @param listener
@@ -87,7 +87,7 @@ public class UserEngineImpl {
 
     /**
      * 是否设置过密码
-     * 
+     *
      * @param mobile
      * @param listener
      */
@@ -99,7 +99,7 @@ public class UserEngineImpl {
 
     /**
      * 获取验证码
-     * 
+     *
      * @param mobile
      * @param listener
      */
@@ -110,7 +110,7 @@ public class UserEngineImpl {
     }
 
     public void register(String mobile, String password, String captha, String username,
-            ParseHttpListener<UserEntity> listener) {
+                         ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("captcha", captha);
@@ -120,7 +120,7 @@ public class UserEngineImpl {
     }
 
     public void registerThreePlatform(String username, String openid, String provider, ThreePlatform extraData,
-            ParseHttpListener<UserEntity> listener) {
+                                      ParseHttpListener<UserEntity> listener) {
         RequestParams params = new RequestParams();
 
         params.addBodyParameter("provider", provider);
@@ -131,7 +131,7 @@ public class UserEngineImpl {
     }
 
     public static void bindThreePlatform(String openid, String provider, ThreePlatform extraData,
-            BasicHttpListener listener) {
+                                         BasicHttpListener listener) {
         RequestParams params = new RequestParams();
 
         params.addBodyParameter("provider", provider);
@@ -252,7 +252,7 @@ public class UserEngineImpl {
     }
 
     public void setFeedBack(String app, String version, String content, String contact, File file,
-            ParseHttpListener<FeedBackBean> listener) {
+                            ParseHttpListener<FeedBackBean> listener) {
         RequestParams params = new RequestParams();
         if (null != app)
             params.addBodyParameter("app_code", app);
@@ -276,8 +276,7 @@ public class UserEngineImpl {
 
     /**
      * 获取 用户的token 值
-     * todo 未测试
-     * 
+     *
      * @param user_id
      * @param nickName
      * @param portrait_uri
@@ -309,6 +308,28 @@ public class UserEngineImpl {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     *关注
+     */
+    public void follow(String follow_id, BasicHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+
+        DKHSClient.request(HttpMethod.POST, String.format(DKHSUrl.User.follow, follow_id), params, listener);
+
+    }
+
+    /**
+     *取消关注
+     */
+    public void unfollow(String unfollow_id, BasicHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+
+        DKHSClient.request(HttpMethod.POST, String.format(DKHSUrl.User.unfollow, unfollow_id), params, listener);
+
     }
 
 }

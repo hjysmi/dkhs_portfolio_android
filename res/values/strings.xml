@@ -410,6 +410,7 @@
     <string name="msg_follow_success">添加关注成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
+
     <!-- 提醒设置 -->
     <string name="title_remind">提醒设置</string>
     <string name="price_units">元</string>
@@ -450,6 +451,8 @@
     <string name="symbols">自建</string>
     <string name="followers">粉丝</string>
     <string name="following">关注</string>
+    <string name="unfollowing">取消关注</string>
+    <string name="unfollow_alert_content">确定取消关注%s ?</string>
     <string name="null_number">--</string>
 
 

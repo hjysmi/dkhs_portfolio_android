@@ -36,7 +36,7 @@ public class FriendsOrFollowerAdapter extends AutoAdapter {
             bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md());
         }
 
-        vh.setTextView(R.id.tv_username,peopleBean.getUsername());
+        vh.setTextView(R.id.tv_user_name,peopleBean.getUsername());
         vh.setTextView(R.id.tv_followers,context.getResources().getString(R.string.followers)+":"+handleNumber(peopleBean.getFollowed_by_count()));
         vh.setTextView(R.id.tv_friends,context.getResources().getString(R.string.following)+":"+handleNumber(peopleBean.getFriends_count()));
 

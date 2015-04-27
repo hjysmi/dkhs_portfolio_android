@@ -1,15 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RelativeLayout
+        android:id="@+id/rl_combination_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+
+    <RelativeLayout
+        android:id="@+id/ll_follow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/btn_white_selector">
+
+        <TextView
+            android:id="@+id/tv_follow"
+            style="@style/CommonTextAppearance_Middle_Gray"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:padding="8dp"
+            android:text="@string/following" />
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/rl_user_info"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="280dp">
 
-        android:background="@color/pink">
+        <View
+            android:id="@+id/v_bg"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/pink" />
 
         <ImageView
             android:id="@+id/iv_uheader"
@@ -45,20 +71,18 @@
             android:textSize="15sp" />
 
         <LinearLayout
+            android:id="@+id/ll_tool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_user_desc"
             android:layout_centerHorizontal="true"
-
-
             android:layout_marginTop="12dp"
-
             android:orientation="horizontal">
 
 
             <LinearLayout
-                android:layout_width="100dp"
                 android:id="@+id/ll_symbols"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -78,11 +102,11 @@
                 android:layout_marginTop="20dp" />
 
             <LinearLayout
-                android:layout_width="100dp"
                 android:id="@+id/ll_following"
+                android:layout_width="100dp"
 
-                android:background="@drawable/bg_common_btn"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_common_btn"
                 android:orientation="vertical">
 
                 <TextView
@@ -103,9 +127,9 @@
 
             <LinearLayout
                 android:id="@+id/ll_followers"
-                android:background="@drawable/bg_common_btn"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_common_btn"
                 android:orientation="vertical">
 
                 <TextView
@@ -119,57 +143,55 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <LinearLayout
+
+            android:id="@+id/ll_combination_title"
+            style="@style/gray_text_tabline"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/creat_fund_name" />
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="创建时间" />
+
+            <TextView
+                style="@style/gray_title_text"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/add_up_value" />
+        </LinearLayout>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/tv_combination_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:padding="4dp"
-        android:text="@string/text_other_manager_combin"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp" />
 
     <View style="@style/divider_line" />
 
-    <LinearLayout
-        android:id="@+id/ll_combination_title"
-        style="@style/gray_text_tabline"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
 
-        <TextView
-            style="@style/gray_title_text"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/creat_fund_name" />
+    <!--<View -->
+    <!---->
+    <!--style="@style/divider_line" />-->
 
-        <TextView
-            style="@style/gray_title_text"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="创建时间" />
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rl_combination_list"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="-1dp" />-->
 
-        <TextView
-            style="@style/gray_title_text"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/add_up_value" />
-    </LinearLayout>
 
-    <View style="@style/divider_line" />
-
-    <RelativeLayout
-        android:id="@+id/rl_combination_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="-1dp" />
-
-</LinearLayout>
+</RelativeLayout>

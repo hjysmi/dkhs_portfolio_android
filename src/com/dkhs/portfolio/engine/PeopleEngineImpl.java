@@ -20,46 +20,50 @@ import com.lidroid.xutils.http.client.HttpRequest;
  * @version 1.0
  * @ClassName FriendsEngineImpl
  * @date 2015/4/23.13:39
- * @Description 获取关注的人,和粉丝网络请求类
+ * @Description 获取关注的人, 和粉丝网络请求类
  */
 public class PeopleEngineImpl extends LoadMoreDataEngine {
 
-    private final UserEntity user;
-    private   int page=1;
+
+    private int page = 1;
     /**
      * 默认显示一页20条数据
      */
-    private   static  final  int pageSize=20;
+    private static final int pageSize = 20;
 
 
     private TYPE type;
+    private String userId;
 
-    public PeopleEngineImpl(ILoadDataBackListener loadListener, TYPE type){
+    public PeopleEngineImpl(ILoadDataBackListener loadListener, TYPE type, String userId) {
         super(loadListener);
-        this.type=type;
-         user = UserEngineImpl.getUserEntity();
+        this.type = type;
+        this.userId = userId;
+        if (userId == null) {
+            userId = UserEngineImpl.getUserEntity().getId() + "";
+        }
+
     }
 
     @Override
     public HttpHandler loadMore() {
 
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", page+"");
+
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
+        params.addQueryStringParameter("page_size", pageSize + "");
 
 
-
-
-        return DKHSClient.request(HttpRequest.HttpMethod.GET,  String.format(type.getUrl(),user.getId()), params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(type.getUrl(), userId), params, this);
     }
 
     @Override
     public HttpHandler loadData() {
 
         RequestParams params = new RequestParams();
-        params.addQueryStringParameter("page", page+"");
+        params.addQueryStringParameter("page", page + "");
         params.addQueryStringParameter("page_size", pageSize + "");
-        return DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(type.getUrl(),user.getId()), params, this);
+        return DKHSClient.request(HttpRequest.HttpMethod.GET, String.format(type.getUrl(), userId), params, this);
 
     }
 
@@ -87,12 +91,13 @@ public class PeopleEngineImpl extends LoadMoreDataEngine {
         return moreBean;
     }
 
-  static public   enum  TYPE{
+    static public enum TYPE {
         FRIENDS(DKHSUrl.Portfolio.get_frients), FOLLOWERS(DKHSUrl.Portfolio.get_followers);
 
-        private TYPE(String url){
+        private TYPE(String url) {
             this.url = url;
         }
+
         private String url;
 
         public String getUrl() {

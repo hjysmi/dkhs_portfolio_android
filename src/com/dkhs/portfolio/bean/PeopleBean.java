@@ -12,6 +12,10 @@ import java.util.List;
 public class PeopleBean {
 
 
+
+
+
+
     /**
      * symbols_count : 0
      * friends_count : 1
@@ -34,7 +38,7 @@ public class PeopleBean {
     private int symbols_count;
     private int friends_count;
     private boolean is_active;
-    private int gender;
+    private String gender;
     private String city;
     private String description;
     private String avatar_md;
@@ -49,6 +53,17 @@ public class PeopleBean {
     private String username;
     private boolean me_follow;
 
+
+    /**
+     * total_count : 1
+     * total_page : 1
+     * results : [{"symbols_count":0,"follow_me":false,"friends_count":0,"is_active":true,"gender":"","city":"","description":"","avatar_md":"http://com-dkhs-media-test.oss.aliyuncs.com/avatar/2015/04/01/10/4409/gegugonggao.320x320.png","avatar_xs":"http://com-dkhs-media-test.oss.aliyuncs.com/avatar/2015/04/01/10/4409/gegugonggao.80x80.png","avatar_lg":"http://com-dkhs-media-test.oss.aliyuncs.com/avatar/2015/04/01/10/4409/gegugonggao.640x640.png","avatar_sm":"http://com-dkhs-media-test.oss.aliyuncs.com/avatar/2015/04/01/10/4409/gegugonggao.160x160.png","province":"","followed_by_count":0,"id":1,"date_joined":"2014-12-08T09:00:32Z","category":[],"status_count":0,"username":"root"}]
+     * current_page : 1
+     */
+    private int total_count;
+    private int total_page;
+
+
     public void setSymbols_count(int symbols_count) {
         this.symbols_count = symbols_count;
     }
@@ -61,7 +76,7 @@ public class PeopleBean {
         this.is_active = is_active;
     }
 
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -129,7 +144,7 @@ public class PeopleBean {
         return is_active;
     }
 
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
 

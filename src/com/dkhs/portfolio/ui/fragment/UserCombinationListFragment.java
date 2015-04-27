@@ -26,19 +26,25 @@ import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.cache.MD5FileNameGenerator;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -55,7 +61,7 @@ import android.widget.AbsListView.OnScrollListener;
  * @date 2014-10-29 下午4:03:33
  * @version 1.0
  */
-public class UserCombinationListFragment extends LoadMoreListFragment {
+public class UserCombinationListFragment extends LoadMoreListFragment implements OnScrollListener {
 
     private String mOrderType;
     private UserCombinationAdapter mAdapter;
@@ -63,13 +69,18 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
     private UserCombinationEngineImpl dataEngine;
     private String mUserName;
     private String mUserId;
+    private View headerView;
 
+    private View footView;
+    /**
+     * 头部高度
+     */
+    private int headerHeight;
     public static UserCombinationListFragment getFragment(String username, String userId) {
         UserCombinationListFragment fragment = new UserCombinationListFragment();
         Bundle args = new Bundle();
         args.putString("username", username);
         args.putString("userId", userId);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,11 +97,37 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
         }
     }
 
+   public ListView getListView(){
+        return mListView;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
+
+        headerHeight = DisplayUtil.dip2px(getActivity(), 280);
+        LogUtils.e("headerHeight "+headerHeight);
+
+        headerView = new View(getActivity());
+        footView = new View(getActivity());
+        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(getActivity(), 280)));
+
+        getListView().setOnScrollListener(this);
+
+        getListView().addHeaderView(headerView);
+
+
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+
+
 
     @Override
     ListAdapter getListAdapter() {
@@ -105,6 +142,9 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
 
         super.loadFinish(object);
         mSwipeLayout.setRefreshing(false);
+
+
+
         if (null != object.getResults()) {
 
             // mDataList = object.getResults();
@@ -113,6 +153,39 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
             // System.out.println("datalist size :" + mDataList.size());
             mAdapter.notifyDataSetChanged();
         }
+
+        if(object.getCurrentPage()==1){
+
+            addListViewFootView();
+
+        }
+
+    }
+
+    public void addListViewFootView() {
+
+
+        if(null != footView .getParent() ) {
+            getListView().removeFooterView(footView);
+        }
+        int totalHeight = 0;
+
+
+        totalHeight=DisplayUtil.dip2px(getActivity(),50)*( getListAdapter().getCount()-1);
+        int footHeight;
+        if(totalHeight < (getListView().getHeight()) ){
+
+            footHeight=(getListView().getHeight())-totalHeight-DisplayUtil.dip2px(getActivity(),50);
+
+        }else{
+            footHeight=DisplayUtil.dip2px(getActivity(),70);
+        }
+        footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
+        getListView().addFooterView(footView);
+
+
+
+
 
     }
 
@@ -204,5 +277,55 @@ public class UserCombinationListFragment extends LoadMoreListFragment {
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
 
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+        float percent=getValues(-headerView.getTop());
+        if (firstVisibleItem >1) {
+            percent = 1;
+        }
+        if(mListener != null){
+            mListener.onScrollChanged(percent);
+        }
+
+    }
+
+    public float getValues(int l) {
+        float value = l * 1.0f / headerHeight;
+        value = Math.max(value, 0);
+        value = Math.min(value, 1);
+        return value;
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mListener = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+
+    private OnFragmentInteractionListener mListener;
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+
+    public interface OnFragmentInteractionListener {
+        public void onScrollChanged(float percent);
     }
 }

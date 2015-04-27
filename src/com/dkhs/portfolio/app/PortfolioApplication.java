@@ -69,7 +69,7 @@ public class PortfolioApplication extends Application {
         }
 
         // 注册crashHandler
-        CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
 
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);

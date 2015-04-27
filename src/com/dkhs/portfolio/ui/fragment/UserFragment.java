@@ -24,9 +24,11 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.RCChatListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
@@ -42,14 +44,16 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
+import java.text.DecimalFormat;
+
 import io.rong.imkit.RongIM;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName UserFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-5 下午1:01:32
- * @version 1.0
  */
 public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
@@ -65,6 +69,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private TextView settingTextNameText;
     @ViewInject(R.id.tv_unread_count)
     private TextView unreadCountTV;
+    private TextView tvFollowers;
+    private TextView tvFollowing;
 
     @Override
     public int setContentLayoutId() {
@@ -75,15 +81,20 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        tvFollowers = (TextView) view.findViewById(R.id.tv_followers);
+        tvFollowing = (TextView) view.findViewById(R.id.tv_following);
+        view.findViewById(R.id.ll_followers).setOnClickListener(this);
+        view.findViewById(R.id.ll_following).setOnClickListener(this);
+
         initView(view);
         setTitle(R.string.title_user);
 
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onResume() {
@@ -138,6 +149,12 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 settingImageHead.setImageBitmap(b);
 
             }
+
+            UserEntity userEntity = UserEngineImpl.getUserEntity();
+            if (userEntity != null) {
+                handleNumber(tvFollowers, userEntity.getFollowed_by_count());
+                handleNumber(tvFollowing, userEntity.getFriends_count());
+            }
         } else {
             viewLogin.setVisibility(View.VISIBLE);
             viewUserInfo.setVisibility(View.GONE);
@@ -146,6 +163,19 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         updateMessageCenterState();
 
+    }
+
+    private void handleNumber(TextView tv, int count) {
+
+        String countStr;
+
+        if (count > 1000) {
+            DecimalFormat df2 = new DecimalFormat("#.#");
+            countStr = df2.format(count / 1000.0) + "k";
+        } else {
+            countStr = count + "";
+        }
+        tv.setText(countStr);
     }
 
     private void updateMessageCenterState() {
@@ -181,17 +211,17 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
 
-    private void startUserInfoActivity(){
+    private void startUserInfoActivity() {
         Intent intent = CombinationUserActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(), UserEngineImpl.getUserEntity().getId() + "", true);
         startActivity(intent);
     }
 
-    @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout, R.id.message_center_layout })
+    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout, R.id.ll_following, R.id.ll_followers})
     public void onClick(View v) {
         int id = v.getId();
         if (R.id.btn_login == id) {
             UIUtils.iStartLoginActivity(getActivity());
-        } else if (R.id.ll_userinfo_layout == id) {
+        } else if (R.id.setting_layout_icon == id) {
             startUserInfoActivity();
         } else if (R.id.user_myfunds_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
@@ -211,7 +241,24 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 // }
                 startActivity(new Intent(getActivity(), RCChatListActivity.class));
             }
+        } else if (R.id.ll_following == id) {
+
+
+            Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
+            followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
+            followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
+            startActivity(followIntent);
+
+        } else if (R.id.ll_followers == id) {
+
+
+            Intent intent1 = new Intent(getActivity(), FriendsOrFollowersActivity.class);
+            intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
+            intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
+            startActivity(intent1);
+
         }
+
 
     }
 
