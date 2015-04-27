@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import android.text.TextUtils;
 
@@ -350,6 +351,23 @@ public class CombinationBean extends DragListItem implements Serializable {
 
     public void setAlertBean(PortfolioAlertBean alertBean) {
         this.alertBean = alertBean;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true; // 如果是自己equals自己的话，这里就可以直接返回true，避免了后面可能的大量比较
+        if (!(obj instanceof CombinationBean))
+            return false;
+
+        CombinationBean other = (CombinationBean) obj;
+        return id.equals(other.id) && name.equals(other.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode() + name.hashCode();
     }
 
 }

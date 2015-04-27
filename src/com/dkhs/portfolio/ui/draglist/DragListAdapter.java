@@ -143,6 +143,8 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
                     convertView.findViewById(R.id.image).setVisibility(View.INVISIBLE);
                     convertView.findViewById(R.id.drag_list_item_text_id).setVisibility(View.INVISIBLE);
                     convertView.findViewById(R.id.drag_item_up).setVisibility(View.INVISIBLE);
+                    // convertView.findViewById(R.id.drag_item_up).setVisibility(View.INVISIBLE);
+                    convertView.findViewById(R.id.cb_tixing).setVisibility(View.INVISIBLE);
                 }
             }
             if (lastFlag != -1) {

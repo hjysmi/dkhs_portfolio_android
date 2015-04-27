@@ -19,6 +19,7 @@ import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -149,7 +150,14 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         viewHolder.cbFollowed.setOnCheckedChangeListener(null);
         viewHolder.cbFollowed.setTag(item);
 
-        viewHolder.cbFollowed.setChecked(item.isFollowed());
+        if (!PortfolioApplication.hasUserLogin()) {
+            if (null != FundsOrderActivity.mVisitorData) {
+                viewHolder.cbFollowed.setChecked(FundsOrderActivity.mVisitorData.contains(item));
+            }
+        } else {
+
+            viewHolder.cbFollowed.setChecked(item.isFollowed());
+        }
         viewHolder.cbFollowed.setOnCheckedChangeListener(this);
 
         viewHolder.tvIncomeText.setText(textResId);
@@ -261,9 +269,15 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         } else {
             if (mCombinationBean.isFollowed()) {
                 new VisitorDataEngine().saveCombination(mCombinationBean);
+                if (!FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
+                    FundsOrderActivity.mVisitorData.add(mCombinationBean);
+                }
                 PromptManager.showFollowToast();
             } else {
                 new VisitorDataEngine().delCombinationBean(mCombinationBean);
+                if (!FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
+                    FundsOrderActivity.mVisitorData.remove(mCombinationBean);
+                }
                 PromptManager.showDelFollowToast();
             }
             // btnAddOptional.setEnabled(true);
@@ -298,19 +312,6 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         protected void afterParseData(Object object) {
             // PromptManager.showToast(R.string.msg_follow_success);
             PromptManager.showFollowToast();
-            // mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
-            // addOptionalButton(mCombinationBean.isFollowed());
-            // if (mCombinationBean.isFollowed()) {
-            // addFollowSuccess();
-            // } else {
-            // delFollowSuccess();
-            // }
-            // try {
-            // int index = mDataList.indexOf(object);
-            // mDataList.get(index).setFollowed();
-            // } catch (Exception e) {
-            // e.printStackTrace();
-            // }
 
         }
     };
@@ -330,19 +331,6 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         @Override
         protected void afterParseData(Object object) {
             PromptManager.showDelFollowToast();
-            // mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
-            // addOptionalButton(mCombinationBean.isFollowed());
-            // if (mCombinationBean.isFollowed()) {
-            // addFollowSuccess();
-            // } else {
-            // delFollowSuccess();
-            // }
-            // try {
-            // int index = mDataList.indexOf(object);
-            // mDataList.get(index).setFollowed();
-            // } catch (Exception e) {
-            // e.printStackTrace();
-            // }
 
         }
     };
