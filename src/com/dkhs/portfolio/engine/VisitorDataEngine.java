@@ -58,7 +58,7 @@ public class VisitorDataEngine {
             public void run() {
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
                 try {
-                    db.save(combean);
+                    db.saveOrUpdate(combean);
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -21,8 +21,10 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
 import com.dkhs.portfolio.ui.fragment.TestFragment;
@@ -42,6 +44,7 @@ public class FundsOrderActivity extends ModelAcitivity {
 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
+    public static List<CombinationBean> mVisitorData;
 
     public static final String EXTRA_TITLE_INDEX = "extra_title_index";
 
@@ -87,6 +90,10 @@ public class FundsOrderActivity extends ModelAcitivity {
         setContentView(R.layout.activity_funds_order);
         setTitle(R.string.fund_order);
         initViews();
+        mVisitorData = new ArrayList<CombinationBean>();
+        if (!PortfolioApplication.hasUserLogin()) {
+            loadVisitorCombinationList();
+        }
         // replaceDataList();
     }
 
@@ -168,4 +175,17 @@ public class FundsOrderActivity extends ModelAcitivity {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
     }
+
+    private void loadVisitorCombinationList() {
+        mVisitorData = new VisitorDataEngine().getCombinationBySort();
+    }
+
+    @Override
+    protected void onDestroy() {
+        // TODO Auto-generated method stub
+        super.onDestroy();
+        mVisitorData.clear();
+        mVisitorData = null;
+    }
+
 }

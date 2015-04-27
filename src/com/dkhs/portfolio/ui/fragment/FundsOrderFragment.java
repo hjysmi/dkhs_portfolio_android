@@ -19,6 +19,7 @@ import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
@@ -182,8 +183,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            // loadData();
-            // if (isvisible) {
 
             if (mDataList.isEmpty()) {
                 loadData();
@@ -191,7 +190,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
                 setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
                 isRefresh = true;
             }
-            // }
             dataHandler.postDelayed(this, 60 * 1000);
         }
     };

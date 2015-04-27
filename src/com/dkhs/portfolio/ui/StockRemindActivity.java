@@ -194,8 +194,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         if (null != mComBean) {
             tvStockName.setText(mComBean.getName());
-            String perText = getString(R.string.format_percent,
-                    StringFromatUtils.get2PointPercent(mComBean.getCumulative()));
+            String perText = getString(R.string.format_com_percent,
+                    StringFromatUtils.get2PointPercent(mComBean.getChng_pct_day()));
             tvPercent.setText(perText);
             perText = getString(R.string.format_combination_price, mComBean.getNetvalue());
             tvPrice.setText(perText);
