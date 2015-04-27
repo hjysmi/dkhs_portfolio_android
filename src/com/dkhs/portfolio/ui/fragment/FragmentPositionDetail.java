@@ -241,7 +241,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
             stockList.clear();
-            System.out.println("getPositionList size:" + bean.getPositionList().size());
+            pieList.clear();
+            // System.out.println("getPositionList size:" + bean.getPositionList().size());
             stockList.addAll(bean.getPositionList());
 
             if (null != stockList && stockList.size() > 0) {
@@ -405,6 +406,8 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         emptySlice.setColor(ColorTemplate.DEF_RED);
         emptySlice.setValue(mPositionDetail.getFund_percent());
         pieList.add(emptySlice);
+
+        System.out.println("pieList size:" + pieList.size());
 
         pgView.setSlices(pieList);
 
@@ -735,6 +738,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
         MobclickAgent.onPageStart(mPageName);
         QueryCombinationDetailListener listener = new QueryCombinationDetailListener();
         listener.setLoadingDialog(getActivity());
+
         new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, listener);
     }
 }
