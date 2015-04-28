@@ -10,36 +10,28 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.CombinationBean.CombinationUser;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
-import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
-import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.AutoScrollHelper;
+import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,11 +47,11 @@ import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午4:03:33
- * @version 1.0
  */
 public class UserCombinationListFragment extends LoadMoreListFragment implements OnScrollListener {
 
@@ -72,10 +64,13 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     private View headerView;
 
     private View footView;
+    private float animPercent;
+
     /**
      * 头部高度
      */
     private int headerHeight;
+
     public static UserCombinationListFragment getFragment(String username, String userId) {
         UserCombinationListFragment fragment = new UserCombinationListFragment();
         Bundle args = new Bundle();
@@ -87,17 +82,16 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
     @Override
     public void onCreate(Bundle arg0) {
-        // TODO Auto-generated method stub
         super.onCreate(arg0);
-        Bundle bundle = getArguments();
 
+        Bundle bundle = getArguments();
         if (null != bundle) {
             mUserName = bundle.getString("username");
             mUserId = bundle.getString("userId");
         }
     }
 
-   public ListView getListView(){
+    public ListView getListView() {
         return mListView;
     }
 
@@ -112,21 +106,14 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
 
         headerHeight = DisplayUtil.dip2px(getActivity(), 280);
-        LogUtils.e("headerHeight "+headerHeight);
-
         headerView = new View(getActivity());
         footView = new View(getActivity());
         headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(getActivity(), 280)));
-
         getListView().setOnScrollListener(this);
-
+        getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
-
-
         super.onViewCreated(view, savedInstanceState);
     }
-
-
 
 
     @Override
@@ -144,7 +131,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         mSwipeLayout.setRefreshing(false);
 
 
-
         if (null != object.getResults()) {
 
             // mDataList = object.getResults();
@@ -154,7 +140,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
             mAdapter.notifyDataSetChanged();
         }
 
-        if(object.getCurrentPage()==1){
+        if (object.getCurrentPage() == 1) {
 
             addListViewFootView();
 
@@ -165,26 +151,24 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     public void addListViewFootView() {
 
 
-        if(null != footView .getParent() ) {
+        if (null != footView.getParent()) {
             getListView().removeFooterView(footView);
         }
         int totalHeight = 0;
 
 
-        totalHeight=DisplayUtil.dip2px(getActivity(),50)*( getListAdapter().getCount()-1);
+        totalHeight = DisplayUtil.dip2px(getActivity(), 50) * (getListAdapter().getCount() - 1);
         int footHeight;
-        if(totalHeight < (getListView().getHeight()) ){
+        if (totalHeight < (getListView().getHeight())) {
 
-            footHeight=(getListView().getHeight())-totalHeight-DisplayUtil.dip2px(getActivity(),50);
+            footHeight = (getListView().getHeight()) - totalHeight - DisplayUtil.dip2px(getActivity(), 50) - (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
 
-        }else{
-            footHeight=DisplayUtil.dip2px(getActivity(),70);
+
+        } else {
+            footHeight = DisplayUtil.dip2px(getActivity(), 50);
         }
         footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
         getListView().addFooterView(footView);
-
-
-
 
 
     }
@@ -198,9 +182,9 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void loadData() {
@@ -221,7 +205,12 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                CombinationBean cBean = mDataList.get(position);
+
+                if (position == 0 || position > mDataList.size()) {
+                    return;
+                }
+
+                CombinationBean cBean = mDataList.get(position - 1);
                 CombinationUser user = new CombinationBean.CombinationUser();
                 user.setId(mUserId);
                 user.setUsername(mUserName);
@@ -251,10 +240,9 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     OnRefreshListener setOnRefreshListener() {
@@ -269,9 +257,9 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void loadFail() {
@@ -282,23 +270,86 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     @Override
     public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+        if (scrollState == SCROLL_STATE_IDLE) {
+
+            if (animPercent != 1 && animPercent != 0) {
+
+
+                if (animPercent > 0.4f) {
+
+//                    startScroll((int) ((DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16)) ));
+
+                    handler.sendEmptyMessage(0);
+
+
+                } else {
+//                    autoScrollHelper.scrollTargetBy(0, (int) ((DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16)) *(1-animPercent)));
+//                    startScroll(headerHeight);
+
+
+                    handler.sendEmptyMessage(1);
+                }
+
+            }
+        }
     }
+
+    public void startScroll(int to) {
+        ValueAnimator valueAnimator = ValueAnimator.ofInt((int) (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16) * animPercent), to);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+               int values=  (Integer) animation.getAnimatedValue();
+//                getListView().smoothScrollBy(10,600);
+                animPercent=getValues(values);
+//                if(mListener != null){
+//                    mListener.onScrollChanged(animPercent);
+//                }
+            }
+        });
+        getListView().smoothScrollBy(200,600);
+        valueAnimator.setDuration(500);
+        valueAnimator.start();
+        handler.sendEmptyMessage(1);
+    }
+
+
+    private android.os.Handler handler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            switch (msg.what) {
+
+                case 0:
+                    getListView().smoothScrollBy(16, 2);
+                    break;
+                case 1:
+                    getListView().smoothScrollBy(-16, 2);
+                    break;
+            }
+
+            if (animPercent != 1 && animPercent != 0) {
+                handler.sendEmptyMessage(msg.what);
+            }
+        }
+    };
 
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-        float percent=getValues(-headerView.getTop());
-        if (firstVisibleItem >1) {
-            percent = 1;
+        animPercent = getValues(-headerView.getTop());
+        if (firstVisibleItem > 1) {
+            animPercent = 1;
         }
-        if(mListener != null){
-            mListener.onScrollChanged(percent);
+        if (mListener != null) {
+            mListener.onScrollChanged(animPercent);
         }
 
     }
 
     public float getValues(int l) {
-        float value = l * 1.0f / headerHeight;
+        float value = l * 1.0f / (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
         value = Math.max(value, 0);
         value = Math.min(value, 1);
         return value;
@@ -318,6 +369,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
 
     private OnFragmentInteractionListener mListener;
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -327,5 +379,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
     public interface OnFragmentInteractionListener {
         public void onScrollChanged(float percent);
+
     }
 }

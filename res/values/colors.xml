@@ -111,6 +111,7 @@
     <color name="list_market_light_gray">#d1d1d1</color>
     <color name="ma5_color">#646464</color>
     <color name="ma10_color">#ff9900</color>
+    <color name="md_grey_400">#bdbdbd</color>
     <color name="ma20_color">#ff00ff</color>
     <color name="position_text_lgray">#acacac</color>
     <color name="darker_gray">#aaa</color>

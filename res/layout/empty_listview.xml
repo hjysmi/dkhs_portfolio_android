@@ -14,6 +14,7 @@
             style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:smoothScrollbar="true"
             android:layout_weight="1"
             android:drawSelectorOnTop="false" />
     </android.support.v4.widget.SwipeRefreshLayout>

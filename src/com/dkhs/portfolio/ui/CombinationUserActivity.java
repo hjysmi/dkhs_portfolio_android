@@ -10,35 +10,26 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
-import com.dkhs.portfolio.ui.widget.ListViewObserver;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.AnimationHelper;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.util.LogUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-import android.app.Activity;
-import android.app.AlertDialog;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -48,7 +39,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 /**
  * @author zjz
@@ -72,8 +62,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private TextView tvSymbols;
     private Context context;
 
-    private ListView listViewObserver;
-
 
     private UserEntity userEntity;
 
@@ -89,11 +77,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private int userDescLeft;
     private TextView followTV;
     private UserCombinationListFragment userCombinationListFragment;
-    /**
-     * 头部高度
-     */
-    private int headerHeight;
 
+    private float prePercent;
 
     public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
         Intent intent = new Intent(context, CombinationUserActivity.class);
@@ -145,9 +130,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
 
     private void initViews() {
+
         ivHeader = (ImageView) findViewById(R.id.iv_uheader);
         tvUName = (TextView) findViewById(R.id.tv_user_name);
-
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
         followTV = (TextView) findViewById(R.id.tv_follow);
         tvFollowers = (TextView) findViewById(R.id.tv_followers);
@@ -157,7 +142,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         llTool = findViewById(R.id.ll_tool);
         bgV = findViewById(R.id.v_bg);
         combinationTitleLL = findViewById(R.id.ll_combination_title);
-        ;
 
         if (isMyInfo) {
             setTitle("我的主页");
@@ -180,7 +164,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rl_combination_list, userCombinationListFragment)
                 .commit();
-
 
     }
 
@@ -206,6 +189,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         }
     };
+
 
     ParseHttpListener unfollowListener = new ParseHttpListener<UserEntity>() {
 
@@ -246,6 +230,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
                 object.setMe_follow(true);
                 updateUserFolllowInfo(object);
+
+                UserEngineImpl.getUserEntity();
             }
 
         }
@@ -290,15 +276,15 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void updateUserFolllowInfo(UserEntity object) {
+
         userEntity = object;
+
         if (object.isMe_follow()) {
             followTV.setText(" " + getResources().getString(R.string.unfollowing));
             followTV.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_del_item_selector), null, null, null);
-
         } else {
             followTV.setText(" " + getResources().getString(R.string.following));
-            followTV.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_title_add), null, null, null);
-
+            followTV.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_add), null, null, null);
         }
 
         handleNumber(tvFollowers, object.getFollowed_by_count());
@@ -367,12 +353,13 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void gotoLoginDialog() {
 
-        new AlertDialog.Builder(this).setTitle("警告").setMessage(R.string.nodata_login_out).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        new MAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.nodata_login_out).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(CombinationUserActivity.this, LoginActivity.class));
+                dialog.dismiss();
             }
-        }).setNegativeButton("取消", null).create().show();
+        }).setNegativeButton(R.string.cancel, null).create().show();
 
 
     }
@@ -380,13 +367,15 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void unFollowAction() {
 
 
-        new AlertDialog.Builder(this).setTitle("警告").setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername())).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                unfollowListener.setLoadingDialog(context);
-                new UserEngineImpl().unfollow(userEntity.getId() + "", unfollowListener);
-            }
-        }).setNegativeButton("取消", null).create().show();
+           new MAlertDialog(this).setTitle(R.string.tips).setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername()))
+                   .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialog, int which) {
+                           unfollowListener.setLoadingDialog(context);
+                           new UserEngineImpl().unfollow(userEntity.getId() + "", unfollowListener);
+                           dialog.dismiss();
+                       }
+                   }).setNegativeButton(R.string.cancel, null).create().show();
 
 
     }
@@ -413,7 +402,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
-    private float prePercent;
 
     /**
      * 动画效果
@@ -422,43 +410,47 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
      */
     public void onScrollChanged(float percent) {
 
-
-        if (percent == 0) {
-            translationShow();
-        } else {
-            translationDismiss();
+        if (!isMyInfo) {
+            if (percent == 0 ) {
+                translationShow();
+            } else {
+                translationDismiss();
+            }
         }
-
 
         ViewHelper.setTranslationX(ivHeader, -(headerLeft - DisplayUtil.dip2px(context, 16)) * percent);
         ViewHelper.setTranslationY(ivHeader, -(headerTop - DisplayUtil.dip2px(context, 16)) * percent);
 
         ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - DisplayUtil.dip2px(context, 72 + 16 + 16)) * percent);
         ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - DisplayUtil.dip2px(context, 72 + 16 - 20)) * percent);
-
         ViewHelper.setTranslationX(tvUName, -(userNameLeft - DisplayUtil.dip2px(context, 72 + 16 + 16)) * percent);
         ViewHelper.setTranslationY(tvUName, -(userNameTop - DisplayUtil.dip2px(context, 26)) * percent);
-
         ViewHelper.setTranslationY(combinationTitleLL, -(DisplayUtil.dip2px(context, 250 - 72 - 16 - 16)) * percent);
         ViewHelper.setTranslationY(llTool, -(DisplayUtil.dip2px(context, 250 - 72 - 16 - 16)) * percent);
+//
         ViewHelper.setAlpha(llTool, 1 - percent);
-
         ViewHelper.setTranslationY(bgV, -(DisplayUtil.dip2px(context, 250 - 72 - 16 - 16)) * percent);
         prePercent = percent;
 
     }
 
+
+
+    private boolean followLLShow=true;
     private void translationDismiss() {
 
-
-        AnimationHelper.translationDismiss(llFollow);
-
-
+        if(followLLShow) {
+            AnimationHelper.translationDismiss(llFollow);
+        }
+        followLLShow=false;
     }
 
     private void translationShow() {
-        AnimationHelper.translationShow(llFollow);
 
+        if(!followLLShow) {
+            AnimationHelper.translationShow(llFollow);
+        }
+        followLLShow=true;
     }
 
 
