@@ -223,6 +223,10 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                         StringFromatUtils.get2Point(mStockBean.getCurrentValue()));
 
             }
+            if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+                viewNoticeRemind.setVisibility(View.GONE);
+                viewYanbaoRemind.setVisibility(View.GONE);
+            }
 
             tvPrice.setText(perText);
             if (null != mStockBean.alertSetBean) {
@@ -466,7 +470,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private boolean isPriceDownOk;
 
     private void setPriceDownTip(float priceDownFloat) {
-  if (priceDownFloat < 0) {
+        if (priceDownFloat < 0) {
             isPriceDownOk = true;
             // if (priceDownFloat > -300) {
             if (isCombinationSetting) {
