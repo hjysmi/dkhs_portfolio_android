@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
+import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -238,17 +239,17 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private void setAlertView(AlertSetBean alerBean) {
         // AlertSetBean alerBean = mStockBean.alertSetBean;
         if (alerBean.getStock_price_up() > 0) {
-            etPriceUp.setText(alerBean.getStock_price_up() + "");
+            etPriceUp.setText(stripZeros(alerBean.getStock_price_up() + ""));
             swPriceUp.setChecked(true);
             isPriceUpOK = true;
         }
         if (alerBean.getStock_price_down() > 0) {
             isPriceDownOk = true;
-            etPriceDown.setText(alerBean.getStock_price_down() + "");
+            etPriceDown.setText(stripZeros(alerBean.getStock_price_down() + ""));
             swPriceDown.setChecked(true);
         }
         if (alerBean.getStock_percentage() > 0) {
-            etDayPercent.setText(alerBean.getStock_percentage() + "");
+            etDayPercent.setText(stripZeros(alerBean.getStock_percentage() + ""));
             swDayPercent.setChecked(true);
         }
         swNoticeRemind.setChecked(alerBean.isNoticeRemind());
@@ -258,20 +259,25 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private void setAlertView(PortfolioAlertBean alerBean) {
         // AlertSetBean alerBean = mStockBean.alertSetBean;
         if (alerBean.getPortfolio_price_up() > 0) {
-            etPriceUp.setText(alerBean.getPortfolio_price_up() + "");
+
+            etPriceUp.setText(stripZeros(alerBean.getPortfolio_price_up() + ""));
             swPriceUp.setChecked(true);
             isPriceUpOK = true;
         }
         if (alerBean.getPortfolio_price_down() > 0) {
             isPriceDownOk = true;
-            etPriceDown.setText(alerBean.getPortfolio_price_down() + "");
+            etPriceDown.setText(stripZeros(alerBean.getPortfolio_price_down() + ""));
             swPriceDown.setChecked(true);
         }
         if (alerBean.getPortfolio_percentage() > 0) {
-            etDayPercent.setText(alerBean.getPortfolio_percentage() + "");
+            etDayPercent.setText(stripZeros(alerBean.getPortfolio_percentage() + ""));
             swDayPercent.setChecked(true);
         }
         swAdjustRemind.setChecked(alerBean.isAdjustAlert());
+    }
+
+    private String stripZeros(String value) {
+        return new BigDecimal(value).stripTrailingZeros() + "";
     }
 
     @OnClick({ R.id.btn_right, })
