@@ -52,7 +52,7 @@ import com.squareup.otto.Subscribe;
  * @date 2015-2-7 上午11:03:26
  * @version 1.0
  */
-public class TabFundsFragment extends BaseFragment implements IDataUpdateListener {
+public class TabFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
 
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
@@ -149,7 +149,8 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
     private IDataUpdateListener dataUpdateListener;
 
-    @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
+    // @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
+    @Override
     public void onClick(View v) {
         int id = v.getId();
         // if (!PortfolioApplication.hasUserLogin()) {
@@ -241,6 +242,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
             }
         });
+
+        tvCurrent.setOnClickListener(this);
+        tvPercentgae.setOnClickListener(this);
 
     }
 

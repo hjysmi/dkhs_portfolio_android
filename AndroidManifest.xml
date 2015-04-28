@@ -76,7 +76,11 @@
             android:name="com.dkhs.portfolio.ui.GuideActivity"
             android:theme="@style/AppThemeNoBackgroud" />
         <activity android:name="com.dkhs.portfolio.ui.AboutUsActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.LoginActivity" />
+
+        <!-- fixbug:快速连续点击自选中的提示设置图标，出现多个登录页 -->
+        <activity
+            android:name="com.dkhs.portfolio.ui.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />

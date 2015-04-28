@@ -232,13 +232,13 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // 在文本变化之前先获取到文本值
                 strBefore = s.toString();
+
             }
 
             @Override
@@ -255,15 +255,20 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
                 if (s.toString().equals(strBefore)) {
                     return;
                 }
-                // int length = StringFromatUtils.getStringRealLength(s.toString());
-                String inputText = s.toString();
-                inputText = inputText.replaceAll(StringFromatUtils.regexUsername, "");
-                System.out.println("input text:" + inputText);
-                if (!TextUtils.isEmpty(inputText)) {
 
-                    etUserName.setText(inputText);
-                    etUserName.setSelection(inputText.length());
-                }
+                // int editStart = etPassword.getSelectionStart();
+                // // 注意：这里一定要用偏移量，而不是写死用1，因为要考虑到复制粘贴的情况下，不一定是一个个输入的
+                // int offset = s.toString().length() - strBefore.length();
+                //
+                // // int length = StringFromatUtils.getStringRealLength(s.toString());
+                // String inputText = s.toString();
+                // inputText = inputText.replaceAll(StringFromatUtils.regexUsername, "");
+                // System.out.println("input text:" + inputText);
+                // if (!TextUtils.isEmpty(inputText)) {
+                //
+                // etUserName.setText(inputText);
+                // etUserName.setSelection(inputText.length());
+                // }
                 // if (length >= 6 && length <= 20) {
                 //
                 // isUserNameAble = true;
@@ -372,13 +377,15 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
         boolean isValid = true;
         // etUserName.
         String text = etUserName.getText().toString();
+        text = text.replaceAll(" ", "");
+        etUserName.setText(text);
         if (TextUtils.isEmpty(text)) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能为空</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>昵称不能为空</font>"));
             etUserName.requestFocus();
         } else if (StringFromatUtils.getStringRealLength(text) < 4) {
             isValid = false;
-            etUserName.setError(Html.fromHtml("<font color='red'>用户名不能小于4个字符</font>"));
+            etUserName.setError(Html.fromHtml("<font color='red'>昵称不能小于4个字符</font>"));
             etUserName.requestFocus();
         }
         return isValid;

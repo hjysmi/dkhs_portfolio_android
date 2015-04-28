@@ -280,10 +280,11 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">①打造最佳理财服务，寻找牛股票组合！</string>
-    <string name="about_dus_2">②一秒创建组合，随时随地地管理您的投资组合。</string>
-    <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的组合收益，与公募组合PK。</string>
-    <string name="about_dus_4">④查询更新组合排行、追踪捕获牛基牛人、与专业的组合经理PK，看谁牛！</string>
+    <string name="about_dus_1">①及时准确免费的行情信息，毫秒级刷新，快人一步</string>
+    <string name="about_dus_2">②一秒创建专属组合，与牛人、公募基金比比谁更牛</string>
+    <string name="about_dus_3">③一键分享牛股，秀出您的战绩，秒杀他人眼球</string>
+    <string name="about_dus_4">④多维度组合排名，个股异动提醒，助力追踪牛人牛股</string>
+    <string name="about_dus_5">⑤牛人组合持仓调仓数据全公开，绝对的真实透明</string>
     <string name="about_phone">联 系 电 话 ：0592-5573789</string>
     <string name="about_url">商 务 合 作 ：yunying@dkhs.com</string>
     <string name="about_weixin">微信公众号：shuiniu</string>
