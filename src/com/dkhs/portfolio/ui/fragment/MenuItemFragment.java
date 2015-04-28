@@ -103,6 +103,10 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle arguments = getArguments();
+        setRetainInstance(true); // 需要设置为true，否则savadInstanceState会返回null
+        if (savedInstanceState != null) {
+            mIndex = savedInstanceState.getInt("curChoice");
+        }
         // if (arguments != null) {
         // mIndex = arguments.getInt(KEY_TABINDEX);
         // }
@@ -223,6 +227,19 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         } else {
             AnimationHelper.dismissScale(newCountTV);
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @param outState
+     * @return
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("curChoice", mIndex);
+
     }
 
 }
