@@ -273,48 +273,44 @@ public class StickChart extends GridChart {
         List<String> TitleX = new ArrayList<String>();
         try {
             if (null != StickData && StickData.size() > 0) {
-                // if (StickData.size() < maxStickDataNum) {
-                // mShowDate = maxStickDataNum;
-                // System.out.println("String.valueOf(StickData.get().getDate():"
-                // + StickData.get(StickData.size() - 1).getDate());
-                // System.out.println("StickData getDate():" + mShowDate + " " + StickData.get(mShowDate-1).getDate());
-                // System.out.println("StickData set :" + index + " " + StickData.get(index).getDate());
-                // float average = mShowDate / (longtitudeNum + 1);
-                // // �?��刻度
-                // for (int i = longtitudeNum + 1; i >= 0; i--) {
-                // int indexs = (int) Math.floor(i * average);
-                // if (indexs > maxStickDataNum - 1) {
-                // indexs = maxStickDataNum - 1;
-                // }
-                // int k = indexs - 1 + index;
-                // if (longtitudeNum + 1 == i) {
-                // k += 1;
-                // }
-                // if (k < 0) {
-                // k = 0;
-                // }
-                // if (k >= StickData.size()) {
-                // k = StickData.size() - 1;
-                // }
-                int firstDayIndex = mShowDate - 1;
-                if (firstDayIndex >= 0 && firstDayIndex < StickData.size()) {
 
-                    TitleX.add(String.valueOf(StickData.get(mShowDate - 1).getDate()));
+                if (longtitudeNum == 4) {
+
+                    // 竖屏缩放，日期无更改
+                    float average = mShowDate / (longtitudeNum + 1);
+                    for (int i = longtitudeNum + 1; i >= 0; i--) {
+                        int indexs = (int) Math.floor(i * average);
+                        if (indexs > maxStickDataNum - 1) {
+                            indexs = maxStickDataNum - 1;
+                        }
+                        int k = indexs - 1 + index;
+                        if (longtitudeNum + 1 == i) {
+                            k += 1;
+                        }
+                        if (k < 0) {
+                            k = 0;
+                        }
+                        if (k >= StickData.size()) {
+                            k = StickData.size() - 1;
+                        }
+                        TitleX.add(String.valueOf(StickData.get(k).getDate()));
+
+                    }
+
+                } else {
+
+                    int firstDayIndex = mShowDate - 1;
+                    firstDayIndex = Math.min(firstDayIndex, StickData.size() - 1);
+                    if (firstDayIndex >= 0 && firstDayIndex < StickData.size()) {
+
+                        TitleX.add(String.valueOf(StickData.get(firstDayIndex).getDate()));
+                    }
+                    if (index >= 0 && index < StickData.size() && firstDayIndex >= (mShowDate - 1)) {
+
+                        TitleX.add(String.valueOf(StickData.get(index).getDate()));
+                    }
                 }
-                if (index >= 0 && index < StickData.size()) {
 
-                    TitleX.add(String.valueOf(StickData.get(index).getDate()));
-                }
-
-                // 追�??�?
-
-                // if (StickData.size() - mShowDate < 0) {
-                // TitleX.add(String.valueOf(StickData.get(index).getDate()));
-                // } else
-                // TitleX.add(String.valueOf(StickData.get(StickData.size() - mShowDate).getDate()));
-
-                // }
-                // TitleX.add(String.valueOf(StickData.get(StickData.size() - 1).getDate()));
             }
         } catch (Exception e) {
             e.printStackTrace();

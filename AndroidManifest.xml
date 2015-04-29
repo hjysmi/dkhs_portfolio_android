@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="12"
-    android:versionName="1.6.0428" >
+    android:versionName="1.6.0429" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -172,7 +172,7 @@
             	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
 =======
             	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
->>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
+>>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -185,7 +185,7 @@
             	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
 =======
             	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
->>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
+>>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
             -->
             <meta-data
                 android:name="QZoneWebShareAdapter"
@@ -196,7 +196,7 @@
             	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
 =======
             	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
->>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
+>>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
             -->
             <intent-filter>
                 <data android:scheme="db-7janx53ilz11gbs" />
@@ -214,7 +214,7 @@
             	则分享结束以后不能得到正确的回调
 =======
             	则分享结束以后不能得到正确的回调
->>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
+>>>>>>> 9982c27b9493e4919e8033ecb0446aa22cdcbf14
             -->
             <intent-filter>
                 <data android:scheme="tencent1103511496" />
