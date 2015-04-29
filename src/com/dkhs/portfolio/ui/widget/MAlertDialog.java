@@ -101,6 +101,7 @@ public class MAlertDialog {
         this.message.setVisibility(View.VISIBLE);
         return this;
     }
+
     public MAlertDialog setMessage(int message) {
         this.message.setText(message);
         this.message.setVisibility(View.VISIBLE);
@@ -108,11 +109,12 @@ public class MAlertDialog {
     }
 
 
-
     public MAlertDialog setTitle(String title) {
         alertTitle.setText(title);
         return this;
-    }  public MAlertDialog setTitle(int title) {
+    }
+
+    public MAlertDialog setTitle(int title) {
         alertTitle.setText(title);
         return this;
     }
@@ -226,12 +228,13 @@ public class MAlertDialog {
             }
         });
         return this;
-    }    public MAlertDialog setPositiveButton(int btnName, final DialogInterface.OnClickListener onClickListener) {
+    }
+
+    public MAlertDialog setPositiveButton(int btnName, final DialogInterface.OnClickListener onClickListener) {
 
 
-            button1.setVisibility(View.VISIBLE);
-            button1.setText(btnName);
-
+        button1.setVisibility(View.VISIBLE);
+        button1.setText(btnName);
 
 
         button1.setOnClickListener(new View.OnClickListener() {
@@ -335,10 +338,11 @@ public class MAlertDialog {
         });
         return this;
     }
- public MAlertDialog setNegativeButton(int btnName, final DialogInterface.OnClickListener onClickListener) {
 
-            button3.setVisibility(View.VISIBLE);
-            button3.setText(btnName);
+    public MAlertDialog setNegativeButton(int btnName, final DialogInterface.OnClickListener onClickListener) {
+
+        button3.setVisibility(View.VISIBLE);
+        button3.setText(btnName);
 
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
