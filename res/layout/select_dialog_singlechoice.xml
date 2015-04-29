@@ -9,5 +9,5 @@
     android:gravity="center_vertical"
     android:paddingLeft="12dip"
     android:paddingEnd="7dip"
-    android:checkMark="@drawable/aa_radio_button"
+    android:checkMark="@drawable/radio_button"
     android:ellipsize="marquee" />

@@ -45,7 +45,7 @@ public class MAlertDialog {
         //初始化
         this.context = context;
         dialog = new Dialog(context, R.style.custom_dialog);
-        View root = LayoutInflater.from(context).inflate(R.layout.dialog_layout, null);
+        View root = LayoutInflater.from(context).inflate(R.layout.layout_dialog, null);
 
         alertTitle = (TextView) root.findViewById(R.id.alertTitle);
         RelativeLayout title_template = (RelativeLayout) root.findViewById(R.id.title_template);
@@ -123,7 +123,7 @@ public class MAlertDialog {
 
 
         final ListView listView = (ListView)
-                LayoutInflater.from(context).inflate(R.layout.list_layout, null);
+                LayoutInflater.from(context).inflate(R.layout.layout_list, null);
 
 
         ArrayAdapter adapter = new ArrayAdapter<CharSequence>(
@@ -158,7 +158,7 @@ public class MAlertDialog {
                                             final DialogInterface.OnMultiChoiceClickListener mOnCheckboxClickListener) {
 
         final ListView listView = (ListView)
-                LayoutInflater.from(context).inflate(R.layout.list_layout, null);
+                LayoutInflater.from(context).inflate(R.layout.layout_list, null);
 
 
         ArrayAdapter adapter = new ArrayAdapter<CharSequence>(

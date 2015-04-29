@@ -22,6 +22,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.animation.ValueAnimator;
@@ -130,7 +131,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         super.loadFinish(object);
         mSwipeLayout.setRefreshing(false);
 
-
         if (null != object.getResults()) {
 
             // mDataList = object.getResults();
@@ -156,12 +156,11 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         }
         int totalHeight = 0;
 
-
         totalHeight = DisplayUtil.dip2px(getActivity(), 50) * (getListAdapter().getCount() - 1);
         int footHeight;
         if (totalHeight < (getListView().getHeight())) {
 
-            footHeight = (getListView().getHeight()) - totalHeight - DisplayUtil.dip2px(getActivity(), 50) - (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
+            footHeight = (getListView().getHeight()) - totalHeight  - (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
 
 
         } else {
@@ -277,7 +276,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
                 if (animPercent > 0.4f) {
 
-//                    startScroll((int) ((DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16)) ));
 
                     handler.sendEmptyMessage(0);
 
@@ -294,25 +292,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         }
     }
 
-    public void startScroll(int to) {
-        ValueAnimator valueAnimator = ValueAnimator.ofInt((int) (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16) * animPercent), to);
-        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-               int values=  (Integer) animation.getAnimatedValue();
-//                getListView().smoothScrollBy(10,600);
-                animPercent=getValues(values);
-//                if(mListener != null){
-//                    mListener.onScrollChanged(animPercent);
-//                }
-            }
-        });
-        getListView().smoothScrollBy(200,600);
-        valueAnimator.setDuration(500);
-        valueAnimator.start();
-        handler.sendEmptyMessage(1);
-    }
-
 
     private android.os.Handler handler = new android.os.Handler() {
         @Override
@@ -323,13 +302,14 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
                 case 0:
                     getListView().smoothScrollBy(16, 2);
+
                     break;
                 case 1:
                     getListView().smoothScrollBy(-16, 2);
                     break;
             }
 
-            if (animPercent != 1 && animPercent != 0) {
+            if (animPercent < 1 && animPercent > 0) {
                 handler.sendEmptyMessage(msg.what);
             }
         }
@@ -342,7 +322,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         if (firstVisibleItem > 1) {
             animPercent = 1;
         }
-        if (mListener != null) {
+        if (mListener != null   ) {
             mListener.onScrollChanged(animPercent);
         }
 

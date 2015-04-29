@@ -30,7 +30,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/aa_dialog_bg"
+        android:background="@drawable/bg_dialog"
         android:clickable="false"
 
         android:orientation="vertical"
@@ -59,7 +59,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_marginLeft="2dp"
                     android:layout_marginTop="12dp"
                     android:singleLine="true"
-                    android:text="title"
                     android:textAppearance="?android:attr/textAppearanceLarge"
 
 
@@ -73,7 +72,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/aa_dialog_bg"
+            android:background="@drawable/bg_dialog"
 
             android:clickable="false"
             android:orientation="vertical"
@@ -98,14 +97,10 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_marginTop="4dp"
                     android:background="@color/white"
                     android:paddingBottom="8dip"
-
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-
-                    android:text="dfdfd"
                     android:textColor="#000"
                     android:textIsSelectable="true"
-
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -116,7 +111,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
-                android:background="@color/white"></FrameLayout>
+                android:background="@color/white"/>
 
 
             <LinearLayout
@@ -135,7 +130,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:id="@+id/button1"
                     style="@style/dialog_btn"
                     android:layout_width="wrap_content"
-                    android:text="OK"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:textColor="#1E88E5"
@@ -144,7 +138,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:id="@+id/button2"
                     style="@style/dialog_btn"
                     android:layout_width="wrap_content"
-                    android:text="OK"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:textColor="#1E88E5"
@@ -157,7 +150,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_marginRight="4dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="Cancle"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
