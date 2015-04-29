@@ -18,6 +18,7 @@ import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -294,15 +295,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void handleNumber(TextView tv, int count) {
 
-        String countStr;
-
-        if (count > 1000) {
-            DecimalFormat df2 = new DecimalFormat("#.#");
-            countStr = df2.format(count / 1000.0) + "k";
-        } else {
-            countStr = count + "";
-        }
-        tv.setText(countStr);
+        tv.setText(StringFromatUtils.handleNumber(count));
     }
 
     @Override

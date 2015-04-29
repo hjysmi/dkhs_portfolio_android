@@ -36,6 +36,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.util.LogUtils;
@@ -167,15 +168,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     private void handleNumber(TextView tv, int count) {
 
-        String countStr;
-
-        if (count > 1000) {
-            DecimalFormat df2 = new DecimalFormat("#.#");
-            countStr = df2.format(count / 1000.0) + "k";
-        } else {
-            countStr = count + "";
-        }
-        tv.setText(countStr);
+        tv.setText(StringFromatUtils.handleNumber(count));
     }
 
     private void updateMessageCenterState() {

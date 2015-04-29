@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 
 import java.text.DecimalFormat;
@@ -37,27 +38,11 @@ public class FriendsOrFollowerAdapter extends AutoAdapter {
         }
 
         vh.setTextView(R.id.tv_user_name,peopleBean.getUsername());
-        vh.setTextView(R.id.tv_followers,context.getResources().getString(R.string.followers)+":"+handleNumber(peopleBean.getFollowed_by_count()));
-        vh.setTextView(R.id.tv_friends,context.getResources().getString(R.string.following)+":"+handleNumber(peopleBean.getFriends_count()));
+        vh.setTextView(R.id.tv_followers,context.getResources().getString(R.string.followers)+":"+ StringFromatUtils.handleNumber(peopleBean.getFollowed_by_count()));
+        vh.setTextView(R.id.tv_friends,context.getResources().getString(R.string.following)+":"+StringFromatUtils.handleNumber(peopleBean.getFriends_count()));
 
     }
 
 
-    /**
-     * 处理 数字
-     * @param count
-     * @return
-     */
-    private String handleNumber(  int count) {
 
-        String countStr;
-
-        if(count >1000){
-            DecimalFormat df2 = new DecimalFormat("#.#");
-            countStr  =df2.format(count/1000.0)+"k";
-        }else{
-            countStr=count+"";
-        }
-      return countStr;
-    }
 }
