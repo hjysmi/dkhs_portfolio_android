@@ -336,6 +336,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 startActivity(intent);
                 break;
             case R.id.ll_follow:
+                if (null == userEntity) {
+                    return;
+                }
 
                 if (userEntity.isMe_follow()) {
                     unFollowAction();
