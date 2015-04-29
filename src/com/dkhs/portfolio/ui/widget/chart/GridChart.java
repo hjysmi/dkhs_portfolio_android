@@ -592,7 +592,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
             mPaintFont.setColor(longtitudeFontColor);
             mPaintFont.setTextSize(longtitudeFontSize);
             mPaintFont.setAntiAlias(true);
-            if (counts > 1) {
+            if (counts >= 1) {
                 float postOffset = (super.getWidth() - 2 * axisMarginRight - PADDING_LEFT) / (counts - 1);
                 float offset = 2 + PADDING_LEFT;
                 float sumTexts = 0l;
@@ -600,7 +600,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                     sumTexts += mPaintFont.measureText(axisXTitles.get(i));
                 }
 
-                float innerInternal = (float) (super.getWidth() - offset - sumTexts) / (counts - 1);
+                float innerInternal = 0;
+                if (counts == 1) {
+                    innerInternal = (float) (super.getWidth() - offset - sumTexts);
+                } else {
+                    innerInternal = (float) (super.getWidth() - offset - sumTexts) / (counts - 1);
+                }
 
                 for (int i = 0; i < counts; i++) {
                     // 绘制线条
@@ -614,13 +619,14 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                             p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
                             p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
 
+                            System.out.println("canvas.drawText(axisXTitles displayLongitude");
                             canvas.drawText(axisXTitles.get(i), i * postOffset + PADDING_LEFT - rect.width() / 2,
                                     super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
                         }
                     } else
                     // 绘制刻度
                     if (displayAxisXTitle) {
-
+                        System.out.println("canvas.drawText(axisXTitles displayAxisXTitle");
                         // if (i < counts && i > 0) {
                         if (i == 0) {
                             canvas.drawText(axisXTitles.get(i), i

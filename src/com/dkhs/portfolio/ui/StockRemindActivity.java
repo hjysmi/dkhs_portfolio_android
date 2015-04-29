@@ -171,6 +171,10 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
+        
+        etPriceUp.addTextChangedListener(priceUpTextWatch);
+        etPriceDown.addTextChangedListener(priceDownTextWatch);
+        etDayPercent.addTextChangedListener(percentTextWatch);
 
         if (isCombinationSetting) {
             setCombinationStyle();
@@ -178,9 +182,6 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
             setStockStyle();
         }
 
-        etPriceUp.addTextChangedListener(priceUpTextWatch);
-        etPriceDown.addTextChangedListener(priceDownTextWatch);
-        etDayPercent.addTextChangedListener(percentTextWatch);
     }
 
     private void setCombinationStyle() {

@@ -44,7 +44,7 @@ public class FundsOrderActivity extends ModelAcitivity {
 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;
-    public static List<CombinationBean> mVisitorData;
+    public static List<CombinationBean> mVisitorData = new ArrayList<CombinationBean>();
 
     public static final String EXTRA_TITLE_INDEX = "extra_title_index";
 
