@@ -19,12 +19,8 @@
 
             <LinearLayout
                 android:id="@+id/ll_login_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
+                style="@style/white_grayborder_layout"
                 android:orientation="vertical" >
-
-                <View style="@style/divider_line" />
 
                 <Button
                     android:id="@+id/btn_login"
@@ -38,8 +34,6 @@
                     android:text="马上登录"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
-
-                <View style="@style/divider_line" />
             </LinearLayout>
 
             <LinearLayout
@@ -49,13 +43,9 @@
                 android:orientation="vertical"
                 android:visibility="gone" >
 
-                <View style="@style/divider_line" />
-
                 <RelativeLayout
                     android:id="@+id/setting_layout_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_white_selector"
+                    style="@style/white_grayborder_layout"
                     android:paddingBottom="10dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
@@ -101,19 +91,12 @@
                             android:textSize="@dimen/setting_text_phone" />
                     </RelativeLayout>
                 </RelativeLayout>
-
-                <View style="@style/divider_line" />
             </LinearLayout>
-
-            <View
-                style="@style/divider_line"
-                android:layout_marginTop="@dimen/combin_horSpacing" />
 
             <RelativeLayout
                 android:id="@+id/user_myfunds_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selector"
+                style="@style/white_grayborder_layout"
+                android:layout_marginTop="@dimen/combin_horSpacing"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -137,15 +120,10 @@
                     android:textSize="@dimen/setting_text_name" />
             </RelativeLayout>
 
-            <View
-                style="@style/divider_line"
-                android:layout_marginTop="@dimen/combin_horSpacing" />
-
             <RelativeLayout
                 android:id="@+id/message_center_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selector"
+                style="@style/white_grayborder_layout"
+                android:layout_marginTop="@dimen/combin_horSpacing"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -168,21 +146,20 @@
                     android:text="@string/message_center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/setting_text_name" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:visibility="gone"
-                    android:textSize="12sp"
-                    android:background="@drawable/bg_un_read_count"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/white"
-                    android:layout_marginRight="2dp"
-                    android:id="@+id/tv_unread_count"
-                    android:layout_toLeftOf="@+id/image_detail"
-                    android:layout_height="wrap_content" />
-                <!---->
-            </RelativeLayout>
 
-            <View style="@style/divider_line" />
+                <TextView
+                    android:id="@+id/tv_unread_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@+id/image_detail"
+                    android:background="@drawable/bg_un_read_count"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+                <!--  -->
+            </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
 

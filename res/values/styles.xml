@@ -4,7 +4,8 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme"></style>
-    <style name="AppThemeNoBackgroud" parent="AppBaseTheme">
+
+    <style name="AppThemeNoBackgroud" parent="AppBaseTheme">
         <item name="android:windowBackground">@null</item>
     </style>
 
@@ -247,6 +248,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="white_grayborder_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">-1dp</item>
+        <item name="android:layout_marginRight">-1dp</item>
+        <item name="android:background">@drawable/btn_white_grayborder_selector</item>
     </style>
 
 </resources>
