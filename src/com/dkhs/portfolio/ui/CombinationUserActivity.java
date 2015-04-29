@@ -224,6 +224,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         protected void afterParseData(UserEntity object) {
             if (null != object) {
 
+
+                //todo api 返回无me_follow 字段,所以这边手动设置为true
                 object.setMe_follow(true);
                 updateUserFolllowInfo(object);
 
