@@ -48,7 +48,6 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(setContentLayoutId(), null);
         ViewUtils.inject(this, view); // 注入view和事件
-        System.out.println("BaseFragment onCreateView()");
         return view;
 
     }

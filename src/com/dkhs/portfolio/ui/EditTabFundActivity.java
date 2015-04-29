@@ -80,12 +80,16 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
             @Override
             public void loadFinish(MoreDataBean<CombinationBean> object) {
                 if (null != object.getResults()) {
-                    mdateList.clear();
-                    mdateList.addAll(object.getResults());
-                    // adapter = new DragFundListAdapter(EditTabFundActivity.this, mdateList);
-                    adapter = new DragCombinationAdapter(EditTabFundActivity.this, optionEditList);
-                    adapter.setAdapterData(mdateList);
-                    optionEditList.setAdapter(adapter);
+                    // mdateList.clear();
+                    // mdateList.addAll(object.getResults());
+                    // // adapter = new DragFundListAdapter(EditTabFundActivity.this, mdateList);
+                    // adapter = new DragCombinationAdapter(EditTabFundActivity.this, optionEditList);
+                    // adapter.setAdapterData(mdateList);
+                    // optionEditList.setAdapter(adapter);
+
+                    updateRemindValue(object.getResults());
+                    // adapter.setAdapterData(mdateList);
+                    adapter.notifyDataSetChanged();
                 }
             }
 
@@ -95,6 +99,23 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
             }
         }, "");
 
+    }
+
+    private void updateRemindValue(List<CombinationBean> newComList) {
+
+        if (null != mdateList && !mdateList.isEmpty()) {
+            for (CombinationBean conBean : newComList) {
+                if (mdateList.contains(conBean)) {
+                    int position = mdateList.indexOf(conBean);
+                    mdateList.get(position).setAlertBean(conBean.getAlertBean());
+                } else {
+                    mdateList.add(conBean);
+                }
+            }
+        } else {
+            mdateList.addAll(newComList);
+            adapter.setAdapterData(mdateList);
+        }
     }
 
     /**
@@ -120,6 +141,12 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
+
+        // mdateList.clear();
+        // mdateList.addAll(object.getResults());
+        adapter = new DragCombinationAdapter(EditTabFundActivity.this, optionEditList);
+        // adapter.setAdapterData(mdateList);
+        optionEditList.setAdapter(adapter);
 
     }
 

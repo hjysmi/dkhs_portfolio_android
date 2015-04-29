@@ -110,6 +110,7 @@ public class KChartsFragment extends AbstractKChartView {
         mMyChartsView.setContext(getActivity());
         mMyChartsView.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
         mMyChartsView.setType(getViewType());
+
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
         // mLargerButton.setVisibility(View.INVISIBLE);
 
@@ -182,7 +183,7 @@ public class KChartsFragment extends AbstractKChartView {
         // 最大纬线数
         mVolumnChartView.setLatitudeNum(1);
         // 最大经线数
-        // mVolumnChartView.setLongtitudeNum(3);
+        mVolumnChartView.setLongtitudeNum(2);
         // 最大价格
         mVolumnChartView.setMaxValue(0);
         // 最小价格
@@ -234,7 +235,6 @@ public class KChartsFragment extends AbstractKChartView {
      * @return
      */
     private void queryDefData() {
-
 
         String mtype = getKLineType();
         getQuotesDataEngine().queryKLine(mtype, getStockCode(), "0", mKlineHttpListener, getCheckValue());

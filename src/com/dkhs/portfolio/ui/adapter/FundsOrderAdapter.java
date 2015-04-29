@@ -269,13 +269,14 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         } else {
             if (mCombinationBean.isFollowed()) {
                 new VisitorDataEngine().saveCombination(mCombinationBean);
-                if (!FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
+                if (null != FundsOrderActivity.mVisitorData
+                        && !FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
                     FundsOrderActivity.mVisitorData.add(mCombinationBean);
                 }
                 PromptManager.showFollowToast();
             } else {
                 new VisitorDataEngine().delCombinationBean(mCombinationBean);
-                if (!FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
+                if (FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
                     FundsOrderActivity.mVisitorData.remove(mCombinationBean);
                 }
                 PromptManager.showDelFollowToast();

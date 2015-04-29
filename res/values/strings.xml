@@ -280,11 +280,11 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">①及时准确免费的行情信息，毫秒级刷新，快人一步</string>
-    <string name="about_dus_2">②一秒创建专属组合，与牛人、公募基金比比谁更牛</string>
-    <string name="about_dus_3">③一键分享牛股，秀出您的战绩，秒杀他人眼球</string>
-    <string name="about_dus_4">④多维度组合排名，个股异动提醒，助力追踪牛人牛股</string>
-    <string name="about_dus_5">⑤牛人组合持仓调仓数据全公开，绝对的真实透明</string>
+    <string name="about_dus_1">①及时准确免费的行情信息，毫秒级刷新，快人一步。</string>
+    <string name="about_dus_2">②一秒创建专属组合，与牛人、公募基金比比谁更牛！</string>
+    <string name="about_dus_3">③一键分享牛股，秀出您的战绩，秒杀他人眼球！</string>
+    <string name="about_dus_4">④多维度组合排名，个股异动提醒，助力追踪牛人牛股。</string>
+    <string name="about_dus_5">⑤牛人组合持仓调仓数据全公开，绝对的真实透明。</string>
     <string name="about_phone">联 系 电 话 ：0592-5573789</string>
     <string name="about_url">商 务 合 作 ：yunying@dkhs.com</string>
     <string name="about_weixin">微信公众号：shuiniu</string>
@@ -410,7 +410,6 @@
     <string name="msg_follow_success">添加关注成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
 
-
     <!-- 提醒设置 -->
     <string name="title_remind">提醒设置</string>
     <string name="price_units">元</string>
@@ -456,5 +455,6 @@
     <string name="null_number">--</string>
 
 
+    <string name="toast_remind_success">提醒设置成功</string>
 
 </resources>
