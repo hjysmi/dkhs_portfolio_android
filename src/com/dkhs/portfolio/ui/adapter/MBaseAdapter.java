@@ -8,7 +8,13 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
-
+/**
+ * @author zwm
+ * @version 1.0
+ * @ClassName MBaseAdapter
+ * @date 2015/4/23.14:07
+ * @Description TODO(简化BaseAdapter)
+ */
 
 @SuppressWarnings({"unused,ambiguous"})
 public abstract class MBaseAdapter extends BaseAdapter {

@@ -73,6 +73,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     private int headerHeight;
 
     public static UserCombinationListFragment getFragment(String username, String userId) {
+
         UserCombinationListFragment fragment = new UserCombinationListFragment();
         Bundle args = new Bundle();
         args.putString("username", username);
@@ -83,8 +84,8 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
     @Override
     public void onCreate(Bundle arg0) {
-        super.onCreate(arg0);
 
+        super.onCreate(arg0);
         Bundle bundle = getArguments();
         if (null != bundle) {
             mUserName = bundle.getString("username");
@@ -104,7 +105,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
 
         headerHeight = DisplayUtil.dip2px(getActivity(), 280);
         headerView = new View(getActivity());
@@ -141,9 +141,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         }
 
         if (object.getCurrentPage() == 1) {
-
             addListViewFootView();
-
         }
 
     }
@@ -155,17 +153,15 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
             getListView().removeFooterView(footView);
         }
         int totalHeight = 0;
-
         totalHeight = DisplayUtil.dip2px(getActivity(), 50) * (getListAdapter().getCount() - 1);
         int footHeight;
+
         if (totalHeight < (getListView().getHeight())) {
-
             footHeight = (getListView().getHeight()) - totalHeight  - (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
-
-
         } else {
             footHeight = DisplayUtil.dip2px(getActivity(), 50);
         }
+
         footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
         getListView().addFooterView(footView);
 
@@ -174,6 +170,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
     @Override
     LoadMoreDataEngine getLoadEngine() {
+
         if (null == dataEngine) {
             dataEngine = new UserCombinationEngineImpl(this, mUserId);
         }
@@ -273,18 +270,9 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
             if (animPercent != 1 && animPercent != 0) {
 
-
                 if (animPercent > 0.4f) {
-
-
                     handler.sendEmptyMessage(0);
-
-
                 } else {
-//                    autoScrollHelper.scrollTargetBy(0, (int) ((DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16)) *(1-animPercent)));
-//                    startScroll(headerHeight);
-
-
                     handler.sendEmptyMessage(1);
                 }
 
@@ -302,7 +290,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
                 case 0:
                     getListView().smoothScrollBy(16, 2);
-
                     break;
                 case 1:
                     getListView().smoothScrollBy(-16, 2);

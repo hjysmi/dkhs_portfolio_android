@@ -5,6 +5,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * @author zwm
+ * @version 1.0
+ * @ClassName ViewHolderUtils
+ * @date 2015/4/23.14:07
+ * @Description TODO(ViewHolder 实现工具类)
+ */
 public class ViewHolderUtils {
 
 
