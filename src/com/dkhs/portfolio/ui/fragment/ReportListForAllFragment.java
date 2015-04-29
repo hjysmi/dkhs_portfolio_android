@@ -62,7 +62,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
     private List<OptionNewsBean> mDataList;
     private OpitionNewsEngineImple mLoadDataEngine;
     boolean first = true;
-    private TextView iv;
+    private TextView tvEmpty;
     private RelativeLayout pb;
 
     public SwipeRefreshLayout mSwipeLayout;
@@ -89,7 +89,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
         viewType = bundle.getInt(TYPE_NAME);
         context = getActivity();
         mDataList = new ArrayList<OptionNewsBean>();
-        iv = (TextView) view.findViewById(android.R.id.empty);
+        tvEmpty = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
         initView(view);
@@ -125,7 +125,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
 
-        mListView.setEmptyView(iv);
+        // mListView.setEmptyView(iv);
         // mListView.addFooterView(mFootView);
         switch (viewType) {
             case OpitionNewsEngineImple.NEWS_GROUP_FOREACH:
@@ -313,6 +313,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
 
                     mDataList.addAll(dataList);
                     mOptionMarketAdapter.notifyDataSetChanged();
+                    hideEmptyText();
                 } else {
                     setEmptyText();
                 }
@@ -330,6 +331,8 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
             if (null == mDataList || mDataList.isEmpty()) {
                 // iv.setText("暂无资讯");
                 setEmptyText();
+            } else {
+                hideEmptyText();
             }
 
         }
@@ -338,10 +341,15 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
 
     private void setEmptyText() {
         if (viewType == OpitionNewsEngineImple.NEWS_GROUP) {
-            iv.setText("尚未添加自选股");
+            tvEmpty.setText("尚未添加自选股");
         } else {
-            iv.setText("暂无资讯");
+            tvEmpty.setText("暂无资讯");
         }
+        tvEmpty.setVisibility(View.VISIBLE);
+    }
+
+    private void hideEmptyText() {
+        tvEmpty.setVisibility(View.GONE);
     }
 
     private void loadFinishUpdateView() {

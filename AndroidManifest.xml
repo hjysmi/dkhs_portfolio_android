@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="11"
-    android:versionName="1.5.0422" >
+    android:versionName="1.5.0423" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -355,7 +355,6 @@
                     android:scheme="rong" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.FriendsOrFollowersActivity" />
 
         <service
             android:name="io.rong.imkit.service.RongIMService"

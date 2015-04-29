@@ -194,8 +194,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         if (null != mComBean) {
             tvStockName.setText(mComBean.getName());
-            String perText = getString(R.string.format_percent,
-                    StringFromatUtils.get2PointPercent(mComBean.getCumulative()));
+            String perText = getString(R.string.format_com_percent,
+                    StringFromatUtils.get2PointPercent(mComBean.getChng_pct_day()));
             tvPercent.setText(perText);
             perText = getString(R.string.format_combination_price, mComBean.getNetvalue());
             tvPrice.setText(perText);
@@ -468,26 +468,17 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private void setPriceDownTip(float priceDownFloat) {
         if (priceDownFloat < 0) {
             isPriceDownOk = true;
-            if (priceDownFloat > -300) {
-                if (isCombinationSetting) {
+            // if (priceDownFloat > -300) {
+            if (isCombinationSetting) {
 
-                    tvDownTip.setText(getString(R.string.format_cpricedown_tip,
-                            StringFromatUtils.get2PointPercent(Math.abs(priceDownFloat))));
-                } else {
-
-                    tvDownTip
-                            .setText(getString(R.string.format_pricedown_tip, StringFromatUtils.get2PointPercent(300)));
-                }
+                tvDownTip.setText(getString(R.string.format_cpricedown_tip,
+                        StringFromatUtils.get2PointPercent(Math.abs(priceDownFloat))));
             } else {
-                if (isCombinationSetting) {
-                    tvDownTip.setText(getString(R.string.format_cpricedown_more_tip,
-                            StringFromatUtils.get2PointPercent((Math.abs(priceDownFloat)))));
-                } else {
 
-                    tvDownTip.setText(getString(R.string.format_pricedown_more_tip,
-                            StringFromatUtils.get2PointPercent((Math.abs(priceDownFloat)))));
-                }
+                tvDownTip.setText(getString(R.string.format_pricedown_tip,
+                        StringFromatUtils.get2PointPercent(Math.abs(priceDownFloat))));
             }
+            // }
         } else {
             isPriceDownOk = false;
             if (priceDownFloat < 300) {

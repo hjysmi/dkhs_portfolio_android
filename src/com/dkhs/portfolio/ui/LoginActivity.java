@@ -341,6 +341,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     // }
 
     private void authPlatform(String platformName) {
+
+        PromptManager.showProgressDialog(this, "", false);
         // System.out.println("authPlatform:" + platformName);
         ShareSDK.removeCookieOnAuthorize(true);
         Platform plat = ShareSDK.getPlatform(platformName);
@@ -519,6 +521,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         public void onCancel(Platform plat, int action) {
+
             System.out.println("PlatformActionListener onCancel()");
             Message msg = new Message();
             msg.arg1 = 3;
@@ -530,6 +533,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     };
     Handler platFormAction = new Handler() {
         public void handleMessage(Message msg) {
+            PromptManager.closeProgressDialog();
             switch (msg.arg1) {
                 case 1: {
                     HashMap<String, Object> res = (HashMap<String, Object>) msg.obj;
@@ -557,7 +561,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         platData.setRefresh_token("");
                         phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
-                                platData, registerListener.setLoadingDialog(LoginActivity.this));
+                                platData, registerListener.setLoadingDialog(LoginActivity.this, false));
                     }
                 }
                     break;

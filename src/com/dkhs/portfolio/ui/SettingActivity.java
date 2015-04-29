@@ -92,8 +92,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     PortfolioApplication.getInstance().exitApp();
                     Intent intent = new Intent(SettingActivity.this, LoginRegisterAcitvity.class);
                     startActivity(intent);
-                    RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
-                            .getCurrentConnectionStatus();
                     PromptManager.closeProgressDialog();
                 }
                     break;
