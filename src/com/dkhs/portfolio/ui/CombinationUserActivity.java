@@ -16,14 +16,11 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,13 +30,11 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.DecimalFormat;
 
 /**
  * @author zjz
@@ -414,18 +409,19 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             }
         }
 
-        ViewHelper.setTranslationX(ivHeader, -(headerLeft - DisplayUtil.dip2px(context, 16)) * percent);
-        ViewHelper.setTranslationY(ivHeader, -(headerTop - DisplayUtil.dip2px(context, 16)) * percent);
+        ViewHelper.setTranslationX(ivHeader, -(headerLeft -getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
+        ViewHelper.setTranslationY(ivHeader, -(headerTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) )* percent);
 
-        ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - DisplayUtil.dip2px(context, 72 + 16 + 16)) * percent);
-        ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - DisplayUtil.dip2px(context, 72 + 16 - 20)) * percent);
-        ViewHelper.setTranslationX(tvUName, -(userNameLeft - DisplayUtil.dip2px(context, 72 + 16 + 16)) * percent);
-        ViewHelper.setTranslationY(tvUName, -(userNameTop - DisplayUtil.dip2px(context, 26)) * percent);
-        ViewHelper.setTranslationY(combinationTitleLL, -(DisplayUtil.dip2px(context, 250 - 72 - 16 - 16)) * percent);
-        ViewHelper.setTranslationY(llTool, -(DisplayUtil.dip2px(context, 250 - 72 - 16 - 16)) * percent);
+        ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)*2) * percent);
+
+        ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)+getResources().getDimensionPixelOffset(R.dimen.header_userDesc_height)) * percent);
+        ViewHelper.setTranslationX(tvUName, -(userNameLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)*2) * percent);
+        ViewHelper.setTranslationY(tvUName, -(userNameTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin_top)) * percent);
+        ViewHelper.setTranslationY(combinationTitleLL, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance) * percent);
+        ViewHelper.setTranslationY(llTool, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
 //
         ViewHelper.setAlpha(llTool, 1 - percent);
-        ViewHelper.setTranslationY(bgV, -(DisplayUtil.dip2px(context, 250 - 72 - 16 - 16)) * percent);
+        ViewHelper.setTranslationY(bgV, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
         prePercent = percent;
 
     }

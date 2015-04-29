@@ -29,7 +29,7 @@
     <RelativeLayout
         android:id="@+id/rl_user_info"
         android:layout_width="match_parent"
-        android:layout_height="280dp">
+        android:layout_height="@dimen/header_height">
 
         <View
             android:id="@+id/v_bg"
@@ -39,8 +39,8 @@
 
         <ImageView
             android:id="@+id/iv_uheader"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="@dimen/header_avatar_height"
+            android:layout_height="@dimen/header_avatar_height"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="10dp"
             android:layout_marginTop="55dp"

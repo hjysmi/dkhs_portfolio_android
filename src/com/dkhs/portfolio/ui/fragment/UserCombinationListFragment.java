@@ -10,7 +10,6 @@ package com.dkhs.portfolio.ui.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -21,30 +20,21 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
-import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.AutoScrollHelper;
-import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 
 /**
@@ -106,10 +96,14 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
-        headerHeight = DisplayUtil.dip2px(getActivity(), 280);
+
+
+
+
+        headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
         headerView = new View(getActivity());
         footView = new View(getActivity());
-        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, DisplayUtil.dip2px(getActivity(), 280)));
+        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));
         getListView().setOnScrollListener(this);
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
@@ -153,13 +147,13 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
             getListView().removeFooterView(footView);
         }
         int totalHeight = 0;
-        totalHeight = DisplayUtil.dip2px(getActivity(), 50) * (getListAdapter().getCount() - 1);
+        totalHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height) * (getListAdapter().getCount() - 1);
         int footHeight;
 
         if (totalHeight < (getListView().getHeight())) {
-            footHeight = (getListView().getHeight()) - totalHeight  - (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
+            footHeight = (getListView().getHeight()) - totalHeight  - getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance);
         } else {
-            footHeight = DisplayUtil.dip2px(getActivity(), 50);
+            footHeight =getResources().getDimensionPixelOffset(R.dimen.combination_item_height);
         }
 
         footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
@@ -316,7 +310,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     }
 
     public float getValues(int l) {
-        float value = l * 1.0f / (DisplayUtil.dip2px(getActivity(), 250 - 72 - 16 - 16));
+        float value = l * 1.0f / getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance);
         value = Math.max(value, 0);
         value = Math.min(value, 1);
         return value;
