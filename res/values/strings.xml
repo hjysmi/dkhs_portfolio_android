@@ -446,7 +446,7 @@
     <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
     <string name="msg_price_error">目标价输入错误</string>
     <string name="btn_reinput">重新输入</string>
-    <string name="toast_remind_success">提醒成功</string>
+
     <string name="symbols">自建</string>
     <string name="followers">粉丝</string>
     <string name="following">关注</string>
