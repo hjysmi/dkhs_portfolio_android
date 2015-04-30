@@ -171,7 +171,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         btnRight = getRightButton();
         btnRight.setOnClickListener(this);
         btnRight.setText(R.string.finish);
-        
+
         etPriceUp.addTextChangedListener(priceUpTextWatch);
         etPriceDown.addTextChangedListener(priceDownTextWatch);
         etDayPercent.addTextChangedListener(percentTextWatch);
@@ -238,10 +238,10 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         if (alerBean.getStock_price_up() > 0) {
             etPriceUp.setText(stripZeros(alerBean.getStock_price_up() + ""));
             swPriceUp.setChecked(true);
-            isPriceUpOK = true;
+            // isPriceUpOK = true;
         }
         if (alerBean.getStock_price_down() > 0) {
-            isPriceDownOk = true;
+            // isPriceDownOk = true;
             etPriceDown.setText(stripZeros(alerBean.getStock_price_down() + ""));
             swPriceDown.setChecked(true);
         }
