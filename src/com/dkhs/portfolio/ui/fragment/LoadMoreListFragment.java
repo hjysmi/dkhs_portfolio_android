@@ -71,6 +71,11 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         tvEmptyText.setText(text);
         tvEmptyText.setVisibility(View.VISIBLE);
     }
+    public void setEmptyText(int stringId) {
+        mListView.setVisibility(View.GONE);
+        tvEmptyText.setText(getResources().getString(stringId));
+        tvEmptyText.setVisibility(View.VISIBLE);
+    }
 
     public SwipeRefreshLayout mSwipeLayout;
 

@@ -57,6 +57,11 @@
         <item name="android:layout_height">0.5px</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
+    <style name="vertical_divider_line">
+        <item name="android:layout_width">0.5px</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@color/drivi_line</item>
+    </style>
 
     <style name="popwindow_item">
         <item name="android:layout_width">match_parent</item>
@@ -258,4 +263,130 @@
         <item name="android:background">@drawable/btn_white_grayborder_selector</item>
     </style>
 
+
+    <style name="user_tab_title">
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">3dp</item>
+
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:alpha">0.6</item>
+    </style>
+
+
+
+    <style name="user_tab_content">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginBottom">2dp</item>
+
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CommonTextAppearance_Small_Black" parent="@android:style/TextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/md_grey_800</item>
+    </style>
+
+    <style name="CommonTextAppearance_Middle_Black" parent="@android:style/TextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/md_grey_800</item>
+    </style>
+
+    <style name="CommonTextAppearance_Big_Black" parent="@android:style/TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/md_grey_800</item>
+    </style>
+    <!-- 白色通用字体 -->
+    <style name="CommonTextAppearance_super_Mini_White" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CommonTextAppearance_Mini_White" parent="@android:style/TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CommonTextAppearance_Small_White" parent="@android:style/TextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CommonTextAppearance_Middle_White" parent="@android:style/TextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="CommonTextAppearance_Big_White" parent="@android:style/TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+    <!-- 灰色通用字体 -->
+    <style name="CommonTextAppearance_super_Mini_Gray" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="CommonTextAppearance_Mini_Gray" parent="@android:style/TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="CommonTextAppearance_Small_Gray" parent="@android:style/TextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="CommonTextAppearance_Middle_Gray" parent="@android:style/TextAppearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="CommonTextAppearance_Big_Gray" parent="@android:style/TextAppearance">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+    <style name="custom_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!-- Dialog的windowFrame框为无 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 是否漂现在activity上 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- 是否半透明 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 去除黑色边框的关键设置项 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!-- 屏幕背景是否变暗 -->
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
+    <style name="dialog_btn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">36dp</item>
+
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:background">@drawable/btn_cancel</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="dialog_btn_cancel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">36dp</item>
+
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:background">@drawable/btn_cancel</item>
+        <item name="android:textColor">@color/md_grey_800</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

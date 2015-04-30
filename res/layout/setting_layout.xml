@@ -21,7 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/ll_userinfo_layout"
@@ -136,6 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:paddingRight="10dp"
                             android:layout_toLeftOf="@id/setting_image_name_right"
                             android:text=""
                             android:textColor="@color/person_setting_phonecolor"
@@ -270,7 +272,7 @@
                 android:orientation="vertical" >
             </LinearLayout>
 
-            <include layout="@layout/layout_line_text" />
+            <include   android:id="@+id/line_tx" layout="@layout/layout_line_text" />
 
             <RelativeLayout
                 android:id="@+id/feed_back_layout"
