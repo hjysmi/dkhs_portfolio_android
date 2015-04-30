@@ -22,6 +22,7 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.utils.DebugJsonFormatUtil;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -135,7 +136,7 @@ public class DKHSClient {
                     LogUtils.customTagPrefix = "DKHSClilent";
 
                     String result = StringDecodeUtil.fromUnicode(responseInfo.result);
-                    LogUtils.d("请求成功:" + result);
+                    LogUtils.d("请求成功:" + DebugJsonFormatUtil.format(result));
                     if (null != listener && !listener.isStopRequest()) {
                         listener.onHttpSuccess(result);
                     }

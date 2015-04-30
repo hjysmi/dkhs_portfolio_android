@@ -243,9 +243,20 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
 
         addHeadView();
 
-        setOnScrollListener(this);
+        super.setOnScrollListener(this);
 
         initPullImageAnimation(0);
+    }
+
+
+    private OnScrollListener onScrollListener;
+
+
+    @Override
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
+
+
     }
 
     /**
@@ -415,6 +426,9 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
     @Override
     public void onScroll(AbsListView pView, int pFirstVisibleItem, int pVisibleItemCount, int pTotalItemCount) {
         // System.out.println("onScroll . pFirstVisibleItem = "+pFirstVisibleItem);
+        if(null  != onScrollListener){
+            onScrollListener.onScroll(pView,pFirstVisibleItem,pVisibleItemCount,pTotalItemCount);
+        }
         mFirstItemIndex = pFirstVisibleItem;
         mLastItemIndex = pFirstVisibleItem + pVisibleItemCount - 2;
         mCount = pTotalItemCount - 2;
@@ -431,6 +445,10 @@ public class PullToRefreshListView extends ListView implements OnScrollListener 
      */
     @Override
     public void onScrollStateChanged(AbsListView pView, int pScrollState) {
+
+        if(null  != onScrollListener){
+            onScrollListener.onScrollStateChanged(pView,pScrollState);
+        }
         if (mCanLoadMore) {// 存在加载更多功能
             if (mLastItemIndex == mCount && pScrollState == SCROLL_STATE_IDLE) {
                 // SCROLL_STATE_IDLE=0，滑动停止

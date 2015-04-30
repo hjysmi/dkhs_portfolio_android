@@ -21,6 +21,8 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 
+import com.nineoldandroids.view.ViewHelper;
+
 
 /**
  * @ClassName AnimationHelper
@@ -153,6 +155,57 @@ public class AnimationHelper {
 
         view.startAnimation(animationSet);
 
+
+    }
+
+
+    public static void translationDismiss(final View view) {
+
+        if(view.getVisibility() == View.GONE){
+            return;
+        }
+
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,view.getHeight());
+        objectAnimator.setDuration(ANIM_DURATION);
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        objectAnimator.start();
+
+    }
+
+    public static void translationShow(final View view) {
+        if(view.getVisibility() == View.VISIBLE){
+            return;
+        }
+        view.setVisibility(View.VISIBLE);
+
+        if(view.getHeight()==0) {
+            view.measure(0, 0);
+        }
+
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",view.getHeight(),0);
+        objectAnimator.setDuration(ANIM_DURATION);
+
+        objectAnimator.start();
 
     }
 

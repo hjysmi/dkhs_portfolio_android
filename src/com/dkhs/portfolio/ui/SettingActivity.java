@@ -63,6 +63,11 @@ import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
  */
 public class SettingActivity extends ModelAcitivity implements OnClickListener {
     public static boolean isSetPassword = true;
+    private  static final  String EDIT_MODE="userInfo";
+
+
+
+
     private LinearLayout settingLayoutGroup;
     private Context context;
     private ImageView settingImageHead;
@@ -95,6 +100,17 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             }
         };
     };
+
+    public static  Intent getEditUserInfoIntent(Context context){
+
+
+        Intent intent =new Intent(context,SettingActivity.class);
+        intent.putExtra(EDIT_MODE,true);
+
+        return intent;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +190,18 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         settingTextAccountText.setText(account);
         settingTextNameText.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
 
+
+        if(getEditModeEnable()){
+
+            findViewById(R.id.feed_back_layout).setVisibility(View.GONE);
+            findViewById(R.id.setting_layout_check_version).setVisibility(View.GONE);
+            findViewById(R.id.rl_aboutus).setVisibility(View.GONE);
+            findViewById(R.id.btn_exit).setVisibility(View.GONE);
+            findViewById(R.id.line_tx).setVisibility(View.GONE);
+        }
+
+
+
         if (PortfolioApplication.hasUserLogin()) {
             // btnLogin.setVisibility(View.GONE);
             // viewLogin.setVisibility(View.GONE);
@@ -196,6 +224,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
 
         }
+
 
     }
 
@@ -461,7 +490,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     BindThreePlat palt = entity.get(i);
                     if (palt.getProvider().equalsIgnoreCase("mobile") || palt.getProvider().equalsIgnoreCase("email")) {
                         if (palt.isStatus()) {
-                            viewPassword.setVisibility(View.VISIBLE);
+                            if(!getEditModeEnable()){
+                                viewPassword.setVisibility(View.VISIBLE);
+                            }
+
                         }
                     }
                 }
@@ -501,5 +533,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
         MobclickAgent.onPause(this);
+    }
+
+    public boolean getEditModeEnable() {
+
+        return getIntent().getBooleanExtra(EDIT_MODE,false);
     }
 }

@@ -1,47 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
     android:background="@drawable/lv_white_selector"
-    android:orientation="horizontal"
-    android:padding="12dp" >
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
-    <RelativeLayout
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_weight="1" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/lv_white_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <RelativeLayout
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tv_combination_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:singleLine="true"
+                android:text="沪深大盘"
+                android:textSize="15sp" />
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_combination_name"
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_center_value"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:singleLine="true"
-            android:text="沪深大盘"
-            android:textSize="15sp" />
-    </RelativeLayout>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_center_value"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_right_value"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:paddingRight="14dp"
+            android:text="-"
+            android:textColor="@color/red"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_right_value"
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="right"
-        android:paddingRight="14dp"
-        android:text="-"
-        android:textColor="@color/red"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

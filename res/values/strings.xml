@@ -152,7 +152,7 @@
     <string name="current_netvalue">当前净值:</string>
     <string name="today_increase">今日增长:</string>
     <string name="today_in_rote">今日收益率:</string>
-    <string name="add_up_value">累计收益率</string>
+    <string name="add_up_value">累计收益</string>
     <string name="dialog_before_createday_title">查询时间早于组合创建时间</string>
     <string name="query_from_create">从创建时间开始查询</string>
     <string name="query_before_month">起始时间不能早于创建前1个月</string>
@@ -358,6 +358,9 @@
     <string name="nodate_tip_inland_index">暂无国内指数数据</string>
     <string name="nodate_tip">暂无数据</string>
     <string name="nodata_login_out">您还未登录</string>
+    <string name="nodata_friend">关注列表为空</string>
+    <string name="nodata_follower">粉丝列表为空</string>
+    <string name="nodata_user_description">此人很懒，暂无签名</string>
 
     <!-- 行情中心 -->
     <string name="market_index_name">指数名称</string>
@@ -443,6 +446,14 @@
     <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
     <string name="msg_price_error">目标价输入错误</string>
     <string name="btn_reinput">重新输入</string>
+    <string name="symbols">自建</string>
+    <string name="followers">粉丝</string>
+    <string name="following">关注</string>
+    <string name="unfollowing">取消关注</string>
+    <string name="unfollow_alert_content">确定取消关注%s ?</string>
+    <string name="null_number">--</string>
+
+
     <string name="toast_remind_success">提醒设置成功</string>
 
 </resources>

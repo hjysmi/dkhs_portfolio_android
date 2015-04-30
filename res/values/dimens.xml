@@ -72,5 +72,19 @@
     <dimen name="padding_left">90px</dimen>
     <dimen name="gray_tab_height">32dp</dimen>
     <dimen name="main_tab_textsize">12sp</dimen>
+    <dimen name="dialog_padding">5dp</dimen>
+    <dimen name="btn_margin">4dp</dimen>
+    <dimen name="btn_radius">3dp</dimen>
+    <dimen name="header_height">280dp</dimen>
+    <dimen name="combination_item_height">50dp</dimen>
+    <dimen name="header_can_scroll_distance">146dp</dimen>
+    <dimen name="header_avatar_margin">16dp</dimen>
+    <dimen name="header_avatar_height">72dp</dimen>
+    <dimen name="header_userDesc_height">20dp</dimen>
+    <dimen name="header_avatar_margin_top">26dp</dimen>
+
+
+
+
 
 </resources>

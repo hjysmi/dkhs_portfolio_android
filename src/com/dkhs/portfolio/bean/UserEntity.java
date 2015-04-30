@@ -47,6 +47,10 @@ public class UserEntity {
      */
     private int status_count;
     /**
+     * 自建数
+     */
+    private int symbols_count;
+    /**
      * 30x30头像地址
      */
     private String avatar_xs;
@@ -55,6 +59,24 @@ public class UserEntity {
     private String avatar_sm;
     private String avatar_lg;
     private String date_joined;
+
+    private boolean me_follow;
+
+    public boolean isMe_follow() {
+        return me_follow;
+    }
+
+    public void setMe_follow(boolean me_follow) {
+        this.me_follow = me_follow;
+    }
+
+    public int getSymbols_count() {
+        return symbols_count;
+    }
+
+    public void setSymbols_count(int symbols_count) {
+        this.symbols_count = symbols_count;
+    }
 
     public long getId() {
         return id;

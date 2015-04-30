@@ -14,12 +14,14 @@
             style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:smoothScrollbar="true"
             android:layout_weight="1"
             android:drawSelectorOnTop="false" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@android:id/empty"
+        style="@style/gray_title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

@@ -3,26 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="15dp" >
+        android:paddingTop="15dp">
 
         <LinearLayout
             android:id="@+id/person_setting_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_login_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <View style="@style/divider_line" />
 
@@ -46,8 +46,9 @@
                 android:id="@+id/ll_userinfo_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/btn_white_selector"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <View style="@style/divider_line" />
 
@@ -59,7 +60,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:paddingTop="10dp" >
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:id="@+id/setting_image_right"
@@ -81,7 +82,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/setting_image_head"
-                        android:paddingLeft="12dp" >
+                        android:paddingLeft="12dp">
 
                         <TextView
                             android:id="@+id/setting_text_name_text"
@@ -103,6 +104,72 @@
                 </RelativeLayout>
 
                 <View style="@style/divider_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="6dp">
+
+                    <LinearLayout
+                        android:id="@+id/ll_following"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_white_selector"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CommonTextAppearance_Mini_Gray"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.6"
+                            android:gravity="center"
+                            android:text="@string/following" />
+
+                        <TextView
+                            android:id="@+id/tv_following"
+                            style="@style/CommonTextAppearance_Big_Black"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/null_number" />
+                    </LinearLayout>
+
+                    <View
+                        style="@style/vertical_divider_line"
+                        android:layout_marginBottom="1dp"
+                        android:layout_marginTop="20dp"
+                        android:alpha="0.6"
+                        android:background="@color/md_grey_800" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_followers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_white_selector"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/CommonTextAppearance_Mini_Gray"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.6"
+                            android:gravity="center"
+                            android:text="@string/followers" />
+
+                        <TextView
+                            android:id="@+id/tv_followers"
+                            style="@style/CommonTextAppearance_Big_Black"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/null_number" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -117,7 +184,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -149,7 +216,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp">
 
                 <ImageView
                     android:id="@+id/image_detail"
@@ -168,17 +235,18 @@
                     android:text="@string/message_center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/setting_text_name" />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:visibility="gone"
-                    android:textSize="12sp"
-                    android:background="@drawable/bg_un_read_count"
-                    android:layout_centerVertical="true"
-                    android:textColor="@color/white"
-                    android:layout_marginRight="2dp"
                     android:id="@+id/tv_unread_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="2dp"
                     android:layout_toLeftOf="@+id/image_detail"
-                    android:layout_height="wrap_content" />
+                    android:background="@drawable/bg_un_read_count"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
                 <!---->
             </RelativeLayout>
 

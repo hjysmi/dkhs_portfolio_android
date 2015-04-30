@@ -115,6 +115,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             }
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(10);
+
         }
     }
 

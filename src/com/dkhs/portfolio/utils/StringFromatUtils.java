@@ -161,6 +161,24 @@ public class StringFromatUtils {
 
     }
 
+    /**
+     * 处理 数字
+     * @param count
+     * @return
+     */
+    public static String handleNumber(  int count) {
+
+        String countStr;
+
+        if(count >1000){
+            DecimalFormat df2 = new DecimalFormat("#.#");
+            countStr  =df2.format(count/1000.0)+"k";
+        }else{
+            countStr=count+"";
+        }
+        return countStr;
+    }
+
     public static String convertToWanHand(float value) {
 
         return convertToWan(value / 100);
