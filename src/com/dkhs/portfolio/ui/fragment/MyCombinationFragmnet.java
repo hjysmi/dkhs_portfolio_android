@@ -206,8 +206,8 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                // startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                // startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });
