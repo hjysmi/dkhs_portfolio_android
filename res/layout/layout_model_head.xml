@@ -5,7 +5,18 @@
     android:layout_height="wrap_content"
     android:background="@color/title_color" >
 
-    <Button
+    <com.dkhs.portfolio.ui.widget.TextImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@null"
+        android:paddingLeft="5dp"
+        android:paddingRight="15dp"
+        android:src="@drawable/btn_back_selector"
+        android:textColor="@color/white_textselector" />
+    <!--
+         <Button
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +26,8 @@
         android:drawableLeft="@drawable/btn_back_selector"
         android:padding="15dp"
         android:scaleType="fitCenter"
-        android:textColor="@color/white_textselector" />
+        android:textColor="@color/white_textselector" />
+    -->
 
     <RelativeLayout
         android:id="@+id/ll_tilte"

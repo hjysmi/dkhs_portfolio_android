@@ -5,7 +5,6 @@ import java.io.File;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -13,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,6 +29,7 @@ import com.dkhs.portfolio.bean.FeedBackBean;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -40,7 +39,7 @@ import com.umeng.analytics.MobclickAgent;
  *
  */
 public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
-	private Button btnCancle;
+	private TextImageButton btnCancle;
 	private Button btnSave;
 	private EditText feedEditText;
 	private ImageView feedImageLoad;

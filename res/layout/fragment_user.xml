@@ -3,28 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:scrollbars="none">
+    android:scrollbars="none" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="15dp">
+        android:paddingTop="15dp" >
 
         <LinearLayout
             android:id="@+id/person_setting_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/ll_login_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="vertical">
-
-                <View style="@style/divider_line" />
+                style="@style/white_grayborder_layout"
+                android:orientation="vertical"
+                android:visibility="gone" >
 
                 <Button
                     android:id="@+id/btn_login"
@@ -38,8 +35,6 @@
                     android:text="马上登录"
                     android:textColor="@color/blue"
                     android:textSize="18sp" />
-
-                <View style="@style/divider_line" />
             </LinearLayout>
 
             <LinearLayout
@@ -47,20 +42,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_white_selector"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-                <View style="@style/divider_line" />
+                android:orientation="vertical" >
 
                 <RelativeLayout
                     android:id="@+id/setting_layout_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/btn_white_selector"
+                    style="@style/white_grayborder_layout"
                     android:paddingBottom="10dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:paddingTop="10dp">
+                    android:paddingTop="10dp" >
 
                     <ImageView
                         android:id="@+id/setting_image_right"
@@ -82,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/setting_image_head"
-                        android:paddingLeft="12dp">
+                        android:paddingLeft="12dp" >
 
                         <TextView
                             android:id="@+id/setting_text_name_text"
@@ -103,14 +93,13 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
-                <View style="@style/divider_line" />
-
                 <LinearLayout
+                    style="@style/white_grayborder_layout"
                     android:layout_width="fill_parent"
-
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="-1dp"
                     android:orientation="horizontal"
-                    android:padding="6dp">
+                    android:padding="6dp" >
 
                     <LinearLayout
                         android:id="@+id/ll_following"
@@ -118,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/btn_white_selector"
-                        android:orientation="vertical">
+                        android:orientation="vertical" >
 
                         <TextView
                             style="@style/CommonTextAppearance_Mini_Gray"
@@ -150,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/btn_white_selector"
-                        android:orientation="vertical">
+                        android:orientation="vertical" >
 
                         <TextView
                             style="@style/CommonTextAppearance_Mini_Gray"
@@ -172,19 +161,14 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                style="@style/divider_line"
-                android:layout_marginTop="@dimen/combin_horSpacing" />
-
             <RelativeLayout
                 android:id="@+id/user_myfunds_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selector"
+                style="@style/white_grayborder_layout"
+                android:layout_marginTop="@dimen/combin_horSpacing"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -204,19 +188,14 @@
                     android:textSize="@dimen/setting_text_name" />
             </RelativeLayout>
 
-            <View
-                style="@style/divider_line"
-                android:layout_marginTop="@dimen/combin_horSpacing" />
-
             <RelativeLayout
                 android:id="@+id/message_center_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_white_selector"
+                style="@style/white_grayborder_layout"
+                android:layout_marginTop="@dimen/combin_horSpacing"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/image_detail"
@@ -247,10 +226,8 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:visibility="gone" />
-                <!---->
+                <!--  -->
             </RelativeLayout>
-
-            <View style="@style/divider_line" />
         </LinearLayout>
     </LinearLayout>
 

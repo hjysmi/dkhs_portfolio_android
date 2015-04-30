@@ -70,7 +70,11 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private TextView settingTextNameText;
     @ViewInject(R.id.tv_unread_count)
     private TextView unreadCountTV;
+
+    @ViewInject(R.id.tv_followers)
     private TextView tvFollowers;
+
+    @ViewInject(R.id.tv_following)
     private TextView tvFollowing;
 
     @Override
@@ -82,10 +86,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        tvFollowers = (TextView) view.findViewById(R.id.tv_followers);
-        tvFollowing = (TextView) view.findViewById(R.id.tv_following);
-        view.findViewById(R.id.ll_followers).setOnClickListener(this);
-        view.findViewById(R.id.ll_following).setOnClickListener(this);
+        // view.findViewById(R.id.ll_followers).setOnClickListener(this);
+        // view.findViewById(R.id.ll_following).setOnClickListener(this);
 
         initView(view);
         setTitle(R.string.title_user);
@@ -205,11 +207,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     }
 
     private void startUserInfoActivity() {
-        Intent intent = CombinationUserActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(), UserEngineImpl.getUserEntity().getId() + "", true);
+        Intent intent = CombinationUserActivity.getIntent(getActivity(), UserEngineImpl.getUserEntity().getUsername(),
+                UserEngineImpl.getUserEntity().getId() + "", true);
         startActivity(intent);
     }
 
-    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout, R.id.ll_following, R.id.ll_followers})
+    @OnClick({ R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout,
+            R.id.ll_following, R.id.ll_followers })
     public void onClick(View v) {
         int id = v.getId();
         if (R.id.btn_login == id) {
@@ -236,7 +240,6 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             }
         } else if (R.id.ll_following == id) {
 
-
             Intent followIntent = new Intent(getActivity(), FriendsOrFollowersActivity.class);
             followIntent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
             followIntent.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
@@ -244,14 +247,12 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         } else if (R.id.ll_followers == id) {
 
-
             Intent intent1 = new Intent(getActivity(), FriendsOrFollowersActivity.class);
             intent1.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FOLLOWER);
             intent1.putExtra(FriendsOrFollowersActivity.USER_ID, UserEngineImpl.getUserEntity().getId() + "");
             startActivity(intent1);
 
         }
-
 
     }
 

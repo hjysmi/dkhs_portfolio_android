@@ -6,7 +6,7 @@
  * @date 2014-10-31 下午1:55:30
  * @version V1.0
  */
-package com.dkhs.portfolio.service;
+package com.dkhs.portfolio.receiver;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

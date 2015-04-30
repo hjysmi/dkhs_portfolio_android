@@ -184,20 +184,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     }
 
-    // /**
-    // * @Title
-    // * @Description TODO: (用一句话描述这个方法的功能)
-    // * @return
-    // */
-    // @Override
-    // public void onRestart() {
-    // // TODO Auto-generated method stub
-    // super.onRestart();
-    // if (null != loadDataListFragment) {
-    // loadDataListFragment.refreshNoCaseTime();
-    // }
-    // }
-
     @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
     public void onClick(View v) {
         int id = v.getId();

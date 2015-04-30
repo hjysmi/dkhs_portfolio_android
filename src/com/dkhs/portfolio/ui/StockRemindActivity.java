@@ -225,6 +225,10 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                         StringFromatUtils.get2Point(mStockBean.getCurrentValue()));
 
             }
+            if (StockUitls.isIndexStock(mStockBean.getSymbol_type())) {
+                viewNoticeRemind.setVisibility(View.GONE);
+                viewYanbaoRemind.setVisibility(View.GONE);
+            }
 
             tvPrice.setText(perText);
             if (null != mStockBean.alertSetBean) {

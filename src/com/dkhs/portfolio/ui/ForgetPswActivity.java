@@ -37,7 +37,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.service.SMSBroadcastReceiver;
+import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -109,7 +109,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
 
                 System.out.println("ReceiveCode:" + codeSb);
                 // System.out.println("code:"+codeSb.substring(0, 6));
-                etVerifucode.setText(codeSb.substring(0, 6));
+                etVerifucode.setText(codeSb.substring(0, 4));
 
             }
         });
@@ -263,7 +263,7 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
     };
 
     private String telephone;
-	private String verifyCode;
+    private String verifyCode;
 
     @Override
     public void onClick(View v) {
@@ -278,30 +278,30 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
             }
             new UserEngineImpl().checkVericode(telephone, verifyCode, new ParseHttpListener<Boolean>() {
 
-				@Override
-				protected Boolean parseDateTask(String jsonData) {
-					try {
-						JSONObject json = new JSONObject(jsonData);
-						if(json.has("status")){
-							boolean bool = json.getBoolean("status");
-							return bool;
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
-						return false;
-					}
-					return false;
-				}
+                @Override
+                protected Boolean parseDateTask(String jsonData) {
+                    try {
+                        JSONObject json = new JSONObject(jsonData);
+                        if (json.has("status")) {
+                            boolean bool = json.getBoolean("status");
+                            return bool;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                    return false;
+                }
 
-				@Override
-				protected void afterParseData(Boolean object) {
-					if(object){
-						startActivity(SetPasswordActivity.newIntent(ForgetPswActivity.this, telephone, verifyCode));
-					}else{
-						PromptManager.showToast("验证码有误");
-					}
-				}
-			}.setLoadingDialog(this));
+                @Override
+                protected void afterParseData(Boolean object) {
+                    if (object) {
+                        startActivity(SetPasswordActivity.newIntent(ForgetPswActivity.this, telephone, verifyCode));
+                    } else {
+                        PromptManager.showToast("验证码有误");
+                    }
+                }
+            }.setLoadingDialog(this));
         }
         if (v.getId() == R.id.btn_getCode) {
             if (!isValidPhoneNum()) {
@@ -335,22 +335,24 @@ public class ForgetPswActivity extends ModelAcitivity implements OnClickListener
         // 注销短信监听广播
         this.unregisterReceiver(mSMSBroadcastReceiver);
     }
-    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_forget_psd);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_forget_psd);
+
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }

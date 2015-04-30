@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -36,7 +37,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
     public final int BACKBUTTON_ID = R.id.btn_back;
     public final int SECONDRIGHTBUTTON_ID = R.id.btn_right_second;
     @ViewInject(R.id.btn_back)
-    private Button btnBack;
+    private TextImageButton btnBack;
 
     @ViewInject(RIGHTBUTTON_ID)
     private Button btnRight;
@@ -67,7 +68,7 @@ public abstract class BaseTitleFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ViewUtils.inject(this, view); // 注入view和事件
-        btnBack = (Button) view.findViewById(BACKBUTTON_ID);
+        btnBack = (TextImageButton) view.findViewById(BACKBUTTON_ID);
         btnRight = (Button) view.findViewById(RIGHTBUTTON_ID);
         btnSecondRight = (Button) view.findViewById(SECONDRIGHTBUTTON_ID);
         tvTitle = (TextView) view.findViewById(R.id.tv_title);

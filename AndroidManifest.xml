@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
-    android:versionCode="11"
-    android:versionName="1.5.0429" >
+    android:versionCode="12"
+    android:versionName="1.6.0429" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -153,11 +153,14 @@
             android:name="com.dkhs.portfolio.ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name="com.dkhs.portfolio.ui.NewCombinationDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name="cn.sharesdk.framework.ShareSDKUIShell"
+                      android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize" >

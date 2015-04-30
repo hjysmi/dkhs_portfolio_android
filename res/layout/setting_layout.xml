@@ -3,18 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
-        android:scrollbars="none">
+        android:scrollbars="none" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <LinearLayout
                 android:id="@+id/person_setting_parent"
@@ -28,7 +28,7 @@
                     android:id="@+id/ll_userinfo_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical" >
 
                     <View
                         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                         android:id="@+id/setting_layout_icon"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
+                        android:background="@drawable/btn_white_selector" >
 
                         <ImageView
                             android:id="@+id/setting_image_right"
@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@id/setting_image_head"
-                            android:paddingLeft="20dp">
+                            android:paddingLeft="20dp" >
 
                             <TextView
                                 android:id="@+id/settingt_text_name"
@@ -84,12 +84,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="gone" >
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/btn_white_selector">
+                            android:background="@drawable/btn_white_selector" >
 
                             <TextView
                                 android:id="@+id/setting_text_account_text"
@@ -121,7 +121,7 @@
                         android:id="@+id/setting_layout_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
+                        android:background="@drawable/btn_white_selector" >
 
                         <ImageView
                             android:id="@+id/setting_image_name_right"
@@ -137,8 +137,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/setting_image_name_right"
                             android:paddingRight="10dp"
+                            android:layout_toLeftOf="@id/setting_image_name_right"
                             android:text=""
                             android:textColor="@color/person_setting_phonecolor"
                             android:textSize="@dimen/setting_text_phone" />
@@ -159,7 +159,7 @@
                         android:id="@+id/setting_layout_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
+                        android:background="@drawable/btn_white_selector" >
 
                         <include layout="@layout/layout_line" />
 
@@ -190,7 +190,7 @@
                         android:id="@+id/setting_layout_sign"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
+                        android:background="@drawable/btn_white_selector" >
 
                         <ImageView
                             android:id="@+id/setting_image_sign_right"
@@ -234,7 +234,7 @@
                         android:id="@+id/setting_layout_bound"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/btn_white_selector">
+                        android:background="@drawable/btn_white_selector" >
 
                         <Button
                             android:id="@+id/setting_image_bound"
@@ -269,12 +269,10 @@
                 android:id="@+id/setting_layout_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical" >
+            </LinearLayout>
 
-            <include
-
-                android:id="@+id/line_tx"
-                layout="@layout/layout_line_text" />
+            <include   android:id="@+id/line_tx" layout="@layout/layout_line_text" />
 
             <RelativeLayout
                 android:id="@+id/feed_back_layout"
@@ -283,7 +281,7 @@
                 android:background="@drawable/btn_white_selector"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/setting_image_opinion"
@@ -311,7 +309,7 @@
                 android:background="@drawable/btn_white_selector"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/setting_image_news"
@@ -339,7 +337,7 @@
                 android:background="@drawable/btn_white_selector"
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp" >
 
                 <ImageView
                     android:id="@+id/setting_image_abortus"
@@ -365,7 +363,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
                 android:gravity="bottom"
-                android:padding="30dp">
+                android:padding="30dp" >
 
                 <Button
                     android:id="@+id/btn_exit"

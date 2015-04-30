@@ -23,7 +23,7 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.umeng.analytics.MobclickAgent;
 
 public class UserNameChangeActivity extends ModelAcitivity implements OnClickListener {
-    private Button btnCancle;
+    // private Button btnCancle;
     private Button btnSave;
     private EditText changeEditName;
     private UserEngineImpl mUserEngineImpl;
@@ -43,12 +43,12 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
     private void initView() {
         setTitle(getResources().getString(R.string.change_usesr_name_title));
         changeEditName = (EditText) findViewById(R.id.change_edit_name);
-        btnCancle = getBtnBack();
+        // btnCancle = getBtnBack();
         btnSave = getRightButton();
 
-        //btnCancle.setText("取消");
-        //btnCancle.setBackgroundDrawable(null);
-        //btnCancle.setCompoundDrawables(null, null, null, null);
+        // btnCancle.setText("取消");
+        // btnCancle.setBackgroundDrawable(null);
+        // btnCancle.setCompoundDrawables(null, null, null, null);
         btnSave.setText("保存");
         btnSave.setBackgroundDrawable(null);
         changeEditName.setText(PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USERNAME));
@@ -131,21 +131,22 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
         }
     };
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_change_username);
-    @Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageEnd(mPageName);
-		MobclickAgent.onPause(this);
-	}
 
-	@Override
-	public void onResume() {
-		// TODO Auto-generated method stub
-		super.onResume();
-		//SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
-		MobclickAgent.onPageStart(mPageName);
-		MobclickAgent.onResume(this);
-	}
+    @Override
+    public void onPause() {
+        // TODO Auto-generated method stub
+        super.onPause();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        MobclickAgent.onPause(this);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageStart(mPageName);
+        MobclickAgent.onResume(this);
+    }
 }
