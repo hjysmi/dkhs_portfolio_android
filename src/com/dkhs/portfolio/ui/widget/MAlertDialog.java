@@ -4,9 +4,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,6 +22,7 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.animator.BaseEffects;
 import com.dkhs.portfolio.animator.Effectstype;
+import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 
 
 /**
@@ -59,7 +63,13 @@ public class MAlertDialog {
         button3 = (Button) root.findViewById(R.id.button3);
         LinearLayout parentPanel = (LinearLayout) root.findViewById(R.id.parentPanel);
         main = (RelativeLayout) root.findViewById(R.id.main);
-        dialog.setContentView(root);
+        WindowManager wm = (WindowManager)context
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        int width = wm.getDefaultDisplay().getWidth();
+
+        ViewGroup.LayoutParams params=new ViewGroup.LayoutParams(context.getResources().getDisplayMetrics().widthPixels, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setContentView(root,params);
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
@@ -77,6 +87,9 @@ public class MAlertDialog {
         customPanel.addView(view);
         return this;
     }
+    public void setCancelable(boolean flag){
+        dialog.setCancelable(flag);
+    }
 
     private void start(Effectstype type) {
         BaseEffects animator = type.getAnimator();
@@ -84,6 +97,9 @@ public class MAlertDialog {
             animator.setDuration(Math.abs(mDuration));
         }
         animator.start(main);
+    }
+    public void setContentView(View view){
+        this.setCustomView(view);
     }
 
 

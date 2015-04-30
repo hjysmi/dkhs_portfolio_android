@@ -30,11 +30,14 @@ import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
@@ -82,6 +85,7 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentB = new MainMarketFragment();
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
+
 
         // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {

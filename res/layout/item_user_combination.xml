@@ -11,45 +11,41 @@
         android:layout_height="50dp"
         android:background="@drawable/lv_white_selector"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:paddingRight="15dp"
+        android:layout_alignParentBottom="true"
         android:padding="12dp">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/tv_combination_name"
+            style="@style/gray_title_text"
             android:layout_width="1dp"
+            android:singleLine="true"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_weight="1">
-
-            <TextView
-                android:id="@+id/tv_combination_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:singleLine="true"
-                android:text="沪深大盘"
-                android:textSize="15sp" />
-        </RelativeLayout>
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="@string/creat_fund_name" />
 
         <TextView
+            style="@style/gray_title_text"
             android:id="@+id/tv_center_value"
+            android:singleLine="true"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:text="创建时间" />
 
         <TextView
-            android:id="@+id/tv_right_value"
+            style="@style/gray_title_text"
             android:layout_width="1dp"
+            android:id="@+id/tv_right_value"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="right"
-            android:paddingRight="14dp"
-            android:text="-"
-            android:textColor="@color/red"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:singleLine="true"
+            android:text="@string/add_up_value" />
+
+
 
     </LinearLayout>
 </RelativeLayout>
