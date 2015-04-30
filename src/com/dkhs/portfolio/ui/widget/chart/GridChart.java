@@ -613,14 +613,28 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                         if (!(i == 0))
                             canvas.drawLine(offset + i * postOffset, axisMarginTop + mTitleHeight, offset + i
                                     * postOffset, length, mPaintLine);
-                        if (!(i == 0) && !(i == axisXTitles.size() - 1)) {
-                            Paint p = new Paint();
-                            Rect rect = new Rect();
-                            p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                            p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
-
-                            System.out.println("canvas.drawText(axisXTitles displayLongitude");
-                            canvas.drawText(axisXTitles.get(i), i * postOffset + PADDING_LEFT - rect.width() / 2,
+//                        if ((i == 0) || (i == axisXTitles.size() - 1)) {
+//                            Paint p = new Paint();
+//                            Rect rect = new Rect();
+//                            p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+//                            p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
+//
+//                            System.out.println("canvas.drawText(axisXTitles displayLongitude");
+//                            canvas.drawText(axisXTitles.get(i), i * postOffset + PADDING_LEFT - rect.width() / 2,
+//                                    super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+//                        }
+                        
+                        if (i == 0) {
+                            // Paint p = new Paint();
+                            // Rect rect = new Rect();
+                            // p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                            // p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
+                            canvas.drawText(axisXTitles.get(i), i
+                                    * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
+                                    super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+                        } else if (i == axisXTitles.size() - 1) {
+                            canvas.drawText(axisXTitles.get(i), i
+                                    * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
                                     super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
                         }
                     } else
