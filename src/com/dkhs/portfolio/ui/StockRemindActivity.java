@@ -621,7 +621,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     private void showAlertDialog(final int messageId) {
 
-        MAlertDialog builder = new MAlertDialog(this);
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(messageId).setPositiveButton(R.string.btn_reinput, new DialogInterface.OnClickListener() {
 

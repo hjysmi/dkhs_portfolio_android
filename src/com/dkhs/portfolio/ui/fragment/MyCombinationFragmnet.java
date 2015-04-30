@@ -224,7 +224,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
     public void showDelDialog(final CombinationBean mCombination) {
 
-       MAlertDialog builder = new MAlertDialog(getActivity());
+       MAlertDialog builder =PromptManager.getAlertDialog(getActivity());
         builder.setMessage(R.string.dialog_message_delete_combination);
         // builder.setTitle(R.string.tips);
         // final CombinationBean mCombination = (CombinationBean) item.data;

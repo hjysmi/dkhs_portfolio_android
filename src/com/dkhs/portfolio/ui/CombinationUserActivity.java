@@ -17,6 +17,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
@@ -346,7 +347,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void gotoLoginDialog() {
 
-        new MAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.nodata_login_out).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.nodata_login_out).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(CombinationUserActivity.this, LoginActivity.class));
@@ -360,7 +361,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void unFollowAction() {
 
 
-           new MAlertDialog(this).setTitle(R.string.tips).setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername()))
+        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername()))
                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {

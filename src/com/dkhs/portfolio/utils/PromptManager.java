@@ -157,7 +157,7 @@ public class PromptManager {
      * @param context
      */
     public static void showExitSystem(Context context) {
-        MAlertDialog builder = new MAlertDialog(context);
+        MAlertDialog builder = PromptManager.getAlertDialog(context);
         builder
 //                .setIcon(R.drawable.ic_launcher)
         //
@@ -192,7 +192,7 @@ public class PromptManager {
      * @param msg
      */
     public static void showErrorDialog(Context context, String msg) {
-        new MAlertDialog(context)//
+        PromptManager.getAlertDialog(context)//
 //                .setIcon(R.drawable.ic_launcher)//
 //                .setTitle(R.string.app_name)//
                 .setMessage(msg)//
@@ -282,6 +282,11 @@ public class PromptManager {
             toast.setView(layout);
             toast.show();
         }
+    }
+    public static  MAlertDialog  getAlertDialog(Context context){
+
+        return  new MAlertDialog(context);
+
     }
 
 }

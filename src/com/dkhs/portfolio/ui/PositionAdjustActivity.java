@@ -15,6 +15,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -851,7 +852,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void showAlertDialog() {
 
-       MAlertDialog builder= new MAlertDialog(this);
+       MAlertDialog builder= PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.adjust_back_message)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -871,6 +872,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                     }
                 });
+
+
         builder.show();
 
     }

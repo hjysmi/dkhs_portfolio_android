@@ -226,7 +226,7 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
 
     public void showDelDialog(final CompoundButton buttonView, final boolean isChecked) {
 
-      MAlertDialog builder = new MAlertDialog(mContext);
+      MAlertDialog builder = PromptManager.getAlertDialog(mContext);
         builder.setMessage(R.string.dialog_message_delfollow_combination);
         // builder.setTitle(R.string.tips);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {

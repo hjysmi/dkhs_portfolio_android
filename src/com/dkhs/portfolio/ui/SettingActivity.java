@@ -376,7 +376,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     int service = Integer.parseInt(s);
                     int local = Integer.parseInt(version.replaceAll("\\.", ""));
                     if (service > local) {
-                       MAlertDialog alert = new MAlertDialog(context);
+                       MAlertDialog alert = PromptManager.getAlertDialog(context);
                         alert.setTitle("软件升级").setMessage("发现新版本,建议立即更新使用.")// "发现新版本,建议立即更新使用."
                                 .setCancelable(false).setPositiveButton("更新", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

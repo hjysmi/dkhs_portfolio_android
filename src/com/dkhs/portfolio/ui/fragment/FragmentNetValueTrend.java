@@ -637,7 +637,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     public void showDelDialog() {
 
-        MAlertDialog builder = new MAlertDialog(getActivity());
+        MAlertDialog builder =PromptManager.getAlertDialog(getActivity());
         builder.setMessage(R.string.dialog_message_delfollow_combination);
         // builder.setTitle(R.string.tips);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
