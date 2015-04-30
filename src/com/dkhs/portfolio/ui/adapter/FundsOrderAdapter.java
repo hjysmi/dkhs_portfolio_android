@@ -21,11 +21,11 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
@@ -226,8 +226,7 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
 
     public void showDelDialog(final CompoundButton buttonView, final boolean isChecked) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(mContext,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+      MAlertDialog builder = new MAlertDialog(mContext);
         builder.setMessage(R.string.dialog_message_delfollow_combination);
         // builder.setTitle(R.string.tips);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {

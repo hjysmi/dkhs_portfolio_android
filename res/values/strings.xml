@@ -457,5 +457,6 @@
 
 
     <string name="toast_remind_success">提醒设置成功</string>
+    <string name="toast_click_once_more">再按一次退出程序</string>
 
 </resources>

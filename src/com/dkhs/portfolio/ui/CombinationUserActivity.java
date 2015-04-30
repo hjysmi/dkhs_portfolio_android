@@ -91,7 +91,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         super.onCreate(arg0);
         setContentView(R.layout.activity_user_combination);
         context = this;
-
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -413,7 +412,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         }
 
 
-        if(Math.abs(percent-prePercent) >0.1){
+        if(Math.abs(percent-prePercent) >0.12){
             toPercent=percent;
             if(!isSendState) {
                 if(prePercent>toPercent) {
@@ -446,7 +445,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
                 case 0:
 
-                    float percent2=prePercent+0.04f;
+                    float percent2=prePercent+0.06f;
                     if(percent2 > toPercent){
                         percent2=toPercent;
                     }
@@ -460,7 +459,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
                     break;
                 case 1:
-                    float percent=prePercent-0.04f;
+                    float percent=prePercent-0.06f;
 
                     if(percent < toPercent){
                         percent=toPercent;

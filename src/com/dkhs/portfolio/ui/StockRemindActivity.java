@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -47,6 +46,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -621,8 +621,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     private void showAlertDialog(final int messageId) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        MAlertDialog builder = new MAlertDialog(this);
 
         builder.setMessage(messageId).setPositiveButton(R.string.btn_reinput, new DialogInterface.OnClickListener() {
 

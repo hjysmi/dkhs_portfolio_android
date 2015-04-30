@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.utils;
 
-import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
@@ -20,6 +19,7 @@ import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.lidroid.xutils.util.LogUtils;
 
 /**
@@ -28,7 +28,7 @@ import com.lidroid.xutils.util.LogUtils;
 
 public class PromptManager {
     private static Dialog dialog;
-    private AlertDialog a;
+    private MAlertDialog a;
     private static Toast mToast;
 
     /**
@@ -157,8 +157,9 @@ public class PromptManager {
      * @param context
      */
     public static void showExitSystem(Context context) {
-        AlertDialog.Builder builder = new Builder(context);
-        builder.setIcon(R.drawable.ic_launcher)
+        MAlertDialog builder = new MAlertDialog(context);
+        builder
+//                .setIcon(R.drawable.ic_launcher)
         //
                 .setTitle(R.string.app_name)
                 //
@@ -191,9 +192,9 @@ public class PromptManager {
      * @param msg
      */
     public static void showErrorDialog(Context context, String msg) {
-        new AlertDialog.Builder(context)//
-                .setIcon(R.drawable.ic_launcher)//
-                .setTitle(R.string.app_name)//
+        new MAlertDialog(context)//
+//                .setIcon(R.drawable.ic_launcher)//
+//                .setTitle(R.string.app_name)//
                 .setMessage(msg)//
                 .setNegativeButton("确定", null)//
                 .show();

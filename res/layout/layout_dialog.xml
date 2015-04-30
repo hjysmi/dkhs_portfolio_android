@@ -62,7 +62,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:textAppearance="?android:attr/textAppearanceLarge"
 
 
-                    android:text="12121"
+                    android:text="@string/tips"
                     android:textColor="@color/md_grey_800" />
             </RelativeLayout>
 
@@ -94,7 +94,6 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="12121"
                     android:layout_marginRight="2dp"
                     android:layout_marginTop="4dp"
                     android:background="@color/white"

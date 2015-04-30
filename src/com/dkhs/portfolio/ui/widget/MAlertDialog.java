@@ -87,8 +87,9 @@ public class MAlertDialog {
         customPanel.addView(view);
         return this;
     }
-    public void setCancelable(boolean flag){
+    public MAlertDialog setCancelable(boolean flag){
         dialog.setCancelable(flag);
+        return  this;
     }
 
     private void start(Effectstype type) {
