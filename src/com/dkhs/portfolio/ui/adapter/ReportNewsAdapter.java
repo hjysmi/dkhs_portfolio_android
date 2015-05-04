@@ -176,14 +176,15 @@ public class ReportNewsAdapter extends BaseAdapter {
 
             if (mOptionNewsBean.getContentType().equals("20")) {
                 viewHolder.tvType.setText("【公告】");
+                viewHolder.text.setVisibility(View.GONE);
             } else {
                 viewHolder.text.setVisibility(View.GONE);
                 viewHolder.tvType.setText("【研报】");
+                viewHolder.text.setVisibility(View.VISIBLE);
             }
             if (isSecondYanbao) {
                 viewHolder.tvType.setVisibility(View.GONE);
             }
-            viewHolder.text.setVisibility(View.VISIBLE);
             // } else {
             // viewHolder.tvType.setText("");
             // }
