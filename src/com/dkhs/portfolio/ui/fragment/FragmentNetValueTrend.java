@@ -19,7 +19,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
@@ -71,6 +70,7 @@ import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -637,8 +637,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     public void showDelDialog() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+        MAlertDialog builder =PromptManager.getAlertDialog(getActivity());
         builder.setMessage(R.string.dialog_message_delfollow_combination);
         // builder.setTitle(R.string.tips);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {

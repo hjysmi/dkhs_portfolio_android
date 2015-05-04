@@ -22,7 +22,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:padding="20dp"
     >
 
     <LinearLayout
@@ -62,7 +62,8 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:textAppearance="?android:attr/textAppearanceLarge"
 
 
-                    android:textColor="#000" />
+                    android:text="@string/tips"
+                    android:textColor="@color/md_grey_800" />
             </RelativeLayout>
 
 
@@ -97,9 +98,9 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:layout_marginTop="4dp"
                     android:background="@color/white"
                     android:paddingBottom="8dip"
+                    android:textColor="@color/md_grey_800"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
-                    android:textColor="#000"
                     android:textIsSelectable="true"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -117,7 +118,7 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="20dp"
+                android:paddingRight="8dp"
                 android:paddingTop="10dp">
                 <View
                     style="@style/dialog_btn"
@@ -130,16 +131,16 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     android:id="@+id/button1"
                     style="@style/dialog_btn"
                     android:layout_width="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:textColor="#1E88E5"
                     android:visibility="gone" />
                 <Button
                     android:id="@+id/button2"
                     style="@style/dialog_btn"
                     android:layout_width="wrap_content"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:textColor="#1E88E5"
                     android:visibility="gone" />
 
@@ -148,8 +149,8 @@ https://github.com/android/platform_frameworks_base/blob/master/core/res/res/lay
                     style="@style/dialog_btn_cancel"
                     android:layout_width="wrap_content"
                     android:layout_marginRight="4dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>

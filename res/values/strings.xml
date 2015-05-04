@@ -249,7 +249,6 @@
     <string name="text_other_manager_combin">Ta管理的组合一览</string>
     <string name="text_my_manager_combin">我管理的组合一览</string>
     <string name="sign_text_title">个人签名</string>
-    <string name="format_sign_text_title">个人签名:%1$s</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
     <string name="feed_text_success">感谢您的反馈意见</string>
@@ -458,5 +457,6 @@
 
 
     <string name="toast_remind_success">提醒设置成功</string>
+    <string name="toast_click_once_more">再按一次退出程序</string>
 
 </resources>

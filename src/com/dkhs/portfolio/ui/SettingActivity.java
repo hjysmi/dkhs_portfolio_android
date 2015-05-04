@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.app.NotificationManager;
@@ -41,6 +40,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -376,7 +376,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                     int service = Integer.parseInt(s);
                     int local = Integer.parseInt(version.replaceAll("\\.", ""));
                     if (service > local) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                       MAlertDialog alert = PromptManager.getAlertDialog(context);
                         alert.setTitle("软件升级").setMessage("发现新版本,建议立即更新使用.")// "发现新版本,建议立即更新使用."
                                 .setCancelable(false).setPositiveButton("更新", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
