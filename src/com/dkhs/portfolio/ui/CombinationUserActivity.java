@@ -17,6 +17,7 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
@@ -25,6 +26,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -90,6 +92,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         super.onCreate(arg0);
         setContentView(R.layout.activity_user_combination);
         context = this;
+        getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             handleExtras(extras);
@@ -246,15 +249,13 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         }
         tvUName.setText(object.getUsername());
         if (TextUtils.isEmpty(object.getDescription())) {
-            tvUserDesc.setText(getString(R.string.format_sign_text_title, getResources().getString(R.string.nodata_user_description)));
+            tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
         } else {
 
-            tvUserDesc.setText(getString(R.string.format_sign_text_title, object.getDescription()));
+            tvUserDesc.setText(object.getDescription());
         }
 
         updateUserFolllowInfo(object);
-
-
         tvUserDesc.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -346,7 +347,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void gotoLoginDialog() {
 
-        new MAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.nodata_login_out).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.nodata_login_out).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(CombinationUserActivity.this, LoginActivity.class));
@@ -360,7 +361,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void unFollowAction() {
 
 
-           new MAlertDialog(this).setTitle(R.string.tips).setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername()))
+        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername()))
                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
@@ -396,9 +397,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
 
 
+    private float toPercent;
     /**
      * 动画效果
-     *
      * @param
      */
     public void onScrollChanged(float percent) {
@@ -411,11 +412,77 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             }
         }
 
-        ViewHelper.setTranslationX(ivHeader, -(headerLeft -getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
+
+        if(Math.abs(percent-prePercent) >0.12){
+            toPercent=percent;
+            if(!isSendState) {
+                if(prePercent>toPercent) {
+                    handler.sendEmptyMessage(1);
+                }else{
+                    handler.sendEmptyMessage(0);
+                }
+            }
+
+        }else {
+            animHeader(percent);
+        }
+
+
+
+    }
+
+
+
+    private boolean isSendState=false;
+    /**
+     *处理快速滑动时候的动画卡顿
+     */
+    private android.os.Handler handler = new android.os.Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            isSendState=true;
+            switch (msg.what) {
+
+                case 0:
+
+                    float percent2=prePercent+0.06f;
+                    if(percent2 > toPercent){
+                        percent2=toPercent;
+                    }
+
+                    animHeader(percent2);
+                    if(percent2 != toPercent){
+                        handler.sendEmptyMessage(0);
+                    }else{
+                        isSendState=false;
+                    }
+
+                    break;
+                case 1:
+                    float percent=prePercent-0.06f;
+
+                    if(percent < toPercent){
+                        percent=toPercent;
+                    }
+                    animHeader(percent);
+                    if(percent != toPercent){
+                        handler.sendEmptyMessage(1);
+                    }else{
+                        isSendState=false;
+                    }
+
+                    break;
+            }
+        }
+    };
+
+    public void animHeader(float percent) {
+
+        ViewHelper.setTranslationX(ivHeader, -(headerLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)) * percent);
         ViewHelper.setTranslationY(ivHeader, -(headerTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin) )* percent);
 
         ViewHelper.setTranslationX(tvUserDesc, -(userDescLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)*2) * percent);
-
         ViewHelper.setTranslationY(tvUserDesc, -(userDescTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)+getResources().getDimensionPixelOffset(R.dimen.header_userDesc_height)) * percent);
         ViewHelper.setTranslationX(tvUName, -(userNameLeft - getResources().getDimensionPixelOffset(R.dimen.header_avatar_height)-getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin)*2) * percent);
         ViewHelper.setTranslationY(tvUName, -(userNameTop - getResources().getDimensionPixelOffset(R.dimen.header_avatar_margin_top)) * percent);
@@ -425,9 +492,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         ViewHelper.setAlpha(llTool, 1 - percent);
         ViewHelper.setTranslationY(bgV, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
         prePercent = percent;
-
     }
-
 
 
     private boolean followLLShow=true;

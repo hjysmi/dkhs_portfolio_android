@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
@@ -54,6 +53,7 @@ import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -224,8 +224,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
     public void showDelDialog(final CombinationBean mCombination) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(),
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar));
+       MAlertDialog builder =PromptManager.getAlertDialog(getActivity());
         builder.setMessage(R.string.dialog_message_delete_combination);
         // builder.setTitle(R.string.tips);
         // final CombinationBean mCombination = (CombinationBean) item.data;

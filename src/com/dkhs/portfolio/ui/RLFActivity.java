@@ -5,20 +5,16 @@ import java.util.Timer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -36,6 +32,7 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.TextViewClickableSpan;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
@@ -99,11 +96,10 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
     private void showCaptchaLoginDailog() {
         PromptManager.closeProgressDialog();
         isLoginByCaptcha = true;
-        final AlertDialog dpg = new AlertDialog.Builder(new ContextThemeWrapper(this,
-                android.R.style.Theme_Holo_Light_Dialog_NoActionBar)).create();
+        final MAlertDialog dpg = PromptManager.getAlertDialog(this);
         dpg.setCancelable(false);
         dpg.setTitle(R.string.login_by_captcha);
-        dpg.setButton(DialogInterface.BUTTON_POSITIVE, "确定", new DialogInterface.OnClickListener() {
+        dpg.setPositiveButton (R.string.confirm, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -113,7 +109,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
                 finish();
             }
         });
-        dpg.setButton(DialogInterface.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+        dpg.setNegativeButton( R.string.cancel, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

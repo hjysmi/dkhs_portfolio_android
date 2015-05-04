@@ -30,11 +30,16 @@ import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 import com.squareup.otto.Subscribe;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.widget.Toast;
+
+import java.util.List;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
@@ -82,6 +87,7 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentB = new MainMarketFragment();
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
+
 
         // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {
@@ -142,6 +148,21 @@ public class NewMainActivity extends ModelAcitivity {
             ft.hide(fragmentD);
         }
         ft.commit();
+    }
+    private long exitTime;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     protected void displayFragmentB() {

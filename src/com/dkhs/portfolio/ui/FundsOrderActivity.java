@@ -184,7 +184,7 @@ public class FundsOrderActivity extends ModelAcitivity {
     protected void onDestroy() {
         // TODO Auto-generated method stub
         super.onDestroy();
-        mVisitorData.clear();
+         mVisitorData.clear();
         mVisitorData = null;
     }
 

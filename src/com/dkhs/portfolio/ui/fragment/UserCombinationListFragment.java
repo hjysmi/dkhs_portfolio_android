@@ -20,6 +20,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
@@ -95,9 +96,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-
-
 
 
         headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
@@ -299,7 +297,10 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+
         animPercent = getValues(-headerView.getTop());
+
+
         if (firstVisibleItem > 1) {
             animPercent = 1;
         }
