@@ -19,37 +19,32 @@
             android:paddingBottom="60dp" >
 
             <RelativeLayout
-                android:id="@+id/rl_combination_header"
+                android:id="@+id/rl_trend_view"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@color/tag_red"
-                android:paddingBottom="6dp"
-                android:paddingLeft="15dp"
-                android:paddingRight="10dp"
-                android:paddingTop="6dp" >
+                android:layout_height="600dp" >
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/combination_position"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/white" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/combin_horSpacing" >
+
+                <TextView
+                    android:id="@+id/tv_position_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/text_no_open"
+                    android:textColor="@color/combition_gray" />
+            </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/compare_index"
                 android:layout_width="match_parent"
-                android:layout_height="280dp"
-                android:background="@color/blue" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginTop="@dimen/combin_horSpacing"
-                android:background="@color/def_10" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:layout_marginTop="@dimen/combin_horSpacing"
-                android:background="@color/def_12" />
+                android:layout_height="380dp"
+                android:layout_marginTop="@dimen/combin_horSpacing" />
 
             <RelativeLayout
                 style="@style/white_grayborder_layout"

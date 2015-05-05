@@ -18,13 +18,10 @@ import com.dkhs.portfolio.ui.fragment.FriendsOrFollowersFragment;
  */
 public class FriendsOrFollowersActivity extends ModelAcitivity {
 
-
-
-    public static final String KEY="type";
-    public static final String USER_ID="user_id";
-    public static final String FRIENDS="friends";
-    public static final String FOLLOWER="follower";
-
+    public static final String KEY = "type";
+    public static final String USER_ID = "user_id";
+    public static final String FRIENDS = "friends";
+    public static final String FOLLOWER = "follower";
 
     private Button btnRefresh;
     private FriendsOrFollowersFragment listFragment;
@@ -34,26 +31,22 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_or_followers);
 
-        String    getTypeStr=   getIntent().getStringExtra(FriendsOrFollowersActivity.KEY);
-
-
-
+        String getTypeStr = getIntent().getStringExtra(FriendsOrFollowersActivity.KEY);
 
         btnRefresh = getSecondRightButton();
         btnRefresh.setVisibility(View.VISIBLE);
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
                 null, null, null);
 
-        if(getTypeStr.equals(FriendsOrFollowersActivity.FRIENDS)){
+        if (getTypeStr.equals(FriendsOrFollowersActivity.FRIENDS)) {
             setTitle(R.string.following);
-        }else if(getTypeStr.equals(FriendsOrFollowersActivity.FOLLOWER)){
+        } else if (getTypeStr.equals(FriendsOrFollowersActivity.FOLLOWER)) {
             setTitle(R.string.followers);
         }
-        listFragment=new FriendsOrFollowersFragment();
+        listFragment = new FriendsOrFollowersFragment();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new FriendsOrFollowersFragment()).commitAllowingStateLoss();
-
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new FriendsOrFollowersFragment())
+                .commitAllowingStateLoss();
 
     }
 
@@ -71,6 +64,5 @@ public class FriendsOrFollowersActivity extends ModelAcitivity {
                 null, null);
         btnRefresh.setVisibility(View.GONE);
     }
-
 
 }

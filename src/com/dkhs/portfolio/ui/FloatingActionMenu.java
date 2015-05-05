@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -52,25 +53,34 @@ public class FloatingActionMenu extends FloatingActionView {
 
     private void addBorderInTop() {
         View localView = new View(getContext());
-        localView.setLayoutParams(new ViewGroup.LayoutParams(-1, 1));
+        localView.setLayoutParams(new ViewGroup.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, 1));
         localView.setBackgroundColor(getResources().getColor(R.color.drivi_line));
         addView(localView);
         this.containerView = new LinearLayout(getContext());
-        this.containerView.setLayoutParams(new LinearLayout.LayoutParams(-1, -2));
+        this.containerView.setLayoutParams(new LinearLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
         this.containerView.setOrientation(0);
         addView(this.containerView);
     }
 
     private void addDivider() {
+        FrameLayout divView = new FrameLayout(getContext());
         View localView = new View(getContext());
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(1, -1);
-        params.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding), 0, getResources()
-                .getDimensionPixelOffset(R.dimen.float_menu_div_padding));
-        localView.setLayoutParams(params);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(1,
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+     
+        divView.setLayoutParams(params);
         // localView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding), 0,
         // getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding));
+        LinearLayout.LayoutParams divParams = new LinearLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
+        divParams.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding), 0, getResources()
+                .getDimensionPixelOffset(R.dimen.float_menu_div_padding));
+        localView.setLayoutParams(divParams);
         localView.setBackgroundColor(getResources().getColor(R.color.drivi_line));
-        this.containerView.addView(localView);
+        divView.setBackgroundColor(getResources().getColor(R.color.white));
+        divView.addView(localView);
+        this.containerView.addView(divView);
     }
 
     private View addItemView(int paramInt1, String tvText, int iconResId) {
@@ -78,8 +88,8 @@ public class FloatingActionMenu extends FloatingActionView {
         View flaotMenu = View.inflate(getContext(), R.layout.item_float_menu, null);
         // RelativeLayout localRelativeLayout = new RelativeLayout(getContext());
         flaotMenu.setTag(Integer.valueOf(paramInt1));
-        flaotMenu.setLayoutParams(new LinearLayout.LayoutParams(-1, getResources().getDimensionPixelOffset(
-                R.dimen.floating_action_menu_item_height), 1.0F));
+        flaotMenu.setLayoutParams(new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height), 1.0F));
         TextView tvConntent = (TextView) flaotMenu.findViewById(R.id.tv_floatmenu);
         if (!TextUtils.isEmpty(tvText)) {
             tvConntent.setText(tvText);
@@ -97,8 +107,9 @@ public class FloatingActionMenu extends FloatingActionView {
                 }
             }
         });
-        if (this.containerView.getChildCount() > 0)
+        if (this.containerView.getChildCount() > 0) {
             addDivider();
+        }
         this.containerView.addView(flaotMenu);
         return flaotMenu;
     }

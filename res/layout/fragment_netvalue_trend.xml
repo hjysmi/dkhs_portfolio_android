@@ -19,7 +19,7 @@
         <TextView
             android:id="@+id/tv_follow"
             style="@style/hw_wrap"
-            android:text="关注:"
+            android:text="关注人数"
             android:textColor="@color/white_60"
             android:textSize="14sp" />
 
@@ -27,41 +27,8 @@
             android:id="@+id/tv_follow_num"
             style="@style/hw_wrap"
             android:layout_alignBottom="@+id/tv_follow"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tv_follow"
-            android:text=""
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btn_add_optional"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tv_follow"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/btn_bg_optional"
-            android:paddingBottom="6dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/delete_fllow"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/tv_combination"
-            style="@style/hw_wrap"
-            android:layout_marginLeft="12dp"
-            android:layout_toRightOf="@+id/tv_follow_num"
-            android:drawablePadding="6dp"
-            android:text="创建人："
-            android:textColor="@color/white_60"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_combination_user"
-            style="@style/hw_wrap"
-            android:layout_toRightOf="@+id/tv_combination"
-            android:drawablePadding="6dp"
-            android:drawableRight="@drawable/white_gengduo"
             android:text=""
             android:textColor="@color/white"
             android:textSize="14sp" />
@@ -70,8 +37,8 @@
             android:id="@+id/tv_income"
             style="@style/hw_wrap"
             android:layout_below="@+id/tv_follow"
-            android:layout_marginTop="4dp"
-            android:text="累计收益率"
+            android:layout_marginTop="8dp"
+            android:text="总收益"
             android:textColor="@color/white_60"
             android:textSize="14sp" />
 
@@ -80,6 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_income"
+            android:layout_marginTop="-8dp"
+            android:gravity="bottom"
             android:text="—"
             android:textColor="@color/white"
             android:textSize="50sp" />
@@ -222,7 +191,7 @@
             android:id="@+id/tv_desc"
             style="@style/hw_wrap"
             android:layout_below="@+id/tab_netvalue"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:text="描述："
             android:textColor="@color/white_60"
             android:textSize="14sp" />
@@ -235,6 +204,57 @@
             android:text="描述内容"
             android:textColor="@color/white"
             android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_create_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/lv_white_selector"
+        android:clickable="true"
+        android:padding="8dp" >
+
+        <ImageView
+            android:id="@+id/im_avatar"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_user_head" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/im_avatar" >
+
+            <TextView
+                android:id="@+id/tv_combination_user"
+                style="@style/CommonTextAppearance_Middle_Black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_user_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_combination_user"
+                android:layout_marginTop="4dp"
+                android:singleLine="true"
+                android:text="还没有描述呢"
+                android:textColor="@color/combition_gray"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:src="@drawable/setting_image_right" />
     </RelativeLayout>
 
     <!-- <View style="@style/divider_line" /> -->

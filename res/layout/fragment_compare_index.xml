@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/top_line"
+        style="@style/divider_line" />
+
+    <View
+        style="@style/divider_line"
+        android:layout_alignParentBottom="true" />
+
+    <RelativeLayout
+        android:id="@+id/rl_compare_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_line"
+        android:padding="14dp" >
+
+        <TextView
+            android:id="@+id/tv_hushen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:drawableLeft="@drawable/dot_index"
+            android:drawablePadding="4dp"
+            android:text="沪深300"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_more_funds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawablePadding="4dp"
+            android:drawableRight="@drawable/setting_image_right"
+            android:text="更多基金比较"
+            android:textColor="@color/gray_textcolor"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_combination_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_toLeftOf="@+id/tv_more_funds"
+            android:layout_toRightOf="@+id/tv_hushen"
+            android:drawableLeft="@drawable/dot_combination"
+            android:drawablePadding="4dp"
+            android:singleLine="true"
+            android:text="基金名称"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/rl_compare_title"
+        android:paddingBottom="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <com.dkhs.portfolio.ui.widget.TrendChart
+            android:id="@+id/machart"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </RelativeLayout>
+
+</RelativeLayout>

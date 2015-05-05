@@ -39,13 +39,13 @@ import com.umeng.analytics.MobclickAgent;
 public class OrderFundDetailActivity extends ModelAcitivity implements OnClickListener, ITouchListener {
     private CombinationBean mChampionBean;
 
-    private View mViewHeader;
+//    private View mViewHeader;
     private View mViewBottom;
 
-    private TextView tvConName;
-    private TextView tvUserName;
-    private TextView tvCreateDay;
-    private TextView tvConDesc;
+//    private TextView tvConName;
+//    private TextView tvUserName;
+//    private TextView tvCreateDay;
+//    private TextView tvConDesc;
     private TextView tvBottomTip;
     private boolean isClickable;
     String type;
@@ -99,16 +99,16 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
             }
         });
 
-        mViewHeader = findViewById(R.id.rl_combination_header);
+//        mViewHeader = findViewById(R.id.rl_combination_header);
         mViewBottom = findViewById(R.id.combination_position);
-        if (isClickable) {
-            mViewHeader.setOnClickListener(this);
-        }
-        tvConName = (TextView) findViewById(R.id.tv_combination_name);
-        tvBottomTip = (TextView) findViewById(R.id.tv_position_tip);
-        tvUserName = (TextView) findViewById(R.id.tv_combination_user);
-        tvCreateDay = (TextView) findViewById(R.id.tv_combination_time);
-        tvConDesc = (TextView) findViewById(R.id.tv_combination_desc);
+        // if (isClickable) {
+        // mViewHeader.setOnClickListener(this);
+        // }
+        // tvConName = (TextView) findViewById(R.id.tv_combination_name);
+         tvBottomTip = (TextView) findViewById(R.id.tv_position_tip);
+        // tvUserName = (TextView) findViewById(R.id.tv_combination_user);
+        // tvCreateDay = (TextView) findViewById(R.id.tv_combination_time);
+        // tvConDesc = (TextView) findViewById(R.id.tv_combination_desc);
 
         replaceTrendView();
     }
@@ -145,12 +145,12 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
             setTitle(mChampionBean.getName());
             setTitleTipString(getString(R.string.format_create_time,
                     TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
-
-            tvConName.setText(mChampionBean.getName());
-            tvUserName.setText(mChampionBean.getUser().getUsername());
-            tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDefDescription()));
-            tvCreateDay.setText(getString(R.string.format_create_time,
-                    TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
+//
+//            tvConName.setText(mChampionBean.getName());
+//            tvUserName.setText(mChampionBean.getUser().getUsername());
+//            tvConDesc.setText(getString(R.string.desc_format, mChampionBean.getDefDescription()));
+//            tvCreateDay.setText(getString(R.string.format_create_time,
+//                    TimeUtils.getSimpleDay(mChampionBean.getCreateTime())));
             if (mChampionBean.isPubilc()) {
                 // tvBottomTip.setText(R.string.text_combin_open);
                 // mViewBottom.setOnClickListener(this);
@@ -171,12 +171,12 @@ public class OrderFundDetailActivity extends ModelAcitivity implements OnClickLi
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.rl_combination_header: {
-                // PromptManager.showToast("查看用户信息");
-                startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getUser().getUsername(),
-                        mChampionBean.getUser().getId(), false));
-            }
-                break;
+        // case R.id.rl_combination_header: {
+        // // PromptManager.showToast("查看用户信息");
+        // startActivity(CombinationUserActivity.getIntent(this, mChampionBean.getUser().getUsername(),
+        // mChampionBean.getUser().getId(), false));
+        // }
+        // break;
             case R.id.tv_position_tip:
             case R.id.combination_position: {
                 if (tvBottomTip.getVisibility() == View.VISIBLE) {

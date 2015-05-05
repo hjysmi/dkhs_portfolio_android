@@ -21,8 +21,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.ColorStateList;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
@@ -35,19 +33,18 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
-import android.view.ContextThemeWrapper;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.ScaleXSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.ToggleButton;
+import android.widget.TextView;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
@@ -67,12 +64,10 @@ import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
-import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -97,7 +92,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private TextView netvalueMonth;
 
     private TextView tvCreateUser;
-    private TextView tvCreate;
+    // private TextView tvCreate;
     private TextView tvFollowCount;
     private TextView tvComDesc;
 
@@ -164,7 +159,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         tvIncreaseRatio = (TextView) view.findViewById(R.id.tv_income_netvalue);
         tvIncreaseValue = (TextView) view.findViewById(R.id.tv_history_netvalue);
         tvCreateUser = (TextView) view.findViewById(R.id.tv_combination_user);
-        tvCreate = (TextView) view.findViewById(R.id.tv_combination);
+        // tvCreate = (TextView) view.findViewById(R.id.tv_combination);
         tvFollowCount = (TextView) view.findViewById(R.id.tv_follow_num);
         tvComDesc = (TextView) view.findViewById(R.id.tv_desc_text);
 
@@ -172,9 +167,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
         netvalueWeek = (TextView) view.findViewById(R.id.netvalue_week);
         netvalueMonth = (TextView) view.findViewById(R.id.netvalue_month);
-        btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
-        btnAddOptional.setOnClickListener(this);
-        btnAddOptional.setVisibility(View.GONE);
+        // btnAddOptional = (Button) view.findViewById(R.id.btn_add_optional);
+        // btnAddOptional.setOnClickListener(this);
+        // btnAddOptional.setVisibility(View.GONE);
         QueryCombinationListener listener = new QueryCombinationListener();
         mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
         // listener.setLoadingDialog(getActivity());
@@ -185,15 +180,15 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         return view;
     }
 
-    private Button btnAddOptional;
+    // private Button btnAddOptional;
 
-    private void addOptionalButton(boolean isFollow) {
-        if (isFollow && null != btnAddOptional) {
-            btnAddOptional.setText(R.string.delete_fllow);
-        } else if (null != btnAddOptional) {
-            btnAddOptional.setText(R.string.add_fllow);
-        }
-    }
+    // private void addOptionalButton(boolean isFollow) {
+    // if (isFollow && null != btnAddOptional) {
+    // btnAddOptional.setText(R.string.delete_fllow);
+    // } else if (null != btnAddOptional) {
+    // btnAddOptional.setText(R.string.add_fllow);
+    // }
+    // }
 
     class OnComCheckListener implements OnCheckedChangeListener {
 
@@ -238,23 +233,23 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     private void setupViewData() {
         if (isFromOrder) {
-            tvCreateUser.setVisibility(View.VISIBLE);
+            // tvCreateUser.setVisibility(View.VISIBLE);
             tvCreateUser.setText(mCombinationBean.getUser().getUsername());
-            tvCreateUser.setOnClickListener(new OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser()
-                            .getUsername(), mCombinationBean.getUser().getId(), false));
-                }
-            });
+            // tvCreateUser.setOnClickListener(new OnClickListener() {
+            //
+            // @Override
+            // public void onClick(View v) {
+            // startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser()
+            // .getUsername(), mCombinationBean.getUser().getId(), false));
+            // }
+            // });
 
         } else {
-            tvCreateUser.setVisibility(View.GONE);
-            tvCreate.setVisibility(View.GONE);
+            // tvCreateUser.setVisibility(View.GONE);
+            // tvCreate.setVisibility(View.GONE);
         }
+        tvComDesc.setText(mCombinationBean.getDefDescription());
         // tvComDesc.setText(mCombinationBean.getDefDescription());
-        tvComDesc.setText(Html.fromHtml(mCombinationBean.getDefDescription()));
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
 
@@ -271,7 +266,11 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private void updateIncreaseRatio(float netValue) {
         tvIncreaseValue.setText(StringFromatUtils.get4Point(netValue));
         // tvIncreaseRatio.setTextColor(ColorTemplate.getUpOrDrownCSL(netValue - 1));
-        tvIncreaseRatio.setText(StringFromatUtils.get2PointPercent((netValue - 1) * 100));
+        String strPercent = StringFromatUtils.get2PointPercent((netValue - 1) * 100);
+        SpannableString msp = new SpannableString(strPercent);
+        msp.setSpan(new RelativeSizeSpan(0.6f), msp.length() - 1, msp.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE); // 2
+
+        tvIncreaseRatio.setText(msp);
         BusProvider.getInstance().post(new TitleChangeEvent(netValue));
         netValue = netValue - 1;
         if (netValue == 0) {
@@ -589,7 +588,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void onClick(View v) {
 
         if (v.getId() == R.id.btn_add_optional) {
-            btnAddOptional.setEnabled(false);
+            // btnAddOptional.setEnabled(false);
             if (mCombinationBean.isFollowed()) {
                 showDelDialog();
             } else {
@@ -617,8 +616,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                 new VisitorDataEngine().saveCombination(mCombinationBean);
                 addFollowSuccess();
             }
-            btnAddOptional.setEnabled(true);
-            addOptionalButton(mCombinationBean.isFollowed());
+            // btnAddOptional.setEnabled(true);
+            // addOptionalButton(mCombinationBean.isFollowed());
         }
     }
 
@@ -637,7 +636,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     public void showDelDialog() {
 
-        MAlertDialog builder =PromptManager.getAlertDialog(getActivity());
+        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
         builder.setMessage(R.string.dialog_message_delfollow_combination);
         // builder.setTitle(R.string.tips);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -654,7 +653,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                btnAddOptional.setEnabled(true);
+                // btnAddOptional.setEnabled(true);
             }
         });
         builder.create().show();
@@ -666,7 +665,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         @Override
         public void requestCallBack() {
             super.requestCallBack();
-            btnAddOptional.setEnabled(true);
+            // btnAddOptional.setEnabled(true);
         };
 
         @Override
@@ -678,7 +677,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         @Override
         protected void afterParseData(Object object) {
             mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
-            addOptionalButton(mCombinationBean.isFollowed());
+            // addOptionalButton(mCombinationBean.isFollowed());
             if (mCombinationBean.isFollowed()) {
                 addFollowSuccess();
             } else {
@@ -752,8 +751,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                             mCombinationBean.setFollowed(comBean.isFollowed());
                         }
                     }
-                    btnAddOptional.setVisibility(View.VISIBLE);
-                    addOptionalButton(mCombinationBean.isFollowed());
+                    // btnAddOptional.setVisibility(View.VISIBLE);
+                    // addOptionalButton(mCombinationBean.isFollowed());
                     netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
