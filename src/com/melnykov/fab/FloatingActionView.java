@@ -157,21 +157,21 @@ public class FloatingActionView extends LinearLayout {
         return getResources().getDimensionPixelSize(id);
     }
 
-//    private void setMarginsWithoutShadow() {
-//        if (!mMarginsSet) {
-//            if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-//                ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-//                int leftMargin = layoutParams.leftMargin - mShadowSize;
-//                int topMargin = layoutParams.topMargin - mShadowSize;
-//                int rightMargin = layoutParams.rightMargin - mShadowSize;
-//                int bottomMargin = layoutParams.bottomMargin - mShadowSize;
-//                layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
-//
-//                requestLayout();
-//                mMarginsSet = true;
-//            }
-//        }
-//    }
+    // private void setMarginsWithoutShadow() {
+    // if (!mMarginsSet) {
+    // if (getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
+    // ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
+    // int leftMargin = layoutParams.leftMargin - mShadowSize;
+    // int topMargin = layoutParams.topMargin - mShadowSize;
+    // int rightMargin = layoutParams.rightMargin - mShadowSize;
+    // int bottomMargin = layoutParams.bottomMargin - mShadowSize;
+    // layoutParams.setMargins(leftMargin, topMargin, rightMargin, bottomMargin);
+    //
+    // requestLayout();
+    // mMarginsSet = true;
+    // }
+    // }
+    // }
 
     // @SuppressWarnings("deprecation")
     // @SuppressLint("NewApi")
@@ -211,73 +211,73 @@ public class FloatingActionView extends LinearLayout {
         return marginBottom;
     }
 
-//    public void setColorNormal(int color) {
-//        if (color != mColorNormal) {
-//            mColorNormal = color;
-//            updateBackground();
-//        }
-//    }
-//
-//    public void setColorNormalResId(@ColorRes int colorResId) {
-//        setColorNormal(getColor(colorResId));
-//    }
-//
-//    public int getColorNormal() {
-//        return mColorNormal;
-//    }
-//
-//    public void setColorPressed(int color) {
-//        if (color != mColorPressed) {
-//            mColorPressed = color;
-//            updateBackground();
-//        }
-//    }
-//
-//    public void setColorPressedResId(@ColorRes int colorResId) {
-//        setColorPressed(getColor(colorResId));
-//    }
-//
-//    public int getColorPressed() {
-//        return mColorPressed;
-//    }
-//
-//    public void setColorRipple(int color) {
-//        if (color != mColorRipple) {
-//            mColorRipple = color;
-//            updateBackground();
-//        }
-//    }
-//
-//    public void setColorRippleResId(@ColorRes int colorResId) {
-//        setColorRipple(getColor(colorResId));
-//    }
-//
-//    public int getColorRipple() {
-//        return mColorRipple;
-//    }
-//
-//    public void setShadow(boolean shadow) {
-//        if (shadow != mShadow) {
-//            mShadow = shadow;
-//            updateBackground();
-//        }
-//    }
-//
-//    public boolean hasShadow() {
-//        return mShadow;
-//    }
-//
-//    public void setType(@TYPE int type) {
-//        if (type != mType) {
-//            mType = type;
-//            updateBackground();
-//        }
-//    }
-//
-//    @TYPE
-//    public int getType() {
-//        return mType;
-//    }
+    // public void setColorNormal(int color) {
+    // if (color != mColorNormal) {
+    // mColorNormal = color;
+    // updateBackground();
+    // }
+    // }
+    //
+    // public void setColorNormalResId(@ColorRes int colorResId) {
+    // setColorNormal(getColor(colorResId));
+    // }
+    //
+    // public int getColorNormal() {
+    // return mColorNormal;
+    // }
+    //
+    // public void setColorPressed(int color) {
+    // if (color != mColorPressed) {
+    // mColorPressed = color;
+    // updateBackground();
+    // }
+    // }
+    //
+    // public void setColorPressedResId(@ColorRes int colorResId) {
+    // setColorPressed(getColor(colorResId));
+    // }
+    //
+    // public int getColorPressed() {
+    // return mColorPressed;
+    // }
+    //
+    // public void setColorRipple(int color) {
+    // if (color != mColorRipple) {
+    // mColorRipple = color;
+    // updateBackground();
+    // }
+    // }
+    //
+    // public void setColorRippleResId(@ColorRes int colorResId) {
+    // setColorRipple(getColor(colorResId));
+    // }
+    //
+    // public int getColorRipple() {
+    // return mColorRipple;
+    // }
+    //
+    // public void setShadow(boolean shadow) {
+    // if (shadow != mShadow) {
+    // mShadow = shadow;
+    // updateBackground();
+    // }
+    // }
+    //
+    // public boolean hasShadow() {
+    // return mShadow;
+    // }
+    //
+    // public void setType(@TYPE int type) {
+    // if (type != mType) {
+    // mType = type;
+    // updateBackground();
+    // }
+    // }
+    //
+    // @TYPE
+    // public int getType() {
+    // return mType;
+    // }
 
     public boolean isVisible() {
         return mVisible;
@@ -547,6 +547,17 @@ public class FloatingActionView extends LinearLayout {
             }
 
             super.onScrollChanged(who, l, t, oldl, oldt);
+        }
+
+        /**
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
+         * @return
+         */
+        @Override
+        public void onScrollBottom() {
+            show();
+            System.out.println("onScrollBottom ----");
         }
     }
 }

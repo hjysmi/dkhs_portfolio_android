@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -24,6 +25,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.melnykov.fab.ObservableScrollView;
 
 /**
  * @ClassName NewCombinationDetailActivity
@@ -47,8 +49,10 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     @ViewInject(R.id.floating_action_view)
     FloatingActionMenu localFloatingActionMenu;
 
-    @ViewInject(R.id.lv_new_combination)
-    ListView lvCombinationDetail;
+    @ViewInject(R.id.sv_combinations)
+    private ObservableScrollView mScrollView;
+
+    // ListView lvCombinationDetail;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -87,17 +91,10 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     private void initView() {
         initFloatingActionMenu();
 
-        lvCombinationDetail.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getData()));
-        localFloatingActionMenu.attachToListView(lvCombinationDetail);
-    }
-
-    private List<String> getData() {
-        List<String> data = new ArrayList<String>();
-        for (int i = 0; i < 30; i++) {
-            data.add("测试数据集" + i);
-
-        }
-        return data;
+        // lvCombinationDetail.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+        // getData()));
+        // localFloatingActionMenu.attachToListView(lvCombinationDetail);
+        localFloatingActionMenu.attachToScrollView(mScrollView);
     }
 
     private void initFloatingActionMenu() {

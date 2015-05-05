@@ -1,14 +1,19 @@
 package com.melnykov.fab;
 
-
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ScrollView;
 
 public class ObservableScrollView extends ScrollView {
 
     public interface OnScrollChangedListener {
         void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt);
+
+        void onScrollBottom();
     }
 
     private OnScrollChangedListener mOnScrollChangedListener;
@@ -28,6 +33,13 @@ public class ObservableScrollView extends ScrollView {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        View view = (View) getChildAt(getChildCount() - 1);
+        int diff = (view.getBottom() - (getHeight() + getScrollY()));
+
+        if (diff == 0 && mOnScrollChangedListener != null) {
+            mOnScrollChangedListener.onScrollBottom();
+        }
+
         if (mOnScrollChangedListener != null) {
             mOnScrollChangedListener.onScrollChanged(this, l, t, oldl, oldt);
         }
@@ -36,4 +48,5 @@ public class ObservableScrollView extends ScrollView {
     public void setOnScrollChangedListener(OnScrollChangedListener listener) {
         mOnScrollChangedListener = listener;
     }
+
 }
