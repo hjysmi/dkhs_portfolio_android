@@ -54,7 +54,6 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     private final int MENU_SHARE = 6;
     private final int MENU_EDIT = 7;
     private final int MENU_PRIVACY = 8;
-    private final int MENU_HISTORY_ADJUST = 11;
     private final int MENU_HISTORY_VALUE = 12;
     private final int MENU_ABOUT = 9;
 
@@ -207,12 +206,6 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
                 }
                     break;
-                case MENU_HISTORY_ADJUST: {
-                    // 历史调仓记录
-                    startActivity(HistoryPositionDetailActivity.newIntent(NewCombinationDetailActivity.this,
-                            mCombinationBean.getId()));
-                }
-                    break;
                 case MENU_ABOUT: {
                     // 谁牛FAQ
                     startActivity(new Intent(NewCombinationDetailActivity.this, FAQTextActivity.class));
@@ -248,7 +241,6 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                         .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
                         .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
                         .addItem(MENU_HISTORY_VALUE, getString(R.string.float_menu_history_value))
-                        .addItem(MENU_HISTORY_ADJUST, getString(R.string.float_menu_history_adjust))
                         .addItem(MENU_ABOUT, getString(R.string.float_menu_combination))
                         .addItem(MENU_DELFOLLOW, getString(R.string.float_menu_delfollow));
             } else {
@@ -261,7 +253,6 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                         .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
                         .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
                         .addItem(MENU_HISTORY_VALUE, getString(R.string.float_menu_history_value))
-                        .addItem(MENU_HISTORY_ADJUST, getString(R.string.float_menu_history_adjust))
                         .addItem(MENU_ABOUT, getString(R.string.float_menu_combination));
             }
 

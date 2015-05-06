@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -53,7 +54,7 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  * @date 2015-5-5 下午4:18:02
  * @version 1.0
  */
-public class CompareIndexFragment extends BaseFragment {
+public class CompareIndexFragment extends BaseFragment implements OnClickListener {
 
     private CombinationBean mCombinationBean;
     // 默认沪深300的id
