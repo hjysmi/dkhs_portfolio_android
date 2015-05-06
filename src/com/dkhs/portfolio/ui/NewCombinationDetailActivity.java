@@ -8,17 +8,13 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ScrollView;
+import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
@@ -61,6 +57,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     @ViewInject(R.id.tv_position_tip)
     private TextView tvBottomTip;
 
+    @ViewInject(R.id.yanbao_view)
+    private View yanbaoView;
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
@@ -96,6 +95,19 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
         initFloatingActionMenu();
         localFloatingActionMenu.attachToScrollView(mScrollView);
 
+        if (isMyCombination) {
+            yanbaoView.setVisibility(View.VISIBLE);
+            yanbaoView.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    PromptManager.showToast("研报公告页面");
+                }
+            });
+        } else {
+            yanbaoView.setVisibility(View.GONE);
+        }
+
         replaceTrendView();
         replacePostionView();
         replaceCompareView();
@@ -120,6 +132,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                     return false;
                 }
             });
+
         } else {
 
             localFloatingActionMenu.addItem(1, "自选", R.drawable.ic_agree);

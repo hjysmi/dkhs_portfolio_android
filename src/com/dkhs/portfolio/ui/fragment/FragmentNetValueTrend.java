@@ -172,6 +172,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // btnAddOptional.setVisibility(View.GONE);
         QueryCombinationListener listener = new QueryCombinationListener();
         mMyCombinationEngineImpl.queryCombinationDetail(mCombinationBean.getId(), listener);
+        view.findViewById(R.id.rl_create_user).setOnClickListener(this);
         // listener.setLoadingDialog(getActivity());
         initTabPage(view);
 
@@ -594,6 +595,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             } else {
                 delFollowCombinatio();
             }
+        } else if (v.getId() == R.id.rl_create_user) {
+            startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
+                    mCombinationBean.getUser().getId(), false));
         }
     }
 

@@ -47,6 +47,7 @@
                 android:layout_marginTop="@dimen/combin_horSpacing" />
 
             <RelativeLayout
+                android:id="@+id/yanbao_view"
                 style="@style/white_grayborder_layout"
                 android:layout_marginTop="@dimen/combin_horSpacing"
                 android:paddingBottom="10dp"
