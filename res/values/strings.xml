@@ -464,7 +464,8 @@
     <string name="float_menu_more">更多</string>
     <string name="float_menu_edit">修改信息</string>
     <string name="float_menu_privacy">隐私设置</string>
-    <string name="float_menu_history">收益记录</string>
+    <string name="float_menu_history_value">收益记录</string>
+    <string name="float_menu_history_adjust">调仓记录</string>
     <string name="float_menu_combination">了解组合</string>
 
 </resources>

@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
@@ -52,9 +54,11 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     private final int MENU_SHARE = 6;
     private final int MENU_EDIT = 7;
     private final int MENU_PRIVACY = 8;
-    private final int MENU_HISTORY = 10;
+    private final int MENU_HISTORY_ADJUST = 11;
+    private final int MENU_HISTORY_VALUE = 12;
     private final int MENU_ABOUT = 9;
 
+    private final int REQUESTCODE_MODIFY_COMBINATION = 902;
     private ChangeFollowView mChangeFollowView;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
@@ -164,12 +168,59 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
         @Override
         public boolean onMenuItemSelected(int selectIndex) {
-            if (selectIndex == MENU_FOLLOW || selectIndex == MENU_DELFOLLOW) {
-                if (null != mCombinationBean && mChangeFollowView != null) {
-                    mChangeFollowView.changeFollow(mCombinationBean);
-                }
-            } else if (selectIndex == MENU_EDIT) {
 
+            switch (selectIndex) {
+                case MENU_FOLLOW:
+                case MENU_DELFOLLOW: {
+
+                    if (null != mCombinationBean && mChangeFollowView != null) {
+                        mChangeFollowView.changeFollow(mCombinationBean);
+                    }
+                }
+                    break;
+                case MENU_REMIND: {
+                    startActivity(StockRemindActivity.newCombinatIntent(NewCombinationDetailActivity.this,
+                            mCombinationBean));
+                }
+                    break;
+                case MENU_EDIT: { // 调整仓位
+                    startActivityForResult(ChangeCombinationNameActivity.newIntent(NewCombinationDetailActivity.this,
+                            mCombinationBean), REQUESTCODE_MODIFY_COMBINATION);
+                }
+                    break;
+                case MENU_ADJUST: { // 调整仓位
+                    Intent intent = new Intent(NewCombinationDetailActivity.this, PositionAdjustActivity.class);
+                    intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
+                    intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
+                    startActivity(intent);
+                }
+                    break;
+                case MENU_PRIVACY: {
+                    // 隐私设置
+                    startActivity(PrivacySettingActivity.newIntent(NewCombinationDetailActivity.this, mCombinationBean));
+
+                }
+                    break;
+                case MENU_HISTORY_VALUE: {
+                    // 每日收益记录
+                    startActivity(EveryDayValueActivity.newIntent(NewCombinationDetailActivity.this, mCombinationBean));
+
+                }
+                    break;
+                case MENU_HISTORY_ADJUST: {
+                    // 历史调仓记录
+                    startActivity(HistoryPositionDetailActivity.newIntent(NewCombinationDetailActivity.this,
+                            mCombinationBean.getId()));
+                }
+                    break;
+                case MENU_ABOUT: {
+                    // 谁牛FAQ
+                    startActivity(new Intent(NewCombinationDetailActivity.this, FAQTextActivity.class));
+
+                }
+                    break;
+                default:
+                    break;
             }
             return false;
         }
@@ -196,7 +247,8 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                         .addMoreItem(MENU_MORE, getString(R.string.float_menu_more), R.drawable.ic_fm_more)
                         .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
                         .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
-                        .addItem(MENU_HISTORY, getString(R.string.float_menu_history))
+                        .addItem(MENU_HISTORY_VALUE, getString(R.string.float_menu_history_value))
+                        .addItem(MENU_HISTORY_ADJUST, getString(R.string.float_menu_history_adjust))
                         .addItem(MENU_ABOUT, getString(R.string.float_menu_combination))
                         .addItem(MENU_DELFOLLOW, getString(R.string.float_menu_delfollow));
             } else {
@@ -208,7 +260,8 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                         .addItem(MENU_SHARE, getString(R.string.float_menu_share))
                         .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
                         .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
-                        .addItem(MENU_HISTORY, getString(R.string.float_menu_history))
+                        .addItem(MENU_HISTORY_VALUE, getString(R.string.float_menu_history_value))
+                        .addItem(MENU_HISTORY_ADJUST, getString(R.string.float_menu_history_adjust))
                         .addItem(MENU_ABOUT, getString(R.string.float_menu_combination));
             }
 
@@ -256,6 +309,27 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.compare_index, new CompareIndexFragment()).commit();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+
+            Bundle b = data.getExtras(); // data为B中回传的Intent
+            switch (requestCode) {
+                case REQUESTCODE_MODIFY_COMBINATION:
+                    CombinationBean cBean = (CombinationBean) data
+                            .getSerializableExtra(ChangeCombinationNameActivity.ARGUMENT_COMBINATION_BEAN);
+                    if (null != cBean) {
+                        mCombinationBean = cBean;
+                        updataTitle();
+
+                    }
+                    break;
+            }
+
+        }
     }
 
 }
