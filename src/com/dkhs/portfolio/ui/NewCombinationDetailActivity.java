@@ -218,7 +218,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                 if (mCombinationBean.isFollowed()) {
                     localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
                     localFloatingActionMenu.addItem(MENU_DELFOLLOW, R.string.float_menu_delfollow,
-                            R.drawable.btn_del_item_selector);
+                            R.drawable.btn_del_item_normal);
                 } else {
                     localFloatingActionMenu.addItem(MENU_FOLLOW, R.string.float_menu_follow, R.drawable.ic_add);
 

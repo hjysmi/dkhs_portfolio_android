@@ -167,19 +167,14 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         // recLifeCycle_with_savedInstanceState(savedInstanceState);
-        System.out.println("===============onActivityCreated()================");
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mListCount = savedInstanceState.getInt("COMPARE_COUNT");
-            System.out.println("===============savedInstanceState(" + mListCount + ")================");
             ArrayList list = savedInstanceState.getParcelableArrayList("selectStockList");
             selectStockList = (List<SelectStockBean>) list.get(0);
             // ArrayList list2 =
             // savedInstanceState.getParcelableArrayList("mCompareItemList");
             // mCompareItemList = (List<CompareFundItem>) list.get(0);
-
-            System.out.println("savedInstanceState selectStockList size:" + selectStockList.size());
-            System.out.println("savedInstanceState mCompareItemList size:" + mCompareItemList.size());
 
         } else {
 
@@ -217,12 +212,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 selectStockList.add(sBean1);
                 selectStockList.add(sBean2);
             } else {
-                System.out.println("savedInstanceState selectStockList size:" + selectStockList.size());
 
             }
 
-            System.out.println("===============savedInstanceState(" + mListCount + ")================");
-            // setGridItemData();
             requestCompare();
         }
 
@@ -274,18 +266,15 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         // TODO Auto-generated method stub
         super.onStart();
 
-        System.out.println("===============onStart(" + mListCount + ")================");
     }
 
     private String SHARE_IMAGE;
 
     public void showShareImage() {
 
-        // initImagePath();
         new Thread() {
             public void run() {
 
-                // initImagePath();
                 saveShareBitmap();
                 shareHandler.sendEmptyMessage(999);
             }

@@ -228,6 +228,7 @@ public class TrendGridChart extends View {
     // protected Canvas mDrawCanvas;
 
     private final int xLineCounts = 5;
+    private int yLineCounts = 5;
 
     private Paint mTextPaint;
     public int xTitleTextHeight = 0;
@@ -312,10 +313,11 @@ public class TrendGridChart extends View {
         }
 
         // 绘制经线纬线
-        if (displayLongitude) {
-            drawAxisGridX(canvas);
-        }
+        // if (displayLongitude) {
+        drawAxisGridX(canvas);
+        // }
         if (displayLatitude || displayAxisYTitle) {
+            // System.out.println("displayAxisYTitle:"+);
             drawAxisGridY(canvas);
         }
 
@@ -610,7 +612,7 @@ public class TrendGridChart extends View {
      */
     protected void drawAxisGridX(Canvas canvas) {
 
-        int counts = xLineCounts;
+        int counts = yLineCounts;
 
         mTextPaint.reset();
         mTextPaint.setColor(longitudeColor);
@@ -998,4 +1000,11 @@ public class TrendGridChart extends View {
         return mTextPaint;
     }
 
+    public int getyLineCounts() {
+        return yLineCounts;
+    }
+
+    public void setYlineCounts(int counts) {
+        this.yLineCounts = counts;
+    }
 }
