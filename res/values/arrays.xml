@@ -49,8 +49,8 @@
     <string-array name="detail_news_titles">
 
         <!-- <item>新闻资讯</item> -->
-        <item>个股公告</item>
-        <item>相关研报</item>
+        <item>公告</item>
+        <item>研报</item>
     </string-array>
     <string-array name="trend_title">
         <item>今天</item>

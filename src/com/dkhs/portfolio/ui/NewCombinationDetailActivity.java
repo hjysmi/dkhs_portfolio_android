@@ -17,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.FloatingActionMenu.OnMenuItemSelectedListener;
 import com.dkhs.portfolio.ui.fragment.CompareIndexFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
@@ -38,7 +40,7 @@ import com.melnykov.fab.ObservableScrollView;
 public class NewCombinationDetailActivity extends ModelAcitivity {
     public static final String EXTRA_COMBINATION = "extra_combination";
     private CombinationBean mCombinationBean;
-    private boolean isMyCombination = true;
+    private boolean isMyCombination = false;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, NewCombinationDetailActivity.class);
@@ -88,6 +90,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
+        if (mCombinationBean.getUser().getId().equals(UserEngineImpl.getUserEntity().getId() + "")) {
+            isMyCombination = true;
+        }
 
     }
 
@@ -101,7 +106,8 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
                 @Override
                 public void onClick(View v) {
-                    PromptManager.showToast("研报公告页面");
+                    startActivity(CombinationNewsActivity
+                            .newIntent(NewCombinationDetailActivity.this, mCombinationBean));
                 }
             });
         } else {

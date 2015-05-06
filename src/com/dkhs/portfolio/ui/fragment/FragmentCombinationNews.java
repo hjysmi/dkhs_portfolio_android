@@ -26,9 +26,11 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabPageIndicator;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -43,21 +45,29 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
     private CombinationBean mCombinationBean;
     private LinearLayout comLayout;
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param savedInstanceState
-     * @return
-     */
+    public static FragmentCombinationNews newInstance() {
+        FragmentCombinationNews fragment = new FragmentCombinationNews();
+
+        return fragment;
+    }
+
+    public FragmentCombinationNews() {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        Bundle bunds = getArguments();
-        if (null != bunds) {
-            mCombinationBean = (CombinationBean) bunds.get(DATA);
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
         }
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+
     }
 
     /**
@@ -79,60 +89,22 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
         String[] titleArray = getResources().getStringArray(R.array.detail_news_titles);
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        /*
-         * fragmentList.add(new FragmentDiscussFlow());
-         * fragmentList.add(new TestFragment());
-         */
-        // Fragment f1 = new FragmentNewsList();
-        // Bundle b1 = new Bundle();
-        // b1.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
-        // NewsforImpleEngine vo = new NewsforImpleEngine();
-        // vo.setPortfolioId(mCombinationBean.getId()+"");
-        // vo.setContentType("10");
-        // vo.setPageTitle("新闻正文");
-        // b1.putSerializable(FragmentNewsList.VO, vo);
-        // f1.setArguments(b1);
-        // fragmentList.add(f1);
-        /*Fragment f2 = new OptionMarketNewsFragment();
-        Bundle b2 = new Bundle();*/
         NewsforModel vo2 = new NewsforModel();
         vo2.setPortfolioId(mCombinationBean.getId() + "");
         vo2.setContentType("20");
-        /*b2.putSerializable(OptionMarketNewsFragment.VO, vo2);
-        f2.setArguments(b2);*/
+
         Fragment f2 = ReportListForAllFragment.getFragment(vo2, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         fragmentList.add(f2);
 
-        /*Fragment f3 = new FragmentreportOneList();
-        Bundle b3 = new Bundle();
-        b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);*/
         NewsforModel vo3 = new NewsforModel();
         vo3.setPortfolioId(mCombinationBean.getId() + "");
         vo3.setContentType("30");
 
         vo3.setPageTitle("研报正文");
-        /*b3.putSerializable(FragmentNewsList.VO, vo3);
-        f3.setArguments(b3);*/
-        /*
-         * Fragment f3 = new FragmentreportOneList();
-         * vo = new NewsforImpleEngine();
-         * vo.setPortfolioId(mCombinationBean.getId());
-         * vo.setContentType("30");
-         * Bundle b3 = new Bundle();
-         * b3.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
-         * b3.putSerializable(FragmentNewsList.VO, vo);
-         * f3.setArguments(b3);
-         */
+
         Fragment f3 = ReportListForAllFragment.getFragment(vo3, OpitionNewsEngineImple.NEWS_GROUP_FOREACH);
         fragmentList.add(f3);
         new FragmentSelectAdapter(getActivity(), titleArray, fragmentList, comLayout, getFragmentManager());
-        /*
-         * ScrollViewPager pager = (ScrollViewPager) view.findViewById(R.id.pager);
-         * pager.setAdapter(new MyPagerFragmentAdapter(getChildFragmentManager(), fragmentList, titleArray));
-         * 
-         * TabPageIndicator indicator = (TabPageIndicator) view.findViewById(R.id.indicator);
-         * indicator.setViewPager(pager);
-         */
 
     }
 
@@ -165,22 +137,12 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     public void onPauseFragment() {
         // TODO Auto-generated method stub
 
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
     @Override
     public void onResumeFragment() {
         // TODO Auto-generated method stub
@@ -205,12 +167,6 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
         MobclickAgent.onPageStart(mPageName);
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
-     */
     @Override
     public int setContentLayoutId() {
         // TODO Auto-generated method stub

@@ -8,10 +8,15 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.ui.CompareFundsActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
@@ -24,6 +29,23 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
  */
 public class CompareIndexFragment extends BaseFragment {
 
+    private CombinationBean mCombinationBean;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        // TODO Auto-generated method stub
+        super.onCreate(savedInstanceState);
+        Bundle extras = getActivity().getIntent().getExtras();
+        if (extras != null) {
+            handleExtras(extras);
+        }
+    }
+
+    private void handleExtras(Bundle extras) {
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+
+    }
+
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_compare_index;
@@ -32,7 +54,7 @@ public class CompareIndexFragment extends BaseFragment {
     @OnClick({ R.id.tv_more_funds })
     public void onClick(View v) {
         if (v.getId() == R.id.tv_more_funds) {
-            PromptManager.showToast("更多基金比较");
+            startActivity(CompareFundsActivity.newIntent(getActivity(), mCombinationBean));
         }
     }
 

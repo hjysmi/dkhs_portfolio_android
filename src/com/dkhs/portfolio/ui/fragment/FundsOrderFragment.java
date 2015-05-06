@@ -20,6 +20,7 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
@@ -251,8 +252,11 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                getActivity().startActivity(
-                        OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true, mOrderType));
+                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+
+                
+                // getActivity().startActivity(
+                //       OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true, mOrderType));
             }
         };
     }

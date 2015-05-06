@@ -32,6 +32,7 @@ import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
@@ -210,9 +211,11 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO Auto-generated method stub
-                getActivity().startActivity(
-                        OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
-                                FundsOrderFragment.ORDER_TYPE_DAY));
+                // getActivity().startActivity(
+                // OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
+                // FundsOrderFragment.ORDER_TYPE_DAY));
+
+                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });

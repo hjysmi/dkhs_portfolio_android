@@ -14,7 +14,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,20 +25,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Bitmap.CompressFormat;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -55,21 +50,19 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.CompareFundsBean;
-import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.CompareFundsBean.ComparePoint;
+import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.NetValueEngine;
-import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
-import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
 import com.dkhs.portfolio.ui.widget.LineEntity;
@@ -79,7 +72,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -132,6 +124,15 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
 
     // private boolean isBeforeCreateDate;
+
+    public static FragmentCompare newInstance() {
+        FragmentCompare fragment = new FragmentCompare();
+
+        return fragment;
+    }
+
+    public FragmentCompare() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -249,7 +250,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
 
     }
