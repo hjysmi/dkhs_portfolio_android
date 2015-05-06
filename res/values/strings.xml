@@ -456,5 +456,15 @@
     <string name="null_number">--</string>
     <string name="toast_remind_success">提醒设置成功</string>
     <string name="toast_click_once_more">再按一次退出程序</string>
+    <string name="float_menu_follow">自选</string>
+    <string name="float_menu_delfollow">取消自选</string>
+    <string name="float_menu_remind">提醒</string>
+    <string name="float_menu_adjust">调仓</string>
+    <string name="float_menu_share">分享</string>
+    <string name="float_menu_more">更多</string>
+    <string name="float_menu_edit">修改信息</string>
+    <string name="float_menu_privacy">隐私设置</string>
+    <string name="float_menu_history">收益记录</string>
+    <string name="float_menu_combination">了解组合</string>
 
 </resources>

@@ -21,6 +21,8 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.FloatingActionMenu.OnMenuItemSelectedListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.fragment.CompareIndexFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
@@ -29,6 +31,7 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
+import com.squareup.otto.Subscribe;
 
 /**
  * @ClassName NewCombinationDetailActivity
@@ -41,6 +44,18 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     public static final String EXTRA_COMBINATION = "extra_combination";
     private CombinationBean mCombinationBean;
     private boolean isMyCombination = false;
+    private final int MENU_FOLLOW = 1;
+    private final int MENU_DELFOLLOW = 2;
+    private final int MENU_REMIND = 3;
+    private final int MENU_MORE = 4;
+    private final int MENU_ADJUST = 5;
+    private final int MENU_SHARE = 6;
+    private final int MENU_EDIT = 7;
+    private final int MENU_PRIVACY = 8;
+    private final int MENU_HISTORY = 10;
+    private final int MENU_ABOUT = 9;
+
+    private ChangeFollowView mChangeFollowView;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, NewCombinationDetailActivity.class);
@@ -77,6 +92,29 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
         initView();
     }
 
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
     private void updataTitle() {
         if (null != mCombinationBean) {
             setTitle(mCombinationBean.getName());
@@ -97,9 +135,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     }
 
     private void initView() {
-        initFloatingActionMenu();
+        // initFloatingActionMenu();
         localFloatingActionMenu.attachToScrollView(mScrollView);
-
+        localFloatingActionMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
         if (isMyCombination) {
             yanbaoView.setVisibility(View.VISIBLE);
             yanbaoView.setOnClickListener(new OnClickListener() {
@@ -118,34 +156,77 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
         replacePostionView();
         replaceCompareView();
 
+        mChangeFollowView = new ChangeFollowView(this);
+
+    }
+
+    OnMenuItemSelectedListener mFloatMenuSelectListner = new OnMenuItemSelectedListener() {
+
+        @Override
+        public boolean onMenuItemSelected(int selectIndex) {
+            if (selectIndex == MENU_FOLLOW || selectIndex == MENU_DELFOLLOW) {
+                if (null != mCombinationBean && mChangeFollowView != null) {
+                    mChangeFollowView.changeFollow(mCombinationBean);
+                }
+            } else if (selectIndex == MENU_EDIT) {
+
+            }
+            return false;
+        }
+    };
+
+    @Subscribe
+    public void updateCombination(UpdateCombinationEvent updateCombinationEvent) {
+        if (null != updateCombinationEvent && null != updateCombinationEvent.mCombinationBean) {
+            this.mCombinationBean = updateCombinationEvent.mCombinationBean;
+            initFloatingActionMenu();
+        }
     }
 
     private void initFloatingActionMenu() {
+        localFloatingActionMenu.removeAllItems();
         if (isMyCombination) {
 
-            localFloatingActionMenu.addItem(1, "自选", R.drawable.ic_agree);
-            localFloatingActionMenu.addItem(2, "调仓", R.drawable.ic_discuss);
-            localFloatingActionMenu.addItem(3, "分享", R.drawable.ic_discuss);
-            // localFloatingActionMenu.addItem(4, "更多", R.drawable.ic_discuss);
-            localFloatingActionMenu.addMoreItem(4, "更多", R.drawable.ic_discuss).addItem(6, "隐私设置").addItem(7, "修改信息")
-                    .addItem(8, "了解组合");
-            localFloatingActionMenu.setOnMenuItemSelectedListener(new OnMenuItemSelectedListener() {
+            if (mCombinationBean.isFollowed()) {
 
-                @Override
-                public boolean onMenuItemSelected(int paramInt) {
-                    // if (paramInt == 1) {
-                    PromptManager.showToast("Menu " + paramInt + " on click");
-                    return false;
-                }
-            });
+                localFloatingActionMenu.addItem(MENU_ADJUST, R.string.float_menu_adjust, R.drawable.ic_fm_adjust);
+                localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+                localFloatingActionMenu.addItem(MENU_SHARE, R.string.float_menu_share, R.drawable.ic_fm_share);
+                localFloatingActionMenu
+                        .addMoreItem(MENU_MORE, getString(R.string.float_menu_more), R.drawable.ic_fm_more)
+                        .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
+                        .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
+                        .addItem(MENU_HISTORY, getString(R.string.float_menu_history))
+                        .addItem(MENU_ABOUT, getString(R.string.float_menu_combination))
+                        .addItem(MENU_DELFOLLOW, getString(R.string.float_menu_delfollow));
+            } else {
+                localFloatingActionMenu.addItem(MENU_FOLLOW, R.string.float_menu_follow, R.drawable.ic_add);
+                localFloatingActionMenu.addItem(MENU_ADJUST, R.string.float_menu_adjust, R.drawable.ic_fm_adjust);
+                localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+                localFloatingActionMenu
+                        .addMoreItem(MENU_MORE, getString(R.string.float_menu_more), R.drawable.ic_fm_more)
+                        .addItem(MENU_SHARE, getString(R.string.float_menu_share))
+                        .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
+                        .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
+                        .addItem(MENU_HISTORY, getString(R.string.float_menu_history))
+                        .addItem(MENU_ABOUT, getString(R.string.float_menu_combination));
+            }
 
         } else {
 
-            localFloatingActionMenu.addItem(1, "自选", R.drawable.ic_agree);
-            localFloatingActionMenu.addItem(2, "分享", R.drawable.ic_discuss);
+            if (null != mCombinationBean) {
+                if (mCombinationBean.isFollowed()) {
+                    localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+                    localFloatingActionMenu.addItem(MENU_DELFOLLOW, R.string.float_menu_delfollow,
+                            R.drawable.btn_del_item_selector);
+                } else {
+                    localFloatingActionMenu.addItem(MENU_FOLLOW, R.string.float_menu_follow, R.drawable.ic_add);
+
+                }
+
+            }
 
         }
-        // localFloatingActionMenu.addItem(1, "测试", 11);
     }
 
     private void replaceTrendView() {
@@ -158,7 +239,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     private void replacePostionView() {
 
         if (null != mCombinationBean) {
-            if (mCombinationBean.isPubilc()) {
+            if (isMyCombination || mCombinationBean.isPubilc()) {
 
                 tvBottomTip.setVisibility(View.GONE);
                 getSupportFragmentManager()

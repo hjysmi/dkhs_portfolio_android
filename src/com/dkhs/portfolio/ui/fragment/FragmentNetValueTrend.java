@@ -61,9 +61,11 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.ChangeFollowView;
 import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
@@ -102,6 +104,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private static final long mPollRequestTime = 1000 * 60;
     private String myType = TrendTodayChartFragment.TREND_TYPE_TODAY;
     private PositionDetail mPositionDetail;
+    
 
     public static FragmentNetValueTrend newInstance(boolean isOrder, String type) {
         FragmentNetValueTrend fragment = new FragmentNetValueTrend();
@@ -135,6 +138,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         if (extras != null) {
             handleExtras(extras);
         }
+        
+        
 
     }
 
@@ -585,16 +590,20 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
     };
 
+    
+    
+    
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.btn_add_optional) {
             // btnAddOptional.setEnabled(false);
-            if (mCombinationBean.isFollowed()) {
-                showDelDialog();
-            } else {
-                delFollowCombinatio();
-            }
+//            if (mCombinationBean.isFollowed()) {
+//                showDelDialog();
+//            } else {
+//                delFollowCombinatio();
+//            }
+            
         } else if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
                     mCombinationBean.getUser().getId(), false));
@@ -682,6 +691,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         protected void afterParseData(Object object) {
             mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
             // addOptionalButton(mCombinationBean.isFollowed());
+            // BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
             if (mCombinationBean.isFollowed()) {
                 addFollowSuccess();
             } else {
@@ -755,8 +765,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                             mCombinationBean.setFollowed(comBean.isFollowed());
                         }
                     }
-                    // btnAddOptional.setVisibility(View.VISIBLE);
-                    // addOptionalButton(mCombinationBean.isFollowed());
+                    BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
                     netvalueDay.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_day()));
                     netvalueWeek.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()

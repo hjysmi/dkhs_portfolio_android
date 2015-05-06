@@ -151,8 +151,8 @@ public class FloatingActionMenu extends FloatingActionView {
         return addMoreItem(viewIndex, textString, iconResId, true);
     }
 
-    public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int paramInt2, boolean isAddMenu) {
-        View localView = addItemView(viewIndex, textString, 0, isAddMenu);
+    public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int iconResId, boolean isAddMenu) {
+        View localView = addItemView(viewIndex, textString, iconResId, isAddMenu);
         final ListPopupWindow morePopupWindow = new ListPopupWindow(getContext());
         // morePopupWindow.setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(
         // android.R.color.transparent)));
