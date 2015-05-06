@@ -108,17 +108,15 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
             localFloatingActionMenu.addItem(1, "自选", R.drawable.ic_agree);
             localFloatingActionMenu.addItem(2, "调仓", R.drawable.ic_discuss);
             localFloatingActionMenu.addItem(3, "分享", R.drawable.ic_discuss);
-            localFloatingActionMenu.addItem(4, "更多", R.drawable.ic_discuss);
+            // localFloatingActionMenu.addItem(4, "更多", R.drawable.ic_discuss);
+            localFloatingActionMenu.addMoreItem(4, "更多", R.drawable.ic_discuss).addItem(6, "隐私设置").addItem(7, "修改信息")
+                    .addItem(8, "了解组合");
             localFloatingActionMenu.setOnMenuItemSelectedListener(new OnMenuItemSelectedListener() {
 
                 @Override
                 public boolean onMenuItemSelected(int paramInt) {
-                    if (paramInt == 1) {
-                        PromptManager.showToast("Menu 1 on click");
-                    } else {
-                        PromptManager.showToast("Menu 2 on click");
-
-                    }
+                    // if (paramInt == 1) {
+                    PromptManager.showToast("Menu " + paramInt + " on click");
                     return false;
                 }
             });

@@ -9,15 +9,18 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ListPopupWindow;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -68,13 +71,11 @@ public class FloatingActionMenu extends FloatingActionView {
         View localView = new View(getContext());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(1,
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-     
+
         divView.setLayoutParams(params);
-        // localView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding), 0,
-        // getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding));
         LinearLayout.LayoutParams divParams = new LinearLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.MATCH_PARENT);
-        divParams.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding), 0, getResources()
+        divView.setPadding(0, getResources().getDimensionPixelOffset(R.dimen.float_menu_div_padding), 0, getResources()
                 .getDimensionPixelOffset(R.dimen.float_menu_div_padding));
         localView.setLayoutParams(divParams);
         localView.setBackgroundColor(getResources().getColor(R.color.drivi_line));
@@ -83,7 +84,7 @@ public class FloatingActionMenu extends FloatingActionView {
         this.containerView.addView(divView);
     }
 
-    private View addItemView(int paramInt1, String tvText, int iconResId) {
+    private View addItemView(int paramInt1, String tvText, int iconResId, boolean isAddMenu) {
 
         View flaotMenu = View.inflate(getContext(), R.layout.item_float_menu, null);
         // RelativeLayout localRelativeLayout = new RelativeLayout(getContext());
@@ -110,7 +111,10 @@ public class FloatingActionMenu extends FloatingActionView {
         if (this.containerView.getChildCount() > 0) {
             addDivider();
         }
-        this.containerView.addView(flaotMenu);
+        if (isAddMenu) {
+
+            this.containerView.addView(flaotMenu);
+        }
         return flaotMenu;
     }
 
@@ -123,8 +127,12 @@ public class FloatingActionMenu extends FloatingActionView {
         addItem(viewIndex, getResources().getString(textResId), iconResId);
     }
 
-    public void addItem(int paramInt1, String paramString, int paramInt2) {
-        addItemView(paramInt1, paramString, paramInt2);
+    public void addItem(int viewIndex, String textString, int iconResId) {
+        addItemView(viewIndex, textString, iconResId, true);
+    }
+
+    public void addItem(int viewIndex, String textString, int iconResId, boolean isAddMenu) {
+        addItemView(viewIndex, textString, iconResId, isAddMenu);
     }
 
     public void removeAllItems() {
@@ -139,4 +147,60 @@ public class FloatingActionMenu extends FloatingActionView {
         public abstract boolean onMenuItemSelected(int paramInt);
     }
 
+    public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int iconResId) {
+        return addMoreItem(viewIndex, textString, iconResId, true);
+    }
+
+    public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int paramInt2, boolean isAddMenu) {
+        View localView = addItemView(viewIndex, textString, 0, isAddMenu);
+        final ListPopupWindow morePopupWindow = new ListPopupWindow(getContext());
+        // morePopupWindow.setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(
+        // android.R.color.transparent)));
+        ArrayAdapter localArrayAdapter = new ArrayAdapter(getContext(), R.layout.item_btn_more);
+        final MoreMenuItemBuilder moreMenuItemBuilder = new MoreMenuItemBuilder(localArrayAdapter);
+
+        morePopupWindow.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // Animation fadeInAnimation = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.fade_in);
+                // fadeInAnimation.setDuration(10);
+                // view.startAnimation(fadeInAnimation);
+
+                morePopupWindow.dismiss();
+                if (moreMenuItemBuilder.positionItemIdMap.get(position) != null && null != menuItemSelectedListener) {
+                    menuItemSelectedListener.onMenuItemSelected(moreMenuItemBuilder.positionItemIdMap.get(position));
+                }
+            }
+        });
+        morePopupWindow.setAdapter(localArrayAdapter);
+        morePopupWindow.setAnchorView(localView);
+        morePopupWindow.setModal(true);
+        localView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                morePopupWindow.show();
+
+            }
+        });
+        return moreMenuItemBuilder;
+    }
+
+    public static class MoreMenuItemBuilder {
+        private ArrayAdapter adapter;
+        private SparseArray<Integer> positionItemIdMap = new SparseArray();
+
+        public MoreMenuItemBuilder(ArrayAdapter paramArrayAdapter) {
+            this.adapter = paramArrayAdapter;
+        }
+
+        public MoreMenuItemBuilder addItem(int positionIndex, String titleString) {
+            this.positionItemIdMap.put(this.adapter.getCount(), Integer.valueOf(positionIndex));
+            this.adapter.add(titleString);
+            this.adapter.notifyDataSetChanged();
+            return this;
+        }
+    }
 }
