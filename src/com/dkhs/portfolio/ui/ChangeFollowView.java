@@ -71,13 +71,13 @@ public class ChangeFollowView {
     }
 
     private void delFollowSuccess() {
-        PromptManager.showToast(R.string.msg_def_follow_success);
+        PromptManager.showDelFollowToast();
 
         mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() - 1);
     }
 
     private void addFollowSuccess() {
-        PromptManager.showToast(R.string.msg_follow_success);
+        PromptManager.showFollowToast();
         mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() + 1);
     }
 
