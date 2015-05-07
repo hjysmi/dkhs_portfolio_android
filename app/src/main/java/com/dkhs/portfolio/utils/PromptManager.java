@@ -249,6 +249,10 @@ public class PromptManager {
         }
     }
 
+    public static void showEditSuccessToast(){
+        showCustomToast(R.drawable.ic_toast_dagou,R.string.edit_success);
+    }
+
     public static void showFollowToast() {
         showSuccessToast(R.string.msg_follow_success);
     }

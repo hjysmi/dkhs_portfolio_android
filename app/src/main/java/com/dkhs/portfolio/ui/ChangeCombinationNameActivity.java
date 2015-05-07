@@ -122,7 +122,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     public static final String ARGUMENT_COMBINATION_BEAN = "combination_bean";
 
     private void setSelectBack(CombinationBean bean) {
-        PromptManager.showToast("修改成功");
+        PromptManager.showEditSuccessToast();
         Intent intent = new Intent();
         intent.putExtra(ARGUMENT_COMBINATION_BEAN, (Serializable) bean);
         // intent.putExtra(ARGUMENT_CRATE_TYPE, type);

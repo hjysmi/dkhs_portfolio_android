@@ -116,7 +116,7 @@ public class FeedBackActivity extends ModelAcitivity implements OnClickListener{
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-            	PromptManager.showToast(R.string.feed_text_success);
+            	PromptManager.showSuccessToast(R.string.feed_text_success);
                 finish();
             }
         }

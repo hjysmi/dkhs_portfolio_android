@@ -164,7 +164,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
 
                         // 未完成
                         new VisitorDataEngine().replaceOptionStock(list);
-                        PromptManager.showToast("修改成功");
+                        PromptManager.showEditSuccessToast();
                         finish();
                     }
                 } catch (JSONException e) {
@@ -193,7 +193,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         @Override
         protected void afterParseData(List<SelectStockBean> dataList) {
 
-            PromptManager.showToast("修改成功");
+            PromptManager.showEditSuccessToast();
             finish();
             setResult(RESULT_OK);
         }

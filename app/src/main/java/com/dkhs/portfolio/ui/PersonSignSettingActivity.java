@@ -142,7 +142,7 @@ public class PersonSignSettingActivity extends ModelAcitivity implements OnClick
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-                PromptManager.showToast(R.string.password_setting_name_success);
+                PromptManager.showEditSuccessToast();
                 finish();
             }
         }

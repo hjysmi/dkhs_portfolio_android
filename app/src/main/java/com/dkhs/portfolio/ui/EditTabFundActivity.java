@@ -8,13 +8,6 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,12 +31,19 @@ import com.dkhs.portfolio.ui.draglist.DragCombinationAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.utils.PromptManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName EditTabFundActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-9 下午1:27:54
- * @version 1.0
  */
 public class EditTabFundActivity extends ModelAcitivity implements OnClickListener {
 
@@ -119,9 +119,9 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onResume() {
@@ -188,8 +188,10 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
                         userInfoListener.setLoadingDialog(this, "保存中...", false));
             } else {
                 new VisitorDataEngine().replaceCombination(list);
-                PromptManager.showToast("修改成功");
+                PromptManager.showEditSuccessToast();
+
                 finish();
+
                 setResult(RESULT_OK);
             }
         } catch (JSONException e) {
@@ -209,7 +211,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         protected void afterParseData(Object dataList) {
-            PromptManager.showToast("修改成功");
+            PromptManager.showEditSuccessToast();
             finish();
             setResult(RESULT_OK);
         }

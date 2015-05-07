@@ -121,7 +121,7 @@ public class UserNameChangeActivity extends ModelAcitivity implements OnClickLis
 
             // PromptManager.closeProgressDialog();
             if (null != entity) {
-                PromptManager.showToast(R.string.password_setting_name_success);
+                PromptManager.showEditSuccessToast();
                 PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, changeEditName.getText()
                         .toString());
                 Intent intent = new Intent();

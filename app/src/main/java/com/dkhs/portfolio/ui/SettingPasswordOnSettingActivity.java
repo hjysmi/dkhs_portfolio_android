@@ -143,7 +143,7 @@ public class SettingPasswordOnSettingActivity extends ModelAcitivity implements 
         @Override
         protected void afterParseData(Object object) {
             PromptManager.closeProgressDialog();
-            PromptManager.showToast(R.string.set_password_success);
+            PromptManager.showEditSuccessToast();
             finish();
         }
     };
