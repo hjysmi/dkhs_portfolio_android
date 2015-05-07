@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
-
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -31,18 +30,20 @@ public class FriendsOrFollowerAdapter extends AutoAdapter {
     @Override
     public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
 
-        PeopleBean peopleBean= (PeopleBean) list.get(position);
+        PeopleBean peopleBean = (PeopleBean) list.get(position);
 
         if (null != peopleBean.getAvatar_md() && peopleBean.getAvatar_md().length() > 35) {
             bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md());
         }
 
-        vh.setTextView(R.id.tv_user_name,peopleBean.getUsername());
-        vh.setTextView(R.id.tv_followers,context.getResources().getString(R.string.followers)+":"+ StringFromatUtils.handleNumber(peopleBean.getFollowed_by_count()));
-        vh.setTextView(R.id.tv_friends,context.getResources().getString(R.string.following)+":"+StringFromatUtils.handleNumber(peopleBean.getFriends_count()));
+        vh.setTextView(R.id.tv_user_name, peopleBean.getUsername());
+        vh.setTextView(R.id.tv_followers, context.getResources().getString(R.string.followers) + ":"
+                + StringFromatUtils.handleNumber(peopleBean.getFollowed_by_count()));
+        vh.setTextView(
+                R.id.tv_friends,
+                context.getResources().getString(R.string.following) + ":"
+                        + StringFromatUtils.handleNumber(peopleBean.getFriends_count()));
 
     }
-
-
 
 }

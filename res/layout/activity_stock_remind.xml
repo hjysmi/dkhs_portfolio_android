@@ -80,6 +80,7 @@
                 android:background="@drawable/bg_white_border_gray"
                 android:gravity="right"
                 android:inputType="numberDecimal"
+                android:paddingRight="4dp"
                 android:textSize="17sp" />
 
             <TextView
@@ -133,6 +134,7 @@
                 android:background="@drawable/bg_white_border_gray"
                 android:gravity="right"
                 android:inputType="numberDecimal"
+                android:paddingRight="4dp"
                 android:textSize="17sp" />
 
             <TextView
@@ -186,6 +188,7 @@
                 android:background="@drawable/bg_white_border_gray"
                 android:gravity="right"
                 android:inputType="numberDecimal"
+                android:paddingRight="4dp"
                 android:textSize="17sp" />
 
             <TextView

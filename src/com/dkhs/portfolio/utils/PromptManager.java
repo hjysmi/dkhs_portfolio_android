@@ -159,10 +159,10 @@ public class PromptManager {
     public static void showExitSystem(Context context) {
         MAlertDialog builder = PromptManager.getAlertDialog(context);
         builder
-//                .setIcon(R.drawable.ic_launcher)
+        // .setIcon(R.drawable.ic_launcher)
         //
-                .setTitle(R.string.app_name)
-                //
+        .setTitle(R.string.app_name)
+        //
                 .setMessage("是否退出应用").setPositiveButton("确定", new OnClickListener() {
 
                     @Override
@@ -193,8 +193,8 @@ public class PromptManager {
      */
     public static void showErrorDialog(Context context, String msg) {
         PromptManager.getAlertDialog(context)//
-//                .setIcon(R.drawable.ic_launcher)//
-//                .setTitle(R.string.app_name)//
+                // .setIcon(R.drawable.ic_launcher)//
+                // .setTitle(R.string.app_name)//
                 .setMessage(msg)//
                 .setNegativeButton("确定", null)//
                 .show();
@@ -250,11 +250,19 @@ public class PromptManager {
     }
 
     public static void showFollowToast() {
-        showToast(R.string.msg_follow_success);
+        showSuccessToast(R.string.msg_follow_success);
     }
 
     public static void showDelFollowToast() {
-        showToast(R.string.msg_def_follow_success);
+        showCancelToast(R.string.msg_def_follow_success);
+    }
+
+    public static void showSuccessToast(int messageResId) {
+        showCustomToast(R.drawable.ic_toast_dagou, messageResId);
+    }
+
+    public static void showCancelToast(int messageResId) {
+        showCustomToast(-1, messageResId);
     }
 
     /*
@@ -270,7 +278,11 @@ public class PromptManager {
             // 从layout中按照id查找imageView对象
             ImageView imageView = (ImageView) layout.findViewById(R.id.ivForToast);
             // 设置ImageView的图片
-            imageView.setImageResource(iconResId);
+            if (iconResId < 0) {
+                imageView.setVisibility(View.GONE);
+            } else {
+                imageView.setImageResource(iconResId);
+            }
             // 从layout中按照id查找TextView对象
             TextView textView = (TextView) layout.findViewById(R.id.tvForToast);
             // 设置TextView的text内容
@@ -283,9 +295,10 @@ public class PromptManager {
             toast.show();
         }
     }
-    public static  MAlertDialog  getAlertDialog(Context context){
 
-        return  new MAlertDialog(context);
+    public static MAlertDialog getAlertDialog(Context context) {
+
+        return new MAlertDialog(context);
 
     }
 

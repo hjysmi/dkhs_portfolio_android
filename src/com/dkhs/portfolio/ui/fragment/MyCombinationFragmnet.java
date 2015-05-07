@@ -206,8 +206,8 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-                // startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                // startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });
@@ -224,7 +224,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
     public void showDelDialog(final CombinationBean mCombination) {
 
-       MAlertDialog builder =PromptManager.getAlertDialog(getActivity());
+        MAlertDialog builder = PromptManager.getAlertDialog(getActivity());
         builder.setMessage(R.string.dialog_message_delete_combination);
         // builder.setTitle(R.string.tips);
         // final CombinationBean mCombination = (CombinationBean) item.data;
