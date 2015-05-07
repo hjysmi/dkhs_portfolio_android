@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/theme_gray"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+
+        android:paddingTop="4dp"
+        android:weightSum="4" >
+
+        <RelativeLayout
+            android:id="@+id/tab_1"
+
+            style="@style/bottom_tab_layout" >
+
+            <Button
+                android:id="@+id/btn_tab1"
+                android:layout_marginTop="7dp"
+                style="@style/bottom_tab_button"
+                android:background="@drawable/cb_bar_stock" />
+
+            <TextView
+                android:id="@+id/tv_tab1"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab1"
+                android:text="@string/tab_1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_2"
+            style="@style/bottom_tab_layout" >
+
+            <Button
+                android:id="@+id/btn_tab2"
+                android:layout_marginTop="7dp"
+                style="@style/bottom_tab_button"
+                android:background="@drawable/cb_bar_market" />
+
+            <TextView
+                android:id="@+id/tv_tab2"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab2"
+                android:text="@string/tab_2" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_3"
+            style="@style/bottom_tab_layout" >
+
+            <Button
+                android:id="@+id/btn_tab3"
+                android:layout_marginTop="7dp"
+                style="@style/bottom_tab_button"
+                android:background="@drawable/cb_bar_news" />
+
+            <TextView
+                android:id="@+id/tv_tab3"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab3"
+                android:text="@string/tab_3" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tab_4"
+            style="@style/bottom_tab_layout" >
+
+            <Button
+                android:id="@+id/btn_tab4"
+                android:layout_marginTop="7dp"
+                style="@style/bottom_tab_button"
+                android:background="@drawable/cb_bar_user" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="2dp"
+                android:text=""
+                android:textSize="1sp"
+                android:layout_marginLeft="-5dp"
+                android:visibility="gone"
+                android:textColor="@color/white"
+              android:background="@drawable/bg_bottom_new"
+                android:id="@+id/tv_new_count"
+                android:layout_toRightOf="@+id/btn_tab4"
+                android:layout_height="wrap_content" />
+
+
+            <TextView
+                android:id="@+id/tv_tab4"
+                style="@style/bottom_tab_text"
+                android:layout_below="@+id/btn_tab4"
+                android:text="@string/tab_4" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        style="@style/divider_line"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/compare_select_gray" />
+
+</RelativeLayout>

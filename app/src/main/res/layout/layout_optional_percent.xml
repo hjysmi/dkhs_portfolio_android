@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="56dp"
+    android:orientation="horizontal" >
+
+    <View
+        android:id="@+id/view_color"
+        android:layout_width="8dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:background="@color/red" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:id="@+id/tv_stock_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="2dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_stock_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_stock_name"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/tv_stock_name"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_isStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tv_stock_name"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/tv_gray_text"
+            android:text="已停牌"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_stock_name"
+            android:layout_marginTop="4dp" >
+
+            <TextView
+                android:id="@+id/tv_stock_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="30dp"
+                android:textSize="14sp" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="80dp"
+                android:max="100"
+                android:maxHeight="12dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:progress="0"
+                android:progressDrawable="@drawable/optional_seekbar"
+                android:secondaryProgress="0"
+                android:thumb="@drawable/ic_thumb_dkhs" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

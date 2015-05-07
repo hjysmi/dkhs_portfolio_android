@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/combination_detail_root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/person_setting_backgroud"
+    android:orientation="vertical"
+    android:paddingTop="0.5dp" >
+
+    <com.melnykov.fab.ObservableScrollView
+        android:id="@+id/sv_combinations"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="60dp" >
+
+            <RelativeLayout
+                android:id="@+id/rl_trend_view"
+                android:layout_width="match_parent"
+                android:layout_height="600dp" >
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/combination_position"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/combin_horSpacing" >
+
+                <TextView
+                    android:id="@+id/tv_position_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:text="@string/text_no_open"
+                    android:textColor="@color/combition_gray" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/compare_index"
+                android:layout_width="match_parent"
+                android:layout_height="380dp"
+                android:layout_marginTop="@dimen/combin_horSpacing" />
+
+            <RelativeLayout
+                android:id="@+id/yanbao_view"
+                style="@style/white_grayborder_layout"
+                android:layout_marginTop="@dimen/combin_horSpacing"
+                android:paddingBottom="10dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="10dp" >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/setting_image_right" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="6dp"
+                    android:gravity="center_vertical"
+                    android:text="公告和研报"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/setting_text_name" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.melnykov.fab.ObservableScrollView>
+
+    <com.dkhs.portfolio.ui.FloatingActionMenu
+        android:id="@+id/floating_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
+
+</FrameLayout>

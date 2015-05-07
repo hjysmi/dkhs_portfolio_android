@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="switchStyle" format="reference" />
+
+    <declare-styleable name="DKHSSwitch">
+        <attr name="textLeft" format="string" />
+        <attr name="textRight" format="string" />
+        <attr name="switchMinWidth" format="dimension" />
+        <attr name="switchPadding" format="dimension" />
+        <attr name="colorUnChecked" format="color" />
+        <attr name="colorChecked" format="color" />
+        <attr name="backgroundDrawable" format="reference" />
+        <attr name="switchDrawable" format="dimension" />
+        <attr name="innerPadding" format="dimension" />
+        <attr name="isChecked" format="boolean" />
+    </declare-styleable>
+
+    <attr name="needVisible" format="boolean" />
+
+    <declare-styleable name="PowerImageView">
+        <attr name="auto_play" format="boolean"></attr>
+    </declare-styleable>
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="RatioLayout">
+        <attr name="width_ratio" format="float" />
+        <attr name="height_ratio" format="float" />
+    </declare-styleable>
+
+</resources>

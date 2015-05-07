@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/tv_adjust_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10:30:50" />
+
+    <ImageView
+        android:id="@+id/adjust_time_divier"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/tv_adjust_time"
+        android:background="@drawable/dialog_item_log" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_adjust_history"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:padding="4dp"
+            android:layout_toRightOf="@+id/adjust_time_divier"
+            android:text="沪深大盘  从35%升至50% \n资金余额  从35%降至20%" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp" />
+    </LinearLayout>
+
+</LinearLayout>

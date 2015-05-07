@@ -1,7 +1,0 @@
-<resources>
-
-    <integer name="select_touch_text">32</integer>
-
-    <dimen name="float_text_margin">8dp</dimen>
-
-</resources>
