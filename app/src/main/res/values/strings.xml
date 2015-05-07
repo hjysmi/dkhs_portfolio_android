@@ -251,7 +251,7 @@
     <string name="sign_text_title">个人签名</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
-    <string name="feed_text_success">感谢您的反馈意见</string>
+    <string name="feed_text_success">感谢您的反馈</string>
     <string name="day_income_rate">日收益</string>
     <string name="week_income_rate">周收益</string>
     <string name="month_income_rate">月收益</string>
@@ -468,4 +468,5 @@
     <string name="float_menu_history_adjust">调仓记录</string>
     <string name="float_menu_combination">了解组合</string>
     <string name="detail">查看</string>
+    <string name="edit_success">设置成功</string>
 </resources>
