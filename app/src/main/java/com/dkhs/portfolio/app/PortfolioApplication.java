@@ -30,6 +30,7 @@ import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
@@ -70,7 +71,7 @@ public class PortfolioApplication extends Application {
 
         // 注册crashHandler
         CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
-
+        ImageLoaderUtils.initImageLoader(getApplicationContext());
         Intent demand = new Intent(this, ReLoadDataService.class);
         startService(demand);
 
