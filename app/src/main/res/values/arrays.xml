@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="img_eidt_list">
+        <item>重新拍照</item>
+        <item>重选图片</item>
+        <item>删除图片</item>
+        <item>取消</item>
+    </string-array>
+    <string-array name="refer_funds">
+        <item>主要指数</item>
+        <item>指数基金</item>
+        <item>股票基金 </item>
+        <item></item>
+    </string-array>
+    <string-array name="combination_order">
+        <item>日排行</item>
+        <item>周排行</item>
+        <item>月排行</item>
+        <item>总排行</item>
+    </string-array>
+    <string-array name="select_stock">
+        <item>@string/optional_stock</item>
+        <item>@string/rise_range</item>
+        <item>@string/drop_range</item>
+        <item>@string/turnovev_range</item>
+    </string-array>
+    <string-array name="select_optional_stock">
+        <item>@string/rise_range</item>
+        <item>@string/drop_range</item>
+        <item>@string/turnovev_range</item>
+    </string-array>
+    <string-array name="order_type">
+        <item>月排行</item>
+        <item>年排行</item>
+        <item>今年以来</item>
+    </string-array>
+    <string-array name="create_type">
+        <item>快速</item>
+        <item>自定义</item>
+    </string-array>
+    <string-array name="query_compare_type">
+        <item>@string/query_before_month</item>
+    </string-array>
+    <string-array name="long_click_type">
+        <item>置于页首</item>
+        <item>删除基金</item>
+    </string-array>
+    <string-array name="detail_news_titles">
+
+        <!-- <item>新闻资讯</item> -->
+        <item>公告</item>
+        <item>研报</item>
+    </string-array>
+    <string-array name="trend_title">
+        <item>今天</item>
+        <item>1周</item>
+        <item>1个月</item>
+        <item>至今</item>
+    </string-array>
+    <string-array name="quotes_title">
+        <item>分时</item>
+        <item>日K</item>
+        <item>周K</item>
+        <item>月K</item>
+    </string-array>
+    <string-array name="yanbao_items">
+        <item>公司</item>
+        <!-- <item>行业</item> -->
+        <item>策略</item>
+        <item>宏观</item>
+    </string-array>
+    <string-array name="main_info_title">
+        <item>自选</item>
+        <item>宏观</item>
+        <item>策略</item>
+    </string-array>
+    <string-array name="stock_quote_info_title">
+        <item>@string/function_notice</item>
+        <item>@string/function_report</item>
+        <item>@string/function_f10</item>
+    </string-array>
+    <string-array name="fund_detail_more">
+        <item>@string/change_combination_name</item>
+        <item>@string/change_position</item>
+        <item>@string/privacy_setting</item>
+        <item>@string/privacy_everyday_record</item>
+        <item>@string/privacy_history_record</item>
+        <item>@string/help</item>
+    </string-array>
+
+</resources>

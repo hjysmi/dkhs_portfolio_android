@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:padding="4dp"
+        android:id="@android:id/input"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <ImageView
+            android:id="@android:id/icon1"
+            android:padding="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent" />
+
+        <FrameLayout
+            android:id="@android:id/toggle"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white">
+
+            <ImageView
+                android:id="@android:id/icon2"
+                android:padding="4dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@android:id/custom"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"></FrameLayout>
+
+    </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@android:id/widget_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:padding="0dp"
+        android:background="@color/rc_plugins_bg">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:columnWidth="75dp"
+            android:numColumns="auto_fit"
+            android:paddingTop="11dp"
+            android:id="@+id/rc_plugins"
+            android:visibility="gone"
+            android:background="@android:color/transparent" />
+
+        <FrameLayout
+            android:id="@+id/rc_ext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></FrameLayout>
+    </FrameLayout>
+
+</merge>

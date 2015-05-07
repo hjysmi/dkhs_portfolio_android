@@ -1,0 +1,5 @@
+<resources>
+
+	<dimen name="padding_left">130px</dimen>
+	<dimen name="billboard_height">160dip</dimen>
+</resources>

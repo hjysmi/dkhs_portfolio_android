@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@color/person_setting_backgroud"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout 
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        
+    	android:layout_marginTop="30dp"
+        >
+        <LinearLayout 
+    	android:background="@drawable/edittext_bg"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+    	android:paddingRight="20dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        >
+        <com.dkhs.portfolio.ui.widget.ClearableEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:textSize="@dimen/list_text_size"
+            
+            android:hint="@string/feed_back_hint"
+            android:id="@+id/feed_edit_text"
+            android:maxLength="500"
+            android:lines="5" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="end"
+            android:id="@+id/feed_image_load"
+            android:src="@drawable/feed_image_photo" />
+        </LinearLayout>
+        <View 
+            android:layout_height="10dp"
+            android:layout_width="match_parent"
+            />
+        <LinearLayout 
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/edittext_bg"
+	        android:paddingLeft="20dp"
+	    	android:paddingRight="20dp"
+            >
+        <com.dkhs.portfolio.ui.widget.ClearableEditText 
+            android:background="@null"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/feed_edit_com"
+            android:hint="@string/feed_back_com_title"
+            android:textSize="@dimen/list_text_size"
+            android:singleLine="true"
+            />
+        
+        </LinearLayout>
+        <TextView 
+            android:paddingTop="5dp"
+            android:paddingLeft="20dp"
+	    	android:paddingRight="20dp"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:textSize="@dimen/list_text_size"
+            android:text="@string/feed_back_notice"
+            />
+    </LinearLayout>
+</ScrollView>
