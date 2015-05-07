@@ -51,7 +51,6 @@ import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
 
 /**
  * 软件设置界面

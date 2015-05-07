@@ -52,12 +52,10 @@
 
                         <ImageView
                             android:id="@+id/setting_image_head"
-                            android:layout_width="110dp"
-                            android:layout_height="80dp"
+                            android:layout_width="72dp"
+                            android:layout_height="72dp"
                             android:layout_toLeftOf="@id/setting_image_right"
-                            android:paddingBottom="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="10dp"
+                            android:padding="10dp"
                             android:src="@drawable/ic_launcher" />
 
                         <RelativeLayout

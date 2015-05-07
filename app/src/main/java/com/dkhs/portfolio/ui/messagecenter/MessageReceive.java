@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

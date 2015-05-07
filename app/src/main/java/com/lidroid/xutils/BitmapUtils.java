@@ -22,7 +22,9 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
+import android.widget.ImageView;
 
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.bitmap.BitmapCacheListener;
 import com.lidroid.xutils.bitmap.BitmapCommonUtils;
@@ -204,7 +206,9 @@ public class BitmapUtils implements TaskHandler {
     ////////////////////////// display ////////////////////////////////////
 
     public <T extends View> void display(T container, String uri) {
-        display(container, uri, null, null);
+
+        ImageLoaderUtils.setImage(uri, (ImageView) container);
+//        display(container, uri, null, null);
     }
 
     public <T extends View> void display(T container, String uri, BitmapDisplayConfig displayConfig) {

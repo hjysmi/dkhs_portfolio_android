@@ -490,6 +490,16 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         ViewHelper.setTranslationY(llTool, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
 //
         ViewHelper.setAlpha(llTool, 1 - percent);
+
+        if(1==percent){
+            if(llTool.getVisibility()== View.VISIBLE){
+                llTool.setVisibility(View.GONE);
+            }
+        }else{
+            if(llTool.getVisibility()== View.GONE){
+                llTool.setVisibility(View.VISIBLE);
+            }
+        }
         ViewHelper.setTranslationY(bgV, -getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance)  * percent);
         prePercent = percent;
     }
