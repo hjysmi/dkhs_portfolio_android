@@ -50,12 +50,15 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdatePositinoEvent;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.squareup.otto.Subscribe;
 
 /**
  * @ClassName FragmentPositionDetail
@@ -160,6 +163,8 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
         if (null != mPositionDetail) {
             System.out.println("mPositionDetail has date no need reload");
         }
+
+        BusProvider.getInstance().register(this);
 
     }
 
@@ -340,6 +345,21 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
         super.onStart();
         new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        BusProvider.getInstance().unregister(this);
+    }
+
+
+    @Subscribe
+    public void updateListener(UpdatePositinoEvent event){
+        if(null!=event){
+            new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
+        }
+    }
+
 
     @Override
     public void onClick(View v) {

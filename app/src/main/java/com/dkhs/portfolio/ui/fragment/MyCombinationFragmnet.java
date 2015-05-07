@@ -374,7 +374,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
         super.onResume();
         if (mCombinationTimer == null) {
             mCombinationTimer = new Timer(true);
-            mCombinationTimer.schedule(new RequestCombinationTask(), 200, mCombinationRequestTime);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 20, mCombinationRequestTime);
         }
     }
 

@@ -52,6 +52,8 @@ import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdatePositinoEvent;
 import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.PieGraph;
@@ -618,6 +620,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
         @Override
         protected void afterParseData(Object object) {
             Toast.makeText(PositionAdjustActivity.this, "持仓调整成功", Toast.LENGTH_SHORT).show();
+            BusProvider.getInstance().post(new UpdatePositinoEvent());
             finish();
         }
 
