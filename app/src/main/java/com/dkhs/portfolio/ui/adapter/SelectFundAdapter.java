@@ -8,9 +8,8 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -19,15 +18,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
+
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectFundAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-28 下午3:36:46
- * @version 1.0
  */
 public class SelectFundAdapter extends BaseAdapter {
 
@@ -78,20 +82,44 @@ public class SelectFundAdapter extends BaseAdapter {
         final SelectStockBean item = mDataSet.get(position);
         viewHolder.tvName.setText(item.name);
 
-        viewHolder.ivDelIcon.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // dataLenght--;
-                mDataSet.remove(item);
-                mActivity.notifySelectDataChange(true);
-                // BaseSelectActivity.mSelectList.remove(item);
-                // notifyDataSetChanged();
-            }
-        });
+        viewHolder.ivDelIcon.setOnClickListener(new OndelClickListener(item));
 
         return convertView;
     }
+
+    public class OndelClickListener implements OnClickListener {
+        private SelectStockBean stockBean;
+
+        public OndelClickListener(SelectStockBean stockBean) {
+            this.stockBean = stockBean;
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (stockBean.isStop()) {
+                showDelDialog();
+            } else {
+                mDataSet.remove(stockBean);
+                mActivity.notifySelectDataChange(true);
+            }
+        }
+    }
+
+    private void showDelDialog() {
+        MAlertDialog builder = PromptManager.getAlertDialog(mContext);
+        builder.setMessage(R.string.dialog_message_no_del_stock);
+        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+
+        });
+
+        builder.create().show();
+    }
+
 
     final static class ViewHodler {
         TextView tvName;

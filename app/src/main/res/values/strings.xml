@@ -190,6 +190,7 @@
     <string name="tips">提示</string>
     <string name="dialog_message_delete_combination">您将要删除选中的组合!</string>
     <string name="dialog_message_delfollow_combination">确认取消关注该组合?</string>
+    <string name="dialog_message_no_del_stock">停牌股不能删除</string>
     <string name="setting_string_opinion">意见反馈</string>
     <string name="setting_string_news">新版本检测</string>
     <string name="setting_string_abortus">关于我们</string>
