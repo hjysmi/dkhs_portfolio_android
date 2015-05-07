@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Portfolio.iml" filepath="$PROJECT_DIR$/Portfolio.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dkhs_portfolio_android.iml" filepath="$PROJECT_DIR$/dkhs_portfolio_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/kit/kit.iml" filepath="$PROJECT_DIR$/kit/kit.iml" />
     </modules>
   </component>
 </project>
