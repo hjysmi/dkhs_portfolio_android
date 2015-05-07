@@ -467,5 +467,6 @@
     <string name="float_menu_history_value">收益记录</string>
     <string name="float_menu_history_adjust">调仓记录</string>
     <string name="float_menu_combination">了解组合</string>
+    <string name="detail">查看</string>
 
 </resources>

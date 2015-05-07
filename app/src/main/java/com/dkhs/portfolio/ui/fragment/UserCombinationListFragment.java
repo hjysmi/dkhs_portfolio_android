@@ -20,14 +20,16 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
-import com.lidroid.xutils.util.LogUtils;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
+import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +39,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.TextView;
+
 
 /**
  * @author zjz
@@ -45,7 +49,7 @@ import android.widget.AbsListView.OnScrollListener;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午4:03:33
  */
-public class UserCombinationListFragment extends LoadMoreListFragment implements OnScrollListener {
+public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment implements OnScrollListener {
 
     private String mOrderType;
     private UserCombinationAdapter mAdapter;
@@ -62,6 +66,12 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
      * 头部高度
      */
     private int headerHeight;
+
+
+
+
+    private HttpHandler mHttpHandler;
+
 
     public static UserCombinationListFragment getFragment(String username, String userId) {
 
@@ -84,20 +94,17 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         }
     }
 
+
+
+
+
     public ListView getListView() {
         return mListView;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        return super.onCreateView(inflater, container, savedInstanceState);
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-
-
         headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
         headerView = new View(getActivity());
         footView = new View(getActivity());
@@ -109,7 +116,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     }
 
 
-    @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
             mAdapter = new UserCombinationAdapter(getActivity(), mDataList);
@@ -121,7 +127,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        mSwipeLayout.setRefreshing(false);
+
 
         if (null != object.getResults()) {
 
@@ -145,22 +151,24 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
             getListView().removeFooterView(footView);
         }
         int totalHeight = 0;
-        totalHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height) * (getListAdapter().getCount() - 1);
-        int footHeight;
+        if (getActivity() != null) {
+            totalHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height) * (getListAdapter().getCount());
+            int footHeight;
 
-        if (totalHeight < (getListView().getHeight())) {
-            footHeight = (getListView().getHeight()) - totalHeight  - getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance);
-        } else {
-            footHeight =getResources().getDimensionPixelOffset(R.dimen.combination_item_height);
+            if (totalHeight < (getListView().getHeight())) {
+                footHeight = (getListView().getHeight()) - totalHeight - getResources().getDimensionPixelOffset(R.dimen.header_height) + getResources().getDimensionPixelOffset(R.dimen.header_can_scroll_distance);
+            } else {
+                footHeight = getResources().getDimensionPixelOffset(R.dimen.combination_item_height);
+            }
+
+            footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
+            getListView().addFooterView(footView);
         }
-
-        footView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, footHeight));
-        getListView().addFooterView(footView);
 
 
     }
 
-    @Override
+
     LoadMoreDataEngine getLoadEngine() {
 
         if (null == dataEngine) {
@@ -174,7 +182,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      */
-    @Override
     public void loadData() {
         getLoadEngine().loadData();
     }
@@ -186,7 +193,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         loadData();
     }
 
-    @Override
+
     OnItemClickListener getItemClickListener() {
 
         return new OnItemClickListener() {
@@ -227,21 +234,11 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         MobclickAgent.onPageStart(mPageName);
     }
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    OnRefreshListener setOnRefreshListener() {
-        // TODO Auto-generated method stub
-        return new OnRefreshListener() {
 
-            @Override
-            public void onRefresh() {
-                getLoadEngine().loadData();
-            }
-        };
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
     }
 
     /**
@@ -251,7 +248,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
      */
     @Override
     public void loadFail() {
-        mSwipeLayout.setRefreshing(false);
 
     }
 
@@ -267,7 +263,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
                 } else {
                     handler.sendEmptyMessage(1);
                 }
-
             }
         }
     }
@@ -301,10 +296,7 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         animPercent = getValues(-headerView.getTop());
 
 
-        if (firstVisibleItem > 1) {
-            animPercent = 1;
-        }
-        if (mListener != null   ) {
+        if (mListener != null) {
             mListener.onScrollChanged(animPercent);
         }
 
@@ -329,7 +321,6 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         }
     }
 
-
     private OnFragmentInteractionListener mListener;
 
     @Override
@@ -338,9 +329,31 @@ public class UserCombinationListFragment extends LoadMoreListFragment implements
         mListener = null;
     }
 
+    public void onLoadMore() {
+        if (null != getLoadEngine()) {
+            if (getLoadEngine().getCurrentpage() >= getLoadEngine().getTotalpage()) {
+                return;
+            }
+            setHttpHandler(getLoadEngine().loadMore());
+        }
+    }
+
 
     public interface OnFragmentInteractionListener {
         public void onScrollChanged(float percent);
 
     }
+
+    public HttpHandler getHttpHandler() {
+        return mHttpHandler;
+    }
+
+    public void setHttpHandler(HttpHandler mHttpHandler) {
+        if (null != this.mHttpHandler) {
+            this.mHttpHandler.cancel();
+        }
+        this.mHttpHandler = mHttpHandler;
+    }
+
+
 }

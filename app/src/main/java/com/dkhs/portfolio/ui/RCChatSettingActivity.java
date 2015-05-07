@@ -1,8 +1,10 @@
 package com.dkhs.portfolio.ui;
 
 import android.os.Bundle;
+
 import com.dkhs.portfolio.R;
-import io.rong.imkit.fragment.ConversationSettingFragment;
+
+import io.rong.imkit.fragment.SetConversationNotificationFragment;
 
 /**
  * @author zwm
@@ -21,8 +23,7 @@ public class RCChatSettingActivity extends ModelAcitivity {
         setTitle(R.string.setting);
 
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new ConversationSettingFragment()).commit();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,new SetConversationNotificationFragment()).commit();
 
 
     }

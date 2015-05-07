@@ -8,18 +8,7 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
-import io.rong.imkit.RongIM;
-import io.rong.imlib.RongIMClient;
-import io.rong.message.CommandNotificationMessage;
-import io.rong.message.ContactNotificationMessage;
-import io.rong.message.ImageMessage;
-import io.rong.message.InformationNotificationMessage;
-import io.rong.message.ProfileNotificationMessage;
-import io.rong.message.RichContentMessage;
-import io.rong.message.TextMessage;
-import io.rong.message.VoiceMessage;
-import android.app.NotificationManager;
-import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -29,10 +18,27 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.dkhs.portfolio.ui.widget.MessageProvider;
 import com.lidroid.xutils.util.LogUtils;
+
+import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.GetUserInfoProvider;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.RongIMClient.ConnectionStatusListener;
+import io.rong.imlib.RongIMClient.ErrorCode;
+import io.rong.imlib.RongIMClient.OnReceiveMessageListener;
+import io.rong.imlib.model.Conversation.ConversationType;
+import io.rong.imlib.model.Message;
+import io.rong.imlib.model.MessageContent;
+import io.rong.imlib.model.UserInfo;
+import io.rong.message.CommandNotificationMessage;
+import io.rong.message.ContactNotificationMessage;
+import io.rong.message.ImageMessage;
+import io.rong.message.InformationNotificationMessage;
+import io.rong.message.ProfileNotificationMessage;
+import io.rong.message.RichContentMessage;
+import io.rong.message.TextMessage;
+import io.rong.message.VoiceMessage;
 
 /**
  * @ClassName RongConnect
@@ -41,7 +47,7 @@ import com.lidroid.xutils.util.LogUtils;
  * @date 2015-4-20 下午5:46:52
  * @version 1.0
  */
-public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusListener {
+public class RongConnect implements IConnectInterface, ConnectionStatusListener {
 
     protected static final String TAG = "RongConnect";
 
@@ -64,7 +70,20 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
      * RongIM.init(this) 后直接可注册的Listener。
      */
     private void initDefaultListener() {
-        // RongIM.setGetUserInfoProvider(this, true);//设置用户信息提供者。
+
+        RongIM.setGetUserInfoProvider(new GetUserInfoProvider() {
+
+            @Override
+            public UserInfo getUserInfo(String arg0) {
+                // TODO Auto-generated method stub
+
+//                if(arg0.equals("11")){
+                UserInfo userInfo = new UserInfo(arg0, "客服" + arg0, Uri.parse("http://cdn.duitang.com/uploads/item/201206/25/20120625200704_NreVX.thumb.600_0.jpeg"));
+                return userInfo;
+//                }
+//                return null;
+            }
+        }, true);//设置用户信息提供者。
         // RongIM.setGetFriendsProvider(this);//设置好友信息提供者.
         // RongIM.setGetGroupInfoProvider(this);//设置群组信息提供者。
         // RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
@@ -78,8 +97,8 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
      */
     public void setOtherListener() {
         // RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
-        RongIM.getInstance().setReceiveMessageListener(listener);
-        RongIM.getInstance().setConnectionStatusListener(this);// 设置连接状态监听器。
+
+        RongIM.getInstance().getRongClient().setOnReceiveMessageListener(listener);//设置消息接收监听器。
     }
 
     private void init() {
@@ -90,6 +109,8 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
             // context上下文
             // RongIM.init(this);
             RongIM.init(PortfolioApplication.getInstance());
+
+            RongIM.registerMessageTemplate(new MessageProvider());
             initDefaultListener();
 
         } catch (Exception e) {
@@ -109,7 +130,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
                     public void onSuccess(String result) {
                         RongTokenBean rongTolenBean = (RongTokenBean) DataParse.parseObjectJson(RongTokenBean.class,
                                 result);
-                        if (null != rongTolenBean && !TextUtils.isEmpty(rongTolenBean.getToken())) {
+                        if (!TextUtils.isEmpty(rongTolenBean.getToken())) {
                             connectRongIM(rongTolenBean.getToken());
                         }
                     }
@@ -119,7 +140,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
 
     /**
      * 连接融云服务器。
-     * 
+     *
      * @param token
      */
     private void connectRongIM(String token) {
@@ -128,39 +149,44 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
 
             RongIM.connect(token, new RongIMClient.ConnectCallback() {
 
-                @Override
-                public void onSuccess(String s) {
-                    // 此处处理连接成功。
-                    setOtherListener();
-                    int unreadCount = getUnReadCount();
-                    if (unreadCount > 0) {
-                        MessageManager.getInstance().setHasNewUnread(true);
-                    }
-                }
 
                 @Override
                 public void onError(ErrorCode errorCode) {
                     // 此处处理连接错误。
                     LogUtils.d("Connect: Login failed.");
+
                 }
+
+                @Override
+                public void onSuccess(String arg0) {
+                    // TODO Auto-generated method stub
+                    LogUtils.d("Connect: onSuccess .");
+                    setOtherListener();
+                    int unreadCount = getUnReadCount();
+                    if (unreadCount > 0) {
+                        MessageManager.getInstance().setHasNewUnread(true);
+                    }
+
+                }
+
+
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    final RongIM.OnReceiveMessageListener listener = new RongIM.OnReceiveMessageListener() {
+    final OnReceiveMessageListener listener = new io.rong.imlib.RongIMClient.OnReceiveMessageListener() {
+
         @Override
-        public void onReceived(RongIMClient.Message message, int left) {
-            // 输出消息类型。
-            Log.d("OnReceiveMessageListener", "收到");
-
-            RongIMClient.MessageContent messageContent = message.getContent();
-
+        public boolean onReceived(Message message, int arg1) {
+            // TODO Auto-generated method stub
+            MessageContent messageContent = message.getContent();
+            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
             if (messageContent instanceof TextMessage) {// 文本消息
                 TextMessage textMessage = (TextMessage) messageContent;
                 Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
-                Log.d(TAG, "onReceived-TextMessage:" + textMessage.getPushContent());
+              ;
             } else if (messageContent instanceof ImageMessage) {// 图片消息
                 ImageMessage imageMessage = (ImageMessage) messageContent;
                 Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
@@ -195,23 +221,19 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
              * 需替换成自己的代码。
              */
 
-            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
-            // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
-            // BusProvider.getInstance().post(new NewMessageEvent());
-            // NewMainActivity.this.runOnUiThread(new Runnable() {
-            // @Override
-            // public void run() {
-            // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.S_APP_NEW_MESSAGE, true);
-            // BusProvider.getInstance().post(new NewMessageEvent());
-            // }
-            // });
+
+
+
+            return false;
         }
+
+
     };
 
     public int getUnReadCount() {
         int unreadCount = 0;
-        if (RongIM.getInstance() != null) {
-            unreadCount = RongIM.getInstance().getTotalUnreadCount();
+        if (null != RongIM.getInstance().getRongClient() ) {
+            unreadCount = RongIM.getInstance().getRongClient().getUnreadCount(ConversationType.PRIVATE);
         }
         return unreadCount;
     }
@@ -223,7 +245,7 @@ public class RongConnect implements IConnectInterface, RongIM.ConnectionStatusLi
         }
         // 连接状态可能是UNKNOWN
         // public RongIM.ConnectionStatusListener.ConnectionStatus RongIMgetCurrentConnectionStatus()
-        RongIM.ConnectionStatusListener.ConnectionStatus connectStatus = RongIM.getInstance()
+        ConnectionStatusListener.ConnectionStatus connectStatus = RongIMClient.getInstance()
                 .getCurrentConnectionStatus();
 
         return connectStatus == ConnectionStatus.CONNECTED;

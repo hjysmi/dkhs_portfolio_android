@@ -48,6 +48,7 @@ import com.squareup.otto.Subscribe;
 import java.text.DecimalFormat;
 
 import io.rong.imkit.RongIM;
+import io.rong.imkit.widget.provider.IContainerItemProvider;
 
 /**
  * @author zjz
@@ -101,6 +102,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
      */
     @Override
     public void onResume() {
+
 
         super.onResume();
         updateUserInfo();
@@ -236,7 +238,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 // // BusProvider.getInstance().post(new RongConnectEvent());
                 // MessageManager.getInstance().connect();
                 // }
-                startActivity(new Intent(getActivity(), RCChatListActivity.class));
+                RongIM.getInstance().startConversationList(getActivity());
             }
         } else if (R.id.ll_following == id) {
 

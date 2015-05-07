@@ -3,25 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:scrollbars="none" >
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="15dp" >
+        android:paddingTop="15dp">
 
         <LinearLayout
             android:id="@+id/person_setting_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/ll_login_layout"
                 style="@style/white_grayborder_layout"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <Button
                     android:id="@+id/btn_login"
@@ -37,12 +37,14 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
+            <View style="@style/divider_line" />
+
             <LinearLayout
                 android:id="@+id/ll_userinfo_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_white_selector"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/setting_layout_icon"
@@ -50,7 +52,7 @@
                     android:paddingBottom="10dp"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:paddingTop="10dp" >
+                    android:paddingTop="10dp">
 
                     <ImageView
                         android:id="@+id/setting_image_right"
@@ -72,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/setting_image_head"
-                        android:paddingLeft="12dp" >
+                        android:paddingLeft="12dp">
 
                         <TextView
                             android:id="@+id/setting_text_name_text"
@@ -97,9 +99,7 @@
                     style="@style/white_grayborder_layout"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-1dp"
-                    android:orientation="horizontal"
-                    android:padding="6dp" >
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/ll_following"
@@ -107,7 +107,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/btn_white_selector"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:padding="6dp">
 
                         <TextView
                             style="@style/CommonTextAppearance_Mini_Gray"
@@ -128,9 +129,10 @@
 
                     <View
                         style="@style/vertical_divider_line"
-                        android:layout_marginBottom="1dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="22dp"
                         android:alpha="0.6"
+
                         android:background="@color/md_grey_800" />
 
                     <LinearLayout
@@ -139,7 +141,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/btn_white_selector"
-                        android:orientation="vertical" >
+                        android:orientation="vertical"
+                        android:padding="6dp">
 
                         <TextView
                             style="@style/CommonTextAppearance_Mini_Gray"
@@ -168,7 +171,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -195,7 +198,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp">
 
                 <ImageView
                     android:id="@+id/image_detail"

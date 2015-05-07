@@ -34,16 +34,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
-
-import java.util.List;
-
-import io.rong.imkit.RongIM;
-import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
-import io.rong.imlib.RongIMClient;
 
 /**
  * @author zjz
