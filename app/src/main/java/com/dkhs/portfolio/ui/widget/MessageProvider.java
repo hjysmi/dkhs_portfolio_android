@@ -29,36 +29,23 @@ import static com.dkhs.portfolio.R.layout;
 @ProviderTag(messageContent = RichContentMessage.class,showPortrait=false)
 public class MessageProvider extends RichContentMessageItemProvider {
 
-
-
-
     @Override
     public View newView(Context context, ViewGroup group) {
-        // TODO Auto-generated method stub
-
-
         return   LayoutInflater.from(context).inflate(layout.layout_messaage   , null);
     }
 
     @Override
     public Spannable getContentSummary(RichContentMessage data) {
 
-
-
-        SpannableString  ss=new SpannableString(data.getTitle());
-
-        return ss;
+        return new SpannableString(data.getTitle());
     }
 
 
     @Override
     public void bindView(View v, int position, RichContentMessage content, Message message) {
-//        super.bindView(v, position, content, message);
-
 
         TextView titleTV= (TextView) v.findViewById(R.id.tv_title);
         TextView contentTV= (TextView) v.findViewById(id.tv_content);
-
         titleTV.setText(content.getTitle());
         contentTV.setText(content.getContent());
 
