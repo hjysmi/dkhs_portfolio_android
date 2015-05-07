@@ -20,11 +20,7 @@ public class ImageLoaderUtils {
      * @param context
      */
     public static void initImageLoader(Context context) {
-
         // String filePath=context.getCacheDir().getPath();
-
-
-
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
                 context).threadPriority(Thread.NORM_PRIORITY - 2)
                 .denyCacheImageMultipleSizesInMemory()
@@ -32,7 +28,6 @@ public class ImageLoaderUtils {
                 .tasksProcessingOrder(QueueProcessingType.LIFO)
                 .writeDebugLogs() // Remove for release app
                 .build();
-        // Initialize ImageLoaderUtils with configuration.
         ImageLoader.getInstance().init(config);
     }
 
