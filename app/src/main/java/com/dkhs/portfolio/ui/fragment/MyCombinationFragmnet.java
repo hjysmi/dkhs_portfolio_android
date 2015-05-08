@@ -49,7 +49,6 @@ import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
@@ -374,7 +373,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
         super.onResume();
         if (mCombinationTimer == null) {
             mCombinationTimer = new Timer(true);
-            mCombinationTimer.schedule(new RequestCombinationTask(), 200, mCombinationRequestTime);
+            mCombinationTimer.schedule(new RequestCombinationTask(), 20, mCombinationRequestTime);
         }
     }
 

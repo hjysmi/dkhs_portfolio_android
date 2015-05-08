@@ -8,39 +8,36 @@
  */
 package com.dkhs.portfolio.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.FloatingActionMenu.OnMenuItemSelectedListener;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.fragment.CompareIndexFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.TimeUtils;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
 import com.squareup.otto.Subscribe;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName NewCombinationDetailActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-4-24 上午10:49:28
- * @version 1.0
  */
 public class NewCombinationDetailActivity extends ModelAcitivity {
     public static final String EXTRA_COMBINATION = "extra_combination";
@@ -96,9 +93,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onResume() {
@@ -108,9 +105,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onPause() {
@@ -176,42 +173,49 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                         mChangeFollowView.changeFollow(mCombinationBean);
                     }
                 }
-                    break;
+                break;
                 case MENU_REMIND: {
                     startActivity(StockRemindActivity.newCombinatIntent(NewCombinationDetailActivity.this,
                             mCombinationBean));
                 }
-                    break;
-                case MENU_EDIT: { // 调整仓位
+                break;
+                case MENU_EDIT: { // 组合编辑
                     startActivityForResult(ChangeCombinationNameActivity.newIntent(NewCombinationDetailActivity.this,
                             mCombinationBean), REQUESTCODE_MODIFY_COMBINATION);
                 }
-                    break;
+                break;
                 case MENU_ADJUST: { // 调整仓位
                     Intent intent = new Intent(NewCombinationDetailActivity.this, PositionAdjustActivity.class);
                     intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
                     intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
                     startActivity(intent);
                 }
-                    break;
+                break;
                 case MENU_PRIVACY: {
                     // 隐私设置
                     startActivity(PrivacySettingActivity.newIntent(NewCombinationDetailActivity.this, mCombinationBean));
 
                 }
-                    break;
+                break;
                 case MENU_HISTORY_VALUE: {
                     // 每日收益记录
                     startActivity(EveryDayValueActivity.newIntent(NewCombinationDetailActivity.this, mCombinationBean));
 
                 }
-                    break;
+                break;
                 case MENU_ABOUT: {
                     // 谁牛FAQ
                     startActivity(new Intent(NewCombinationDetailActivity.this, FAQTextActivity.class));
 
                 }
-                    break;
+                break;
+                case MENU_SHARE: {
+                    if (null != mFragmentTrend) {
+                        mFragmentTrend.showShareImage();
+
+                    }
+                }
+                break;
                 default:
                     break;
             }
@@ -246,10 +250,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
             } else {
                 localFloatingActionMenu.addItem(MENU_FOLLOW, R.string.float_menu_follow, R.drawable.ic_add);
                 localFloatingActionMenu.addItem(MENU_ADJUST, R.string.float_menu_adjust, R.drawable.ic_fm_adjust);
-                localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+                localFloatingActionMenu.addItem(MENU_SHARE, R.string.float_menu_share, R.drawable.ic_fm_remind);
                 localFloatingActionMenu
                         .addMoreItem(MENU_MORE, getString(R.string.float_menu_more), R.drawable.ic_fm_more)
-                        .addItem(MENU_SHARE, getString(R.string.float_menu_share))
                         .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
                         .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
                         .addItem(MENU_HISTORY_VALUE, getString(R.string.float_menu_history_value))
@@ -273,10 +276,15 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
         }
     }
 
-    private void replaceTrendView() {
 
+    private FragmentNetValueTrend mFragmentTrend;
+
+    private void replaceTrendView() {
+        if (null == mFragmentTrend) {
+            mFragmentTrend = FragmentNetValueTrend.newInstance(true, null);
+        }
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.rl_trend_view, FragmentNetValueTrend.newInstance(true, null)).commit();
+                .replace(R.id.rl_trend_view, mFragmentTrend).commit();
 
     }
 
@@ -323,4 +331,24 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
         }
     }
 
+
+    @Subscribe
+    public void updateComName(UpdateComDescEvent event) {
+        if (null != event) {
+            if (!TextUtils.isEmpty(event.comName)) {
+                mCombinationBean.setName(event.comName);
+            }
+            if (!TextUtils.isEmpty(event.comDesc)) {
+                mCombinationBean.setDescription(event.comDesc);
+            }
+
+            updataTitle();
+            ;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

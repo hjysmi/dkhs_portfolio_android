@@ -190,6 +190,7 @@
     <string name="tips">提示</string>
     <string name="dialog_message_delete_combination">您将要删除选中的组合!</string>
     <string name="dialog_message_delfollow_combination">确认取消关注该组合?</string>
+    <string name="dialog_message_no_del_stock">停牌股不能删除</string>
     <string name="setting_string_opinion">意见反馈</string>
     <string name="setting_string_news">新版本检测</string>
     <string name="setting_string_abortus">关于我们</string>
@@ -251,7 +252,7 @@
     <string name="sign_text_title">个人签名</string>
     <string name="sign_text_notice">个人签名内容不能为空</string>
     <string name="feed_text_notice">反馈内容不能为空</string>
-    <string name="feed_text_success">感谢您的反馈意见</string>
+    <string name="feed_text_success">感谢您的反馈</string>
     <string name="day_income_rate">日收益</string>
     <string name="week_income_rate">周收益</string>
     <string name="month_income_rate">月收益</string>
@@ -480,4 +481,5 @@
     <string name="pb">市净率</string>
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
+    <string name="edit_success">设置成功</string>
 </resources>

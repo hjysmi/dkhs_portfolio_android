@@ -8,17 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -32,20 +21,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.Html;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.ScaleXSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -59,12 +45,12 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
-import com.dkhs.portfolio.ui.ChangeFollowView;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateCombinationEvent;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
@@ -72,14 +58,29 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentNetValueTrend
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-1 下午1:52:54
- * @version 1.0
  */
 public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
     private TextView tvIncreaseValue;
@@ -121,7 +122,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
      * @param savedInstanceState
-     * @return
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -144,7 +144,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
 
     }
 
@@ -182,19 +182,24 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         initTabPage(view);
 
         setupViewData();
-
+        BusProvider.getInstance().register(this);
         return view;
     }
 
-    // private Button btnAddOptional;
 
-    // private void addOptionalButton(boolean isFollow) {
-    // if (isFollow && null != btnAddOptional) {
-    // btnAddOptional.setText(R.string.delete_fllow);
-    // } else if (null != btnAddOptional) {
-    // btnAddOptional.setText(R.string.add_fllow);
-    // }
-    // }
+    @Subscribe
+    public void updateComName(UpdateComDescEvent event) {
+        if (null != event) {
+            if (!TextUtils.isEmpty(event.comName)) {
+                mCombinationBean.setName(event.comName);
+            }
+            if (!TextUtils.isEmpty(event.comDesc)) {
+                mCombinationBean.setDescription(event.comDesc);
+            }
+            setupViewData();
+
+        }
+    }
 
     class OnComCheckListener implements OnCheckedChangeListener {
 
@@ -238,27 +243,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void setupViewData() {
-        if (isFromOrder) {
-            // tvCreateUser.setVisibility(View.VISIBLE);
-            tvCreateUser.setText(mCombinationBean.getUser().getUsername());
-            // tvCreateUser.setOnClickListener(new OnClickListener() {
-            //
-            // @Override
-            // public void onClick(View v) {
-            // startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser()
-            // .getUsername(), mCombinationBean.getUser().getId(), false));
-            // }
-            // });
-
-        } else {
-            // tvCreateUser.setVisibility(View.GONE);
-            // tvCreate.setVisibility(View.GONE);
-        }
+        tvCreateUser.setText(mCombinationBean.getUser().getUsername());
         tvComDesc.setText(mCombinationBean.getDefDescription());
-        // tvComDesc.setText(mCombinationBean.getDefDescription());
         if (null != mCombinationBean) {
             updateIncreaseRatio(mCombinationBean.getNetvalue());
-
         }
     }
 
@@ -266,7 +254,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         public void handleMessage(android.os.Message msg) {
 
             replaceFragment(todayFragment);
-        };
+        }
+
+        ;
     };
 
     private void updateIncreaseRatio(float netValue) {
@@ -340,7 +330,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     Handler shareHandler = new Handler() {
         public void handleMessage(Message msg) {
             showShare();
-        };
+        }
+
+        ;
     };
 
     private void showShare() {
@@ -507,26 +499,26 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     curFragment = todayFragment;
                     todayFragment.startRequry();
                 }
-                    break;
+                break;
                 case 1: {
                     type = TrendSevenDayChartFragment.TREND_TYPE_SEVENDAY;
                     curFragment = sevendayFragment;
                     sevendayFragment.startRequry();
                 }
-                    break;
+                break;
                 case 2: {
                     type = TrendMonthChartFragment.TREND_TYPE_MONTH;
                     curFragment = monthFragment;
                     monthFragment.startRequry();
                 }
-                    break;
+                break;
                 case 3: {
 
                     type = TrendHistoryChartFragment.TREND_TYPE_HISTORY;
                     curFragment = historyFragment;
                     historyFragment.startRequry();
                 }
-                    break;
+                break;
 
                 default:
                     break;
@@ -590,9 +582,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
     };
 
-    
-    
-    
+
     @Override
     public void onClick(View v) {
 
@@ -797,5 +787,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // TODO Auto-generated method stub
         super.onPause();
         MobclickAgent.onPageEnd(mPageName);
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        BusProvider.getInstance().unregister(this);
     }
 }

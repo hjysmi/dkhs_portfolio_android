@@ -88,6 +88,9 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
             if (!TextUtils.isEmpty(orderType)) {
                 params.addQueryStringParameter("sort", orderType);
             }
+            if(!TextUtils.isEmpty(userId)){
+                params.addQueryStringParameter("user_id", userId);
+            }
             params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
             return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
 

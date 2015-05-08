@@ -5,13 +5,13 @@
     android:background="@color/person_setting_backgroud" >
 
     <RelativeLayout
-        android:id="@+id/rl_title"
+        android:id="@+id/rl_header_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/title_height"
         android:background="@color/title_color" >
 
         <Button
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_header_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -23,7 +23,7 @@
             android:textColor="@color/white_textselector" />
 
         <Button
-            android:id="@+id/btn_right"
+            android:id="@+id/btn_header_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -37,11 +37,11 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btn_right_second"
+            android:id="@+id/btn_header_right_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/btn_right"
+            android:layout_toLeftOf="@+id/btn_header_right"
             android:background="@null"
             android:padding="10dp"
             android:scaleType="fitCenter"
@@ -61,6 +61,6 @@
         android:id="@+id/view_datalist"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rl_title" />
+        android:layout_below="@+id/rl_header_title" />
 
 </RelativeLayout>

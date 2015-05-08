@@ -17,6 +17,8 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
@@ -82,7 +84,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
         switch (v.getId()) {
             case R.id.btn_right:
                 //
-                String combinationName = combination_name.getText().toString().trim();
+                final String combinationName = combination_name.getText().toString().trim();
                 if (TextUtils.isEmpty(combinationName)) {
                     PromptManager.showToast("组合名称不能为空");
                     return;
@@ -91,8 +93,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
                     PromptManager.showToast("3-10位字符:支持中英文、数字。");
                     return;
                 }
-                String combinationDesc = "";
-                combinationDesc = combination_desc.getText().toString().trim();
+                final String combinationDesc = combination_desc.getText().toString().trim();
                 new MyCombinationEngineImpl().updateCombination(mCombinationBean.getId(), combinationName,
                         combinationDesc, new ParseHttpListener<CombinationBean>() {
 
@@ -106,6 +107,9 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
                                 if (null != object) {
                                     setSelectBack(object);
                                 }
+
+
+                                BusProvider.getInstance().post(new UpdateComDescEvent(combinationName,combinationDesc));
                             }
                         }.setLoadingDialog(this, "修改中..."));
                 break;
@@ -118,7 +122,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     public static final String ARGUMENT_COMBINATION_BEAN = "combination_bean";
 
     private void setSelectBack(CombinationBean bean) {
-        PromptManager.showToast("修改成功");
+        PromptManager.showEditSuccessToast();
         Intent intent = new Intent();
         intent.putExtra(ARGUMENT_COMBINATION_BEAN, (Serializable) bean);
         // intent.putExtra(ARGUMENT_CRATE_TYPE, type);

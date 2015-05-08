@@ -19,11 +19,11 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter;
 
 /**
- * @ClassName MarketListActivity
- * @Description 由行情中心入口的列表Activity,包含：国内行情、个股涨跌幅、个股振幅、个股换手率、热门板块界面；
  * @author zjz
- * @date 2014-12-22 下午5:47:35
  * @version 1.0
+ * @ClassName MarketListActivity
+ * @Description 由行情中心入口的列表Activity, 包含：国内行情、个股涨跌幅、个股振幅、个股换手率、热门板块界面；
+ * @date 2014-12-22 下午5:47:35
  */
 public class MarketListActivity extends RefreshModelActivity {
 
@@ -133,41 +133,41 @@ public class MarketListActivity extends RefreshModelActivity {
 
     }
 
-    private void replaceContentFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
-
-    }
+//    private void replaceContentFragment(Fragment fragment) {
+//        getSupportFragmentManager().beginTransaction().replace(R.id.layout_content, fragment).commit();
+//
+//    }
 
     private void initView() {
         switch (mLoadType) {
             case StockIncease: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_UP));
             }
-                break;
+            break;
             case IndexUp: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_INLAND_INDEX_UP));
             }
-                break;
+            break;
             case StockDown: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_DOWN));
             }
-                break;
+            break;
             case StockAmplit: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_AMPLI_UP));
             }
-                break;
+            break;
             case StockTurnOver: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_STOCK_TURN_UP));
             }
-                break;
+            break;
             case PlateHot: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_PLATE_UP));
             }
-                break;
+            break;
             case PlateList: {
                 replaceContentFragment(FragmentMarkerCenter.initFrag(FragmentMarkerCenter.TYPE_PLATEDETAIL_UP));
             }
-                break;
+            break;
 
             default:
                 break;
@@ -181,31 +181,31 @@ public class MarketListActivity extends RefreshModelActivity {
             case StockIncease: {
                 setTitle(R.string.market_title_up);
             }
-                break;
+            break;
             case IndexUp: {
                 setTitle(R.string.market_title_index);
             }
-                break;
+            break;
             case StockDown: {
                 setTitle(R.string.market_title_down);
             }
-                break;
+            break;
             case StockAmplit: {
                 setTitle(R.string.market_title_ampli);
             }
-                break;
+            break;
             case StockTurnOver: {
                 setTitle(R.string.market_title_turnover);
             }
-                break;
+            break;
             case PlateHot: {
                 setTitle(R.string.market_title_hot);
             }
-                break;
+            break;
             case PlateList: {
                 setTitle(mPlateName);
             }
-                break;
+            break;
 
             default:
                 break;
