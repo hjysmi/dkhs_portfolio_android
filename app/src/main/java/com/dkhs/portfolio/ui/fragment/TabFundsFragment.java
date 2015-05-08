@@ -68,12 +68,28 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     private TabFundsAdapter mFundsAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private FollowComListEngineImpl dataEngine;
+    private String mUserId;
+
+    public static TabFundsFragment getTabFundsFragment(String userId) {
+        TabFundsFragment fragment = new TabFundsFragment();
+        Bundle args = new Bundle();
+        args.putString(FragmentSelectStockFund.ARGUMENT_USER_ID, userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         // if (null == dataEngine) {
+        Bundle bundle = getArguments();
+
+        if (null != bundle) {
+            mUserId = bundle.getString(FragmentSelectStockFund.ARGUMENT_USER_ID);
+
+        }
+
         dataEngine = new FollowComListEngineImpl(new ILoadDataBackListener<CombinationBean>() {
 
             @Override
@@ -103,7 +119,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
             public void loadFail() {
                 mSwipeLayout.setRefreshing(false);
             }
-        }, "");
+        }, mUserId);
 
         // }
     }

@@ -713,7 +713,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         @Override
                         protected void afterParseData(CombinationBean object) {
                             if (null != object && !isAdjustCombination) {
-                                PositionAdjustActivity.this.startActivity(CombinationDetailActivity.newIntent(
+                                PositionAdjustActivity.this.startActivity(NewCombinationDetailActivity.newIntent(
                                         PositionAdjustActivity.this, object));
                             }
                             finish();

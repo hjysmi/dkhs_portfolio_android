@@ -8,15 +8,11 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -38,7 +34,6 @@ import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -60,12 +55,15 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentSelectStock
  * @Description 个股选择
- * @author zjz
  * @date 2014-8-29 上午9:36:16
- * @version 1.0
  */
 public class FragmentSelectStockFund extends BaseFragment implements ISelectChangeListener, OnClickListener,
         OnLoadMoreListener {
@@ -75,6 +73,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
     protected static final String ARGUMENT_LOAD_TYPE = "load_type";
     protected static final String ARGUMENT_SECTOR_ID = "sector_id";
+    protected static final String ARGUMENT_USER_ID = "user_id";
 
     protected PullToRefreshListView mListView;
     protected BaseAdatperSelectStockFund mAdapterConbinStock;
@@ -101,46 +100,84 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
      */
     public enum StockViewType {
 
-        /** 股票，自选股 */
+        /**
+         * 股票，自选股
+         */
         STOCK_OPTIONAL(1),
-        /** 股票，涨幅 */
+        /**
+         * 股票，涨幅
+         */
         STOCK_INCREASE(2),
-        /** 股票，跌幅 */
+        /**
+         * 股票，跌幅
+         */
         STOCK_DRAWDOWN(3),
-        /** 股票，换手率 */
+        /**
+         * 股票，换手率
+         */
         STOCK_HANDOVER(4),
 
-        /** 基金，主要指数 */
+        /**
+         * 基金，主要指数
+         */
         FUND_MAININDEX(5),
-        /** 基金，指数 */
+        /**
+         * 基金，指数
+         */
         FUND_INDEX(6),
-        /** 基金，基金股票 */
+        /**
+         * 基金，基金股票
+         */
         FUND_STOCK(7),
-        /** 股票，自选股 */
+        /**
+         * 股票，自选股
+         */
         STOCK_OPTIONAL_PRICE(8),
 
-        /** 行情中心，国内指数排行，高到低 */
+        /**
+         * 行情中心，国内指数排行，高到低
+         */
         MARKET_INLAND_INDEX(9),
-        /** 行情中心，国内指数排行榜查询，低到高 */
+        /**
+         * 行情中心，国内指数排行榜查询，低到高
+         */
         MARKET_INLAND_INDEX_ACE(10),
-        /** 行情中心, 国内指数不排序 */
+        /**
+         * 行情中心, 国内指数不排序
+         */
         MARKET_INLAND_INDEX_CURRENT(11),
 
-        /** 行情中心,个股排行，跌幅 */
+        /**
+         * 行情中心,个股排行，跌幅
+         */
         MARKET_STOCK_DOWNRATIO(12),
-        /** 行情中心,个股排行，涨幅 */
+        /**
+         * 行情中心,个股排行，涨幅
+         */
         MARKET_STOCK_UPRATIO(13),
-        /** 行情中心,个股换手排行榜查询 高到低 */
+        /**
+         * 行情中心,个股换手排行榜查询 高到低
+         */
         MARKET_STOCK_TURNOVER(14),
-        /** 行情中心,个股换手排行榜查询 低到高 */
+        /**
+         * 行情中心,个股换手排行榜查询 低到高
+         */
         MARKET_STOCK_TURNOVER_ACE(15),
-        /** 行情中心 ,个股振幅，高到低 */
+        /**
+         * 行情中心 ,个股振幅，高到低
+         */
         MARKET_STOCK_AMPLIT(16),
-        /** 行情中心 ,个股振幅，低到高 */
+        /**
+         * 行情中心 ,个股振幅，低到高
+         */
         MARKET_STOCK_AMPLIT_ACE(17),
-        /** 行情中心 ,板块列表，高到底 */
+        /**
+         * 行情中心 ,板块列表，高到底
+         */
         MARKET_PLATE_LIST(18),
-        /** 行情中心 ,个股振幅，低到高 */
+        /**
+         * 行情中心 ,个股振幅，低到高
+         */
         MARKET_PLATE_LIST_ACE(19);
 
         private int typeId;
@@ -154,11 +191,24 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         }
     }
 
+
+    private String mUserId;
+
     public static FragmentSelectStockFund getStockFragment(StockViewType type) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
         args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putSerializable(ARGUMENT_LOAD_TYPE, type);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static FragmentSelectStockFund getStockFragmentByUserId(StockViewType type, String userId) {
+        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
+        Bundle args = new Bundle();
+        args.putBoolean(ARGUMENT_LOAD_FUND, false);
+        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
+        args.putString(ARGUMENT_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -203,6 +253,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mViewType = (StockViewType) bundle.getSerializable(ARGUMENT_LOAD_TYPE);
             fromPosition = bundle.getBoolean("fromPosition");
             mSecotrId = bundle.getString(ARGUMENT_SECTOR_ID);
+            mUserId = bundle.getString(ARGUMENT_USER_ID);
 
         }
         if (isItemClickBack) {
@@ -279,6 +330,42 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         } else {
             LogUtils.d("LoadDataEngine is null");
         }
+
+    }
+
+
+    private void loadDataByStock() {
+
+        if (mViewType == StockViewType.STOCK_OPTIONAL) {
+            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
+        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
+            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true,mUserId);
+        } else if (isLoadStockType() || mViewType == StockViewType.STOCK_HANDOVER
+                || mViewType == StockViewType.STOCK_DRAWDOWN || mViewType == StockViewType.STOCK_INCREASE) {
+            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener, mViewType, mSecotrId);
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX) {
+            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
+                    MarketCenterStockEngineImple.DESC);
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT) {
+            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
+                    MarketCenterStockEngineImple.CURRENT);
+        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
+            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
+                    MarketCenterStockEngineImple.ACE);
+        } else {
+            mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
+                    QuetosStockEngineImple.ORDER_INCREASE);
+        }
+        if (isDefLoad) {
+
+            if (null != loadingFinishListener) {
+                loadingFinishListener.startLoadingData();
+            }
+            loadHandler = mLoadDataEngine.loadData();
+
+        }
+        // 第一次
+        // isRefresh = true;
 
     }
 
@@ -405,40 +492,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         }
     }
 
-    private void loadDataByStock() {
 
-        if (mViewType == StockViewType.STOCK_OPTIONAL) {
-            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
-        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
-            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true);
-        } else if (isLoadStockType() || mViewType == StockViewType.STOCK_HANDOVER
-                || mViewType == StockViewType.STOCK_DRAWDOWN || mViewType == StockViewType.STOCK_INCREASE) {
-            mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener, mViewType, mSecotrId);
-        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX) {
-            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
-                    MarketCenterStockEngineImple.DESC);
-        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT) {
-            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
-                    MarketCenterStockEngineImple.CURRENT);
-        } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
-            mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
-                    MarketCenterStockEngineImple.ACE);
-        } else {
-            mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
-                    QuetosStockEngineImple.ORDER_INCREASE);
-        }
-        if (isDefLoad) {
-
-            if (null != loadingFinishListener) {
-                loadingFinishListener.startLoadingData();
-            }
-            loadHandler = mLoadDataEngine.loadData();
-
-        }
-        // 第一次
-        // isRefresh = true;
-
-    }
 
     public void refresh() {
         isRefresh = true;
@@ -514,12 +568,13 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     //
     // return wrapper;
     // }
+
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -551,7 +606,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             } else if (msg.what == 888) {
                 hideEmptyNotice();
             }
-        };
+        }
+
+        ;
     };
 
     protected void showEmptyNotice() {
@@ -574,25 +631,25 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }
-                break;
+            break;
             case FUND_INDEX:
             case FUND_MAININDEX:
             case FUND_STOCK: {
                 tvEmptyText.setText(R.string.nodate_tip_funds);
             }
-                break;
+            break;
 
             case MARKET_INLAND_INDEX:
             case MARKET_INLAND_INDEX_CURRENT:
             case MARKET_INLAND_INDEX_ACE: {
                 tvEmptyText.setText(R.string.nodate_tip_inland_index);
             }
-                break;
+            break;
 
             default: {
                 tvEmptyText.setText(R.string.nodate_tip);
             }
-                break;
+            break;
         }
     }
 
@@ -757,10 +814,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {
@@ -779,9 +835,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     private IDataUpdateListener dataUpdateListener;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onDestroyView() {

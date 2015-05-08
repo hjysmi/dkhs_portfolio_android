@@ -8,47 +8,27 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.DatePicker;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.ConStockBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.HistoryPositionDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
-import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.UpdatePositinoEvent;
@@ -56,16 +36,20 @@ import com.dkhs.portfolio.ui.widget.ListViewEx;
 import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.squareup.otto.Subscribe;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentPositionDetail
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午9:33:13
- * @version 1.0
  */
 public class FragmentPositionBottom extends Fragment implements OnClickListener, FragmentLifecycle {
 
@@ -169,10 +153,10 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param activity
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onAttach(Activity activity) {
@@ -211,7 +195,9 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
             }
 
         }
-    };
+    }
+
+    ;
 
     private void updateView() {
 
@@ -335,9 +321,9 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     // }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onStart() {
@@ -354,8 +340,8 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
 
 
     @Subscribe
-    public void updateListener(UpdatePositinoEvent event){
-        if(null!=event){
+    public void updateListener(UpdatePositinoEvent event) {
+        if (null != event) {
             new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new QueryCombinationDetailListener());
         }
     }
@@ -373,18 +359,18 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
 
             }
 
-                break;
+            break;
             case R.id.btn_back: {
 
             }
 
-                break;
+            break;
             case R.id.btn_detail_date: {// 选择查询日期
                 // showPickerDate();
 
             }
 
-                break;
+            break;
             case R.id.tv_history: {
                 if (null != mPositionDetail && null != mPositionDetail.getPortfolio()) {
 
@@ -393,7 +379,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
                             .getId()));
                 }
             }
-                break;
+            break;
 
             default:
                 break;
@@ -402,9 +388,9 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onPauseFragment() {
@@ -413,9 +399,9 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onResumeFragment() {

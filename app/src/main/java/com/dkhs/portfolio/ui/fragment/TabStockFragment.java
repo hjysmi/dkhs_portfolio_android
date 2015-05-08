@@ -8,11 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -36,12 +31,15 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TabStockFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-7 上午11:03:07
- * @version 1.0
  */
 public class TabStockFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
 
@@ -86,11 +84,27 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private Context context;
 
     private boolean isLoading;
+    private String mUserId;
+
+
+    public static TabStockFragment getTabStockFragment(String userId) {
+        TabStockFragment fragment = new TabStockFragment();
+        Bundle args = new Bundle();
+        args.putString(FragmentSelectStockFund.ARGUMENT_USER_ID, userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
+        Bundle bundle = getArguments();
+
+        if (null != bundle) {
+            mUserId = bundle.getString(FragmentSelectStockFund.ARGUMENT_USER_ID);
+
+        }
 
     }
 
@@ -98,16 +112,12 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         public void handleMessage(android.os.Message msg) {
             // reloadData();
 
-        };
+        }
+
+        ;
     };
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param view
-     * @param savedInstanceState
-     * @return
-     */
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -161,7 +171,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
+            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(StockViewType.STOCK_OPTIONAL_PRICE,mUserId);
             // if (null != dataUpdateListener) {
             loadDataListFragment.setDataUpdateListener(this);
             // }
@@ -173,9 +183,9 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private String orderType = TYPE_DEFALUT;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onStart() {
@@ -184,19 +194,19 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
     }
 
-    @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
+    @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase})
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.tv_current: {
                 setViewOrderIndicator(tvCurrent);
             }
-                break;
+            break;
             case R.id.tv_percentage: {
                 setViewOrderIndicator(tvPercentgae);
 
             }
-                break;
+            break;
             // case R.id.tv_increase: {
             // setViewOrderIndicator(tvChange);
             // }
@@ -271,7 +281,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private boolean isUpOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
-                        || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
+                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
             return true;
         }
         return false;
@@ -280,7 +290,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private boolean isDownOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
-                        || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
             return true;
         }
         return false;
@@ -289,8 +299,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     private boolean isPercentType(String type) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
-                        || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
-                        || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
+                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
             return true;
         }
         return false;
@@ -412,10 +422,10 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param isEmptyData
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void dataUpdate(boolean isEmptyData) {

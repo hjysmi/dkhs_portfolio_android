@@ -17,11 +17,11 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName CompareFundsActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-5-6 下午1:34:22
- * @version 1.0
  */
 public class CompareFundsActivity extends ModelAcitivity {
 
@@ -37,13 +37,8 @@ public class CompareFundsActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.performance_comparison);
-        replaceCompareView();
+//        replaceCompareView();
+        replaceContentFragment(FragmentCompare.newInstance());
     }
 
-    private void replaceCompareView() {
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.layoutContent, FragmentCompare.newInstance())
-                .commit();
-
-    }
 }
