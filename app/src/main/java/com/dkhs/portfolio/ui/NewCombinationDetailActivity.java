@@ -250,10 +250,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
             } else {
                 localFloatingActionMenu.addItem(MENU_FOLLOW, R.string.float_menu_follow, R.drawable.ic_add);
                 localFloatingActionMenu.addItem(MENU_ADJUST, R.string.float_menu_adjust, R.drawable.ic_fm_adjust);
-                localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+                localFloatingActionMenu.addItem(MENU_SHARE, R.string.float_menu_share, R.drawable.ic_fm_remind);
                 localFloatingActionMenu
                         .addMoreItem(MENU_MORE, getString(R.string.float_menu_more), R.drawable.ic_fm_more)
-                        .addItem(MENU_SHARE, getString(R.string.float_menu_share))
                         .addItem(MENU_EDIT, getString(R.string.float_menu_edit))
                         .addItem(MENU_PRIVACY, getString(R.string.float_menu_privacy))
                         .addItem(MENU_HISTORY_VALUE, getString(R.string.float_menu_history_value))
