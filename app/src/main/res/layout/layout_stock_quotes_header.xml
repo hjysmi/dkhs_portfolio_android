@@ -1,250 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/rl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:weightSum="10" >
+        android:orientation="vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:weightSum="10">
 
-        <RelativeLayout
-            android:layout_width="1dp"
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_weight="3.5" >
-
-            <TextView
-                android:id="@+id/tv_current_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="—"
-                android:textColor="@color/theme_color"
-                android:textSize="28sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_stock_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_current_price"
-                android:layout_centerHorizontal="true"
-                android:text="停牌"
-                android:textColor="@color/theme_color"
-                android:textSize="18sp"
-                android:visibility="gone" />
+            android:orientation="horizontal">
 
             <RelativeLayout
-                android:id="@+id/layout_change_price"
-                android:layout_width="wrap_content"
+                android:layout_width="1dp"
+
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_current_price"
-                android:layout_centerHorizontal="true"
-                android:visibility="gone" >
+                android:layout_centerVertical="true"
+                android:layout_weight="2">
 
                 <TextView
-                    android:id="@+id/tv_up_price"
+                    android:id="@+id/tv_current_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:text="—"
                     android:textColor="@color/theme_color"
-                    android:textSize="14sp" />
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tv_percentage"
+                    android:id="@+id/tv_stock_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@+id/tv_up_price"
-                    android:text="—"
-                    android:textColor="@color/theme_color" />
+                    android:layout_below="@+id/tv_current_price"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/delist"
+                    android:textColor="@color/theme_color"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/layout_change_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_current_price"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_up_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="—"
+                        android:textColor="@color/theme_color"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_toRightOf="@+id/tv_up_price"
+                        android:text="—"
+                        android:textColor="@color/theme_color"
+                        android:textSize="18sp" />
+                </RelativeLayout>
             </RelativeLayout>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_weight="2"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:id="@+id/tv_today_open"
-                style="@style/text_stock_name"
-                android:text="开:" />
-
-            <TextView
-                android:id="@+id/tv_today_open_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_today_open"
-                android:layout_toRightOf="@+id/tv_today_open" />
-
-            <TextView
-                android:id="@+id/tv_highest"
-                style="@style/text_stock_name"
-                android:layout_below="@+id/tv_today_open"
-                android:text="高:" />
-
-            <TextView
-                android:id="@+id/tv_highest_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_highest"
-                android:layout_toRightOf="@+id/tv_highest" />
-
-            <TextView
-                android:id="@+id/tv_lowest"
-                style="@style/text_stock_name"
-                android:layout_below="@+id/tv_highest"
-                android:text="低:" />
-
-            <TextView
-                android:id="@+id/tv_lowest_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_lowest"
-                android:layout_toRightOf="@+id/tv_lowest" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:gravity="center_vertical" >
-
-            <TextView
-                android:id="@+id/tv_liang"
-                style="@style/text_stock_name"
-                android:text="量:" />
-
-            <TextView
-                android:id="@+id/tv_liang_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_liang"
-                android:layout_toRightOf="@+id/tv_liang" />
-
-            <TextView
-                android:id="@+id/tv_e"
-                style="@style/text_stock_name"
-                android:layout_below="@+id/tv_liang"
-                android:text="额:" />
-
-            <TextView
-                android:id="@+id/tv_e_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_e"
-                android:layout_toRightOf="@+id/tv_e" />
-
-            <TextView
-                android:id="@+id/tv_huan"
-                style="@style/text_stock_name"
-                android:layout_below="@+id/tv_e"
-                android:text="换:" />
-
-            <TextView
-                android:id="@+id/tv_huan_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_huan"
-                android:layout_toRightOf="@+id/tv_huan" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2.5" >
-
-            <Button
-                android:id="@+id/btn_add_optional"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:paddingBottom="6dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="6dp"
-                android:text="@string/delete_fllow" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_title"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingBottom="6dp"
-        android:weightSum="10" >
+                <TextView
+                    android:id="@+id/tv_liang"
+                    style="@style/text_stock_name"
 
-        <RelativeLayout
-            android:layout_width="1dp"
+                    android:text="@string/volume" />
+
+                <TextView
+                    android:id="@+id/tv_liang_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_huan"
+                    style="@style/text_stock_name"
+                    android:text="@string/turnover_rate" />
+
+                <TextView
+                    android:id="@+id/tv_huan_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3" >
+     >
 
-            <TextView
-                android:id="@+id/tv_liuzhi"
-                style="@style/text_stock_name"
-                android:paddingLeft="10dp"
-                android:text="流值:" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_liuzhi_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_liuzhi"
-                android:layout_toRightOf="@+id/tv_liuzhi" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_today_open"
+                    style="@style/text_stock_name"
+                    android:text="@string/open" />
 
-        <RelativeLayout
-            android:layout_width="1dp"
+                <TextView
+                    android:id="@+id/tv_today_open_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_highest"
+                    style="@style/text_stock_name"
+
+                    android:text="@string/high" />
+
+                <TextView
+                    android:id="@+id/tv_highest_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_liuzhi"
+                    style="@style/text_stock_name"
+
+                    android:text="@string/market_capital" />
+
+                <TextView
+                    android:id="@+id/tv_liuzhi_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_shiying"
+                    style="@style/text_stock_name"
+                    android:text="@string/pe_ttm" />
+
+                <TextView
+                    android:id="@+id/tv_shiying_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2.5" >
+            android:layout_marginBottom="10dp">
 
-            <TextView
-                android:id="@+id/tv_zongzhi"
-                style="@style/text_stock_name"
-                android:text="总值:" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_zongzhi_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_zongzhi"
-                android:layout_toRightOf="@+id/tv_zongzhi" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_yesterday_value_prompt"
+                    style="@style/text_stock_name"
+                    android:text="@string/income" />
 
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.25" >
+                <TextView
+                    android:id="@+id/tv_yesterday_value"
+                    style="@style/text_stock_value" />
 
-            <TextView
-                android:id="@+id/tv_shiying"
-                style="@style/text_stock_name"
-                android:text="市盈:" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_shiying_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_shiying"
-                android:layout_toRightOf="@+id/tv_shiying" />
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2.25" >
+                <TextView
+                    android:id="@+id/tv_lowest"
+                    style="@style/text_stock_name"
+                    android:text="@string/low" />
 
-            <TextView
-                android:id="@+id/tv_shijing"
-                style="@style/text_stock_name"
-                android:text="市净:" />
+                <TextView
+                    android:id="@+id/tv_lowest_value"
+                    style="@style/text_stock_value" />
 
-            <TextView
-                android:id="@+id/tv_shijing_value"
-                style="@style/text_stock_value"
-                android:layout_alignBaseline="@+id/tv_shijing"
-                android:layout_toRightOf="@+id/tv_shijing" />
-        </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_zongzhi"
+                    style="@style/text_stock_name"
+                    android:text="@string/total_capital" />
+
+                <TextView
+                    android:id="@+id/tv_zongzhi_value"
+                    style="@style/text_stock_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_shijing"
+                    style="@style/text_stock_name"
+                    android:text="@string/pb" />
+
+                <TextView
+                    android:id="@+id/tv_shijing_value"
+                    style="@style/text_stock_value" />
+
+                <TextView
+                    android:id="@+id/tv_e_value"
+                    style="@style/text_stock_value"
+                    android:layout_alignBaseline="@+id/tv_e"
+                    android:layout_toRightOf="@+id/tv_e"
+                    android:visibility="gone" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

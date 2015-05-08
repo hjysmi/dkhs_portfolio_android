@@ -139,6 +139,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
         return selectBean;
     }
 
+
     public ConStockBean parseStock() {
 
         ConStockBean bean = new ConStockBean();

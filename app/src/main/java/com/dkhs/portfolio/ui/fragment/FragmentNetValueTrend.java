@@ -596,15 +596,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.btn_add_optional) {
-            // btnAddOptional.setEnabled(false);
-//            if (mCombinationBean.isFollowed()) {
-//                showDelDialog();
-//            } else {
-//                delFollowCombinatio();
-//            }
-            
-        } else if (v.getId() == R.id.rl_create_user) {
+      if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
                     mCombinationBean.getUser().getId(), false));
         }
