@@ -452,7 +452,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
                 case 0:
 
-                    float percent2=prePercent+0.06f;
+                    float percent2=prePercent+0.04f;
                     if(percent2 > toPercent){
                         percent2=toPercent;
                     }
@@ -466,7 +466,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
                     break;
                 case 1:
-                    float percent=prePercent-0.06f;
+                    float percent=prePercent-0.04f;
 
                     if(percent < toPercent){
                         percent=toPercent;

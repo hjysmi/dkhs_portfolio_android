@@ -118,7 +118,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvZongzhi;
     private TextView tvShiying;
     private TextView tvShiJing;
-    private Button btnAddOptional;
+    private TextView tvYesterDay;
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
     private QuotesEngineImpl mQuotesEngine;
     private StockQuotesBean mStockQuotesBean;
@@ -140,8 +140,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private static String checkValue = "0";
     private static final long mPollRequestTime = 1000 * 15;
     private static final String TAG = "StockQuotesActivity";
-
+    private final int MENU_FOLLOWE_OR_UNFOLLOWE = 0;
+    private final int MENU_REMIND = 1;
     private StockLandView landStockview;
+    FloatingActionMenu localFloatingActionMenu;
 
     // private View landScapeview;
 
@@ -218,6 +220,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         } else {
             viewstub = (ViewStub) findViewById(R.id.layout_stock_header);
         }
+        mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
         if (viewstub != null) {
             viewHeader = viewstub.inflate();
             // views = findViewById(R.id.layout_view);
@@ -225,6 +228,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvHigh = (TextView) viewHeader.findViewById(R.id.tv_highest_value);
             tvLow = (TextView) viewHeader.findViewById(R.id.tv_lowest_value);
             tvOpen = (TextView) viewHeader.findViewById(R.id.tv_today_open_value);
+            tvYesterDay = (TextView) viewHeader.findViewById(R.id.tv_yesterday_value);
             tvChange = (TextView) viewHeader.findViewById(R.id.tv_up_price);
             tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
             tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
@@ -236,9 +240,29 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvShiying = (TextView) viewHeader.findViewById(R.id.tv_shiying_value);
             tvShiJing = (TextView) viewHeader.findViewById(R.id.tv_shijing_value);
             tvPercentage = (TextView) viewHeader.findViewById(R.id.tv_percentage);
-            btnAddOptional = (Button) viewHeader.findViewById(R.id.btn_add_optional);
-            btnAddOptional.setVisibility(View.GONE);
-            btnAddOptional.setOnClickListener(this);
+
+            localFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
+            localFloatingActionMenu.setVisibility(View.GONE);
+            localFloatingActionMenu.attachToScrollView(mScrollview);
+            localFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
+                @Override
+                public boolean onMenuItemSelected(int paramInt) {
+
+                    switch (paramInt){
+                        case MENU_FOLLOWE_OR_UNFOLLOWE:
+                            handFollowOrUnfollowAction();
+                            break;
+                        case MENU_REMIND:
+                            startActivity(StockRemindActivity.newStockIntent(StockQuotesActivity.this,
+                                    SelectStockBean.copy(mStockQuotesBean)));
+
+                        break;
+                    }
+                    return false;
+                }
+            });
+
+
         }
 
         bottomLayout = (LinearLayout) findViewById(R.id.stock_layout);
@@ -286,7 +310,38 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         }, 800);
 
+
     }
+
+    private void handFollowOrUnfollowAction() {
+        if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
+            SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
+            if (null != selectBean) {
+                if (selectBean.isFollowed) {
+                    // selectBean.isFollowed = false;
+                    mStockQuotesBean.setFollowed(false);
+                    mVisitorDataEngine.delOptionalStock(selectBean);
+                    PromptManager.showDelFollowToast();
+                } else {
+                    selectBean.isFollowed = true;
+                    mStockQuotesBean.setFollowed(true);
+                    selectBean.sortId = 0;
+                    mVisitorDataEngine.saveOptionalStock(selectBean);
+                    PromptManager.showFollowToast();
+                }
+            }
+            localList = mVisitorDataEngine.getOptionalStockList();
+            setAddOptionalButton();
+
+        } else {
+            if (mStockQuotesBean.isFollowed()) {
+                mQuotesEngine.delfollow(mStockBean.id, baseListener);
+            } else {
+                mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
+            }
+        }
+    }
+
 
     private void full(boolean paramBoolean) {
         if (paramBoolean) {
@@ -398,10 +453,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void setAddOptionalButton() {
         if (mStockQuotesBean == null) {
-            btnAddOptional.setVisibility(View.GONE);
+            localFloatingActionMenu.setVisibility(View.GONE);
             return;
         }
-        btnAddOptional.setVisibility(View.VISIBLE);
+        localFloatingActionMenu.setVisibility(View.VISIBLE);
 
         if (!PortfolioApplication.hasUserLogin()) {
             // SelectStockBean selectBean = SelectStockBean.
@@ -413,19 +468,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         }
 
-        if (mStockQuotesBean.isFollowed() && null != btnAddOptional) {
-            btnAddOptional.setText(R.string.delete_fllow);
-            btnAddOptional.setBackgroundResource(R.drawable.bg_unfollowed);
-            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.unfollowd));
-        } else if (null != btnAddOptional) {
-            btnAddOptional.setBackgroundResource(R.drawable.btn_addoptional_selector);
-            btnAddOptional.setText(R.string.add_fllow);
-            btnAddOptional.setTextColor(ColorTemplate.getTextColor(R.color.white));
-        }
+        initFloatingActionMenu(mStockQuotesBean);
+
     }
 
     private void scrollToTop() {
-        mScrollview = (InterceptScrollView) findViewById(R.id.sc_content);
+
         // mScrollview.smoothScrollTo(0, 0);
         mScrollview.setScrollViewListener(mScrollViewListener);
     }
@@ -614,15 +662,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvHigh.setText(StringFromatUtils.get3Point(mStockQuotesBean.getHigh()));
             tvLow.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLow()));
             tvOpen.setText(StringFromatUtils.get3Point(mStockQuotesBean.getOpen()));
+            tvYesterDay.setText(StringFromatUtils.get3Point(mStockQuotesBean.getLastClose()));
         } else {
             tvChange.setText(StringFromatUtils.get2PointPlus(mStockQuotesBean.getChange()));
             tvCurrent.setText(StringFromatUtils.get2Point(mStockQuotesBean.getCurrent()));
             tvHigh.setText(StringFromatUtils.get2Point(mStockQuotesBean.getHigh()));
             tvLow.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLow()));
             tvOpen.setText(StringFromatUtils.get2Point(mStockQuotesBean.getOpen()));
+            tvYesterDay.setText(StringFromatUtils.get2Point(mStockQuotesBean.getLastClose()));
         }
         tvPercentage.setText(StringFromatUtils.get2PointPercentPlus(mStockQuotesBean.getPercentage()));
         tvHuanShouLv.setText(StringFromatUtils.get2PointPercent(mStockQuotesBean.getTurnover_rate()));
+
         tvChengjiaoLiang.setText(StringFromatUtils.convertToWanHand(mStockQuotesBean.getVolume()));
         tvChengjiaoE.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         if (isIndexType()) {
@@ -794,34 +845,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-            case R.id.btn_add_optional:
-                if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
-                    SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
-                    if (null != selectBean) {
-                        if (selectBean.isFollowed) {
-                            // selectBean.isFollowed = false;
-                            mStockQuotesBean.setFollowed(false);
-                            mVisitorDataEngine.delOptionalStock(selectBean);
-                            PromptManager.showDelFollowToast();
-                        } else {
-                            selectBean.isFollowed = true;
-                            mStockQuotesBean.setFollowed(true);
-                            selectBean.sortId = 0;
-                            mVisitorDataEngine.saveOptionalStock(selectBean);
-                            PromptManager.showFollowToast();
-                        }
-                    }
-                    localList = mVisitorDataEngine.getOptionalStockList();
-                    setAddOptionalButton();
 
-                } else {
-                    if (mStockQuotesBean.isFollowed()) {
-                        mQuotesEngine.delfollow(mStockBean.id, baseListener);
-                    } else {
-                        mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
-                    }
-                }
-                break;
             case R.id.btn_right_second: {
                 // rotateRefreshButton();
                 // quoteHandler.removeCallbacks(updateRunnable);
@@ -863,6 +887,26 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         btnRefresh.clearAnimation();
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh), null,
                 null, null);
+    }
+
+
+
+    private void initFloatingActionMenu(StockQuotesBean item) {
+
+
+        if (null != localFloatingActionMenu) {
+            localFloatingActionMenu.removeAllItems();
+            if (item.isFollowed()  ) {
+                localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+                localFloatingActionMenu.addItem(MENU_FOLLOWE_OR_UNFOLLOWE, R.string.delete_fllow,
+                        R.drawable.btn_del_item_normal);
+            } else  {
+
+                localFloatingActionMenu.addItem(MENU_FOLLOWE_OR_UNFOLLOWE, R.string.add_fllow, R.drawable.ic_add);
+
+            }
+        }
+
     }
 
     /**

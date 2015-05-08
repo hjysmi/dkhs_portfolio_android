@@ -105,7 +105,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private static final long mPollRequestTime = 1000 * 60;
     private String myType = TrendTodayChartFragment.TREND_TYPE_TODAY;
     private PositionDetail mPositionDetail;
-
+    
 
     public static FragmentNetValueTrend newInstance(boolean isOrder, String type) {
         FragmentNetValueTrend fragment = new FragmentNetValueTrend();
@@ -119,10 +119,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     /**
-     * @param savedInstanceState
-     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
+     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,7 +138,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         if (extras != null) {
             handleExtras(extras);
         }
-
+        
+        
 
     }
 
@@ -586,15 +586,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.btn_add_optional) {
-            // btnAddOptional.setEnabled(false);
-//            if (mCombinationBean.isFollowed()) {
-//                showDelDialog();
-//            } else {
-//                delFollowCombinatio();
-//            }
-
-        } else if (v.getId() == R.id.rl_create_user) {
+      if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
                     mCombinationBean.getUser().getId(), false));
         }
@@ -669,9 +661,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         public void requestCallBack() {
             super.requestCallBack();
             // btnAddOptional.setEnabled(true);
-        }
-
-        ;
+        };
 
         @Override
         protected Object parseDateTask(String jsonData) {
@@ -707,8 +697,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
         }
         MobclickAgent.onPageStart(mPageName);
-
-
     }
 
     @Override
@@ -773,14 +761,12 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }
 
         }
-    }
-
-    ;
+    };
 
     /**
-     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
      */
     @Override
     public void onResumeFragment() {
