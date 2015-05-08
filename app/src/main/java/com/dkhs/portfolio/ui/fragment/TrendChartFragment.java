@@ -8,12 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -37,7 +31,7 @@ import com.dkhs.portfolio.bean.TodayNetValue;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
@@ -47,12 +41,18 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TrendChartFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午10:32:39
- * @version 1.0
  */
 public class TrendChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
@@ -152,7 +152,9 @@ public class TrendChartFragment extends BaseFragment {
     Handler drawCharHandler = new Handler() {
         public void handleMessage(Message msg) {
             updateView();
-        };
+        }
+
+        ;
     };
 
     public void showShareImage() {
@@ -172,7 +174,9 @@ public class TrendChartFragment extends BaseFragment {
     Handler shareHandler = new Handler() {
         public void handleMessage(Message msg) {
             showShare();
-        };
+        }
+
+        ;
     };
 
     private String SHARE_IMAGE;
@@ -378,7 +382,7 @@ public class TrendChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }
@@ -393,11 +397,11 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -723,7 +727,9 @@ public class TrendChartFragment extends BaseFragment {
             } else {
 
             }
-        };
+        }
+
+        ;
     };
 
     ParseHttpListener historyNetValueListener = new ParseHttpListener<DrawLineDataEntity>() {
@@ -910,7 +916,9 @@ public class TrendChartFragment extends BaseFragment {
         // if (trendType.equals(TREND_TYPE_TODAY)) {
         // dataHandler.postDelayed(runnable, 60);// 打开定时器，60ms后执行runnable操作
         // }
-    };
+    }
+
+    ;
 
     Runnable runnable = new Runnable() {
         @Override
@@ -970,10 +978,9 @@ public class TrendChartFragment extends BaseFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

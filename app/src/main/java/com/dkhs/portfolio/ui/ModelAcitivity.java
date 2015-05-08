@@ -1,9 +1,8 @@
 package com.dkhs.portfolio.ui;
 
-import me.imid.swipebacklayout.lib.SwipeBackLayout;
-import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +19,9 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.ui.widget.TextImageButton;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import me.imid.swipebacklayout.lib.SwipeBackLayout;
+import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+
 public class ModelAcitivity extends SwipeBackActivity {
 
     public final int RIGHTBUTTON_ID = R.id.btn_right;
@@ -29,13 +31,16 @@ public class ModelAcitivity extends SwipeBackActivity {
     private View mTitleView;
     protected UserEngineImpl engine;
 
-    /** 显示子页面的容器 */
+    /**
+     * 显示子页面的容器
+     */
     private RelativeLayout layoutContent;
 
-    /** 返回按钮 */
+    /**
+     * 返回按钮
+     */
 
     // private LinearLayout llBack;
-
     @Override
     protected void onCreate(Bundle arg0) {
         // 模拟堆栈管理activity
@@ -47,6 +52,10 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     protected void onCreate(Bundle arg0, int titleLayout) {
         super.onCreate(arg0);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            handleBundleExtras(extras);
+        }
         engine = new UserEngineImpl();
 
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
@@ -65,6 +74,9 @@ public class ModelAcitivity extends SwipeBackActivity {
         // view.inflate();
         // setStatusBarColor(findViewById(R.id.statusBarBackground), getResources().getColor(R.color.red));
         stepTitleView();
+    }
+
+    public void handleBundleExtras(Bundle extras) {
     }
 
     @Override
@@ -87,13 +99,20 @@ public class ModelAcitivity extends SwipeBackActivity {
         setContentView(view, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
     }
 
+
+    public void replaceContentFragment(Fragment fragment) {
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.layoutContent, fragment).commit();
+
+    }
+
     /**
-     * 
-     * @Title: findView
-     * @Description: 监听以及发现
      * @param
      * @return void
      * @throws
+     * @Title: findView
+     * @Description: 监听以及发现
      */
     private void stepTitleView() {
         // 取得页面容器 用于子页面的视图添加
@@ -127,12 +146,11 @@ public class ModelAcitivity extends SwipeBackActivity {
     };
 
     /**
-     * 
-     * @Title: setBackButtonListener
-     * @Description: 重载左边返回键的单击监听
      * @param @param listener
      * @return void
      * @throws
+     * @Title: setBackButtonListener
+     * @Description: 重载左边返回键的单击监听
      */
     public void setBackButtonListener(OnClickListener listener) {
         this.clickListener = listener;
@@ -148,10 +166,10 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param title
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setTitle(CharSequence title) {
@@ -161,10 +179,10 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param titleId
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setTitle(int titleId) {
@@ -176,9 +194,8 @@ public class ModelAcitivity extends SwipeBackActivity {
 
     /**
      * 动态设置Activity的标题
-     * 
-     * @param title
-     * 标题名称
+     *
+     * @param title 标题名称
      */
     protected void setBackTitle(String title) {
         ((TextView) findViewById(BACKBUTTON_ID)).setText(title);
@@ -213,12 +230,11 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     /**
-     * 
-     * @Title: hideHead
-     * @Description: 隐藏标题栏
      * @param
      * @return void
      * @throws
+     * @Title: hideHead
+     * @Description: 隐藏标题栏
      */
     public void hideHead() {
         RelativeLayout rlHead = (RelativeLayout) findViewById(R.id.includeHead);
@@ -235,12 +251,11 @@ public class ModelAcitivity extends SwipeBackActivity {
     }
 
     /**
-     * 
-     * @Title: setNoContent
-     * @Description: 显示一个没有任何消息的提示页面
      * @param @param drawable
      * @return void
      * @throws
+     * @Title: setNoContent
+     * @Description: 显示一个没有任何消息的提示页面
      */
     public void setNoContent(int drawable) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,

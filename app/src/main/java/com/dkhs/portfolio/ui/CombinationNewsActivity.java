@@ -15,14 +15,13 @@ import android.os.Bundle;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCombinationNews;
-import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName CompareFundsActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-5-6 下午1:34:22
- * @version 1.0
  */
 public class CombinationNewsActivity extends ModelAcitivity {
 
@@ -38,13 +37,7 @@ public class CombinationNewsActivity extends ModelAcitivity {
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setTitle(R.string.related_news);
-        replaceCompareView();
-    }
-
-    private void replaceCompareView() {
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.layoutContent, FragmentCombinationNews.newInstance()).commit();
-
+//        replaceCompareView();
+        replaceContentFragment(FragmentCombinationNews.newInstance());
     }
 }

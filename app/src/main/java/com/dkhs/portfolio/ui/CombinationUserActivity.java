@@ -152,6 +152,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         findViewById(R.id.ll_followers).setOnClickListener(this);
         findViewById(R.id.ll_following).setOnClickListener(this);
+        findViewById(R.id.ll_symbols).setOnClickListener(this);
         llFollow.setOnClickListener(this);
 
         replaceCombinationListView();
@@ -340,6 +341,11 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
 
                 break;
+
+            case R.id.ll_symbols:{
+                    startActivity(OptionalTabActivity.newIntent(this,mUserId));
+            }
+            break;
             default:
                 break;
         }

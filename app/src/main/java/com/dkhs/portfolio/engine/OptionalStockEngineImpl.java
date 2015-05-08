@@ -8,30 +8,15 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.SectorBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
-import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -41,22 +26,35 @@ import com.google.gson.reflect.TypeToken;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.lidroid.xutils.util.LogUtils;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-18 上午10:27:07
- * @version 1.0
  */
 public class OptionalStockEngineImpl extends LoadMoreDataEngine {
     // ILoadDataBackListener loadListener;
+
+    private String mUserId;
 
     public OptionalStockEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex) {
         super(loadListener);
         this.isShowIndex = isShowIndex;
         // this.loadListener = loadListener;
+    }
+
+    public OptionalStockEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex, String userId) {
+        super(loadListener);
+        this.isShowIndex = isShowIndex;
+        this.mUserId = userId;
     }
 
     private boolean isShowIndex;
@@ -92,6 +90,9 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
             params.addQueryStringParameter("page", "1");
             params.addQueryStringParameter("sort", orderType);
             params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            if (!TextUtils.isEmpty(mUserId)) {
+                params.addQueryStringParameter("user_id", mUserId);
+            }
             return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
         } else {
 
@@ -179,11 +180,11 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param errCode
      * @param errMsg
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onFailure(int errCode, String errMsg) {
@@ -224,6 +225,9 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+//        if (!TextUtils.isEmpty(mUserId)) {
+//            params.addQueryStringParameter("user_id", mUserId);
+//        }
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
 
     }
@@ -237,15 +241,19 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
     // }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public HttpHandler loadMore() {
         List<NameValuePair> params = new ArrayList<NameValuePair>();
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
+        if (!TextUtils.isEmpty(mUserId)) {
+            NameValuePair valuePair_uId = new BasicNameValuePair("user_id",mUserId);
+            params.add(valuePair_uId);
+        }
 
         if (TextUtils.isEmpty(orderType)) {
             NameValuePair valuePair2 = new BasicNameValuePair("sort", "followed_at");
@@ -262,16 +270,19 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {
         RequestParams params = new RequestParams();
         params.addQueryStringParameter("page", "1");
         params.addQueryStringParameter("page_size", dataSize + "");
+        if (!TextUtils.isEmpty(mUserId)) {
+            params.addQueryStringParameter("user_id", mUserId);
+        }
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
 
     }

@@ -8,10 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,7 +25,7 @@ import com.dkhs.portfolio.bean.TodayNetValue;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
@@ -38,6 +34,10 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * @ClassName TrendChartFragment
@@ -108,7 +108,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }

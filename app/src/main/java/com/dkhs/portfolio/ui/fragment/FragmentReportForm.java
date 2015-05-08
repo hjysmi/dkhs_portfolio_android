@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -26,15 +23,18 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NetValueReportEngine;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.ReportFromAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentReportForm
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-4 上午10:28:10
- * @version 1.0
  */
 public class FragmentReportForm extends Fragment {
 
@@ -88,7 +88,7 @@ public class FragmentReportForm extends Fragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
         mNetValueDataEngine = new NetValueReportEngine(mCombinationBean.getId(), mLoadBackListener);
 
     }
@@ -109,10 +109,10 @@ public class FragmentReportForm extends Fragment {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param activity
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onAttach(Activity activity) {
@@ -122,9 +122,9 @@ public class FragmentReportForm extends Fragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onStart() {

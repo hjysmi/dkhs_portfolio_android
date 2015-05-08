@@ -8,36 +8,32 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.Serializable;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
-import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName MainOptionalStock
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-5 下午3:02:49
- * @version 1.0
  */
 public class MainOptionalFragment extends BaseFragment implements OnClickListener, IDataUpdateListener {
 
@@ -46,18 +42,36 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     @ViewInject(R.id.btn_titletab_left)
     private Button btnTabLeft;
 
-    @ViewInject(R.id.btn_right)
+    @ViewInject(R.id.btn_header_right)
     private Button btnRight;
-    @ViewInject(R.id.btn_right_second)
+    @ViewInject(R.id.btn_header_right_second)
     private Button btnSecRight;
-    @ViewInject(R.id.btn_back)
+    @ViewInject(R.id.btn_header_back)
     private Button btnLeft;
+
+    private String mUserId;
+
+    public static MainOptionalFragment getMainFragment(String userId) {
+        MainOptionalFragment fragment = new MainOptionalFragment();
+        Bundle args = new Bundle();
+        args.putString(FragmentSelectStockFund.ARGUMENT_USER_ID, userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        tabStockFragment = new TabStockFragment();
+        Bundle bundle = getArguments();
+
+        if (null != bundle) {
+            mUserId = bundle.getString(FragmentSelectStockFund.ARGUMENT_USER_ID);
+
+        }
+
+        tabStockFragment = TabStockFragment.getTabStockFragment(mUserId);
         tabFundsFragment = new TabFundsFragment();
         tabFundsFragment.setDataUpdateListener(this);
         tabStockFragment.setDataUpdateListener(this);
@@ -78,9 +92,27 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_paihang_selecter, 0, 0, 0);
+        if(TextUtils.isEmpty(mUserId)){
+
+            btnLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_paihang_selecter, 0, 0, 0);
+        }else {
+            setBackTitleBar();
+        }
         displayFragmentA();
 
+    }
+
+
+    private void setBackTitleBar() {
+        btnLeft.setVisibility(View.VISIBLE);
+        btnRight.setVisibility(View.GONE);
+        btnSecRight.setVisibility(View.GONE);
+        btnLeft.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();;
+            }
+        });
     }
 
     private void setOptionTitleBar() {
@@ -115,6 +147,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     }
 
     private void setCombinationBar() {
+
         btnLeft.setVisibility(View.VISIBLE);
         btnLeft.setOnClickListener(new OnClickListener() {
 
@@ -146,7 +179,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         });
     }
 
-    @OnClick({ R.id.btn_titletab_right, R.id.btn_titletab_left })
+    @OnClick({R.id.btn_titletab_right, R.id.btn_titletab_left, R.id.btn_right})
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
@@ -156,18 +189,19 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 displayFragmentA();
                 // PromptManager.showCustomToast(R.drawable.ic_toast_gantan, R.string.message_timeout);
             }
-                break;
+            break;
             case R.id.btn_titletab_left: {
                 btnTabRight.setEnabled(true);
                 btnTabLeft.setEnabled(false);
                 displayFragmentB();
 
             }
-                break;
-            case R.id.btn_right: {
-                // Intent intent = new Intent(this, OrderHistoryActivity.class);
-                // startActivity(intent);
-            }
+            break;
+//            case R.id.btn_right: {
+//                // Intent intent = new Intent(this, OrderHistoryActivity.class);
+//                // startActivity(intent);
+//                getActivity().finish();
+//            }
             default:
                 break;
         }
@@ -177,7 +211,10 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     private TabFundsFragment tabFundsFragment;
 
     protected void displayFragmentA() {
-        setOptionTitleBar();
+        if (TextUtils.isEmpty(mUserId)) {
+
+            setOptionTitleBar();
+        }
         if (null != tabStockFragment) {
 
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -198,7 +235,9 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     }
 
     protected void displayFragmentB() {
-        setCombinationBar();
+        if (TextUtils.isEmpty(mUserId)) {
+            setCombinationBar();
+        } 
         if (null == tabFundsFragment) {
             return;
         }
@@ -219,7 +258,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
     @Override
     public void dataUpdate(boolean isEmptyData) {
-        if (null != btnSecRight) {
+        if (null != btnSecRight&&TextUtils.isEmpty(mUserId)) {
             if (isEmptyData) {
 
                 btnSecRight.setVisibility(View.GONE);

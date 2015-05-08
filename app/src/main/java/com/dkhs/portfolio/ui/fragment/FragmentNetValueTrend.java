@@ -45,9 +45,9 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
@@ -144,7 +144,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(CombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
 
     }
 
