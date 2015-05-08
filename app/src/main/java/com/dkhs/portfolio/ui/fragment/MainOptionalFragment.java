@@ -72,7 +72,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         }
 
         tabStockFragment = TabStockFragment.getTabStockFragment(mUserId);
-        tabFundsFragment = new TabFundsFragment();
+        tabFundsFragment = TabFundsFragment.getTabFundsFragment(mUserId);
         tabFundsFragment.setDataUpdateListener(this);
         tabStockFragment.setDataUpdateListener(this);
     }
@@ -92,10 +92,10 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if(TextUtils.isEmpty(mUserId)){
+        if (TextUtils.isEmpty(mUserId)) {
 
             btnLeft.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_paihang_selecter, 0, 0, 0);
-        }else {
+        } else {
             setBackTitleBar();
         }
         displayFragmentA();
@@ -110,7 +110,8 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         btnLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().finish();;
+                getActivity().finish();
+                ;
             }
         });
     }
@@ -212,7 +213,6 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
     protected void displayFragmentA() {
         if (TextUtils.isEmpty(mUserId)) {
-
             setOptionTitleBar();
         }
         if (null != tabStockFragment) {
@@ -237,7 +237,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     protected void displayFragmentB() {
         if (TextUtils.isEmpty(mUserId)) {
             setCombinationBar();
-        } 
+        }
         if (null == tabFundsFragment) {
             return;
         }
@@ -258,7 +258,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
     @Override
     public void dataUpdate(boolean isEmptyData) {
-        if (null != btnSecRight&&TextUtils.isEmpty(mUserId)) {
+        if (null != btnSecRight && TextUtils.isEmpty(mUserId)) {
             if (isEmptyData) {
 
                 btnSecRight.setVisibility(View.GONE);

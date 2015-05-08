@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="12"
-    android:versionName="1.6.0507">
+    android:versionName="1.6.0508">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -152,10 +152,10 @@
         <activity
             android:name="com.dkhs.portfolio.ui.CombinationNewsActivity"
             android:screenOrientation="portrait" />
-        <activity
+<!--        <activity
             android:name="com.dkhs.portfolio.ui.BaseSelectActivity"
             android:theme="@style/Theme.PageIndicatorDefaults"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden" />-->
         <activity
             android:name="cn.sharesdk.framework.ShareSDKUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
