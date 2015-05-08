@@ -404,6 +404,9 @@ public class UIUtils {
         activity.overridePendingTransition(R.anim.activity_in_from_right, R.anim.activity_out_to_left);
     }
 
+    public static void setOverridePendingSlideFormBottomAmim(Activity activity) {
+        activity.overridePendingTransition(R.anim.activity_in_from_bottom, R.anim.activity_out_to_left);
+    }
     public static void outAminationActivity(Activity context) {
         context.overridePendingTransition(R.anim.activity_in_from_left, R.anim.activity_out_to_right);
 

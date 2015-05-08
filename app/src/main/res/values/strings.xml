@@ -358,8 +358,8 @@
     <string name="nodate_tip_inland_index">暂无国内指数数据</string>
     <string name="nodate_tip">暂无数据</string>
     <string name="nodata_login_out">您还未登录</string>
-    <string name="nodata_friend">关注列表为空</string>
-    <string name="nodata_follower">粉丝列表为空</string>
+    <string name="nodata_friend">当前还没有关注任何人</string>
+    <string name="nodata_follower">当前还没有粉丝</string>
     <string name="nodata_user_description">此人很懒，暂无签名</string>
 
     <!-- 行情中心 -->
@@ -469,5 +469,17 @@
     <string name="float_menu_history_adjust">调仓记录</string>
     <string name="float_menu_combination">了解组合</string>
     <string name="detail">查看</string>
+    <string name="volume">成交量:</string>
+    <string name="turnover_rate">换手率</string>
+    <string name="open">今开</string>
+    <string name="high">最高</string>
+    <string name="market_capital">流通市值</string>
+    <string name="pe_ttm">市盈LYR</string>
+    <string name="income">昨收</string>
+    <string name="low">最低</string>
+    <string name="total_capital">总市值</string>
+    <string name="pb">市净率</string>
+    <string name="delist">停牌</string>
+    <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
 </resources>

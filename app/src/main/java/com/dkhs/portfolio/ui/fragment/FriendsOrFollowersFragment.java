@@ -32,7 +32,7 @@ import java.util.List;
  * @date 2015/4/23.13:27
  * @Description (查看ta 关注的人和关注他的人 复合Fragment)
  */
-public class FriendsOrFollowersFragment extends LoadMoreListFragment {
+public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
     private List<PeopleBean> dataList = new ArrayList<PeopleBean>();
     private PeopleEngineImpl peopleEngine = null;
@@ -91,7 +91,7 @@ public class FriendsOrFollowersFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
         endLoadData();
-        mSwipeLayout.setRefreshing(false);
+//        mSwipeLayout.setRefreshing(false);
         dataList.addAll(object.getResults());
         adapter.notifyDataSetChanged();
 
@@ -119,7 +119,7 @@ public class FriendsOrFollowersFragment extends LoadMoreListFragment {
         return peopleEngine;
     }
 
-    @Override
+//    @Override
     SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -171,6 +171,6 @@ public class FriendsOrFollowersFragment extends LoadMoreListFragment {
     @Override
     public void loadFail() {
         endLoadData();
-        mSwipeLayout.setRefreshing(false);
+//        mSwipeLayout.setRefreshing(false);
     }
 }

@@ -316,7 +316,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 }
                 intent = new Intent(context, SelectPhoneFromSystem.class);
                 startActivityForResult(intent, 5);
-                UIUtils.setOverridePendingAmin(this);
+                UIUtils.setOverridePendingSlideFormBottomAmim(this);
                 break;
             case R.id.feed_back_layout:
                 intent = new Intent(this, FeedBackActivity.class);
