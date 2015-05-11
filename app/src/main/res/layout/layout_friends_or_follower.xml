@@ -9,6 +9,7 @@
         android:id="@+id/im_avatar"
         android:layout_width="72dp"
         android:layout_height="72dp"
+        android:src="@drawable/ic_user_head"
         android:padding="4dp" />
 
     <RelativeLayout
