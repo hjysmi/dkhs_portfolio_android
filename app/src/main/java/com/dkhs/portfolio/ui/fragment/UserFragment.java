@@ -155,10 +155,10 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             }
 
             UserEntity userEntity = UserEngineImpl.getUserEntity();
-            if (userEntity != null) {
-                handleNumber(tvFollowers, userEntity.getFollowed_by_count());
-                handleNumber(tvFollowing, userEntity.getFriends_count());
-            }
+//            if (userEntity != null) {
+//                handleNumber(tvFollowers, userEntity.getFollowed_by_count());
+//                handleNumber(tvFollowing, userEntity.getFriends_count());
+//            }
 
             userImp.getBaseUserInfo(userEntity.getId() + "", userInfoListener);
         } else {
@@ -183,13 +183,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         protected void afterParseData(UserEntity object) {
             if (null != object) {
 
-                updateUserFolllowInfo(object);
+                updateUserFollowInfo(object);
             }
 
         }
     };
 
-    private void updateUserFolllowInfo(UserEntity object) {
+    private void updateUserFollowInfo(UserEntity object) {
 
 
         handleNumber(tvFollowers, object.getFollowed_by_count());
