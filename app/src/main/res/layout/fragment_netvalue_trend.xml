@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="日"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_60"
                     android:textSize="14sp" />
 
                 <TextView
@@ -106,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="周"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_60"
                     android:textSize="14sp" />
 
                 <TextView
@@ -139,7 +139,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="月"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_60"
                     android:textSize="14sp" />
 
                 <TextView
@@ -172,7 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="净值"
-                    android:textColor="@color/white"
+                    android:textColor="@color/white_60"
                     android:textSize="14sp" />
 
                 <TextView
