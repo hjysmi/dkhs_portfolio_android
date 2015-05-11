@@ -37,5 +37,6 @@ dependencies {
     compile files('libs/ShareSDK-Wechat-Moments-2.5.2.jar')
     compile files('libs/umeng-analytics-v5.2.4.jar')
     compile files('libs/universal-image-loader-1.9.3.jar')
+    compile 'me.grantland:autofittextview:0.2.+'
     compile project(':kit')
 }

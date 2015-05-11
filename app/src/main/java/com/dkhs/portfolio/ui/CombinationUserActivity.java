@@ -11,20 +11,27 @@ package com.dkhs.portfolio.ui;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -74,9 +81,12 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private int userNameLeft;
     private int userDescLeft;
     private TextView followTV;
+    private TextView symbolsPromptTV;
+
     private UserCombinationListFragment userCombinationListFragment;
 
     private float prePercent;
+    private UserEngineImpl userEngine;
 
     public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
         Intent intent = new Intent(context, CombinationUserActivity.class);
@@ -135,6 +145,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
         followTV = (TextView) findViewById(R.id.tv_follow);
         tvFollowers = (TextView) findViewById(R.id.tv_followers);
+        symbolsPromptTV = (TextView) findViewById(R.id.tv_symbols_prompt);
         llFollow = findViewById(R.id.ll_follow);
         tvFollowing = (TextView) findViewById(R.id.tv_following);
         tvSymbols = (TextView) findViewById(R.id.tv_symbols);
@@ -145,17 +156,34 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         if (isMyInfo) {
             setTitle("我的主页");
             llFollow.setVisibility(View.GONE);
+            symbolsPromptTV.setText(getString(R.string.symbols));
         } else {
             setTitle("Ta的主页");
             llFollow.setVisibility(View.VISIBLE);
+
         }
 
         findViewById(R.id.ll_followers).setOnClickListener(this);
         findViewById(R.id.ll_following).setOnClickListener(this);
         findViewById(R.id.ll_symbols).setOnClickListener(this);
         llFollow.setOnClickListener(this);
+        userEngine= new UserEngineImpl();
 
         replaceCombinationListView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isMyInfo) {
+            userInfoListener.setLoadingDialog(context);
+
+
+            userEngine.getBaseUserInfo(mUserId, userInfoListener);
+        }
+
+
     }
 
     private void replaceCombinationListView() {
@@ -169,8 +197,12 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void initData() {
 
-        userInfoListener.setLoadingDialog(context);
-        new UserEngineImpl().getBaseUserInfo(mUserId, userInfoListener);
+
+
+        if(!isMyInfo) {
+            userInfoListener.setLoadingDialog(context);
+            userEngine.getBaseUserInfo(mUserId, userInfoListener);
+        }
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
@@ -205,6 +237,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             if (null != object) {
 
                 updateUserFolllowInfo(object);
+
+
             }
         }
     };
@@ -233,7 +267,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 object.setMe_follow(true);
                 updateUserFolllowInfo(object);
 
-                UserEngineImpl.getUserEntity();
             }
 
         }
@@ -438,6 +471,18 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
+    @Override
+    public void finish() {
+
+        if(!userEntity.isMe_follow()){
+            UnFollowEvent unFollowEvent=new UnFollowEvent();
+            unFollowEvent.setId(userEntity.getId());
+            BusProvider.getInstance().post(unFollowEvent);
+        }
+
+        super.finish();
+
+    }
 
     private boolean isSendState=false;
     /**

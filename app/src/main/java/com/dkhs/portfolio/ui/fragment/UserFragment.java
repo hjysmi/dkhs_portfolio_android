@@ -14,16 +14,21 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
@@ -38,6 +43,7 @@ import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
+
 import io.rong.imkit.RongIM;
 
 /**
@@ -67,6 +73,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
     @ViewInject(R.id.tv_following)
     private TextView tvFollowing;
+    private UserEngineImpl  userImp = new UserEngineImpl();
 
     @Override
     public int setContentLayoutId() {
@@ -83,7 +90,9 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         initView(view);
         setTitle(R.string.title_user);
 
+
     }
+
 
     /**
      * @return
@@ -150,6 +159,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
                 handleNumber(tvFollowers, userEntity.getFollowed_by_count());
                 handleNumber(tvFollowing, userEntity.getFriends_count());
             }
+
+            userImp.getBaseUserInfo(userEntity.getId() + "", userInfoListener);
         } else {
             viewLogin.setVisibility(View.VISIBLE);
             viewUserInfo.setVisibility(View.GONE);
@@ -158,6 +169,31 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
 
         updateMessageCenterState();
 
+    }
+
+    ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
+
+        @Override
+        protected UserEntity parseDateTask(String jsonData) {
+
+            return DataParse.parseObjectJson(UserEntity.class, jsonData);
+        }
+
+        @Override
+        protected void afterParseData(UserEntity object) {
+            if (null != object) {
+
+                updateUserFolllowInfo(object);
+            }
+
+        }
+    };
+
+    private void updateUserFolllowInfo(UserEntity object) {
+
+
+        handleNumber(tvFollowers, object.getFollowed_by_count());
+        handleNumber(tvFollowing, object.getFriends_count());
     }
 
     private void handleNumber(TextView tv, int count) {
@@ -204,8 +240,8 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    @OnClick({ R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout,
-            R.id.ll_following, R.id.ll_followers })
+    @OnClick({R.id.btn_login, R.id.setting_layout_icon, R.id.user_myfunds_layout, R.id.message_center_layout,
+            R.id.ll_following, R.id.ll_followers})
     public void onClick(View v) {
         int id = v.getId();
         if (R.id.btn_login == id) {

@@ -19,10 +19,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -68,6 +70,7 @@ import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
@@ -315,13 +318,21 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void handFollowOrUnfollowAction() {
         if (!PortfolioApplication.hasUserLogin()) {// 如果当前是游客模式，添加自选股到本地数据库
-            SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
+            final SelectStockBean selectBean = SelectStockBean.copy(mStockQuotesBean);
             if (null != selectBean) {
                 if (selectBean.isFollowed) {
                     // selectBean.isFollowed = false;
-                    mStockQuotesBean.setFollowed(false);
-                    mVisitorDataEngine.delOptionalStock(selectBean);
-                    PromptManager.showDelFollowToast();
+
+                    PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm),new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            mStockQuotesBean.setFollowed(false);
+                            mVisitorDataEngine.delOptionalStock(selectBean);
+                            PromptManager.showDelFollowToast();
+                        }
+                    }).setButton3(getString(R.string.cancel),null).show();
+
                 } else {
                     selectBean.isFollowed = true;
                     mStockQuotesBean.setFollowed(true);
@@ -335,7 +346,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         } else {
             if (mStockQuotesBean.isFollowed()) {
-                mQuotesEngine.delfollow(mStockBean.id, baseListener);
+
+                PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm),new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mQuotesEngine.delfollow(mStockBean.id, baseListener);
+                    }
+                }).setButton3(getString(R.string.cancel),null).show();
+
+
             } else {
                 mQuotesEngine.symbolfollow(mStockBean.id, baseListener);
             }
