@@ -460,6 +460,8 @@
     <string name="float_menu_follow">自选</string>
     <string name="float_menu_delfollow">取消自选</string>
     <string name="float_menu_remind">提醒</string>
+    <string name="float_menu_stock_remind">股价提醒</string>
+    <string name="float_menu_index_remind">指数提醒</string>
     <string name="float_menu_adjust">调仓</string>
     <string name="float_menu_share">分享</string>
     <string name="float_menu_more">更多</string>
