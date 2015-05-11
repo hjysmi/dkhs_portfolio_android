@@ -2,6 +2,6 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@color/person_setting_backgroud" android:state_pressed="true"/>
-    <item android:drawable="@color/color_line"/>
+    <item android:drawable="@color/white"/>
 
 </selector>
