@@ -413,6 +413,12 @@ public class TrendGridChart extends View {
         setMeasuredDimension(measuredWidth, measuredHeight);
     }
 
+    public void resetLayoutWeight(int widthWeight,int heightWeight){
+        this.mHightWeight = heightWeight;
+        this.mWidthWeight = widthWeight;
+        requestLayout();
+    }
+
     private int measureWidth(int measureSpec) {
         int result = 0;
         int specMode = MeasureSpec.getMode(measureSpec);

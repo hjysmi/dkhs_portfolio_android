@@ -13,10 +13,10 @@
 
         <com.dkhs.portfolio.ui.widget.TimesharingplanChart
             android:id="@+id/timesharingchart"
-            app:gridWidthWeight="4"
-            app:gridHeightWeight="3"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" />
+            android:layout_height="fill_parent"
+            app:gridHeightWeight="3"
+            app:gridWidthWeight="4" />
 
         <include
             android:id="@android:id/progress"
@@ -30,7 +30,9 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <View
             android:id="@+id/view_divider"
@@ -40,37 +42,27 @@
             android:layout_marginBottom="2dp"
             android:layout_marginTop="2dp" />
 
-        <RelativeLayout
-            android:id="@+id/layout_sell"
+
+        <ListView
+            android:id="@+id/list_five_range_sall"
+            style="@style/listViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/view_divider">
+            android:layout_above="@+id/view_divider"
+            android:dividerHeight="0dp"
+            android:orientation="vertical" />
 
 
-            <ListView
-                android:id="@+id/list_five_range_sall"
-                style="@style/listViewStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:dividerHeight="0dp"
-                android:orientation="vertical" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_buy"
+        <ListView
+            android:id="@+id/list_five_range_buy"
+            style="@style/listViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/view_divider">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view_divider"
+            android:clickable="false"
+            android:dividerHeight="0dp"
+            android:orientation="vertical" />
 
-            <ListView
-                android:id="@+id/list_five_range_buy"
-                style="@style/listViewStyle"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clickable="false"
-                android:dividerHeight="0dp"
-                android:orientation="vertical" />
-        </RelativeLayout>
     </RelativeLayout>
 
 </LinearLayout>

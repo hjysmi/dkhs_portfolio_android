@@ -1,26 +1,9 @@
 package com.dkhs.portfolio.ui.widget.kline;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.R.color;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.widget.StockViewCallBack;
-import com.dkhs.portfolio.ui.widget.chart.StickChart;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
-
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources.NotFoundException;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.FontMetrics;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -30,55 +13,96 @@ import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.ui.widget.StockViewCallBack;
+import com.dkhs.portfolio.ui.widget.chart.StickChart;
+import com.dkhs.portfolio.utils.UIUtils;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 public class KChartsView extends GridChart implements GridChart.OnTabClickListener {
 
-    /** 触摸模式 */
+    /**
+     * 触摸模式
+     */
     private static int TOUCH_MODE;
     private final static int NONE = 0;
     private final static int DOWN = 1;
     private final static int MOVE = 2;
     private final static int ZOOM = 3;
     private int type = -1;
-    /** 默认Y轴字体颜色 **/
+    /**
+     * 默认Y轴字体颜色 *
+     */
     private static final int DEFAULT_AXIS_Y_TITLE_COLOR = Color.GRAY;
 
-    /** 默认X轴字体颜色 **/
+    /**
+     * 默认X轴字体颜色 *
+     */
     private static final int DEFAULT_AXIS_X_TITLE_COLOR = Color.GRAY;
 
-    /** 显示的最小Candle数 */
+    /**
+     * 显示的最小Candle数
+     */
     private final static int MIN_CANDLE_NUM = 50;
 
-    /** 默认显示的Candle数 */
+    /**
+     * 默认显示的Candle数
+     */
     private final static int DEFAULT_CANDLE_NUM = 50;
-    /** 显示最多的candle数 */
+    /**
+     * 显示最多的candle数
+     */
     private final static int MAX_CANDLE_NUM = 300;
-    /** 最小可识别的移动距离 */
+    /**
+     * 最小可识别的移动距离
+     */
     private final static int MIN_MOVE_DISTANCE = 15;
 
-    /** Candle宽度 */
+    /**
+     * Candle宽度
+     */
     private double mCandleWidth;
 
-    /** 触摸点 */
+    /**
+     * 触摸点
+     */
     private float mStartX = 6;
     private float mStartY;
 
-    /** OHLC数据 */
+    /**
+     * OHLC数据
+     */
     private List<OHLCEntity> mOHLCData;
 
-    /** 显示的OHLC数据起始位置 */
+    /**
+     * 显示的OHLC数据起始位置
+     */
     private int mDataStartIndext;
 
-    /** 显示的OHLC数据个数 */
+    /**
+     * 显示的OHLC数据个数
+     */
     private int mShowDataNum;
 
-    /** 是否显示蜡烛详情 */
+    /**
+     * 是否显示蜡烛详情
+     */
     private boolean showDetails;
 
-    /** 当前数据的最大最小值 */
+    /**
+     * 当前数据的最大最小值
+     */
     private double mMaxPrice;
     private double mMinPrice;
 
-    /** MA数据 */
+    /**
+     * MA数据
+     */
     private List<MALineEntity> MALineData;
 
     private String mTabTitle;
@@ -505,65 +529,27 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             int len = getUpperLatitudeNum() + 1;
             if (len > 0) {
                 for (int i = 0; i < len; i++) {
-                    if (i == 0) {
-                        String t;
-                        if (symbolType.equals("5")) {
-                            t = new DecimalFormat("0").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        } else {
-                            t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        }
-                        t = UIUtils.nongNet(t);
-                        if (t.length() > 6) {
-                            t = t.substring(0, 6);
-                            if (t.substring(5, 6).equals(".")) {
-                                t = t.substring(0, 5);
-                            }
-                        }
-                        // Paint p = new Paint();
-                        defPaint.reset();
-                        Rect rect = new Rect();
-                        defPaint.setAntiAlias(true);
-                        defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        defPaint.getTextBounds(t, 0, t.length(), rect);
+
+                    String t = getYTitle(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
+
+                    defPaint.reset();
+                    Rect rect = new Rect();
+                    defPaint.setAntiAlias(true);
+                    defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                    defPaint.getTextBounds(t, 0, t.length(), rect);
+                    if (i != 0 && i != len) {
+
+                        canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
+                                * i + rect.height() / 2, textPaint);
+                    } else {
+
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
                                 * i, textPaint);
-                    } else {
-                        String t;
-                        if (symbolType.equals("5")) {
-                            t = new DecimalFormat("0").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        } else {
-                            t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        }
-                        t = UIUtils.nongNet(t);
-                        if (t.length() > 6) {
-                            t = t.substring(0, 6);
-                            if (t.substring(5, 6).equals(".")) {
-                                t = t.substring(0, 5);
-                            }
-                        }
-                        defPaint.reset();
-                        Rect rect = new Rect();
-                        defPaint.setAntiAlias(true);
-                        defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        defPaint.getTextBounds(t, 0, t.length(), rect);
-                        canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
-                                * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
                     }
                 }
             }
-            String t;
-            if (symbolType.equals("5")) {
-                t = new DecimalFormat("0.00").format(mMaxPrice);
-            } else {
-                t = new DecimalFormat("0.00").format(mMaxPrice);
-            }
-            t = UIUtils.nongNet(t);
-            if (t.length() > 6) {
-                t = t.substring(0, 6);
-                if (t.substring(5, 6).equals(".")) {
-                    t = t.substring(0, 5);
-                }
-            }
+            String t = getYTitle(mMaxPrice);
+
             defPaint.reset();
             defPaint.setAntiAlias(true);
             Rect rect = new Rect();
@@ -588,6 +574,23 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
             }
         }
 
+    }
+
+    private String getYTitle(double value) {
+        String t;
+        if (symbolType.equals("5")) {
+            t = new DecimalFormat("0").format(value);
+        } else {
+            t = new DecimalFormat("0.00").format(value);
+        }
+        t = UIUtils.nongNet(t);
+        if (t.length() > 6) {
+            t = t.substring(0, 6);
+            if (t.substring(5, 6).equals(".")) {
+                t = t.substring(0, 5);
+            }
+        }
+        return t;
     }
 
     private void drawCandle(Canvas canvas) {
@@ -675,7 +678,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         text = lineEntity.getTitle()
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
-                                        selectIndext - mDataStartIndext));
+                                selectIndext - mDataStartIndext));
                     if (lineEntity.getLineData().get(selectIndext) == 0) {
                         text = lineEntity.getTitle() + ":--";
                     }
@@ -699,7 +702,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                             if (!(startY == (float) (mMaxPrice * rate) || (null != lineEntity.getLineData().get(
                                     mDataStartIndext + i) && lineEntity.getLineData().get(mDataStartIndext + i) == 0))) {
                                 canvas.drawLine(startX, startY + DEFAULT_AXIS_TITLE_SIZE + 4, (float) (width - 2
-                                        - (CANDLE_PADDING + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT),
+                                                - (CANDLE_PADDING + mCandleWidth) * i - mCandleWidth * 0.5f + PADDING_LEFT),
                                         (float) ((mMaxPrice - lineEntity.getLineData().get(mDataStartIndext + i))
                                                 * rate + DEFAULT_AXIS_TITLE_SIZE + 4), defPaint);
                             }
@@ -794,7 +797,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                         text = lineEntity.getTitle()
                                 + ":"
                                 + new DecimalFormat("0.00").format(lineEntity.getLineData().get(
-                                        selectIndext - mDataStartIndext));
+                                selectIndext - mDataStartIndext));
                     if (lineEntity.getLineData().get(selectIndext) == 0) {
                         text = lineEntity.getTitle() + ":--";
                     }
@@ -917,8 +920,8 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
                             - (float) mCandleWidth * (i - mDataStartIndext) + (float) mCandleWidth / 2, dea, whitePaint);
 
                     canvas.drawLine(viewWidth - 1 - (float) mCandleWidth * (i + 1 - mDataStartIndext)
-                            + (float) mCandleWidth / 2, (float) ((high - DIF.get(i)) * rate) + lowertop, viewWidth - 2
-                            - (float) mCandleWidth * (i - mDataStartIndext) + (float) mCandleWidth / 2, dif,
+                                    + (float) mCandleWidth / 2, (float) ((high - DIF.get(i)) * rate) + lowertop, viewWidth - 2
+                                    - (float) mCandleWidth * (i - mDataStartIndext) + (float) mCandleWidth / 2, dif,
                             yellowPaint);
                 }
                 dea = (float) ((high - DEA.get(i)) * rate) + lowertop;
@@ -992,7 +995,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         e = event;
 
         switch (event.getAction()) {
-        // 设置触摸模式
+            // 设置触摸模式
             case MotionEvent.ACTION_DOWN:
                 // if (null != mTouchListener) {
                 // mTouchListener.chartTounching();
@@ -1194,7 +1197,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     /**
      * 获取显示的数据
-     * 
+     *
      * @return
      */
     public ArrayList<OHLCEntity> getDisplayOHLCEntitys() {
@@ -1227,7 +1230,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
     //
     // }
 
-    /** 缩小 */
+    /**
+     * 缩小
+     */
     private void zoomIn(int size) {
         if (zoomNum < 5) {
             mShowDataNum += size;
@@ -1253,7 +1258,9 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
         }
     }
 
-    /** 放大 */
+    /**
+     * 放大
+     */
     private void zoomOut(int size) {
         if (zoomNum > 0) {
 
@@ -1296,7 +1303,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     /**
      * 初始化MA值，从数组的最后一个数据开始初始化
-     * 
+     *
      * @param entityList
      * @param days
      * @return
@@ -1413,7 +1420,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     /**
      * 判断是否是最大
-     * 
+     *
      * @return
      */
     public boolean isLargest() {
@@ -1428,7 +1435,7 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     /**
      * 是否是最小
-     * 
+     *
      * @return
      */
     public boolean isSmallest() {
@@ -1461,15 +1468,14 @@ public class KChartsView extends GridChart implements GridChart.OnTabClickListen
 
     /**
      * 显示数据变化
-     * 
+     *
      * @author linbing
-     * 
      */
     public interface DisplayDataChangeListener {
 
         /**
          * 显示的数据变化
-         * 
+         *
          * @param entitys
          */
         void onDisplayDataChange(List<OHLCEntity> entitys);

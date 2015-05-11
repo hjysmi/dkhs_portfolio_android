@@ -251,6 +251,7 @@ public class StockQuotesChartFragment extends BaseFragment {
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
                 && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
+            mMaChart.resetLayoutWeight(0,0);
         } else {
 
             mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);

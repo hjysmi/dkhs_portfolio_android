@@ -40,7 +40,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="315dp">
+                android:layout_height="210dp">
 
                 <com.dkhs.portfolio.ui.widget.ScrollViewPager
                     android:id="@+id/pager"
