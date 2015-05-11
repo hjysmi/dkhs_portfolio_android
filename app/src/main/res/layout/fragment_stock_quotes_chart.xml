@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <RelativeLayout
         android:layout_width="1dp"
         android:layout_height="fill_parent"
         android:layout_marginBottom="8dp"
-        android:layout_weight="3" >
+        android:layout_weight="2">
 
         <com.dkhs.portfolio.ui.widget.TimesharingplanChart
             android:id="@+id/timesharingchart"
+            app:gridWidthWeight="4"
+            app:gridHeightWeight="3"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" />
 
@@ -23,10 +26,11 @@
 
     <RelativeLayout
         android:id="@+id/rl_fiverange"
-        android:layout_width="88dp"
+        android:layout_width="1dp"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="5dp" >
+        android:padding="5dp">
 
         <View
             android:id="@+id/view_divider"
@@ -40,15 +44,8 @@
             android:id="@+id/layout_sell"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/view_divider" >
+            android:layout_above="@+id/view_divider">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/sell"
-                android:textColor="@color/theme_gray"
-                android:textSize="26sp" />
 
             <ListView
                 android:id="@+id/list_five_range_sall"
@@ -63,15 +60,7 @@
             android:id="@+id/layout_buy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/view_divider" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/buy"
-                android:textColor="@color/theme_gray"
-                android:textSize="26sp" />
+            android:layout_below="@+id/view_divider">
 
             <ListView
                 android:id="@+id/list_five_range_buy"

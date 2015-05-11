@@ -36,13 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/sell"
-                android:textColor="@color/theme_gray"
-                android:textSize="26sp" />
 
             <ListView
                 android:id="@+id/list_five_range_sall"
@@ -50,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:dividerHeight="0dp"
+
                 android:orientation="vertical" />
         </RelativeLayout>
 
@@ -69,13 +63,6 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/view_divider" >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/buy"
-                android:textColor="@color/theme_gray"
-                android:textSize="26sp" />
 
             <ListView
                 android:id="@+id/list_five_range_buy"

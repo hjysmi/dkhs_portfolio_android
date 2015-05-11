@@ -8,35 +8,29 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
-import java.util.List;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.os.Build;
-import android.test.UiThreadTest;
 import android.util.AttributeSet;
-import android.view.Display;
-import android.view.WindowManager;
 
-import com.dkhs.portfolio.ui.widget.kline.DisplayUtil;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TimesharingplanChart
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-17 下午3:59:21
- * @version 1.0
  */
 public class TimesharingplanChart extends TrendChart {
 
     /**
+     * @param context
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @param context
      */
     public TimesharingplanChart(Context context) {
         super(context);
@@ -51,33 +45,12 @@ public class TimesharingplanChart extends TrendChart {
         super(context, attrs);
     }
 
-    /**
-     * 重新控件大小
-     */
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-    }
-
-    private int measureWidth(int measureSpec) {
-        int result = 0;
-        int specMode = MeasureSpec.getMode(measureSpec);
-        int specSize = MeasureSpec.getSize(measureSpec);
-
-        if (specMode == MeasureSpec.EXACTLY) {
-            result = specSize;
-        } else if (specMode == MeasureSpec.AT_MOST) {
-            result = Math.min(result, specSize);
-        }
-        return result;
-    }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param canvas
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected void onDraw(Canvas canvas) {
@@ -86,9 +59,9 @@ public class TimesharingplanChart extends TrendChart {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void drawTimesSharingChart(Canvas canvas) {
@@ -135,7 +108,7 @@ public class TimesharingplanChart extends TrendChart {
         // 蜡烛棒宽度
         float stickWidth = ((getmGridLineLenght() - 2.0f * this.LINEMARGIN) / maxSize);
         // 蜡烛棒起始绘制位置
-        float stickX = super.getAxisMarginLeft()+this.LINEMARGIN;
+        float stickX = super.getAxisMarginLeft() + this.LINEMARGIN;
         Paint mPaintStick = getmTextPaint();
         mPaintStick.reset();
         mPaintStick.setStyle(Paint.Style.STROKE);
@@ -195,22 +168,21 @@ public class TimesharingplanChart extends TrendChart {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public float getmGridLineHeight() {
         // TODO Auto-generated method stub
+
         return super.getmGridLineHeight() * 2 / 3;
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public float getVolHight() {
