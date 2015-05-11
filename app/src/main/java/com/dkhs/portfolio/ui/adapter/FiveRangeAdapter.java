@@ -46,17 +46,32 @@ public class FiveRangeAdapter extends BaseAdapter {
     private float mCompareValue;
 
     private ListView.LayoutParams mItemViewLayoutParams;
+    private boolean isLandspace;
 
-    public FiveRangeAdapter(Context mContext, boolean isBuy) {
+    private int mLandTextFont;
+//
+//    public FiveRangeAdapter(Context mContext, boolean isBuy) {
+//        this.mContext = mContext;
+//        this.isBuy = isBuy;
+//        mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+//        mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
+//
+//    }
+
+    public FiveRangeAdapter(Context mContext, boolean isBuy, boolean isLandspace) {
         this.mContext = mContext;
         this.isBuy = isBuy;
         mItemViewLayoutParams = new ListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mItemViewLayoutParams.height = (int) (mContext.getResources().getDisplayMetrics().widthPixels / 13f);
 
+        if (isLandspace) {
+            mLandTextFont = 14;
+        }
+
     }
 
-    public FiveRangeAdapter(Context mContext, boolean isBuy, String symbol) {
-        this(mContext, isBuy);
+    public FiveRangeAdapter(Context mContext, boolean isBuy, String symbol, boolean isLandspace) {
+        this(mContext, isBuy, isLandspace);
         this.symbol = symbol;
     }
 
@@ -108,6 +123,12 @@ public class FiveRangeAdapter extends BaseAdapter {
                 viewHolder.tvTag = (TextView) convertView.findViewById(R.id.tv_buytext);
                 viewHolder.tvVol = (TextView) convertView.findViewById(R.id.tv_range_vol);
                 viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tv_detail_value);
+                if (mLandTextFont > 0) {
+
+                    viewHolder.tvTag.setTextSize(mLandTextFont);
+                    viewHolder.tvVol.setTextSize(mLandTextFont);
+                    viewHolder.tvPrice.setTextSize(mLandTextFont);
+                }
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
