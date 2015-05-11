@@ -139,4 +139,10 @@
         <attr name="android:background"/>
     </declare-styleable>
 
+
+    <declare-styleable name="TrendChart">
+        <attr name="gridHeightWeight" format="integer"></attr>
+        <attr name="gridWidthWeight" format="integer"></attr>
+    </declare-styleable>
+
 </resources>

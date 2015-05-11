@@ -63,6 +63,9 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
+        if(!isDebug){
+            setRongYunMetaData();
+        }
         super.onCreate();
         mInstance = this;
         if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
@@ -77,6 +80,17 @@ public class PortfolioApplication extends Application {
 
         MessageManager.getInstance();
 
+    }
+
+
+    private void setRongYunMetaData() {
+        ApplicationInfo appi;
+        try {
+            appi = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            appi.metaData.putString("RONG_CLOUD_APP_KEY", "tdrvipksrgsu5");
+        } catch (NameNotFoundException e1) {
+            e1.printStackTrace();
+        }
     }
 
     private List<Activity> lists = new ArrayList<Activity>();

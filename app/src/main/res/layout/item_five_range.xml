@@ -1,37 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:paddingBottom="6dp"
-    android:paddingTop="6dp" >
+    android:paddingBottom="2dp"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content" >
 
     <TextView
         android:id="@+id/tv_buytext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_weight="1"
         android:textSize="@dimen/title_text_font" />
 
     <TextView
         android:id="@+id/tv_detail_value"
-        android:layout_width="32dp"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv_buytext"
         android:gravity="right"
         android:singleLine="true"
+        android:layout_weight="3"
         android:text="-"
         android:textColor="@color/red"
         android:textSize="@dimen/title_text_font" />
 
     <TextView
         android:id="@+id/tv_range_vol"
-        android:layout_width="wrap_content"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@+id/tv_detail_value"
         android:gravity="right"
         android:singleLine="true"
         android:text="-"
+        android:layout_weight="3"
         android:textSize="@dimen/title_text_font" />
 
-</RelativeLayout>
+</LinearLayout>
