@@ -143,8 +143,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code,false);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code,false);
         // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
         // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
@@ -251,6 +251,7 @@ public class StockQuotesChartFragment extends BaseFragment {
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
                 && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
+            mMaChart.resetLayoutWeight(0,0);
         } else {
 
             mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);

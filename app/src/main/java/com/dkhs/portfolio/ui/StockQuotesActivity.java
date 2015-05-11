@@ -1,5 +1,5 @@
 /**
- * 
+ *
  * @Title StockQuotesActivity.java
  * @Package com.dkhs.portfolio.ui
  * @Description TODO(用一句话描述该文件做什么)
@@ -9,14 +9,6 @@
  */
 
 package com.dkhs.portfolio.ui;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -74,8 +66,6 @@ import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
-import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -88,12 +78,20 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockQuotesActivity
  * @Description 个股行情
- * @author zjz
  * @date 2014-9-26 上午10:22:32
- * @version 1.0
  */
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, Serializable, StockViewCallBack,
         LandStockViewCallBack, KChartDataListener {
@@ -212,7 +210,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         new Thread() {
             public void run() {
                 localList = mVisitorDataEngine.getOptionalStockList();
-            };
+            }
+
+            ;
         }.start();
     }
 
@@ -251,7 +251,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 @Override
                 public boolean onMenuItemSelected(int paramInt) {
 
-                    switch (paramInt){
+                    switch (paramInt) {
                         case MENU_FOLLOWE_OR_UNFOLLOWE:
                             handFollowOrUnfollowAction();
                             break;
@@ -259,7 +259,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             startActivity(StockRemindActivity.newStockIntent(StockQuotesActivity.this,
                                     SelectStockBean.copy(mStockQuotesBean)));
 
-                        break;
+                            break;
                     }
                     return false;
                 }
@@ -521,15 +521,17 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 case MSG_WHAT_BEFORE_REQUEST: {
                     rotateRefreshButton();
                 }
-                    break;
+                break;
                 case MSG_WHAT_AFTER_REQUEST: {
                     stopRefreshAnimation();
                 }
-                    break;
+                break;
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
     ScrollViewListener mScrollViewListener = new ScrollViewListener() {
 
@@ -843,7 +845,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     public void onStart() {
         super.onStart();
         // quoteHandler.postDelayed(updateRunnable, 6);// 打开定时器，60ms后执行runnable操作
-    };
+    }
+
+    ;
 
     public void onStop() {
         super.onStop();
@@ -872,7 +876,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 requestData();
 
             }
-                break;
+            break;
             case R.id.klin_virtul_check:
                 Intent intent = new Intent(this, ChangeCheckType.class);
                 Bundle b = new Bundle();
@@ -910,17 +914,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
 
-
     private void initFloatingActionMenu(StockQuotesBean item) {
 
 
         if (null != localFloatingActionMenu) {
             localFloatingActionMenu.removeAllItems();
-            if (item.isFollowed()  ) {
-                localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+            if (item.isFollowed()) {
                 localFloatingActionMenu.addItem(MENU_FOLLOWE_OR_UNFOLLOWE, R.string.delete_fllow,
                         R.drawable.btn_del_item_normal);
-            } else  {
+                if (isIndexType()) {
+                    localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_index_remind, R.drawable.ic_fm_remind);
+                } else {
+                    localFloatingActionMenu.addItem(MENU_REMIND, R.string.float_menu_stock_remind, R.drawable.ic_fm_remind);
+                }
+            } else {
 
                 localFloatingActionMenu.addItem(MENU_FOLLOWE_OR_UNFOLLOWE, R.string.add_fllow, R.drawable.ic_add);
 
@@ -930,9 +937,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onDestroy() {
@@ -1029,9 +1036,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void landViewFadeOut() {
@@ -1041,10 +1048,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param paramInt
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setViewType(int paramInt) {
@@ -1089,9 +1096,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         ObjectAnimator localObjectAnimator1 = ObjectAnimator.ofFloat(this.landStockview, "y",
                 -localDisplayMetrics.widthPixels);
         ObjectAnimator localObjectAnimator2 = ObjectAnimator.ofFloat(this.landStockview, "rotation",
-                new float[] { 90.0F });
+                new float[]{90.0F});
         AnimatorSet localAnimatorSet = new AnimatorSet();
-        localAnimatorSet.playTogether(new Animator[] { localObjectAnimator1, localObjectAnimator2 });
+        localAnimatorSet.playTogether(new Animator[]{localObjectAnimator1, localObjectAnimator2});
         localAnimatorSet.start();
         if (null != mStockQuotesBean) {
             landStockview.updateLandStockView(mStockQuotesBean);
@@ -1102,12 +1109,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void rotaVericteStockView() {
         bottomLayout.setVisibility(View.VISIBLE);
         viewHeader.setVisibility(View.VISIBLE);
+        localFloatingActionMenu.setVisibility(View.VISIBLE);
         landStockview.setVisibility(View.INVISIBLE);
         fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(true);
         showHead();
-        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[] { 1.0F })
+        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[]{1.0F})
                 .setDuration(100L);
-        ObjectAnimator headerAnimator = ObjectAnimator.ofFloat(this.viewHeader, "alpha", new float[] { 1.0F })
+        ObjectAnimator headerAnimator = ObjectAnimator.ofFloat(this.viewHeader, "alpha", new float[]{1.0F})
                 .setDuration(100L);
 
         AnimatorSet localAnimatorSet = new AnimatorSet();
@@ -1117,14 +1125,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 full(isFull);
             }
         });
-        localAnimatorSet.playTogether(new Animator[] { bottomAnimator, headerAnimator });
+        localAnimatorSet.playTogether(new Animator[]{bottomAnimator, headerAnimator});
         localAnimatorSet.start();
     }
 
     private void rotaLandStockView() {
-        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[] { 0.0F })
+        ObjectAnimator bottomAnimator = ObjectAnimator.ofFloat(this.bottomLayout, "alpha", new float[]{0.0F})
                 .setDuration(100L);
-        ObjectAnimator headerAnimator = ObjectAnimator.ofFloat(this.viewHeader, "alpha", new float[] { 0.0F })
+        ObjectAnimator headerAnimator = ObjectAnimator.ofFloat(this.viewHeader, "alpha", new float[]{0.0F})
                 .setDuration(100L);
 
         AnimatorSet localAnimatorSet = new AnimatorSet();
@@ -1133,6 +1141,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 full(isFull);
                 bottomLayout.setVisibility(View.GONE);
                 viewHeader.setVisibility(View.GONE);
+                localFloatingActionMenu.setVisibility(View.GONE);
                 hideHead();
                 landStockview.setVisibility(View.VISIBLE);
                 fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(false);
@@ -1143,7 +1152,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 StockQuotesActivity.this.setSwipeBackEnable(false);
             }
         });
-        localAnimatorSet.playTogether(new Animator[] { bottomAnimator, headerAnimator });
+        localAnimatorSet.playTogether(new Animator[]{bottomAnimator, headerAnimator});
         localAnimatorSet.start();
 
     }
@@ -1168,10 +1177,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public StockQuotesBean getStockQuotesBean() {
@@ -1180,10 +1188,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param stickValue
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setStickType(int stickValue) {
@@ -1192,10 +1200,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int getTabPosition() {
@@ -1207,10 +1214,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param position
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setTabPosition(int position) {
@@ -1224,10 +1231,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private List<OHLCEntity> mMonthKChart = Collections.EMPTY_LIST;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public List<OHLCEntity> getDayLineDatas() {
@@ -1236,10 +1242,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param kLineDatas
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setDayKlineDatas(List<OHLCEntity> kLineDatas) {
@@ -1247,10 +1253,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public List<OHLCEntity> getMonthLineDatas() {
@@ -1258,10 +1263,10 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param kLineDatas
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setMonthKlineDatas(List<OHLCEntity> kLineDatas) {

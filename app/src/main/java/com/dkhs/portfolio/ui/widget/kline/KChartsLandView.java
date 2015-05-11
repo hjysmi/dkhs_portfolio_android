@@ -470,71 +470,32 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
             int len = getUpperLatitudeNum() + 1;
             if (len > 0) {
                 for (int i = 0; i < len; i++) {
-                    if (i == 0) {
-                        String t;
-                        if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
-                            t = new DecimalFormat("0").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        } else {
-                            t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        }
 
-                        if (t.length() > 6) {
-                            t = t.substring(0, 6);
-                            if (t.substring(5, 6).equals(".")) {
-                                t = t.substring(0, 5);
-                            }
-                        }
-                        t = UIUtils.nongNet(t);
-                        // Paint p = new Paint();
-                        merchPaint.reset();
-                        Rect rect = new Rect();
-                        merchPaint.setAntiAlias(true);
-                        merchPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        merchPaint.getTextBounds(t, 0, t.length(), rect);
+                    String t = getYTitle(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
+
+                    defPaint.reset();
+                    Rect rect = new Rect();
+                    defPaint.setAntiAlias(true);
+                    defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                    defPaint.getTextBounds(t, 0, t.length(), rect);
+                    if (i != 0 && i != len) {
+
+                        canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
+                                * i + rect.height() / 2, textPaint);
+                    } else {
+
                         canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
                                 * i, textPaint);
-                    } else {
-                        String t;
-                        if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
-                            t = new DecimalFormat("0").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        } else {
-                            t = new DecimalFormat("0.00").format(mMinPrice + (mMaxPrice - mMinPrice) / len * i);
-                        }
-                        if (t.length() > 6) {
-                            t = t.substring(0, 6);
-                            if (t.substring(5, 6).equals(".")) {
-                                t = t.substring(0, 5);
-                            }
-                        }
-                        t = UIUtils.nongNet(t);
-                        // Paint p = new Paint();
-                        merchPaint.reset();
-                        Rect rect = new Rect();
-                        merchPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                        merchPaint.getTextBounds(t, 0, t.length(), rect);
-                        canvas.drawText(t, PADDING_LEFT - rect.width() - 3, UPER_CHART_BOTTOM - getLatitudeSpacing()
-                                * i + DEFAULT_AXIS_TITLE_SIZE, textPaint);
                     }
                 }
             }
-            String t;
-            if (!TextUtils.isEmpty(symbolType) && symbolType.equals("5")) {
-                t = new DecimalFormat("0.00").format(mMaxPrice);
-            } else {
-                t = new DecimalFormat("0.00").format(mMaxPrice);
-            }
-            if (t.length() > 6) {
-                t = t.substring(0, 6);
-                if (t.substring(5, 6).equals(".")) {
-                    t = t.substring(0, 5);
-                }
-            }
-            t = UIUtils.nongNet(t);
-            // Paint p = new Paint();
+            String t = getYTitle(mMaxPrice);
+
+            defPaint.reset();
+            defPaint.setAntiAlias(true);
             Rect rect = new Rect();
-            merchPaint.reset();
-            merchPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-            merchPaint.getTextBounds(t, 0, t.length(), rect);
+            defPaint.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+            defPaint.getTextBounds(t, 0, t.length(), rect);
             canvas.drawText(t, PADDING_LEFT - rect.width() - 3, DEFAULT_AXIS_TITLE_SIZE * 2 + 2, textPaint);
         }
 
@@ -555,6 +516,25 @@ public class KChartsLandView extends GridChart implements GridChart.OnTabClickLi
         }
 
     }
+
+
+    private String getYTitle(double value) {
+        String t;
+        if (symbolType.equals("5")) {
+            t = new DecimalFormat("0").format(value);
+        } else {
+            t = new DecimalFormat("0.00").format(value);
+        }
+        t = UIUtils.nongNet(t);
+        if (t.length() > 6) {
+            t = t.substring(0, 6);
+            if (t.substring(5, 6).equals(".")) {
+                t = t.substring(0, 5);
+            }
+        }
+        return t;
+    }
+
 
     private void drawUpperRegion(Canvas canvas) {
         // 绘制蜡烛图

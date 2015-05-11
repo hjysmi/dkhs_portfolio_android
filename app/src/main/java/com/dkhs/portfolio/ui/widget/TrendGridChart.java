@@ -1,13 +1,7 @@
 package com.dkhs.portfolio.ui.widget;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-
-import android.content.ContentValues;
 import android.content.Context;
-import android.graphics.Bitmap;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.DashPathEffect;
@@ -15,193 +9,300 @@ import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.PathEffect;
 import android.graphics.Rect;
-import android.os.Environment;
-import android.provider.MediaStore.Images;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.ColorTemplate;
 
+import java.util.List;
+
 /**
  * 坐�?轴使用的View
- * 
+ *
  * @author limc
- * 
  */
 public class TrendGridChart extends View {
 
     // ////////////默认值////////////////
-    /** 默认背景色 */
+    /**
+     * 默认背景色
+     */
     public static final int DEFAULT_BACKGROUD_COLOR = Color.WHITE;
 
-    /** 默认X坐标轴颜色 */
+    /**
+     * 默认X坐标轴颜色
+     */
     public static final int DEFAULT_AXIS_X_COLOR = Color.LTGRAY;
 
-    /** 默认Y坐标轴颜色 */
+    /**
+     * 默认Y坐标轴颜色
+     */
     public static final int DEFAULT_AXIS_Y_COLOR = Color.LTGRAY;
 
-    /** 默认经线颜色 */
+    /**
+     * 默认经线颜色
+     */
     public static final int DEFAULT_LONGITUDE_COLOR = Color.GRAY;
 
-    /** 默认纬线颜色 */
+    /**
+     * 默认纬线颜色
+     */
     public static final int DEFAULT_LAITUDE_COLOR = Color.GRAY;
 
-    /** 默认轴线左边距 */
+    /**
+     * 默认轴线左边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_LEFT = 10f;
 
-    /** 默认轴线底边据 */
+    /**
+     * 默认轴线底边据
+     */
     public static final float DEFAULT_AXIS_MARGIN_BOTTOM = 0f;
 
-    /** 默认轴线上边距 */
+    /**
+     * 默认轴线上边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_TOP = 5f;
 
-    /** 默认轴线右边距 */
+    /**
+     * 默认轴线右边距
+     */
     public static final float DEFAULT_AXIS_MARGIN_RIGHT = 10f;
 
-    /** 默认经线是否显示刻度 */
+    /**
+     * 默认经线是否显示刻度
+     */
     public static final boolean DEFAULT_DISPLAY_LONGTITUDE = Boolean.TRUE;
 
-    /** 默认经线是否使用虚线 */
+    /**
+     * 默认经线是否使用虚线
+     */
     public static final boolean DEFAULT_DASH_LONGTITUDE = Boolean.TRUE;
 
-    /** 默认纬线是否显示刻度 */
+    /**
+     * 默认纬线是否显示刻度
+     */
     public static final boolean DEFAULT_DISPLAY_LATITUDE = Boolean.TRUE;
 
-    /** 默认纬线是否使用虚线 */
+    /**
+     * 默认纬线是否使用虚线
+     */
     public static final boolean DEFAULT_DASH_LATITUDE = Boolean.TRUE;
 
-    /** 默认是否显示X轴刻度 */
+    /**
+     * 默认是否显示X轴刻度
+     */
     public static final boolean DEFAULT_DISPLAY_AXIS_X_TITLE = Boolean.TRUE;
 
-    /** 默认是否显示Y轴刻度 */
+    /**
+     * 默认是否显示Y轴刻度
+     */
     public static final boolean DEFAULT_DISPLAY_AXIS_Y_TITLE = Boolean.TRUE;
 
-    /** 默认是否显示边框 */
+    /**
+     * 默认是否显示边框
+     */
     public static final boolean DEFAULT_DISPLAY_BORDER = Boolean.FALSE;
 
-    /** 默认边框颜色 */
+    /**
+     * 默认边框颜色
+     */
     public static final int DEFAULT_BORDER_COLOR = Color.TRANSPARENT;
 
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色 *
+     */
     private int DEFAULT_LONGTITUDE_FONT_COLOR = Color.GRAY;
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色 *
+     */
     private int DEFAULT_LONGTITUDE_FONT_COLOR_UP = Color.RED;
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色 *
+     */
     private int DEFAULT_LONGTITUDE_FONT_COLOR_MID = Color.BLACK;
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色 *
+     */
     private int DEFAULT_LONGTITUDE_FONT_COLOR_DOWN = Color.GREEN;
 
-    /** 默认经线刻度字体大小 **/
+    /**
+     * 默认经线刻度字体大小 *
+     */
     private int DEFAULT_LONGTITUDE_FONT_SIZE = 10;
 
-    /** 默认经线刻度字体颜色 **/
+    /**
+     * 默认经线刻度字体颜色 *
+     */
     private int DEFAULT_LATITUDE_FONT_COLOR = Color.GRAY;
 
-    /** 默认经线刻度字体字体 **/
+    /**
+     * 默认经线刻度字体字体 *
+     */
     private int DEFAULT_LATITUDE_FONT_SIZE = 15;
 
-    /** 默认Y轴刻度最大显示长度 */
+    /**
+     * 默认Y轴刻度最大显示长度
+     */
     private int DEFAULT_AXIS_Y_MAX_TITLE_LENGTH = 5;
 
-    /** 默认虚线效果 */
-    public static final PathEffect DEFAULT_DASH_EFFECT = new DashPathEffect(new float[] { 3, 3, 3, 3 }, 1);
+    /**
+     * 默认虚线效果
+     */
+    public static final PathEffect DEFAULT_DASH_EFFECT = new DashPathEffect(new float[]{3, 3, 3, 3}, 1);
 
-    /** 在控件被点击时默认显示X字线 */
+    /**
+     * 在控件被点击时默认显示X字线
+     */
     public static final boolean DEFAULT_DISPLAY_CROSS_X_ON_TOUCH = true;
 
-    /** 在控件被点击时显示Y轴线 */
+    /**
+     * 在控件被点击时显示Y轴线
+     */
     public static final boolean DEFAULT_DISPLAY_CROSS_Y_ON_TOUCH = true;
 
     /**
      * // /////////////属性////////////////
-     * 
+     * <p/>
      * /** 背景色
      */
     private int backgroudColor = DEFAULT_BACKGROUD_COLOR;
 
-    /** 坐标轴X颜色 */
+    /**
+     * 坐标轴X颜色
+     */
     private int axisXColor = DEFAULT_AXIS_X_COLOR;
 
-    /** 坐标轴Y颜色 */
+    /**
+     * 坐标轴Y颜色
+     */
     private int axisYColor = DEFAULT_AXIS_Y_COLOR;
 
-    /** 经线颜色 */
+    /**
+     * 经线颜色
+     */
     private int longitudeColor = DEFAULT_LONGITUDE_COLOR;
 
-    /** 纬线颜色 */
+    /**
+     * 纬线颜色
+     */
     private int latitudeColor = DEFAULT_LAITUDE_COLOR;
 
-    /** 轴线左边距 */
+    /**
+     * 轴线左边距
+     */
     protected float axisMarginLeft = DEFAULT_AXIS_MARGIN_LEFT;
 
-    /** 轴线底边距 */
+    /**
+     * 轴线底边距
+     */
     protected float axisMarginBottom = DEFAULT_AXIS_MARGIN_BOTTOM;
 
-    /** 轴线上边距 */
+    /**
+     * 轴线上边距
+     */
     protected float axisMarginTop = DEFAULT_AXIS_MARGIN_TOP;
 
-    /** 轴线右边距 */
+    /**
+     * 轴线右边距
+     */
     protected float axisMarginRight = DEFAULT_AXIS_MARGIN_RIGHT;
 
-    /** x轴是否显示 */
+    /**
+     * x轴是否显示
+     */
     private boolean displayAxisXTitle = DEFAULT_DISPLAY_AXIS_X_TITLE;
 
-    /** y轴是否显示 */
+    /**
+     * y轴是否显示
+     */
     private boolean displayAxisYTitle = DEFAULT_DISPLAY_AXIS_Y_TITLE;
 
-    /** 经线颜色是否对称 */
+    /**
+     * 经线颜色是否对称
+     */
     private boolean displayAxisYTitleColor = Boolean.TRUE;
 
-    /** 经线是否显示 */
+    /**
+     * 经线是否显示
+     */
     private boolean displayLongitude = DEFAULT_DISPLAY_LONGTITUDE;
 
-    /** 经线是否使用虚线 */
+    /**
+     * 经线是否使用虚线
+     */
     private boolean dashLongitude = DEFAULT_DASH_LONGTITUDE;
 
-    /** 纬线是否显示 */
+    /**
+     * 纬线是否显示
+     */
     private boolean displayLatitude = DEFAULT_DISPLAY_LATITUDE;
 
-    /** 纬线是否使用虚线 */
+    /**
+     * 纬线是否使用虚线
+     */
     private boolean dashLatitude = DEFAULT_DASH_LATITUDE;
 
-    /** 虚线效果 */
+    /**
+     * 虚线效果
+     */
     private PathEffect dashEffect = DEFAULT_DASH_EFFECT;
 
-    /** 显示边框 */
+    /**
+     * 显示边框
+     */
     private boolean displayBorder = DEFAULT_DISPLAY_BORDER;
 
-    /** 边框色 */
+    /**
+     * 边框色
+     */
     private int borderColor = DEFAULT_BORDER_COLOR;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色 *
+     */
     private int longtitudeFontColor = DEFAULT_LONGTITUDE_FONT_COLOR;
 
-    /** 经线x轴刻度字体大小 **/
+    /**
+     * 经线x轴刻度字体大小 *
+     */
     private int longtitudeFontSize = DEFAULT_LONGTITUDE_FONT_SIZE;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色 *
+     */
     private int latitudeFontColor = DEFAULT_LATITUDE_FONT_COLOR;
 
-    /** 经线刻度字体颜色 **/
+    /**
+     * 经线刻度字体颜色 *
+     */
     private int latitudeFontSize = DEFAULT_LATITUDE_FONT_SIZE;
 
-    /** 横轴刻度�?�? */
+    /**
+     * 横轴刻度�?�?
+     */
     private List<String> axisXTitles;
 
-    /** 纵轴刻度�?�? */
+    /**
+     * 纵轴刻度�?�?
+     */
     private List<String> axisYTitles;
     private List<String> axisRightYTitles;
 
-    /** 纵轴刻度�?��字符数 */
+    /**
+     * 纵轴刻度�?��字符数
+     */
     private int axisYMaxTitleLength = DEFAULT_AXIS_Y_MAX_TITLE_LENGTH;
 
-    /** 在控件被点击时显示x轴线 */
+    /**
+     * 在控件被点击时显示x轴线
+     */
     private boolean displayCrossXOnTouch = DEFAULT_DISPLAY_CROSS_X_ON_TOUCH;
 
-    /** 在控件被点击时显示y横线线 */
+    /**
+     * 在控件被点击时显示y横线线
+     */
     private boolean displayCrossYOnTouch = DEFAULT_DISPLAY_CROSS_Y_ON_TOUCH;
 
     // /** 选中位置X坐标 */
@@ -210,7 +311,9 @@ public class TrendGridChart extends View {
     // /** 选中位置Y坐标 */
     // private float clickPostY = 0f;
 
-    /** 通知对象列表 */
+    /**
+     * 通知对象列表
+     */
     // private List<ITouchEventResponse> notifyList;
 
     // /** 当前被选中的坐标点 */
@@ -224,7 +327,9 @@ public class TrendGridChart extends View {
     /** final bitmap that contains all information and is drawn to the screen */
     // protected Bitmap mDrawBitmap;
 
-    /** the canvas that is used for drawing on the bitmap */
+    /**
+     * the canvas that is used for drawing on the bitmap
+     */
     // protected Canvas mDrawCanvas;
 
     private final int xLineCounts = 5;
@@ -238,23 +343,28 @@ public class TrendGridChart extends View {
     public float mStartLineYpoint = 0;
     public float mStartLineXpoint;
     public float volHight;
+    private boolean isMeasure = true;
 
     public TrendGridChart(Context context) {
         super(context);
-        init();
+        init(context, null);
     }
 
     public TrendGridChart(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context, attrs);
+
     }
 
     public TrendGridChart(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
+    private int mHightWeight;
+    private int mWidthWeight;
+
+    private void init(Context context, AttributeSet attrs) {
 
         // this.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
         // @Override
@@ -263,6 +373,14 @@ public class TrendGridChart extends View {
         //
         // }
         // });
+        if (null != attrs) {
+
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TrendChart);
+            mHightWeight = a.getInt(R.styleable.TrendChart_gridHeightWeight, 0);
+            mWidthWeight = a.getInt(R.styleable.TrendChart_gridWidthWeight, 0);
+
+            a.recycle();
+        }
 
         latitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
         longtitudeFontSize = getResources().getDimensionPixelSize(R.dimen.title_text_font);
@@ -279,7 +397,41 @@ public class TrendGridChart extends View {
 
     }
 
-    private boolean isMeasure = true;
+
+    /**
+     * 重新控件大小
+     */
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int measuredWidth = measureWidth(widthMeasureSpec);
+        int measuredHeight = measureWidth(heightMeasureSpec);
+        if (mHightWeight > 0 && mWidthWeight > 0) {
+            measuredHeight = measuredWidth / mWidthWeight * mHightWeight;
+        }
+        setMeasuredDimension(measuredWidth, measuredHeight);
+    }
+
+    public void resetLayoutWeight(int widthWeight,int heightWeight){
+        this.mHightWeight = heightWeight;
+        this.mWidthWeight = widthWeight;
+        requestLayout();
+    }
+
+    private int measureWidth(int measureSpec) {
+        int result = 0;
+        int specMode = MeasureSpec.getMode(measureSpec);
+        int specSize = MeasureSpec.getSize(measureSpec);
+
+        if (specMode == MeasureSpec.EXACTLY) {
+            result = specSize;
+        } else if (specMode == MeasureSpec.AT_MOST) {
+            result = Math.min(result, specSize);
+        }
+        return result;
+    }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -328,10 +480,10 @@ public class TrendGridChart extends View {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param canvas
      * @return void
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     private void drawYtitleText(Canvas canvas) {
         if (null != axisYTitles) {
@@ -510,8 +662,6 @@ public class TrendGridChart extends View {
     }
 
     /**
-     * 
-     * 
      * @param value
      * @return
      */
@@ -525,7 +675,7 @@ public class TrendGridChart extends View {
 
     /**
      * 获取Y轴刻度�??,�?�??�最大1
-     * 
+     *
      * @param value
      * @return
      */
@@ -554,7 +704,7 @@ public class TrendGridChart extends View {
 
     /**
      * 绘制边�?
-     * 
+     *
      * @param canvas
      */
     protected void drawBorder(Canvas canvas) {
@@ -573,7 +723,7 @@ public class TrendGridChart extends View {
 
     /**
      * 绘制X轴
-     * 
+     *
      * @param canvas
      */
     protected void drawXAxis(Canvas canvas) {
@@ -591,7 +741,7 @@ public class TrendGridChart extends View {
 
     /**
      * 绘制Y轴
-     * 
+     *
      * @param canvas
      */
     protected void drawYAxis(Canvas canvas) {
@@ -607,7 +757,7 @@ public class TrendGridChart extends View {
 
     /**
      * 绘制竖线
-     * 
+     *
      * @param canvas
      */
     protected void drawAxisGridX(Canvas canvas) {
@@ -642,7 +792,7 @@ public class TrendGridChart extends View {
 
     /**
      * 绘制横线
-     * 
+     *
      * @param canvas
      */
     protected void drawAxisGridY(Canvas canvas) {
