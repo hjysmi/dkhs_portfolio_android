@@ -1082,6 +1082,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void rotaVericteStockView() {
         bottomLayout.setVisibility(View.VISIBLE);
         viewHeader.setVisibility(View.VISIBLE);
+        localFloatingActionMenu.setVisibility(View.VISIBLE);
         landStockview.setVisibility(View.INVISIBLE);
         fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(true);
         showHead();
@@ -1113,6 +1114,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 full(isFull);
                 bottomLayout.setVisibility(View.GONE);
                 viewHeader.setVisibility(View.GONE);
+                localFloatingActionMenu.setVisibility(View.GONE);
                 hideHead();
                 landStockview.setVisibility(View.VISIBLE);
                 fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(false);
