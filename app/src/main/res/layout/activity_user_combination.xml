@@ -10,32 +10,6 @@
         android:background="@color/white"
         android:layout_height="fill_parent" />
 
-    <RelativeLayout
-        android:id="@+id/ll_follow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/btn_color_line_selector">
-        <View
-            android:id="@+id/line"
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="@color/drivi_line"
-            />
-
-        <TextView
-            android:id="@+id/tv_follow"
-            android:layout_below="@+id/line"
-            android:drawablePadding="4dp"
-            android:textSize="14sp"
-            style="@style/CommonTextAppearance_Middle_Gray"
-            android:layout_width="wrap_content"
-            android:drawableLeft="@drawable/ic_add"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:padding="8dp"
-            android:text="@string/following" />
-    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/rl_user_info"
@@ -206,6 +180,13 @@
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="match_parent"-->
     <!--android:layout_marginTop="-1dp" />-->
+    <com.dkhs.portfolio.ui.FloatingActionMenu
+        android:id="@+id/floating_action_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        />
 
 
 </RelativeLayout>

@@ -18,6 +18,7 @@ import com.dkhs.portfolio.bean.CombinationBean.CombinationUser;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
+import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -108,9 +109,11 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         headerView = new View(getActivity());
         footView = new View(getActivity());
         headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, headerHeight));
-        getListView().setOnScrollListener(this);
+
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
+
+        ((CombinationUserActivity)getActivity()).localFloatingActionMenu.attachToListView(getListView(),null,this);
         super.onViewCreated(view, savedInstanceState);
     }
 
