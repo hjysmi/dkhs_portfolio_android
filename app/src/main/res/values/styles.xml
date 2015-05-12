@@ -188,17 +188,12 @@
     <style name="text_stock_name">
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:textColor">@color/def_gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:singleLine">true</item>
-
-
-
-
         <item name="android:gravity">bottom|left</item>
-
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="text_stock_value">
@@ -300,20 +295,30 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/white</item>
     </style>
+    <!-- 白色通用字体 -->
+    <style name="CommonTextAppearance_super_Mini_Black" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/theme_color</item>
+    </style>
+
+    <style name="CommonTextAppearance_Mini_Black" parent="@android:style/TextAppearance">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/theme_color</item>
+    </style>
 
     <style name="CommonTextAppearance_Small_Black" parent="@android:style/TextAppearance">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/md_grey_800</item>
+        <item name="android:textColor">@color/theme_color</item>
     </style>
 
     <style name="CommonTextAppearance_Middle_Black" parent="@android:style/TextAppearance">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/md_grey_800</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/theme_color</item>
     </style>
 
     <style name="CommonTextAppearance_Big_Black" parent="@android:style/TextAppearance">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/md_grey_800</item>
+        <item name="android:textColor">@color/theme_color</item>
     </style>
     <!-- 白色通用字体 -->
     <style name="CommonTextAppearance_super_Mini_White" parent="@android:style/TextAppearance">
@@ -332,7 +337,7 @@
     </style>
 
     <style name="CommonTextAppearance_Middle_White" parent="@android:style/TextAppearance">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -348,22 +353,22 @@
 
     <style name="CommonTextAppearance_Mini_Gray" parent="@android:style/TextAppearance">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
 
     <style name="CommonTextAppearance_Small_Gray" parent="@android:style/TextAppearance">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
 
     <style name="CommonTextAppearance_Middle_Gray" parent="@android:style/TextAppearance">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
 
     <style name="CommonTextAppearance_Big_Gray" parent="@android:style/TextAppearance">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
     <style name="custom_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

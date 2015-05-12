@@ -1,6 +1,8 @@
 package com.dkhs.portfolio.utils;
 
 import android.content.Context;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -35,6 +37,15 @@ public class ImageLoaderUtils {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory().cacheOnDisc()
+                .displayer(new RoundedBitmapDisplayer(300))
+                .build();
+        loader.displayImage(url, new_phone1, options);
+    }
+    public static void setImage(String url, ImageView new_phone1,@DrawableRes int failedDrawableId) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .showImageOnFail(failedDrawableId)
                 .displayer(new RoundedBitmapDisplayer(300))
                 .build();
         loader.displayImage(url, new_phone1, options);

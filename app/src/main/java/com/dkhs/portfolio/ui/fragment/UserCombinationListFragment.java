@@ -19,6 +19,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
@@ -103,6 +104,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     }
 
 
+    private FloatingActionMenu localFloatingActionMenu;
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         headerHeight = getResources().getDimensionPixelOffset(R.dimen.header_height);
@@ -113,7 +116,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
 
-        ((CombinationUserActivity)getActivity()).localFloatingActionMenu.attachToListView(getListView(),null,this);
+        localFloatingActionMenu=    ((CombinationUserActivity)getActivity()).localFloatingActionMenu;
+        localFloatingActionMenu .attachToListView(getListView(),null,this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -264,6 +268,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                 } else {
                     handler.sendEmptyMessage(1);
                 }
+            }else{
+                localFloatingActionMenu.show(true);
             }
         }
     }
