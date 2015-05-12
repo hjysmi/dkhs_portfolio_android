@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
@@ -23,7 +24,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -98,11 +98,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     // 股价涨跌幅，switch
     @ViewInject(R.id.sw_price_up)
-    private Switch swPriceUp;
+    private SwitchCompat swPriceUp;
     @ViewInject(R.id.sw_price_down)
-    private Switch swPriceDown;
+    private SwitchCompat swPriceDown;
     @ViewInject(R.id.sw_day_percent)
-    private Switch swDayPercent;
+    private SwitchCompat swDayPercent;
 
     // 股价涨跌幅输入
     @ViewInject(R.id.et_priceup)
@@ -120,11 +120,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private View viewYanbaoRemind;
 
     @ViewInject(R.id.sw_adjust_remind)
-    private Switch swAdjustRemind;
+    private SwitchCompat swAdjustRemind;
     @ViewInject(R.id.sw_notice_remind)
-    private Switch swNoticeRemind;
+    private SwitchCompat swNoticeRemind;
     @ViewInject(R.id.sw_yanbao_remind)
-    private Switch swYanbaoRemind;
+    private SwitchCompat swYanbaoRemind;
 
     private boolean isPriceUpOK;
 
@@ -588,7 +588,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     @OnFocusChange({R.id.et_priceup, R.id.et_pricedown, R.id.et_daypercent})
     public void onFocusChange(View v, boolean hasFocus) {
-        Switch switchButtom = null;
+        SwitchCompat switchButtom = null;
         EditText editText = null;
         switch (v.getId()) {
             case R.id.et_priceup: {
