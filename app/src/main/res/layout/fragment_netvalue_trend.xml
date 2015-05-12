@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    android:paddingTop="0.5px" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/tv_combination_layout"
@@ -14,7 +13,7 @@
         android:paddingBottom="12dp"
         android:paddingLeft="12dp"
         android:paddingRight="8dp"
-        android:paddingTop="12dp" >
+        android:paddingTop="12dp">
 
         <TextView
             android:id="@+id/tv_follow"
@@ -59,14 +58,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_income_netvalue"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/netvalue_button_day"
@@ -99,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/netvalue_button_week"
@@ -132,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/netvalue_button_month"
@@ -165,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tv_his_netvalue"
@@ -212,7 +211,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/lv_white_selector"
         android:clickable="true"
-        android:padding="8dp" >
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/im_avatar"
@@ -226,7 +225,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
-            android:layout_toRightOf="@+id/im_avatar" >
+            android:layout_toRightOf="@+id/im_avatar">
 
             <TextView
                 android:id="@+id/tv_combination_user"

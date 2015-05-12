@@ -9,10 +9,10 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -92,6 +92,8 @@ public class FloatingActionMenu extends FloatingActionView {
         flaotMenu.setLayoutParams(new LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT,
                 getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height), 1.0F));
         TextView tvConntent = (TextView) flaotMenu.findViewById(R.id.tv_floatmenu);
+        tvConntent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        tvConntent.setTextColor(getResources().getColor(R.color.theme_color));
         if (!TextUtils.isEmpty(tvText)) {
             tvConntent.setText(tvText);
         }

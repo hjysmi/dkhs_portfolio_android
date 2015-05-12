@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
     android:orientation="vertical"
-    android:paddingTop="0.5dp" >
+    android:paddingTop="0.5px" >
 
     <com.melnykov.fab.ObservableScrollView
         android:id="@+id/sv_combinations"
@@ -70,8 +70,8 @@
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
                     android:text="公告和研报"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/setting_text_name" />
+                    android:textColor="@color/theme_color"
+                    android:textSize="15sp" />
             </RelativeLayout>
         </LinearLayout>
     </com.melnykov.fab.ObservableScrollView>

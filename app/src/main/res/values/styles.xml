@@ -57,6 +57,7 @@
         <item name="android:layout_height">0.5px</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
+
     <style name="vertical_divider_line">
         <item name="android:layout_width">0.5px</item>
         <item name="android:layout_height">fill_parent</item>
@@ -188,16 +189,11 @@
     <style name="text_stock_name">
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:textColor">@color/def_gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:singleLine">true</item>
-
-
-
-
         <item name="android:gravity">bottom|left</item>
-
         <item name="android:textSize">13sp</item>
     </style>
 
@@ -210,7 +206,7 @@
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:text">"    -"</item>
+        <item name="android:text">" -"</item>
     </style>
 
     <style name="edit_style_land_kilne">
@@ -289,7 +285,6 @@
     </style>
 
 
-
     <style name="user_tab_content">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -365,6 +360,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
+
     <style name="custom_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!-- Dialog的windowFrame框为无 -->
@@ -381,6 +377,7 @@
         <!-- 屏幕背景是否变暗 -->
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
+
     <style name="dialog_btn">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
