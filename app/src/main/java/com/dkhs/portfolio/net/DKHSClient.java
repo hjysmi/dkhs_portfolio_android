@@ -136,8 +136,8 @@ public class DKHSClient {
                     LogUtils.customTagPrefix = "DKHSClilent";
 
                     String result = StringDecodeUtil.fromUnicode(responseInfo.result);
-                    // LogUtils.d("请求成功:" + DebugJsonFormatUtil.format(result));
-                    LogUtils.d("请求成功:" + result);
+                    LogUtils.d("请求成功:" + DebugJsonFormatUtil.format(result));
+//                    LogUtils.d("请求成功:" + result);
                     if (null != listener && !listener.isStopRequest()) {
                         listener.onHttpSuccess(result);
                     }
