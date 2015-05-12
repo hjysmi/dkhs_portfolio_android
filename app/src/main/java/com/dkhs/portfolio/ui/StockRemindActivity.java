@@ -8,19 +8,15 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.math.BigDecimal;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -28,24 +24,16 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AlertSetBean;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PortfolioAlertBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
-import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
-import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -56,12 +44,18 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lidroid.xutils.view.annotation.event.OnCompoundButtonCheckedChange;
 import com.lidroid.xutils.view.annotation.event.OnFocusChange;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockRemindActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-4-13 下午2:07:36
- * @version 1.0
  */
 public class StockRemindActivity extends ModelAcitivity implements OnClickListener, OnCheckedChangeListener,
         OnFocusChangeListener {
@@ -104,11 +98,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     // 股价涨跌幅，switch
     @ViewInject(R.id.sw_price_up)
-    private Switch swPriceUp;
+    private SwitchCompat swPriceUp;
     @ViewInject(R.id.sw_price_down)
-    private Switch swPriceDown;
+    private SwitchCompat swPriceDown;
     @ViewInject(R.id.sw_day_percent)
-    private Switch swDayPercent;
+    private SwitchCompat swDayPercent;
 
     // 股价涨跌幅输入
     @ViewInject(R.id.et_priceup)
@@ -126,11 +120,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private View viewYanbaoRemind;
 
     @ViewInject(R.id.sw_adjust_remind)
-    private Switch swAdjustRemind;
+    private SwitchCompat swAdjustRemind;
     @ViewInject(R.id.sw_notice_remind)
-    private Switch swNoticeRemind;
+    private SwitchCompat swNoticeRemind;
     @ViewInject(R.id.sw_yanbao_remind)
-    private Switch swYanbaoRemind;
+    private SwitchCompat swYanbaoRemind;
 
     private boolean isPriceUpOK;
 
@@ -278,10 +272,17 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     }
 
     private String stripZeros(String value) {
-        return new BigDecimal(value).stripTrailingZeros() + "";
+//        String parseValue = new BigDecimal(value).stripTrailingZeros() + "";
+        BigDecimal decimalValue =  new BigDecimal(value).stripTrailingZeros();
+        String parseValue = String.valueOf(decimalValue);
+        if (String.valueOf(decimalValue).contains("E")) {
+            NumberFormat formatter = new DecimalFormat("0");
+            parseValue = formatter.format(decimalValue);
+        }
+        return parseValue;
     }
 
-    @OnClick({ R.id.btn_right, })
+    @OnClick({R.id.btn_right,})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right: {
@@ -297,7 +298,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                     postRemindToServer();
                 }
             }
-                break;
+            break;
 
             default:
                 break;
@@ -556,22 +557,22 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-    @OnCompoundButtonCheckedChange({ R.id.sw_price_up, R.id.sw_price_down, R.id.sw_day_percent })
+    @OnCompoundButtonCheckedChange({R.id.sw_price_up, R.id.sw_price_down, R.id.sw_day_percent})
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         EditText editText = null;
         switch (buttonView.getId()) {
             case R.id.sw_price_up: {
                 editText = etPriceUp;
             }
-                break;
+            break;
             case R.id.sw_price_down: {
                 editText = etPriceDown;
             }
-                break;
+            break;
             case R.id.sw_day_percent: {
                 editText = etDayPercent;
             }
-                break;
+            break;
             default:
                 break;
         }
@@ -585,26 +586,26 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
-    @OnFocusChange({ R.id.et_priceup, R.id.et_pricedown, R.id.et_daypercent })
+    @OnFocusChange({R.id.et_priceup, R.id.et_pricedown, R.id.et_daypercent})
     public void onFocusChange(View v, boolean hasFocus) {
-        Switch switchButtom = null;
+        SwitchCompat switchButtom = null;
         EditText editText = null;
         switch (v.getId()) {
             case R.id.et_priceup: {
                 switchButtom = swPriceUp;
                 editText = etPriceUp;
             }
-                break;
+            break;
             case R.id.et_pricedown: {
                 switchButtom = swPriceDown;
                 editText = etPriceDown;
             }
-                break;
+            break;
             case R.id.et_daypercent: {
                 switchButtom = swDayPercent;
                 editText = etDayPercent;
             }
-                break;
+            break;
 
             default:
                 break;

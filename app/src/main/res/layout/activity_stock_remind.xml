@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="10dp" >
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/tv_stock_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/theme_color"
             android:textSize="17sp" />
 
         <TextView
@@ -26,6 +28,7 @@
             android:layout_alignBottom="@+id/tv_stock_name"
             android:layout_marginLeft="6dp"
             android:layout_toRightOf="@+id/tv_stock_name"
+            android:textColor="@color/theme_color"
             android:textSize="14sp" />
 
         <TextView
@@ -54,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,13 +65,14 @@
             android:paddingBottom="4dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="6dp" >
+            android:paddingTop="6dp">
 
             <TextView
                 android:id="@+id/tv_priceup_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stock_price_up_text"
+                android:textColor="@color/theme_color"
                 android:textSize="17sp" />
 
             <EditText
@@ -100,14 +104,17 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/et_priceup"
                 android:text="@string/price_units"
+                android:textColor="@color/theme_color"
                 android:textSize="17sp" />
 
-            <Switch
+
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/sw_price_up"
-                style="@style/widget_gender_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
+                android:background="@null"
+                android:layout_alignParentRight="true"
+                app:showText="false" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -116,13 +123,14 @@
             android:paddingBottom="4dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="6dp" >
+            android:paddingTop="6dp">
 
             <TextView
                 android:id="@+id/tv_pricedown_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/stock_price_down_text"
+                android:textColor="@color/theme_color"
                 android:textSize="17sp" />
 
             <EditText
@@ -154,14 +162,16 @@
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/et_pricedown"
                 android:text="@string/price_units"
+                android:textColor="@color/theme_color"
                 android:textSize="17sp" />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/sw_price_down"
-                style="@style/widget_gender_switch"
                 android:layout_width="wrap_content"
+                android:background="@null"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                app:showText="false" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -170,13 +180,14 @@
             android:paddingBottom="4dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="6dp" >
+            android:paddingTop="6dp">
 
             <TextView
                 android:id="@+id/tv_daypercent_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/day_percent_text"
+                android:textColor="@color/theme_color"
                 android:textSize="17sp" />
 
             <EditText
@@ -206,17 +217,19 @@
                 android:id="@+id/tv_daypercent_units"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/et_daypercent"
                 android:text="%"
+                android:textColor="@color/theme_color"
                 android:textSize="17sp" />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:id="@+id/sw_day_percent"
-                style="@style/widget_gender_switch"
                 android:layout_width="wrap_content"
+                android:background="@null"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                app:showText="false" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -232,20 +245,22 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="18dp"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remind_adjust_text"
+            android:textColor="@color/theme_color"
             android:textSize="17sp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/sw_adjust_remind"
-            style="@style/widget_gender_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            app:showText="false" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -259,20 +274,22 @@
         android:paddingBottom="16dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="18dp" >
+        android:paddingTop="18dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remind_notice_text"
+            android:textColor="@color/theme_color"
             android:textSize="17sp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/sw_notice_remind"
-            style="@style/widget_gender_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            app:showText="false" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -286,20 +303,22 @@
         android:paddingBottom="16dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="18dp" >
+        android:paddingTop="18dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/remind_yanbao_text"
+            android:textColor="@color/theme_color"
             android:textSize="17sp" />
 
-        <Switch
+        <android.support.v7.widget.SwitchCompat
             android:id="@+id/sw_yanbao_remind"
-            style="@style/widget_gender_switch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true" />
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            app:showText="false" />
     </RelativeLayout>
 
 </LinearLayout>

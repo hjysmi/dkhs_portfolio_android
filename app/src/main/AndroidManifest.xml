@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="12"
-    android:versionName="1.6.0511">
+    android:versionName="1.6.0512">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -99,7 +99,6 @@
         <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanbaoDetailActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.OrderFundDetailActivity" />
 
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackActivity"
@@ -124,6 +123,7 @@
             android:theme="@style/AppThemeNoBackgroud" />
         <activity
             android:name="com.dkhs.portfolio.ui.StockRemindActivity"
+            android:theme="@style/Theme.AppCompatRed"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name="com.dkhs.portfolio.ui.FAQTextActivity" />
         <activity

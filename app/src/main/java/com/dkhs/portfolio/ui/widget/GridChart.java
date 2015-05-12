@@ -1,10 +1,5 @@
 package com.dkhs.portfolio.ui.widget;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,6 +16,11 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 坐�?轴使用的View
@@ -50,7 +50,7 @@ public class GridChart extends View {
     public static final float DEFAULT_AXIS_MARGIN_LEFT = 42f;
 
     /** 默认轴线底边据 */
-    public static final float DEFAULT_AXIS_MARGIN_BOTTOM = 0f;
+    public static final float DEFAULT_AXIS_MARGIN_BOTTOM = 2f;
 
     /** 默认轴线上边距 */
     public static final float DEFAULT_AXIS_MARGIN_TOP = 5f;

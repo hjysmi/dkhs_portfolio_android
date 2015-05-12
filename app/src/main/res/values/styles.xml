@@ -1,9 +1,27 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
     <style name="AppBaseTheme" parent="@android:style/Theme.Light.NoTitleBar"></style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme"></style>
+
+    <style name="Theme.AppCompatRed" parent="Theme.AppCompat.Light">
+        <!-- colorPrimary is used for the default action bar background -->
+        <!--        <item name="colorPrimary">@color/my
+                </item>
+
+                &lt;!&ndash; colorPrimaryDark is used for the status bar &ndash;&gt;
+                <item name="colorPrimaryDark">@color/my_awesome_darker_color
+                </item>-->
+
+        <!-- colorAccent is used as the default value for colorControlActivated,
+             which is used to tint widgets -->
+        <item name="colorAccent">@color/title_color</item>
+
+        <!-- You can also set colorControlNormal, colorControlActivated
+             colorControlHighlight, and colorSwitchThumbNormal. -->
+
+    </style>
 
     <style name="AppThemeNoBackgroud" parent="AppBaseTheme">
         <item name="android:windowBackground">@null</item>
@@ -15,14 +33,12 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light">
-        <item name="com.dkhs.portfolio:switchStyle">@style/switch_light</item>
-    </style>
+    <style name="AppThemeLight" parent="@android:style/Theme.DeviceDefault.Light"></style>
 
-    <!-- Activity透明主题 -->
-    <style name="TranslucenTheme" parent="@style/AppBaseTheme">
-        <item name="android:windowIsTranslucent">true</item>
-    </style>
+
+    <!-- Activity透明主题 --><style name="TranslucenTheme" parent="@style/AppBaseTheme">
+    <item name="android:windowIsTranslucent">true</item>
+</style>
 
     <style name="hw_wrap">
         <item name="android:layout_width">wrap_content</item>
@@ -57,6 +73,7 @@
         <item name="android:layout_height">0.5px</item>
         <item name="android:background">@color/drivi_line</item>
     </style>
+
     <style name="vertical_divider_line">
         <item name="android:layout_width">0.5px</item>
         <item name="android:layout_height">fill_parent</item>
@@ -107,23 +124,13 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
-    <style name="SwitchTextAppearance" parent="@android:style/TextAppearance.Holo.Small">
-        <item name="android:textColor">@color/switch_textcolor</item>
-    </style>
-
-    <style name="switch_light">
-        <item name="@attr/colorChecked">#FFFFFF</item>
-        <item name="@attr/colorUnChecked">#181818</item>
-        <item name="@attr/backgroundDrawable">@drawable/switch_bg</item>
-        <item name="@attr/switchDrawable">@drawable/switch_thumb</item>
-    </style>
     <!-- 用于自定义选择框 -->
     <style name="widget_gender_switch">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textOff">" "</item>
+        <item name="android:textOff">""</item>
         <!-- 此设置不需要文字，只显示背景图的开关 -->
-        <item name="android:textOn">" "</item>
+        <item name="android:textOn">""</item>
         <item name="android:thumb">@drawable/switch_selector</item>
         <item name="android:switchMinWidth">0dp</item>
         <!-- 滑块格式9.png -->
@@ -188,16 +195,11 @@
     <style name="text_stock_name">
         <item name="android:layout_height">fill_parent</item>
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:textColor">@color/def_gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:singleLine">true</item>
-
-
-
-
         <item name="android:gravity">bottom|left</item>
-
         <item name="android:textSize">13sp</item>
     </style>
 
@@ -210,7 +212,7 @@
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:paddingLeft">6dp</item>
         <item name="android:textSize">15sp</item>
-        <item name="android:text">"    -"</item>
+        <item name="android:text">" -"</item>
     </style>
 
     <style name="edit_style_land_kilne">
@@ -289,7 +291,6 @@
     </style>
 
 
-
     <style name="user_tab_content">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -365,6 +366,7 @@
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/gray</item>
     </style>
+
     <style name="custom_dialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
         <!-- Dialog的windowFrame框为无 -->
@@ -381,6 +383,7 @@
         <!-- 屏幕背景是否变暗 -->
         <item name="android:backgroundDimAmount">0.6</item>
     </style>
+
     <style name="dialog_btn">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

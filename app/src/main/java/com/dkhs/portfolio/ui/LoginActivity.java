@@ -1,12 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,25 +13,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.ShareSDK;
-import cn.sharesdk.framework.utils.UIHandler;
-import cn.sharesdk.sina.weibo.SinaWeibo;
-import cn.sharesdk.tencent.qzone.QZone;
-import cn.sharesdk.wechat.friends.Wechat;
-import cn.sharesdk.wechat.utils.WechatClientNotExistException;
-import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
-import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SignupBean;
@@ -48,21 +27,30 @@ import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
-import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.utils.ChannelUtil;
-import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
-
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qzone.QZone;
+import cn.sharesdk.wechat.friends.Wechat;
+import cn.sharesdk.wechat.utils.WechatClientNotExistException;
+import cn.sharesdk.wechat.utils.WechatTimelineNotSupportedException;
 
 public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
@@ -134,9 +122,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
      */
     private void initDatas() {
         mUserAccout = PortfolioPreferenceManager.getStringValue(PortfolioPreferenceManager.KEY_USER_ACCOUNT);
@@ -279,10 +267,10 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param string
      * @return void
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     protected void isLastUserAccount(String accountText) {
         if (accountText.equalsIgnoreCase(mUserAccout)) {
@@ -310,23 +298,23 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                 intent2.putExtra("activity_type", RLFActivity.REGIST_TYPE);
                 startActivity(intent2);
             }
-                break;
+            break;
             case R.id.iv_weibo: {
                 authPlatform(SinaWeibo.NAME);
                 // authorize(new SinaWeibo(this));
             }
-                break;
+            break;
             case R.id.iv_qq: {
                 authPlatform(QZone.NAME);
 
                 // authorize(new QZone(this));
             }
-                break;
+            break;
             case R.id.iv_weixin: {
                 authPlatform(Wechat.NAME);
                 // authorize(new Wechat(this));
             }
-                break;
+            break;
             default:
                 break;
         }
@@ -343,7 +331,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     private void authPlatform(String platformName) {
 
-        PromptManager.showProgressDialog(this, "", false);
+        if (!platformName.equals(Wechat.NAME)) {
+            PromptManager.showProgressDialog(this, "", false);
+        }
         // System.out.println("authPlatform:" + platformName);
         ShareSDK.removeCookieOnAuthorize(true);
         Platform plat = ShareSDK.getPlatform(platformName);
@@ -367,7 +357,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     /**
      * 校验用户
-     * 
+     *
      * @param userName
      * @param passWord
      */
@@ -406,7 +396,9 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             PromptManager.closeProgressDialog();
-        };
+        }
+
+        ;
 
         @Override
         protected UserEntity parseDateTask(String jsonData) {
@@ -448,7 +440,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
     /**
      * 验证邮箱地址是否正确
-     * 
+     *
      * @param email
      * @return
      */
@@ -565,7 +557,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                                 platData, registerListener.setLoadingDialog(LoginActivity.this, false));
                     }
                 }
-                    break;
+                break;
                 case 2: {
                     String failtext = "";
                     if (msg.obj instanceof WechatClientNotExistException) {
@@ -585,25 +577,29 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                     PromptManager.showToast(failtext);
 
                 }
-                    break;
+                break;
                 case 3: {
                     // Toast.makeText(getApplicationContext(), "PlatformActionListener onCancel()", Toast.LENGTH_SHORT)
                     // .show();
 
                 }
-                    break;
+                break;
 
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
 
     private ParseHttpListener<SignupBean> registerListener = new ParseHttpListener<SignupBean>() {
 
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
-        };
+        }
+
+        ;
 
         @Override
         protected SignupBean parseDateTask(String jsonData) {
