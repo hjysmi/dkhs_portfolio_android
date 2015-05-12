@@ -30,7 +30,6 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.FloatingActionMenu;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
