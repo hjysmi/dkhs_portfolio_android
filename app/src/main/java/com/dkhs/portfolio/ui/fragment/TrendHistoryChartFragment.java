@@ -8,11 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -31,24 +26,25 @@ import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
-import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TrendChartFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午10:32:39
- * @version 1.0
  */
 public class TrendHistoryChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
@@ -251,12 +247,14 @@ public class TrendHistoryChartFragment extends BaseFragment {
             }
 
         }
-        
+
         @Override
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
     };
 
     public class DrawLineDataEntity {
@@ -350,7 +348,9 @@ public class TrendHistoryChartFragment extends BaseFragment {
 
     Handler dataHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-        };
+        }
+
+        ;
     };
 
     /**
@@ -479,10 +479,9 @@ public class TrendHistoryChartFragment extends BaseFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

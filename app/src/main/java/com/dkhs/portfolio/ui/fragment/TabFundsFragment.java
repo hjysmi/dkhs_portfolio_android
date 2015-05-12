@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -33,7 +30,6 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -43,15 +39,17 @@ import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TabFundsFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-7 上午11:03:26
- * @version 1.0
  */
 public class TabFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
 
@@ -130,9 +128,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onResume() {
@@ -177,12 +175,12 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
             case R.id.tv_current: {
                 setViewOrderIndicator(tvCurrent);
             }
-                break;
+            break;
             case R.id.tv_percentage: {
                 setViewOrderIndicator(tvPercentgae);
 
             }
-                break;
+            break;
             // case R.id.tv_increase: {
             // setViewOrderIndicator(tvChange);
             // }
@@ -369,9 +367,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     private boolean isUpOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
-                        || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP)
-                        || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
-                            .equals(FollowComListEngineImpl.ORDER_MONTH_UP))) {
+                || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP)
+                || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
+                .equals(FollowComListEngineImpl.ORDER_MONTH_UP))) {
             return true;
         }
         return false;
@@ -380,9 +378,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     private boolean isDownOrder(String orderType) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
-                        || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN)
-                        || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_DOWN) || orderType
-                            .equals(FollowComListEngineImpl.ORDER_MONTH_DOWN))) {
+                || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN)
+                || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_DOWN) || orderType
+                .equals(FollowComListEngineImpl.ORDER_MONTH_DOWN))) {
             return true;
         }
         return false;
@@ -401,9 +399,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     private boolean isPercentType(String type) {
         if (!TextUtils.isEmpty(orderType)
                 && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
-                        || orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
-                        || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
-                            .equals(FollowComListEngineImpl.ORDER_WEEK_DOWN))
+                || orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
+                || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
+                .equals(FollowComListEngineImpl.ORDER_WEEK_DOWN))
                 || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_UP)
                 || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_DOWN)) {
             return true;

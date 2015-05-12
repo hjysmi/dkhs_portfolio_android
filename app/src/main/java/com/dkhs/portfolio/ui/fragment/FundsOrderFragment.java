@@ -8,53 +8,36 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
-import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
 import com.umeng.analytics.MobclickAgent;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午4:03:33
- * @version 1.0
  */
 public class FundsOrderFragment extends LoadMoreListFragment {
 
@@ -91,13 +74,12 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param inflater
      * @param container
      * @param savedInstanceState
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,9 +96,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void loadData() {
@@ -126,11 +108,11 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -254,7 +236,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
 
                 startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
-                
+
                 // getActivity().startActivity(
                 //       OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true, mOrderType));
             }
@@ -264,10 +246,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     OnRefreshListener setOnRefreshListener() {
@@ -283,9 +264,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void loadFail() {
