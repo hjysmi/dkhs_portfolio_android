@@ -3,43 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp" >
+    android:background="@color/white"
+    android:padding="4dp" >
 
     <ImageView
         android:id="@+id/im_avatar"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:src="@drawable/ic_user_head"
-        android:padding="4dp" />
+        android:layout_margin="10dp" />
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="fill_parent"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
         android:layout_weight="1" >
 
         <TextView
             android:id="@+id/tv_user_name"
-            style="@style/CommonTextAppearance_Big_Black"
+            style="@style/CommonTextAppearance_Middle_Black"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingTop="10dp"
             android:singleLine="true" />
 
         <TextView
             android:id="@+id/tv_friends"
-            style="@style/CommonTextAppearance_Middle_Gray"
+            style="@style/CommonTextAppearance_Mini_Gray"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/tv_user_name"
-            android:paddingLeft="10dp" />
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+             />
 
         <TextView
             android:id="@+id/tv_followers"
-            style="@style/CommonTextAppearance_Middle_Gray"
+            style="@style/CommonTextAppearance_Mini_Gray"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_user_name"
+            android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/tv_friends" />
     </RelativeLayout>
 

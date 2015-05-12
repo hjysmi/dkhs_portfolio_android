@@ -19,6 +19,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.Animation;
@@ -208,6 +210,11 @@ public class BitmapUtils implements TaskHandler {
     public <T extends View> void display(T container, String uri) {
 
         ImageLoaderUtils.setImage(uri, (ImageView) container);
+//        display(container, uri, null, null);
+    }
+    public <T extends View> void display(T container, String uri,@DrawableRes int failedDrawableId ) {
+
+        ImageLoaderUtils.setImage(uri, (ImageView) container,failedDrawableId);
 //        display(container, uri, null, null);
     }
 

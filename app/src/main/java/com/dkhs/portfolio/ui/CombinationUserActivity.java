@@ -267,6 +267,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
                 updateUserFolllowInfo(object);
 
+                PromptManager.showDelFollowToast();
 
             }
         }
@@ -295,6 +296,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 //todo api 返回无me_follow 字段,所以这边手动设置为true
                 object.setMe_follow(true);
                 updateUserFolllowInfo(object);
+                PromptManager.showFollowToast();
 
             }
 
