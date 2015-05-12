@@ -8,43 +8,38 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SectorBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
 import com.dkhs.portfolio.ui.MarketListActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
-import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
-import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.adapter.HotPlateAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnRefreshListener;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午4:03:33
- * @version 1.0
  */
 public class HotPlateFragment extends LoadPageMoreListFragment {
 
@@ -90,10 +85,10 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
     private PullToRefreshPageListView mListView;
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param listview
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void setListViewInit(PullToRefreshPageListView listview) {
@@ -253,9 +248,9 @@ public class HotPlateFragment extends LoadPageMoreListFragment {
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_funds);
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void loadFail() {

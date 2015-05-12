@@ -13,7 +13,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
 import com.dkhs.portfolio.ui.fragment.InvalidStateFragment;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
@@ -47,7 +46,7 @@ public class RCChatActivity extends ModelAcitivity {
 
     private ConversationType conversationType;
 
-    private static final  String   TAG="RCChatActivity";
+    private static final String TAG = "RCChatActivity";
     private ConversationFragment fragment;
 
     @Override
@@ -123,8 +122,8 @@ public class RCChatActivity extends ModelAcitivity {
         }
 
         if (PortfolioApplication.hasUserLogin()) {
-             fragment= new ConversationFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,fragment).commit();
+            fragment = new ConversationFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, fragment).commit();
 //            getSupportFragmentManager().beginTransaction().hide(fragment).commitAllowingStateLoss();
             getRightButton().setBackgroundResource(R.drawable.rc_bar_more);
             getRightButton().setOnClickListener(new View.OnClickListener() {
@@ -142,13 +141,12 @@ public class RCChatActivity extends ModelAcitivity {
                 public void run() {
 
 
+                    if (!isDestroy) {
+                        getSupportFragmentManager().beginTransaction().show(fragment).commitAllowingStateLoss();
+                    }
 
-                if(!isDestroy) {
-                    getSupportFragmentManager().beginTransaction().show(fragment).commitAllowingStateLoss();
                 }
-
-                }
-            },1200);
+            }, 1200);
 
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new InvalidStateFragment()).commit();
@@ -158,56 +156,59 @@ public class RCChatActivity extends ModelAcitivity {
     }
 
 
-    private boolean isDestroy=false;
+    private boolean isDestroy = false;
 
     @Override
     protected void onDestroy() {
-        isDestroy=true;
+        isDestroy = true;
         super.onDestroy();
 
     }
 
     /**
      * 处理由我们自己的  RichContentMessage  消息;
+     *
      * @param messageContent
      */
     private void handCustomRichContentMessage(RichContentMessage messageContent) {
 
 
-        Uri uri=Uri.parse(messageContent.getImgUrl());
+        Uri uri = Uri.parse(messageContent.getImgUrl());
 
 
-        List<String>  segments=uri.getPathSegments();
+        List<String> segments = uri.getPathSegments();
 
 
-        if(segments.size()>0){
+        if (segments.size() > 0) {
 
-            if(segments.get(0).equals("s") &&  segments.size()==3){
-                String name=uri.getQueryParameter("name");
-                gotoStockQuotesActivity(segments,name);
-            }else if(segments.get(0).equals("p") &&  segments.size()==2){
+            if (segments.get(0).equals("s") && segments.size() == 3) {
+                String name = uri.getQueryParameter("name");
+                gotoStockQuotesActivity(segments, name);
+            } else if (segments.get(0).equals("p") && segments.size() == 2) {
 
                 gotoOrderFundDetailActivity(segments.get(1));
 
-            }else  if(segments.get(0).equals("statuses") &&  segments.size()==2){
+            } else if (segments.get(0).equals("statuses") && segments.size() == 2) {
 
             }
         }
 
     }
 
-    private void gotoOrderFundDetailActivity(String  id) {
+    private void gotoOrderFundDetailActivity(String id) {
 
-        CombinationBean mChampionBean=new CombinationBean();
+        CombinationBean mChampionBean = new CombinationBean();
         mChampionBean.setId(id);
-        this.startActivity(
-                OrderFundDetailActivity.getIntent(this, mChampionBean, true,
-                        FundsOrderFragment.ORDER_TYPE_DAY));
+        startActivity(NewCombinationDetailActivity.newIntent(this, mChampionBean));
+
+//        this.startActivity(
+//                OrderFundDetailActivity.getIntent(this, mChampionBean, true,
+//                        FundsOrderFragment.ORDER_TYPE_DAY));
     }
 
-    private void gotoStockQuotesActivity(List<String> segments,String  name) {
+    private void gotoStockQuotesActivity(List<String> segments, String name) {
 
-        SelectStockBean itemStock=new SelectStockBean();
+        SelectStockBean itemStock = new SelectStockBean();
         itemStock.setId(Long.parseLong(segments.get(2)));
         itemStock.setCode(segments.get(1));
         itemStock.setSymbol_type("1");
@@ -233,7 +234,7 @@ public class RCChatActivity extends ModelAcitivity {
         }
 
         @Override
-        protected void onPostExecute(String  str) {
+        protected void onPostExecute(String str) {
 
             if (TextUtils.isEmpty(str)) {
                 str = getResources().getString(R.string.message_center);

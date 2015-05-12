@@ -5,6 +5,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.widget.ImageView;
 
+import com.dkhs.portfolio.R;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -50,4 +51,17 @@ public class ImageLoaderUtils {
                 .build();
         loader.displayImage(url, new_phone1, options);
     }
+
+
+    public static void setHeanderImage(String url, ImageView new_phone1) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .displayer(new RoundedBitmapDisplayer(300))
+                .showImageForEmptyUri(R.drawable.ic_user_head)
+                .build();
+        loader.displayImage(url, new_phone1, options);
+    }
+
+
 }

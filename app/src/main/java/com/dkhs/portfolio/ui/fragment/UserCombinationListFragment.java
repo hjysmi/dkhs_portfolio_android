@@ -8,8 +8,17 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Message;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -19,28 +28,15 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.FloatingActionMenu;
 import com.dkhs.portfolio.ui.OrderFundDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.os.Message;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -69,8 +65,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     private int headerHeight;
 
 
-
-
     private HttpHandler mHttpHandler;
 
 
@@ -96,9 +90,6 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
     }
 
 
-
-
-
     public ListView getListView() {
         return mListView;
     }
@@ -116,7 +107,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
 
-        localFloatingActionMenu=    ((CombinationUserActivity)getActivity()).localFloatingActionMenu;
+       localFloatingActionMenu=    ((CombinationUserActivity)getActivity()).localFloatingActionMenu;
         localFloatingActionMenu .attachToListView(getListView(),null,this);
         super.onViewCreated(view, savedInstanceState);
     }
@@ -216,8 +207,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                 user.setId(mUserId);
                 user.setUsername(mUserName);
                 cBean.setUser(user);
-
-                getActivity().startActivity(OrderFundDetailActivity.getIntent(getActivity(), cBean, false, null));
+                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), cBean));
+//                getActivity().startActivity(NewCombinationDetailActivity.getIntent(getActivity(), cBean, false, null));
             }
         };
     }
