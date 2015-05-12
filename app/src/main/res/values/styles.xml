@@ -122,9 +122,9 @@
     <style name="widget_gender_switch">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:textOff">" "</item>
+        <item name="android:textOff">""</item>
         <!-- 此设置不需要文字，只显示背景图的开关 -->
-        <item name="android:textOn">" "</item>
+        <item name="android:textOn">""</item>
         <item name="android:thumb">@drawable/switch_selector</item>
         <item name="android:switchMinWidth">0dp</item>
         <!-- 滑块格式9.png -->

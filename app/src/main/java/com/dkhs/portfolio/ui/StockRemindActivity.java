@@ -16,7 +16,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
@@ -235,14 +234,12 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private void setAlertView(AlertSetBean alerBean) {
         // AlertSetBean alerBean = mStockBean.alertSetBean;
         if (alerBean.getStock_price_up() > 0) {
-            Log.e("setAlertView", "stripZeros priceUP： " + alerBean.getStock_price_up() + " =  " + (stripZeros(alerBean.getStock_price_up() + "")));
             etPriceUp.setText(stripZeros(alerBean.getStock_price_up() + ""));
             swPriceUp.setChecked(true);
             // isPriceUpOK = true;
         }
         if (alerBean.getStock_price_down() > 0) {
             // isPriceDownOk = true;
-            Log.e("setAlertView", "stripZeros priceDown:" + alerBean.getStock_price_down() + " =  " + (stripZeros(alerBean.getStock_price_down() + "")));
             etPriceDown.setText(stripZeros(alerBean.getStock_price_down() + ""));
             swPriceDown.setChecked(true);
         }
