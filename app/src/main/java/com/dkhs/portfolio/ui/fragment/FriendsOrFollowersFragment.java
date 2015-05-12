@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.widget.ListAdapter;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PeopleBean;
+import com.dkhs.portfolio.bean.User;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.PeopleEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserEngineImpl;
@@ -21,6 +24,9 @@ import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
 import com.dkhs.portfolio.ui.adapter.FriendsOrFollowerAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +48,6 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
     @Override
     public void onCreate(Bundle arg0) {
-
         super.onCreate(arg0);
         Intent intent = getActivity().getIntent();
         String getTypeStr = intent.getStringExtra(FriendsOrFollowersActivity.KEY);
@@ -52,6 +57,15 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
         } else if (getTypeStr.equals(FriendsOrFollowersActivity.FOLLOWER)) {
             type = PeopleEngineImpl.TYPE.FOLLOWERS;
         }
+        BusProvider.getInstance().register(this);
+
+    }
+
+    @Override
+    public void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+
     }
 
     @Override
@@ -91,10 +105,8 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
         endLoadData();
-//        mSwipeLayout.setRefreshing(false);
         dataList.addAll(object.getResults());
         adapter.notifyDataSetChanged();
-
         if(dataList.size() == 0){
 
             switch (type){
@@ -124,18 +136,11 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+
             }
         };
     }
 
-    public void refresh() {
-        dataList.clear();
-        if (null != adapter) {
-            adapter.notifyDataSetChanged();
-        }
-        setHttpHandler(getLoadEngine().refreshDatabySize(20));
-    }
 
 
     @Override
@@ -172,5 +177,27 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
     public void loadFail() {
         endLoadData();
 //        mSwipeLayout.setRefreshing(false);
+    }
+
+
+    @Subscribe
+    public void updateList( UnFollowEvent follow){
+
+        switch (type) {
+            case FOLLOWERS:
+                break;
+            case FRIENDS:
+                for (int i = 0; i < dataList.size(); i++) {
+                    PeopleBean item = dataList.get(i);
+
+                    if (item.getId() == follow.getId()) {
+                        dataList.remove(i);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    }
+
+                }
+                break;
+        }
     }
 }

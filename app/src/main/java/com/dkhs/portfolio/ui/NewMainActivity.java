@@ -148,11 +148,9 @@ public class NewMainActivity extends ModelAcitivity {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.toast_click_once_more), Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-                System.exit(0);
+                return true;
             }
-            return true;
+
         }
         return super.onKeyDown(keyCode, event);
     }

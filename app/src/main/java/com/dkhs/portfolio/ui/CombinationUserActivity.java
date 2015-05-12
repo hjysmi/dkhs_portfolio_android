@@ -10,21 +10,29 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -47,6 +55,7 @@ import org.json.JSONException;
  */
 public class CombinationUserActivity extends ModelAcitivity implements View.OnClickListener, UserCombinationListFragment.OnFragmentInteractionListener {
 
+    private final int MENU_FOLLOW_OR_UNFOLLOWE = 0;
     private String mUserId;
     private String mUserName;
     private boolean isMyInfo;
@@ -64,7 +73,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private UserEntity userEntity;
 
     private View llTool;
-    private View llFollow;
+
     private View bgV;
     private View combinationTitleLL;
     private int headerTop;
@@ -73,10 +82,15 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private int userDescTop;
     private int userNameLeft;
     private int userDescLeft;
-    private TextView followTV;
+
+    private TextView symbolsPromptTV;
+
     private UserCombinationListFragment userCombinationListFragment;
+    public FloatingActionMenu localFloatingActionMenu;
 
     private float prePercent;
+    private UserEngineImpl userEngine;
+
 
     public static Intent getIntent(Context context, String username, String userId, boolean isMyInfo) {
         Intent intent = new Intent(context, CombinationUserActivity.class);
@@ -133,29 +147,72 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         ivHeader = (ImageView) findViewById(R.id.iv_uheader);
         tvUName = (TextView) findViewById(R.id.tv_user_name);
         tvUserDesc = (TextView) findViewById(R.id.tv_user_desc);
-        followTV = (TextView) findViewById(R.id.tv_follow);
+
         tvFollowers = (TextView) findViewById(R.id.tv_followers);
-        llFollow = findViewById(R.id.ll_follow);
+        symbolsPromptTV = (TextView) findViewById(R.id.tv_symbols_prompt);
+
         tvFollowing = (TextView) findViewById(R.id.tv_following);
         tvSymbols = (TextView) findViewById(R.id.tv_symbols);
         llTool = findViewById(R.id.ll_tool);
         bgV = findViewById(R.id.v_bg);
         combinationTitleLL = findViewById(R.id.ll_combination_title);
-
+        localFloatingActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
         if (isMyInfo) {
             setTitle("我的主页");
-            llFollow.setVisibility(View.GONE);
+            localFloatingActionMenu.setVisibility(View.GONE);
+            symbolsPromptTV.setText(getString(R.string.symbols));
         } else {
             setTitle("Ta的主页");
-            llFollow.setVisibility(View.VISIBLE);
+            localFloatingActionMenu.setVisibility(View.VISIBLE);
+
         }
 
         findViewById(R.id.ll_followers).setOnClickListener(this);
         findViewById(R.id.ll_following).setOnClickListener(this);
         findViewById(R.id.ll_symbols).setOnClickListener(this);
-        llFollow.setOnClickListener(this);
+
+        userEngine= new UserEngineImpl();
+
+
+
+        localFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
+            @Override
+            public boolean onMenuItemSelected(int paramInt) {
+
+                switch (paramInt) {
+                    case MENU_FOLLOW_OR_UNFOLLOWE:
+
+                        if (null == userEntity) {
+                            return false ;
+                        }
+                        if (userEntity.isMe_follow()) {
+                            unFollowAction();
+                        } else {
+                            followAction();
+                        }
+                        break;
+
+
+                }
+                return false;
+            }
+        });
 
         replaceCombinationListView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (isMyInfo) {
+            userInfoListener.setLoadingDialog(context);
+
+
+            userEngine.getBaseUserInfo(mUserId, userInfoListener);
+        }
+
+
     }
 
     private void replaceCombinationListView() {
@@ -169,8 +226,12 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
     private void initData() {
 
-        userInfoListener.setLoadingDialog(context);
-        new UserEngineImpl().getBaseUserInfo(mUserId, userInfoListener);
+
+
+        if(!isMyInfo) {
+            userInfoListener.setLoadingDialog(context);
+            userEngine.getBaseUserInfo(mUserId, userInfoListener);
+        }
     }
 
     ParseHttpListener userInfoListener = new ParseHttpListener<UserEntity>() {
@@ -205,6 +266,8 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
             if (null != object) {
 
                 updateUserFolllowInfo(object);
+
+
             }
         }
     };
@@ -233,7 +296,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 object.setMe_follow(true);
                 updateUserFolllowInfo(object);
 
-                UserEngineImpl.getUserEntity();
             }
 
         }
@@ -278,13 +340,14 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void updateUserFolllowInfo(UserEntity object) {
 
         userEntity = object;
-
+        localFloatingActionMenu.removeAllItems();
         if (object.isMe_follow()) {
-            followTV.setText(" " + getResources().getString(R.string.unfollowing));
-            followTV.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_del_item_selector), null, null, null);
+
+            localFloatingActionMenu.addItem(0,R.string.unfollowing,R.drawable.btn_del_item_selector);
+
         } else {
-            followTV.setText(" " + getResources().getString(R.string.following));
-            followTV.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_add), null, null, null);
+            localFloatingActionMenu.addItem(0,R.string.following,R.drawable.ic_add);
+
         }
 
         handleNumber(tvFollowers, object.getFollowed_by_count());
@@ -327,20 +390,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 intent.putExtra(FriendsOrFollowersActivity.USER_ID, userEntity.getId() + "");
                 startActivity(intent);
                 break;
-            case R.id.ll_follow:
-                if (null == userEntity) {
-                    return;
-                }
 
-                if (userEntity.isMe_follow()) {
-                    unFollowAction();
-                } else {
-                    followAction();
-
-                }
-
-
-                break;
 
             case R.id.ll_symbols:{
                     startActivity(OptionalTabActivity.newIntent(this,mUserId));
@@ -367,7 +417,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     private void unFollowAction() {
 
 
-        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(String.format(getResources().getString(R.string.unfollow_alert_content), userEntity.getUsername()))
+        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(getResources().getString(R.string.unfollow_alert_content))
                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                        @Override
                        public void onClick(DialogInterface dialog, int which) {
@@ -410,13 +460,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
      */
     public void onScrollChanged(float percent) {
 
-        if (!isMyInfo) {
-            if (percent == 0 ) {
-                translationShow();
-            } else {
-                translationDismiss();
-            }
-        }
 
 
         if(Math.abs(percent-prePercent) >0.12){
@@ -438,6 +481,18 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
+    @Override
+    public void finish() {
+
+        if(!userEntity.isMe_follow()){
+            UnFollowEvent unFollowEvent=new UnFollowEvent();
+            unFollowEvent.setId(userEntity.getId());
+            BusProvider.getInstance().post(unFollowEvent);
+        }
+
+        super.finish();
+
+    }
 
     private boolean isSendState=false;
     /**
@@ -511,22 +566,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
 
-    private boolean followLLShow=true;
-    private void translationDismiss() {
-
-        if(followLLShow) {
-            AnimationHelper.translationDismiss(llFollow);
-        }
-        followLLShow=false;
-    }
-
-    private void translationShow() {
-
-        if(!followLLShow) {
-            AnimationHelper.translationShow(llFollow);
-        }
-        followLLShow=true;
-    }
 
 
 }
