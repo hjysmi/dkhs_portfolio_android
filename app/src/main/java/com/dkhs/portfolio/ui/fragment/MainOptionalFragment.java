@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,9 +25,16 @@ import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.ui.messagecenter.CustomMessage;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+import io.rong.imkit.RongIM;
+import io.rong.imlib.RongIMClient;
+import io.rong.imlib.ipc.utils.ParcelUtils;
+import io.rong.imlib.model.Conversation;
 
 /**
  * @author zjz
@@ -75,6 +83,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         tabFundsFragment = TabFundsFragment.getTabFundsFragment(mUserId);
         tabFundsFragment.setDataUpdateListener(this);
         tabStockFragment.setDataUpdateListener(this);
+
     }
 
     @Override
@@ -99,6 +108,34 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             setBackTitleBar();
         }
         displayFragmentA();
+//        btnLeft.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//
+//                CustomMessage customMessage=new  CustomMessage();
+//                customMessage.setUrl("url");
+//                customMessage.setExtra("extra");
+//                customMessage.setContent("content");
+//                customMessage.setTitle("title");
+//                customMessage.setImageUri("imageView");
+//
+//
+//
+//                RongIM.getInstance().getRongClient().sendMessage(Conversation.ConversationType.PRIVATE, "2647", customMessage, "",new RongIMClient.SendMessageCallback() {
+//                    @Override
+//                    public void onError(Integer integer, RongIMClient.ErrorCode errorCode) {
+//                        LogUtils.e("onError");
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(Integer integer) {
+//                        LogUtils.e("onSuccess");
+//
+//                    }
+//                });
+//            }
+//        },5000);
 
     }
 

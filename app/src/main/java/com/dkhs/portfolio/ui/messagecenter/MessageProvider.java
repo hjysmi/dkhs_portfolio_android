@@ -1,4 +1,4 @@
-package com.dkhs.portfolio.ui.widget;
+package com.dkhs.portfolio.ui.messagecenter;
 
 import android.content.Context;
 import android.text.Spannable;

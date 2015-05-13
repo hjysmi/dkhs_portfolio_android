@@ -18,7 +18,6 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.ui.widget.MessageProvider;
 import com.lidroid.xutils.util.LogUtils;
 
 import io.rong.imkit.RongIM;
@@ -111,6 +110,8 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
             RongIM.init(PortfolioApplication.getInstance());
 
             RongIM.registerMessageTemplate(new MessageProvider());
+            RongIM.registerMessageTemplate(new CustomMessageProvider());
+            RongIM.registerMessageType(CustomMessage.class);
             initDefaultListener();
 
         } catch (Exception e) {
@@ -215,6 +216,10 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
                 Log.d(TAG, "onReceived-GroupInvitationNotification:" + infoMessage.getMessage());
             } else {
                 Log.d(TAG, "onReceived-其他消息，自己来判断处理");
+                Log.d(TAG, "onReceived-arg1，"+arg1);
+
+                //todo 通知栏操作:
+
             }
 
             /**
