@@ -9,6 +9,8 @@
 package com.dkhs.portfolio.ui;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,22 +33,15 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.AlertSetBean;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.PortfolioAlertBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
-import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
-import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -274,8 +269,14 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     }
 
     private String stripZeros(String value) {
-        return new BigDecimal(value).stripTrailingZeros() + "";
-    }
+      BigDecimal decimalValue =  new BigDecimal(value).stripTrailingZeros();
+      String parseValue = String.valueOf(decimalValue);
+      if (String.valueOf(decimalValue).contains("E")) {
+          NumberFormat formatter = new DecimalFormat("0");
+          parseValue = formatter.format(decimalValue);
+      }
+      return parseValue;
+  }
 
     @OnClick({ R.id.btn_right, })
     public void onClick(View v) {
