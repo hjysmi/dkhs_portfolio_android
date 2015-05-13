@@ -74,7 +74,12 @@ public class FragmentSelectAdapter {
         this.titleLayout = layout;
         this.mFragmentManager = fragmentManager;
         inflater = LayoutInflater.from(context);
-        offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
+        if(nameList.length>4){
+            offset = context.getResources().getDimensionPixelSize(R.dimen.single_index_padding);
+        }else{
+
+            offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
+        }
         oneTextSize = UIUtils.getTextWidth("正", context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
         imageAddSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
         initDate();
@@ -94,6 +99,7 @@ public class FragmentSelectAdapter {
         m.getDefaultDisplay().getMetrics(dm);
         textWid = new int[nameList.length];
         textLayout = new int[nameList.length];
+
         for (int i = 0; i < nameList.length; i++) {
             textWid[i] = nameList[i].length() * oneTextSize;
             textLayout[i] = nameList[i].length() * oneTextSize + imageAddSize * 2 + offset * 2;
@@ -110,6 +116,7 @@ public class FragmentSelectAdapter {
                 textLayout[k] = textWid[k] + imageAddSize * 2 + offset * 2;
             }
         }
+
     }
 
     public void setScrollAble(boolean isScorll) {
