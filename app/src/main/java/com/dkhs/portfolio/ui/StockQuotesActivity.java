@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -38,9 +37,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
-import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
@@ -56,13 +53,13 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
+import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
@@ -270,7 +267,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         bottomLayout = (LinearLayout) findViewById(R.id.stock_layout);
         android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
-        l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
+//        l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
 
         klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
         klinVirtulCheck.setOnClickListener(this);
@@ -323,7 +320,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 if (selectBean.isFollowed) {
                     // selectBean.isFollowed = false;
 
-                    PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm),new DialogInterface.OnClickListener() {
+                    PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -331,7 +328,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             mVisitorDataEngine.delOptionalStock(selectBean);
                             PromptManager.showDelFollowToast();
                         }
-                    }).setButton3(getString(R.string.cancel),null).show();
+                    }).setButton3(getString(R.string.cancel), null).show();
 
                 } else {
                     selectBean.isFollowed = true;
@@ -347,13 +344,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         } else {
             if (mStockQuotesBean.isFollowed()) {
 
-                PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm),new DialogInterface.OnClickListener() {
+                PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.dialog_messag_delfollow).setButton1(getString(R.string.confirm), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         mQuotesEngine.delfollow(mStockBean.id, baseListener);
                     }
-                }).setButton3(getString(R.string.cancel),null).show();
+                }).setButton3(getString(R.string.cancel), null).show();
 
 
             } else {
@@ -388,12 +385,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         if (position < 3) {
             position = 3;
         }
+        Log.e(TAG,"setLayoutHeight position" + position );
         l.height = position * getResources().getDimensionPixelSize(R.dimen.layout_height) + 70;
+        Log.e(TAG,"setLayoutHeight " + l.height );
     }
 
     public void setLayoutHeights(int height) {
         android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
         l.height = height + 70;
+        Log.e(TAG,"setLayoutHeights height" +  l.height );
         scrollToTop();
     }
 
@@ -429,47 +429,44 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
-            // if ((null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
-            // name = new String[2];
-            // }
-            // name[0] = "新闻";
+
             String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
-            // if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
-            // }
-            NewsforModel vo;
+
             bottmoTabFragmentList = new ArrayList<Fragment>();
-            Fragment noticeFragemnt = new FragmentNewsList();
-            Bundle b2 = new Bundle();
-            b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
-            vo = new NewsforModel();
-            vo.setSymbol(mStockBean.code);
-            vo.setContentType("20");
-            vo.setPageTitle("公告正文");
-            // vo.setLayout(stockLayout);
-            b2.putSerializable(FragmentNewsList.VO, vo);
-            // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
-            noticeFragemnt.setArguments(b2);
+
+            //简报tab
+            bottmoTabFragmentList.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
+
+            //公告tab
+            Fragment noticeFragemnt = FragmentNewsList.newIntent(mStockBean.code);
             bottmoTabFragmentList.add(noticeFragemnt);
+//            //研报tab
             Fragment yanbaoFragment = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
             bottmoTabFragmentList.add(yanbaoFragment);
-            // if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+
+            //财务tab
+            bottmoTabFragmentList.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
+            //股东tab
+            bottmoTabFragmentList.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
+
             Fragment f10Fragment = new F10Fragment();
             Bundle b3 = new Bundle();
             b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
             bottmoTabFragmentList.add(f10Fragment);
-            // }
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, stockListTiles,
+            mBottomFragmentAdapter = new FragmentSelectAdapter(context, stockListTiles,
                     bottmoTabFragmentList, bottomLayout, getSupportFragmentManager());
-            mFragmentSelectAdapter.setScrollAble(false);
-            mFragmentSelectAdapter.setOutLaoyout(layouts);
-            // views.setOnTouchListener(new OnView());
+            mBottomFragmentAdapter.setScrollAble(false);
+            mBottomFragmentAdapter.setOutLaoyout(layouts);
         }
     }
+
+    private FragmentSelectAdapter mBottomFragmentAdapter;
 
     private boolean isIndexType() {
         return null != mStockBean && mStockBean.symbol_type != null
                 && mStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX);
     }
+
 
     private void setAddOptionalButton() {
         if (mStockQuotesBean == null) {
@@ -545,8 +542,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
              */
             if (mScrollview.getScrollY() + mScrollview.getHeight() >= mScrollview.computeVerticalScrollRange()
                     && null != bottmoTabFragmentList) {
-                ((FragmentNewsList) bottmoTabFragmentList.get(0)).loadMore();
-                ((FragmentForOptionOnr) bottmoTabFragmentList.get(1)).loadMore();
+                Fragment fragment = bottmoTabFragmentList.get(mBottomFragmentAdapter.getCurrentItem());
+                if (fragment instanceof FragmentNewsList) {
+                    ((FragmentNewsList) fragment).loadMore();
+                }
+                if (fragment instanceof FragmentForOptionOnr) {
+                    ((FragmentForOptionOnr) fragment).loadMore();
+                }
+
+//                ((FragmentNewsList) bottmoTabFragmentList.get(1)).loadMore();
+//                ((FragmentForOptionOnr) bottmoTabFragmentList.get(2)).loadMore();
             }
         }
     };

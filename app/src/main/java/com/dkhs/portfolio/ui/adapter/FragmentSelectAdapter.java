@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -81,6 +82,10 @@ public class FragmentSelectAdapter {
         // changeFrament(0,fragmentList.get(0),bundleList.get(0),fragmentList.get(0).toString());
         setAnima(offset, offset);
         pager.setCurrentItem(0);
+    }
+
+    public int getCurrentItem(){
+        return pager.getCurrentItem();
     }
 
     private void initDate() {
@@ -282,7 +287,7 @@ public class FragmentSelectAdapter {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             // TODO Auto-generated method stub
-            if (null != OutLaoyout) {
+            if (null != OutLaoyout&&(position==1||position==2)) {
                 switch (event.getAction()) {
 
                     case MotionEvent.ACTION_DOWN:

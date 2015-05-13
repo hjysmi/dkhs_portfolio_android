@@ -1,9 +1,5 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +7,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +17,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -34,9 +28,11 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.umeng.analytics.MobclickAgent;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 需要优化界面
@@ -44,8 +40,8 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = 6565512311564641L;
 
     private ListView mListView;
@@ -71,6 +67,20 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private RelativeLayout pb;
     public SwipeRefreshLayout mSwipeLayout;
 
+    public static FragmentNewsList newIntent( String stockCode) {
+        FragmentNewsList noticeFragemnt = new FragmentNewsList();
+        NewsforModel vo;
+        Bundle b2 = new Bundle();
+        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+        vo = new NewsforModel();
+        vo.setSymbol(stockCode);
+        vo.setContentType("20");
+        vo.setPageTitle("公告正文");
+        b2.putSerializable(FragmentNewsList.VO, vo);
+        noticeFragemnt.setArguments(b2);
+        return noticeFragemnt;
+    }
+
     // private LinearLayout layouts;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,7 +96,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         context = getActivity();
 
         if (null != context && context instanceof StockQuotesActivity && getadle) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+//            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
         // if (null != vo && vo.getContentType().equals("20")) {

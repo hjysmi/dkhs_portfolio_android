@@ -40,11 +40,6 @@ public class DKHSUrl {
         String following = "/api/v1/portfolio/following/";
 
 
-
-
-
-
-
         // 取消关注组合
         String delFollow = "/api/v1/portfolio/{0}/unfollow/";
         // 添加关注组合
@@ -52,7 +47,6 @@ public class DKHSUrl {
 
         // 设置提醒
         String remind = "/api/v1/portfolio/{0}/follow/";
-
 
 
         // 创建我的组合
@@ -112,6 +106,18 @@ public class DKHSUrl {
         String marketcenter = "/api/v1/symbols/";
         String opitionmarket = "/api/v1/symbols/";
         String index = "/api/v1/symbols/following/sort/";
+
+
+        //接口描述：股本信息与10大流通股东
+        //  注：symbol为股票代码 如SZ000880
+        String F10_Holder = "/api/v1/symbols/{0}/holders/";
+
+
+        //接口描述：简况信息
+        //注：symbol为股票代码 如SZ000880
+        String F10_INTRODUCTION = "/api/v1/symbols/{0}/introduction/";
+
+
     }
 
     public interface NetValue {

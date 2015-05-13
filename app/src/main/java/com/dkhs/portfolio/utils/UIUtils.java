@@ -1,14 +1,6 @@
 package com.dkhs.portfolio.utils;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.text.DecimalFormat;
-
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -35,11 +27,12 @@ import com.dkhs.portfolio.BuildConfig;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.LoginActivity;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
 
 /**
  * @ClassName UiUtils
@@ -422,6 +415,7 @@ public class UIUtils {
     public static float dip2px(Context paramContext, float paramFloat) {
         return 0.5F + paramFloat * paramContext.getResources().getDisplayMetrics().density;
     }
+
 
     public static float px2dip(Context paramContext, float paramFloat) {
         return 0.5F + paramFloat / paramContext.getResources().getDisplayMetrics().density;
