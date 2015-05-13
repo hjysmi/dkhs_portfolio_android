@@ -256,7 +256,9 @@ public class StockQuotesChartFragment extends BaseFragment {
 
             mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
             mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
+            mBuyAdapter.setContainerView(mListviewBuy);
             mListviewBuy.setAdapter(mBuyAdapter);
+            mSellAdapter.setContainerView(mListviewSell);
             mListviewSell.setAdapter(mSellAdapter);
         }
         // tvTimeLeft = (TextView) view.findViewById(R.id.tv_time_left);
