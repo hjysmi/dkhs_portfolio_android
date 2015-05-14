@@ -19,7 +19,6 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
 
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
@@ -108,36 +107,10 @@ public class MessageReceive extends BroadcastReceiver {
         MessageManager.getInstance().setHasNewUnread(true);
         Message message = intent.getParcelableExtra(KEY_MESSAGE);
         if ("DK:ImgTextMsg".equals(message.getObjectName())) {
-//            handDKImgTextMsg(context, message);
         }
     }
 
 
-    public void handDKImgTextMsg(Context context, Message msg) {
 
-
-        DKImgTextMsg message = (DKImgTextMsg) msg.getContent();
-        int notificationId = msg.getMessageId();
-        String sendUserID = msg.getSenderUserId();
-
-        if (sendUserID != null) {
-            Intent intent2 = new Intent(PortfolioApplication.getInstance(), MessageNotificationClickReceiver.class);
-            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent2.setAction(MessageNotificationClickReceiver.MESSAGE_NOTIFICATION_CLICK);
-            intent2.putExtra(KEY_MESSAGE, msg);
-
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(PortfolioApplication.getInstance(), notificationId, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            String title = context.getResources().getString(R.string.app_name);
-
-            Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
-                    .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_ALL)
-                    .setContentIntent(pendingIntent)
-                    .build();
-            NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(notificationId, notificationCompat);
-        }
-
-    }
 
 }
