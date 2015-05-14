@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -41,7 +40,6 @@ public class TabF10Fragment extends BaseFragment {
     private String mSymbol;
 
     public static TabF10Fragment newIntent(String symbol, TabType tabType) {
-        Log.e(TAG, "--------------- newIntent --------------------");
         TabF10Fragment fragment = new TabF10Fragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(EXTRA_TAB_TYPE, tabType);
@@ -67,7 +65,6 @@ public class TabF10Fragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         handArguments();
-        Log.e(TAG, "--------------- onCreate --------------------");
     }
 
     private void handArguments() {
@@ -79,19 +76,19 @@ public class TabF10Fragment extends BaseFragment {
     }
 
     private void loadDate() {
-        Log.e(TAG, "--------------- loadDate --------------------");
         mDataEngine = new F10DataEngineImpl();
         if (mTabtype == TabType.INTRODUCTION) {
             mDataEngine.getIntroduction(mSymbol, requestListener);
         } else if (mTabtype == TabType.STOCK_HODLER) {
             mDataEngine.getStockHoder(mSymbol, requestListener);
+        } else if (mTabtype == TabType.FINANCE) {
+            mDataEngine.getFinance(mSymbol, requestListener);
         }
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.e(TAG, "--------------- onViewCreated --------------------");
         super.onViewCreated(view, savedInstanceState);
         if (getActivity() instanceof StockQuotesActivity && getadle) {
 //            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);

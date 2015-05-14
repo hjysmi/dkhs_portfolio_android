@@ -31,4 +31,14 @@ public class F10DataEngineImpl {
         DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.StockSymbol.F10_INTRODUCTION, symbol), null, listener);
     }
 
+
+    /**
+     * 获取个股财务报表
+     *
+     * @param symbol 股票的code，如sz000001
+     */
+    public void getFinance(String symbol, IHttpListener listener) {
+        DKHSClient.request(HttpRequest.HttpMethod.GET, MessageFormat.format(DKHSUrl.StockSymbol.F10_FINANCE, symbol), null, listener);
+    }
+
 }

@@ -117,6 +117,10 @@ public class DKHSUrl {
         //注：symbol为股票代码 如SZ000880
         String F10_INTRODUCTION = "/api/v1/symbols/{0}/introduction/";
 
+        //接口描述：个股财务报表
+//        注：symbol为股票代码 如SZ000880
+        String F10_FINANCE = "/api/v1/symbols/{0}/finance_index/";
+
 
     }
 
