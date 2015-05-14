@@ -440,26 +440,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ISelectPostionListener mStockBottomTabListener = new ISelectPostionListener() {
         @Override
         public void onSelectPosition(int position) {
-            if(hsTitleBottom.getCurrentPosition()!=position){
+            if (hsTitleBottom.getCurrentPosition() != position) {
                 hsTitleBottom.setSelectPositionListener(null);
                 hsTitleBottom.setSelectIndex(position);
-                viewHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
-                    }
-                },300);
+
+                hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
+
 
             }
-            if(hsTitleSticker.getCurrentPosition()!=position){
+            if (hsTitleSticker.getCurrentPosition() != position) {
                 hsTitleSticker.setSelectPositionListener(null);
                 hsTitleSticker.setSelectIndex(position);
-                viewHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
-                    }
-                }, 300);
+
+                hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
+
             }
             replaceBottomTabFragment(tabBottomFragment.get(position));
 
@@ -614,13 +608,15 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
 
     private void showStickHeader() {
-        if(hsTitleSticker.getVisibility() !=View.VISIBLE)
-        hsTitleSticker.setVisibility(View.VISIBLE);
+        if (hsTitleSticker.getVisibility() != View.VISIBLE) {
+            hsTitleSticker.setVisibility(View.VISIBLE);
+        }
     }
 
     private void hideStickHeader() {
-        if(hsTitleSticker.getVisibility() !=View.GONE)
-        hsTitleSticker.setVisibility(View.GONE);
+        if (hsTitleSticker.getVisibility() != View.GONE) {
+            hsTitleSticker.setVisibility(View.GONE);
+        }
 
     }
 
