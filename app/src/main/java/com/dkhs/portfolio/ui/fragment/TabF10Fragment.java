@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -25,13 +27,13 @@ public class TabF10Fragment extends BaseFragment {
     private LinearLayout mContentView;
     public static final String EXTRA_TAB_TYPE = "extra_tab_type";
     public static final String EXTRA_SYMBOL = "extra_symbol";
+    private Context mContext;
 
     public enum TabType {
         INTRODUCTION,
         STOCK_HODLER,
         FINANCE;
     }
-
 
     private TabType mTabtype;
     private String mSymbol;
@@ -50,17 +52,34 @@ public class TabF10Fragment extends BaseFragment {
         return R.layout.fragment_tab_f10;
     }
 
-    private void initDate() {
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mContext = activity;
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        handArguments();
+    }
+
+    private void handArguments() {
         Bundle bundle = getArguments();
         if (null != bundle) {
             mTabtype = (TabType) bundle.getSerializable(EXTRA_TAB_TYPE);
             mSymbol = bundle.getString(EXTRA_SYMBOL);
-            mDataEngine = new F10DataEngineImpl();
-            if (mTabtype == TabType.INTRODUCTION) {
-                mDataEngine.getIntroduction(mSymbol, requestListener);
-            } else if (mTabtype == TabType.STOCK_HODLER) {
-                mDataEngine.getStockHoder(mSymbol, requestListener);
-            }
+        }
+    }
+
+    private void initDate() {
+        mDataEngine = new F10DataEngineImpl();
+        if (mTabtype == TabType.INTRODUCTION) {
+            mDataEngine.getIntroduction(mSymbol, requestListener);
+        } else if (mTabtype == TabType.STOCK_HODLER) {
+            mDataEngine.getStockHoder(mSymbol, requestListener);
         }
     }
 
@@ -72,10 +91,9 @@ public class TabF10Fragment extends BaseFragment {
 //            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
-        if (!isViewShown) {
-            initDate();
-        }
+        initDate();
     }
+
 
     private void initView(View view) {
         mContentView = (LinearLayout) view.findViewById(R.id.f10_tab_content);
@@ -87,22 +105,22 @@ public class TabF10Fragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             // fragment可见时加载数据
-//            if (isVisibleToUser) {
-//                getadle = true;
-//                ((StockQuotesActivity) getActivity()).setLayoutHeights(this);
+////            if (isVisibleToUser) {
+////                getadle = true;
+////                ((StockQuotesActivity) getActivity()).setLayoutHeights(this);
+////
+////            }
+//            if (getView() != null) {
+//                isViewShown = true;
 //
+//                initDate();
+//            } else {
+//                isViewShown = false;
+//                if (null != this.mContentView) {
+//
+////                    ((StockQuotesActivity) getActivity()).setLayoutHeights(this.mContentView.getHeight());
+//                }
 //            }
-            if (getView() != null) {
-                isViewShown = true;
-
-                initDate();
-            } else {
-                isViewShown = false;
-                if (null != this.mContentView) {
-
-//                    ((StockQuotesActivity) getActivity()).setLayoutHeights(this.mContentView.getHeight());
-                }
-            }
         } else {
             // 不可见时不执行操作
 //            getadle = false;
@@ -111,27 +129,22 @@ public class TabF10Fragment extends BaseFragment {
     }
 
     ParseHttpListener requestListener = new ParseHttpListener<List<F10DataBean>>() {
-        int viewHeighSum = 0;
 
         @Override
         protected List<F10DataBean> parseDateTask(String jsonData) {
             return DataParse.parseArrayJson(F10DataBean.class, jsonData);
-//            return DataParse.parseArrayJson(F10DataBean.class, F10DataBean.testValueIntroduct);
 
         }
 
         @Override
         protected void afterParseData(List<F10DataBean> dataBeanList) {
             if (null != dataBeanList) {
-                viewHeighSum = 300;
                 for (F10DataBean dataBean : dataBeanList) {
-                    final View view = new F10ViewParse(getActivity(), dataBean).getContentView();
+                    final View view = new F10ViewParse(mContext, dataBean).getContentView();
 
                     TabF10Fragment.this.mContentView.addView(view);
-                    viewHeighSum += viewHeighSum;
 
                 }
-                ((StockQuotesActivity) getActivity()).setLayoutHeights(viewHeighSum);
             }
 
         }

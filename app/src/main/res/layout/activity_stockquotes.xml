@@ -36,7 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <View style="@style/divider_line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -67,14 +66,28 @@
 
             <!-- 底部资讯 -->
 
-            <LinearLayout
+            <com.dkhs.portfolio.ui.widget.HScrollTitleView
+                android:id="@+id/hs_title_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+            <RelativeLayout
                 android:id="@+id/stock_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:layout_height="match_parent">
+<!--
+                <com.dkhs.portfolio.ui.widget.ScrollViewPager
+                    android:id="@+id/pager_bottom"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent" />-->
+
+
+            </RelativeLayout>
+
             <View
                 android:layout_width="fill_parent"
-                android:layout_height="60dp"/>
+                android:layout_height="60dp" />
         </LinearLayout>
 
     </com.dkhs.portfolio.ui.widget.InterceptScrollView>

@@ -58,6 +58,7 @@ public class UIUtils {
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 
     // public static boolean isSameDayDisplay(long time1, long time2, Context context) {

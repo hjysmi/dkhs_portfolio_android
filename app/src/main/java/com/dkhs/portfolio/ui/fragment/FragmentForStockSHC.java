@@ -1,23 +1,15 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -25,12 +17,16 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * 需要优化界面
@@ -105,9 +101,9 @@ public class FragmentForStockSHC extends BaseFragment {
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        if (null != context && context instanceof StockQuotesActivity && getadle) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-        }
+//        if (null != context && context instanceof StockQuotesActivity && getadle) {
+//            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+//        }
     }
 
     // @Override
@@ -228,9 +224,9 @@ public class FragmentForStockSHC extends BaseFragment {
                     height += list_child_item_height; // 统计所有子项的总高度
                 }
             }
-            if (null != context && context instanceof StockQuotesActivity && getadle) {
-                ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-            }
+//            if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+//            }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -285,22 +281,22 @@ public class FragmentForStockSHC extends BaseFragment {
         if (isVisibleToUser) {
             if (isVisibleToUser) {
                 getadle = true;
-                if (null == mDataList || mDataList.size() < 2) {
-                    if (null != context && context instanceof StockQuotesActivity && getadle) {
-                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-                    }
-                } else if (null != mDataList) {
-                    int height = 0;
-                    for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-                        View listItem = mOptionlistAdapter.getView(i, null, mListView);
-                        listItem.measure(0, 0); // 计算子项View 的宽高
-                        int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-                        height += list_child_item_height; // 统计所有子项的总高度
-                    }
-                    if (null != context && context instanceof StockQuotesActivity && getadle) {
-                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-                    }
-                }
+//                if (null == mDataList || mDataList.size() < 2) {
+//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+//                    }
+//                } else if (null != mDataList) {
+//                    int height = 0;
+//                    for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+//                        View listItem = mOptionlistAdapter.getView(i, null, mListView);
+//                        listItem.measure(0, 0); // 计算子项View 的宽高
+//                        int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+//                        height += list_child_item_height; // 统计所有子项的总高度
+//                    }
+//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+//                    }
+//                }
             }
         } else {
             // 不可见时不执行操作
