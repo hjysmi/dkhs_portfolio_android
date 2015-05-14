@@ -584,7 +584,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 hideStickHeader();
             }
 
-            Log.e(TAG, "onScrollChanged botttomTitleTop:" + offsetY);
+//            Log.e(TAG, "onScrollChanged botttomTitleTop:" + offsetY);
             /*
              * if (mScrollview.getScrollY() >=
              * getResources().getDimensionPixelOffset
