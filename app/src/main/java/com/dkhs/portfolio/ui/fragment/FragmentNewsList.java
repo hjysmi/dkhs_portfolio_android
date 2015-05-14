@@ -1,9 +1,5 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +9,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -22,7 +19,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -34,9 +30,12 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 需要优化界面
@@ -44,8 +43,8 @@ import com.umeng.analytics.MobclickAgent;
  */
 public class FragmentNewsList extends Fragment implements Serializable {
     /**
-	 * 
-	 */
+     *
+     */
     private static final long serialVersionUID = 6565512311564641L;
 
     private ListView mListView;
@@ -70,6 +69,21 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private OptionForOnelistAdapter mOptionlistAdapter;
     private RelativeLayout pb;
     public SwipeRefreshLayout mSwipeLayout;
+    private View mContentView;
+
+    public static FragmentNewsList newIntent(String stockCode) {
+        FragmentNewsList noticeFragemnt = new FragmentNewsList();
+        NewsforModel vo;
+        Bundle b2 = new Bundle();
+        b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
+        vo = new NewsforModel();
+        vo.setSymbol(stockCode);
+        vo.setContentType("20");
+        vo.setPageTitle("公告正文");
+        b2.putSerializable(FragmentNewsList.VO, vo);
+        noticeFragemnt.setArguments(b2);
+        return noticeFragemnt;
+    }
 
     // private LinearLayout layouts;
     @Override
@@ -86,7 +100,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         context = getActivity();
 
         if (null != context && context instanceof StockQuotesActivity && getadle) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
+//            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
         }
         initView(view);
         // if (null != vo && vo.getContentType().equals("20")) {
@@ -95,6 +109,7 @@ public class FragmentNewsList extends Fragment implements Serializable {
         if (!isViewShown) {
             initDate();
         }
+        mContentView = view.findViewById(R.id.ll_content);
         return view;
     }
 
@@ -131,15 +146,15 @@ public class FragmentNewsList extends Fragment implements Serializable {
         // if(null != context && context instanceof StockQuotesActivity){
         mOptionlistAdapter = new OptionForOnelistAdapter(context, mDataList);
         mListView.setAdapter(mOptionlistAdapter);
+
         // }else{
         // mListView.setAdapter(mOptionMarketAdapter);
         // }
 
         mListView.removeFooterView(mFootView);
 
-        if (null != context && context instanceof StockQuotesActivity && getadle) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-        }
+
+
         mListView.setOnScrollListener(new OnScrollListener() {
 
             @Override
@@ -180,6 +195,15 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     }
                 }, 2000);
 
+            }
+        });
+
+
+        mListView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                v.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
             }
         });
 
@@ -246,15 +270,12 @@ public class FragmentNewsList extends Fragment implements Serializable {
                     // layouts.getLayoutParams().height = dataList.size() * 150;
                     // mOptionMarketAdapter.notifyDataSetChanged();
                     if (null != mOptionlistAdapter) {
-                        mOptionlistAdapter.notifyDataSetChanged();
+
                         loadFinishUpdateView();
                     }
                 } else {
                     if (null != vo && null != vo.getPageTitle()) {
                         tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
-                    }
-                    if (null != context && context instanceof StockQuotesActivity && getadle) {
-                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
                     }
                 }
             } catch (Exception e) {
@@ -273,10 +294,6 @@ public class FragmentNewsList extends Fragment implements Serializable {
                 if (null != vo && null != vo.getPageTitle()) {
                     tv.setText("暂无" + vo.getPageTitle().substring(0, vo.getPageTitle().length() - 2));
                 }
-                if (null != context && context instanceof StockQuotesActivity && getadle) {
-
-                    ((StockQuotesActivity) context).setLayoutHeight(0);
-                }
             }
 
         }
@@ -284,24 +301,27 @@ public class FragmentNewsList extends Fragment implements Serializable {
     };
 
     private void loadFinishUpdateView() {
-        // mOptionMarketAdapter.notifyDataSetChanged();
-        int height = 0;
-        if (null != mOptionlistAdapter) {
-            mOptionlistAdapter.notifyDataSetChanged();
-            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-                View listItem = mOptionlistAdapter.getView(i, null, mListView);
-                listItem.measure(0, 0); // 计算子项View 的宽高
-                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-                height += list_child_item_height; // 统计所有子项的总高度
-            }
-        }
-        isLoadingMore = false;
-        if (mListView != null) {
-            mListView.removeFooterView(mFootView);
-        }
-        if (null != context && context instanceof StockQuotesActivity && getadle) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-        }
+        Log.e(TAG, "loadFinishUpdateView");
+        mOptionlistAdapter.notifyDataSetChanged();
+//        int height = 0;
+//        if (null != mOptionlistAdapter) {
+//            mOptionlistAdapter.notifyDataSetChanged();
+//            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+//                View listItem = mOptionlistAdapter.getView(i, null, mListView);
+//                listItem.measure(0, 0); // 计算子项View 的宽高
+//                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+//                height += list_child_item_height; // 统计所有子项的总高度
+//            }
+//        }
+//        isLoadingMore = false;
+//        if (mListView != null) {
+//            mListView.removeFooterView(mFootView);
+//        }
+        UIUtils.setListViewHeightBasedOnChildren(mListView);
+        mContentView.getLayoutParams().height = mListView.getLayoutParams().height;
+//        ((StockQuotesActivity) getActivity()).setLayoutHeights(mListView.getLayoutParams().height);
+//        if (null != context && context instanceof StockQuotesActivity) {
+//        }
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
@@ -339,25 +359,25 @@ public class FragmentNewsList extends Fragment implements Serializable {
              * ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
              * }
              */
-            if (isVisibleToUser) {
-                getadle = true;
-                if (null == mDataList || mDataList.size() < 2) {
-                    if (null != context && context instanceof StockQuotesActivity && getadle) {
-                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-                    }
-                } else if (null != mDataList) {
-                    if (null != context && context instanceof StockQuotesActivity && getadle) {
-                        int height = 0;
-                        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-                            View listItem = mOptionlistAdapter.getView(i, null, mListView);
-                            listItem.measure(0, 0); // 计算子项View 的宽高
-                            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-                            height += list_child_item_height; // 统计所有子项的总高度
-                        }
-                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-                    }
-                }
-            }
+//            if (isVisibleToUser) {
+//                getadle = true;
+//                if (null == mDataList || mDataList.size() < 2) {
+//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+//                    }
+//                } else if (null != mDataList) {
+//                    if (null != context && context instanceof StockQuotesActivity && getadle) {
+//                        int height = 0;
+//                        for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+//                            View listItem = mOptionlistAdapter.getView(i, null, mListView);
+//                            listItem.measure(0, 0); // 计算子项View 的宽高
+//                            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+//                            height += list_child_item_height; // 统计所有子项的总高度
+//                        }
+//                        ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+//                    }
+//                }
+//            }
 
             if (getView() != null) {
                 isViewShown = true;

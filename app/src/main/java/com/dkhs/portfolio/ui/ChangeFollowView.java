@@ -74,11 +74,13 @@ public class ChangeFollowView {
         PromptManager.showDelFollowToast();
 
         mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() - 1);
+        BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
     }
 
     private void addFollowSuccess() {
         PromptManager.showFollowToast();
         mCombinationBean.setFollowerCount(mCombinationBean.getFollowerCount() + 1);
+        BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
     }
 
     public void showDelDialog() {
@@ -123,7 +125,6 @@ public class ChangeFollowView {
         @Override
         protected void afterParseData(Object object) {
             mCombinationBean.setFollowed(!mCombinationBean.isFollowed());
-            BusProvider.getInstance().post(new UpdateCombinationEvent(mCombinationBean));
             if (mCombinationBean.isFollowed()) {
                 addFollowSuccess();
             } else {

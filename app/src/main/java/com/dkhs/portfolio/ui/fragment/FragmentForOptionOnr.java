@@ -1,42 +1,34 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.test.UiThreadTest;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.AbsListView.OnScrollListener;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.engine.LoadNewsDataEngine;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 需要优化界面
@@ -63,6 +55,7 @@ public class FragmentForOptionOnr extends Fragment {
     private View view;
     private boolean getadble = false;
     private RelativeLayout pb;
+    private View mContentView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,6 +118,7 @@ public class FragmentForOptionOnr extends Fragment {
     }
 
     private void initView(View view) {
+        mContentView = view.findViewById(R.id.ll_content);
         mFootView = View.inflate(context, R.layout.layout_loading_more_footer, null);
         mListView = (ListView) view.findViewById(android.R.id.list);
 
@@ -215,9 +209,9 @@ public class FragmentForOptionOnr extends Fragment {
                     loadFinishUpdateView();
 
                 } else {
-                    if (null != context && context instanceof StockQuotesActivity && getadble) {
-                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-                    }
+//                    if (null != context && context instanceof StockQuotesActivity && getadble) {
+//                        ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+//                    }
                     iv.setText("暂无研报");
                 }
             } catch (Exception e) {
@@ -240,20 +234,22 @@ public class FragmentForOptionOnr extends Fragment {
 
     private void loadFinishUpdateView() {
         mOptionMarketAdapter.notifyDataSetChanged();
-        isLoadingMore = false;
-        if (mListView != null) {
-            mListView.removeFooterView(mFootView);
-        }
-        int height = 0;
-        for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
-            View listItem = mOptionMarketAdapter.getView(i, null, mListView);
-            listItem.measure(0, 0); // 计算子项View 的宽高
-            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-            height += list_child_item_height; // 统计所有子项的总高度
-        }
-        if (null != context && context instanceof StockQuotesActivity && getadble) {
-            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-        }
+        UIUtils.setListViewHeightBasedOnChildren(mListView);
+        mContentView.getLayoutParams().height = mListView.getLayoutParams().height;
+//        isLoadingMore = false;
+//        if (mListView != null) {
+//            mListView.removeFooterView(mFootView);
+//        }
+//        int height = 0;
+//        for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
+//            View listItem = mOptionMarketAdapter.getView(i, null, mListView);
+//            listItem.measure(0, 0); // 计算子项View 的宽高
+//            int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+//            height += list_child_item_height; // 统计所有子项的总高度
+//        }
+//        if (null != context && context instanceof StockQuotesActivity && getadble) {
+//            ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+//        }
     }
 
     @Override
@@ -262,22 +258,22 @@ public class FragmentForOptionOnr extends Fragment {
         if (isVisibleToUser) {
             initDate();
             getadble = true;
-            if (null == mDataList || mDataList.size() < 2) {
-                if (null != context && context instanceof StockQuotesActivity && getadble) {
-                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
-                }
-            } else if (null != mDataList) {
-                int height = 0;
-                for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
-                    View listItem = mOptionMarketAdapter.getView(i, null, mListView);
-                    listItem.measure(0, 0); // 计算子项View 的宽高
-                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-                    height += list_child_item_height; // 统计所有子项的总高度
-                }
-                if (null != context && context instanceof StockQuotesActivity && getadble) {
-                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
-                }
-            }
+//            if (null == mDataList || mDataList.size() < 2) {
+//                if (null != context && context instanceof StockQuotesActivity && getadble) {
+//                    ((StockQuotesActivity) getActivity()).setLayoutHeight(0);
+//                }
+//            } else if (null != mDataList) {
+//                int height = 0;
+//                for (int i = 0, len = mOptionMarketAdapter.getCount(); i < len; i++) {
+//                    View listItem = mOptionMarketAdapter.getView(i, null, mListView);
+//                    listItem.measure(0, 0); // 计算子项View 的宽高
+//                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+//                    height += list_child_item_height; // 统计所有子项的总高度
+//                }
+//                if (null != context && context instanceof StockQuotesActivity && getadble) {
+//                    ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
+//                }
+//            }
         } else {
             getadble = false;
         }

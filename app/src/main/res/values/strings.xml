@@ -202,9 +202,12 @@
     <string name="buy">买</string>
     <string name="function_ace">牛人</string>
     <string name="function_optional">自选股</string>
-    <string name="function_notice">公告</string>
     <string name="function_f10">F10</string>
     <string name="function_report">研报</string>
+    <string name="function_notice">公告</string>
+    <string name="function_introduction">简况</string>
+    <string name="function_finance">财务</string>
+    <string name="function_hodler">股东</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外</string>
     <string name="function_combination">自建组合</string>
@@ -458,6 +461,7 @@
     <string name="toast_remind_success">提醒设置成功</string>
     <string name="toast_click_once_more">再按一次退出程序</string>
     <string name="float_menu_follow">加入自选</string>
+    <string name="float_menu_optional">自选</string>
     <string name="float_menu_delfollow">取消自选</string>
     <string name="dialog_messag_delfollow">确认取消自选</string>
     <string name="float_menu_remind">提醒</string>

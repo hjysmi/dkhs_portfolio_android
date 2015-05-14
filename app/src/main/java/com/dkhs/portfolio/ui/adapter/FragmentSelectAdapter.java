@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
@@ -73,7 +74,12 @@ public class FragmentSelectAdapter {
         this.titleLayout = layout;
         this.mFragmentManager = fragmentManager;
         inflater = LayoutInflater.from(context);
-        offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
+        if(nameList.length>4){
+            offset = context.getResources().getDimensionPixelSize(R.dimen.single_index_padding);
+        }else{
+
+            offset = context.getResources().getDimensionPixelSize(R.dimen.select_offset);
+        }
         oneTextSize = UIUtils.getTextWidth("正", context.getResources().getDimensionPixelSize(R.dimen.list_text_size));
         imageAddSize = context.getResources().getDimensionPixelSize(R.dimen.select_text);
         initDate();
@@ -83,12 +89,17 @@ public class FragmentSelectAdapter {
         pager.setCurrentItem(0);
     }
 
+    public int getCurrentItem(){
+        return pager.getCurrentItem();
+    }
+
     private void initDate() {
         dm = new DisplayMetrics();
         WindowManager m = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         m.getDefaultDisplay().getMetrics(dm);
         textWid = new int[nameList.length];
         textLayout = new int[nameList.length];
+
         for (int i = 0; i < nameList.length; i++) {
             textWid[i] = nameList[i].length() * oneTextSize;
             textLayout[i] = nameList[i].length() * oneTextSize + imageAddSize * 2 + offset * 2;
@@ -105,6 +116,7 @@ public class FragmentSelectAdapter {
                 textLayout[k] = textWid[k] + imageAddSize * 2 + offset * 2;
             }
         }
+
     }
 
     public void setScrollAble(boolean isScorll) {
@@ -282,7 +294,7 @@ public class FragmentSelectAdapter {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             // TODO Auto-generated method stub
-            if (null != OutLaoyout) {
+            if (null != OutLaoyout&&(position==1||position==2)) {
                 switch (event.getAction()) {
 
                     case MotionEvent.ACTION_DOWN:
