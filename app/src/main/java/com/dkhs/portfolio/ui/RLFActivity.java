@@ -1,10 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.Timer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -33,13 +28,17 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.ui.widget.TextViewClickableSpan;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Timer;
 
 public class RLFActivity extends ModelAcitivity implements OnClickListener {
     // private Button btn_get_code;
@@ -98,7 +97,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
         isLoginByCaptcha = true;
         final MAlertDialog dpg = PromptManager.getAlertDialog(this);
         dpg.setCancelable(false);
-        dpg.setTitle(R.string.login_by_captcha);
+        dpg.setMessage(R.string.login_by_captcha);
         dpg.setPositiveButton (R.string.confirm, new DialogInterface.OnClickListener() {
 
             @Override
