@@ -217,12 +217,12 @@ public class RCChatActivity extends ModelAcitivity {
 
         @Override
         public boolean onMessageLongClick(Context context, Message message) {
-            return false;
+            return true;
         }
 
         @Override
         public boolean onConversationLongClick(Context context, UiConversation uiConversation) {
-            return false;
+            return true;
         }
 
         @Override
