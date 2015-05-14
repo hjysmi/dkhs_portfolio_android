@@ -123,6 +123,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private Context context;
     private HScrollTitleView hsTitle;
     private HScrollTitleView hsTitleBottom;
+    private HScrollTitleView hsTitleSticker;
     private ScrollViewPager pager;
     private ArrayList<Fragment> fragmentList;
     private StockQuotesChartFragment mStockQuotesChartFragment;
@@ -273,6 +274,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         klinVirtulCheck.setOnClickListener(this);
         hsTitle = (HScrollTitleView) findViewById(R.id.hs_title);
         hsTitleBottom = (HScrollTitleView) findViewById(R.id.hs_title_bottom);
+        hsTitleSticker = (HScrollTitleView) findViewById(R.id.hs_title_sticker);
 
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
@@ -313,6 +315,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }, 800);
 
 
+    }
+
+    private int mTitleBarBottom;
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+
+        if (hasFocus) {
+            mTitleBarBottom = getTitleView().getBottom();
+
+        }
     }
 
     private void handFollowOrUnfollowAction() {
@@ -382,6 +396,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
             String[] stockListTiles = getResources().getStringArray(R.array.select_optional_stock);
             hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+            hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
 
             String exchange;
             String listSector = null;
@@ -396,46 +411,58 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 listSector = OpitionCenterStockEngineImple.VALUE_SYMBOL_SELECT;
             }
 
-            hsTitleBottom.setSelectPositionListener(new IndexTabSelectListener(exchange,listSector));
+            hsTitleBottom.setSelectPositionListener(new IndexTabSelectListener(exchange, listSector));
+            hsTitleSticker.setSelectPositionListener(new IndexTabSelectListener(exchange, listSector));
 
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
             String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
             hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+            hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
             hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
+            hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
 
-            replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
+            tabBottomFragment = new ArrayList<Fragment>();
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
+            tabBottomFragment.add(FragmentNewsList.newIntent(mStockBean.code));
+            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
+            replaceBottomTabFragment(tabBottomFragment.get(0));
 
 
         }
     }
 
+    private List<Fragment> tabBottomFragment;
+
 
     private ISelectPostionListener mStockBottomTabListener = new ISelectPostionListener() {
         @Override
         public void onSelectPosition(int position) {
-            switch (position) {
-                case 0: {
-                    replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
-                }
-                break;
-                case 1: {
-                    replaceBottomTabFragment(FragmentNewsList.newIntent(mStockBean.code));
-                }
-                break;
-                case 2: {
-                    replaceBottomTabFragment(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
-                }
-                break;
-                case 3: {
-                    replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
-                }
-                break;
-                case 4: {
-                    replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
-                }
-                break;
+            if(hsTitleBottom.getCurrentPosition()!=position){
+                hsTitleBottom.setSelectPositionListener(null);
+                hsTitleBottom.setSelectIndex(position);
+                viewHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
+                    }
+                },300);
+
             }
+            if(hsTitleSticker.getCurrentPosition()!=position){
+                hsTitleSticker.setSelectPositionListener(null);
+                hsTitleSticker.setSelectIndex(position);
+                viewHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
+                    }
+                }, 300);
+            }
+            replaceBottomTabFragment(tabBottomFragment.get(position));
+
         }
     };
 
@@ -554,7 +581,16 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onScrollChanged(InterceptScrollView scrollView, int x, int y, int oldx, int oldy) {
-            // TODO Auto-generated method stub
+
+
+            int offsetY = hsTitleBottom.getTop() - y;
+            if (offsetY <= 0) {
+                showStickHeader();
+            } else {
+                hideStickHeader();
+            }
+
+            Log.e(TAG, "onScrollChanged botttomTitleTop:" + offsetY);
             /*
              * if (mScrollview.getScrollY() >=
              * getResources().getDimensionPixelOffset
@@ -575,6 +611,19 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 //            }
         }
     };
+
+
+    private void showStickHeader() {
+        if(hsTitleSticker.getVisibility() !=View.VISIBLE)
+        hsTitleSticker.setVisibility(View.VISIBLE);
+    }
+
+    private void hideStickHeader() {
+        if(hsTitleSticker.getVisibility() !=View.GONE)
+        hsTitleSticker.setVisibility(View.GONE);
+
+    }
+
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {
 
         @Override

@@ -8,25 +8,14 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.utils.PromptManager;
-
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.TranslateAnimation;
@@ -34,6 +23,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
 
 /**
  * @ClassName HScrollTitleView
@@ -227,21 +218,15 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
 
         @Override
         public void onClick(View v) {
-            // TODO Auto-generated method stub
-            // Fragment f = fragmentList.get(position);
-            // changeFrament(0,f,null,fragmentList.get(position).toString());
-            // tvList[position].setTextColor(getContext().getResources().getColor(R.color.red));
-            // tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
+
             currentPosition = position;
             if (currentPosition == hisPosition) {
                 return;
             }
-            // hisPosition = position;
+
             setAnima(hisPosition * indiatorWidth + offset * (2 * hisPosition + 1), position * indiatorWidth + offset
                     * (2 * position + 1));
-            // if (null != mSelectListener) {
-            // mSelectListener.onSelectPosition(position);
-            // }
+
         }
 
     }
@@ -273,6 +258,17 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         // if(hisPosition != -1){
         // tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
         // }
+        if (hisPosition == -1) {
+            hisPosition = 0;
+        }
+
+        if (index >= 0 && index < tvList.length) {
+            tvList[index].performClick();
+        }
+    }
+
+    public void setSelectIndexNoCallBack(int index) {
+
         if (hisPosition == -1) {
             hisPosition = 0;
         }
@@ -322,6 +318,12 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         hisPosition = currentPosition;
 
     }
+
+    public int getCurrentPosition(){
+        return  currentPosition;
+    }
+
+
 
     // @Override
     // protected void onLayout(boolean changed, int l, int t, int r, int b) {
