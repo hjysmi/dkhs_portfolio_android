@@ -8,9 +8,14 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.SparseArray;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.RongTokenBean;
@@ -18,8 +23,10 @@ import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.ui.widget.MessageProvider;
 import com.lidroid.xutils.util.LogUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import io.rong.imkit.RongIM;
 import io.rong.imkit.RongIM.GetUserInfoProvider;
@@ -29,27 +36,19 @@ import io.rong.imlib.RongIMClient.ErrorCode;
 import io.rong.imlib.RongIMClient.OnReceiveMessageListener;
 import io.rong.imlib.model.Conversation.ConversationType;
 import io.rong.imlib.model.Message;
-import io.rong.imlib.model.MessageContent;
 import io.rong.imlib.model.UserInfo;
-import io.rong.message.CommandNotificationMessage;
-import io.rong.message.ContactNotificationMessage;
-import io.rong.message.ImageMessage;
-import io.rong.message.InformationNotificationMessage;
-import io.rong.message.ProfileNotificationMessage;
-import io.rong.message.RichContentMessage;
-import io.rong.message.TextMessage;
-import io.rong.message.VoiceMessage;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName RongConnect
  * @Description 依赖于融云API的连接实现，及连接状态的监听
- * @author zjz
  * @date 2015-4-20 下午5:46:52
- * @version 1.0
  */
 public class RongConnect implements IConnectInterface, ConnectionStatusListener {
 
     protected static final String TAG = "RongConnect";
+    private UserEngineImpl userEngine;
 
     // 当获取用户数据后，就开始初始化融云连接
     // 注销后，需要断开连接，当监听到断开连接后，才正确退出。
@@ -66,6 +65,24 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         init();
     }
 
+
+    public Map<String,UserInfo> userInfoList=new HashMap<String,UserInfo>();
+
+
+
+    public void add(UserInfo userInfo){
+
+
+        if(!userInfoList.containsKey(userInfo.getUserId())){
+            userInfoList.put(userInfo.getUserId(),userInfo);
+        }
+    }
+
+    public UserInfo get(String key){
+       return userInfoList.get(key);
+    }
+
+
     /**
      * RongIM.init(this) 后直接可注册的Listener。
      */
@@ -74,16 +91,15 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         RongIM.setGetUserInfoProvider(new GetUserInfoProvider() {
 
             @Override
-            public UserInfo getUserInfo(String arg0) {
-                // TODO Auto-generated method stub
+            public UserInfo getUserInfo(final String arg0) {
 
-//                if(arg0.equals("11")){
-                UserInfo userInfo = new UserInfo(arg0, "客服" + arg0, Uri.parse("http://cdn.duitang.com/uploads/item/201206/25/20120625200704_NreVX.thumb.600_0.jpeg"));
-                return userInfo;
-//                }
-//                return null;
+                return RongConnect.this.getUserInfo(arg0);
             }
+
+
         }, true);//设置用户信息提供者。
+
+
         // RongIM.setGetFriendsProvider(this);//设置好友信息提供者.
         // RongIM.setGetGroupInfoProvider(this);//设置群组信息提供者。
         // RongIM.setConversationBehaviorListener(this);//设置会话界面操作的监听器。
@@ -103,6 +119,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     private void init() {
         Log.i(TAG, "------- init() -------");
+        userEngine = new UserEngineImpl();
         try {
 
             // IMKit SDK调用第一步 初始化
@@ -111,6 +128,8 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
             RongIM.init(PortfolioApplication.getInstance());
 
             RongIM.registerMessageTemplate(new MessageProvider());
+            RongIM.registerMessageTemplate(new DKImgTextMsgProvider());
+            RongIM.registerMessageType(DKImgTextMsg.class);
             initDefaultListener();
 
         } catch (Exception e) {
@@ -120,9 +139,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     @Override
     public void connect() {
-
         UserEntity user = UserEngineImpl.getUserEntity();
-
         // 先向服务器请求用户连接融云的token，取得token后再去连接融云的服务器。
         new UserEngineImpl().getToken(user.getId() + "", user.getUsername(), user.getAvatar_xs(),
                 new BasicHttpListener() {
@@ -159,7 +176,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
                 @Override
                 public void onSuccess(String arg0) {
-                    // TODO Auto-generated method stub
+
                     LogUtils.d("Connect: onSuccess .");
                     setOtherListener();
                     int unreadCount = getUnReadCount();
@@ -180,63 +197,40 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
         @Override
         public boolean onReceived(Message message, int arg1) {
-            // TODO Auto-generated method stub
-            MessageContent messageContent = message.getContent();
-            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent());
-            if (messageContent instanceof TextMessage) {// 文本消息
-                TextMessage textMessage = (TextMessage) messageContent;
-                Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
-              ;
-            } else if (messageContent instanceof ImageMessage) {// 图片消息
-                ImageMessage imageMessage = (ImageMessage) messageContent;
-                Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
-            } else if (messageContent instanceof VoiceMessage) {// 语音消息
-                VoiceMessage voiceMessage = (VoiceMessage) messageContent;
-                Log.d(TAG, "onReceived-voiceMessage:" + voiceMessage.getUri().toString());
-            } else if (messageContent instanceof RichContentMessage) {// 图文消息
-                RichContentMessage richContentMessage = (RichContentMessage) messageContent;
-                Log.d(TAG, "onReceived-RichContentMessage:" + richContentMessage.getContent());
-            }
-            // else if (messageContent instanceof GroupInvitationNotification) {// 自定义群组消息
-            // GroupInvitationNotification groupContentMessage = (GroupInvitationNotification) messageContent;
-            // Log.d(TAG, "onReceived-GroupInvitationNotification:" + groupContentMessage.getMessage());
-            // }
-            else if (messageContent instanceof ContactNotificationMessage) {// 联系人（好友）操作通知消息
-                ContactNotificationMessage contactMessage = (ContactNotificationMessage) messageContent;
-                Log.d(TAG, "onReceived-ContactNotificationMessage:" + contactMessage.getMessage());
-            } else if (messageContent instanceof ProfileNotificationMessage) {// 资料变更通知消息
-                ProfileNotificationMessage profileMessage = (ProfileNotificationMessage) messageContent;
-                Log.d(TAG, "onReceived-ProfileNotificationMessage:" + profileMessage.getExtra());
-            } else if (messageContent instanceof CommandNotificationMessage) {// 命令通知消息
-                CommandNotificationMessage commantMessage = (CommandNotificationMessage) messageContent;
-                Log.d(TAG, "onReceived-CommandNotificationMessage:" + commantMessage.getName());
-            } else if (messageContent instanceof InformationNotificationMessage) {// 小灰条消息
-                InformationNotificationMessage infoMessage = (InformationNotificationMessage) messageContent;
-                Log.d(TAG, "onReceived-GroupInvitationNotification:" + infoMessage.getMessage());
-            } else {
-                Log.d(TAG, "onReceived-其他消息，自己来判断处理");
-            }
 
-            /**
-             * 需替换成自己的代码。
-             */
-
-
-
-
+            PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent(message));
             return false;
         }
 
 
     };
 
+
     public int getUnReadCount() {
         int unreadCount = 0;
-        if (null != RongIM.getInstance().getRongClient() ) {
+        if (null != RongIM.getInstance().getRongClient()) {
             unreadCount = RongIM.getInstance().getRongClient().getUnreadCount(ConversationType.PRIVATE);
         }
         return unreadCount;
     }
+    public void startPrivateChat(Context context,String id,String name) {
+
+        if (TextUtils.isEmpty(name)) {
+            name = "";
+        }
+        if (null != RongIM.getInstance().getRongClient()) {
+            RongIM.getInstance().startPrivateChat(context, id, name);
+        }
+    }
+    public void startConversationList(Context context){
+        cancelAllNotification(context);
+        if (null != RongIM.getInstance().getRongClient()) {
+            RongIM.getInstance().startConversationList(context);
+        }
+    }
+
+
+
 
     @Override
     public boolean isConnecting() {
@@ -252,7 +246,8 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
     }
 
     @Override
-    public void disConnect() {
+    public void disConnect(Context context) {
+        cancelAllNotification(context);
         if (RongIM.getInstance() != null) {
             // 断开融云连接
             RongIM.getInstance().disconnect(false);
@@ -260,16 +255,47 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     }
 
+
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param arg0
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onChanged(ConnectionStatus status) {
         Log.d(TAG, "onChanged:" + status);
 
+    }
+    public UserInfo getUserInfo(String userId) {
+        final UserInfo userInfo = new UserInfo(userId, "" , null);
+
+        if(get(userId) == null) {
+            userEngine.getUserInfo(userId, new BasicHttpListener() {
+                        @Override
+                        public void onSuccess(String result) {
+                            UserEntity userEntity = DataParse.parseObjectJson(UserEntity.class, result);
+                            userInfo.setName(userEntity.getUsername());
+                            userInfo.setPortraitUri(Uri.parse(userEntity.getAvatar_md()));
+                            add(userInfo);
+                        }
+                        @Override
+                        public void onFailure(int errCode, String errMsg) {
+                            super.onFailure(errCode, errMsg);
+                        }
+                    }
+            );
+        }else{
+            UserInfo  item=get(userId);
+            userInfo.setPortraitUri(item.getPortraitUri());
+            userInfo.setName(item.getName());
+        }
+
+        return userInfo;
+    }
+    private void cancelAllNotification(Context context){
+        NotificationManager nManager = (NotificationManager)context. getSystemService(context.NOTIFICATION_SERVICE);
+        nManager.cancelAll();
     }
 
 }

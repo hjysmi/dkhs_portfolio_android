@@ -14,6 +14,8 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.fragment.InvalidStateFragment;
+import com.dkhs.portfolio.ui.messagecenter.DKImgTextMsg;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
 
@@ -54,67 +56,14 @@ public class RCChatActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         Intent intent = getIntent();
-
         String data = intent.getDataString();
-
         final Uri uri = Uri.parse(data);
-
-
         final String targetId = uri.getQueryParameter("targetId");
-
         String title = uri.getQueryParameter("title");
-
         String conversationTypeStr = uri.getLastPathSegment();
-
-
-        RongIM.setConversationBehaviorListener(new ConversationBehaviorListener() {
-
-            @Override
-            public boolean onConversationLongClick(Context arg0, UiConversation arg1) {
-                // TODO Auto-generated method stub
-                return false;
-            }
-
-            @Override
-            public boolean onMessageClick(Context arg0, Message message) {
-                // TODO Auto-generated method stub
-                MessageContent messageContent = message.getContent();
-                if (messageContent instanceof TextMessage) {// 文本消息
-                    TextMessage textMessage = (TextMessage) messageContent;
-                    Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
-
-                } else if (messageContent instanceof ImageMessage) {// 图片消息
-                    ImageMessage imageMessage = (ImageMessage) messageContent;
-                    Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
-                } else if (messageContent instanceof VoiceMessage) {// 语音消息
-                    VoiceMessage voiceMessage = (VoiceMessage) messageContent;
-                    Log.d(TAG, "onReceived-voiceMessage:" + voiceMessage.getUri().toString());
-                } else if (messageContent instanceof RichContentMessage) {// 图文消息
-                    handCustomRichContentMessage((RichContentMessage) messageContent);
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean onMessageLongClick(Context arg0, Message arg1) {
-                return true;
-            }
-
-            @Override
-            public boolean onUserPortraitClick(Context arg0, ConversationType arg1, UserInfo arg2) {
-                return false;
-            }
-
-            @Override
-            public boolean onConversationItemClick(Context arg0, UiConversation arg1) {
-                return false;
-            }
-        });
+        RongIM.setConversationBehaviorListener(new ConversationBehaviorListener());
 
         conversationType = ConversationType.valueOf(conversationTypeStr.toUpperCase());
-
-
         if (TextUtils.isEmpty(title)) {
             new GetConversationTitleTask().execute(targetId);
         } else {
@@ -170,10 +119,10 @@ public class RCChatActivity extends ModelAcitivity {
      *
      * @param messageContent
      */
-    private void handCustomRichContentMessage(RichContentMessage messageContent) {
+    private void handleDKImgTextMsg(DKImgTextMsg messageContent) {
 
 
-        Uri uri = Uri.parse(messageContent.getImgUrl());
+        Uri uri = Uri.parse(messageContent.getUrl());
 
 
         List<String> segments = uri.getPathSegments();
@@ -219,28 +168,67 @@ public class RCChatActivity extends ModelAcitivity {
     }
 
 
-    /**
-     * 获取会话的标题
-     */
-    class GetConversationTitleTask extends AsyncTask<String, Void, String> {
+    class GetConversationTitleTask extends AsyncTask<String,Void,UserInfo>{
 
         @Override
-        protected String doInBackground(String... params) {
+        protected UserInfo doInBackground(String... params) {
 
-            RongIMClient client = RongIM.getInstance().getRongClient();
-            Conversation conversation = client.getConversation(conversationType, params[0]);
-            LogUtils.e(conversation.getConversationTitle());
-            return conversation.getConversationTitle();
+
+            return MessageManager.getInstance().getmConnct().getUserInfo(params[0]);
+
         }
 
         @Override
-        protected void onPostExecute(String str) {
+        protected void onPostExecute(UserInfo userInfo) {
+            if (!TextUtils.isEmpty(userInfo.getName())) {
 
-            if (TextUtils.isEmpty(str)) {
-                str = getResources().getString(R.string.message_center);
+                setTitle(userInfo.getName());
             }
-            setTitle(str);
-            super.onPostExecute(str);
+            super.onPostExecute(userInfo);
         }
     }
+
+
+    class ConversationBehaviorListener implements RongIM.ConversationBehaviorListener{
+
+        @Override
+        public boolean onUserPortraitClick(Context context, ConversationType conversationType, UserInfo userInfo) {
+            return false;
+        }
+
+        @Override
+        public boolean onMessageClick(Context context, Message message) {
+            MessageContent messageContent = message.getContent();
+            if (messageContent instanceof TextMessage) {// 文本消息
+                TextMessage textMessage = (TextMessage) messageContent;
+                Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
+
+            } else if (messageContent instanceof ImageMessage) {// 图片消息
+                ImageMessage imageMessage = (ImageMessage) messageContent;
+                Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
+            } else if (messageContent instanceof VoiceMessage) {// 语音消息
+                VoiceMessage voiceMessage = (VoiceMessage) messageContent;
+                Log.d(TAG, "onReceived-voiceMessage:" + voiceMessage.getUri().toString());
+            } else if (messageContent instanceof DKImgTextMsg) {// DKImgTextMsg
+                handleDKImgTextMsg((DKImgTextMsg) messageContent);
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onMessageLongClick(Context context, Message message) {
+            return true;
+        }
+
+        @Override
+        public boolean onConversationLongClick(Context context, UiConversation uiConversation) {
+            return true;
+        }
+
+        @Override
+        public boolean onConversationItemClick(Context context, UiConversation uiConversation) {
+            return false;
+        }
+    }
+
 }

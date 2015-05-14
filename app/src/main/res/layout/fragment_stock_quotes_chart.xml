@@ -27,10 +27,11 @@
     <RelativeLayout
         android:id="@+id/rl_fiverange"
         android:layout_width="1dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:layout_marginBottom="16dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp">
 
@@ -43,17 +44,20 @@
             android:layout_marginTop="2dp" />
 
 
+
         <ListView
+
             android:id="@+id/list_five_range_sall"
             style="@style/listViewStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_above="@+id/view_divider"
             android:dividerHeight="0dp"
             android:orientation="vertical" />
 
 
         <ListView
+
             android:id="@+id/list_five_range_buy"
             style="@style/listViewStyle"
             android:layout_width="match_parent"

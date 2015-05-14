@@ -23,6 +23,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -217,6 +218,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         mMaChart = (TimesharingplanChart) view.findViewById(R.id.timesharingchart);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
+
         pb.setVisibility(View.VISIBLE);
         initMaChart(mMaChart);
         initView(view);
@@ -224,15 +226,19 @@ public class StockQuotesChartLandFragment extends BaseFragment {
                 && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
         }
+        view.setClickable(true);
     }
 
     private void initView(View view) {
         viewFiveRange = view.findViewById(R.id.rl_fiverange);
         mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
         mListviewSell = (ListView) view.findViewById(R.id.list_five_range_sall);
-
+        mBuyAdapter.setContainerView(mListviewBuy);
         mListviewBuy.setAdapter(mBuyAdapter);
+
+        mSellAdapter.setContainerView(mListviewSell);
         mListviewSell.setAdapter(mSellAdapter);
+
 
     }
 

@@ -101,6 +101,17 @@ public class DataParse<T> {
         }
         return Collections.emptyList();
     }
+    /**
+     * 将对象转换成json格式
+     *
+     * @param ts
+     * @return
+     */
+    public static String objectToJson(Object ts) {
+        return new Gson().toJson(ts);
+    }
+
+
 
     /**
      * 从{@code jsonObj}中解析出{@code key}结点下的JSONArray对象，并将JSONArray解析为 List数据

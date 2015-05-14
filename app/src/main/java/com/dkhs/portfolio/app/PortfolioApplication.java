@@ -10,10 +10,14 @@ package com.dkhs.portfolio.app;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -154,6 +158,8 @@ public class PortfolioApplication extends Application {
             return false;
         }
     }
+
+
 
     public boolean isDebug() {
         return isDebug;

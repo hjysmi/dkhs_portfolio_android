@@ -10,28 +10,19 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.RongTokenBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
-import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
-import com.squareup.otto.Subscribe;
 
-import android.net.Uri;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -54,6 +45,7 @@ public class NewMainActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // PortfolioApplication.getInstance().addActivity(this);
+
         hideHead();
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
@@ -80,7 +72,7 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
-
+        LogUtils.e("MessageManager " + (Looper.myLooper() == Looper.getMainLooper()));
         // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {
             MessageManager.getInstance().connect();
@@ -95,20 +87,20 @@ public class NewMainActivity extends ModelAcitivity {
                 // Intent intent = new Intent(this, MainActivity.class);
                 // startActivity(intent);
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_2: {
                 displayFragmentB();
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_3: {
                 displayFragmentC();
 
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_4: {
                 displayFragmentD();
             }
-                break;
+            break;
 
             default:
                 break;
@@ -141,7 +133,9 @@ public class NewMainActivity extends ModelAcitivity {
         }
         ft.commit();
     }
+
     private long exitTime;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {

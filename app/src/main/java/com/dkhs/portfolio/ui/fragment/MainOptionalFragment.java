@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,9 +25,13 @@ import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+
 import com.dkhs.portfolio.utils.UIUtils;
+
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+
+
 
 /**
  * @author zjz
@@ -75,6 +80,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
         tabFundsFragment = TabFundsFragment.getTabFundsFragment(mUserId);
         tabFundsFragment.setDataUpdateListener(this);
         tabStockFragment.setDataUpdateListener(this);
+
     }
 
     @Override

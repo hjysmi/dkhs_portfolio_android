@@ -33,7 +33,7 @@ public class FriendsOrFollowerAdapter extends AutoAdapter {
         PeopleBean peopleBean = (PeopleBean) list.get(position);
 
         if (null != peopleBean.getAvatar_md() && peopleBean.getAvatar_md().length() > 35) {
-            bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md(),R.drawable.ic_user_head);
+            bitmapUtils.display(vh.getImageView(R.id.im_avatar), peopleBean.getAvatar_md(),R.drawable.ic_user_head,R.drawable.ic_user_head);
         }else{
             vh.getImageView(R.id.im_avatar).setImageResource(R.drawable.ic_user_head);
         }

@@ -12,6 +12,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 
 public class ImageLoaderUtils {
@@ -34,7 +35,7 @@ public class ImageLoaderUtils {
         ImageLoader.getInstance().init(config);
     }
 
-    public static void setImage(String url, ImageView new_phone1) {
+    public static void setRoundedImage(String url, ImageView new_phone1) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory().cacheOnDisc()
@@ -42,10 +43,19 @@ public class ImageLoaderUtils {
                 .build();
         loader.displayImage(url, new_phone1, options);
     }
-    public static void setImage(String url, ImageView new_phone1,@DrawableRes int failedDrawableId) {
+    public static void setImage(String url, ImageView new_phone1) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory().cacheOnDisc()
+                .displayer(new SimpleBitmapDisplayer())
+                .build();
+        loader.displayImage(url, new_phone1, options);
+    }
+    public static void setRoundedImage(String url, ImageView new_phone1,@DrawableRes int loadingDrawableId,@DrawableRes int failedDrawableId) {
+        ImageLoader loader = ImageLoader.getInstance();
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory().cacheOnDisc()
+                .showImageOnLoading(loadingDrawableId)
                 .showImageOnFail(failedDrawableId)
                 .displayer(new RoundedBitmapDisplayer(300))
                 .build();

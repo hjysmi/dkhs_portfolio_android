@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
+import android.content.Context;
+
 /**
  * @ClassName IConnectManager
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -20,5 +22,5 @@ public interface IConnectInterface {
 
     public boolean isConnecting();
 
-    public void disConnect();
+    public void disConnect(Context context);
 }

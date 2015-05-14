@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.lidroid.xutils.util.LogUtils;
 
 import java.util.List;
 
@@ -70,6 +72,15 @@ public class FiveRangeAdapter extends BaseAdapter {
 
     }
 
+    private View containerView;
+
+
+    public void setContainerView(View containerView) {
+        this.containerView = containerView;
+    }
+
+
+
     public FiveRangeAdapter(Context mContext, boolean isBuy, String symbol, boolean isLandspace) {
         this(mContext, isBuy, isLandspace);
         this.symbol = symbol;
@@ -115,12 +126,14 @@ public class FiveRangeAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 
+
         try {
             ViewHolder viewHolder = null;
             if (convertView == null) {
                 viewHolder = new ViewHolder();
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.item_five_range, null);
                 viewHolder.tvTag = (TextView) convertView.findViewById(R.id.tv_buytext);
+                viewHolder.linearLayout = (LinearLayout) convertView.findViewById(R.id.content_ll);
                 viewHolder.tvVol = (TextView) convertView.findViewById(R.id.tv_range_vol);
                 viewHolder.tvPrice = (TextView) convertView.findViewById(R.id.tv_detail_value);
                 if (mLandTextFont > 0) {
@@ -129,6 +142,14 @@ public class FiveRangeAdapter extends BaseAdapter {
                     viewHolder.tvVol.setTextSize(mLandTextFont);
                     viewHolder.tvPrice.setTextSize(mLandTextFont);
                 }
+
+
+                if(null != containerView) {
+                    viewHolder.linearLayout.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, containerView.getMeasuredHeight() / 5));
+                }else{
+                    LogUtils.e("  isBuy   "+isBuy);
+                }
+
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -193,6 +214,8 @@ public class FiveRangeAdapter extends BaseAdapter {
         TextView tvTag;
         TextView tvVol;
         TextView tvPrice;
+
+        LinearLayout linearLayout;
 
     }
 

@@ -100,8 +100,15 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         context = this;
         getTitleView().setBackgroundColor(getResources().getColor(R.color.user_combination_head_bg));
         Bundle extras = getIntent().getExtras();
+        userEngine= new UserEngineImpl();
         if (extras != null) {
             handleExtras(extras);
+
+
+            if(null != UserEngineImpl.getUserEntity() &&(UserEngineImpl.getUserEntity().getId()+"").equals(mUserId)){
+                isMyInfo=true;
+            }
+
             if (isMyInfo) {
                 Button rightBtn = getRightButton();
                 rightBtn.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_edit_selector), null,
@@ -162,11 +169,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         findViewById(R.id.ll_followers).setOnClickListener(this);
         findViewById(R.id.ll_following).setOnClickListener(this);
         findViewById(R.id.ll_symbols).setOnClickListener(this);
-
-        userEngine= new UserEngineImpl();
-
-
-
         localFloatingActionMenu.setOnMenuItemSelectedListener(new FloatingActionMenu.OnMenuItemSelectedListener() {
             @Override
             public boolean onMenuItemSelected(int paramInt) {
@@ -453,31 +455,14 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
      * @param
      */
     public void onScrollChanged(float percent) {
-
-
-
-        if(Math.abs(percent-prePercent) >0.12){
-            toPercent=percent;
-            if(!isSendState) {
-                if(prePercent>toPercent) {
-                    handler.sendEmptyMessage(1);
-                }else{
-                    handler.sendEmptyMessage(0);
-                }
-            }
-
-        }else {
             animHeader(percent);
-        }
-
-
-
     }
 
 
     @Override
     public void finish() {
 
+     
         if(null!=userEngine&&!userEntity.isMe_follow()){
             UnFollowEvent unFollowEvent=new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
@@ -487,50 +472,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         super.finish();
 
     }
-
-    private boolean isSendState=false;
-    /**
-     *处理快速滑动时候的动画卡顿
-     */
-    private android.os.Handler handler = new android.os.Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            isSendState=true;
-            switch (msg.what) {
-
-                case 0:
-
-                    float percent2=prePercent+0.04f;
-                    if(percent2 > toPercent){
-                        percent2=toPercent;
-                    }
-
-                    animHeader(percent2);
-                    if(percent2 != toPercent){
-                        handler.sendEmptyMessage(0);
-                    }else{
-                        isSendState=false;
-                    }
-
-                    break;
-                case 1:
-                    float percent=prePercent-0.04f;
-
-                    if(percent < toPercent){
-                        percent=toPercent;
-                    }
-                    animHeader(percent);
-                    if(percent != toPercent){
-                        handler.sendEmptyMessage(1);
-                    }else{
-                        isSendState=false;
-                    }
-
-                    break;
-            }
-        }
-    };
 
     public void animHeader(float percent) {
 
