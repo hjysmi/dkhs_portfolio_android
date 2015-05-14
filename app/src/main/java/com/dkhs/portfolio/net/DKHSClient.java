@@ -8,30 +8,19 @@
  */
 package com.dkhs.portfolio.net;
 
-import java.text.MessageFormat;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-
 import android.os.Looper;
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.UrlStoreBean;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.utils.DebugJsonFormatUtil;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
-import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.db.sqlite.Selector;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
@@ -39,6 +28,11 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
+
+import org.apache.http.NameValuePair;
+
+import java.text.MessageFormat;
+import java.util.List;
 
 /**
  * @ClassName DKHSClilent
@@ -136,8 +130,8 @@ public class DKHSClient {
                     LogUtils.customTagPrefix = "DKHSClilent";
 
                     String result = StringDecodeUtil.fromUnicode(responseInfo.result);
-                    LogUtils.d("请求成功:" + DebugJsonFormatUtil.format(result));
-//                    LogUtils.d("请求成功:" + result);
+//                    LogUtils.d("请求成功:" + DebugJsonFormatUtil.format(result));
+                    LogUtils.d("请求成功:" + result);
                     if (null != listener && !listener.isStopRequest()) {
                         listener.onHttpSuccess(result);
                     }

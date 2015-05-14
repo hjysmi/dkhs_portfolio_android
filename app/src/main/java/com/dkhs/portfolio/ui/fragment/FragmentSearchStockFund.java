@@ -8,12 +8,10 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,11 +19,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -33,24 +30,24 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter;
-import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
-import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
+import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
-import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.lidroid.xutils.util.LogUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentSelectStock
  * @Description 个股选择
- * @author zjz
  * @date 2014-8-29 上午9:36:16
- * @version 1.0
  */
 public class FragmentSearchStockFund extends Fragment implements ISelectChangeListener, OnClickListener {
     private static final String TAG = FragmentSearchStockFund.class.getSimpleName();
@@ -156,8 +153,11 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         @Override
         public void loadFinish(MoreDataBean object) {
             if (null != object && null != object.getResults()) {
-                mDataList.addAll(object.getResults());
-                updateHandler.sendEmptyMessage(777);
+                Message msg = updateHandler.obtainMessage(777);
+//                msg.obj = mDataList.addAll(object.getResults());
+                msg.obj = object;
+                msg.sendToTarget();
+
             }
         }
 
@@ -171,8 +171,14 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     Handler updateHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
-            mAdapterConbinStock.notifyDataSetChanged();
-        };
+            MoreDataBean bean = (MoreDataBean) msg.obj;
+            if (null != bean && null != bean.getResults()) {
+                mDataList.addAll(bean.getResults());
+                mAdapterConbinStock.notifyDataSetChanged();
+            }
+        }
+
+        ;
     };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {

@@ -8,31 +8,9 @@
  */
 package com.dkhs.portfolio.ui;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
-import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.utils.AnimationHelper;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.UIUtils;
-import com.lidroid.xutils.BitmapUtils;
-import com.nineoldandroids.view.ViewHelper;
-
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
@@ -41,6 +19,20 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
+import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
+import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.lidroid.xutils.BitmapUtils;
+import com.nineoldandroids.view.ViewHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -486,7 +478,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     @Override
     public void finish() {
 
-        if(!userEntity.isMe_follow()){
+        if(null!=userEngine&&!userEntity.isMe_follow()){
             UnFollowEvent unFollowEvent=new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
             BusProvider.getInstance().post(unFollowEvent);
