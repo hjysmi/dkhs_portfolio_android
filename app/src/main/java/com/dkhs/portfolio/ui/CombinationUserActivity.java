@@ -475,7 +475,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     @Override
     public void finish() {
 
-        if(!userEntity.isMe_follow()){
+        if(userEntity!=null && !userEntity.isMe_follow()){
             UnFollowEvent unFollowEvent=new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
             BusProvider.getInstance().post(unFollowEvent);

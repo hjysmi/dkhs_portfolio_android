@@ -194,6 +194,7 @@ public class DKHSUrl {
         String get_token = "/api/v1/im/token/";
         String follow = "/api/v1/users/%s/follow/";
         String unfollow = "/api/v1/users/%s/unfollow/";
+        String getUserInfo = "/api/v1/users/%s/";
 
 
     }

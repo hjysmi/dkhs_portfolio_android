@@ -355,7 +355,7 @@
     <!-- 灰色通用字体 -->
     <style name="CommonTextAppearance_super_Mini_Gray" parent="@android:style/TextAppearance">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
 
     <style name="CommonTextAppearance_Mini_Gray" parent="@android:style/TextAppearance">
@@ -370,7 +370,7 @@
 
     <style name="CommonTextAppearance_Middle_Gray" parent="@android:style/TextAppearance">
         <item name="android:textSize">17sp</item>
-        <item name="android:textColor">@color/gray</item>
+        <item name="android:textColor">@color/tag_gray</item>
     </style>
 
     <style name="CommonTextAppearance_Big_Gray" parent="@android:style/TextAppearance">

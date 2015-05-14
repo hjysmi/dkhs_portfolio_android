@@ -237,6 +237,13 @@
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
             </intent-filter>
         </receiver>
+       <receiver
+            android:name=".receiver.MessageNotificationClickReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.dkhs.portfolio.NotificationClick" />
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.dkhs.portfolio.service.LoadStockToDBService" />
         <service

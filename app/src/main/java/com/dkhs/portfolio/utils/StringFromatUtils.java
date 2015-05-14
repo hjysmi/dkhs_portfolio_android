@@ -11,15 +11,17 @@ package com.dkhs.portfolio.utils;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.R.integer;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StringFromatUtils
  * @Description 字符格式化工具类
- * @author zjz
  * @date 2014-8-26 下午1:55:14
- * @version 1.0
  */
 public class StringFromatUtils {
 
@@ -163,18 +165,19 @@ public class StringFromatUtils {
 
     /**
      * 处理 数字
+     *
      * @param count
      * @return
      */
-    public static String handleNumber(  int count) {
+    public static String handleNumber(int count) {
 
         String countStr;
 
-        if(count >1000){
+        if (count > 1000) {
             DecimalFormat df2 = new DecimalFormat("#.#");
-            countStr  =df2.format(count/1000.0)+"k";
-        }else{
-            countStr=count+"";
+            countStr = df2.format(count / 1000.0) + "k";
+        } else {
+            countStr = count + "";
         }
         return countStr;
     }
@@ -183,5 +186,19 @@ public class StringFromatUtils {
 
         return convertToWan(value / 100);
     }
+
+    public static String dateFormat(long dateLong) {
+
+        String dateFormatStr = "";
+
+        if(dateLong>0){
+            Date date = new Date(dateLong);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            dateFormatStr = simpleDateFormat.format(date);
+        }
+
+        return dateFormatStr;
+    }
+
 
 }

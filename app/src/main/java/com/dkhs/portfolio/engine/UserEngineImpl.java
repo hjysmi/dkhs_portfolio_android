@@ -332,4 +332,13 @@ public class UserEngineImpl {
 
     }
 
+    /**
+     * g
+     */
+    public void getUserInfo(String pk,BasicHttpListener listener){
+        RequestParams params = new RequestParams();
+        DKHSClient.requestSync(HttpMethod.GET, String.format(DKHSUrl.User.getUserInfo, pk), params, listener);
+    }
+
+
 }

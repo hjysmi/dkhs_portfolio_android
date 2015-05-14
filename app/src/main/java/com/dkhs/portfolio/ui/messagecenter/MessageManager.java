@@ -9,8 +9,13 @@
 package com.dkhs.portfolio.ui.messagecenter;
 
 
+import android.app.NotificationManager;
+import android.content.Context;
+
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+
+import io.rong.imkit.RongIM;
 
 
 /**
@@ -57,10 +62,14 @@ public final class MessageManager {
         mConnct.connect();
     }
 
-    public void disConnect() {
+    public void disConnect(Context context) {
+
+
         hasNewUnread = false;
-        mConnct.disConnect();
+        mConnct.disConnect(context);
     }
+
+
 
     public boolean isHasNewUnread() {
         return hasNewUnread;
@@ -76,4 +85,18 @@ public final class MessageManager {
         return mConnct.getUnReadCount();
     }
 
+
+    public void startPrivateChat(Context context,String id,String name){
+        mConnct.startPrivateChat(context,id,name);
+
+    }
+    public void startConversationList(Context context){
+
+        mConnct.startConversationList(context);
+
+    }
+
+    public RongConnect getmConnct() {
+        return mConnct;
+    }
 }

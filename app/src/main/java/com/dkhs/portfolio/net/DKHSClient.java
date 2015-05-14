@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.net;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.ResponseStream;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
@@ -55,6 +57,11 @@ public class DKHSClient {
             request(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
 
         return requestServer(new HttpUtils(), method, url, params, listener, true);
+
+    }
+    public static void  requestSync(HttpMethod method, String url, RequestParams params, final IHttpListener listener) {
+
+         requestSyncServer(new HttpUtils(), method, url, params, listener, true);
 
     }
 
@@ -80,7 +87,7 @@ public class DKHSClient {
     }
 
     private static HttpHandler requestServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
-            final IHttpListener listener, boolean isShowTip) {
+                                               final IHttpListener listener, boolean isShowTip) {
         final CacheHelper cacheHelper = new CacheHelper(method, url, params);
 
         if (NetUtil.checkNetWork()) {
@@ -183,6 +190,85 @@ public class DKHSClient {
                 // Not on UI thread.
             }
             return null;
+        }
+    }
+
+
+    private static void requestSyncServer(HttpUtils mHttpUtils, HttpMethod method, String url, RequestParams params,
+                                             final IHttpListener listener, boolean isShowTip) {
+        final CacheHelper cacheHelper = new CacheHelper(method, url, params);
+
+        if (NetUtil.checkNetWork()) {
+
+            if (null == params) {
+                params = new RequestParams();
+            }
+
+            if (!url.contains(DKHSUrl.User.login) && !url.contains(DKHSUrl.User.register)) {
+                if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                    params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                    LogUtils.d("token:" + GlobalParams.ACCESS_TOCKEN);
+
+                } else {
+
+                    UserEntity user = UserEngineImpl.getUserEntity();
+                    if (user != null && !TextUtils.isEmpty(user.getAccess_token())) {
+                        user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
+                        GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
+                        GlobalParams.MOBILE = user.getMobile();
+                        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
+                            params.addHeader("Authorization", "Bearer " + GlobalParams.ACCESS_TOCKEN);
+                        } else {
+                            LogUtils.e("Authorization token is null,Exit app");
+                            // PortfolioApplication.getInstance().exitApp();
+                        }
+                    }
+
+                }
+
+            }
+
+            String requestUrl = getAbsoluteUrl(url);
+
+            LogUtils.d("requestUrl:" + requestUrl);
+
+            LogUtils.d("RequestParams:" + new Gson().toJson(params));
+            // mHttpUtils.configDefaultHttpCacheExpiry(0);
+            // 设置缓存0秒，0秒内直接返回上次成功请求的结果。
+
+            mHttpUtils.configCurrentHttpCacheExpiry(0);
+            if (null != listener) {
+                listener.beforeRequest();
+            }
+            // mHttpUtils.sendSync(method, requestUrl)
+            try {
+                ResponseStream responseStream= mHttpUtils.sendSync(method, requestUrl, params);
+              String s=  responseStream.readString();
+                listener.onHttpSuccess(s);
+            } catch (HttpException e) {
+                listener.onHttpFailure(-1,e);
+                e.printStackTrace();
+            } catch (IOException e) {
+                listener.onHttpFailure(-2,e);
+                e.printStackTrace();
+            }
+        } else {
+
+            if (cacheHelper.isCacheUrl()) {
+                cacheHelper.queryURLStore(GlobalParams.ACCESS_TOCKEN, listener);
+            }
+
+            if (null != listener) {
+                listener.requestCallBack();
+                listener.onHttpFailure(123, "网络未连接");
+            }
+            if (Looper.getMainLooper().getThread() == Thread.currentThread() && isShowTip) {
+                // On UI thread.
+                PromptManager.showNoNetWork();
+            } else {
+                // Not on UI thread.
+            }
+
         }
     }
 

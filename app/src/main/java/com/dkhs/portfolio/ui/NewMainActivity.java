@@ -10,32 +10,28 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.RongTokenBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.UserEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
-import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.util.LogUtils;
-import com.squareup.otto.Subscribe;
 
-import android.net.Uri;
+
+import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import io.rong.database.RongMaster;
+import io.rong.imkit.RongIM;
 
 /**
  * @author zjz
@@ -54,11 +50,12 @@ public class NewMainActivity extends ModelAcitivity {
         super.onCreate(savedInstanceState);
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // PortfolioApplication.getInstance().addActivity(this);
+
         hideHead();
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
         BusProvider.getInstance().register(this);
-
+        handIntent(getIntent());
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             mMenuFragment = new MenuItemFragment();
@@ -80,10 +77,36 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
-
+        LogUtils.e("MessageManager " + (Looper.myLooper() == Looper.getMainLooper()));
         // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {
             MessageManager.getInstance().connect();
+        }
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        handIntent(intent);
+        super.onNewIntent(intent);
+    }
+
+    private void handIntent(Intent intent) {
+
+        if (intent == null) {
+            return;
+        }
+        if (MessageNotificationClickReceiver.ACTION_CHAT.equals( intent.getStringExtra(MessageNotificationClickReceiver.KEY_ACTION))) {
+
+
+            String id = intent.getStringExtra(MessageNotificationClickReceiver.KEY_SEND_USER_ID);
+            String name = intent.getStringExtra(MessageNotificationClickReceiver.KEY_SEND_USER_NAME);
+
+            MessageManager.getInstance().startPrivateChat(this, id, name);
+
+        }else if(MessageNotificationClickReceiver.ACTION_CHAT_LIST.equals( intent.getStringExtra(MessageNotificationClickReceiver.KEY_ACTION))){
+            MessageManager.getInstance().startConversationList(this);
         }
 
     }
@@ -95,20 +118,20 @@ public class NewMainActivity extends ModelAcitivity {
                 // Intent intent = new Intent(this, MainActivity.class);
                 // startActivity(intent);
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_2: {
                 displayFragmentB();
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_3: {
                 displayFragmentC();
 
             }
-                break;
+            break;
             case MenuItemFragment.TABINDEX_4: {
                 displayFragmentD();
             }
-                break;
+            break;
 
             default:
                 break;
@@ -141,7 +164,9 @@ public class NewMainActivity extends ModelAcitivity {
         }
         ft.commit();
     }
+
     private long exitTime;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {

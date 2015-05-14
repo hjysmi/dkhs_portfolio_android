@@ -10,10 +10,14 @@ package com.dkhs.portfolio.app;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -154,6 +158,24 @@ public class PortfolioApplication extends Application {
             return false;
         }
     }
+
+    /**
+     * app是否在前台
+     * @return
+     */
+    private boolean isRunningForeground ()
+    {
+        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if(!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(getPackageName()))
+        {
+            return true ;
+        }
+
+        return false ;
+    }
+
 
     public boolean isDebug() {
         return isDebug;

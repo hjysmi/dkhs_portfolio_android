@@ -21,11 +21,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.test.UiThreadTest;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,10 +45,7 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
-import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
-
-import io.rong.imkit.RongIM;
 
 /**
  * 软件设置界面
@@ -86,8 +81,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             switch (msg.what) {
                 case 333: {
                     // 当退出登录后，需要清空通知栏上的通知列表
-                    NotificationManager notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-                    notiManager.cancelAll();
+
                     PortfolioApplication.getInstance().exitApp();
                     Intent intent = new Intent(SettingActivity.this, LoginRegisterAcitvity.class);
                     startActivity(intent);
@@ -267,7 +261,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                     // 断开融云连接
                     // RongIM.getInstance().disconnect(false);
-                    MessageManager.getInstance().disConnect();
+                    MessageManager.getInstance().disConnect(this);
 
                     // 注销消息中心的联系，需要一段延迟
                     handler.sendEmptyMessageDelayed(333, 600);
