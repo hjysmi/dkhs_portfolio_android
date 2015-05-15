@@ -128,7 +128,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
                 @Override
                 protected Object parseDateTask(String jsonData) {
-                    // TODO Auto-generated method stub
                     return jsonData;
                 }
 
@@ -140,7 +139,6 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                             isSetPassword = json.getBoolean("status");
                         }
                     } catch (JSONException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                 }
@@ -192,6 +190,15 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.btn_exit).setVisibility(View.GONE);
             findViewById(R.id.line_tx).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_bound).setVisibility(View.GONE);
+            findViewById(R.id.line5).setVisibility(View.GONE);
+//            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
+        }else{
+
+            findViewById(R.id.setting_layout_sign).setVisibility(View.GONE);
+            settingAccountLayout.setVisibility(View.VISIBLE);
+
+            findViewById(R.id.setting_layout_icon).setVisibility(View.GONE);
+            findViewById(R.id.setting_layout_username).setVisibility(View.GONE);
         }
 
 

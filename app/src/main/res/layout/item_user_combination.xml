@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/lv_white_selector"
+    android:background="@drawable/btn_white_grayborder_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/lv_white_selector"
+        android:background="@drawable/btn_white_grayborder_selector"
         android:gravity="center_vertical"
         android:paddingRight="15dp"
         android:layout_alignParentBottom="true"

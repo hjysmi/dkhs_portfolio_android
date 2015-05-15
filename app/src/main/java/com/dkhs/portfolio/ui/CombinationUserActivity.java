@@ -159,7 +159,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         if (isMyInfo) {
             setTitle("我的主页");
             localFloatingActionMenu.setVisibility(View.GONE);
-            symbolsPromptTV.setText(getString(R.string.symbols));
+            symbolsPromptTV.setText(getString(R.string.optional));
         } else {
             setTitle("Ta的主页");
             localFloatingActionMenu.setVisibility(View.VISIBLE);

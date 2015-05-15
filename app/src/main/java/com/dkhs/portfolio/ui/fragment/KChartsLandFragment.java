@@ -164,7 +164,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
             mLargerButton.setClickable(false);
             mLargerButton.setSelected(true);
         }
-
+        view.setClickable(true);
     }
 
     private void initChartView() {

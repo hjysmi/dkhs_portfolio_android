@@ -87,6 +87,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/setting_text_account_ll"
                             android:background="@drawable/btn_white_selector" >
 
                             <TextView
@@ -182,7 +183,9 @@
                             android:textSize="@dimen/setting_text_name" />
                     </RelativeLayout>
 
-                    <include layout="@layout/layout_line" />
+                    <include
+                        android:id="@+id/line3"
+                        layout="@layout/layout_line" />
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_sign"
@@ -226,7 +229,9 @@
                             android:textSize="@dimen/setting_text_phone" />
                     </RelativeLayout>
 
-                    <include layout="@layout/layout_line" />
+                    <include
+                        android:id="@+id/line4"
+                        layout="@layout/layout_line" />
 
                     <RelativeLayout
                         android:id="@+id/setting_layout_bound"
@@ -260,7 +265,9 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <include layout="@layout/layout_line" />
+                <include
+                    android:id="@+id/line5"
+                    layout="@layout/layout_line" />
             </LinearLayout>
 
             <LinearLayout
