@@ -8,17 +8,10 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
@@ -106,8 +99,8 @@ public class MessageReceive extends BroadcastReceiver {
         // BusProvider.getInstance().post(new NewMessageEvent());
         MessageManager.getInstance().setHasNewUnread(true);
         Message message = intent.getParcelableExtra(KEY_MESSAGE);
-        if ("DK:ImgTextMsg".equals(message.getObjectName())) {
-        }
+//        if ("DK:ImgTextMsg".equals(message.getObjectName())) {
+//        }
     }
 
 

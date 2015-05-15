@@ -1,30 +1,25 @@
 package com.dkhs.portfolio.ui.adapter;
 
-import java.text.DecimalFormat;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.BaseAdapter;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.List;
 
 public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
     private boolean isDefColor = false;
@@ -52,6 +47,9 @@ public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
 
         ViewHodler viewHolder = null;
         mStockQuotesBean = mDataList.get(position);
+//        Log.e("MarketCenterItemAdapter", " getView postion:" + position);
+//        Log.e("MarketCenterItemAdapter", " getView name:" + mStockQuotesBean.name);
+
         if (convertView == null) {
             viewHolder = new ViewHodler();
             convertView = View.inflate(mContext, R.layout.market_layout_market, null);

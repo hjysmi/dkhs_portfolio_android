@@ -1,18 +1,11 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.test.UiThreadTest;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -20,17 +13,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
-import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
@@ -40,6 +28,9 @@ import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class StockLandView extends RelativeLayout {
 
@@ -140,23 +131,35 @@ public class StockLandView extends RelativeLayout {
 
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
-        if (visibility == View.VISIBLE) {
-            this.fragmentList.get(view_position).setUserVisibleHint(true);
-            if (null != mQuotesEngine && mStockBean != null) {
-                // mQuotesEngine.quotes(mStockBean.code, listener);
-                if (mLandStockCallBack.getTabPosition() != view_position) {
-                    // showView(mLandStockCallBack.getTabPosition());
-                    hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
 
+
+            if (null != this.fragmentList) {
+
+
+                if (visibility == View.VISIBLE) {
+                    Fragment fragment = this.fragmentList.get(view_position);
+                    if (null != fragment) {
+
+                        fragment.setUserVisibleHint(true);
+                    }
+                    if (null != mQuotesEngine && mStockBean != null) {
+                        // mQuotesEngine.quotes(mStockBean.code, listener);
+                        if (mLandStockCallBack.getTabPosition() != view_position) {
+                            // showView(mLandStockCallBack.getTabPosition());
+                            hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
+
+                        } else {
+                            this.fragmentList.get(view_position).setUserVisibleHint(true);
+
+                        }
+                    }
                 } else {
-                    this.fragmentList.get(view_position).setUserVisibleHint(true);
-
+                    this.fragmentList.get(view_position).setUserVisibleHint(false);
                 }
             }
-        } else {
-            this.fragmentList.get(view_position).setUserVisibleHint(false);
-        }
-    };
+    }
+
+    ;
 
     public void updateLandStockView(StockQuotesBean stockBean) {
         if (null != stockBean) {

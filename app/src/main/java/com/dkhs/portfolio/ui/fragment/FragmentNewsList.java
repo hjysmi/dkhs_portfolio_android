@@ -30,7 +30,8 @@ import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
-import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
+import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.umeng.analytics.MobclickAgent;
 
 import java.io.Serializable;
@@ -41,7 +42,7 @@ import java.util.List;
  * 需要优化界面
  * 个股行情界面，个股界面时（公告 TAB）
  */
-public class FragmentNewsList extends Fragment implements Serializable {
+public class FragmentNewsList extends Fragment implements Serializable , IScrollExchangeListener {
     /**
      *
      */
@@ -178,7 +179,9 @@ public class FragmentNewsList extends Fragment implements Serializable {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
+                if (firstVisibleItem == 0) {
+                    scrollParent();
+                }
             }
         });
         mListView.setOnItemClickListener(itemBackClick);
@@ -303,29 +306,38 @@ public class FragmentNewsList extends Fragment implements Serializable {
     private void loadFinishUpdateView() {
         Log.e(TAG, "loadFinishUpdateView");
         mOptionlistAdapter.notifyDataSetChanged();
-//        int height = 0;
-//        if (null != mOptionlistAdapter) {
-//            mOptionlistAdapter.notifyDataSetChanged();
-//            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-//                View listItem = mOptionlistAdapter.getView(i, null, mListView);
-//                listItem.measure(0, 0); // 计算子项View 的宽高
-//                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
-//                height += list_child_item_height; // 统计所有子项的总高度
-//            }
-//        }
-//        isLoadingMore = false;
-//        if (mListView != null) {
-//            mListView.removeFooterView(mFootView);
-//        }
-        UIUtils.setListViewHeightBasedOnChildren(mListView);
-        mContentView.getLayoutParams().height = mListView.getLayoutParams().height;
+        int height = 0;
+        if (null != mOptionlistAdapter) {
+            mOptionlistAdapter.notifyDataSetChanged();
+            for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
+                View listItem = mOptionlistAdapter.getView(i, null, mListView);
+                listItem.measure(0, 0); // 计算子项View 的宽高
+                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+                height += list_child_item_height; // 统计所有子项的总高度
+                if (null != mStockQuoteScrollListener) {
+                    if (height > mStockQuoteScrollListener.getMaxListHeight()) {
+                        height = mStockQuoteScrollListener.getMaxListHeight();
+                        break;
+                    }
+                }
+            }
+        }
+        isLoadingMore = false;
+        if (mListView != null) {
+            mListView.removeFooterView(mFootView);
+        }
+        mContentView.getLayoutParams().height = height;
 //        ((StockQuotesActivity) getActivity()).setLayoutHeights(mListView.getLayoutParams().height);
 //        if (null != context && context instanceof StockQuotesActivity) {
 //        }
     }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_news);
+    IStockQuoteScrollListener mStockQuoteScrollListener;
 
+    public void setStockQuoteScrollListener(IStockQuoteScrollListener scrollListener) {
+        this.mStockQuoteScrollListener = scrollListener;
+    }
     @Override
     public void onPause() {
         // TODO Auto-generated method stub
@@ -392,4 +404,27 @@ public class FragmentNewsList extends Fragment implements Serializable {
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
+
+
+    @Override
+    public void scrollSelf() {
+
+        Log.e(TAG, " scrollSelf");
+
+        if (null != mStockQuoteScrollListener) {
+            mStockQuoteScrollListener.scrollviewObatin();
+
+        }
+    }
+
+    @Override
+    public void scrollParent() {
+
+
+        Log.e(TAG, " scrollParent");
+        if (null != mStockQuoteScrollListener) {
+            mStockQuoteScrollListener.interruptSrcollView();
+        }
+    }
+
 }

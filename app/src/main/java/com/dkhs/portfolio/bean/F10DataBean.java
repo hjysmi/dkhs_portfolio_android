@@ -15,7 +15,7 @@ public class F10DataBean {
      * sub_title :
      */
 
-   
+
 
     private String title;
     private List<List<String>> values;
