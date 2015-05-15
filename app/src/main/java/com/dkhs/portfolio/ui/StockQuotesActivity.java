@@ -155,7 +155,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         setIntent(intent);// must store the new intent unless getIntent() will return the old one
         processExtraData();
         requestData();
-        initList();
+        initBottomTabFragment();
     }
 
     private void processExtraData() {
@@ -175,7 +175,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private List<SelectStockBean> localList;
     Handler viewHandler = new Handler();
 
-    // private TextView tvAdd;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -267,8 +266,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         }
 
         bottomLayout = findViewById(R.id.stock_layout);
-//        android.view.ViewGroup.LayoutParams l = bottomLayout.getLayoutParams();
-//        l.height = getResources().getDimensionPixelOffset(R.dimen.layout_height) * 2;// dm.heightPixels * 3 / 2 -
 
         klinVirtulCheck = (Button) findViewById(R.id.klin_virtul_check);
         klinVirtulCheck.setOnClickListener(this);
@@ -290,7 +287,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         // btnRefresh.setBackgroundResource(R.drawable.nav_refresh_selector);
         btnRefresh.setOnClickListener(this);
         // stockLayout.setOnTouchListener(new OnLayoutlistener());
-
+        initBottomTabTitle();
         viewHandler.postDelayed(new Runnable() {
 
             @Override
@@ -306,7 +303,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 scrollToTop();
 
                 // 需要优化的地方
-                initList();
+                initBottomTabFragment();
 
                 setFuquanView();
                 initLandStockView();
@@ -391,12 +388,26 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
 
-    private void initList() {
+    private void initBottomTabTitle() {
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
             String[] stockListTiles = getResources().getStringArray(R.array.select_optional_stock);
             hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
             hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+
+
+        } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
+
+            String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
+            hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+            hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
+
+        }
+    }
+
+    private void initBottomTabFragment() {
+        if (null != mStockCode
+                && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
 
             String exchange;
             String listSector = null;
@@ -416,12 +427,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
-            String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
-            hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
-            hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
-            hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
-            hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
-
             tabBottomFragment = new ArrayList<Fragment>();
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
             tabBottomFragment.add(FragmentNewsList.newIntent(mStockBean.code));
@@ -430,6 +435,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
             replaceBottomTabFragment(tabBottomFragment.get(0));
 
+            hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
+            hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
 
         }
     }
@@ -532,7 +539,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private void scrollToTop() {
 
-        // mScrollview.smoothScrollTo(0, 0);
         mScrollview.setScrollViewListener(mScrollViewListener);
     }
 
@@ -841,7 +847,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                     break;
                 case REQUEST_CHECK:
                     checkValue = data.getStringExtra(ChangeCheckType.CHECK_TYPE);
-                    // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
 
                     setFuquanView();
                     if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
@@ -865,16 +870,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // PortfolioApplication.getInstance().setCheckValue("2");
         }
 
-        // if (fragmentList.get(pager.getCurrentItem()) instanceof KChartsFragment) {
-        // ((KChartsFragment) fragmentList.get(pager.getCurrentItem())).regetDate(checkValue);
-        // }
     }
 
     private void setTitleDate() {
         setTitle(mStockBean.name + "(" + mStockBean.code + ")");
     }
 
-    // private boolean hasFollow = true;
     IHttpListener baseListener = new BasicHttpListener() {
 
         @Override
@@ -941,15 +942,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void rotateRefreshButton() {
-        // RotateAnimation ani = new RotateAnimation(0, 360, Animation.RELATIVE_TO_SELF, 0.5f,
-        // Animation.RELATIVE_TO_SELF,
-        // 0.5f);
-        // ani.setDuration(500);
-        // ani.setRepeatCount(-1);
-        // // LinearInterpolator inter = new LinearInterpolator();
-        // // ani.setInterpolator(inter);
-        // // Matrix matrix = new Matrix();
-        // // matrix.preRotate(360, 100, 200);
+
         btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing), null,
                 null, null);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_around_center_point);
@@ -997,29 +990,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         quoteListener.stopRequest(true);
     }
 
-    // /**
-    // * @Title
-    // * @Description TODO: (用一句话描述这个方法的功能)
-    // * @return
-    // */
-    // @Override
-    // public void chartTounching() {
-    // if (mScrollview != null) {
-    // mScrollview.setIsfocus(true);
-    // }
-    // }
-
-    // /**
-    // * @Title
-    // * @Description TODO: (用一句话描述这个方法的功能)
-    // * @return
-    // */
-    // @Override
-    // public void loseTouching() {
-    // if (mScrollview != null) {
-    // mScrollview.setIsfocus(false);
-    // }
-    // }
 
     public StockQuotesBean getmStockQuotesBean() {
         return mStockQuotesBean;
@@ -1249,11 +1219,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
     @Override
     public int getTabPosition() {
         if (null != pager) {
@@ -1263,12 +1228,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         return 0;
     }
 
-    /**
-     * @param position
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
+
     @Override
     public void setTabPosition(int position) {
 
