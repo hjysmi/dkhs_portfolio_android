@@ -139,7 +139,8 @@
             android:layout_toLeftOf="@id/land_kline_layouts"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp" />
-        <FrameLayout
+
+        <FrameLayout
             android:id="@+id/land_page"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"

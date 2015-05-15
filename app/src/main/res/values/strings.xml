@@ -453,6 +453,7 @@
     <string name="msg_price_error">目标价输入错误</string>
     <string name="btn_reinput">重新输入</string>
     <string name="symbols">自建</string>
+    <string name="optional">自选</string>
     <string name="followers">粉丝</string>
     <string name="following">关注</string>
     <string name="unfollowing">取消关注</string>

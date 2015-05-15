@@ -423,12 +423,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
 
             tabBottomFragment = new ArrayList<Fragment>();
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
-            tabBottomFragment.add(FragmentNewsList.newIntent(mStockBean.code));
-            tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
-            replaceBottomTabFragment(tabBottomFragment.get(0));
+
 
 
         }
@@ -455,7 +450,32 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
 
             }
-            replaceBottomTabFragment(tabBottomFragment.get(position));
+            switch (position) {
+                case 0: {
+                    replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
+                }
+                break;
+                case 1: {
+                    replaceBottomTabFragment(FragmentNewsList.newIntent(mStockBean.code));
+                }
+                break;
+                case 2: {
+                    replaceBottomTabFragment(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
+                }
+                case 3: {
+                    replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
+
+                }
+                case 4: {
+                    replaceBottomTabFragment(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
+
+                }
+
+
+                break;
+
+            }
+
 
         }
     };
