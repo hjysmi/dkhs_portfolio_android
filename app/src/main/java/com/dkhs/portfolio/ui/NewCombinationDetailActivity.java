@@ -27,6 +27,7 @@ import com.dkhs.portfolio.ui.fragment.CompareIndexFragment;
 import com.dkhs.portfolio.ui.fragment.FragmentNetValueTrend;
 import com.dkhs.portfolio.ui.fragment.FragmentPositionBottom;
 import com.dkhs.portfolio.utils.TimeUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
@@ -179,8 +180,11 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                 }
                 break;
                 case MENU_REMIND: {
-                    startActivity(StockRemindActivity.newCombinatIntent(NewCombinationDetailActivity.this,
-                            mCombinationBean));
+                    if(!UIUtils.iStartLoginActivity(NewCombinationDetailActivity.this)){
+
+                        startActivity(StockRemindActivity.newCombinatIntent(NewCombinationDetailActivity.this,
+                                mCombinationBean));
+                    }
                 }
                 break;
                 case MENU_EDIT: { // 组合编辑

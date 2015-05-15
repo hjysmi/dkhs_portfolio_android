@@ -11,11 +11,8 @@ package com.dkhs.portfolio.ui.messagecenter;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.RongTokenBean;
@@ -66,20 +63,19 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
     }
 
 
-    public Map<String,UserInfo> userInfoList=new HashMap<String,UserInfo>();
+    public Map<String, UserInfo> userInfoList = new HashMap<String, UserInfo>();
 
 
+    public void add(UserInfo userInfo) {
 
-    public void add(UserInfo userInfo){
 
-
-        if(!userInfoList.containsKey(userInfo.getUserId())){
-            userInfoList.put(userInfo.getUserId(),userInfo);
+        if (!userInfoList.containsKey(userInfo.getUserId())) {
+            userInfoList.put(userInfo.getUserId(), userInfo);
         }
     }
 
-    public UserInfo get(String key){
-       return userInfoList.get(key);
+    public UserInfo get(String key) {
+        return userInfoList.get(key);
     }
 
 
@@ -213,7 +209,8 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         }
         return unreadCount;
     }
-    public void startPrivateChat(Context context,String id,String name) {
+
+    public void startPrivateChat(Context context, String id, String name) {
 
         if (TextUtils.isEmpty(name)) {
             name = "";
@@ -222,14 +219,13 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
             RongIM.getInstance().startPrivateChat(context, id, name);
         }
     }
-    public void startConversationList(Context context){
+
+    public void startConversationList(Context context) {
         cancelAllNotification(context);
         if (null != RongIM.getInstance().getRongClient()) {
             RongIM.getInstance().startConversationList(context);
         }
     }
-
-
 
 
     @Override
@@ -247,10 +243,14 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
     @Override
     public void disConnect(Context context) {
-        cancelAllNotification(context);
-        if (RongIM.getInstance() != null) {
-            // 断开融云连接
-            RongIM.getInstance().disconnect(false);
+        try {
+            cancelAllNotification(context);
+            if (RongIM.getInstance() != null) {
+                // 断开融云连接
+                RongIM.getInstance().disconnect(false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -267,10 +267,11 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         Log.d(TAG, "onChanged:" + status);
 
     }
-    public UserInfo getUserInfo(String userId) {
-        final UserInfo userInfo = new UserInfo(userId, "" , null);
 
-        if(get(userId) == null) {
+    public UserInfo getUserInfo(String userId) {
+        final UserInfo userInfo = new UserInfo(userId, "", null);
+
+        if (get(userId) == null) {
             userEngine.getUserInfo(userId, new BasicHttpListener() {
                         @Override
                         public void onSuccess(String result) {
@@ -279,22 +280,24 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
                             userInfo.setPortraitUri(Uri.parse(userEntity.getAvatar_md()));
                             add(userInfo);
                         }
+
                         @Override
                         public void onFailure(int errCode, String errMsg) {
                             super.onFailure(errCode, errMsg);
                         }
                     }
             );
-        }else{
-            UserInfo  item=get(userId);
+        } else {
+            UserInfo item = get(userId);
             userInfo.setPortraitUri(item.getPortraitUri());
             userInfo.setName(item.getName());
         }
 
         return userInfo;
     }
-    private void cancelAllNotification(Context context){
-        NotificationManager nManager = (NotificationManager)context. getSystemService(context.NOTIFICATION_SERVICE);
+
+    private void cancelAllNotification(Context context) {
+        NotificationManager nManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         nManager.cancelAll();
     }
 
