@@ -155,7 +155,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             }
 
         });
-        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 30, list_sector,
+        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 10, list_sector,
                 symbol_stype, exchange);
         mLoadDataEngine.loadData();
 
