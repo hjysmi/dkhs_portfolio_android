@@ -52,6 +52,8 @@ import com.dkhs.portfolio.ui.fragment.StockQuotesChartFragment;
 import com.dkhs.portfolio.ui.fragment.TabF10Fragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
+import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
+import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView;
 import com.dkhs.portfolio.ui.widget.InterceptScrollView.ScrollViewListener;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
@@ -87,7 +89,7 @@ import java.util.List;
  * @date 2014-9-26 上午10:22:32
  */
 public class StockQuotesActivity extends ModelAcitivity implements OnClickListener, Serializable, StockViewCallBack,
-        LandStockViewCallBack, KChartDataListener {
+        LandStockViewCallBack, KChartDataListener, IStockQuoteScrollListener {
 
     private static final long serialVersionUID = 15121212311111156L;
     private long mLastClickTime = 0;
@@ -197,6 +199,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         processExtraData();
         initView();
 
+
     }
 
     private void getLocalOptionList() {
@@ -273,6 +276,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         hsTitleBottom = (HScrollTitleView) findViewById(R.id.hs_title_bottom);
         hsTitleSticker = (HScrollTitleView) findViewById(R.id.hs_title_sticker);
 
+
         String[] titleArray = getResources().getStringArray(R.array.quotes_title);
         hsTitle.setTitleList(titleArray, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
         hsTitle.setSelectPositionListener(titleSelectPostion);
@@ -314,7 +318,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     }
 
+
     private int mTitleBarBottom;
+    private int mMaxListHeight;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -322,7 +328,13 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         if (hasFocus) {
             mTitleBarBottom = getTitleView().getBottom();
-
+            View contentView = findViewById(android.R.id.content);
+            int contentHeight = contentView.getHeight();
+            int hsTitleHeight = hsTitleBottom.getHeight();
+            mMaxListHeight = contentHeight - hsTitleHeight;
+            Log.e(TAG, "---------------contentHeight：" + contentHeight);
+            Log.e(TAG, " --------------hsTitleHeight：" + hsTitleHeight);
+            Log.e(TAG, " --------------mMaxListHeight：" + mMaxListHeight);
         }
     }
 
@@ -406,6 +418,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void initBottomTabFragment() {
+        tabBottomFragment = new ArrayList<Fragment>();
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
 
@@ -422,14 +435,30 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 listSector = OpitionCenterStockEngineImple.VALUE_SYMBOL_SELECT;
             }
 
+            FragmentForStockSHC mGrowFragmentUp = FragmentForStockSHC.newIntent(exchange, FragmentSelectStockFund.StockViewType.MARKET_STOCK_UPRATIO,
+                    OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, listSector, true);
+            FragmentForStockSHC mGrowFragmentDown = FragmentForStockSHC.newIntent(exchange, FragmentSelectStockFund.StockViewType.MARKET_STOCK_DOWNRATIO,
+                    OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, listSector, true);
+            FragmentForStockSHC mGrowFragmentHand = FragmentForStockSHC
+                    .newIntent(exchange, FragmentSelectStockFund.StockViewType.STOCK_HANDOVER, null, listSector, false);
+            mGrowFragmentUp.setStockQuoteScrollListener(this);
+            mGrowFragmentDown.setStockQuoteScrollListener(this);
+            mGrowFragmentHand.setStockQuoteScrollListener(this);
+            tabBottomFragment.add(mGrowFragmentUp);
+            tabBottomFragment.add(mGrowFragmentDown);
+            tabBottomFragment.add(mGrowFragmentHand);
+            replaceBottomTabFragment(tabBottomFragment.get(0));
+
             hsTitleBottom.setSelectPositionListener(new IndexTabSelectListener(exchange, listSector));
             hsTitleSticker.setSelectPositionListener(new IndexTabSelectListener(exchange, listSector));
 
+
         } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
 
-            tabBottomFragment = new ArrayList<Fragment>();
+            FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.code);
+            fList.setStockQuoteScrollListener(this);
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
-            tabBottomFragment.add(FragmentNewsList.newIntent(mStockBean.code));
+            tabBottomFragment.add(fList);
             tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
@@ -447,26 +476,46 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private ISelectPostionListener mStockBottomTabListener = new ISelectPostionListener() {
         @Override
         public void onSelectPosition(int position) {
-            if (hsTitleBottom.getCurrentPosition() != position) {
-                hsTitleBottom.setSelectPositionListener(null);
-                hsTitleBottom.setSelectIndex(position);
-
-                hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
-
-
-            }
-            if (hsTitleSticker.getCurrentPosition() != position) {
-                hsTitleSticker.setSelectPositionListener(null);
-                hsTitleSticker.setSelectIndex(position);
-
-                hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
-
-            }
+            updateStickHeaderPosition(position);
             replaceBottomTabFragment(tabBottomFragment.get(position));
 
         }
     };
 
+    @Override
+    public int getMaxListHeight() {
+        return mMaxListHeight-70;
+    }
+
+    @Override
+    public void interruptSrcollView() {
+        mScrollview.setIsfocus(false);
+
+    }
+
+    @Override
+    public void scrollviewObatin() {
+        mScrollview.setIsfocus(true);
+    }
+
+
+    private void updateStickHeaderPosition(int position) {
+        if (hsTitleBottom.getCurrentPosition() != position) {
+            hsTitleBottom.setSelectPositionListener(null);
+            hsTitleBottom.setSelectIndex(position);
+
+            hsTitleBottom.setSelectPositionListener(mStockBottomTabListener);
+
+
+        }
+        if (hsTitleSticker.getCurrentPosition() != position) {
+            hsTitleSticker.setSelectPositionListener(null);
+            hsTitleSticker.setSelectIndex(position);
+
+            hsTitleSticker.setSelectPositionListener(mStockBottomTabListener);
+
+        }
+    }
 
     public class IndexTabSelectListener implements ISelectPostionListener {
 
@@ -480,25 +529,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
         @Override
         public void onSelectPosition(int position) {
+            updateStickHeaderPosition(position);
+            replaceBottomTabFragment(tabBottomFragment.get(position));
 
-            switch (position) {
-                case 0: {
-                    replaceBottomTabFragment(FragmentForStockSHC.newIntent(mExchange, FragmentSelectStockFund.StockViewType.MARKET_STOCK_UPRATIO,
-                            OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, mListSector, true));
-                }
-                break;
-                case 1: {
-                    replaceBottomTabFragment(FragmentForStockSHC.newIntent(mExchange, FragmentSelectStockFund.StockViewType.MARKET_STOCK_DOWNRATIO,
-                            OpitionCenterStockEngineImple.VALUE_SYMBOL_STYPE, mListSector, true));
-                }
-                break;
-                case 2: {
-                    replaceBottomTabFragment(FragmentForStockSHC
-                            .newIntent(mExchange, FragmentSelectStockFund.StockViewType.STOCK_HANDOVER, null, mListSector, false));
-                }
-                break;
-
-            }
         }
     }
 
@@ -616,14 +649,23 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void showStickHeader() {
         if (hsTitleSticker.getVisibility() != View.VISIBLE) {
             hsTitleSticker.setVisibility(View.VISIBLE);
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
+            if (null != fragment && fragment instanceof IScrollExchangeListener) {
+                ((IScrollExchangeListener) fragment).scrollSelf();
+                ;
+            }
         }
+//        stock_layout
     }
 
     private void hideStickHeader() {
         if (hsTitleSticker.getVisibility() != View.GONE) {
             hsTitleSticker.setVisibility(View.GONE);
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.stock_layout);
+            if (null != fragment && fragment instanceof IScrollExchangeListener) {
+                ((IScrollExchangeListener) fragment).scrollParent();
+            }
         }
-
     }
 
     ISelectPostionListener titleSelectPostion = new ISelectPostionListener() {

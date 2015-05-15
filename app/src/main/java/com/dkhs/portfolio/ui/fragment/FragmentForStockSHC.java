@@ -3,8 +3,9 @@ package com.dkhs.portfolio.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -20,6 +21,8 @@ import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
+import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
+import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
@@ -32,9 +35,10 @@ import java.util.TimerTask;
  * 需要优化界面
  * 个股行情界面，指数界面时（涨幅榜/跌幅榜/换手率榜）
  */
-public class FragmentForStockSHC extends BaseFragment {
+public class FragmentForStockSHC extends BaseFragment implements IScrollExchangeListener {
+    private static final String TAG = "FragmentForStockSHC";
     /**
-     * 
+     *
      */
     private ListView mListView;
 
@@ -42,7 +46,7 @@ public class FragmentForStockSHC extends BaseFragment {
     private List<SelectStockBean> mDataList;
     private LoadMoreDataEngine mLoadDataEngine;
     boolean first = true;
-    private View view;
+    private View mContentView;
     public final static String NEWS_TYPE = "newsNum";
     public final static String VO = "bigvo";
     public final static String LAYOUT = "layout";
@@ -64,8 +68,8 @@ public class FragmentForStockSHC extends BaseFragment {
     private boolean setColor;
     private RelativeLayout pb;
 
-    public static Fragment newIntent(String exchange, StockViewType sort, String symbol_stype, String list_sector,
-            boolean setColor) {
+    public static FragmentForStockSHC newIntent(String exchange, StockViewType sort, String symbol_stype, String list_sector,
+                                                boolean setColor) {
         FragmentForStockSHC mFragmentForStockSHC = new FragmentForStockSHC();
         Bundle b = new Bundle();
         b.putString(EXCHANGE, exchange);
@@ -90,11 +94,11 @@ public class FragmentForStockSHC extends BaseFragment {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -106,18 +110,6 @@ public class FragmentForStockSHC extends BaseFragment {
 //        }
     }
 
-    // @Override
-    // public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    // // TODO Auto-generated method stub
-    // view = inflater.inflate(R.layout.activity_option_market_news, null);
-    // context = getActivity();
-    //
-    // initView(view);
-    // if (null != context && context instanceof StockQuotesActivity && getadle) {
-    // ((StockQuotesActivity) getActivity()).setLayoutHeight(2);
-    // }
-    // return view;
-    // }
 
     private void initDate() {
         Bundle bundle = getArguments();
@@ -133,6 +125,7 @@ public class FragmentForStockSHC extends BaseFragment {
     }
 
     private void initView(View view) {
+        mContentView = view.findViewById(R.id.ll_content);
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
         pb.setVisibility(View.VISIBLE);
@@ -146,7 +139,23 @@ public class FragmentForStockSHC extends BaseFragment {
             mOptionlistAdapter = new MarketCenterItemAdapter(context, mDataList, true);
         }
         mListView.setAdapter(mOptionlistAdapter);
-        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 10, list_sector,
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+//                Log.e(TAG, " onScroll firstVisibleItem:" + firstVisibleItem);
+                if (firstVisibleItem == 0) {
+                    scrollParent();
+                }
+            }
+
+        });
+        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 30, list_sector,
                 symbol_stype, exchange);
         mLoadDataEngine.loadData();
 
@@ -161,13 +170,36 @@ public class FragmentForStockSHC extends BaseFragment {
         }
     };
 
+    @Override
+    public void scrollSelf() {
+
+        Log.e(TAG, " scrollSelf");
+
+//        mListView.getParent().requestDisallowInterceptTouchEvent(false);
+        if (null != mStockQuoteScrollListener) {
+            mStockQuoteScrollListener.scrollviewObatin();
+
+        }
+    }
+
+    @Override
+    public void scrollParent() {
+
+
+        Log.e(TAG, " scrollParent");
+        if (null != mStockQuoteScrollListener) {
+            mStockQuoteScrollListener.interruptSrcollView();
+        }
+//        mListView.getParent().requestDisallowInterceptTouchEvent(true);
+    }
+
     class StockLoadDataListener implements com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener {
 
         /**
-         * @Title
-         * @Description TODO: (用一句话描述这个方法的功能)
          * @param object
          * @return
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
          */
         @Override
         public void loadFinish(MoreDataBean object) {
@@ -182,9 +214,9 @@ public class FragmentForStockSHC extends BaseFragment {
         }
 
         /**
+         * @return
          * @Title
          * @Description TODO: (用一句话描述这个方法的功能)
-         * @return
          */
         @Override
         public void loadFail() {
@@ -192,37 +224,41 @@ public class FragmentForStockSHC extends BaseFragment {
 
         }
 
-        // @Override
-        // public void loadFinish(List<SelectStockBean> dataList) {
-        // pb.setVisibility(View.GONE);
-        // if (null != dataList) {
-        // mDataList.clear();
-        // mDataList.addAll(dataList);
-        // mOptionlistAdapter.notifyDataSetChanged();
-        // loadFinishUpdateView();
-        // }
-        // }
-        //
-        // @Override
-        // public void loadFail(ErrorBundle error) {
-        //
-        // }
 
     }
 
     private void loadFinishUpdateView() {
         // mOptionMarketAdapter.notifyDataSetChanged();
         try {
+
             int height = 0;
             if (null != mOptionlistAdapter) {
                 mOptionlistAdapter.notifyDataSetChanged();
+                Log.e(TAG, " loadFinishUpdateView size:" + mOptionlistAdapter.getCount());
+                Log.e(TAG, " last size name:" + mDataList.get(mDataList.size() - 1).getName());
+                if (null != mStockQuoteScrollListener) {
+                }
+
+                View listItem = mOptionlistAdapter.getView(0, null, mListView);
+                listItem.measure(0, 0); // 计算子项View 的宽高
+                int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+                Log.e(TAG, " list_child_item_height :" + list_child_item_height);
 
                 for (int i = 0, len = mOptionlistAdapter.getCount(); i < len; i++) {
-                    View listItem = mOptionlistAdapter.getView(i, null, mListView);
-                    listItem.measure(0, 0); // 计算子项View 的宽高
-                    int list_child_item_height = listItem.getMeasuredHeight() + mListView.getDividerHeight();
+
                     height += list_child_item_height; // 统计所有子项的总高度
+                    if (null != mStockQuoteScrollListener) {
+                        if (height > mStockQuoteScrollListener.getMaxListHeight()) {
+                            height = mStockQuoteScrollListener.getMaxListHeight();
+                            Log.e(TAG, " break size:" + mDataList.get(i).getName());
+                            break;
+                        }
+                    }
                 }
+
+                mContentView.getLayoutParams().height = height;
+//                mListView.getLayoutParams().height = height;
+//                }
             }
 //            if (null != context && context instanceof StockQuotesActivity && getadle) {
 //                ((StockQuotesActivity) getActivity()).setLayoutHeights(height);
@@ -270,7 +306,7 @@ public class FragmentForStockSHC extends BaseFragment {
         @Override
         public void run() {
             if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
-                mLoadDataEngine.loadData();
+//                mLoadDataEngine.loadData();
             }
         }
     }
@@ -306,14 +342,22 @@ public class FragmentForStockSHC extends BaseFragment {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
         return R.layout.activity_option_market_news;
     }
+
+
+    IStockQuoteScrollListener mStockQuoteScrollListener;
+
+    public void setStockQuoteScrollListener(IStockQuoteScrollListener scrollListener) {
+        this.mStockQuoteScrollListener = scrollListener;
+    }
+
+
 }
