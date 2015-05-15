@@ -256,9 +256,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             handFollowOrUnfollowAction();
                             break;
                         case MENU_REMIND:
-                            startActivity(StockRemindActivity.newStockIntent(StockQuotesActivity.this,
-                                    SelectStockBean.copy(mStockQuotesBean)));
+                            if(!UIUtils.iStartLoginActivity(StockQuotesActivity.this)){
 
+                                startActivity(StockRemindActivity.newStockIntent(StockQuotesActivity.this,
+                                        SelectStockBean.copy(mStockQuotesBean)));
+
+                            }
                             break;
                     }
                     return false;
