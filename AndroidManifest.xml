@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
-    android:versionCode="10"
-    android:versionName="1.4.0410" >
+    android:versionCode="11"
+    android:versionName="1.5.0513" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -32,6 +32,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".app.PortfolioApplication"
@@ -54,7 +55,7 @@
         <activity
             android:name="com.dkhs.portfolio.ui.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppThemeNoBackgroud" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -71,9 +72,15 @@
         <activity android:name="com.dkhs.portfolio.ui.RLFActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SetPasswordActivity" />
         <activity android:name="com.dkhs.portfolio.ui.RegisterSuccessActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.GuideActivity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.GuideActivity"
+            android:theme="@style/AppThemeNoBackgroud" />
         <activity android:name="com.dkhs.portfolio.ui.AboutUsActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.LoginActivity" />
+
+        <!-- fixbug:快速连续点击自选中的提示设置图标，出现多个登录页 -->
+        <activity
+            android:name="com.dkhs.portfolio.ui.LoginActivity"
+            android:launchMode="singleTask" />
         <activity android:name="com.dkhs.portfolio.ui.FindPasswrodActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MyCombinationActivity" />
@@ -102,7 +109,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.OptionEditActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.EditTabStockActivity" />
         <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ChangeCombinationNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />
@@ -114,7 +121,12 @@
         <activity android:name="com.dkhs.portfolio.ui.HistoryPositionDetailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"
+            android:theme="@style/AppThemeNoBackgroud" />
+        <activity
+            android:name="com.dkhs.portfolio.ui.StockRemindActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.dkhs.portfolio.ui.KChartLandScapeActivity"
             android:configChanges="orientation|screenSize"
@@ -153,7 +165,7 @@
             <!--
             	AuthorizeAdapter表示一个继承自cn.sharesdk.framework.authorize.AuthorizeAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获取授权页面的各种UI控件。 
-            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            	开发者可以通过继承AuthorizeAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="AuthorizeAdapter"
@@ -162,14 +174,14 @@
             <!--
             	QZoneWebShareAdapter表示一个继承自cn.sharesdk.tencent.qzone.QZoneWebShareAdapter
             	的类，这个类可以监听到页面的生命周期，也可以获QQ空间网页分享权页面的各种UI控件。 
-            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
+            	开发者可以通过继承QZoneWebShareAdapter，重写其方法，并获取各种UI来自定义这个页面的行为。
             -->
             <meta-data
                 android:name="QZoneWebShareAdapter"
                 android:value="cn.sharesdk.demo.MyQZoneWebShareAdapter" />
             <!--
             	Dropbox的SSO功能需要在此处添加一个对ACTION_VIEW事件的过滤器，其中的scheme是
-            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
+            	“db-”前缀再开发者应用的加上appKey。如果此过滤器不设置，则不能完成SSO功能授权
             -->
             <intent-filter>
                 <data android:scheme="db-7janx53ilz11gbs" />
@@ -183,7 +195,7 @@
             <!--
             	如果集成QQ分享，或者使用QQ客户端来进行QQ空间的分享，须要在此处添加一个对ACTION_VIEW
             	事件的过滤器，其中的scheme是“tencent”前缀再开发者应用的加上appId。如果此过滤器不设置，
-            	则分享结束以后不能得到正确的回调
+            	则分享结束以后不能得到正确的回调
             -->
             <intent-filter>
                 <data android:scheme="tencent1103511496" />
@@ -202,7 +214,7 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <receiver android:name="com.dkhs.portfolio.ui.CompleteReceiver" >
+        <receiver android:name="com.dkhs.portfolio.receiver.CompleteReceiver" >
             <intent-filter android:priority="1000" >
 
                 <!-- 设置最高优先级 -->
@@ -210,11 +222,165 @@
                 <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.dkhs.portfolio.ui.messagecenter.MessageReceive"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
+            </intent-filter>
+        </receiver>
 
         <service android:name="com.dkhs.portfolio.service.LoadStockToDBService" />
         <service
             android:name="com.dkhs.portfolio.service.ReLoadDataService"
             android:exported="false" />
+
+        <meta-data
+            android:name="RONG_CLOUD_APP_KEY"
+            android:value="tdrvipksrgsu5" />
+
+        <service android:name="io.rong.imlib.RongService" />
+
+        <activity
+            android:name="io.rong.imkit.RongActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:path="/grouplist"
+                    android:scheme="rong" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:path="/conversationgrouplist"
+                    android:scheme="rong" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/friend/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="io.rong.voipkit.activity.CalledSideActivity"
+            android:excludeFromRecents="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="io.rong.voipkit.calledSideActivity.action" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="io.rong.imkit.demo"
+                    android:path="/calledsideactivity"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.RCChatListActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:path="/conversationlist"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.RCChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/conversation/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.RCChatSettingActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="com.dkhs.portfolio"
+                    android:pathPrefix="/conversationsetting/"
+                    android:scheme="rong" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="io.rong.imkit.service.RongIMService"
+            android:enabled="true"
+            android:exported="false"
+            android:priority="1000" >
+        </service>
+        <service
+            android:name="io.rong.imlib.push.PushService"
+            android:process="io.rong.push" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="io.rong.push" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="io.rong.imlib.push.CommandService"
+            android:process="io.rong.push" >
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="io.rong.command" />
+            </intent-filter>
+        </service>
+
+        <receiver
+            android:name="io.rong.imlib.push.PushReceiver"
+            android:process="io.rong.push" >
+            <intent-filter>
+                <action android:name="io.rong.imlib.action.push.heartbeat" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="io.rong.imlib.push.PushMessageReceiver" >
+            <intent-filter>
+                <action android:name="io.rong.push.message" />
+            </intent-filter>
+        </receiver>
+        <!-- End Rong Cloud -->
+
     </application>
 
 </manifest>

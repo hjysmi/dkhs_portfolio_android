@@ -20,17 +20,27 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
+import com.dkhs.portfolio.ui.RCChatListActivity;
 import com.dkhs.portfolio.ui.SettingActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
+
+import io.rong.imkit.RongIM;
 
 /**
  * @ClassName UserFragment
@@ -45,13 +55,14 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
     private View viewLogin;
     @ViewInject(R.id.ll_userinfo_layout)
     private View viewUserInfo;
-
     @ViewInject(R.id.setting_image_head)
     private ImageView settingImageHead;
     @ViewInject(R.id.setting_text_account_text)
     private TextView settingTextAccountText;
     @ViewInject(R.id.setting_text_name_text)
     private TextView settingTextNameText;
+    @ViewInject(R.id.tv_unread_count)
+    private TextView unreadCountTV;
 
     @Override
     public int setContentLayoutId() {
@@ -64,6 +75,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
         setTitle(R.string.title_user);
+
     }
 
     /**
@@ -73,7 +85,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
      */
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
+
         super.onResume();
         updateUserInfo();
 
@@ -92,11 +104,13 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             }
         });
 
+        BusProvider.getInstance().register(this);
         updateUserInfo();
 
     }
 
     private void updateUserInfo() {
+
         if (PortfolioApplication.hasUserLogin()) {
             viewLogin.setVisibility(View.GONE);
             viewUserInfo.setVisibility(View.VISIBLE);
@@ -127,6 +141,25 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             viewUserInfo.setVisibility(View.GONE);
 
         }
+
+        updateMessageCenterState();
+
+    }
+
+    private void updateMessageCenterState() {
+        if (PortfolioApplication.hasUserLogin()) {
+            // RongIM rongIM = RongIM.getInstance();
+            // if (rongIM != null) {
+            // int totalCount = RongIM.getInstance().getTotalUnreadCount();
+            int totalCount = MessageManager.getInstance().getTotalUnreadCount();
+            if (totalCount > 0) {
+                unreadCountTV.setVisibility(View.VISIBLE);
+                unreadCountTV.setText(totalCount + "");
+            } else {
+                unreadCountTV.setVisibility(View.GONE);
+            }
+
+        }
     }
 
     // public String setAccount(String account) {
@@ -146,7 +179,7 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
         // UIUtils.startAminationActivity(getActivity(), intent);
     }
 
-    @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout })
+    @OnClick({ R.id.btn_login, R.id.ll_userinfo_layout, R.id.user_myfunds_layout, R.id.message_center_layout })
     public void onClick(View v) {
         int id = v.getId();
         if (R.id.btn_login == id) {
@@ -155,12 +188,49 @@ public class UserFragment extends BaseTitleFragment implements OnClickListener {
             startSettingActivity();
         } else if (R.id.user_myfunds_layout == id) {
             if (!UIUtils.iStartLoginActivity(getActivity())) {
-//                getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
-//                        MyCombinationActivity.class)));
-                startActivity(new Intent(getActivity(),
-                        MyCombinationActivity.class));
+                // getActivity().UIUtils.startAminationActivity(getActivity(), (new Intent(getActivity(),
+                // MyCombinationActivity.class)));
+                startActivity(new Intent(getActivity(), MyCombinationActivity.class));
+            }
+        } else if (R.id.message_center_layout == id) {
+            if (!UIUtils.iStartLoginActivity(getActivity())) {
+
+                // RongIM rongIM = RongIM.getInstance();
+                //
+                // if (rongIM == null) {
+                // // 请求重新连接
+                // // BusProvider.getInstance().post(new RongConnectEvent());
+                // MessageManager.getInstance().connect();
+                // }
+                startActivity(new Intent(getActivity(), RCChatListActivity.class));
             }
         }
 
     }
+
+    // @OnClick(R.id.message_center_layout)
+    // public void messageCenterClick(View v) {
+    //
+    // if (!UIUtils.iStartLoginActivity(getActivity())) {
+    //
+    // Toast.makeText(getActivity(),"t",Toast.LENGTH_LONG).show();
+    // RongIM.getInstance().startConversationList(getActivity());
+    // }
+    // }
+
+    @Override
+    public void onDestroy() {
+
+        super.onDestroy();
+
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void updateMessageCenter(NewMessageEvent newMessageEvent) {
+
+        updateMessageCenterState();
+
+    }
+
 }

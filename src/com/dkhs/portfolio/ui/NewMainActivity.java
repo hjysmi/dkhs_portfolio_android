@@ -10,28 +10,42 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.fragment.BaseFragment;
+import com.dkhs.portfolio.bean.RongTokenBean;
+import com.dkhs.portfolio.bean.UserEntity;
+import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
-import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
+import com.squareup.otto.Subscribe;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
-import android.widget.Button;
+import android.text.TextUtils;
+import android.util.Log;
+
+import io.rong.imkit.RongIM;
+import io.rong.imkit.RongIM.ConnectionStatusListener.ConnectionStatus;
+import io.rong.imlib.RongIMClient;
 
 /**
+ * @author zjz
+ * @version 2.0
  * @ClassName NewMainActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-2-5 上午10:26:35
- * @version 2.0
  */
 public class NewMainActivity extends ModelAcitivity {
 
@@ -46,6 +60,7 @@ public class NewMainActivity extends ModelAcitivity {
         hideHead();
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
+        BusProvider.getInstance().register(this);
 
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
@@ -67,6 +82,11 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentB = new MainMarketFragment();
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
+
+        // 判断登陆状态
+        if (PortfolioApplication.hasUserLogin()) {
+            MessageManager.getInstance().connect();
+        }
 
     }
 

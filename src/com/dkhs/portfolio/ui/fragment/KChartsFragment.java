@@ -34,6 +34,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -109,6 +110,7 @@ public class KChartsFragment extends AbstractKChartView {
         mMyChartsView.setContext(getActivity());
         mMyChartsView.setmStockBean(((StockQuotesActivity) getActivity()).getmStockBean());
         mMyChartsView.setType(getViewType());
+
         mLargerButton = (ImageButton) view.findViewById(R.id.btn_large);
         // mLargerButton.setVisibility(View.INVISIBLE);
 
@@ -159,6 +161,8 @@ public class KChartsFragment extends AbstractKChartView {
         // mMyChartsView.setITouchListener(mTouchListener);
         mMyChartsView.setSymbolType(getSymbolType());
         mMyChartsView.setSymbol(getSymbolType());
+        mMyChartsView.setShowLowerChartTabs(false);
+        mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
         // mMyChartsView.setOnTouchListener(new OnChartListener());
     }
 
@@ -179,7 +183,7 @@ public class KChartsFragment extends AbstractKChartView {
         // 最大纬线数
         mVolumnChartView.setLatitudeNum(1);
         // 最大经线数
-        // mVolumnChartView.setLongtitudeNum(3);
+        mVolumnChartView.setLongtitudeNum(2);
         // 最大价格
         mVolumnChartView.setMaxValue(0);
         // 最小价格
@@ -199,10 +203,9 @@ public class KChartsFragment extends AbstractKChartView {
      */
     private void refreshChartsView(List<OHLCEntity> ohlc) {
         try {
+
             mMyChartsView.setOHLCData(ohlc);
-            mMyChartsView.setShowLowerChartTabs(false);
-            mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
-            mMyChartsView.postInvalidate();
+            // mMyChartsView.postInvalidate();
 
             // 刷新成交量
             refreshVolumnCharts();
@@ -398,7 +401,6 @@ public class KChartsFragment extends AbstractKChartView {
     public void onResume() {
 
         super.onResume();
-
         MobclickAgent.onPageStart(mPageName);
     }
 
@@ -469,6 +471,7 @@ public class KChartsFragment extends AbstractKChartView {
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
+            pb.setVisibility(View.GONE);
             if (null == ohlcs || ohlcs.size() == 0) {
                 // String mtype = getKLineType();
                 // getQuotesDataEngine().queryKLine(mtype, getStockCode(), mLandCallBack.getCheckValue(),

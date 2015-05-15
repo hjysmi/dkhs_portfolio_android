@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.bean;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 import android.text.TextUtils;
 
@@ -24,7 +25,7 @@ import com.lidroid.xutils.db.annotation.NoAutoIncrement;
  * @date 2014-8-27 下午3:06:15
  * @version 1.0
  */
-public class CombinationBean implements Serializable {
+public class CombinationBean extends DragListItem implements Serializable {
 
     private static final long serialVersionUID = 12959959598L;
     @NoAutoIncrement
@@ -54,6 +55,9 @@ public class CombinationBean implements Serializable {
     private int sortId;
     @SerializedName("followers_count")
     private int followerCount;
+
+    @SerializedName("alert_settings")
+    private PortfolioAlertBean alertBean;
 
     /**
      * @Title
@@ -279,6 +283,91 @@ public class CombinationBean implements Serializable {
         public void setUsername(String username) {
             this.username = username;
         }
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public String getItemName() {
+        // TODO Auto-generated method stub
+        return this.name;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public String getItemDesc() {
+        if (null != this.user) {
+
+            return this.user.getUsername();
+        }
+        return "";
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public String getItemId() {
+        return this.id;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public long getItemSortId() {
+        return this.sortId;
+    }
+
+    /**
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     * @return
+     * @return
+     */
+    @Override
+    public boolean isItemTixing() {
+        return this.alertBean == null ? false : true;
+    }
+
+    public PortfolioAlertBean getAlertBean() {
+        return alertBean;
+    }
+
+    public void setAlertBean(PortfolioAlertBean alertBean) {
+        this.alertBean = alertBean;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true; // 如果是自己equals自己的话，这里就可以直接返回true，避免了后面可能的大量比较
+        if (!(obj instanceof CombinationBean))
+            return false;
+
+        CombinationBean other = (CombinationBean) obj;
+        return id.equals(other.id) && name.equals(other.name);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode() + name.hashCode();
     }
 
 }

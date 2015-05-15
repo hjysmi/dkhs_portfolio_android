@@ -536,16 +536,21 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
     };
 
     private void rotateRefreshButton() {
-        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing), null,
-                null, null);
-        Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
-        btnRefresh.startAnimation(animation);
+        if (isAdded()) {
+            btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
+                    null, null, null);
+            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
+            btnRefresh.startAnimation(animation);
+        }
     }
 
     private void stopRefreshAnimation() {
-        btnRefresh.clearAnimation();
-        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh), null,
-                null, null);
+        if (isAdded()) {
+
+            btnRefresh.clearAnimation();
+            btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
+                    null, null, null);
+        }
     }
 
     public void setRefreshButtonListener(OnClickListener refreshListener) {

@@ -112,6 +112,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvChengjiaoLiang;
     private TextView tvChengjiaoE;
     private TextView tvHuanShouLv;
+    private TextView tvStockStatus;
+    private View viewPriceChange;
     private TextView tvLiuzhi;
     private TextView tvZongzhi;
     private TextView tvShiying;
@@ -133,7 +135,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private StockQuotesActivity layouts;
     private View viewHeader;
     private String symbolType;
-    private List<Fragment> frag;
+    private List<Fragment> bottmoTabFragmentList;
     private Button klinVirtulCheck;
     private static String checkValue = "0";
     private static final long mPollRequestTime = 1000 * 15;
@@ -182,6 +184,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         Log.e(TAG, " --- onCreate--");
+
         setContentView(R.layout.activity_stockquotes);
         context = this;
         layouts = this;
@@ -226,6 +229,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvChengjiaoLiang = (TextView) viewHeader.findViewById(R.id.tv_liang_value);
             tvChengjiaoE = (TextView) viewHeader.findViewById(R.id.tv_e_value);
             tvHuanShouLv = (TextView) viewHeader.findViewById(R.id.tv_huan_value);
+            tvStockStatus = (TextView) viewHeader.findViewById(R.id.tv_stock_status);
+            viewPriceChange = (View) viewHeader.findViewById(R.id.layout_change_price);
             tvLiuzhi = (TextView) viewHeader.findViewById(R.id.tv_liuzhi_value);
             tvZongzhi = (TextView) viewHeader.findViewById(R.id.tv_zongzhi_value);
             tvShiying = (TextView) viewHeader.findViewById(R.id.tv_shiying_value);
@@ -264,7 +269,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             public void run() {
                 initTabPage();
             }
-        }, 400);
+        }, 100);
         viewHandler.postDelayed(new Runnable() {
 
             @Override
@@ -321,10 +326,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         bottomLayout.removeAllViews();
         if (null != mStockCode
                 && (mStockCode.equals("SH000001") || mStockCode.equals("SZ399001") || mStockCode.equals("SZ399006"))) {
-            String[] name = new String[3];
-            name[0] = "涨幅榜";
-            name[1] = "跌幅榜";
-            name[2] = "换手率榜";
+            String[] stockListTiles = getResources().getStringArray(R.array.select_optional_stock);
             String exchange;
             String listSector = null;
             if (mStockCode.equals("SH000001")) {
@@ -347,24 +349,21 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             Fragment f3 = FragmentForStockSHC
                     .newIntent(exchange, StockViewType.STOCK_HANDOVER, null, listSector, false);
             fraglist.add(f3);
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, fraglist,
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, stockListTiles, fraglist,
                     bottomLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
-        } else if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
-            String[] name = new String[3];
-            if ((null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
-                name = new String[2];
-            }
+        } else if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
+            // if ((null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
+            // name = new String[2];
+            // }
             // name[0] = "新闻";
-            name[0] = "公告";
-            name[1] = "研报";
-            if (!(null != mStockBean.symbol_type && UIUtils.isSymbleIndex(mStockBean.symbol_type))) {
-                name[2] = "F10";
-            }
+            String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
+            // if (!(null != mStockBean.symbol_type && StockUitls.isIndexStock(mStockBean.symbol_type))) {
+            // }
             NewsforModel vo;
-            frag = new ArrayList<Fragment>();
-            Fragment f2 = new FragmentNewsList();
+            bottmoTabFragmentList = new ArrayList<Fragment>();
+            Fragment noticeFragemnt = new FragmentNewsList();
             Bundle b2 = new Bundle();
             b2.putInt(FragmentNewsList.NEWS_TYPE, OpitionNewsEngineImple.NEWSFOREACH);
             vo = new NewsforModel();
@@ -374,18 +373,18 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             // vo.setLayout(stockLayout);
             b2.putSerializable(FragmentNewsList.VO, vo);
             // b2.putSerializable(FragmentNewsList.LAYOUT, layouts);
-            f2.setArguments(b2);
-            frag.add(f2);
-            Fragment f4 = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
-            frag.add(f4);
-            if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
-                Fragment f3 = new F10Fragment();
-                Bundle b3 = new Bundle();
-                b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
-                frag.add(f3);
-            }
-            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, name, frag, bottomLayout,
-                    getSupportFragmentManager());
+            noticeFragemnt.setArguments(b2);
+            bottmoTabFragmentList.add(noticeFragemnt);
+            Fragment yanbaoFragment = FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, "");
+            bottmoTabFragmentList.add(yanbaoFragment);
+            // if (!(null != mStockBean.symbol_type && mStockBean.symbol_type.equals("5"))) {
+            Fragment f10Fragment = new F10Fragment();
+            Bundle b3 = new Bundle();
+            b3.putSerializable(StockQuotesActivity.EXTRA_STOCK, mStockBean);
+            bottmoTabFragmentList.add(f10Fragment);
+            // }
+            FragmentSelectAdapter mFragmentSelectAdapter = new FragmentSelectAdapter(context, stockListTiles,
+                    bottmoTabFragmentList, bottomLayout, getSupportFragmentManager());
             mFragmentSelectAdapter.setScrollAble(false);
             mFragmentSelectAdapter.setOutLaoyout(layouts);
             // views.setOnTouchListener(new OnView());
@@ -434,15 +433,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private boolean isFirstLoadQuotes = true;
 
     private void requestData() {
-
         if (null != mQuotesEngine && mStockBean != null) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
             rotateRefreshButton();
             if (isFirstLoadQuotes) {
-                mQuotesEngine.quotes(mStockBean.code, listener);
+                mQuotesEngine.quotes(mStockBean.code, quoteListener);
                 isFirstLoadQuotes = false;
             } else {
-                mQuotesEngine.quotesNotTip(mStockBean.code, listener);
+                mQuotesEngine.quotesNotTip(mStockBean.code, quoteListener);
             }
             // listener.setLoadingDialog(context);
         }
@@ -476,9 +474,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
              * (R.dimen.layout_height_all)) { chartTounching(); }
              */
             if (mScrollview.getScrollY() + mScrollview.getHeight() >= mScrollview.computeVerticalScrollRange()
-                    && null != frag) {
-                ((FragmentNewsList) frag.get(0)).loadMore();
-                ((FragmentForOptionOnr) frag.get(1)).loadMore();
+                    && null != bottmoTabFragmentList) {
+                ((FragmentNewsList) bottmoTabFragmentList.get(0)).loadMore();
+                ((FragmentForOptionOnr) bottmoTabFragmentList.get(1)).loadMore();
             }
         }
     };
@@ -491,7 +489,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 if (position == 0) {
                     klinVirtulCheck.setVisibility(View.GONE);
                 } else {
-                    if (null != mStockBean && !UIUtils.isSymbleIndex(mStockBean.symbol_type)) {
+                    if (null != mStockBean && !StockUitls.isIndexStock(mStockBean.symbol_type)) {
                         klinVirtulCheck.setVisibility(View.VISIBLE);
                     }
                 }
@@ -499,10 +497,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             }
         }
     };
-    ParseHttpListener listener = new ParseHttpListener<StockQuotesBean>() {
+    ParseHttpListener quoteListener = new ParseHttpListener<StockQuotesBean>() {
 
         @Override
         protected StockQuotesBean parseDateTask(String jsonData) {
+
             StockQuotesBean stockQuotesBean = null;
             try {
                 JSONArray jsonArray = new JSONArray(jsonData);
@@ -526,11 +525,14 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         @Override
         protected void afterParseData(StockQuotesBean object) {
             // requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+
             stopRefreshAnimation();
             if (null != object) {
                 mStockQuotesBean = object;
                 updateStockView();
-                landStockview.updateLandStockView(object);
+                if (null != landStockview) {
+                    landStockview.updateLandStockView(mStockQuotesBean);
+                }
                 mStockQuotesChartFragment.setStockQuotesBean(mStockQuotesBean);
                 setAddOptionalButton();
             }
@@ -634,7 +636,20 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
         setTitleTipString(mStockQuotesBean.getTradetile() + " "
                 + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
-        // }
+        if (StockUitls.isDelistStock(mStockBean.list_status)) {// 退市股票
+            tvStockStatus.setVisibility(View.VISIBLE);
+            viewPriceChange.setVisibility(View.GONE);
+            tvStockStatus.setText(R.string.exit_stock);
+
+        } else if (mStockBean.isStop) {// 停牌股票
+            tvStockStatus.setVisibility(View.VISIBLE);
+            viewPriceChange.setVisibility(View.GONE);
+            tvStockStatus.setText(R.string.stop_stock);
+
+        } else {
+            tvStockStatus.setVisibility(View.GONE);
+            viewPriceChange.setVisibility(View.VISIBLE);
+        }
     }
 
     private ColorStateList getTextColor(float value) {
@@ -770,8 +785,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         public void run() {
             // dataHandler.sendEmptyMessage(1722);
             quoteHandler.removeCallbacks(updateRunnable);
-            Log.e(TAG, " ----  updateRunnable");
-
             requestData();
             quoteHandler.postDelayed(this, mPollRequestTime);// 隔60s再执行一次
         }
@@ -860,7 +873,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        listener.stopRequest(true);
+        quoteListener.stopRequest(true);
     }
 
     // /**
@@ -934,11 +947,11 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             @Override
             public void run() {
-                // TODO Auto-generated method stub
-                requestData();
 
+                requestData();
             }
-        }, 850);
+
+        }, 150);
 
     }
 
@@ -1016,6 +1029,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         AnimatorSet localAnimatorSet = new AnimatorSet();
         localAnimatorSet.playTogether(new Animator[] { localObjectAnimator1, localObjectAnimator2 });
         localAnimatorSet.start();
+        if (null != mStockQuotesBean) {
+            landStockview.updateLandStockView(mStockQuotesBean);
+        }
 
     }
 

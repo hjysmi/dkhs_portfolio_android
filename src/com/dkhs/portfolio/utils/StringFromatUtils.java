@@ -9,6 +9,7 @@
 package com.dkhs.portfolio.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 
 import android.R.integer;

@@ -9,8 +9,9 @@
 
     <RelativeLayout
         android:id="@+id/layout_value"
-        android:layout_width="120dp"
-        android:layout_height="match_parent"
+        android:layout_width="122dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/bg_order_red"
         android:gravity="center_vertical"
         android:paddingBottom="4dp"
@@ -24,7 +25,7 @@
             android:singleLine="true"
             android:text="@string/week_income_rate"
             android:textColor="@color/white_60"
-            android:textSize="10sp" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/tv_value"
@@ -34,7 +35,7 @@
             android:layout_centerHorizontal="true"
             android:text="+19.52"
             android:textColor="@color/white"
-            android:textSize="24sp" />
+            android:textSize="27sp" />
 
         <TextView
             android:id="@+id/tv_precent"
@@ -44,8 +45,16 @@
             android:layout_toRightOf="@+id/tv_value"
             android:text="%"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
     </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/iv_jiangpai"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:src="@drawable/ic_jinpai"
+        android:visibility="gone" />
 
     <CheckBox
         android:id="@+id/cb_add_follow"

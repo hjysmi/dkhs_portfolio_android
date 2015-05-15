@@ -1,4 +1,4 @@
-﻿package com.dkhs.portfolio.utils;
+package com.dkhs.portfolio.utils;
 
 import java.io.IOException;
 import java.util.Enumeration;
@@ -13,6 +13,9 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+/**
+ * 用于获取友萌统计，相关平台的动态获取
+ */
 public class ChannelUtil {
 
     private static final String CHANNEL_KEY = "dkhschannel";

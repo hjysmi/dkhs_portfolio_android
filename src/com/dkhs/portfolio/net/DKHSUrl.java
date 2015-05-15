@@ -19,6 +19,7 @@ public class DKHSUrl {
 
     // 测试
     public static final String BASE_TEST_URL = "http://121.41.25.170:8030";
+//    public static final String BASE_TEST_URL = "http://192.168.107.75:8000";
 
     // 开发
     public static final String BASE_DEV_URL = "http://121.41.25.170:8010";
@@ -42,6 +43,9 @@ public class DKHSUrl {
         String delFollow = "/api/v1/portfolio/{0}/unfollow/";
         // 添加关注组合
         String addFollow = "/api/v1/portfolio/{0}/follow/";
+
+        // 设置提醒
+        String remind = "/api/v1/portfolio/{0}/follow/";
 
         // 创建我的组合
         String create = "/api/v1/portfolio/";
@@ -80,6 +84,9 @@ public class DKHSUrl {
         // 查股票实时行情信息，包含5档信息
         String quotes = "/api/v1/symbols/{0}/quote/";
         String symbolfollow = "/api/v1/symbols/{0}/follow/";
+
+        // 股票提醒设置
+        String remimd = "/api/v1/symbols/{0}/follow/";
         String unfollow = "/api/v1/symbols/{0}/unfollow/";
 
         // GET /api/v1/quotes/symbols_profile/
@@ -116,9 +123,11 @@ public class DKHSUrl {
         String optionnews = "/api/v1/statuses/symbol_timeline/?user_id={0}&page_size=50&content_type=20,30";
         // 关于某只股票的新闻与公告 10,20,30(0表示话题,10表示新闻,20表示公告,30表示研报
         // http://58.23.5.117:8010/api/v1/statuses/symbol_timeline/?symbol=sz300102&content_type=10
-        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type={1}";
-        // String reportnews =
-        // "/api/v1/statuses/symbol_timeline/?page_size=50&user_id={0}&content_type=20,30&content_subtype={1}";
+
+        // 个股公告
+        String peroptionnews = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type={1}";
+        // 个股研报
+        String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=10&symbol={0}&content_type=30";
 
         // 游客模式的自选资讯
         String reportnewsByAnony = "/api/v1/statuses/symbol_timeline/?symbol={0}&content_type=20,30";
@@ -127,8 +136,10 @@ public class DKHSUrl {
         String reportnews = "/api/v1/statuses/symbol_timeline/?page_size=50&user_id={0}&content_type=20,30";
         String reportnewsforone = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30&content_subtype={1}";
         String reportnewstwo = "/api/v1/statuses/symbol_timeline/?page_size=50&content_type=30&content_subtype={0}";
+
+        //
         String reportnewsgroupeach = "/api/v1/statuses/symbol_timeline/?page_size=50&portfolio_id={0}&content_type={1}";
-        String reportnewsoptioneach = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=30";
+
         String reportnewsoptioneachs = "/api/v1/statuses/symbol_timeline/?page_size=200&symbol={0}&content_type=30";
         String reportnews_second_notice = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=20";
         String newstext = "/api/v1/statuses/";
@@ -168,6 +179,7 @@ public class DKHSUrl {
         // 添加用户反馈
         String add_feed = "/api/v1/apps/";
         String bind_mobile = "/api/v1/accounts/bind_mobile/";
+        String get_token="/api/v1/im/token/";
     }
 
     public interface MainPage {

@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.io.Serializable;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,11 +20,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.FundsOrderActivity;
-import com.dkhs.portfolio.ui.OptionEditActivity;
+import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.SelectStockActivity;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
+import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
@@ -94,10 +99,17 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), OptionEditActivity.class);
-                // UIUtils.startAminationActivity(getActivity(), intent);
-                startActivityForResult(intent, 777);
-                UIUtils.setOverridePendingAmin(getActivity());
+                // Intent intent = new Intent(getActivity(), OptionEditActivity.class);
+                // if (null != tabStockFragment) {
+                // intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST,
+                // (Serializable) tabStockFragment.getDataList());
+                // }
+                if (null != tabStockFragment && !tabStockFragment.getDataList().isEmpty()) {
+                    Intent intent = EditTabStockActivity.newIntent(getActivity(), tabStockFragment.getDataList());
+                    startActivityForResult(intent, 777);
+                    UIUtils.setOverridePendingAmin(getActivity());
+                }
+
             }
         });
     }
@@ -142,7 +154,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 btnTabRight.setEnabled(false);
                 btnTabLeft.setEnabled(true);
                 displayFragmentA();
-
+                // PromptManager.showCustomToast(R.drawable.ic_toast_gantan, R.string.message_timeout);
             }
                 break;
             case R.id.btn_titletab_left: {
@@ -221,7 +233,6 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("onActivityResult requestCode:" + requestCode);
         if (requestCode == 777) {
             tabStockFragment.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == 1722) {

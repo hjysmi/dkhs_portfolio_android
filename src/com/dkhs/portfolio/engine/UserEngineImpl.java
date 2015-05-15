@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.engine;
 
+import android.os.AsyncTask;
+
 import java.io.File;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -13,6 +15,7 @@ import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.google.gson.Gson;
@@ -164,6 +167,7 @@ public class UserEngineImpl {
 
     public void saveLoginUserInfo(UserEntity entity) {
         GlobalParams.ACCESS_TOCKEN = entity.getAccess_token();
+        GlobalParams.LOGIN_USER = entity;
 
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERNAME, entity.getUsername());
         PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_USERID, entity.getId() + "");
@@ -173,10 +177,11 @@ public class UserEngineImpl {
     }
 
     private void saveUser(final UserEntity user) {
-        new Thread(new Runnable() {
+
+        new AsyncTask<Void, Void, Boolean>() {
+
             @Override
-            public void run() {
-                // TODO Auto-generated method stub
+            protected Boolean doInBackground(Void... params) {
                 UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
@@ -186,28 +191,36 @@ public class UserEngineImpl {
                         dbutil.delete(dbentity);
                     }
                     dbutil.save(entity);
+                    return true;
+
                 } catch (DbException e) {
-                    // TODO Auto-generated catch block
+
                     e.printStackTrace();
+                    return false;
                 }
+
             }
-        }).start();
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                // if (aBoolean) {
+                // // 及时通知app连接融云服务器
+                // BusProvider.getInstance().post(new RongConnectEvent());
+                // }
+                super.onPostExecute(aBoolean);
+            }
+        }.execute();
+
     }
 
     public boolean hasUserLogin() {
-
-        try {
-            UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
-            if (user == null) {
-                return false;
-            } else {
-                return true;
-            }
-        } catch (DbException e) {
-            e.printStackTrace();
-
+        UserEntity user = getUserEntity();
+        if (user == null) {
             return false;
+        } else {
+            return true;
         }
+
     }
 
     public void setUserHead(File file, ParseHttpListener<UserEntity> listener) {
@@ -259,6 +272,43 @@ public class UserEngineImpl {
         params.addBodyParameter("mobile", mobile);
         params.addBodyParameter("captcha", captcha);
         DKHSClient.request(HttpMethod.POST, DKHSUrl.User.bind_mobile, params, listener);
+    }
+
+    /**
+     * 获取 用户的token 值
+     * todo 未测试
+     * 
+     * @param user_id
+     * @param nickName
+     * @param portrait_uri
+     * @param listener
+     */
+    public void getToken(String user_id, String nickName, String portrait_uri, BasicHttpListener listener) {
+
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("user_id", user_id);
+        params.addQueryStringParameter("name", nickName);
+        params.addQueryStringParameter("portrait_uri", portrait_uri);
+        DKHSClient.request(HttpMethod.GET, DKHSUrl.User.get_token, params, listener);
+
+    }
+
+    public static UserEntity getUserEntity() {
+        if (GlobalParams.LOGIN_USER != null) {
+            return GlobalParams.LOGIN_USER;
+        }
+        try {
+            DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+            // UserEntity user = null;
+            if (null != dbUtils) {
+                GlobalParams.LOGIN_USER = dbUtils.findFirst(UserEntity.class);
+            }
+            return GlobalParams.LOGIN_USER;
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

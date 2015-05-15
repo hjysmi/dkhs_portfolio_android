@@ -23,7 +23,8 @@ import com.lidroid.xutils.db.annotation.Unique;
  * @date 2014-9-18 下午2:42:46
  * @version 1.0
  */
-public class SelectStockBean implements Serializable {
+public class SelectStockBean extends DragListItem implements Serializable {
+
     private static final long serialVersionUID = 12955478254888L;
     public String name;
     public float currentValue;
@@ -34,6 +35,9 @@ public class SelectStockBean implements Serializable {
     public float change;
     public boolean isFollowed;
     public boolean isStop;
+    // public boolean is_alert;
+
+    public AlertSetBean alertSetBean;
 
     public long sortId;
     public int status;
@@ -41,8 +45,23 @@ public class SelectStockBean implements Serializable {
 
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
+    // public String symbol;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
+
+    public DataEntry<SelectStockBean> entry = null;
+
+    public SelectStockBean() {
+        this.entry = new DataEntry<SelectStockBean>();
+    }
+
+    public DataEntry<SelectStockBean> getEntry() {
+        return entry;
+    }
+
+    public void setEntry(DataEntry<SelectStockBean> entry) {
+        this.entry = entry;
+    }
 
     public static SelectStockBean copy(ConStockBean stockBean) {
 
@@ -97,6 +116,8 @@ public class SelectStockBean implements Serializable {
         selectBean.change = stockBean.getChange();
         selectBean.list_status = stockBean.getList_status();
         selectBean.total_capital = stockBean.getTotal_capital();
+        selectBean.alertSetBean = stockBean.getAlertBean();
+        // selectBean.symbol = stockBean.getSymbol();
         return selectBean;
     }
 
@@ -145,7 +166,7 @@ public class SelectStockBean implements Serializable {
         return sortId;
     }
 
-    public void setSortId(long index) {
+    public void setSortId(int index) {
         this.sortId = index;
     }
 
@@ -247,6 +268,35 @@ public class SelectStockBean implements Serializable {
 
     public static long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    @Override
+    public String getItemDesc() {
+        // TODO Auto-generated method stub
+        return this.code;
+    }
+
+    @Override
+    public String getItemId() {
+        // TODO Auto-generated method stub
+        return this.id + "";
+    }
+
+    @Override
+    public String getItemName() {
+        // TODO Auto-generated method stub
+        return this.name;
+    }
+
+    @Override
+    public long getItemSortId() {
+        // TODO Auto-generated method stub
+        return this.sortId;
+    }
+
+    @Override
+    public boolean isItemTixing() {
+        return this.alertSetBean == null ? false : true;
     }
 
 }

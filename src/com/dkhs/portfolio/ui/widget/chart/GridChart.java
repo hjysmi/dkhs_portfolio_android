@@ -209,7 +209,6 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     /** 标题高度 */
     public static final int DEFAULT_TITLE_HEIGHT = 14;
     /** 当前第一个蜡烛所在列表中的位置 */
-    
 
     protected float mTitleHeight = DEFAULT_TITLE_HEIGHT; // 标题的高度
     public boolean ismove;
@@ -331,7 +330,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
         // super.invalidate();
         notifyEventAll(this);
         postInvalidate();
-        //super.invalidate();
+        // super.invalidate();
 
     }
 
@@ -593,7 +592,7 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
             mPaintFont.setColor(longtitudeFontColor);
             mPaintFont.setTextSize(longtitudeFontSize);
             mPaintFont.setAntiAlias(true);
-            if (counts > 1) {
+            if (counts >= 1) {
                 float postOffset = (super.getWidth() - 2 * axisMarginRight - PADDING_LEFT) / (counts - 1);
                 float offset = 2 + PADDING_LEFT;
                 float sumTexts = 0l;
@@ -601,7 +600,12 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                     sumTexts += mPaintFont.measureText(axisXTitles.get(i));
                 }
 
-                float innerInternal = (float) (super.getWidth() - offset - sumTexts) / (counts - 1);
+                float innerInternal = 0;
+                if (counts == 1) {
+                    innerInternal = (float) (super.getWidth() - offset - sumTexts);
+                } else {
+                    innerInternal = (float) (super.getWidth() - offset - sumTexts) / (counts - 1);
+                }
 
                 for (int i = 0; i < counts; i++) {
                     // 绘制线条
@@ -609,17 +613,34 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
                         if (!(i == 0))
                             canvas.drawLine(offset + i * postOffset, axisMarginTop + mTitleHeight, offset + i
                                     * postOffset, length, mPaintLine);
-                        if (!(i == 0) && !(i == axisXTitles.size() - 1)) {
-                            Paint p = new Paint();
-                            Rect rect = new Rect();
-                            p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
-                            p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
-                            canvas.drawText(axisXTitles.get(i), i * postOffset + PADDING_LEFT - rect.width() / 2,
+//                        if ((i == 0) || (i == axisXTitles.size() - 1)) {
+//                            Paint p = new Paint();
+//                            Rect rect = new Rect();
+//                            p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+//                            p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
+//
+//                            System.out.println("canvas.drawText(axisXTitles displayLongitude");
+//                            canvas.drawText(axisXTitles.get(i), i * postOffset + PADDING_LEFT - rect.width() / 2,
+//                                    super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+//                        }
+                        
+                        if (i == 0) {
+                            // Paint p = new Paint();
+                            // Rect rect = new Rect();
+                            // p.setTextSize(DEFAULT_AXIS_TITLE_SIZE);
+                            // p.getTextBounds(axisXTitles.get(i), 0, axisXTitles.get(i).length(), rect);
+                            canvas.drawText(axisXTitles.get(i), i
+                                    * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
+                                    super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
+                        } else if (i == axisXTitles.size() - 1) {
+                            canvas.drawText(axisXTitles.get(i), i
+                                    * (mPaintFont.measureText(axisXTitles.get(i)) + innerInternal) + PADDING_LEFT,
                                     super.getHeight() - axisMarginBottom + longtitudeFontSize, mPaintFont);
                         }
                     } else
                     // 绘制刻度
                     if (displayAxisXTitle) {
+                        System.out.println("canvas.drawText(axisXTitles displayAxisXTitle");
                         // if (i < counts && i > 0) {
                         if (i == 0) {
                             canvas.drawText(axisXTitles.get(i), i
@@ -1074,7 +1095,5 @@ public class GridChart extends View implements IViewConst, ITouchEventNotify, IT
     public void setCheckType(int checkType) {
         this.checkType = checkType;
     }
-
-    
 
 }

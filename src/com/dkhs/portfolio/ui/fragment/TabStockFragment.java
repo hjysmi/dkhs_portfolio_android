@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
@@ -454,4 +457,12 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
             reloadData();
         }
     }
+
+    public List<SelectStockBean> getDataList() {
+        if (null != loadDataListFragment) {
+            return loadDataListFragment.getDataList();
+        }
+        return Collections.EMPTY_LIST;
+    }
+
 }

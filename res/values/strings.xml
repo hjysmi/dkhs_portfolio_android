@@ -131,6 +131,7 @@
     <string name="delete_fllow">取消自选</string>
     <string name="add_fllow">加入自选</string>
     <string name="turnover">换手率</string>
+    <string name="turnovev_range">换手榜</string>
     <string name="html_blankspace">&#160;</string>
     <string name="start_netvalue">起始:</string>
     <string name="end_netvalue">结束:</string>
@@ -201,6 +202,7 @@
     <string name="function_ace">牛人</string>
     <string name="function_optional">自选股</string>
     <string name="function_notice">公告</string>
+    <string name="function_f10">F10</string>
     <string name="function_report">研报</string>
     <string name="function_meeting">云会议</string>
     <string name="function_news">海外</string>
@@ -278,10 +280,11 @@
     <string name="p2refresh_refresh_lasttime">最近更新&#160;&#058;&#160;</string>
     <string name="page_refresh_doing_end_refresh">当前第%1$d页,共%2$d页</string>
     <string name="page_pull_to_refresh_tip">查看第%1$d页,共%2$d页</string>
-    <string name="about_dus_1">①打造最佳理财服务，寻找牛股票组合！</string>
-    <string name="about_dus_2">②一秒创建组合，随时随地地管理您的投资组合。</string>
-    <string name="about_dus_3">③一键分享牛股，轻松便捷地跟踪您的组合收益，与公募组合PK。</string>
-    <string name="about_dus_4">④查询更新组合排行、追踪捕获牛基牛人、与专业的组合经理PK，看谁牛！</string>
+    <string name="about_dus_1">①及时准确免费的行情信息，毫秒级刷新，快人一步。</string>
+    <string name="about_dus_2">②一秒创建专属组合，与牛人、公募基金比比谁更牛！</string>
+    <string name="about_dus_3">③一键分享牛股，秀出您的战绩，秒杀他人眼球！</string>
+    <string name="about_dus_4">④多维度组合排名，个股异动提醒，助力追踪牛人牛股。</string>
+    <string name="about_dus_5">⑤牛人组合持仓调仓数据全公开，绝对的真实透明。</string>
     <string name="about_phone">联 系 电 话 ：0592-5573789</string>
     <string name="about_url">商 务 合 作 ：yunying@dkhs.com</string>
     <string name="about_weixin">微信公众号：shuiniu</string>
@@ -354,6 +357,7 @@
     <string name="nodate_tip_funds">暂无新建组合</string>
     <string name="nodate_tip_inland_index">暂无国内指数数据</string>
     <string name="nodate_tip">暂无数据</string>
+    <string name="nodata_login_out">您还未登录</string>
 
     <!-- 行情中心 -->
     <string name="market_index_name">指数名称</string>
@@ -374,6 +378,8 @@
     <string name="market_title_ampli">振幅榜</string>
     <string name="market_title_down">跌幅榜</string>
     <string name="market_title_index">国内指数</string>
+    <string name="stop_stock">停牌</string>
+    <string name="exit_stock">退市</string>
 
     <!-- 错误提示 -->
     <string name="message_timeout">网络超时，请稍后再试</string>
@@ -396,9 +402,47 @@
     <string name="click_creat_fund">点击创建组合</string>
     <string name="creat_fund">自建组合</string>
     <string name="creat_fund_name">组合名称</string>
-
+    <string name="message_center">消息中心</string>
     <!-- toast message text -->
     <string name="msg_follow_success">添加关注成功</string>
     <string name="msg_def_follow_success">取消关注成功</string>
+
+    <!-- 提醒设置 -->
+    <string name="title_remind">提醒设置</string>
+    <string name="price_units">元</string>
+    <string name="format_percent">涨跌幅   %1$s</string>
+    <string name="format_stock_price">最新价   %1$s</string>
+    <string name="format_com_percent">日涨跌幅   %1$s</string>
+    <string name="format_combination_price">净值   %1$s</string>
+    <string name="format_priceup_tip">较当前价涨%1$s</string>
+    <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>
+    <string name="format_priceup_low_tip">较当前价跌%1$s，应大于当前价</string>
+    <string name="format_priceup_low_more_tip">较当前价跌超过%1$s，应大于当前价</string>
+    <string name="format_pricedown_tip">较当前价跌%1$s</string>
+    <string name="format_pricedown_more_tip">较当前价跌超过%1$s</string>
+    <string name="format_pricedown_high_tip">较当前价涨%1$s，应小于当前价</string>
+    <string name="format_pricedown_high_more_tip">较当前价涨超过%1$s，应小于当前价</string>
+    <string name="format_cpriceup_tip">较当前净值涨%1$s</string>
+    <string name="format_cpriceup_more_tip">较当前净值涨超过%1$s</string>
+    <string name="format_cpriceup_low_tip">较当前净值跌%1$s，应大于当前净值</string>
+    <string name="format_cpriceup_low_more_tip">较当前净值跌超过%1$s，应大于当前净值</string>
+    <string name="format_cpricedown_tip">较当前净值跌%1$s</string>
+    <string name="format_cpricedown_more_tip">较当前净值跌超过%1$s</string>
+    <string name="format_cpricedown_high_tip">较当前净值涨%1$s，应小于当前净值</string>
+    <string name="format_cpricedown_high_more_tip">较当前净值涨超过%1$s，应小于当前净值</string>
+    <string name="stock_price_up_text">股价涨到</string>
+    <string name="stock_price_down_text">股价跌到</string>
+    <string name="day_percent_text">日涨跌幅</string>
+    <string name="combination_price_up_text">净值涨到</string>
+    <string name="combination_price_down_text">净值跌到</string>
+    <string name="remind_adjust_text">调仓提醒</string>
+    <string name="remind_notice_text">公告提醒</string>
+    <string name="remind_yanbao_text">研报提醒</string>
+    <string name="tip_day_percent">日涨跌幅输入错误</string>
+    <string name="msg_priceup_toolow">上涨目标低于最新价</string>
+    <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
+    <string name="msg_price_error">目标价输入错误</string>
+    <string name="btn_reinput">重新输入</string>
+    <string name="toast_remind_success">提醒设置成功</string>
 
 </resources>

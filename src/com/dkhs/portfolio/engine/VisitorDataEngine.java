@@ -11,6 +11,7 @@ package com.dkhs.portfolio.engine;
 import java.util.Collections;
 import java.util.List;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -41,7 +42,7 @@ public class VisitorDataEngine {
             public void run() {
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
                 try {
-                    db.save(stockbean);
+                    db.saveOrUpdate(stockbean);
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -58,7 +59,7 @@ public class VisitorDataEngine {
             public void run() {
                 DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
                 try {
-                    db.save(combean);
+                    db.saveOrUpdate(combean);
                 } catch (DbException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -77,7 +78,6 @@ public class VisitorDataEngine {
         try {
             db.replaceAll(stockList);
         } catch (DbException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

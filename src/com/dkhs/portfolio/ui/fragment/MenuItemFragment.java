@@ -9,9 +9,17 @@
 package com.dkhs.portfolio.ui.fragment;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.ui.NewMainActivity;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
+
+import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.utils.AnimationHelper;
+import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Subscribe;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +31,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import io.rong.imkit.RongIM;
 
 /**
  * @ClassName: MenuItemFragment
@@ -66,6 +76,8 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     private View tabLayout3;
     @ViewInject(R.id.tab_4)
     private View tabLayout4;
+    @ViewInject(R.id.tv_new_count)
+    private TextView newCountTV;
 
     private int mIndex = TABINDEX_1;
 
@@ -98,6 +110,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
 
     @Override
     public int setContentLayoutId() {
+
         return R.layout.layout_bottom;
     }
 
@@ -105,6 +118,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupView();
+        BusProvider.getInstance().register(this);
         // clickTab(mIndex);
     }
 
@@ -137,6 +151,8 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
             setSelectText(tvTab4);
             setSelectView(btnTab4);
             setSelectView(tabLayout4);
+            MessageManager.getInstance().setHasNewUnread(false);
+            AnimationHelper.dismissScale(newCountTV);
         }
 
     }
@@ -161,6 +177,12 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         rButton.setEnabled(false);
     }
 
+    @Override
+    public void onDestroy() {
+        BusProvider.getInstance().unregister(this);
+        super.onDestroy();
+    }
+
     private void setSelectText(TextView tvSelect) {
         tvSelect.setTextColor(getResources().getColorStateList(R.color.title_color));
     }
@@ -168,8 +190,39 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
     @OnClick({ R.id.tab_1, R.id.tab_2, R.id.tab_3, R.id.tab_4 })
     public void onClick(View v) {
         int id = v.getId();
-
         clickTab(id);
+    }
+
+    @Override
+    public void onResume() {
+        // TODO Auto-generated method stub
+        super.onResume();
+        if (PortfolioApplication.hasUserLogin() && MessageManager.getInstance().isHasNewUnread()
+                && MessageManager.getInstance().getTotalUnreadCount() > 0) {
+            updateNewMessageView(true);
+
+        } else {
+
+            updateNewMessageView(false);
+        }
+
+    }
+
+    @Subscribe
+    public void updateMessageCenter(NewMessageEvent newMessageEvent) {
+
+        if (null != newMessageEvent) {
+            updateNewMessageView(newMessageEvent.hasUnread);
+        }
+
+    }
+
+    private void updateNewMessageView(boolean showNewIcon) {
+        if (showNewIcon) {
+            AnimationHelper.showScale(newCountTV);
+        } else {
+            AnimationHelper.dismissScale(newCountTV);
+        }
     }
 
 }

@@ -56,6 +56,7 @@ import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
+
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.DbUtils;
@@ -340,6 +341,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     // }
 
     private void authPlatform(String platformName) {
+
+        PromptManager.showProgressDialog(this, "", false);
         // System.out.println("authPlatform:" + platformName);
         ShareSDK.removeCookieOnAuthorize(true);
         Platform plat = ShareSDK.getPlatform(platformName);
@@ -484,7 +487,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         public void onError(Platform plat, int action, Throwable t) {
-            System.out.println("PlatformActionListener onError()");
+            // System.out.println("PlatformActionListener onError()");
             t.printStackTrace();
 
             Message msg = new Message();
@@ -498,13 +501,13 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         public void onComplete(Platform plat, int action, HashMap<String, Object> res) {
 
             // Toast.makeText(getApplicationContext(), text, duration)
-            System.out.println("PlatformActionListener onComplete()");
-            System.out.println("action:" + action);
-            System.out.println("platform user id:" + plat.getDb().getUserId());
-            System.out.println("platform user name:" + plat.getDb().getUserName());
-            System.out.println("platform  name:" + plat.getName());
-            System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
-            System.out.println("platform  getToken:" + plat.getDb().getToken());
+            // System.out.println("PlatformActionListener onComplete()");
+            // System.out.println("action:" + action);
+            // System.out.println("platform user id:" + plat.getDb().getUserId());
+            // System.out.println("platform user name:" + plat.getDb().getUserName());
+            // System.out.println("platform  name:" + plat.getName());
+            // System.out.println("platform  nickname:" + plat.getDb().get("nickname"));
+            // System.out.println("platform  getToken:" + plat.getDb().getToken());
 
             res.put("plat", plat);
             Message msg = new Message();
@@ -518,6 +521,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         @Override
         public void onCancel(Platform plat, int action) {
+
             System.out.println("PlatformActionListener onCancel()");
             Message msg = new Message();
             msg.arg1 = 3;
@@ -529,6 +533,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     };
     Handler platFormAction = new Handler() {
         public void handleMessage(Message msg) {
+            PromptManager.closeProgressDialog();
             switch (msg.arg1) {
                 case 1: {
                     HashMap<String, Object> res = (HashMap<String, Object>) msg.obj;
@@ -543,13 +548,11 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         if (platname.contains(SinaWeibo.NAME)) {
                             platname = "weibo";
                             imageUrl = (String) (res.containsKey("avatar_large") ? res.get("avatar_large") : "");
-                            System.out.println("avatar_large:" + imageUrl);
                         } else if (platname.contains(Wechat.NAME)) {
                             platname = "weixin";
                         } else {
                             platname = "qq";
                             imageUrl = (String) (res.containsKey("figureurl_qq_2") ? res.get("figureurl_qq_2") : "");
-                            System.out.println("avatar_large:" + imageUrl);
                         }
                         ThreePlatform platData = new ThreePlatform();
                         platData.setAccess_token(plat.getDb().getToken());
@@ -558,7 +561,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
                         platData.setRefresh_token("");
                         phoneNum = "";
                         engine.registerThreePlatform(plat.getDb().getUserName(), plat.getDb().getUserId(), platname,
-                                platData, registerListener.setLoadingDialog(LoginActivity.this));
+                                platData, registerListener.setLoadingDialog(LoginActivity.this, false));
                     }
                 }
                     break;
@@ -684,6 +687,8 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
     }
 
     private void goMainPage() {
+
+        // 设置小红点可以出现
         PortfolioApplication.getInstance().exitApp();
         Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
         startActivity(intent);

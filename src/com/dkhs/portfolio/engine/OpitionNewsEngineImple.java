@@ -68,7 +68,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         MessageFormat.format(DKHSUrl.News.optionnews + "&page=" + (getCurrentpage() + 1),
                                 vo.getUserid()), null, this);
                 break;
-            case NEWSFOREACH:
+            case NEWSFOREACH:// 个股公告
                 DKHSClient.requestByGet(
                         MessageFormat.format(DKHSUrl.News.peroptionnews + "&page=" + (getCurrentpage() + 1),
                                 vo.getSymbol(), vo.getContentType()), null, this);
@@ -78,7 +78,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         MessageFormat.format(DKHSUrl.News.reportnewsgroupeach + "&page=" + (getCurrentpage() + 1),
                                 vo.getPortfolioId(), vo.getContentType()), null, this);
                 break;
-            case NEWS_OPITION_FOREACH:
+            case NEWS_OPITION_FOREACH:// 个股研报
                 DKHSClient.requestByGet(
                         MessageFormat.format(DKHSUrl.News.reportnewsoptioneach + "&page=" + (getCurrentpage() + 1),
                                 vo.getSymbol()), null, this);
@@ -109,10 +109,8 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                 break;
             case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
-                DKHSClient
-                        .requestByGet(
-                                MessageFormat.format(DKHSUrl.News.reportnews_second_notice + "&page=" + (getCurrentpage() + 1),
-                                        vo.getSymbol()), null, this);
+                DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice + "&page="
+                        + (getCurrentpage() + 1), vo.getSymbol()), null, this);
                 // DKHSClient.requestByGet(DKHSUrl.News.newstext + id, null, this);
 
                 // DKHSClient.requestByGet(
@@ -133,7 +131,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.News.optionnews, vo.getUserid()), null,
                                 this);
                         break;
-                    case NEWSFOREACH:
+                    case NEWSFOREACH:// 个股公告
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.peroptionnews, vo.getSymbol(), vo.getContentType()),
                                 null, this);
@@ -143,7 +141,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                                 MessageFormat.format(DKHSUrl.News.reportnewsgroupeach, vo.getPortfolioId(),
                                         vo.getContentType()), null, this);
                         break;
-                    case NEWS_OPITION_FOREACH:
+                    case NEWS_OPITION_FOREACH:// 个股研报
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.reportnewsoptioneach, vo.getSymbol()), null, this);
                         break;
@@ -177,7 +175,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
                         DKHSClient
-                                .requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()), null, this);
+                                .requestByGet(
+                                        MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()),
+                                        null, this);
 
                         // DKHSClient.requestByGet(
                         // MessageFormat.format(DKHSUrl.News.reportnewsforone + "&page=" + (getCurrentpage() + 1),
@@ -201,7 +201,7 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                         DKHSClient.requestByGet(MessageFormat.format(DKHSUrl.News.optionnews, vo.getUserid()), null,
                                 this);
                         break;
-                    case NEWSFOREACH:
+                    case NEWSFOREACH: // 公告
                         DKHSClient.requestByGet(
                                 MessageFormat.format(DKHSUrl.News.peroptionnews, vo.getSymbol(), vo.getContentType()),
                                 null, this);
@@ -231,7 +231,9 @@ public class OpitionNewsEngineImple extends LoadNewsDataEngine {
                     case ReportListForAllFragment.NEWS_SECOND_NOTICE:
 
                         DKHSClient
-                                .requestByGet(MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()), null, this);
+                                .requestByGet(
+                                        MessageFormat.format(DKHSUrl.News.reportnews_second_notice, vo.getSymbol()),
+                                        null, this);
 
                         break;
                     default:

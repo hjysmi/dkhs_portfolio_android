@@ -8,28 +8,37 @@
         style="@style/gray_text_tabline"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="15dp" >
+        android:weightSum="5" >
 
         <TextView
             style="@style/gray_title_text"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
             android:text="@string/funds_name" />
 
         <TextView
             style="@style/gray_title_text"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="提醒" />
+
+        <TextView
+            style="@style/gray_title_text"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="置顶" />
 
         <TextView
             style="@style/gray_title_text"
-            android:layout_width="wrap_content"
+            android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="拖动" />
     </LinearLayout>
@@ -45,7 +54,7 @@
             android:orientation="vertical" >
         </LinearLayout>
 
-        <com.dkhs.portfolio.ui.draglist.DragFundListView
+        <com.dkhs.portfolio.ui.draglist.DragListView
             android:id="@+id/option_edit_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

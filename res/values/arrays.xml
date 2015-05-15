@@ -23,12 +23,12 @@
         <item>@string/optional_stock</item>
         <item>@string/rise_range</item>
         <item>@string/drop_range</item>
-        <item>@string/turnover</item>
+        <item>@string/turnovev_range</item>
     </string-array>
     <string-array name="select_optional_stock">
         <item>@string/rise_range</item>
         <item>@string/drop_range</item>
-        <item>@string/turnover</item>
+        <item>@string/turnovev_range</item>
     </string-array>
     <string-array name="order_type">
         <item>月排行</item>
@@ -74,6 +74,11 @@
         <item>自选</item>
         <item>宏观</item>
         <item>策略</item>
+    </string-array>
+    <string-array name="stock_quote_info_title">
+        <item>@string/function_notice</item>
+        <item>@string/function_report</item>
+        <item>@string/function_f10</item>
     </string-array>
     <string-array name="fund_detail_more">
         <item>@string/change_combination_name</item>

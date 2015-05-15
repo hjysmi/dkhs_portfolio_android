@@ -13,6 +13,7 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -156,7 +157,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
         public void loadFinish(MoreDataBean object) {
             if (null != object && null != object.getResults()) {
                 mDataList.addAll(object.getResults());
-                mAdapterConbinStock.notifyDataSetChanged();
+                updateHandler.sendEmptyMessage(777);
             }
         }
 
@@ -166,6 +167,12 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
         }
 
+    };
+
+    Handler updateHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            mAdapterConbinStock.notifyDataSetChanged();
+        };
     };
 
     OnItemClickListener itemBackClick = new OnItemClickListener() {
