@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.fragment.MainInfoFragment;
 import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
@@ -21,12 +22,16 @@ import com.lidroid.xutils.util.LogUtils;
 
 
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.widget.Toast;
+
+import io.rong.database.RongMaster;
+import io.rong.imkit.RongIM;
 
 /**
  * @author zjz
@@ -50,7 +55,7 @@ public class NewMainActivity extends ModelAcitivity {
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
         BusProvider.getInstance().register(this);
-
+        handIntent(getIntent());
         if (savedInstanceState == null) {
             FragmentTransaction t = this.getSupportFragmentManager().beginTransaction();
             mMenuFragment = new MenuItemFragment();
@@ -76,6 +81,32 @@ public class NewMainActivity extends ModelAcitivity {
         // 判断登陆状态
         if (PortfolioApplication.hasUserLogin()) {
             MessageManager.getInstance().connect();
+        }
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        handIntent(intent);
+        super.onNewIntent(intent);
+    }
+
+    private void handIntent(Intent intent) {
+
+        if (intent == null) {
+            return;
+        }
+        if (MessageNotificationClickReceiver.ACTION_CHAT.equals( intent.getStringExtra(MessageNotificationClickReceiver.KEY_ACTION))) {
+
+
+            String id = intent.getStringExtra(MessageNotificationClickReceiver.KEY_SEND_USER_ID);
+            String name = intent.getStringExtra(MessageNotificationClickReceiver.KEY_SEND_USER_NAME);
+
+            MessageManager.getInstance().startPrivateChat(this, id, name);
+
+        }else if(MessageNotificationClickReceiver.ACTION_CHAT_LIST.equals( intent.getStringExtra(MessageNotificationClickReceiver.KEY_ACTION))){
+            MessageManager.getInstance().startConversationList(this);
         }
 
     }

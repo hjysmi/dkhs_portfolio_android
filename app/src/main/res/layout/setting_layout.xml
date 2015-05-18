@@ -361,7 +361,10 @@
                     android:text="@string/setting_string_abortus" />
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include
+
+                android:id="@+id/line6"
+                layout="@layout/layout_line" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

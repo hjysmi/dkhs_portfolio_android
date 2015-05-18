@@ -416,7 +416,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
             hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
             hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
-
         }
     }
 

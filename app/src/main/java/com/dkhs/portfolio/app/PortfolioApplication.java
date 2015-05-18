@@ -159,6 +159,22 @@ public class PortfolioApplication extends Application {
         }
     }
 
+    /**
+     * app是否在前台
+     * @return
+     */
+    private boolean isRunningForeground ()
+    {
+        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        if(!TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(getPackageName()))
+        {
+            return true ;
+        }
+
+        return false ;
+    }
 
 
     public boolean isDebug() {
