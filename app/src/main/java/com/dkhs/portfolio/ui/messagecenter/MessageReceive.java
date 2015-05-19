@@ -20,6 +20,8 @@ import android.util.Log;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
@@ -83,17 +85,10 @@ public class MessageReceive extends BroadcastReceiver {
             Log.d(TAG, "onReceived-GroupInvitationNotification:" + infoMessage.getMessage());
         } else if (messageContent instanceof DKImgTextMsg) {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
-
             Log.d(TAG, "onReceived-message，" + message.getObjectName());
-
-            //todo 通知栏操作:
-            intent.putExtra(KEY_MESSAGE, message);
         }
-
-        /**
-         * 需替换成自己的代码。
-         */
-
+        //todo 通知栏操作:
+        intent.putExtra(KEY_MESSAGE, message);
         return intent;
     }
 
@@ -104,17 +99,19 @@ public class MessageReceive extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.d("MessageReceive", "收到消息---");
         MessageManager.getInstance().notifyNewMessage();
-        // BusProvider.getInstance().post(new NewMessageEvent());
+
+//        BusProvider.getInstance().post(new NewMessageEvent());
         MessageManager.getInstance().setHasNewUnread(true);
         Message message = intent.getParcelableExtra(KEY_MESSAGE);
-        if ("DK:ImgTextMsg".equals(message.getObjectName())) {
-//            handDKImgTextMsg(context, message);
+
+
+        if (null !=message &&"DK:ImgTextMsg".equals(message.getObjectName())) {
+            handDKImgTextMsg(context, message);
         }
     }
 
 
     public void handDKImgTextMsg(Context context, Message msg) {
-
 
         DKImgTextMsg message = (DKImgTextMsg) msg.getContent();
         int notificationId = msg.getMessageId();
@@ -131,7 +128,7 @@ public class MessageReceive extends BroadcastReceiver {
             String title = context.getResources().getString(R.string.app_name);
 
             Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
-                    .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_ALL)
+                    .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS|NotificationCompat.DEFAULT_SOUND|NotificationCompat.DEFAULT_VIBRATE)
                     .setContentIntent(pendingIntent)
                     .build();
             NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);

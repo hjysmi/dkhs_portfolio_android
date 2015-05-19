@@ -17,7 +17,9 @@ import com.dkhs.portfolio.ui.fragment.MainMarketFragment;
 import com.dkhs.portfolio.ui.fragment.MainOptionalFragment;
 import com.dkhs.portfolio.ui.fragment.MenuItemFragment;
 import com.dkhs.portfolio.ui.fragment.UserFragment;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
+import com.dkhs.portfolio.ui.messagecenter.MessageReceive;
 import com.lidroid.xutils.util.LogUtils;
 
 
@@ -32,6 +34,7 @@ import android.widget.Toast;
 
 import io.rong.database.RongMaster;
 import io.rong.imkit.RongIM;
+import io.rong.imlib.model.Message;
 
 /**
  * @author zjz
@@ -45,12 +48,14 @@ public class NewMainActivity extends ModelAcitivity {
     private MenuItemFragment mMenuFragment;
     private Fragment mContentFragment;
 
+    private MessageHandler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // setTheme(android.R.style.Theme_Light_NoTitleBar);
         // PortfolioApplication.getInstance().addActivity(this);
-
+        handler=new MessageHandler(this);
         hideHead();
         setSwipeBackEnable(false);
         setContentView(R.layout.activity_new_main);
@@ -97,16 +102,11 @@ public class NewMainActivity extends ModelAcitivity {
         if (intent == null) {
             return;
         }
-        if (MessageNotificationClickReceiver.ACTION_CHAT.equals( intent.getStringExtra(MessageNotificationClickReceiver.KEY_ACTION))) {
 
 
-            String id = intent.getStringExtra(MessageNotificationClickReceiver.KEY_SEND_USER_ID);
-            String name = intent.getStringExtra(MessageNotificationClickReceiver.KEY_SEND_USER_NAME);
-
-            MessageManager.getInstance().startPrivateChat(this, id, name);
-
-        }else if(MessageNotificationClickReceiver.ACTION_CHAT_LIST.equals( intent.getStringExtra(MessageNotificationClickReceiver.KEY_ACTION))){
-            MessageManager.getInstance().startConversationList(this);
+        if(null != intent.getParcelableExtra(MessageReceive.KEY_MESSAGE)){
+            Message  message=intent.getParcelableExtra(MessageReceive.KEY_MESSAGE);
+            handler.handleMessage(message);
         }
 
     }

@@ -10,6 +10,7 @@ package com.dkhs.portfolio.ui.messagecenter;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
@@ -110,8 +111,35 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
     public void setOtherListener() {
         // RongIM.getInstance().setSendMessageListener(this);//设置发出消息接收监听器.
 
-        RongIM.getInstance().getRongClient().setOnReceiveMessageListener(listener);//设置消息接收监听器。
+//        RongIM.getInstance().getRongClient().setOnReceiveMessageListener(listener);//设置消息接收监听器。
+//
+//
+//        RongIMClient.getInstance().setOnReceiveMessageListener(listener);
+
+//        setOnCustomReciveMessageListener();
+        setOnReceiveMessageListener();
+
     }
+
+    public void setOnReceiveMessageListener(){
+
+
+        //开启免打扰模式
+        RongIM.getInstance().getRongClient().setConversationNotificationQuietHours("00:00:00", 1440, new RongIMClient.OperationCallback() {
+
+            @Override
+            public void onSuccess() {
+                Log.e(TAG, "----yb----设置会话通知周期-onSuccess");
+                RongIM.getInstance().getRongClient().setOnReceiveMessageListener(new OnReceiveMessageListener());
+            }
+
+            @Override
+            public void onError(RongIMClient.ErrorCode errorCode) {
+                Log.e(TAG, "----yb----设置会话通知周期-oonError:" + errorCode.getValue());
+            }
+        });
+    }
+
 
     private void init() {
         Log.i(TAG, "------- init() -------");
@@ -189,17 +217,18 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         }
     }
 
-    final OnReceiveMessageListener listener = new io.rong.imlib.RongIMClient.OnReceiveMessageListener() {
+    class  OnReceiveMessageListener  implements io.rong.imlib.RongIMClient.OnReceiveMessageListener {
 
         @Override
         public boolean onReceived(Message message, int arg1) {
 
             PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent(message));
+
             return false;
         }
 
 
-    };
+    }
 
 
     public int getUnReadCount() {
@@ -254,8 +283,6 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
         }
 
     }
-
-
     /**
      * @param arg0
      * @return
@@ -265,7 +292,6 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
     @Override
     public void onChanged(ConnectionStatus status) {
         Log.d(TAG, "onChanged:" + status);
-
     }
 
     public UserInfo getUserInfo(String userId) {
@@ -295,7 +321,6 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
         return userInfo;
     }
-
     private void cancelAllNotification(Context context) {
         NotificationManager nManager = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
         nManager.cancelAll();
