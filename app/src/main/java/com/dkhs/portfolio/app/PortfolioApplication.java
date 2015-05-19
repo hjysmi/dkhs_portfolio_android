@@ -163,7 +163,7 @@ public class PortfolioApplication extends Application {
      * app是否在前台
      * @return
      */
-    private boolean isRunningForeground ()
+    public boolean isRunningForeground ()
     {
         ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
         ComponentName cn = am.getRunningTasks(1).get(0).topActivity;

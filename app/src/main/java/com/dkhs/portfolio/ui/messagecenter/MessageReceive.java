@@ -19,6 +19,7 @@ import android.util.Log;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.PortfolioAlertBean;
 import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
@@ -105,8 +106,11 @@ public class MessageReceive extends BroadcastReceiver {
         Message message = intent.getParcelableExtra(KEY_MESSAGE);
 
 
-        if (null !=message &&"DK:ImgTextMsg".equals(message.getObjectName())) {
-            handDKImgTextMsg(context, message);
+
+        if(!PortfolioApplication.getInstance().isRunningForeground() && null != message ) {
+            if ( "DK:ImgTextMsg".equals(message.getObjectName())) {
+                handDKImgTextMsg(context, message);
+            }
         }
     }
 
