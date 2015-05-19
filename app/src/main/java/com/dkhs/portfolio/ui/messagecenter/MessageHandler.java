@@ -8,12 +8,16 @@ import android.util.Log;
 
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.CombinationEngine;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.NewsActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.WebActivity;
-import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
-import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.utils.PromptManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -35,6 +39,7 @@ public class MessageHandler {
 
     public String TAG = "MessageHandler";
     public Context context;
+
 
 
     public MessageHandler(Context context) {
@@ -107,11 +112,33 @@ public class MessageHandler {
      */
     private void gotoOrderFundDetailActivity(String id) {
 
-        //todo  未处理跳转逻辑
-        CombinationBean mChampionBean = new CombinationBean();
-        mChampionBean.setId(id);
-        context.startActivity(NewCombinationDetailActivity.newIntent(context, mChampionBean));
 
+        //fixme  未测试
+        CombinationEngine combinationEngine=new CombinationEngine();
+        combinationEngine.getCombinationBean(id, new BasicHttpListener() {
+            @Override
+            public void beforeRequest() {
+                PromptManager.showProgressDialog(context, "", false);
+                super.beforeRequest();
+            }
+            @Override
+            public void onSuccess(String result)  {
+                try {
+                    JSONObject jsonObject=new JSONObject(result);
+                    String championBeanStr=jsonObject.getString("portfolio");
+                    CombinationBean mChampionBean = DataParse.parseObjectJson(CombinationBean.class,championBeanStr);
+                    context.startActivity(NewCombinationDetailActivity.newIntent(context, mChampionBean));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void requestCallBack() {
+                super.requestCallBack();
+                PromptManager.closeProgressDialog();
+            }
+        });
 
     }
 
