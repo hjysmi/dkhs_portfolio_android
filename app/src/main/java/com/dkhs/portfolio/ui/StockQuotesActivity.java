@@ -459,9 +459,9 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
             FragmentNewsList fList = FragmentNewsList.newIntent(mStockBean.code);
             fList.setStockQuoteScrollListener(this);
-            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
             tabBottomFragment.add(fList);
             tabBottomFragment.add(FragmentForOptionOnr.newIntent(context, mStockBean.code, mStockBean.name, ""));
+            tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.INTRODUCTION));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.FINANCE));
             tabBottomFragment.add(TabF10Fragment.newIntent(mStockBean.code, TabF10Fragment.TabType.STOCK_HODLER));
             replaceBottomTabFragment(tabBottomFragment.get(0));

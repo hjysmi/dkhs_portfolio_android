@@ -125,6 +125,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
     }
 
     private void initView(View view) {
+        view.findViewById(R.id.swipe_container).setEnabled(false);
         mContentView = view.findViewById(R.id.ll_content);
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
