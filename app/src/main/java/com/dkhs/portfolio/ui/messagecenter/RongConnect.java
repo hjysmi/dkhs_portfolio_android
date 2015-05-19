@@ -125,7 +125,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
 
         //开启免打扰模式
-        RongIM.getInstance().getRongClient().setConversationNotificationQuietHours("00:00:00", 1440, new RongIMClient.OperationCallback() {
+        RongIM.getInstance().getRongClient().setConversationNotificationQuietHours("00:00:00", 1439, new RongIMClient.OperationCallback() {
 
             @Override
             public void onSuccess() {
@@ -148,7 +148,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
             // IMKit SDK调用第一步 初始化
             // context上下文
-            // RongIM.init(this);
+
             RongIM.init(PortfolioApplication.getInstance());
 
             RongIM.registerMessageTemplate(new MessageProvider());

@@ -2,19 +2,23 @@ package com.dkhs.portfolio.ui.messagecenter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.CombinationEngine;
+import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.WebActivity;
+import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -80,11 +84,11 @@ public class MessageHandler {
         Uri uri = Uri.parse(messageContent.getUrl());
         List<String> segments = uri.getPathSegments();
         if (segments.size() > 0) {
-            if (segments.get(0).equals("s") && segments.size() == 3) {
+            if (segments.get(0).equals("s") && segments.size() >= 3) {
                 gotoStockQuotesActivity(segments);
-            } else if (segments.get(0).equals("p") && segments.size() == 2) {
+            } else if (segments.get(0).equals("p") && segments.size() >= 2) {
                 gotoOrderFundDetailActivity(segments.get(1));
-            } else if (segments.get(0).equals("statuses") && segments.size() == 2) {
+            } else if (segments.get(0).equals("statuses") && segments.size() >= 2) {
                 gotoNewOrYaoBaoDetail(segments.get(1));
             } else {
                 //不在定义范围内 ,使用WebActivity去处理
@@ -103,7 +107,42 @@ public class MessageHandler {
     private void gotoNewOrYaoBaoDetail(String  id) {
         //todo  未处理跳转逻辑
 
+        BaseInfoEngine baseInfoEngine =new BaseInfoEngine();
+        baseInfoEngine.getOptionNewsBean(id, new BasicHttpListener() {
+            @Override
+            public void beforeRequest() {
+                PromptManager.showProgressDialog(context, "", false);
+                super.beforeRequest();
+            }
 
+            @Override
+            public void onSuccess(String result) {
+
+                OptionNewsBean optionNewsBean=DataParse.parseObjectJson(OptionNewsBean.class,result);
+                try {
+                    Intent intent;
+                    if (null !=optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
+                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
+                                optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
+                                        .getSymbols().get(0).getAbbrName(), optionNewsBean.getContentType());
+                    } else {
+                        intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(), null, null, null);
+                    }
+                    context.startActivity(intent);
+                    // startActivity(intent);
+//                    UIUtils.startAminationActivity(context, intent);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void requestCallBack() {
+                super.requestCallBack();
+                PromptManager.closeProgressDialog();
+            }
+        });
     }
 
     /**
@@ -114,8 +153,8 @@ public class MessageHandler {
 
 
         //fixme  未测试
-        CombinationEngine combinationEngine=new CombinationEngine();
-        combinationEngine.getCombinationBean(id, new BasicHttpListener() {
+        BaseInfoEngine baseInfoEngine =new BaseInfoEngine();
+        baseInfoEngine.getCombinationBean(id, new BasicHttpListener() {
             @Override
             public void beforeRequest() {
                 PromptManager.showProgressDialog(context, "", false);
