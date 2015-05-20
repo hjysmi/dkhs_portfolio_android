@@ -1,5 +1,6 @@
 package com.dkhs.portfolio.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.dkhs.portfolio.R;
@@ -32,12 +33,16 @@ public class RCChatListActivity extends ModelAcitivity {
         BusProvider.getInstance().register(this);
 
 
+        Intent intent=getIntent();
+
+        LogUtils.e(intent.getDataString());
+        LogUtils.e(intent.getData().toString());
+        LogUtils.e(intent.toString());
+
         conversationListFragment  = new ConversationListFragment();
         if(PortfolioApplication.hasUserLogin()) {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL,conversationListFragment).commit();
 
-        }else{
-            getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new InvalidStateFragment()).commit();
         }
 
     }

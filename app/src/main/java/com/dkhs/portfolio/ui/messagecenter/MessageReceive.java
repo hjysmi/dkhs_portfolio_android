@@ -14,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -98,20 +99,33 @@ public class MessageReceive extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("MessageReceive", "收到消息---");
-        MessageManager.getInstance().notifyNewMessage();
+        Log.d("MessageReceive", "收到消息");
+        //登陆状态处理消息,否则丢弃掉该消息
+        if(PortfolioApplication.hasUserLogin()) {
 
-//        BusProvider.getInstance().post(new NewMessageEvent());
-        MessageManager.getInstance().setHasNewUnread(true);
-        Message message = intent.getParcelableExtra(KEY_MESSAGE);
+            MessageManager.getInstance().notifyNewMessage();
+            MessageManager.getInstance().setHasNewUnread(true);
+            Message message = intent.getParcelableExtra(KEY_MESSAGE);
 
+            if (!PortfolioApplication.getInstance().isRunningForeground() ) {
+                if ( null != message &&"DK:ImgTextMsg".equals(message.getObjectName())) {
+                    //推送通知
+                    handDKImgTextMsg(context, message);
+                }
+            }else{
+                //震动提醒
+                vibrationPhone();
 
-
-        if(!PortfolioApplication.getInstance().isRunningForeground() && null != message ) {
-            if ( "DK:ImgTextMsg".equals(message.getObjectName())) {
-                handDKImgTextMsg(context, message);
             }
         }
+    }
+
+    /**
+     * 震动手机提醒用户新信息进入
+     */
+    private void vibrationPhone() {
+        Vibrator vibrator= (Vibrator) PortfolioApplication.getInstance().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(new long[]{200l,300l},1);
     }
 
 
@@ -121,6 +135,7 @@ public class MessageReceive extends BroadcastReceiver {
         int notificationId = msg.getMessageId();
         String sendUserID = msg.getSenderUserId();
 
+        //发送通知栏通知
         if (sendUserID != null) {
             Intent intent2 = new Intent(PortfolioApplication.getInstance(), MessageNotificationClickReceiver.class);
             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -128,9 +143,7 @@ public class MessageReceive extends BroadcastReceiver {
             intent2.putExtra(KEY_MESSAGE, msg);
 
             PendingIntent pendingIntent = PendingIntent.getBroadcast(PortfolioApplication.getInstance(), notificationId, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-
             String title = context.getResources().getString(R.string.app_name);
-
             Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
                     .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS|NotificationCompat.DEFAULT_SOUND|NotificationCompat.DEFAULT_VIBRATE)
                     .setContentIntent(pendingIntent)
