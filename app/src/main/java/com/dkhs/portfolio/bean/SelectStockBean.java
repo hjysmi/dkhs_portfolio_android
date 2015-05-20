@@ -8,13 +8,9 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.io.Serializable;
-
-import com.google.gson.annotations.SerializedName;
-import com.lidroid.xutils.db.annotation.Check;
-import com.lidroid.xutils.db.annotation.Id;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
-import com.lidroid.xutils.db.annotation.Unique;
+
+import java.io.Serializable;
 
 /**
  * @ClassName SelectStockBean
@@ -133,6 +129,7 @@ public class SelectStockBean extends DragListItem implements Serializable {
         selectBean.symbol_type = stockBean.getSymbol_type();
         // selectBean.isStop = stockBean.;
         // selectBean.sortId = stockBean.getIndex();
+        selectBean.alertSetBean = stockBean.getAlertSetBean();
         selectBean.change = stockBean.getChange();
         // selectBean.list_status = stockBean.get;
         selectBean.total_capital = stockBean.getTotal_capital();
