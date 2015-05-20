@@ -183,7 +183,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 
 
         if(getEditModeEnable()){
-
+            setTitle(R.string.personal_setting);
             findViewById(R.id.feed_back_layout).setVisibility(View.GONE);
             findViewById(R.id.setting_layout_check_version).setVisibility(View.GONE);
             findViewById(R.id.rl_aboutus).setVisibility(View.GONE);
@@ -196,7 +196,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
             findViewById(R.id.line8).setVisibility(View.GONE);
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
         }else{
-
+            setTitle(R.string.setting);
             findViewById(R.id.setting_layout_sign).setVisibility(View.GONE);
             settingAccountLayout.setVisibility(View.VISIBLE);
 
