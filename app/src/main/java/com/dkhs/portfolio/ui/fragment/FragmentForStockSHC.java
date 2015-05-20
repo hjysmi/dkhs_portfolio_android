@@ -125,7 +125,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
     }
 
     private void initView(View view) {
-        view.findViewById(R.id.swipe_container).setEnabled(false);
+//        view.findViewById(R.id.swipe_container).setEnabled(false);
         mContentView = view.findViewById(R.id.ll_content);
         tv = (TextView) view.findViewById(android.R.id.empty);
         pb = (RelativeLayout) view.findViewById(android.R.id.progress);
@@ -156,7 +156,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
             }
 
         });
-        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 10, list_sector,
+        mLoadDataEngine = new OpitionCenterStockEngineImple(new StockLoadDataListener(), sort, 12, list_sector,
                 symbol_stype, exchange);
         mLoadDataEngine.loadData();
 
@@ -350,7 +350,7 @@ public class FragmentForStockSHC extends BaseFragment implements IScrollExchange
     @Override
     public int setContentLayoutId() {
         // TODO Auto-generated method stub
-        return R.layout.activity_option_market_news;
+        return R.layout.fragment_stock_order_byindex;
     }
 
 

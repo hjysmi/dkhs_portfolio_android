@@ -8,11 +8,22 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import android.animation.LayoutTransition;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ListView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MoreDataBean;
@@ -23,11 +34,10 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.PlateLoadMoreEngineImpl;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.MarketListActivity;
+import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.MarketListActivity.LoadViewType;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
@@ -36,24 +46,11 @@ import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
-import android.animation.LayoutTransition;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.test.UiThreadTest;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.AdapterView.OnItemClickListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @ClassName MainMarketFragment
@@ -109,7 +106,7 @@ public class MainMarketFragment extends BaseTitleFragment implements OnClickList
     private List<SelectStockBean> mAmpliDataList = new ArrayList<SelectStockBean>();
 
     private Timer mMarketTimer;
-    private static final long mPollRequestTime = 1000 * 30;
+    private static final long mPollRequestTime = 1000 * 10;
     private boolean isTimerStart = true;
 
     public SwipeRefreshLayout mSwipeLayout;

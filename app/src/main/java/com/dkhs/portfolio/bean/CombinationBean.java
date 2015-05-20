@@ -31,7 +31,7 @@ public class CombinationBean extends DragListItem implements Serializable {
     @NoAutoIncrement
     private String id;
     private String name;
-    private CombinationUser user;
+    private UserEntity user;
     private String description;
     // private float percent;
     // @SerializedName("cumulative")
@@ -222,11 +222,11 @@ public class CombinationBean extends DragListItem implements Serializable {
         }
     }
 
-    public CombinationUser getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(CombinationUser user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -262,28 +262,28 @@ public class CombinationBean extends DragListItem implements Serializable {
         this.cumulative = cumulative;
     }
 
-    public static class CombinationUser implements Serializable {
-
-        private static final long serialVersionUID = 12894595218L;
-        private String id;
-        private String username;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-    }
+//    public static class CombinationUser implements Serializable {
+//
+//        private static final long serialVersionUID = 12894595218L;
+//        private String id;
+//        private String username;
+//
+//        public String getId() {
+//            return id;
+//        }
+//
+//        public void setId(String id) {
+//            this.id = id;
+//        }
+//
+//        public String getUsername() {
+//            return username;
+//        }
+//
+//        public void setUsername(String username) {
+//            this.username = username;
+//        }
+//    }
 
     /**
      * @Title

@@ -31,12 +31,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
@@ -56,9 +58,9 @@ import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.umeng.analytics.MobclickAgent;
 
@@ -155,6 +157,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         isFromOrder = arguments.getBoolean(ARGUMENT_ISFROM_ORDER, false);
         type = arguments.getString("type");
     }
+    private ImageView ivUserheader;
+    private TextView tvUserDesc;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -167,6 +171,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // tvCreate = (TextView) view.findViewById(R.id.tv_combination);
         tvFollowCount = (TextView) view.findViewById(R.id.tv_follow_num);
         tvComDesc = (TextView) view.findViewById(R.id.tv_desc_text);
+        tvUserDesc = (TextView) view.findViewById(R.id.tv_user_desc);
+        ivUserheader = (ImageView) view.findViewById(R.id.im_avatar);
 
         netvalueDay = (TextView) view.findViewById(R.id.netvalue_day);
         // netvalueBtnDay = (Button) view.findViewById(R.id.netvalue_button_day);
@@ -588,7 +594,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
       if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
-                    mCombinationBean.getUser().getId(), false));
+                    mCombinationBean.getUser().getId()+"", false));
         }
     }
 
@@ -755,6 +761,23 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     netvalueMonth.setText(StringFromatUtils.get2PointPercent(mPositionDetail.getPortfolio()
                             .getChng_pct_month()));
                     tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
+
+
+
+//                    BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
+
+                    UserEntity user =  mCombinationBean.getUser();
+                    ImageLoaderUtils.setHeanderImage(user.getAvatar_md(),ivUserheader);
+//                    if (null != user.getAvatar_md() && user.getAvatar_md().length() > 35) {
+////                        bitmapUtils.display(ivUserheader, user.getAvatar_md());
+//                    }
+//                    tvUName.setText(user.getUsername());
+                    if (TextUtils.isEmpty(user.getDescription())) {
+                        tvUserDesc.setText(getResources().getString(R.string.nodata_user_description));
+                    } else {
+                        tvUserDesc.setText(user.getDescription());
+                    }
+
                 }
                 setColor(myType);
 

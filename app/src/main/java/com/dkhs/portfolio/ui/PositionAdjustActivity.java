@@ -8,14 +8,6 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -26,7 +18,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.ContextThemeWrapper;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -48,7 +39,6 @@ import com.dkhs.portfolio.bean.errorbundle.BaseError;
 import com.dkhs.portfolio.bean.errorbundle.RaiseUpDown;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalStockAdapter.IDutyNotify;
@@ -66,8 +56,14 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName PositionAdjustActivity
@@ -712,11 +708,11 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                         @Override
                         protected void afterParseData(CombinationBean object) {
+
                             if (null != object && !isAdjustCombination) {
-                                PositionAdjustActivity.this.startActivity(NewCombinationDetailActivity.newIntent(
-                                        PositionAdjustActivity.this, object));
+                                requestCombinationDetail(object);
+
                             }
-                            finish();
 
                         }
 
@@ -769,6 +765,40 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
                     }.setLoadingDialog(this, "创建中..."));
         }
+    }
+
+
+
+    private void requestCombinationDetail(CombinationBean combinationBean){
+        new MyCombinationEngineImpl().queryCombinationDetail(combinationBean.getId(), new ParseHttpListener<PositionDetail> () {
+
+                    @Override
+                    protected PositionDetail parseDateTask(String jsonData) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(jsonData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
+
+
+
+                        return bean;
+                    }
+
+                    @Override
+                    protected void afterParseData(PositionDetail object) {
+                        if (null != object) {
+                            PositionAdjustActivity.this.startActivity(NewCombinationDetailActivity.newIntent(
+                                    PositionAdjustActivity.this, object.getPortfolio()));
+                            finish();
+                        }
+
+                    }
+                }.setLoadingDialog(this)
+        );
     }
 
     @Override

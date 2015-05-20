@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-
     android:orientation="vertical">
 
     <RelativeLayout
@@ -170,7 +169,7 @@
     </RelativeLayout>
 
 
-    <View style="@style/divider_line" />
+    <View style="@style/divider_line" android:background="@color/white_10"/>
 
 
     <!--<View -->

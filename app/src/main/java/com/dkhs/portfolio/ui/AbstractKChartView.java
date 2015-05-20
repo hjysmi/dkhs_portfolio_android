@@ -8,15 +8,15 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.Collections;
-import java.util.List;
+import android.os.Bundle;
 
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.ui.fragment.BaseFragment;
 import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
 
-import android.os.Bundle;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @ClassName AbsKChartView
@@ -152,5 +152,7 @@ public abstract class AbstractKChartView extends BaseFragment {
     public void setQuotesDataEngine(QuotesEngineImpl mQuotesDataEngine) {
         this.mQuotesDataEngine = mQuotesDataEngine;
     }
+
+    public void setViewVisible(boolean isVisibleToUser){};
 
 }

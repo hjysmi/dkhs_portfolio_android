@@ -2,7 +2,6 @@ package com.dkhs.portfolio.utils;
 
 import android.content.Context;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.widget.ImageView;
 
 import com.dkhs.portfolio.R;
@@ -43,6 +42,7 @@ public class ImageLoaderUtils {
                 .build();
         loader.displayImage(url, new_phone1, options);
     }
+
     public static void setImage(String url, ImageView new_phone1) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -51,7 +51,8 @@ public class ImageLoaderUtils {
                 .build();
         loader.displayImage(url, new_phone1, options);
     }
-    public static void setRoundedImage(String url, ImageView new_phone1,@DrawableRes int loadingDrawableId,@DrawableRes int failedDrawableId) {
+
+    public static void setRoundedImage(String url, ImageView new_phone1, @DrawableRes int loadingDrawableId, @DrawableRes int failedDrawableId) {
         ImageLoader loader = ImageLoader.getInstance();
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory().cacheOnDisc()
@@ -68,6 +69,9 @@ public class ImageLoaderUtils {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .cacheInMemory().cacheOnDisc()
                 .displayer(new RoundedBitmapDisplayer(300))
+                .showImageForEmptyUri(R.drawable.ic_user_head)
+                .showImageOnFail(R.drawable.ic_user_head)
+                .showImageOnLoading(R.drawable.ic_user_head)
                 .showImageForEmptyUri(R.drawable.ic_user_head)
                 .build();
         loader.displayImage(url, new_phone1, options);
