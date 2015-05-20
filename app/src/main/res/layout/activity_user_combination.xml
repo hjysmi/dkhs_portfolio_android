@@ -76,7 +76,7 @@
                 <TextView
                     android:id="@+id/tv_symbols_prompt"
                     style="@style/user_tab_title"
-                    android:text="@string/symbols" />
+                    android:text="@string/optional" />
 
                 <TextView
                     android:id="@+id/tv_symbols"

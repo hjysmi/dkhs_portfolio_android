@@ -83,11 +83,13 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentD = new UserFragment();
 
         LogUtils.e("MessageManager " + (Looper.myLooper() == Looper.getMainLooper()));
-        // 判断登陆状态
-        if (PortfolioApplication.hasUserLogin()) {
-            MessageManager.getInstance().connect();
-        }
 
+    }
+
+    @Override
+    protected void onResume() {
+        MessageManager.getInstance().connect();
+        super.onResume();
     }
 
     @Override

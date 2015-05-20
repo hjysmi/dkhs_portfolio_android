@@ -266,7 +266,7 @@
                 </LinearLayout>
 
                 <include
-                    android:id="@+id/line5"
+                    android:id="@+id/line4"
                     layout="@layout/layout_line" />
             </LinearLayout>
 
@@ -277,7 +277,10 @@
                 android:orientation="vertical" >
             </LinearLayout>
 
-            <include   android:id="@+id/line_tx" layout="@layout/layout_line_text" />
+            <include
+
+                android:id="@+id/line5"
+                layout="@layout/layout_line_text" />
 
             <RelativeLayout
                 android:id="@+id/feed_back_layout"
@@ -305,7 +308,10 @@
                     android:text="@string/setting_string_opinion" />
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include
+
+                android:id="@+id/line6"
+                layout="@layout/layout_line" />
 
             <RelativeLayout
                 android:id="@+id/setting_layout_check_version"
@@ -333,7 +339,9 @@
                     android:text="@string/setting_string_news" />
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include
+                android:id="@+id/line7"
+                layout="@layout/layout_line" />
 
             <RelativeLayout
                 android:id="@+id/rl_aboutus"
@@ -363,7 +371,7 @@
 
             <include
 
-                android:id="@+id/line6"
+                android:id="@+id/line8"
                 layout="@layout/layout_line" />
 
             <RelativeLayout
