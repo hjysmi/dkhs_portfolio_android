@@ -129,7 +129,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
         super.onResume();
 
-        updateHandler.postDelayed(updateRunnable, 30);
+        reloadData();
+        updateHandler.postDelayed(updateRunnable, 5*1000);
 
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
@@ -163,7 +164,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         @Override
         public void run() {
             // loadDataListFragment.refreshNoCaseTime();
-            reloadData();
+//            reloadData();
+            loadDataListFragment.refresh();
             updateHandler.postDelayed(updateRunnable, mPollRequestTime);
         }
     };

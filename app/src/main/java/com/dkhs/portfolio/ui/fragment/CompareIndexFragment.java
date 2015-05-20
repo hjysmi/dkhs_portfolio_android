@@ -23,6 +23,7 @@ import com.dkhs.portfolio.bean.HistoryNetValue;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
 import com.dkhs.portfolio.engine.CompareEngine;
 import com.dkhs.portfolio.engine.NetValueEngine;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CompareFundsActivity;
@@ -67,8 +68,13 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
     @ViewInject(R.id.machart)
     private TrendChart maChartView;
 
+    @ViewInject(R.id.tv_more_funds)
+    private View moreFundView;
+
     private List<LinePointEntity> lineDataList = new ArrayList<LinePointEntity>();
     private List<LineEntity> lineEntityList = new ArrayList<LineEntity>();
+
+
 
     @Override
     public int setContentLayoutId() {
@@ -101,6 +107,14 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
         super.onViewCreated(view, savedInstanceState);
         initMaChart(maChartView);
         tvCombinationName.setText(mCombinationBean.getName());
+        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId()>0) {
+            if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
+                if (mCombinationBean.getUser().getId()==UserEngineImpl.getUserEntity().getId()) {
+                    moreFundView.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
     }
 
     @Override
