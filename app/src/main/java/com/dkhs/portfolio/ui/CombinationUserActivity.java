@@ -31,6 +31,7 @@ import com.dkhs.portfolio.ui.eventbus.UnFollowEvent;
 import com.dkhs.portfolio.ui.fragment.UserCombinationListFragment;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
+import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.BitmapUtils;
 import com.nineoldandroids.view.ViewHelper;
 
@@ -159,7 +160,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         if (isMyInfo) {
             setTitle("我的主页");
             localFloatingActionMenu.setVisibility(View.GONE);
-            symbolsPromptTV.setText(getString(R.string.optional));
+
         } else {
             setTitle("Ta的主页");
             localFloatingActionMenu.setVisibility(View.VISIBLE);
@@ -360,8 +361,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     public void onClick(View v) {
 
 
-        if (!PortfolioApplication.hasUserLogin()) {
-            gotoLoginDialog();
+        if (UIUtils.iStartLoginActivity(this)) {
             return;
         }
 
@@ -397,18 +397,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         }
     }
 
-    private void gotoLoginDialog() {
-
-        PromptManager.getAlertDialog(this).setTitle(R.string.tips).setMessage(R.string.nodata_login_out).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(CombinationUserActivity.this, LoginActivity.class));
-                dialog.dismiss();
-            }
-        }).setNegativeButton(R.string.cancel, null).create().show();
-
-
-    }
 
     private void unFollowAction() {
 
@@ -427,9 +415,12 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     }
 
     private void followAction() {
-        followListener.setLoadingDialog(context);
-        new UserEngineImpl().follow(userEntity.getId() + "", followListener);
 
+
+        if (!UIUtils.iStartLoginActivity(this)) {
+            followListener.setLoadingDialog(context);
+            new UserEngineImpl().follow(userEntity.getId() + "", followListener);
+        }
     }
 
 

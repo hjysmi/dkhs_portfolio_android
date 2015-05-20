@@ -416,7 +416,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             String[] stockListTiles = getResources().getStringArray(R.array.stock_quote_info_title);
             hsTitleBottom.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
             hsTitleSticker.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
-
         }
     }
 
@@ -795,6 +794,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
+        setTitle(mStockQuotesBean.getName() + "(" + mStockQuotesBean.getCode() + ")");
         tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
         // String curentText = tvCurrent.getText().toString();
         if (mPrePrice > 0) {

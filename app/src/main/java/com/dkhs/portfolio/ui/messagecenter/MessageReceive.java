@@ -8,10 +8,22 @@
  */
 package com.dkhs.portfolio.ui.messagecenter;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Vibrator;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.PortfolioAlertBean;
+import com.dkhs.portfolio.receiver.MessageNotificationClickReceiver;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
 import io.rong.imlib.model.Message;
 import io.rong.imlib.model.MessageContent;
@@ -75,17 +87,10 @@ public class MessageReceive extends BroadcastReceiver {
             Log.d(TAG, "onReceived-GroupInvitationNotification:" + infoMessage.getMessage());
         } else if (messageContent instanceof DKImgTextMsg) {
             Log.d(TAG, "onReceived-其他消息，自己来判断处理");
-
             Log.d(TAG, "onReceived-message，" + message.getObjectName());
-
-            //todo 通知栏操作:
-            intent.putExtra(KEY_MESSAGE, message);
         }
-
-        /**
-         * 需替换成自己的代码。
-         */
-
+        //todo 通知栏操作:
+        intent.putExtra(KEY_MESSAGE, message);
         return intent;
     }
 
@@ -94,16 +99,59 @@ public class MessageReceive extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("MessageReceive", "收到消息---");
-        MessageManager.getInstance().notifyNewMessage();
-        // BusProvider.getInstance().post(new NewMessageEvent());
-        MessageManager.getInstance().setHasNewUnread(true);
-        Message message = intent.getParcelableExtra(KEY_MESSAGE);
-//        if ("DK:ImgTextMsg".equals(message.getObjectName())) {
-//        }
+        Log.d("MessageReceive", "收到消息");
+        //登陆状态处理消息,否则丢弃掉该消息
+        if(PortfolioApplication.hasUserLogin()) {
+
+            MessageManager.getInstance().notifyNewMessage();
+            MessageManager.getInstance().setHasNewUnread(true);
+            Message message = intent.getParcelableExtra(KEY_MESSAGE);
+
+            if (!PortfolioApplication.getInstance().isRunningForeground() ) {
+                if ( null != message &&"DK:ImgTextMsg".equals(message.getObjectName())) {
+                    //推送通知
+                    handDKImgTextMsg(context, message);
+                }
+            }else{
+                //震动提醒
+                vibrationPhone();
+
+            }
+        }
+    }
+
+    /**
+     * 震动手机提醒用户新信息进入
+     */
+    private void vibrationPhone() {
+        Vibrator vibrator= (Vibrator) PortfolioApplication.getInstance().getSystemService(Context.VIBRATOR_SERVICE);
+        vibrator.vibrate(new long[]{200l,300l},1);
     }
 
 
+    public void handDKImgTextMsg(Context context, Message msg) {
 
+        DKImgTextMsg message = (DKImgTextMsg) msg.getContent();
+        int notificationId = msg.getMessageId();
+        String sendUserID = msg.getSenderUserId();
+
+        //发送通知栏通知
+        if (sendUserID != null) {
+            Intent intent2 = new Intent(PortfolioApplication.getInstance(), MessageNotificationClickReceiver.class);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent2.setAction(MessageNotificationClickReceiver.MESSAGE_NOTIFICATION_CLICK);
+            intent2.putExtra(KEY_MESSAGE, msg);
+
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(PortfolioApplication.getInstance(), notificationId, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+            String title = context.getResources().getString(R.string.app_name);
+            Notification notificationCompat = new NotificationCompat.Builder(PortfolioApplication.getInstance()).setSmallIcon(R.drawable.ic_launcher)
+                    .setContentTitle(title).setContentText(message.getTitle()).setAutoCancel(true).setDefaults(NotificationCompat.DEFAULT_LIGHTS|NotificationCompat.DEFAULT_SOUND|NotificationCompat.DEFAULT_VIBRATE)
+                    .setContentIntent(pendingIntent)
+                    .build();
+            NotificationManager notificationManager = (NotificationManager) PortfolioApplication.getInstance().getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(notificationId, notificationCompat);
+        }
+
+    }
 
 }

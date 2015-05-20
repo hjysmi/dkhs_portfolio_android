@@ -78,6 +78,10 @@ public class DKHSUrl {
         //获取粉丝
         String get_followers = "/api/v1/users/%s/followers/";
 
+
+        //持仓明细
+        String portfolio_detail = "/api/v1/portfolio/%s/";
+
     }
 
     public interface StockSymbol {
@@ -165,6 +169,9 @@ public class DKHSUrl {
         String reportnewsoptioneachs = "/api/v1/statuses/symbol_timeline/?page_size=200&symbol={0}&content_type=30";
         String reportnews_second_notice = "/api/v1/statuses/symbol_timeline/?page_size=50&symbol={0}&content_type=20";
         String newstext = "/api/v1/statuses/";
+        //获取单条信息
+        String newstext_detial = "/api/v1/statuses/%s";
+
     }
 
     public interface User {

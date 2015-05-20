@@ -31,29 +31,28 @@ import static com.dkhs.portfolio.R.layout;
  * @Description TODO(自定义消息)
  */
 
-@ProviderTag(messageContent = DKImgTextMsg.class,showPortrait=false)
+@ProviderTag(messageContent = DKImgTextMsg.class, showPortrait = false)
 public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
-
 
 
     @Override
     public View newView(Context context, ViewGroup group) {
 
-        return   LayoutInflater.from(context).inflate(layout.layout_messaage   , null);
+        return LayoutInflater.from(context).inflate(layout.layout_messaage, null);
     }
-
 
 
     @Override
     public Spannable getContentSummary(MessageContent data) {
 
 
+        String contentSummary = "";
 
-        String contentSummary="";
-
-        if(data instanceof DKImgTextMsg){
-            DKImgTextMsg dkImgTextMsg =(DKImgTextMsg)data;
-            contentSummary= dkImgTextMsg.getTitle();
+        if (data instanceof DKImgTextMsg) {
+            DKImgTextMsg dkImgTextMsg = (DKImgTextMsg) data;
+            if (!TextUtils.isEmpty(dkImgTextMsg.getTitle())) {
+                contentSummary = dkImgTextMsg.getTitle();
+            }
         }
         return new SpannableString(contentSummary);
 
@@ -75,29 +74,27 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
     @Override
     public void bindView(View v, int position, MessageContent content, Message message) {
 
-        TextView titleTV= (TextView) v.findViewById(id.tv_title);
-        TextView contentTV= (TextView) v.findViewById(id.tv_content);
-        TextView dateLineTV= (TextView) v.findViewById(id.tv_date_line);
-        ImageView imageView= (ImageView) v.findViewById(id.im_content);
+        TextView titleTV = (TextView) v.findViewById(id.tv_title);
+        TextView contentTV = (TextView) v.findViewById(id.tv_content);
+        TextView dateLineTV = (TextView) v.findViewById(id.tv_date_line);
+        ImageView imageView = (ImageView) v.findViewById(id.im_content);
 
-
-
-        if(content instanceof DKImgTextMsg){
-            DKImgTextMsg dkImgTextMsg =(DKImgTextMsg)content;
+        if (content instanceof DKImgTextMsg) {
+            DKImgTextMsg dkImgTextMsg = (DKImgTextMsg) content;
             titleTV.setText(dkImgTextMsg.getTitle());
             contentTV.setText(dkImgTextMsg.getContent());
-            if(TextUtils.isEmpty(dkImgTextMsg.getImageUri())){
+            if (TextUtils.isEmpty(dkImgTextMsg.getImageUri())) {
                 imageView.setVisibility(View.GONE);
-            }else{
+            } else {
                 imageView.setVisibility(View.VISIBLE);
                 BitmapUtils.displayNoEffect(imageView, dkImgTextMsg.getImageUri());
             }
-          long timeLineLong=  message.getReceivedTime();
+            long timeLineLong = message.getReceivedTime();
 
-            if(timeLineLong <=0){
+            if (timeLineLong <= 0) {
                 dateLineTV.setVisibility(View.GONE);
-            }else{
-                String timeLine= StringFromatUtils.dateFormat(timeLineLong);
+            } else {
+                String timeLine = StringFromatUtils.dateFormat(timeLineLong);
                 dateLineTV.setVisibility(View.VISIBLE);
                 dateLineTV.setText(timeLine);
             }
@@ -107,7 +104,6 @@ public class DKImgTextMsgProvider extends UnknownMessageItemProvider {
 
 
     }
-
 
 
 }

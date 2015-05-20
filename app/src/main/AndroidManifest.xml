@@ -33,6 +33,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".app.PortfolioApplication"
@@ -118,6 +119,7 @@
         <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.WebActivity" />
         <activity
             android:name="com.dkhs.portfolio.ui.LoginRegisterAcitvity"
             android:theme="@style/AppThemeNoBackgroud" />
@@ -235,6 +237,14 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="com.dkhs.portfolio.SENDMESSAGE" />
+            </intent-filter>
+        </receiver>
+       <receiver
+            android:name=".receiver.MessageNotificationClickReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.dkhs.portfolio.NotificationClick" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 

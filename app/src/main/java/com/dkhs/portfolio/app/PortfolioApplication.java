@@ -22,8 +22,10 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
@@ -38,6 +40,7 @@ import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.AnalyticsConfig;
 
 import io.rong.imkit.RongIM;
@@ -60,12 +63,16 @@ public class PortfolioApplication extends Application {
     // private boolean change = false;
     // private int kLinePosition = -1;
 
+
+    private Handler mhanle=new Handler();
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
 
     @Override
     public void onCreate() {
+        //测试开机自启动
+//        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         if(!isDebug){
             setRongYunMetaData();
@@ -83,7 +90,13 @@ public class PortfolioApplication extends Application {
         startService(demand);
 
         MessageManager.getInstance();
-
+        //防止刚开机不能连接网络
+        mhanle.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                MessageManager.getInstance().connect();
+            }
+        },10000);
     }
 
 
@@ -152,13 +165,21 @@ public class PortfolioApplication extends Application {
     }
 
     public static boolean hasUserLogin() {
-        if (!TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN);
     }
 
+    /**
+     * app是否在前台
+     * @return
+     */
+    public boolean isRunningForeground ()
+    {
+        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        String currentPackageName = cn.getPackageName();
+        return !TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(getPackageName());
+
+    }
 
 
     public boolean isDebug() {

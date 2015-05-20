@@ -63,8 +63,6 @@ public final class MessageManager {
     }
 
     public void disConnect(Context context) {
-
-
         hasNewUnread = false;
         mConnct.disConnect(context);
     }
@@ -91,12 +89,12 @@ public final class MessageManager {
 
     }
     public void startConversationList(Context context){
-
         mConnct.startConversationList(context);
-
     }
 
     public RongConnect getmConnct() {
         return mConnct;
     }
+
+
 }

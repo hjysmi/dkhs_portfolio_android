@@ -15,6 +15,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.fragment.InvalidStateFragment;
 import com.dkhs.portfolio.ui.messagecenter.DKImgTextMsg;
+import com.dkhs.portfolio.ui.messagecenter.MessageHandler;
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.util.LogUtils;
@@ -51,6 +52,8 @@ public class RCChatActivity extends ModelAcitivity {
     private static final String TAG = "RCChatActivity";
     private ConversationFragment fragment;
 
+    private MessageHandler messageHandler;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +65,7 @@ public class RCChatActivity extends ModelAcitivity {
         String title = uri.getQueryParameter("title");
         String conversationTypeStr = uri.getLastPathSegment();
         RongIM.setConversationBehaviorListener(new ConversationBehaviorListener());
-
+        messageHandler=new MessageHandler(this);
         conversationType = ConversationType.valueOf(conversationTypeStr.toUpperCase());
         if (TextUtils.isEmpty(title)) {
             new GetConversationTitleTask().execute(targetId);
@@ -83,7 +86,6 @@ public class RCChatActivity extends ModelAcitivity {
                 }
             });
 
-
             //解决列表闪一下
             getTitleView().postDelayed(new Runnable() {
                 @Override
@@ -95,7 +97,7 @@ public class RCChatActivity extends ModelAcitivity {
                     }
 
                 }
-            }, 1200);
+            }, 2200);
 
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.contentFL, new InvalidStateFragment()).commit();
@@ -114,58 +116,8 @@ public class RCChatActivity extends ModelAcitivity {
 
     }
 
-    /**
-     * 处理由我们自己的  RichContentMessage  消息;
-     *
-     * @param messageContent
-     */
-    private void handleDKImgTextMsg(DKImgTextMsg messageContent) {
 
 
-        Uri uri = Uri.parse(messageContent.getUrl());
-
-
-        List<String> segments = uri.getPathSegments();
-
-
-        if (segments.size() > 0) {
-
-            if (segments.get(0).equals("s") && segments.size() == 3) {
-                String name = uri.getQueryParameter("name");
-                gotoStockQuotesActivity(segments, name);
-            } else if (segments.get(0).equals("p") && segments.size() == 2) {
-
-                gotoOrderFundDetailActivity(segments.get(1));
-
-            } else if (segments.get(0).equals("statuses") && segments.size() == 2) {
-
-            }
-        }
-
-    }
-
-    private void gotoOrderFundDetailActivity(String id) {
-
-        CombinationBean mChampionBean = new CombinationBean();
-        mChampionBean.setId(id);
-        startActivity(NewCombinationDetailActivity.newIntent(this, mChampionBean));
-
-//        this.startActivity(
-//                OrderFundDetailActivity.getIntent(this, mChampionBean, true,
-//                        FundsOrderFragment.ORDER_TYPE_DAY));
-    }
-
-    private void gotoStockQuotesActivity(List<String> segments, String name) {
-
-        SelectStockBean itemStock = new SelectStockBean();
-        itemStock.setId(Long.parseLong(segments.get(2)));
-        itemStock.setCode(segments.get(1));
-        itemStock.setSymbol_type("1");
-
-        itemStock.setName(name);
-
-        UIUtils.startAminationActivity(this, StockQuotesActivity.newIntent(this, itemStock));
-    }
 
 
     class GetConversationTitleTask extends AsyncTask<String,Void,UserInfo>{
@@ -198,21 +150,8 @@ public class RCChatActivity extends ModelAcitivity {
 
         @Override
         public boolean onMessageClick(Context context, Message message) {
-            MessageContent messageContent = message.getContent();
-            if (messageContent instanceof TextMessage) {// 文本消息
-                TextMessage textMessage = (TextMessage) messageContent;
-                Log.d(TAG, "onReceived-TextMessage:" + textMessage.getContent());
+            return    messageHandler.handleMessage(message);
 
-            } else if (messageContent instanceof ImageMessage) {// 图片消息
-                ImageMessage imageMessage = (ImageMessage) messageContent;
-                Log.d(TAG, "onReceived-ImageMessage:" + imageMessage.getRemoteUri());
-            } else if (messageContent instanceof VoiceMessage) {// 语音消息
-                VoiceMessage voiceMessage = (VoiceMessage) messageContent;
-                Log.d(TAG, "onReceived-voiceMessage:" + voiceMessage.getUri().toString());
-            } else if (messageContent instanceof DKImgTextMsg) {// DKImgTextMsg
-                handleDKImgTextMsg((DKImgTextMsg) messageContent);
-            }
-            return false;
         }
 
         @Override
