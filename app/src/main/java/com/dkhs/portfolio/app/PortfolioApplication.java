@@ -76,7 +76,7 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         //测试开机自启动
-        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
+//        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         if(!isDebug){
             setRongYunMetaData();

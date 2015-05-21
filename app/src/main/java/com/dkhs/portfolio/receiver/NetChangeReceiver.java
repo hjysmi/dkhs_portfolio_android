@@ -24,7 +24,7 @@ public class NetChangeReceiver extends BroadcastReceiver {
 
             if (NetUtil.checkNetWork()) {
 
-                //fixme 这样的网络判断有缺陷: 当连接到无效的wifi时候 也会都这里来
+                //fixme 这样的网络判断有缺陷: 当连接到无效的wifi时候 也会到这里来
                 LogUtils.e("NetUtil 有网络连接");
 
                 MessageManager.getInstance().connect();

@@ -116,7 +116,8 @@ public class MessageHandler {
         baseInfoEngine.getOptionNewsBean(id, new BasicHttpListener() {
             @Override
             public void beforeRequest() {
-                PromptManager.showProgressDialog(context, "", false);
+                //fixme 由于用的到 PromptManager.showProgressDialog,里面维护一个静态的进度框,所以还没走到requestCallBack 就会被关闭
+                PromptManager.showProgressDialog(context, "", true);
                 super.beforeRequest();
             }
 
@@ -161,7 +162,8 @@ public class MessageHandler {
         baseInfoEngine.getCombinationBean(id, new BasicHttpListener() {
             @Override
             public void beforeRequest() {
-                PromptManager.showProgressDialog(context, "", false);
+                //fixme 由于用的到 PromptManager.showProgressDialog,里面维护一个静态的进度框,所以还没走到requestCallBack 就会被关闭
+                PromptManager.showProgressDialog(context, "", true);
                 super.beforeRequest();
             }
 
@@ -200,7 +202,8 @@ public class MessageHandler {
         new QuotesEngineImpl().quotes(segments.get(1), new BasicHttpListener() {
             @Override
             public void beforeRequest() {
-                PromptManager.showProgressDialog(context, "", false);
+            //fixme 由于用的到 PromptManager.showProgressDialog,里面维护一个静态的进度框,所以还没走到requestCallBack 就会被关闭
+                PromptManager.showProgressDialog(context, "", true);
                 super.beforeRequest();
             }
 
