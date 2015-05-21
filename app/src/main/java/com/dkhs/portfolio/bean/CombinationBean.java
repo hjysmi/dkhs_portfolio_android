@@ -17,6 +17,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
+import com.lidroid.xutils.db.annotation.Transient;
 
 /**
  * @ClassName ConbinationBean
@@ -31,6 +32,7 @@ public class CombinationBean extends DragListItem implements Serializable {
     @NoAutoIncrement
     private String id;
     private String name;
+    @Transient
     private UserEntity user;
     private String description;
     // private float percent;
