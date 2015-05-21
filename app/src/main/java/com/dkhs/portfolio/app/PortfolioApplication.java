@@ -108,18 +108,6 @@ public class PortfolioApplication extends Application {
     }
 
 
-    public void registNetChangeListener(){
-
-//        NetChangeReceiver netChangeReceiver=new NetChangeReceiver();
-//        IntentFilter filter=new IntentFilter();
-//        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-//        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-//
-//
-//        this.registerReceiver(netChangeReceiver,filter);
-    }
-
 
     private void setRongYunMetaData() {
         ApplicationInfo appi;
