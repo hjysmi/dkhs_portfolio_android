@@ -19,9 +19,12 @@ import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
@@ -30,6 +33,7 @@ import android.widget.Toast;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
+import com.dkhs.portfolio.receiver.NetChangeReceiver;
 import com.dkhs.portfolio.service.ReLoadDataService;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
@@ -72,7 +76,7 @@ public class PortfolioApplication extends Application {
     @Override
     public void onCreate() {
         //测试开机自启动
-//        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
+        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         if(!isDebug){
             setRongYunMetaData();
@@ -97,6 +101,23 @@ public class PortfolioApplication extends Application {
                 MessageManager.getInstance().connect();
             }
         },10000);
+
+
+
+
+    }
+
+
+    public void registNetChangeListener(){
+
+//        NetChangeReceiver netChangeReceiver=new NetChangeReceiver();
+//        IntentFilter filter=new IntentFilter();
+//        filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+//        filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+//        filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+//
+//
+//        this.registerReceiver(netChangeReceiver,filter);
     }
 
 

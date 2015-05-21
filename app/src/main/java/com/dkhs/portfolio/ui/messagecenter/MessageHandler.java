@@ -11,9 +11,12 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.BaseInfoEngine;
+import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
+import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.WebActivity;
@@ -21,9 +24,11 @@ import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.rong.imlib.model.Message;
@@ -44,7 +49,6 @@ public class MessageHandler {
 
     public String TAG = "MessageHandler";
     public Context context;
-
 
 
     public MessageHandler(Context context) {
@@ -103,12 +107,12 @@ public class MessageHandler {
 
     /**
      * 跳转到研报或者是公告
+     *
      * @param id
      */
-    private void gotoNewOrYaoBaoDetail(String  id) {
-        //todo  未处理跳转逻辑
+    private void gotoNewOrYaoBaoDetail(String id) {
 
-        BaseInfoEngine baseInfoEngine =new BaseInfoEngine();
+        BaseInfoEngine baseInfoEngine = new BaseInfoEngine();
         baseInfoEngine.getOptionNewsBean(id, new BasicHttpListener() {
             @Override
             public void beforeRequest() {
@@ -119,10 +123,10 @@ public class MessageHandler {
             @Override
             public void onSuccess(String result) {
 
-                OptionNewsBean optionNewsBean=DataParse.parseObjectJson(OptionNewsBean.class,result);
+                OptionNewsBean optionNewsBean = DataParse.parseObjectJson(OptionNewsBean.class, result);
                 try {
                     Intent intent;
-                    if (null !=optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
+                    if (null != optionNewsBean.getSymbols() && optionNewsBean.getSymbols().size() > 0) {
                         intent = YanbaoDetailActivity.newIntent(context, optionNewsBean.getId(),
                                 optionNewsBean.getSymbols().get(0).getSymbol(), optionNewsBean
                                         .getSymbols().get(0).getAbbrName(), optionNewsBean.getContentType());
@@ -148,25 +152,25 @@ public class MessageHandler {
 
     /**
      * 跳转到组合界面
+     *
      * @param id
      */
     private void gotoOrderFundDetailActivity(String id) {
 
-
-        //fixme  未测试
-        BaseInfoEngine baseInfoEngine =new BaseInfoEngine();
+        BaseInfoEngine baseInfoEngine = new BaseInfoEngine();
         baseInfoEngine.getCombinationBean(id, new BasicHttpListener() {
             @Override
             public void beforeRequest() {
                 PromptManager.showProgressDialog(context, "", false);
                 super.beforeRequest();
             }
+
             @Override
-            public void onSuccess(String result)  {
+            public void onSuccess(String result) {
                 try {
-                    JSONObject jsonObject=new JSONObject(result);
-                    String championBeanStr=jsonObject.getString("portfolio");
-                    CombinationBean mChampionBean = DataParse.parseObjectJson(CombinationBean.class,championBeanStr);
+                    JSONObject jsonObject = new JSONObject(result);
+                    String championBeanStr = jsonObject.getString("portfolio");
+                    CombinationBean mChampionBean = DataParse.parseObjectJson(CombinationBean.class, championBeanStr);
                     context.startActivity(NewCombinationDetailActivity.newIntent(context, mChampionBean));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -184,15 +188,46 @@ public class MessageHandler {
 
     /**
      * 跳转到个股详情
+     *
      * @param segments
      */
-    private void gotoStockQuotesActivity(List<String> segments) {
-        SelectStockBean itemStock = new SelectStockBean();
+    private void gotoStockQuotesActivity(final List<String> segments) {
+        final SelectStockBean itemStock = new SelectStockBean();
         itemStock.setId(Long.parseLong(segments.get(2)));
         itemStock.setCode(segments.get(1));
         itemStock.setSymbol_type("1");
         itemStock.setName("- -");
-        context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+        new QuotesEngineImpl().quotes(segments.get(1), new BasicHttpListener() {
+            @Override
+            public void beforeRequest() {
+                PromptManager.showProgressDialog(context, "", false);
+                super.beforeRequest();
+            }
+
+            @Override
+            public void onSuccess(String jsonData) {
+
+                try {
+                    JSONArray jsonArray = new JSONArray(jsonData);
+                    JSONObject jsonOb = jsonArray.getJSONObject(0);
+                    StockQuotesBean stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
+
+                    itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
+                    itemStock.setName(stockQuotesBean.getName());
+                    context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void requestCallBack() {
+                super.requestCallBack();
+                PromptManager.closeProgressDialog();
+            }
+        });
+
 
     }
 
