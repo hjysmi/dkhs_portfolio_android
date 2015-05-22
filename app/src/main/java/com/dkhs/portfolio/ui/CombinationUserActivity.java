@@ -349,7 +349,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
 
         handleNumber(tvFollowers, object.getFollowed_by_count());
         handleNumber(tvFollowing, object.getFriends_count());
-        handleNumber(tvSymbols, object.getSymbols_count());
+        handleNumber(tvSymbols, object.getSymbols_count()+object.getPortfolios_following_count());
     }
 
     private void handleNumber(TextView tv, int count) {

@@ -59,8 +59,17 @@ public class UserEntity {
     private String avatar_sm;
     private String avatar_lg;
     private String date_joined;
+    private int portfolios_following_count;
 
     private boolean me_follow;
+
+    public int getPortfolios_following_count() {
+        return portfolios_following_count;
+    }
+
+    public void setPortfolios_following_count(int portfolios_following_count) {
+        this.portfolios_following_count = portfolios_following_count;
+    }
 
     public boolean isMe_follow() {
         return me_follow;
