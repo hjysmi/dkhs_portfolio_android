@@ -135,7 +135,6 @@
             android:id="@+id/ll_combination_title"
             android:layout_width="fill_parent"
             style="@style/gray_text_tabline"
-            android:layout_height="30dp"
             android:paddingRight="15dp"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
