@@ -56,7 +56,7 @@ public class UserEntity {
     /**
      * 30x30头像地址
      */
-<<<<<<< HEAD
+
     String avatar_xs;
     String access_token;
     String avatar_md;
@@ -67,17 +67,9 @@ public class UserEntity {
     boolean me_follow;
 
     public UserEntity() { /*Required empty bean constructor*/ }
-=======
-    private String avatar_xs;
-    private String access_token;
-    private String avatar_md;
-    private String avatar_sm;
-    private String avatar_lg;
-    private String date_joined;
-    private int portfolios_following_count;
 
-    private boolean me_follow;
->>>>>>> b060685313b64c513b4461f95b773be9ef034f5f
+    int portfolios_following_count;
+
 
     public int getPortfolios_following_count() {
         return portfolios_following_count;
