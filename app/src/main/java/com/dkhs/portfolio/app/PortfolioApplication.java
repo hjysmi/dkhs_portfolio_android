@@ -79,13 +79,11 @@ public class PortfolioApplication extends Application {
 
         MessageManager.getInstance();
         //防止刚开机不能连接网络
-        mhanle.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                MessageManager.getInstance().connect();
-            }
-        },10000);
+
+        MessageManager.getInstance().connect();
+
     }
+
 
 
     private void setRongYunMetaData() {
