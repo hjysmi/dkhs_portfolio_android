@@ -61,6 +61,10 @@ public class StockQuotesBean {
     private float total_capital;
     // 动态市盈率
     private float pe_ttm;
+
+
+    // 静态态市盈率
+    private float pe_lyr;
     // 市净率
     private float pb;
 
@@ -325,6 +329,15 @@ public class StockQuotesBean {
 
     public void setTrade_status(String trade_status) {
         this.trade_status = trade_status;
+    }
+
+
+    public float getPe_lyr() {
+        return pe_lyr;
+    }
+
+    public void setPe_lyr(float pe_lyr) {
+        this.pe_lyr = pe_lyr;
     }
 
     public String getTradetile() {
