@@ -189,7 +189,7 @@ public class MessageHandler {
     }
 
     /**
-     * 跳转到个股详情
+     * 跳转到个或指数详情
      *
      * @param segments
      */
