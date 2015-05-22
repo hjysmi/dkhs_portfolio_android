@@ -1,55 +1,37 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.StockQuotesBean;
-import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.AbstractKChartView;
-import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
-import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.KChartsLandCallBack;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
-import com.dkhs.portfolio.ui.widget.OnDoubleClickListener;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.kline.KChartsLandView;
-import com.dkhs.portfolio.ui.widget.kline.PageOHLCEntity;
-import com.dkhs.portfolio.ui.widget.kline.KChartsLandView.DisplayDataChangeListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
+import com.dkhs.portfolio.ui.widget.kline.PageOHLCEntity;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class KChartsLandFragment extends AbstractKChartView implements OnClickListener, KChartsLandCallBack {
 
@@ -420,6 +402,13 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
+       setViewVisible(isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+
+    @Override
+    public void setViewVisible(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             if (null != getKChartDataListener()) {
                 List<OHLCEntity> lineDatas = getViewTypeData();
@@ -454,7 +443,6 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
                 mMarketTimer = null;
             }
         }
-        super.setUserVisibleHint(isVisibleToUser);
     }
 
     @Override

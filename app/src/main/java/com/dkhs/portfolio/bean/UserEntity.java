@@ -6,7 +6,9 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
-public class UserEntity {
+import java.io.Serializable;
+
+public class UserEntity implements Serializable {
 
     // @Id // 如果主键没有命名名为id或_id的时，需要为主键添加此注解
     @NoAutoIncrement

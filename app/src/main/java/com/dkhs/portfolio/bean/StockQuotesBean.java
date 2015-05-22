@@ -8,18 +8,18 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.util.List;
-
 import android.text.TextUtils;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockQuotesBean
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-26 下午5:09:55
- * @version 1.0
  */
 public class StockQuotesBean {
 
@@ -43,6 +43,8 @@ public class StockQuotesBean {
     private String trade_status;
     // 0开市 1休市 2闭市
     private String tradetile;
+    @SerializedName("alert_settings")
+    public AlertSetBean alertSetBean;
 
     // 0为false,1为true
     private int is_stop;
@@ -59,6 +61,10 @@ public class StockQuotesBean {
     private float total_capital;
     // 动态市盈率
     private float pe_ttm;
+
+
+    // 静态态市盈率
+    private float pe_lyr;
     // 市净率
     private float pb;
 
@@ -325,6 +331,15 @@ public class StockQuotesBean {
         this.trade_status = trade_status;
     }
 
+
+    public float getPe_lyr() {
+        return pe_lyr;
+    }
+
+    public void setPe_lyr(float pe_lyr) {
+        this.pe_lyr = pe_lyr;
+    }
+
     public String getTradetile() {
         if (TextUtils.isEmpty(getTrade_status())) {
             return "";
@@ -352,4 +367,11 @@ public class StockQuotesBean {
         this.is_stop = is_stop;
     }
 
+    public AlertSetBean getAlertSetBean() {
+        return this.alertSetBean;
+    }
+
+    public void setAlertSetBean(AlertSetBean alertBean) {
+        this.alertSetBean = alertBean;
+    }
 }

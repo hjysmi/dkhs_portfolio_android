@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -454,7 +452,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     public void finish() {
 
      
-        if(null!=userEngine&&!userEntity.isMe_follow()){
+        if(null!=userEntity&&!userEntity.isMe_follow()){
             UnFollowEvent unFollowEvent=new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
             BusProvider.getInstance().post(unFollowEvent);

@@ -17,6 +17,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
+import com.lidroid.xutils.db.annotation.Transient;
 
 /**
  * @ClassName ConbinationBean
@@ -31,7 +32,8 @@ public class CombinationBean extends DragListItem implements Serializable {
     @NoAutoIncrement
     private String id;
     private String name;
-    private CombinationUser user;
+    @Transient
+    private UserEntity user;
     private String description;
     // private float percent;
     // @SerializedName("cumulative")
@@ -222,11 +224,11 @@ public class CombinationBean extends DragListItem implements Serializable {
         }
     }
 
-    public CombinationUser getUser() {
+    public UserEntity getUser() {
         return user;
     }
 
-    public void setUser(CombinationUser user) {
+    public void setUser(UserEntity user) {
         this.user = user;
     }
 
@@ -262,28 +264,28 @@ public class CombinationBean extends DragListItem implements Serializable {
         this.cumulative = cumulative;
     }
 
-    public static class CombinationUser implements Serializable {
-
-        private static final long serialVersionUID = 12894595218L;
-        private String id;
-        private String username;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
-    }
+//    public static class CombinationUser implements Serializable {
+//
+//        private static final long serialVersionUID = 12894595218L;
+//        private String id;
+//        private String username;
+//
+//        public String getId() {
+//            return id;
+//        }
+//
+//        public void setId(String id) {
+//            this.id = id;
+//        }
+//
+//        public String getUsername() {
+//            return username;
+//        }
+//
+//        public void setUsername(String username) {
+//            this.username = username;
+//        }
+//    }
 
     /**
      * @Title

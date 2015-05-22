@@ -129,9 +129,9 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
     private void handleExtras(Bundle extras) {
         mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
-        if (null != mCombinationBean && null != mCombinationBean.getUser() && !TextUtils.isEmpty(mCombinationBean.getUser().getId())) {
+        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId()>0) {
             if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
-                if (mCombinationBean.getUser().getId().equals(UserEngineImpl.getUserEntity().getId() + "")) {
+                if (mCombinationBean.getUser().getId()==UserEngineImpl.getUserEntity().getId()) {
                     isMyCombination = true;
                 }
             }

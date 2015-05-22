@@ -256,7 +256,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                             handFollowOrUnfollowAction();
                             break;
                         case MENU_REMIND:
-                            if(!UIUtils.iStartLoginActivity(StockQuotesActivity.this)){
+                            if (!UIUtils.iStartLoginActivity(StockQuotesActivity.this)) {
 
                                 startActivity(StockRemindActivity.newStockIntent(StockQuotesActivity.this,
                                         SelectStockBean.copy(mStockQuotesBean)));
@@ -486,7 +486,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     @Override
     public int getMaxListHeight() {
-        return mMaxListHeight-70;
+        return mMaxListHeight - 70;
     }
 
     @Override
@@ -833,7 +833,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
             tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
         }
-        tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
+        tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_lyr()));
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
         setTitleTipString(mStockQuotesBean.getTradetile() + " "
                 + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
@@ -1209,7 +1209,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
                 mActionMenu.setVisibility(View.GONE);
                 hideHead();
                 landStockview.setVisibility(View.VISIBLE);
-                fragmentList.get(pager.getCurrentItem()).setUserVisibleHint(false);
+                if (null != pager && null != fragmentList) {
+                    int position = pager.getCurrentItem();
+                    if (fragmentList.size() > position) {
+                        fragmentList.get(position).setUserVisibleHint(false);
+                    }
+                }
             }
 
             public void onAnimationStart(Animator paramAnimator) {

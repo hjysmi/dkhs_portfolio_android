@@ -23,13 +23,13 @@ import android.widget.ListView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.CombinationBean.CombinationUser;
 import com.dkhs.portfolio.bean.MoreDataBean;
+import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.FloatingActionMenu;
+import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.UserCombinationAdapter;
 import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -106,8 +106,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
         getListView().setSmoothScrollbarEnabled(true);
         getListView().addHeaderView(headerView);
 
-        localFloatingActionMenu=    ((CombinationUserActivity)getActivity()).localFloatingActionMenu;
-        localFloatingActionMenu .attachToListView(getListView(),null,this);
+        localFloatingActionMenu = ((CombinationUserActivity) getActivity()).localFloatingActionMenu;
+        localFloatingActionMenu.attachToListView(getListView(), null, this);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -202,8 +202,8 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                 }
 
                 CombinationBean cBean = mDataList.get(position - 1);
-                CombinationUser user = new CombinationBean.CombinationUser();
-                user.setId(mUserId);
+                UserEntity user = new UserEntity();
+                user.setId(Integer.parseInt(mUserId));
                 user.setUsername(mUserName);
                 cBean.setUser(user);
                 startActivity(NewCombinationDetailActivity.newIntent(getActivity(), cBean));
@@ -258,7 +258,7 @@ public class UserCombinationListFragment extends LoadMoreNoRefreshListFragment i
                 } else {
                     handler.sendEmptyMessage(1);
                 }
-            }else{
+            } else {
                 localFloatingActionMenu.show(true);
             }
         }

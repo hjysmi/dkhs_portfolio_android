@@ -129,7 +129,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
 
         super.onResume();
 
-        updateHandler.postDelayed(updateRunnable, 30);
+        reloadData();
+        updateHandler.postDelayed(updateRunnable, 5*1000);
 
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
@@ -155,7 +156,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     @Override
     public void onStop() {
         super.onStop();
-        updateHandler.removeCallbacks(updateRunnable);
+
 
     }
 
@@ -163,7 +164,8 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
         @Override
         public void run() {
             // loadDataListFragment.refreshNoCaseTime();
-            reloadData();
+//            reloadData();
+            loadDataListFragment.refresh();
             updateHandler.postDelayed(updateRunnable, mPollRequestTime);
         }
     };
@@ -380,6 +382,7 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
+        updateHandler.removeCallbacks(updateRunnable);
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageEnd(mPageName);
         // MobclickAgent.onPause(this);

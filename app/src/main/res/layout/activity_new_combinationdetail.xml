@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
     android:orientation="vertical"
-    android:paddingTop="0.5px" >
+    >
+
+
 
     <com.melnykov.fab.ObservableScrollView
         android:id="@+id/sv_combinations"
@@ -81,5 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
+
+    <View style="@style/divider_line" android:background="@color/white_10" android:layout_gravity="top"/>
 
 </FrameLayout>
