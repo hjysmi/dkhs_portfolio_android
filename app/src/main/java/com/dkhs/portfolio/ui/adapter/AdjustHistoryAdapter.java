@@ -8,10 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +16,13 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
+import com.dkhs.portfolio.bean.PositionAdjustBean;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName OptionalStockAdapter

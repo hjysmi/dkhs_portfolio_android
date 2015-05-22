@@ -34,6 +34,8 @@ import com.dkhs.portfolio.ui.widget.IScrollExchangeListener;
 import com.dkhs.portfolio.ui.widget.IStockQuoteScrollListener;
 import com.umeng.analytics.MobclickAgent;
 
+import org.parceler.Parcels;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +83,7 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
         vo.setSymbol(stockCode);
         vo.setContentType("20");
         vo.setPageTitle("公告正文");
-        b2.putSerializable(FragmentNewsList.VO, vo);
+        b2.putParcelable(FragmentNewsList.VO, Parcels.wrap(vo));
         noticeFragemnt.setArguments(b2);
         return noticeFragemnt;
     }
@@ -119,7 +121,7 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
         Bundle bundle = getArguments();
 
         if (null != bundle) {
-            vo = (NewsforModel) bundle.getSerializable(VO);
+            vo = Parcels.unwrap(bundle.getParcelable(VO));
             // layouts = vo.getLayout();
             types = bundle.getInt(NEWS_TYPE);
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, types, vo);

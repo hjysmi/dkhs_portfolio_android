@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.io.Serializable;
-import java.util.Arrays;
-
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
@@ -19,55 +16,51 @@ import com.google.gson.annotations.SerializedName;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 import com.lidroid.xutils.db.annotation.Transient;
 
+import org.parceler.Parcel;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName ConbinationBean
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-27 下午3:06:15
- * @version 1.0
  */
-public class CombinationBean extends DragListItem implements Serializable {
+@Parcel
+public class CombinationBean extends DragListItem {
 
-    private static final long serialVersionUID = 12959959598L;
+
     @NoAutoIncrement
-    private String id;
-    private String name;
+    String id;
+    String name;
     @Transient
-    private UserEntity user;
-    private String description;
+    UserEntity user;
+    String description;
     // private float percent;
     // @SerializedName("cumulative")
     // private float addUpValue;
     @SerializedName("net_value")
-    private float netvalue;
+    float netvalue;
     @SerializedName("created_at")
-    private String createTime;
+    String createTime;
     @SerializedName("is_public")
-    private String ispublic;
+    String ispublic;
     @SerializedName("is_rank")
-    private String is_rank;//
-    private boolean ispublics;// 0参与排行/1不排行
-    private float chng_pct_day;
-    private float chng_pct_month;
-    private float chng_pct_week;
-    private float chng_pct_three_month;
-    private float cumulative;
+    String is_rank;//
+    boolean ispublics;// 0参与排行/1不排行
+    float chng_pct_day;
+    float chng_pct_month;
+    float chng_pct_week;
+    float chng_pct_three_month;
+    float cumulative;
 
-    private boolean followed;
-    private int sortId;
+    boolean followed;
+    int sortId;
     @SerializedName("followers_count")
-    private int followerCount;
+    int followerCount;
 
     @SerializedName("alert_settings")
-    private PortfolioAlertBean alertBean;
+    PortfolioAlertBean alertBean;
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param name
-     * @param currentValue
-     * @param addUpValue
-     */
     public CombinationBean() {
     }
 
@@ -204,9 +197,9 @@ public class CombinationBean extends DragListItem implements Serializable {
         this.chng_pct_three_month = chng_pct_three_month;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
+//    public static long getSerialversionuid() {
+//        return serialVersionUID;
+//    }
 
     public boolean isPubilc() {
         if (ispublic.equals("0")) {
@@ -288,10 +281,9 @@ public class CombinationBean extends DragListItem implements Serializable {
 //    }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public String getItemName() {
@@ -300,10 +292,9 @@ public class CombinationBean extends DragListItem implements Serializable {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public String getItemDesc() {
@@ -315,10 +306,9 @@ public class CombinationBean extends DragListItem implements Serializable {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public String getItemId() {
@@ -326,10 +316,9 @@ public class CombinationBean extends DragListItem implements Serializable {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public long getItemSortId() {
@@ -337,10 +326,9 @@ public class CombinationBean extends DragListItem implements Serializable {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public boolean isItemTixing() {

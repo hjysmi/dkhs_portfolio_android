@@ -35,6 +35,8 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -108,7 +110,7 @@ public class TrendTodayChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }

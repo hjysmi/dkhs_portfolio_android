@@ -16,6 +16,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCompare;
 
+import org.parceler.Parcels;
+
 /**
  * @author zjz
  * @version 1.0
@@ -28,7 +30,7 @@ public class CompareFundsActivity extends ModelAcitivity {
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, CompareFundsActivity.class);
 
-        intent.putExtra(NewCombinationDetailActivity.EXTRA_COMBINATION, combinationBean);
+        intent.putExtra(NewCombinationDetailActivity.EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }

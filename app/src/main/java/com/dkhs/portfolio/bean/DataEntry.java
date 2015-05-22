@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.io.Serializable;
-
 /**
  * @ClassName DataEntry
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -17,6 +15,6 @@ import java.io.Serializable;
  * @date 2015-4-10 下午2:54:42
  * @version 1.0
  */
-public class DataEntry<E> implements Serializable {
+public class DataEntry<E>   {
     public E elment = null;
 }

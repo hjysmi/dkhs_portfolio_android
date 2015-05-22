@@ -8,17 +8,12 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.dkhs.portfolio.R;
@@ -28,10 +23,12 @@ import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FragmentSelectAdapter;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
-import com.dkhs.portfolio.ui.widget.TabPageIndicator;
-import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName FragmentNews
@@ -66,7 +63,7 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
 
     }
 

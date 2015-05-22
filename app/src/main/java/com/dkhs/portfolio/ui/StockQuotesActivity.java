@@ -75,6 +75,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -146,7 +147,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, StockQuotesActivity.class);
-        intent.putExtra(EXTRA_STOCK, bean);
+        intent.putExtra(EXTRA_STOCK, Parcels.wrap(bean));
         return intent;
     }
 
@@ -163,7 +164,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private void processExtraData() {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mStockBean = (SelectStockBean) extras.getSerializable(EXTRA_STOCK);
+            mStockBean = Parcels.unwrap(extras.getParcelable(EXTRA_STOCK));
             if (null != mStockBean) {
                 mStockId = mStockBean.id;
                 mStockCode = mStockBean.code;
@@ -833,7 +834,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvLiuzhi.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getMarket_capital()));
             tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
         }
-        tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_lyr()));
+        tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
         tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
         setTitleTipString(mStockQuotesBean.getTradetile() + " "
                 + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
@@ -882,8 +883,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-                    SelectStockBean selectBean = (SelectStockBean) data
-                            .getSerializableExtra(FragmentSelectStockFund.ARGUMENT);
+                    SelectStockBean selectBean = Parcels.unwrap(data
+                            .getParcelableExtra(FragmentSelectStockFund.ARGUMENT));
                     if (null != selectBean) {
                         mStockBean = selectBean;
                         setTitleDate();

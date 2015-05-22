@@ -1,13 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,13 +19,18 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.draglist.DragListAdapter;
 import com.dkhs.portfolio.ui.draglist.DragListView;
 import com.dkhs.portfolio.ui.draglist.DragStockAdapter;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import java.util.List;
 
 public class EditTabStockActivity extends ModelAcitivity implements OnClickListener {
     private DragListView optionEditList;
@@ -46,7 +43,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
     public static Intent newIntent(Context context, List<SelectStockBean> dataList) {
         Intent intent = new Intent(context, EditTabStockActivity.class);
         // extras
-        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) dataList);
+        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap( dataList));
 
         return intent;
     }
@@ -73,7 +70,10 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
 
     private void handleExtras(Bundle extras) {
 
-        mStockList = (ArrayList<SelectStockBean>) extras.getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+
+//        mStockList = (ArrayList<SelectStockBean>) extras.getParcelable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+        mStockList = Parcels.unwrap(extras.getParcelable(BaseSelectActivity.ARGUMENT_SELECT_LIST));
+
 
     }
 

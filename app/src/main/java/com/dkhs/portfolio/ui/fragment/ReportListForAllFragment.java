@@ -1,53 +1,39 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.OptionNewsBean;
-import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine;
-import com.dkhs.portfolio.engine.NewsTextEngineImple;
+import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NewsforModel;
 import com.dkhs.portfolio.engine.OpitionNewsEngineImple;
-import com.dkhs.portfolio.engine.LoadNewsDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.ui.NewsActivity;
-import com.dkhs.portfolio.ui.NoticesActivity;
 import com.dkhs.portfolio.ui.OptionListAcitivity;
 import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.ui.adapter.InfoOptionAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionForOnelistAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionMarketAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionlistAdapter;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
-import com.umeng.analytics.MobclickAgent;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
-import android.test.UiThreadTest;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReportListForAllFragment extends BaseFragment implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
@@ -74,7 +60,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
     public static ReportListForAllFragment getFragment(NewsforModel vo, int type) {
         ReportListForAllFragment fragment = new ReportListForAllFragment();
         Bundle args = new Bundle();
-        args.putSerializable(VO_NAME, vo);
+        args.putParcelable(VO_NAME, Parcels.wrap(vo));
         args.putInt(TYPE_NAME, type);
         fragment.setArguments(args);
         return fragment;
@@ -85,7 +71,7 @@ public class ReportListForAllFragment extends BaseFragment implements OnLoadMore
         // TODO Auto-generated method stub
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        vo = (NewsforModel) bundle.getSerializable(VO_NAME);
+        vo = Parcels.unwrap(bundle.getParcelable(VO_NAME));
         viewType = bundle.getInt(TYPE_NAME);
         context = getActivity();
         mDataList = new ArrayList<OptionNewsBean>();

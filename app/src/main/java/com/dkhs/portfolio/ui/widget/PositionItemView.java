@@ -8,13 +8,13 @@
  */
 package com.dkhs.portfolio.ui.widget;
 
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
-import com.dkhs.portfolio.utils.StringFromatUtils;
-
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.PositionAdjustBean;
+import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
  * @ClassName PositionItemView

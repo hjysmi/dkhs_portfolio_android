@@ -26,6 +26,8 @@ import com.dkhs.portfolio.engine.NetValueReportEngine;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.ReportFromAdapter;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,7 +90,7 @@ public class FragmentReportForm extends Fragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueReportEngine(mCombinationBean.getId(), mLoadBackListener);
 
     }

@@ -131,7 +131,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void handleExtras(Bundle extras) {
-        mdateList = (ArrayList<CombinationBean>) extras.getSerializable("key_fund_list");
+        mdateList = (ArrayList<CombinationBean>) extras.getParcelable("key_fund_list");
     }
 
     private void initView() {

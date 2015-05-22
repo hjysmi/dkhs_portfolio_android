@@ -41,6 +41,8 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import org.parceler.Parcels;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -382,7 +384,7 @@ public class TrendChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }

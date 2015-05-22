@@ -67,6 +67,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -146,7 +147,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
 
     }
 
