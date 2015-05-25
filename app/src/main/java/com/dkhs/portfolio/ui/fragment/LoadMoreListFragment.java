@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -41,6 +42,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
     private TextView tvEmptyText;
 
     private HttpHandler mHttpHandler;
+     View mProgressView;
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -85,6 +87,7 @@ public abstract class LoadMoreListFragment extends Fragment implements ILoadData
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         tvEmptyText = (TextView) view.findViewById(android.R.id.empty);
+        mProgressView = (RelativeLayout) view.findViewById(android.R.id.progress);
 
         mListView.setAdapter(getListAdapter());
         mListView.setOnItemClickListener(getItemClickListener());

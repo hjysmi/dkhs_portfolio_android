@@ -8,37 +8,33 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
-import com.dkhs.portfolio.ui.fragment.TestFragment;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.umeng.analytics.MobclickAgent;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderActivity
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午1:56:21
- * @version 1.0
  */
 public class FundsOrderActivity extends ModelAcitivity {
 
@@ -90,17 +86,17 @@ public class FundsOrderActivity extends ModelAcitivity {
         setContentView(R.layout.activity_funds_order);
         setTitle(R.string.fund_order);
         initViews();
-        mVisitorData = new ArrayList<CombinationBean>();
-        if (!PortfolioApplication.hasUserLogin()) {
-            loadVisitorCombinationList();
-        }
+//        mVisitorData = new ArrayList<CombinationBean>();
+//        if (!PortfolioApplication.hasUserLogin()) {
+//            loadVisitorCombinationList();
+//        }
         // replaceDataList();
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
      */
     private void initViews() {
 
@@ -174,6 +170,9 @@ public class FundsOrderActivity extends ModelAcitivity {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
+        if (!PortfolioApplication.hasUserLogin()) {
+            loadVisitorCombinationList();
+        }
     }
 
     private void loadVisitorCombinationList() {
