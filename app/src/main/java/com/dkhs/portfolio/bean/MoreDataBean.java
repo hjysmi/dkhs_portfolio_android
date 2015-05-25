@@ -8,11 +8,10 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Collections;
 import java.util.List;
-
-import com.google.gson.annotations.SerializedName;
 
 /**
  * @ClassName MoreDataBean
@@ -32,6 +31,11 @@ public class MoreDataBean<T> {
     private int statu;
     @SerializedName("results")
     private List<T> results;
+
+
+
+    @SerializedName("user_portfolios_count")
+    private int portfoliosCount;
 
     public int getTotalCount() {
         return totalCount;
@@ -71,6 +75,14 @@ public class MoreDataBean<T> {
 
     public void setStatu(int statu) {
         this.statu = statu;
+    }
+
+    public int getPortfoliosCount() {
+        return portfoliosCount;
+    }
+
+    public void setPortfoliosCount(int portfoliosCount) {
+        this.portfoliosCount = portfoliosCount;
     }
 
     public static class EmptyMoreBean extends MoreDataBean {
