@@ -130,12 +130,25 @@ public class StockLandView extends RelativeLayout {
     };
 
     @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+        Log.e(TAG, "========== onWindowVisibilityChanged:" + visibility + " ========");
+
+
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Log.e(TAG, "========== onAttachedToWindow() ========");
+    }
+
+    @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
 
+        if (null != this.fragmentList && hasWindowFocus()) {
 
-        if (null != this.fragmentList) {
-
-// get fragment from list and setUserVisibleHint maybe crash;
+            // get fragment from list and setUserVisibleHint maybe crash;
             if (visibility == View.VISIBLE) {
                 Fragment fragment = this.fragmentList.get(view_position);
                 if (null != fragment) {
@@ -246,7 +259,7 @@ public class StockLandView extends RelativeLayout {
     private int view_position = 0;
 
     public void showView(int postion) {
-        Log.e(TAG, "showView POSITION:" + postion);
+
 
         if (view_position != postion) {
 
