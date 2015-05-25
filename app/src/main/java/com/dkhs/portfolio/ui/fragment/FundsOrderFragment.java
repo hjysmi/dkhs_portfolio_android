@@ -27,7 +27,6 @@ import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -126,7 +125,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        mProgressView.setVisibility(View.GONE);
         mSwipeLayout.setRefreshing(false);
         if (null != object && null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
@@ -168,7 +166,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            mProgressView.setVisibility(View.VISIBLE);
+            mSwipeLayout.setRefreshing(true);
             if (mDataList.isEmpty()) {
                 loadData();
             } else {
@@ -194,9 +192,9 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         MobclickAgent.onPageStart(mPageName);
 
 //        if (isvisible) {
-            // loadData();
-            dataHandler.removeCallbacks(runnable);
-            dataHandler.postDelayed(runnable, 60);
+        // loadData();
+        dataHandler.removeCallbacks(runnable);
+        dataHandler.postDelayed(runnable, 60);
 //        }
     }
 
@@ -275,8 +273,6 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadFail() {
         mSwipeLayout.setRefreshing(false);
         isRefresh = false;
-//        mProgressView.setVisibility(View.GONE);
-        PromptManager.showProgressDialog(getActivity(),"");
 
     }
 
