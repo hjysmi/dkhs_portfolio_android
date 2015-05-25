@@ -40,6 +40,7 @@ import com.squareup.otto.Subscribe;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,7 +128,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
     public void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
-        outState.putSerializable("detail", mPositionDetail);
+        outState.putParcelable("detail", Parcels.wrap(mPositionDetail));
     }
 
     @Override
@@ -137,7 +138,7 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
 
         if (savedInstanceState != null) {
 
-            mPositionDetail = (PositionDetail) savedInstanceState.getSerializable("detail");
+            mPositionDetail = Parcels.unwrap(savedInstanceState.getParcelable("detail"));
 
         } else {
             // new MyCombinationEngineImpl().queryCombinationDetail(mCombinationId, new

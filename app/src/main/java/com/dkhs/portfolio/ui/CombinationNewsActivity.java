@@ -16,6 +16,8 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.ui.fragment.FragmentCombinationNews;
 
+import org.parceler.Parcels;
+
 /**
  * @author zjz
  * @version 1.0
@@ -28,7 +30,7 @@ public class CombinationNewsActivity extends ModelAcitivity {
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, CombinationNewsActivity.class);
 
-        intent.putExtra(NewCombinationDetailActivity.EXTRA_COMBINATION, combinationBean);
+        intent.putExtra(NewCombinationDetailActivity.EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }

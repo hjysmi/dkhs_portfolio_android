@@ -8,7 +8,7 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
 
 /**
  * @ClassName AlertSetBean
@@ -17,12 +17,15 @@ import java.io.Serializable;
  * @date 2015-4-14 下午4:07:40
  * @version 1.0
  */
-public class AlertSetBean implements Serializable {
-    private float stock_price_up;
-    private float stock_price_down;
-    private float stock_percentage;
-    private int stock_company_report;
-    private int stock_company_research;
+@Parcel
+public class AlertSetBean  {
+     float stock_price_up;
+     float stock_price_down;
+     float stock_percentage;
+     int stock_company_report;
+     int stock_company_research;
+
+    public AlertSetBean(){ /*Required empty bean constructor*/ }
 
     public AlertSetBean(float priceUp, float priceDown, float percent, boolean setNotice, boolean setYanbao) {
         this.stock_price_up = priceUp;

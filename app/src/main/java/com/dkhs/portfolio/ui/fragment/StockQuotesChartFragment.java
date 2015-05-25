@@ -8,26 +8,14 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 import android.app.Activity;
-import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -42,7 +30,6 @@ import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
@@ -58,12 +45,19 @@ import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.parceler.Parcels;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName TrendChartFragment
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午10:32:39
- * @version 1.0
  */
 public class StockQuotesChartFragment extends BaseFragment {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
@@ -143,8 +137,8 @@ public class StockQuotesChartFragment extends BaseFragment {
         // MA5.setTitle("MA5");
         // MA5.setLineColor(ColorTemplate.getRaddomColor())
         fenshiPiceLine.setLineColor(ColorTemplate.MY_COMBINATION_LINE);
-        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code,false);
-        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code,false);
+        mBuyAdapter = new FiveRangeAdapter(getActivity(), true, mSelectStockBean.code, false);
+        mSellAdapter = new FiveRangeAdapter(getActivity(), false, mSelectStockBean.code, false);
         // mBuyAdapter.setList(getDates(5), mSelectStockBean.code);
         // mSellAdapter.setList(getDates(-5), mSelectStockBean.code);
         // fenshiPiceLine.setLineData(lineDataList);
@@ -173,15 +167,16 @@ public class StockQuotesChartFragment extends BaseFragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+//        mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+        mSelectStockBean = Parcels.unwrap(extras.getParcelable(StockQuotesActivity.EXTRA_STOCK));
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -227,11 +222,11 @@ public class StockQuotesChartFragment extends BaseFragment {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -251,7 +246,7 @@ public class StockQuotesChartFragment extends BaseFragment {
         if (mSelectStockBean != null && null != mSelectStockBean.symbol_type
                 && mSelectStockBean.symbol_type.equalsIgnoreCase(StockUitls.SYMBOLTYPE_INDEX)) {
             viewFiveRange.setVisibility(View.GONE);
-            mMaChart.resetLayoutWeight(0,0);
+            mMaChart.resetLayoutWeight(0, 0);
         } else {
 
             mListviewBuy = (ListView) view.findViewById(R.id.list_five_range_buy);
@@ -416,7 +411,9 @@ public class StockQuotesChartFragment extends BaseFragment {
                 // mMaChart.invalidate();
                 setStopYTitle(mStockBean.getLastClose());
             }
-        };
+        }
+
+        ;
     };
 
     private boolean isStopStock() {
@@ -465,7 +462,9 @@ public class StockQuotesChartFragment extends BaseFragment {
         public void onFailure(int errCode, String errMsg) {
             super.onFailure(errCode, errMsg);
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
 
         @Override
         protected void afterParseData(FSDataBean fsDataBean) {
@@ -733,7 +732,9 @@ public class StockQuotesChartFragment extends BaseFragment {
             } else {
 
             }
-        };
+        }
+
+        ;
     };
 
     private void setXTitle(List<HistoryNetBean> dayNetValueList) {
@@ -755,7 +756,9 @@ public class StockQuotesChartFragment extends BaseFragment {
             dataHandler.postDelayed(requestRunnable, 6);// 打开定时器，60ms后执行runnable操作
         }
 
-    };
+    }
+
+    ;
 
     @Override
     public void onDestroy() {

@@ -60,17 +60,17 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName PositionAdjustActivity
  * @Description 持仓组合调整
- * @author zjz
  * @date 2014-8-25 上午9:55:53
- * @version 1.0
  */
 public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotify, OnClickListener {
 
@@ -147,10 +147,10 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param extras
      * @return void
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     private void handleExtras(Bundle extras) {
 
@@ -179,9 +179,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
      */
     private void initView() {
 
@@ -275,9 +275,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: 初始化数据
-     * @return void
      */
     private void initData() {
         if (!isAdjustCombination) {
@@ -291,9 +291,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: 初始化自选股占比
-     * @return void
      */
 
     private void initStockPercentView() {
@@ -347,9 +347,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void notifyRefresh(int position, int value) {
@@ -420,7 +420,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             }
 
         }
-    };
+    }
+
+    ;
 
     @Override
     public void onClick(View v) {
@@ -444,16 +446,16 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                 }
                 // Toast.makeText(PositionAdjustActivity.this, "确定添加", Toast.LENGTH_SHORT).show();
             }
-                break;
+            break;
             case R.id.btn_add_postional: {
                 startSelectStockActivity(false);
             }
-                break;
+            break;
             case R.id.btn_average: {
                 averageValue();
                 updatePieView();
             }
-                break;
+            break;
 
             default:
                 break;
@@ -468,7 +470,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             mSelectList.add(bean);
         }
         Intent intent = new Intent(this, SelectStockActivity.class);
-        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
+        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap(mSelectList));
         Bundle b = new Bundle();
         b.putBoolean("fromPosition", true);
         b.putBoolean("isFrist", firse);
@@ -611,7 +613,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             } catch (Exception e) {
                 // TODO: handle exception
             }
-        };
+        }
+
+        ;
 
         @Override
         protected void afterParseData(Object object) {
@@ -755,7 +759,9 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                                 e.printStackTrace();
                             }
 
-                        };
+                        }
+
+                        ;
 
                         @Override
                         protected CombinationBean parseDateTask(String jsonData) {
@@ -768,9 +774,8 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
     }
 
 
-
-    private void requestCombinationDetail(CombinationBean combinationBean){
-        new MyCombinationEngineImpl().queryCombinationDetail(combinationBean.getId(), new ParseHttpListener<PositionDetail> () {
+    private void requestCombinationDetail(CombinationBean combinationBean) {
+        new MyCombinationEngineImpl().queryCombinationDetail(combinationBean.getId(), new ParseHttpListener<PositionDetail>() {
 
                     @Override
                     protected PositionDetail parseDateTask(String jsonData) {
@@ -782,7 +787,6 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                         }
 
                         PositionDetail bean = DataParse.parseObjectJson(PositionDetail.class, jsonObject);
-
 
 
                         return bean;
@@ -808,8 +812,13 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_STOCK:
-                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
-                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+//                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
+//                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+                    ArrayList<SelectStockBean> listStock = Parcels.unwrap(data
+                            .getParcelableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST));
+
+//                                    (ArrayList<SelectStockBean>) data
+//                                            .getSerializableExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST);
                     int createType = data.getIntExtra(BaseSelectActivity.ARGUMENT_CRATE_TYPE,
                             BaseSelectActivity.CRATE_TYPE_FAST);
                     if (null != listStock) {
@@ -885,7 +894,7 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
 
     private void showAlertDialog() {
 
-       MAlertDialog builder= PromptManager.getAlertDialog(this);
+        MAlertDialog builder = PromptManager.getAlertDialog(this);
 
         builder.setMessage(R.string.adjust_back_message)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -897,14 +906,14 @@ public class PositionAdjustActivity extends ModelAcitivity implements IDutyNotif
                     }
                 }).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 
-                        dialog.dismiss();
-                        finish();
+                dialog.dismiss();
+                finish();
 
-                    }
-                });
+            }
+        });
 
 
         builder.show();

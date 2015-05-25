@@ -8,6 +8,8 @@
  */
 package com.dkhs.portfolio.bean;
 
+import org.parceler.Parcel;
+
 /**
  * @ClassName DragListItem
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -15,13 +17,17 @@ package com.dkhs.portfolio.bean;
  * @date 2015-4-9 下午3:17:15
  * @version 1.0
  */
+@Parcel
 public class DragListItem {
 
-    private String itemId;
-    private String itemName;
-    private String itemDesc;
-    private boolean itemTixing;
-    private long itemSortId;
+     String itemId;
+     String itemName;
+     String itemDesc;
+     boolean itemTixing;
+     long itemSortId;
+
+
+    public  DragListItem(){};
 
     public String getItemId() {
         return itemId;

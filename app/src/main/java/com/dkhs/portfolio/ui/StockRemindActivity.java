@@ -44,6 +44,8 @@ import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.lidroid.xutils.view.annotation.event.OnCompoundButtonCheckedChange;
 import com.lidroid.xutils.view.annotation.event.OnFocusChange;
 
+import org.parceler.Parcels;
+
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -130,14 +132,14 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     public static Intent newStockIntent(Context context, SelectStockBean stock) {
         Intent intent = new Intent(context, StockRemindActivity.class);
-        intent.putExtra(ARGUMENT_STOCK, stock);
+        intent.putExtra(ARGUMENT_STOCK, Parcels.wrap(stock));
         intent.putExtra(ARGUMENT_IS_COMBINATION, false);
         return intent;
     }
 
     public static Intent newCombinatIntent(Context context, CombinationBean conBean) {
         Intent intent = new Intent(context, StockRemindActivity.class);
-        intent.putExtra(ARGUMENT_COMBINATION, conBean);
+        intent.putExtra(ARGUMENT_COMBINATION, Parcels.wrap(conBean));
         intent.putExtra(ARGUMENT_IS_COMBINATION, true);
         return intent;
     }
@@ -156,8 +158,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void handleExtras(Bundle extras) {
-        mStockBean = (SelectStockBean) extras.get(ARGUMENT_STOCK);
-        mComBean = (CombinationBean) extras.get(ARGUMENT_COMBINATION);
+        mStockBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_STOCK));
+        mComBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_COMBINATION));
         isCombinationSetting = extras.getBoolean(ARGUMENT_IS_COMBINATION);
     }
 
@@ -273,7 +275,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     private String stripZeros(String value) {
 //        String parseValue = new BigDecimal(value).stripTrailingZeros() + "";
-        BigDecimal decimalValue =  new BigDecimal(value).stripTrailingZeros();
+        BigDecimal decimalValue = new BigDecimal(value).stripTrailingZeros();
         String parseValue = String.valueOf(decimalValue);
         if (String.valueOf(decimalValue).contains("E")) {
             NumberFormat formatter = new DecimalFormat("0");

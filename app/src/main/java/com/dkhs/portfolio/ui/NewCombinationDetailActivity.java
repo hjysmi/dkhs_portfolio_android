@@ -33,6 +33,8 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
 import com.squareup.otto.Subscribe;
 
+import org.parceler.Parcels;
+
 /**
  * @author zjz
  * @version 1.0
@@ -61,7 +63,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, NewCombinationDetailActivity.class);
 
-        intent.putExtra(EXTRA_COMBINATION, combinationBean);
+        intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }
@@ -128,8 +130,10 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
+//        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
+        mCombinationBean =   Parcels.unwrap(extras.getParcelable("example"));
         if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId()>0) {
+
             if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
                 if (mCombinationBean.getUser().getId()==UserEngineImpl.getUserEntity().getId()) {
                     isMyCombination = true;
@@ -326,8 +330,8 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_MODIFY_COMBINATION:
-                    CombinationBean cBean = (CombinationBean) data
-                            .getSerializableExtra(ChangeCombinationNameActivity.ARGUMENT_COMBINATION_BEAN);
+                    CombinationBean cBean =   Parcels.unwrap(data
+                            .getParcelableExtra(ChangeCombinationNameActivity.ARGUMENT_COMBINATION_BEAN));
                     if (null != cBean) {
                         mCombinationBean = cBean;
                         updataTitle();

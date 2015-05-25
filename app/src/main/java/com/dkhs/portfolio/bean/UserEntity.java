@@ -6,64 +6,70 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
 
-public class UserEntity implements Serializable {
+@Parcel
+public class UserEntity {
 
     // @Id // 如果主键没有命名名为id或_id的时，需要为主键添加此注解
     @NoAutoIncrement
-    private long id;
+    long id;
 
     /**
      * 昵称
      */
-    private String username;
-    private String mobile;
-    private boolean isFirstRegister;
+    String username;
+    String mobile;
+    boolean isFirstRegister;
     /**
      * 性别：0=保密, 1=男, 2=女.
      */
-    private String gender;
+    String gender;
     /**
      * 简介
      */
-    private String description;
+    String description;
     /**
      * 省份
      */
-    private String province;
+    String province;
     /**
      * 城市
      */
-    private String city;
+    String city;
     /**
      * 关注数
      */
-    private int followed_by_count;
+    int followed_by_count;
     /**
      * 粉丝数
      */
-    private int friends_count;
+    int friends_count;
     /**
      * 评论数
      */
-    private int status_count;
+    int status_count;
     /**
      * 自建数
      */
-    private int symbols_count;
+    int symbols_count;
     /**
      * 30x30头像地址
      */
-    private String avatar_xs;
-    private String access_token;
-    private String avatar_md;
-    private String avatar_sm;
-    private String avatar_lg;
-    private String date_joined;
-    private int portfolios_following_count;
 
-    private boolean me_follow;
+    String avatar_xs;
+    String access_token;
+    String avatar_md;
+    String avatar_sm;
+    String avatar_lg;
+    String date_joined;
+
+    boolean me_follow;
+
+    public UserEntity() { /*Required empty bean constructor*/ }
+
+    int portfolios_following_count;
+
 
     public int getPortfolios_following_count() {
         return portfolios_following_count;

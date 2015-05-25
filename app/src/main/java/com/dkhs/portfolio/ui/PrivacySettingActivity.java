@@ -1,11 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,12 +12,17 @@ import android.widget.Switch;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import java.util.List;
 
 public class PrivacySettingActivity extends ModelAcitivity implements OnClickListener {
 
@@ -50,7 +49,7 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(EXTRA_COMBINATION));
 
     }
 
@@ -191,7 +190,7 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, PrivacySettingActivity.class);
 
-        intent.putExtra(EXTRA_COMBINATION, combinationBean);
+        intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }

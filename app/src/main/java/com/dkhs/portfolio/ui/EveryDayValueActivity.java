@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +22,11 @@ import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.lidroid.xutils.http.HttpHandler;
 import com.umeng.analytics.MobclickAgent;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreListener {
     public static final String EXTRA_COMBINATION = "extra_combination";
@@ -124,14 +126,14 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
 
     }
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, EveryDayValueActivity.class);
 
-        intent.putExtra(EXTRA_COMBINATION, combinationBean);
+        intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }

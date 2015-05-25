@@ -10,7 +10,7 @@ package com.dkhs.portfolio.bean;
 
 import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 
-import java.io.Serializable;
+import org.parceler.Parcel;
 
 /**
  * @ClassName SelectStockBean
@@ -19,9 +19,9 @@ import java.io.Serializable;
  * @date 2014-9-18 下午2:42:46
  * @version 1.0
  */
-public class SelectStockBean extends DragListItem implements Serializable {
+@Parcel
+public class SelectStockBean extends DragListItem  {
 
-    private static final long serialVersionUID = 12955478254888L;
     public String name;
     public float currentValue;
     public float percentage;
@@ -44,20 +44,20 @@ public class SelectStockBean extends DragListItem implements Serializable {
     // public String symbol;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
-
-    public DataEntry<SelectStockBean> entry = null;
-
-    public SelectStockBean() {
-        this.entry = new DataEntry<SelectStockBean>();
-    }
-
-    public DataEntry<SelectStockBean> getEntry() {
-        return entry;
-    }
-
-    public void setEntry(DataEntry<SelectStockBean> entry) {
-        this.entry = entry;
-    }
+//
+//    public DataEntry<SelectStockBean> entry = null;
+//
+//    public SelectStockBean() {
+//        this.entry = new DataEntry<SelectStockBean>();
+//    }
+//
+//    public DataEntry<SelectStockBean> getEntry() {
+//        return entry;
+//    }
+//
+//    public void setEntry(DataEntry<SelectStockBean> entry) {
+//        this.entry = entry;
+//    }
 
     public static SelectStockBean copy(ConStockBean stockBean) {
 
@@ -264,9 +264,6 @@ public class SelectStockBean extends DragListItem implements Serializable {
         this.list_status = list_status;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
-    }
 
     @Override
     public String getItemDesc() {

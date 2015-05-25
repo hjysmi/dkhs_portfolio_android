@@ -8,46 +8,38 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.io.Serializable;
+import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
+
 import java.util.Arrays;
 
-import com.google.gson.annotations.SerializedName;
-import com.lidroid.xutils.view.annotation.ViewInject;
-
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName CombinationStock
  * @Description 我的组合，包含持股占比的bean
- * @author zjz
  * @date 2014-8-26 上午9:37:22
- * @version 1.0
  */
-public class ConStockBean extends StockBean implements Serializable {
-    private static final long serialVersionUID = 129554888L;
+@Parcel
+public class ConStockBean extends StockBean {
     @SerializedName("percent")
-    protected float percent;
-    protected int dutyValue = -1;
-    protected int dutyColor;
-    protected float currentValue;
-    protected float increaseValue;
+    float percent;
+    int dutyValue = -1;
+    int dutyColor;
+    float currentValue;
+    float increaseValue;
     // // 涨幅(不需要再*100，5.71代表5.71%), float
     // private float increase_percent;
     // 是否停牌 1是 0否
     @SerializedName("is_stop")
-    private int isStop;
+    int isStop;
     @SerializedName("increase_percent")
-    protected float increasePercent;
+    float increasePercent;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @param id Id
-     * @param dutyValue 占比
-     * @param dutyColor 占比颜色值
-     * @param name 股票名称
-     * @param num 股票号码
-     */
+
     public ConStockBean(int id, float percent, int dutyColor, String name, String stockcode) {
         super();
         super.stockCode = stockcode;
@@ -114,16 +106,15 @@ public class ConStockBean extends StockBean implements Serializable {
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int hashCode() {
-        return Arrays.hashCode(new Object[] { stockId, // auto-boxed
+        return Arrays.hashCode(new Object[]{stockId, // auto-boxed
                 stockCode, // auto-boxed
-                stockName, });
+                stockName,});
     }
 
     @Override

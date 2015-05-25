@@ -39,6 +39,8 @@ import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
 import com.lidroid.xutils.util.LogUtils;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -199,7 +201,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
     private void setSelectBack(SelectStockBean type) {
         Intent intent = new Intent();
-        intent.putExtra(ARGUMENT, type);
+        intent.putExtra(ARGUMENT, Parcels.wrap(type));
         getActivity().setResult(-1, intent);
 
         getActivity().finish();

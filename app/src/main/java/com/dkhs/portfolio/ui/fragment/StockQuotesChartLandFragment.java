@@ -8,22 +8,12 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
@@ -31,21 +21,18 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.FSDataBean;
-import com.dkhs.portfolio.bean.FiveRangeItem;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.FSDataBean.TimeStock;
+import com.dkhs.portfolio.bean.FiveRangeItem;
 import com.dkhs.portfolio.bean.HistoryNetValue.HistoryNetBean;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.ChangeCheckType;
-import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.FiveRangeAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.DoubleclickEvent;
 import com.dkhs.portfolio.ui.widget.FSLinePointEntity;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.LineEntity;
@@ -60,6 +47,12 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.parceler.Parcels;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName TrendChartFragment
@@ -163,7 +156,7 @@ public class StockQuotesChartLandFragment extends BaseFragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mSelectStockBean = (SelectStockBean) extras.getSerializable(StockQuotesActivity.EXTRA_STOCK);
+        mSelectStockBean = Parcels.unwrap(extras.getParcelable(StockQuotesActivity.EXTRA_STOCK));
         // System.out.println("mSelectStockBean type:" + mSelectStockBean.symbol_type);
     }
 

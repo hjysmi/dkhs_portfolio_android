@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.io.Serializable;
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +21,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.utils.ColorTemplate;
+
+import org.parceler.Parcel;
+
+import java.util.List;
 
 /**
  * @ClassName SelectFundAdapter
@@ -131,8 +132,8 @@ public class CompareIndexAdapter extends BaseAdapter {
 
     }
 
-    public class CompareFundItem implements Serializable {
-        private static final long serialVersionUID = 123299489598L;
+    @Parcel
+    public static class CompareFundItem  {
         public String name;
         public String value;
         public boolean iSelect;

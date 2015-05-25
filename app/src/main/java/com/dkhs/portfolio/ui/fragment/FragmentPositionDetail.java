@@ -8,16 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -42,13 +32,12 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.ConStockBean;
+import com.dkhs.portfolio.bean.PositionAdjustBean;
 import com.dkhs.portfolio.bean.PositionDetail;
-import com.dkhs.portfolio.bean.PositionDetail.PositionAdjustBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -57,7 +46,6 @@ import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.adapter.AdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.PositionAdjustHistoryAdapter;
 import com.dkhs.portfolio.ui.adapter.PositionContributedapter;
 import com.dkhs.portfolio.ui.adapter.PositionDetailIncreaAdapter;
@@ -66,9 +54,21 @@ import com.dkhs.portfolio.ui.widget.PieGraph;
 import com.dkhs.portfolio.ui.widget.PieSlice;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
  * @ClassName FragmentPositionDetail
@@ -101,7 +101,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     private PositionContributedapter mContributeAdapter;
 
     // 持仓调整相关
-    private List<PositionAdjustBean> mAdjustList = new ArrayList<PositionDetail.PositionAdjustBean>();
+    private List<PositionAdjustBean> mAdjustList = new ArrayList<PositionAdjustBean>();
     private ListViewEx lvAdjustHistory;
     private PositionAdjustHistoryAdapter mAdjustAdapter;
 
@@ -171,7 +171,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     public void onSaveInstanceState(Bundle outState) {
 
         super.onSaveInstanceState(outState);
-        outState.putSerializable("detail", mPositionDetail);
+        outState.putParcelable("detail", Parcels.wrap(mPositionDetail));
     }
 
     @Override
@@ -181,7 +181,7 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
         if (savedInstanceState != null) {
 
-            mPositionDetail = (PositionDetail) savedInstanceState.getSerializable("detail");
+            mPositionDetail = Parcels.unwrap(savedInstanceState.getParcelable(("detail")));
 
         } else {
             // new

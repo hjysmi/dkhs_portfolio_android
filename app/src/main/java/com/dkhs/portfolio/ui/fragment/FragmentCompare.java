@@ -8,16 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -44,7 +34,6 @@ import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -74,11 +63,23 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.parceler.Parcels;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 /**
- * @ClassName FragmentCompare
  * @author zjz
- * @date 2014-9-3 上午9:32:29
  * @version 1.0
+ * @ClassName FragmentCompare
+ * @date 2014-9-3 上午9:32:29
  */
 public class FragmentCompare extends BaseFragment implements OnClickListener, FragmentLifecycle {
 
@@ -159,10 +160,10 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     private int mListCount = 0;
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -170,7 +171,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             mListCount = savedInstanceState.getInt("COMPARE_COUNT");
-            ArrayList list = savedInstanceState.getParcelableArrayList("selectStockList");
+            ArrayList list = Parcels.unwrap(savedInstanceState.getParcelable("selectStockList"));
             selectStockList = (List<SelectStockBean>) list.get(0);
             // ArrayList list2 =
             // savedInstanceState.getParcelableArrayList("mCompareItemList");
@@ -184,14 +185,14 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 // ArrayList<CompareIndexAdapter.CompareFundItem>();
                 // mGridAdapter = new CompareIndexAdapter(getActivity(),
                 // mCompareItemList);
-                CompareFundItem defalutItem1 = mGridAdapter.new CompareFundItem();
+                CompareFundItem defalutItem1 = new CompareIndexAdapter.CompareFundItem();
                 defalutItem1.name = "沪深300";
-                CompareFundItem defalutItem2 = mGridAdapter.new CompareFundItem();
+                CompareFundItem defalutItem2 = new CompareIndexAdapter.CompareFundItem();
                 defalutItem2.name = "上证指数";
 
                 mCompareItemList.add(defalutItem1);
                 mCompareItemList.add(defalutItem2);
-                CompareFundItem item = mGridAdapter.new CompareFundItem();
+                CompareFundItem item = new CompareIndexAdapter.CompareFundItem();
                 item.name = mCombinationBean.getName();
                 mCompareItemList.add(item);
             } else {
@@ -224,9 +225,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         ArrayList list = new ArrayList(); // 这个list用于在budnle中传递
-                                          // 需要传递的ArrayList<Object>
+        // 需要传递的ArrayList<Object>
         list.add(selectStockList);
-        outState.putParcelableArrayList("selectStockList", list);
+        outState.putParcelable("selectStockList", Parcels.wrap(list));
         // ArrayList list2 = new ArrayList(); // 这个list用于在budnle中传递
         // 需要传递的ArrayList<Object>
         // list.add(mCompareItemList);
@@ -242,7 +243,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(NewCombinationDetailActivity.EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
 
     }
@@ -257,9 +258,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onStart() {
@@ -285,7 +286,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     Handler shareHandler = new Handler() {
         public void handleMessage(Message msg) {
             showShare();
-        };
+        }
+
+        ;
     };
 
     private void showShare() {
@@ -393,7 +396,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
             @Override
             public void
-                    onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             }
         });
         mGridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -464,13 +467,13 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 showPickerDate();
             }
 
-                break;
+            break;
             case R.id.tv_compare_ttime: {
                 isPickStartDate = false;
                 showPickerDate();
 
             }
-                break;
+            break;
             case R.id.btn_compare_fund: {
                 if (isBetween7day()) {
                     Toast.makeText(getActivity(), "查询时间范围太小，请不要小于7天", Toast.LENGTH_SHORT).show();
@@ -480,18 +483,18 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                 }
             }
 
-                break;
+            break;
             case R.id.btn_select_fund: {
                 Intent intent = new Intent(getActivity(), SelectFundActivity.class);
 
-                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, (Serializable) selectStockList);
+                intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap(selectStockList));
 
                 // Intent intent = new Intent(getActivity(),
                 // SelectStockActivity.class);
                 // UIUtils.setOverridePendingAmin(getActivity());
                 startActivityForResult(intent, REQUESTCODE_SELECT_FUND);
             }
-                break;
+            break;
             default:
                 break;
         }
@@ -1017,7 +1020,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
         StringBuilder sbCompareIds = new StringBuilder();
         mCompareItemList.clear();
         for (SelectStockBean csBean : listStock) {
-            CompareFundItem item = mGridAdapter.new CompareFundItem();
+            CompareFundItem item = new CompareIndexAdapter.CompareFundItem();
             item.name = csBean.name;
             // item.value = csBean.id + "";
             mCompareItemList.add(item);
@@ -1028,7 +1031,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             sbCompareIds.append(",");
 
         }
-        CompareFundItem item = mGridAdapter.new CompareFundItem();
+        CompareFundItem item = new CompareIndexAdapter.CompareFundItem();
         item.name = mCombinationBean.getName();
         mCompareItemList.add(item);
         int lenght = sbCompareIds.length();
@@ -1052,8 +1055,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
             Bundle b = data.getExtras(); // data为B中回传的Intent
             switch (requestCode) {
                 case REQUESTCODE_SELECT_FUND:
-                    ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) data
-                            .getSerializableExtra("list_select");
+                    ArrayList<SelectStockBean> listStock = Parcels.unwrap(data.getParcelableExtra("list_select"));
                     if (null != listStock) {
                         selectStockList.clear();
                         selectStockList.addAll(listStock);
@@ -1069,9 +1071,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onPauseFragment() {
@@ -1079,9 +1081,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onResumeFragment() {
@@ -1089,9 +1091,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onDestroy() {
@@ -1120,10 +1122,9 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     * @return
      */
     @Override
     public int setContentLayoutId() {

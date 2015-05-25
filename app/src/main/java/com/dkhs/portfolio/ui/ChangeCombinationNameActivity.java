@@ -1,7 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +20,8 @@ import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
+import org.parceler.Parcels;
+
 public class ChangeCombinationNameActivity extends ModelAcitivity implements OnClickListener {
 
     private CombinationBean mCombinationBean;
@@ -40,7 +40,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getSerializable(EXTRA_COMBINATION);
+        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
 
     }
 
@@ -74,7 +74,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, ChangeCombinationNameActivity.class);
 
-        intent.putExtra(EXTRA_COMBINATION, combinationBean);
+        intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }
@@ -124,7 +124,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     private void setSelectBack(CombinationBean bean) {
         PromptManager.showEditSuccessToast();
         Intent intent = new Intent();
-        intent.putExtra(ARGUMENT_COMBINATION_BEAN, (Serializable) bean);
+        intent.putExtra(ARGUMENT_COMBINATION_BEAN, Parcels.wrap(bean));
         // intent.putExtra(ARGUMENT_CRATE_TYPE, type);
         setResult(RESULT_OK, intent);
 

@@ -8,9 +8,9 @@
  */
 package com.dkhs.portfolio.bean;
 
-import java.io.Serializable;
-
 import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
 
 /**
  * @ClassName StockBean
@@ -19,7 +19,8 @@ import com.google.gson.annotations.SerializedName;
  * @date 2014-9-15 上午10:59:20
  * @version 1.0
  */
-public class StockBean implements Serializable {
+@Parcel
+public class StockBean  {
     private static final long serialVersionUID = 12329959598L;
     @SerializedName("symbol_code")
     protected String stockCode;

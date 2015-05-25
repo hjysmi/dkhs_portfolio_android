@@ -40,4 +40,7 @@ dependencies {
     compile files('libs/universal-image-loader-1.9.3.jar')
     compile 'me.grantland:autofittextview:0.2.+'
     compile project(':kit')
+    compile "org.parceler:parceler-api:1.0.0"
+    provided 'org.parceler:parceler:1.0.0'
+
 }

@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,8 +28,12 @@ import com.dkhs.portfolio.ui.ReportForOneListActivity;
 import com.dkhs.portfolio.ui.adapter.ReportNewsAdapter;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView.OnLoadMoreListener;
-import com.lidroid.xutils.DbUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FragmentreportOneList extends Fragment implements OnLoadMoreListener {
     private PullToRefreshListView mListView;
@@ -72,7 +73,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
         }
         initView(view);
         Bundle bundle = getArguments();
-        NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
+        NewsforModel vo = Parcels.unwrap(bundle.getParcelable(VO));
         subType = vo.getContentSubType();
         // initDate();
         UserEntity user = UserEngineImpl.getUserEntity();
@@ -86,7 +87,7 @@ public class FragmentreportOneList extends Fragment implements OnLoadMoreListene
 
     private void initDate() {
         Bundle bundle = getArguments();
-        NewsforModel vo = (NewsforModel) bundle.getSerializable(VO);
+        NewsforModel vo = Parcels.unwrap(bundle.getParcelable(VO));
         if (null != bundle) {
             mDataList = new ArrayList<OptionNewsBean>();
             mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener, bundle.getInt(NEWS_TYPE), vo);

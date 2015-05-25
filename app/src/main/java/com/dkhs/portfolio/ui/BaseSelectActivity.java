@@ -8,10 +8,6 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,6 +36,11 @@ import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView.ISelectPostionListener;
 import com.dkhs.portfolio.ui.widget.TextImageButton;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -91,8 +92,12 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private void handleExtras(Bundle extras) {
 
-        ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
-                .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+//        ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
+//                .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+//        ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
+//                .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
+        ArrayList<SelectStockBean> listStock;
+        listStock = Parcels.unwrap(extras.getParcelable(BaseSelectActivity.ARGUMENT_SELECT_LIST));
         isAdjustCombination = extras.getBoolean(KEY_ISADJUST_COMBINATION, false);
         fromCreate = extras.getString(FROM_CREATE_TITLE);
         isFrist = extras.getBoolean("isFrist");
@@ -411,7 +416,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
     private void setSelectBack(int type) {
         Intent intent = new Intent();
-        intent.putExtra(ARGUMENT_SELECT_LIST, (Serializable) mSelectList);
+        intent.putExtra(ARGUMENT_SELECT_LIST, Parcels.wrap( mSelectList));
         intent.putExtra(ARGUMENT_CRATE_TYPE, type);
         setResult(RESULT_OK, intent);
 
