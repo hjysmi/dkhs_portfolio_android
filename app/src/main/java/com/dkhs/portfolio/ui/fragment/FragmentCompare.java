@@ -528,14 +528,12 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
 
         @Override
         protected HistoryNetValue parseDateTask(String jsonData) {
-            System.out.println("parseDateTask afterParseData");
             HistoryNetValue histroyValue = DataParse.parseObjectJson(HistoryNetValue.class, jsonData);
             return histroyValue;
         }
 
         @Override
         protected void afterParseData(HistoryNetValue object) {
-            System.out.println("historyNetValueListener afterParseData");
             if (object != null && isAdded()) {
                 btnCompare.setEnabled(true);
                 List<HistoryNetBean> dayNetValueList = object.getChartlist();
@@ -636,7 +634,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
      * 遍历所有净值，取出最大值和最小值，计算以1为基准的最大偏差值
      */
     private void getMaxOffetValue(HistoryNetValue historyNetValue) {
-        // lineDataList.clear();
+        lineDataList.clear();
         int dashLineSize = 0;
         List<HistoryNetBean> historyNetList = historyNetValue.getChartlist();
         int dataLenght = historyNetList.size();

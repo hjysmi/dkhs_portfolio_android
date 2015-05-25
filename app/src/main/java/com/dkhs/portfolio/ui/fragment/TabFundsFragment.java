@@ -95,19 +95,10 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
                 mSwipeLayout.setRefreshing(false);
                 if (null != object.getResults()) {
                     if (!UIUtils.roundAble(object.getStatu())) {
-                        // if (mCombinationTimer != null) {
-                        // mCombinationTimer.cancel();
-                        // mCombinationTimer = null;
-                        // }
                     }
-                    // if (isRefresh) {
                     mDataList.clear();
-                    // isRefresh = false;
-                    // }
 
-                    // mDataList = object.getResults();
                     mDataList.addAll(object.getResults());
-                    // System.out.println("datalist size :" + mDataList.size());
                     mFundsAdapter.notifyDataSetChanged();
                 }
                 refreshEditView();
@@ -119,7 +110,6 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
             }
         }, mUserId);
 
-        // }
     }
 
     @Override
@@ -266,10 +256,13 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     }
 
     public void addItem() {
-        if (mDataList.size() >= 20) {
-            PromptManager.showShortToast(R.string.more_combination_tip);
-        } else {
-            getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+        if (null != dataEngine) {
+
+            if (dataEngine.getMoreDataBean() != null && dataEngine.getMoreDataBean().getPortfoliosCount() >= 20) {
+                PromptManager.showShortToast(R.string.more_combination_tip);
+            } else {
+                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
+            }
         }
 
     }

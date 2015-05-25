@@ -13,6 +13,7 @@
         android:id="@+id/sv_combinations"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:overScrollMode="never"
         android:scrollbars="none" >
 
         <LinearLayout

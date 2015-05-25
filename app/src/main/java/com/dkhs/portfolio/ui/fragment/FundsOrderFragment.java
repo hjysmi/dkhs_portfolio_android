@@ -166,7 +166,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     Runnable runnable = new Runnable() {
         @Override
         public void run() {
-
+            mSwipeLayout.setRefreshing(true);
             if (mDataList.isEmpty()) {
                 loadData();
             } else {
@@ -191,12 +191,13 @@ public class FundsOrderFragment extends LoadMoreListFragment {
         super.onResume();
         MobclickAgent.onPageStart(mPageName);
 
-        if (isvisible) {
-            // loadData();
-            dataHandler.removeCallbacks(runnable);
-            dataHandler.postDelayed(runnable, 60);
-        }
+//        if (isvisible) {
+        // loadData();
+        dataHandler.removeCallbacks(runnable);
+        dataHandler.postDelayed(runnable, 60);
+//        }
     }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

@@ -131,7 +131,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
 
     private void handleExtras(Bundle extras) {
 //        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
-        mCombinationBean =   Parcels.unwrap(extras.getParcelable("example"));
+        mCombinationBean =   Parcels.unwrap(extras.getParcelable(EXTRA_COMBINATION));
         if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId()>0) {
 
             if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
