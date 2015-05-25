@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +23,6 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
@@ -35,17 +31,12 @@ import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
-import com.dkhs.portfolio.net.ErrorBundle;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.MarketListActivity.ILoadingFinishListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
-import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
-import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
-import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
 import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView;
 import com.dkhs.portfolio.ui.widget.PullToRefreshPageListView.OnLoadMoreListener;
@@ -54,6 +45,9 @@ import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName FragmentSelectStock
@@ -180,7 +174,6 @@ public class FragmentMarketList extends BaseFragment implements ISelectChangeLis
 
         @Override
         public void loadFinish(MoreDataBean<SelectStockBean> object) {
-
             object.getResults();
             mListView.onLoadMoreComplete();
             mListView.onRefreshComplete();
