@@ -40,7 +40,9 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
+//        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(EXTRA_COMBINATION));
+
 
     }
 

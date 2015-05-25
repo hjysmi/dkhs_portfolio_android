@@ -126,7 +126,9 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
+//        mCombinationBean = (CombinationBean) extras.getParcelable(EXTRA_COMBINATION);
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(EXTRA_COMBINATION));
+
 
     }
 
@@ -229,9 +231,9 @@ public class EveryDayValueActivity extends ModelAcitivity implements OnLoadMoreL
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onDestroy() {

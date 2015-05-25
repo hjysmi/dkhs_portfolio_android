@@ -94,8 +94,6 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
 
 //        ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
 //                .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
-//        ArrayList<SelectStockBean> listStock = (ArrayList<SelectStockBean>) extras
-//                .getSerializable(BaseSelectActivity.ARGUMENT_SELECT_LIST);
         ArrayList<SelectStockBean> listStock;
         listStock = Parcels.unwrap(extras.getParcelable(BaseSelectActivity.ARGUMENT_SELECT_LIST));
         isAdjustCombination = extras.getBoolean(KEY_ISADJUST_COMBINATION, false);
