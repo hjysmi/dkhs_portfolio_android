@@ -108,7 +108,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     private static final long mPollRequestTime = 1000 * 60;
     private String myType = TrendTodayChartFragment.TREND_TYPE_TODAY;
     private PositionDetail mPositionDetail;
-    
+
 
     public static FragmentNetValueTrend newInstance(boolean isOrder, String type) {
         FragmentNetValueTrend fragment = new FragmentNetValueTrend();
@@ -122,9 +122,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     }
 
     /**
+     * @param savedInstanceState
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @param savedInstanceState
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,8 +141,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         if (extras != null) {
             handleExtras(extras);
         }
-        
-        
+
 
     }
 
@@ -158,6 +157,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         isFromOrder = arguments.getBoolean(ARGUMENT_ISFROM_ORDER, false);
         type = arguments.getString("type");
     }
+
     private ImageView ivUserheader;
     private TextView tvUserDesc;
 
@@ -593,9 +593,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     @Override
     public void onClick(View v) {
 
-      if (v.getId() == R.id.rl_create_user) {
+        if (v.getId() == R.id.rl_create_user) {
             startActivity(CombinationUserActivity.getIntent(getActivity(), mCombinationBean.getUser().getUsername(),
-                    mCombinationBean.getUser().getId()+"", false));
+                    mCombinationBean.getUser().getId() + "", false));
         }
     }
 
@@ -668,7 +668,9 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         public void requestCallBack() {
             super.requestCallBack();
             // btnAddOptional.setEnabled(true);
-        };
+        }
+
+        ;
 
         @Override
         protected Object parseDateTask(String jsonData) {
@@ -701,7 +703,7 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         if (mMarketTimer == null) {
             mMarketTimer = new Timer(true);
-            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+            mMarketTimer.schedule(new RequestMarketTask(), 60, mPollRequestTime);
         }
         MobclickAgent.onPageStart(mPageName);
     }
@@ -710,10 +712,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
     public void onStop() {
         super.onStop();
 
-        if (mMarketTimer != null) {
-            mMarketTimer.cancel();
-            mMarketTimer = null;
-        }
 
     }
 
@@ -764,11 +762,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
                     tvFollowCount.setText(mCombinationBean.getFollowerCount() + "");
 
 
-
 //                    BitmapUtils bitmapUtils = new BitmapUtils(getActivity());
 
-                    UserEntity user =  mCombinationBean.getUser();
-                    ImageLoaderUtils.setHeanderImage(user.getAvatar_md(),ivUserheader);
+                    UserEntity user = mCombinationBean.getUser();
+                    ImageLoaderUtils.setHeanderImage(user.getAvatar_md(), ivUserheader);
 //                    if (null != user.getAvatar_md() && user.getAvatar_md().length() > 35) {
 ////                        bitmapUtils.display(ivUserheader, user.getAvatar_md());
 //                    }
@@ -785,12 +782,14 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
             }
 
         }
-    };
+    }
+
+    ;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onResumeFragment() {
@@ -811,6 +810,10 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         // TODO Auto-generated method stub
         super.onPause();
         MobclickAgent.onPageEnd(mPageName);
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
 
     }
 
