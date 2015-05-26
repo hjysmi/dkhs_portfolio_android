@@ -21,7 +21,6 @@
             android:paddingLeft="16dp"
             android:paddingTop="16dp"
             android:paddingBottom="1dp"
-
          />
 
         <Button

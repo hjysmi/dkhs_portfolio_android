@@ -449,7 +449,6 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
                     subPage.showForResult(activity, null, EditPage.this);
                 }
             });
-
             TextView tvAt = new TextView(getContext());
             int resId = getBitmapRes(activity, "btn_back_nor");
             if (resId > 0) {

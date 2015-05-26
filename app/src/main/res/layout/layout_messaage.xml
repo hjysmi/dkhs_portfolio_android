@@ -21,7 +21,6 @@
             android:id="@+id/tv_title"
             style="@style/CommonTextAppearance_Middle_Black"
             android:layout_width="fill_parent"
-            android:text="dfdfdfd"
             android:layout_height="wrap_content" />
         <TextView
             android:paddingTop="2dp"
@@ -32,7 +31,6 @@
            style="@style/CommonTextAppearance_super_Mini_Gray"
 
             android:layout_width="fill_parent"
-            android:text="dfdfdfd"
             android:layout_height="wrap_content" />
         <ImageView
             android:id="@+id/im_content"
@@ -51,12 +49,10 @@
             android:paddingLeft="2dp"
             android:paddingBottom="2dp"
             android:paddingRight="2dp"
-            android:text="dfdfdf"
             style="@style/CommonTextAppearance_Mini_Gray"
             android:textColor="@color/ma5_color"
             android:layout_height="wrap_content" />
         <View
-
             android:layout_marginTop="8dp"
             style="@style/divider_line"
             />
