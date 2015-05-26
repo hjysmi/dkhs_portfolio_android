@@ -795,7 +795,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-        setTitle(mStockQuotesBean.getName() + "(" + mStockQuotesBean.getCode() + ")");
+        setTitle(mStockQuotesBean.getName() + "(" + mStockQuotesBean.getSymbol() + ")");
         tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
         // String curentText = tvCurrent.getText().toString();
         if (mPrePrice > 0) {
