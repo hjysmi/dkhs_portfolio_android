@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -42,6 +43,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dkhs.portfolio.R;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +61,7 @@ import static cn.sharesdk.framework.utils.BitmapHelper.captureView;
 import static cn.sharesdk.framework.utils.BitmapHelper.getBitmap;
 import static cn.sharesdk.framework.utils.R.dipToPx;
 import static cn.sharesdk.framework.utils.R.getBitmapRes;
+import static cn.sharesdk.framework.utils.R.getColorRes;
 import static cn.sharesdk.framework.utils.R.getScreenWidth;
 import static cn.sharesdk.framework.utils.R.getStringRes;
 
@@ -67,7 +71,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
     private static final int DIM_COLOR = 0x7f323232;
     private HashMap<String, Object> reqData;
     private RelativeLayout rlPage;
-    private TitleLayout llTitle;
+
     private LinearLayout llBody;
     private RelativeLayout rlThumb;
     // 文本编辑框
@@ -90,6 +94,8 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
     private View tmpBgView;
     private Drawable background;
     private ArrayList<String> toFriendList;
+
+    private View llTitle;
 
     public void setShareData(HashMap<String, Object> data) {
         reqData = data;
@@ -164,7 +170,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
         rlPage.setBackground(background);
         if (dialogMode) {
             RelativeLayout rlDialog = new RelativeLayout(getContext());
-            rlDialog.setBackgroundColor(0xc0323232);
+            rlDialog.setBackgroundResource(R.drawable.bg_dialog);
             int dp_8 = dipToPx(getContext(), 8);
             int width = getScreenWidth(getContext()) - dp_8 * 2;
             RelativeLayout.LayoutParams lpDialog = new RelativeLayout.LayoutParams(width, LayoutParams.WRAP_CONTENT);
@@ -186,30 +192,32 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
     }
 
     // 标题栏
-    private TitleLayout getPageTitle() {
-        llTitle = new TitleLayout(getContext());
-        llTitle.setId(1);
+    private View getPageTitle() {
+
+
+        llTitle= LayoutInflater.from(getContext()).inflate(R.layout.layout_share_title_bar,null);
+
+
+        TextView titleTV= (TextView) llTitle.findViewById(R.id.tv_title);
+        Button shareBtn= (Button) llTitle.findViewById(R.id.btn_share);
+
         // int resId = getBitmapRes(activity, "title_back");
         // if (resId > 0) {
         // llTitle.setBackgroundResource(resId);
         // }
-        llTitle.getBtnBack().setOnClickListener(this);
+
         int resId = getStringRes(activity, "multi_share");
         if (resId > 0) {
-            llTitle.getTvTitle().setText(resId);
+            titleTV.setText(resId);
         }
-        llTitle.getBtnRight().setVisibility(View.VISIBLE);
+        shareBtn.setVisibility(View.VISIBLE);
         resId = getStringRes(activity, "share");
         if (resId > 0) {
-            llTitle.getBtnRight().setText(resId);
+            shareBtn.setText(resId);
         }
-        llTitle.getBtnRight().setOnClickListener(this);
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        llTitle.setLayoutParams(lp);
+        shareBtn.setOnClickListener(this);
+
+
 
         return llTitle;
     }
@@ -249,7 +257,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
                 LayoutParams.WRAP_CONTENT);
         lpMain.weight = 1;
         int dp_4 = dipToPx(getContext(), 4);
-        lpMain.setMargins(dp_4, dp_4, dp_4, dp_4);
+        lpMain.setMargins(dp_4, 0, dp_4, dp_4);
         llMainBody.setLayoutParams(lpMain);
 
         LinearLayout llContent = new LinearLayout(getContext());
@@ -262,6 +270,7 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
         etContent = new EditText(getContext());
         etContent.setGravity(Gravity.LEFT | Gravity.TOP);
         etContent.setBackground(null);
+        etContent.setTextColor(getContext().getResources().getColor(R.color.tag_gray));
         etContent.setText(String.valueOf(reqData.get("text")));
         etContent.addTextChangedListener(this);
         LinearLayout.LayoutParams lpEt = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -477,9 +486,11 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
 
     private View getSep() {
         View vSep = new View(getContext());
-        vSep.setBackgroundColor(0xff000000);
+        vSep.setBackgroundColor(getContext().getResources().getColor(R.color.drivi_line));
         int dp_1 = dipToPx(getContext(), 1);
         LinearLayout.LayoutParams lpSep = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, dp_1);
+        int top = dipToPx(getContext(), 10);
+        lpSep.setMargins(0, top, 0, 0);
         vSep.setLayoutParams(lpSep);
         return vSep;
     }
@@ -566,25 +577,25 @@ public class EditPage extends FakeActivity implements OnClickListener, TextWatch
     }
 
     public void onClick(View v) {
-        if (v.equals(llTitle.getBtnBack())) {
-            Platform plat = null;
-            for (int i = 0; i < views.length; i++) {
-                if (views[i].getVisibility() == View.INVISIBLE) {
-                    plat = platformList[i];
-                    break;
-                }
-            }
-
-            // 取消分享的统计
-            if (plat != null) {
-                ShareSDK.logDemoEvent(5, plat);
-            }
-            finish();
-            return;
-        }
+//        if (v.equals(.getBtnBack())) {
+//            Platform plat = null;
+//            for (int i = 0; i < views.length; i++) {
+//                if (views[i].getVisibility() == View.INVISIBLE) {
+//                    plat = platformList[i];
+//                    break;
+//                }
+//            }
+//
+//            // 取消分享的统计
+//            if (plat != null) {
+//                ShareSDK.logDemoEvent(5, plat);
+//            }
+//            finish();
+//            return;
+//        }
 
         // 取消分享的统计
-        if (v.equals(llTitle.getBtnRight())) {
+        if (v.getId()==(R.id.btn_share)) {
             String text = etContent.getText().toString();
             reqData.put("text", text);
             if (!shareImage) {
