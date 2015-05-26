@@ -483,7 +483,7 @@
     <string name="open">今开</string>
     <string name="high">最高</string>
     <string name="market_capital">流通市值</string>
-    <string name="pe_ttm">市盈LYR</string>
+    <string name="pe_ttm">市盈TTM</string>
     <string name="income">昨收</string>
     <string name="low">最低</string>
     <string name="total_capital">总市值</string>
