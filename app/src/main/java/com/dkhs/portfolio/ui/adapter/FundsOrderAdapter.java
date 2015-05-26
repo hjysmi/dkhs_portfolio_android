@@ -8,38 +8,31 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-import java.util.zip.Inflater;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FollowComEngineImpl;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
-import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
-import com.dkhs.portfolio.ui.widget.MAlertDialog;
-import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.StringFromatUtils;
-
 import android.content.Context;
 import android.content.DialogInterface;
-import android.text.TextUtils;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.CombinationBean;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
+import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
+import com.dkhs.portfolio.ui.fragment.FundsOrderFragment;
+import com.dkhs.portfolio.ui.widget.MAlertDialog;
+import com.dkhs.portfolio.utils.PromptManager;
+import com.dkhs.portfolio.utils.StringFromatUtils;
+
+import java.util.List;
 
 /**
  * @ClassName FundsOrderAdapter
@@ -275,7 +268,8 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
                 PromptManager.showFollowToast();
             } else {
                 new VisitorDataEngine().delCombinationBean(mCombinationBean);
-                if (FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
+                if (null != FundsOrderActivity.mVisitorData
+                        &&FundsOrderActivity.mVisitorData.contains(mCombinationBean)) {
                     FundsOrderActivity.mVisitorData.remove(mCombinationBean);
                 }
                 PromptManager.showDelFollowToast();
