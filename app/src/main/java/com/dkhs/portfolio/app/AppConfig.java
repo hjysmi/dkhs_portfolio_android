@@ -21,8 +21,9 @@ import java.io.IOException;
  */
 public final class AppConfig {
 
-    public static boolean isDebug = true;
+    public static final boolean isDebug = true;
 
+    //是否强制替换本地数据库
     private static final boolean hasReplaceRawDB = false;
 
     private Context mContext;
@@ -32,24 +33,34 @@ public final class AppConfig {
         appConfig.init(ctx);
     }
 
-    //    public AppConfig
     public void init(Context context) {
+
+        //设置友盟统计的不同平台配置
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(context));
+
+        //融云API，根据不同的版本配置不同的APP key,默认为debug key
+        //正式版本需要修改为release key
         if (!isDebug) {
             setRongYunMetaData();
         }
 
 
+        //是否替换本地raw里面的数据库
         if (hasReplaceRawDB || !PortfolioPreferenceManager.hasLoadSearchStock()) {
             copyDataBaseToPhone();
         }
 
-        // 注册crashHandler
+        // 注册crashHandler，程序异常的日志管理工具
         CrashHandler crashHandler = CrashHandler.getInstance(context);
+
+        //图片下载工具类的初始化
         ImageLoaderUtils.initImageLoader(context);
+
+        //启动定时更新数据库的服务类
         Intent demand = new Intent(context, ReLoadDataService.class);
         context.startService(demand);
 
+        //消息中心模块的初始化
         MessageManager.getInstance();
     }
 
