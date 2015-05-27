@@ -359,13 +359,13 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     public void onClick(View v) {
 
 
-        if (UIUtils.iStartLoginActivity(this)) {
-            return;
-        }
 
         switch (v.getId()) {
             case R.id.ll_followers:
 
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 if (null == userEntity) {
                     return;
                 }
@@ -375,6 +375,9 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 startActivity(intent1);
                 break;
             case R.id.ll_following:
+                if (UIUtils.iStartLoginActivity(this)) {
+                    return;
+                }
                 if (null == userEntity) {
                     return;
                 }
