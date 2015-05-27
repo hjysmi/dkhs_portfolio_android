@@ -135,6 +135,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         STOCK_OPTIONAL_PRICE(8),
 
         /**
+         * 行情,基金tab
+         */
+
+        FUND_TAB(20),
+
+        /**
          * 行情中心，国内指数排行，高到低
          */
         MARKET_INLAND_INDEX(9),
@@ -179,6 +185,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
          * 行情中心 ,个股振幅，低到高
          */
         MARKET_PLATE_LIST_ACE(19);
+
+
+
+
 
         private int typeId;
 

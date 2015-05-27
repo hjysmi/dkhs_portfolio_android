@@ -65,7 +65,7 @@ public class SearchStockEngineImpl {
 
             sbLastDate.append(lastLoadTime);
         }
-        DKHSClient.requestLong(HttpMethod.GET, loadStockUrl + sbLastDate.toString(), null, stockProfiListener);
+               DKHSClient.requestLong(HttpMethod.GET, loadStockUrl + sbLastDate.toString(), null, stockProfiListener);
         DKHSClient.requestLong(HttpMethod.GET, loadFundUrl + sbLastDate.toString(), null, stockProfiListener);
         DKHSClient.requestLong(HttpMethod.GET, loadIndexUrl + sbLastDate.toString(), null, stockProfiListener);
 
@@ -171,6 +171,19 @@ public class SearchStockEngineImpl {
                     // dbUtils.findAll(Selector.from(SearchStockBean.class).where(whereBuilder)
                     // .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
                     // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "3"));
+
+
+                    /**
+                     * (300, '股票'),
+                     (301, '混合型基金'),
+                     (302, '债卷型基金'),
+                     (303, '指数型基金'),
+                     (304, '保本型基金'),
+                     (305, 'qdii'),
+                     (306, 'etf'),
+                     (307, 'lof'),
+                     (308, 'other'),
+                     */
                     List<SearchStockBean> searchStockList = dbUtils
                             .findAll(Selector
                                     .from(SearchStockBean.class)

@@ -79,8 +79,12 @@
     <string name="combin">组合：%1$d</string>
     <string name="optional_stock_format">自选股:%1$d</string>
     <string name="optional_stock">自选股</string>
+    <string name="tab_stock">股票</string>
+    <string name="tab_fund">基金</string>
+    <string name="tab_funds">组合</string>
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
+
     <string name="funds_name">组合名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
@@ -370,6 +374,7 @@
     <string name="market_index_name">指数名称</string>
     <string name="market_stock_name">股票名称</string>
     <string name="market_current_value">最新价</string>
+    <string name="market_net_value">最新净值</string>
     <string name="market_up_ratio">涨幅</string>
     <string name="market_down_ratio">跌幅</string>
     <string name="market_turnover">换手率</string>
@@ -408,6 +413,7 @@
     <string name="day_income">日收益</string>
     <string name="week_income">周收益</string>
     <string name="month_income">月收益</string>
+    <string name="year_income">年收益</string>
     <string name="click_add_stock">点击添加自选股</string>
     <string name="click_creat_fund">点击创建组合</string>
     <string name="creat_fund">自建组合</string>

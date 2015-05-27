@@ -14,16 +14,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.EditTabFundActivity;
-import com.dkhs.portfolio.ui.EditTabStockActivity;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
-import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
+import com.dkhs.portfolio.ui.*;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 
 import com.dkhs.portfolio.utils.UIUtils;
@@ -75,7 +71,6 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
             mUserId = bundle.getString(FragmentSelectStockFund.ARGUMENT_USER_ID);
 
         }
-
         tabStockFragment = TabStockFragment.getTabStockFragment(mUserId);
         tabFundsFragment = TabFundsFragment.getTabFundsFragment(mUserId);
         tabFundsFragment.setDataUpdateListener(this);
@@ -160,7 +155,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), FundsOrderActivity.class);
+                Intent intent = new Intent(getActivity(), FundsOrderMainFragment.class);
                 UIUtils.startAminationActivity(getActivity(), intent);
                 // startActivity(intent);
             }
@@ -213,6 +208,7 @@ public class MainOptionalFragment extends BaseFragment implements OnClickListene
                 break;
         }
     }
+
 
     private TabStockFragment tabStockFragment;
     private TabFundsFragment tabFundsFragment;

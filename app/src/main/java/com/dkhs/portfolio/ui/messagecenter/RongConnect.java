@@ -188,7 +188,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
                 }
                 @Override
                 public void onSuccess(String arg0) {
-                    LogUtils.e("  连接融云服务器: onSuccess .");
+                    Log.e(TAG, "--------连接融云服务器-onSuccess:");
                     setOtherListener();
                     int unreadCount = getUnReadCount();
                     if (unreadCount > 0) {
