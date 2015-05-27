@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SignupBean;
 import com.dkhs.portfolio.bean.ThreePlatform;
@@ -113,7 +114,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
         // ShareSDK.registerPlatform(Laiwang.class);
         ShareSDK.setConnTimeout(5000);
         ShareSDK.setReadTimeout(10000);
-        if (PortfolioApplication.getInstance().isDebug()) {
+        if (AppConfig.isDebug) {
             Intent intent = new Intent(this, GettingUrlForAPPActivity.class);
             startActivity(intent);
         } else {
