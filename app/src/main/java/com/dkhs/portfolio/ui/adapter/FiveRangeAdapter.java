@@ -174,13 +174,13 @@ public class FiveRangeAdapter extends BaseAdapter {
             }
 
             if (null == volList || volList.size() <= position) {
-                viewHolder.tvVol.setText("—");
+                viewHolder.tvVol.setText("0");
 
             } else if (isFloatText(volList.get(position))) {
                 float vol = Float.parseFloat(volList.get(position));
                 viewHolder.tvVol.setText(StringFromatUtils.convertToWanHand(vol));
             } else {
-                viewHolder.tvVol.setText("—");
+                viewHolder.tvVol.setText("0");
             }
 
             if (isBuy) {
