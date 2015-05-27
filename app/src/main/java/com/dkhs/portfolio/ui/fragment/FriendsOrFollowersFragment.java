@@ -193,6 +193,19 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
                     if (item.getId() == follow.getId()) {
                         dataList.remove(i);
                         adapter.notifyDataSetChanged();
+                        if(dataList.size() == 0){
+
+                            switch (type){
+                                case FOLLOWERS:
+                                    setEmptyText(R.string.nodata_follower);
+                                    break;
+                                case FRIENDS:
+                                    setEmptyText(R.string.nodata_friend);
+                                    break;
+                            }
+
+                        }
+
                         break;
                     }
 
