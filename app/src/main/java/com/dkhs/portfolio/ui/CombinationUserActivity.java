@@ -376,7 +376,6 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
                 if (null == userEntity) {
                     return;
                 }
-
                 Intent intent = new Intent(this, FriendsOrFollowersActivity.class);
                 intent.putExtra(FriendsOrFollowersActivity.KEY, FriendsOrFollowersActivity.FRIENDS);
                 intent.putExtra(FriendsOrFollowersActivity.USER_ID, userEntity.getId() + "");
