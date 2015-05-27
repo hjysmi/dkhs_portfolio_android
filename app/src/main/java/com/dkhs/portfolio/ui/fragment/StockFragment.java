@@ -49,6 +49,9 @@ import java.util.TimerTask;
 public class StockFragment  extends BaseFragment implements View.OnClickListener {
     private Button btnRefresh;
 
+
+    private boolean isRefresh=true;
+
     @Override
     public int setContentLayoutId() {
         return R.layout.bg_activity_marketcenter;
@@ -118,6 +121,13 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
             loadingAllData();
         }
 
+
+        if(isRefresh){
+
+        }else{
+
+        }
+
         // MobclickAgent.onResume(getActivity());
 
     }
@@ -139,22 +149,7 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
      * @return void
      */
     private void initView(View view) {
-//        Button addButton = getRightButton();
-//        addButton.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
-//                null, null, null);
-//        addButton.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//
-//
-//            }
-//        });
-//
-//        btnRefresh = getSecondRightButton();
-//        btnRefresh.setOnClickListener(this);
-//        btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh_selector),
-//                null, null, null);
+
 
         gvMainIndex = (GridView) view.findViewById(R.id.gv_mainindex);
         gvPlate = (GridView) view.findViewById(R.id.gv_plate);
@@ -216,14 +211,6 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         lvDown.setAdapter(mDownAdapter);
         lvHandover.setAdapter(mTurnOverAdapter);
         lvAmplit.setAdapter(mAmplitAdapter);
-        // setRefreshButtonListener(new OnClickListener() {
-        //
-        // @Override
-        // public void onClick(View v) {
-        // loadingAllData();
-        // }
-        // });
-
         mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         // mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
@@ -500,12 +487,14 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case MSG_WHAT_BEFORE_REQUEST: {
-                    rotateRefreshButton();
+//                    rotateRefreshButton();
+                    isRefresh=true;
                 }
 
                 break;
                 case MSG_WHAT_AFTER_REQUEST: {
-                    stopRefreshAnimation();
+//                    stopRefreshAnimation();
+                    isRefresh=false;
                 }
 
                 break;
@@ -516,27 +505,8 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         };
     };
 
-    private void rotateRefreshButton() {
-        if (isAdded()) {
-            btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
-                    null, null, null);
-            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
-            btnRefresh.startAnimation(animation);
-        }
-    }
 
-    private void stopRefreshAnimation() {
-        if (isAdded()) {
 
-            btnRefresh.clearAnimation();
-            btnRefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
-                    null, null, null);
-        }
-    }
-
-    public void setRefreshButtonListener(View.OnClickListener refreshListener) {
-        btnRefresh.setOnClickListener(refreshListener);
-    }
 
     public void startAnimaRefresh() {
         requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);

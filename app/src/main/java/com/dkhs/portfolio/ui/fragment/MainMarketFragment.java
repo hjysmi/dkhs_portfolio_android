@@ -15,6 +15,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -45,9 +47,9 @@ public class MainMarketFragment extends BaseFragment {
     @ViewInject(R.id.view_datalist)
     FrameLayout mViewdatalist;
     @ViewInject(R.id.btn_refresh)
-    public ImageButton mBtnrefresh;
+    Button mBtnrefresh;
     @ViewInject(R.id.btn_search)
-    ImageButton mBtnsearch;
+    Button mBtnsearch;
     private Fragment previousF;
     @Override
     public int setContentLayoutId() {
@@ -58,6 +60,13 @@ public class MainMarketFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         initData();
         getDataForNet();
+
+        mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
+                null, null, null);
+
+        mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
+                null, null, null);
+
     }
     /**
      * iniView initData
@@ -133,6 +142,7 @@ public class MainMarketFragment extends BaseFragment {
         }
         mBtnsearch.setVisibility(View.VISIBLE);
         mBtnsearch.setOnClickListener((View.OnClickListener) f);
+        mBtnrefresh.setOnClickListener((View.OnClickListener) f);
         previousF=f;
         b.commit();
     }
@@ -154,5 +164,27 @@ public class MainMarketFragment extends BaseFragment {
     }
 
 
+
+    private void rotateRefreshButton() {
+
+        if (isAdded() && !isHidden()) {
+
+
+            mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
+                    null, null, null);
+            Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_around_center_point);
+            mBtnrefresh.startAnimation(animation);
+        }
+    }
+
+    private void stopRefreshAnimation() {
+
+        if (isAdded() && !isHidden()) {
+
+            mBtnrefresh.clearAnimation();
+            mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
+                    null, null, null);
+        }
+    }
 
 }
