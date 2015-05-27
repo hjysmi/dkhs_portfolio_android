@@ -29,6 +29,9 @@ import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.MarketCenterGridAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
 import com.dkhs.portfolio.ui.adapter.MarketPlateGridAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
@@ -46,11 +49,8 @@ import java.util.TimerTask;
  * @Description TODO(股票)
  * @date 2015/5/25.
  */
-public class StockFragment  extends BaseFragment implements View.OnClickListener {
-    private Button btnRefresh;
+public class StockFragment extends BaseFragment implements View.OnClickListener {
 
-
-    private boolean isRefresh=true;
 
     @Override
     public int setContentLayoutId() {
@@ -122,12 +122,11 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         }
 
 
-        if(isRefresh){
-
-        }else{
-
+        if (isLoading) {
+            startAnimaRefresh();
+        } else {
+            endAnimaRefresh();
         }
-
         // MobclickAgent.onResume(getActivity());
 
     }
@@ -144,9 +143,9 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
     }
 
     /**
+     * @return void
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return void
      */
     private void initView(View view) {
 
@@ -238,9 +237,9 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
     private boolean isLoading;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onStart() {
@@ -312,10 +311,10 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         }
 
         /**
-         * @Title
-         * @Description TODO: (用一句话描述这个方法的功能)
          * @param object
          * @return
+         * @Title
+         * @Description TODO: (用一句话描述这个方法的功能)
          */
         @Override
         public void loadFinish(MoreDataBean object) {
@@ -369,9 +368,9 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         }
 
         /**
+         * @return
          * @Title
          * @Description TODO: (用一句话描述这个方法的功能)
-         * @return
          */
         @Override
         public void loadFail() {
@@ -395,7 +394,7 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
 
                 break;
             case R.id.btn_search:
-                 intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
                 break;
             case R.id.btn_more_index: {
                 intent = MarketListActivity.newIntent(getActivity(), MarketListActivity.LoadViewType.IndexUp);
@@ -481,38 +480,18 @@ public class StockFragment  extends BaseFragment implements View.OnClickListener
         void startLoadingData();
     }
 
-    protected static final int MSG_WHAT_BEFORE_REQUEST = 99;
-    protected static final int MSG_WHAT_AFTER_REQUEST = 97;
-    Handler requestUiHandler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            switch (msg.what) {
-                case MSG_WHAT_BEFORE_REQUEST: {
-//                    rotateRefreshButton();
-                    isRefresh=true;
-                }
-
-                break;
-                case MSG_WHAT_AFTER_REQUEST: {
-//                    stopRefreshAnimation();
-                    isRefresh=false;
-                }
-
-                break;
-
-                default:
-                    break;
-            }
-        };
-    };
-
-
-
 
     public void startAnimaRefresh() {
-        requestUiHandler.sendEmptyMessage(MSG_WHAT_BEFORE_REQUEST);
+        if (isAdded() && !isHidden()) {
+            BusProvider.getInstance().post(new RotateRefreshEvent());
+        }
     }
 
     public void endAnimaRefresh() {
-        requestUiHandler.sendEmptyMessage(MSG_WHAT_AFTER_REQUEST);
+        if (isAdded() && !isHidden()) {
+            BusProvider.getInstance().post(new StopRefreshEvent());
+        }
     }
+
+
 }

@@ -23,8 +23,13 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 
 /**
  * @author zjz
@@ -51,35 +56,37 @@ public class MainMarketFragment extends BaseFragment {
     @ViewInject(R.id.btn_search)
     Button mBtnsearch;
     private Fragment previousF;
+
     @Override
     public int setContentLayoutId() {
         return R.layout.fragment_main_marke;
     }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        BusProvider.getInstance().register(this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initData();
-        getDataForNet();
 
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                 null, null, null);
 
         mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
-
-    }
-    /**
-     * iniView initData
-     */
-    public void initData() {
         displayStockFragment();
     }
 
-    /**
-     * getData from net
-     */
-    public void getDataForNet() {
-    }
+
     @OnClick({R.id.btn_titletab_right, R.id.btn_titletab_left, R.id.btn_titletab_center})
     public void onClick(View v) {
         int id = v.getId();
@@ -89,6 +96,7 @@ public class MainMarketFragment extends BaseFragment {
                 mBtntitletableft.setEnabled(true);
                 mBtntitletabcenter.setEnabled(true);
                 displayFundsFragment();
+
                 // PromptManager.showCustomToast(R.drawable.ic_toast_gantan, R.string.message_timeout);
             }
             break;
@@ -114,7 +122,7 @@ public class MainMarketFragment extends BaseFragment {
     private void displayFundFragment() {
         FragmentTransaction b = getChildFragmentManager().beginTransaction();
         Fragment f = getChildFragmentManager().findFragmentByTag("tabFundFragment");
-        if(previousF!=null){
+        if (previousF != null) {
             b.hide(previousF);
         }
         if (f != null) {
@@ -123,7 +131,9 @@ public class MainMarketFragment extends BaseFragment {
             f = new TabFundFragment();
             b.add(R.id.view_datalist, f, "tabFundFragment");
         }
-        previousF=f;
+        mBtnsearch.setVisibility(View.GONE);
+        mBtnrefresh.setOnClickListener((View.OnClickListener) f);
+        previousF = f;
         b.commit();
     }
 
@@ -131,7 +141,7 @@ public class MainMarketFragment extends BaseFragment {
         FragmentTransaction b = getChildFragmentManager().beginTransaction();
 
         Fragment f = getChildFragmentManager().findFragmentByTag("stockFragment");
-        if(previousF!=null){
+        if (previousF != null) {
             b.hide(previousF);
         }
         if (f != null) {
@@ -143,14 +153,14 @@ public class MainMarketFragment extends BaseFragment {
         mBtnsearch.setVisibility(View.VISIBLE);
         mBtnsearch.setOnClickListener((View.OnClickListener) f);
         mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-        previousF=f;
+        previousF = f;
         b.commit();
     }
 
     private void displayFundsFragment() {
         FragmentTransaction b = getChildFragmentManager().beginTransaction();
         Fragment f = getChildFragmentManager().findFragmentByTag("FundsOrderActivity");
-        if(previousF!=null){
+        if (previousF != null) {
             b.hide(previousF);
         }
         if (f != null) {
@@ -159,16 +169,15 @@ public class MainMarketFragment extends BaseFragment {
             f = new FundsOrderMainFragment();
             b.add(R.id.view_datalist, f, "FundsOrderActivity");
         }
-        previousF=f;
+        previousF = f;
         b.commit();
     }
 
 
-
-    private void rotateRefreshButton() {
+    @Subscribe
+    public void rotateRefreshButton(RotateRefreshEvent rotateRefreshEvent) {
 
         if (isAdded() && !isHidden()) {
-
 
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refreshing),
                     null, null, null);
@@ -177,14 +186,20 @@ public class MainMarketFragment extends BaseFragment {
         }
     }
 
-    private void stopRefreshAnimation() {
+    @Subscribe
+    public void stopRefreshAnimation(StopRefreshEvent stopRefreshEvent) {
 
         if (isAdded() && !isHidden()) {
-
             mBtnrefresh.clearAnimation();
             mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                     null, null, null);
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        BusProvider.getInstance().unregister(this);
+    }
 }
