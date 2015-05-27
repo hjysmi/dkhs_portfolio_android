@@ -12,24 +12,27 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
+import com.dkhs.portfolio.ui.widget.ScrollViewPager;
+import com.dkhs.portfolio.ui.widget.TabWidget;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
-import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 /**
  * @author zjz
@@ -38,24 +41,21 @@ import com.squareup.otto.Subscribe;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-6 上午9:46:52
  */
-public class MainMarketFragment extends BaseFragment {
+public class MainMarketFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
 
-    @ViewInject(R.id.btn_titletab_right)
-    Button mBtntitletabright;
-    @ViewInject(R.id.btn_titletab_center)
-    Button mBtntitletabcenter;
-    @ViewInject(R.id.btn_titletab_left)
-    Button mBtntitletableft;
     @ViewInject(R.id.rl_header_title)
     RelativeLayout mRlheadertitle;
-    @ViewInject(R.id.view_datalist)
-    FrameLayout mViewdatalist;
+    @ViewInject(R.id.vp)
+    ViewPager vp;
     @ViewInject(R.id.btn_refresh)
     Button mBtnrefresh;
     @ViewInject(R.id.btn_search)
     Button mBtnsearch;
     private Fragment previousF;
+
+    private TabWidget tabWidget;
+    private ArrayList<Fragment> fragmentList;
 
     @Override
     public int setContentLayoutId() {
@@ -71,106 +71,29 @@ public class MainMarketFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         BusProvider.getInstance().register(this);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        fragmentList = new ArrayList<Fragment>();
+        fragmentList.add(new StockFragment());
+        fragmentList.add(new TabFundFragment());
+        fragmentList.add(new FundsOrderMainFragment());
+        vp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
+        vp.setOnPageChangeListener(this);
+        tabWidget = new TabWidget(view);
         mBtnrefresh.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.nav_refresh),
                 null, null, null);
-
         mBtnsearch.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.btn_search_select),
                 null, null, null);
-        displayStockFragment();
-    }
-
-
-    @OnClick({R.id.btn_titletab_right, R.id.btn_titletab_left, R.id.btn_titletab_center})
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.btn_titletab_right: {
-                mBtntitletabright.setEnabled(false);
-                mBtntitletableft.setEnabled(true);
-                mBtntitletabcenter.setEnabled(true);
-                displayFundsFragment();
-
-                // PromptManager.showCustomToast(R.drawable.ic_toast_gantan, R.string.message_timeout);
+        tabWidget.setOnSelectListener(new TabWidget.OnSelectListener() {
+            @Override
+            public void onSelect(int position) {
+                vp.setCurrentItem(position);
             }
-            break;
-            case R.id.btn_titletab_left: {
-                mBtntitletabright.setEnabled(true);
-                mBtntitletableft.setEnabled(false);
-                mBtntitletabcenter.setEnabled(true);
-                displayStockFragment();
-            }
-            break;
-            case R.id.btn_titletab_center: {
-                mBtntitletabright.setEnabled(true);
-                mBtntitletableft.setEnabled(true);
-                mBtntitletabcenter.setEnabled(false);
-                displayFundFragment();
-            }
-            break;
-            default:
-                break;
-        }
-    }
-
-    private void displayFundFragment() {
-        FragmentTransaction b = getChildFragmentManager().beginTransaction();
-        Fragment f = getChildFragmentManager().findFragmentByTag("tabFundFragment");
-        if (previousF != null) {
-            b.hide(previousF);
-        }
-        if (f != null) {
-            b.show(f);
-        } else {
-            f = new TabFundFragment();
-            b.add(R.id.view_datalist, f, "tabFundFragment");
-        }
-        mBtnsearch.setVisibility(View.GONE);
-        mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-        previousF = f;
-        b.commit();
-    }
-
-    private void displayStockFragment() {
-        FragmentTransaction b = getChildFragmentManager().beginTransaction();
-
-        Fragment f = getChildFragmentManager().findFragmentByTag("stockFragment");
-        if (previousF != null) {
-            b.hide(previousF);
-        }
-        if (f != null) {
-            b.show(f);
-        } else {
-            f = new StockFragment();
-            b.add(R.id.view_datalist, f, "stockFragment");
-        }
-        mBtnsearch.setVisibility(View.VISIBLE);
-        mBtnsearch.setOnClickListener((View.OnClickListener) f);
-        mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-        previousF = f;
-        b.commit();
-    }
-
-    private void displayFundsFragment() {
-        FragmentTransaction b = getChildFragmentManager().beginTransaction();
-        Fragment f = getChildFragmentManager().findFragmentByTag("FundsOrderActivity");
-        if (previousF != null) {
-            b.hide(previousF);
-        }
-        if (f != null) {
-            b.show(f);
-        } else {
-            f = new FundsOrderMainFragment();
-            b.add(R.id.view_datalist, f, "FundsOrderActivity");
-        }
-        previousF = f;
-        b.commit();
+        });
     }
 
 
@@ -202,4 +125,40 @@ public class MainMarketFragment extends BaseFragment {
 
         BusProvider.getInstance().unregister(this);
     }
+
+    @Override
+    public void onPageScrolled(int i, float v, int i2) {
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        Fragment f = fragmentList.get(i);
+        tabWidget.setSelection(i);
+        switch (i) {
+            case 0:
+                mBtnsearch.setVisibility(View.VISIBLE);
+                mBtnsearch.setOnClickListener((View.OnClickListener) f);
+                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
+                previousF = f;
+
+                break;
+            case 1:
+                mBtnsearch.setVisibility(View.GONE);
+                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
+                break;
+            case 2:
+                mBtnsearch.setVisibility(View.GONE);
+
+                break;
+        }
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int i) {
+
+    }
+
+
 }

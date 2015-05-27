@@ -91,6 +91,8 @@ public class FundsOrderMainFragment extends BaseFragment {
         }
     };
 
+
+
     OnPageChangeListener pageChangeListener = new OnPageChangeListener() {
 
         @Override

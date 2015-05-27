@@ -58,8 +58,13 @@
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/view_datalist"
+
+
+
+
+    <!--<com.dkhs.portfolio.ui.widget.ScrollViewPager-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rl_header_title" />

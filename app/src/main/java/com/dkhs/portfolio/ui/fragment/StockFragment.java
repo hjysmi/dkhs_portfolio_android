@@ -385,7 +385,7 @@ public class StockFragment extends BaseFragment implements View.OnClickListener 
     public void onClick(View v) {
         Intent intent = null;
         switch (v.getId()) {
-            case R.id.btn_right_second:
+            case R.id.btn_refresh:
                 loadingAllData();
 
                 break;
