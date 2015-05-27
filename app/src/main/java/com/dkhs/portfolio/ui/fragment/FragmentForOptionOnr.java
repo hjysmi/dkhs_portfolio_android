@@ -3,6 +3,7 @@ package com.dkhs.portfolio.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,48 @@ public class FragmentForOptionOnr extends Fragment {
     private RelativeLayout pb;
     private View mContentView;
 
+
+    public static Fragment newIntent(Context context, String symbolName, String name, String subType) {
+        Fragment f = new FragmentForOptionOnr();
+        Bundle b = new Bundle();
+        b.putString(SYMBOL, symbolName);
+        b.putString(NAME, name);
+        b.putString(SUB, subType);
+        f.setArguments(b);
+        return f;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initDate();
+    }
+
+
+    private void initDate() {
+        try {
+            Bundle extras = getArguments();
+            if (null != extras) {
+                symbol = extras.getString(SYMBOL);
+                name = extras.getString(NAME);
+                subType = extras.getString(SUB);
+            }
+            NewsforModel vo = new NewsforModel();
+            vo.setSymbol(symbol);
+            vo.setContentSubType(subType);
+            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
+                    OpitionNewsEngineImple.NEWS_OPITION_FOREACH, vo);
+
+            mLoadDataEngine.setFromYanbao(false);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -82,39 +125,6 @@ public class FragmentForOptionOnr extends Fragment {
         initView(view);
 
         return view;
-    }
-
-    public static Fragment newIntent(Context context, String symbolName, String name, String subType) {
-        Fragment f = new FragmentForOptionOnr();
-        Bundle b = new Bundle();
-        b.putString(SYMBOL, symbolName);
-        b.putString(NAME, name);
-        b.putString(SUB, subType);
-        f.setArguments(b);
-        return f;
-    }
-
-    private void initDate() {
-        try {
-            Bundle extras = getArguments();
-            if (null != extras) {
-                symbol = extras.getString(SYMBOL);
-                name = extras.getString(NAME);
-                subType = extras.getString(SUB);
-            }
-            NewsforModel vo = new NewsforModel();
-            vo.setSymbol(symbol);
-            vo.setContentSubType(subType);
-            mLoadDataEngine = new OpitionNewsEngineImple(mSelectStockBackListener,
-                    OpitionNewsEngineImple.NEWS_OPITION_FOREACH, vo);
-            // mLoadDataEngine.setLoadingDialog(context);;
-            ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
-            mLoadDataEngine.setFromYanbao(false);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
     }
 
     private void initView(View view) {
@@ -256,7 +266,7 @@ public class FragmentForOptionOnr extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
         if (isVisibleToUser) {
-            initDate();
+
             getadble = true;
 //            if (null == mDataList || mDataList.size() < 2) {
 //                if (null != context && context instanceof StockQuotesActivity && getadble) {
@@ -296,5 +306,6 @@ public class FragmentForOptionOnr extends Fragment {
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onPageStart(mPageName);
+        ((OpitionNewsEngineImple) mLoadDataEngine).loadDatas();
     }
 }

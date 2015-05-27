@@ -448,7 +448,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     @Override
     public void finish() {
 
-     
+
         if(null!=userEntity&&!userEntity.isMe_follow()){
             UnFollowEvent unFollowEvent=new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
