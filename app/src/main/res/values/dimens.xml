@@ -85,6 +85,8 @@
     <dimen name="header_avatar_height">72dp</dimen>
     <dimen name="header_userDesc_height">20dp</dimen>
     <dimen name="header_avatar_margin_top">26dp</dimen>
+    <dimen name="min_stock_item_text">12sp</dimen>
+    <dimen name="stock_item_def_text">16sp</dimen>
 
 
 

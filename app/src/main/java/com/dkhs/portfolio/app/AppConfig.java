@@ -29,12 +29,13 @@ public final class AppConfig {
     private Context mContext;
 
     public static void config(Context ctx) {
+
         AppConfig appConfig = new AppConfig();
         appConfig.init(ctx);
     }
 
     public void init(Context context) {
-
+        this.mContext = context;
         //设置友盟统计的不同平台配置
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(context));
 

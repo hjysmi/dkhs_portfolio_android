@@ -146,29 +146,34 @@ public class StockLandView extends RelativeLayout {
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
 
-        if (null != this.fragmentList && hasWindowFocus()) {
+        try {
+            if (null != this.fragmentList && hasWindowFocus()) {
 
-            // get fragment from list and setUserVisibleHint maybe crash;
-            if (visibility == View.VISIBLE) {
-                Fragment fragment = this.fragmentList.get(view_position);
-                if (null != fragment) {
 
-                    fragment.setUserVisibleHint(true);
-                }
-                if (null != mQuotesEngine && mStockBean != null) {
-                    // mQuotesEngine.quotes(mStockBean.code, listener);
-                    if (mLandStockCallBack.getTabPosition() != view_position) {
-                        // showView(mLandStockCallBack.getTabPosition());
-                        hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
+                // get fragment from list and setUserVisibleHint maybe crash;
+                if (visibility == View.VISIBLE) {
+                    Fragment fragment = this.fragmentList.get(view_position);
+                    if (null != fragment) {
 
-                    } else {
-                        this.fragmentList.get(view_position).setUserVisibleHint(true);
-
+                        fragment.setUserVisibleHint(true);
                     }
+                    if (null != mQuotesEngine && mStockBean != null) {
+                        // mQuotesEngine.quotes(mStockBean.code, listener);
+                        if (mLandStockCallBack.getTabPosition() != view_position) {
+                            // showView(mLandStockCallBack.getTabPosition());
+                            hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
+
+                        } else {
+                            this.fragmentList.get(view_position).setUserVisibleHint(true);
+
+                        }
+                    }
+                } else {
+                    this.fragmentList.get(view_position).setUserVisibleHint(false);
                 }
-            } else {
-                this.fragmentList.get(view_position).setUserVisibleHint(false);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

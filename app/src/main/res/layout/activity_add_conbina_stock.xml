@@ -39,7 +39,7 @@
             dkhs:needVisible ="true"
             android:textColorHint="#999999"
             android:layout_toRightOf="@+id/iv_search"
-            android:hint="@string/search_fund_hint"
+            android:hint="@string/search_stock"
             android:singleLine="true"
             android:textSize="16sp" />
     </RelativeLayout>

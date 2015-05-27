@@ -62,7 +62,7 @@ public class FloatingActionMenu extends FloatingActionView {
         this.containerView = new LinearLayout(getContext());
         this.containerView.setLayoutParams(new LinearLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT));
-        this.containerView.setOrientation(0);
+        this.containerView.setOrientation(LinearLayout.HORIZONTAL);
         addView(this.containerView);
     }
 
@@ -121,7 +121,7 @@ public class FloatingActionMenu extends FloatingActionView {
     }
 
     private void init() {
-        setOrientation(1);
+        setOrientation(LinearLayout.VERTICAL);
         addBorderInTop();
     }
 
@@ -154,12 +154,12 @@ public class FloatingActionMenu extends FloatingActionView {
     }
 
     public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int iconResId, boolean isAddMenu) {
-        View localView = addItemView(viewIndex, textString, iconResId, isAddMenu);
+        View moreView = addItemView(viewIndex, textString, iconResId, isAddMenu);
         final ListPopupWindow morePopupWindow = new ListPopupWindow(getContext());
         // morePopupWindow.setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(
         // android.R.color.transparent)));
-        ArrayAdapter localArrayAdapter = new ArrayAdapter(getContext(), R.layout.item_btn_more);
-        final MoreMenuItemBuilder moreMenuItemBuilder = new MoreMenuItemBuilder(localArrayAdapter);
+        ArrayAdapter moreMenuAdapter = new ArrayAdapter(getContext(), R.layout.item_btn_more);
+        final MoreMenuItemBuilder moreMenuItemBuilder = new MoreMenuItemBuilder(moreMenuAdapter);
 
         morePopupWindow.setOnItemClickListener(new OnItemClickListener() {
 
@@ -176,10 +176,10 @@ public class FloatingActionMenu extends FloatingActionView {
                 }
             }
         });
-        morePopupWindow.setAdapter(localArrayAdapter);
-        morePopupWindow.setAnchorView(localView);
+        morePopupWindow.setAdapter(moreMenuAdapter);
+        morePopupWindow.setAnchorView(moreView);
         morePopupWindow.setModal(true);
-        localView.setOnClickListener(new OnClickListener() {
+        moreView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
