@@ -35,6 +35,7 @@ import java.util.TimerTask;
 
 public class KChartsLandFragment extends AbstractKChartView implements OnClickListener, KChartsLandCallBack, FragmentLifecycle {
 
+
     private static final String UNCHEK = "0";
     private static final String BEFORECHEK = "1";
     private static final String AFTERCHEK = "2";
@@ -51,7 +52,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     List<OHLCEntity> ohlcs;
     private boolean having = true;
     // private String symbolType;
-    private static final String TAG = "KChartsLandFragment";
+    private static final String TAG = KChartsLandFragment.class.getSimpleName();
     private RelativeLayout pb;
     private TextView tvUnCheck;
     private TextView tvBeforeCheck;
@@ -404,12 +405,12 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
+        Log.v(TAG, "-----------setUserVisibleHint:" + isVisibleToUser);
         setViewVisible(isVisibleToUser);
         super.setUserVisibleHint(isVisibleToUser);
     }
 
 
-    @Override
     public void setViewVisible(boolean isVisibleToUser) {
         if (isVisibleToUser) {
             onVisible();
@@ -672,14 +673,16 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     public void onLoadMoreDataStart() {
         Log.e("LoadMore", "-----------onLoadMoreDataStart-----------");
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
+        if (isAdded()) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
-                pbLoadMore.setVisibility(View.VISIBLE);
+                    pbLoadMore.setVisibility(View.VISIBLE);
 
-            }
-        });
+                }
+            });
+        }
     }
 
     @Override
@@ -687,13 +690,17 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
         Log.e("LoadMore", "-----------onLoadMoreDataEnd-----------");
 
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pbLoadMore.setVisibility(View.GONE);
+        if (isAdded()) {
 
-            }
-        });
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    pbLoadMore.setVisibility(View.GONE);
+
+                }
+            });
+        }
 
     }
 

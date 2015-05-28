@@ -275,7 +275,7 @@ public class StockLandView extends RelativeLayout {
             }
             Fragment preFragment = this.fragmentList.get(view_position);
             if (null != preFragment && preFragment instanceof FragmentLifecycle) {
-                ((FragmentLifecycle) currentFragment).onUnVisible();
+                ((FragmentLifecycle) preFragment).onUnVisible();
             }
 
             view_position = postion;
