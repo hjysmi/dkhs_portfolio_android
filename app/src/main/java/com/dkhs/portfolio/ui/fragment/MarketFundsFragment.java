@@ -14,34 +14,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.FollowComListEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.ui.EditTabFundActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.eventbus.TabFundTitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
+import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -58,13 +42,16 @@ import java.util.List;
  * @Description TODO(基金tab Fragment)
  * @date 2015-2-7 上午11:03:26
  */
-public class TabFundFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
+public class MarketFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_tab_mystock;
+        return R.layout.fragment_tab_myfund;
     }
 
     private FragmentSelectStockFund loadDataListFragment;
+
+    @ViewInject(R.id.menuFloat)
+    private MenuChooserRelativeLayout menuChooserRelativeLayout;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
     // @ViewInject(R.id.tv_increase)
@@ -125,6 +112,15 @@ public class TabFundFragment extends BaseFragment implements IDataUpdateListener
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        replaceDataList();
+
+        List<CharSequence> data=new ArrayList<>();
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        menuChooserRelativeLayout.setData(data);
+
     }
 
     @Override
@@ -190,7 +186,8 @@ public class TabFundFragment extends BaseFragment implements IDataUpdateListener
         int id = v.getId();
         switch (id) {
             case R.id.tv_current: {
-                setViewOrderIndicator(tvCurrent);
+//                menuChooserRelativeLayout.show();
+//                setViewOrderIndicator(tvCurrent);
             }
             break;
             case R.id.tv_percentage: {
@@ -202,7 +199,6 @@ public class TabFundFragment extends BaseFragment implements IDataUpdateListener
             default:
                 break;
         }
-
         reloadData();
 
     }

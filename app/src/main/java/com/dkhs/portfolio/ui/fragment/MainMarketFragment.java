@@ -11,7 +11,6 @@ package com.dkhs.portfolio.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +25,8 @@ import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
-import com.dkhs.portfolio.ui.widget.ScrollViewPager;
 import com.dkhs.portfolio.ui.widget.TabWidget;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -78,9 +75,9 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentList = new ArrayList<Fragment>();
-        fragmentList.add(new StockFragment());
-        fragmentList.add(new TabFundFragment());
-        fragmentList.add(new FundsOrderMainFragment());
+        fragmentList.add(new MarketStockFragment());
+        fragmentList.add(new MarketFundsFragment());
+        fragmentList.add(new MarketCombinationFragment());
         vp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
         vp.setOnPageChangeListener(this);
         tabWidget = new TabWidget(view);

@@ -16,10 +16,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
@@ -31,10 +29,8 @@ import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.widget.TabWidget;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.lidroid.xutils.view.annotation.event.OnClick;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -103,7 +99,7 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
         displayFragmentA();
         ArrayList<Fragment> fragments=new ArrayList<>();
         fragments.add(tabStockFragment);
-        fragments.add(new TabFundFragment());
+        fragments.add(new MarketFundsFragment());
         fragments.add(tabFundsFragment);
         mVp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragments));
         mVp.setOnPageChangeListener(new OnPagerListener());

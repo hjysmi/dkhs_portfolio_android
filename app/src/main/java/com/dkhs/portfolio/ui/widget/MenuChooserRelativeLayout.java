@@ -3,8 +3,6 @@ package com.dkhs.portfolio.ui.widget;
 import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.media.Image;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -28,21 +26,21 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015/5/28.
  */
-public class MenuFloat  extends RelativeLayout {
-    public MenuFloat(Context context) {
+public class MenuChooserRelativeLayout extends RelativeLayout {
+    public MenuChooserRelativeLayout(Context context) {
         super(context);
     }
 
-    public MenuFloat(Context context, AttributeSet attrs) {
+    public MenuChooserRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MenuFloat(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MenuFloat(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -67,6 +65,14 @@ public class MenuFloat  extends RelativeLayout {
         adapter=new Adapter();
         recyclerView.setAdapter(adapter );
         this.addView(view);
+        this.setVisibility(GONE);
+        imageView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dissmiss();
+
+            }
+        });
     }
 
 
@@ -120,7 +126,7 @@ public class MenuFloat  extends RelativeLayout {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-               MenuFloat.this.setVisibility(GONE);
+               MenuChooserRelativeLayout.this.setVisibility(GONE);
             }
 
             @Override
@@ -144,7 +150,7 @@ public class MenuFloat  extends RelativeLayout {
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            View view= LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_float,null);
+            View view= LayoutInflater.from(getContext()).inflate(R.layout.item_menu,null);
             return new Holder(view);
         }
 

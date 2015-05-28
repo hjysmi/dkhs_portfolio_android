@@ -35,7 +35,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午1:56:21
  */
-public class FundsOrderMainFragment extends BaseFragment {
+public class MarketCombinationFragment extends BaseFragment {
 
     private HScrollTitleView hsTitle;
     private ScrollViewPager pager;

@@ -26,7 +26,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.fragment.FundsOrderMainFragment;
+import com.dkhs.portfolio.ui.fragment.MarketCombinationFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
@@ -143,8 +143,8 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         viewHolder.cbFollowed.setTag(item);
 
         if (!PortfolioApplication.hasUserLogin()) {
-            if (null != FundsOrderMainFragment.mVisitorData) {
-                viewHolder.cbFollowed.setChecked(FundsOrderMainFragment.mVisitorData.contains(item));
+            if (null != MarketCombinationFragment.mVisitorData) {
+                viewHolder.cbFollowed.setChecked(MarketCombinationFragment.mVisitorData.contains(item));
             }
         } else {
 
@@ -260,16 +260,16 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         } else {
             if (mCombinationBean.isFollowed()) {
                 new VisitorDataEngine().saveCombination(mCombinationBean);
-                if (null != FundsOrderMainFragment.mVisitorData
-                        && !FundsOrderMainFragment.mVisitorData.contains(mCombinationBean)) {
-                    FundsOrderMainFragment.mVisitorData.add(mCombinationBean);
+                if (null != MarketCombinationFragment.mVisitorData
+                        && !MarketCombinationFragment.mVisitorData.contains(mCombinationBean)) {
+                    MarketCombinationFragment.mVisitorData.add(mCombinationBean);
                 }
                 PromptManager.showFollowToast();
             } else {
                 new VisitorDataEngine().delCombinationBean(mCombinationBean);
-                if (null != FundsOrderMainFragment.mVisitorData
-                        && FundsOrderMainFragment.mVisitorData.contains(mCombinationBean)) {
-                    FundsOrderMainFragment.mVisitorData.remove(mCombinationBean);
+                if (null != MarketCombinationFragment.mVisitorData
+                        && MarketCombinationFragment.mVisitorData.contains(mCombinationBean)) {
+                    MarketCombinationFragment.mVisitorData.remove(mCombinationBean);
                 }
                 PromptManager.showDelFollowToast();
             }

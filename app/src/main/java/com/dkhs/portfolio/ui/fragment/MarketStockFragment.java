@@ -49,7 +49,7 @@ import java.util.TimerTask;
  * @Description TODO(股票)
  * @date 2015/5/25.
  */
-public class StockFragment extends BaseFragment implements View.OnClickListener {
+public class MarketStockFragment extends BaseFragment implements View.OnClickListener {
 
 
     @Override
