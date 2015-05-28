@@ -267,10 +267,17 @@ public class StockLandView extends RelativeLayout {
             FragmentActivity activity = (FragmentActivity) mContext;
             activity.getSupportFragmentManager().beginTransaction().show((Fragment) this.fragmentList.get(postion))
                     .commitAllowingStateLoss();
-            this.fragmentList.get(postion).setUserVisibleHint(true);
-            this.fragmentList.get(view_position).setUserVisibleHint(false);
             activity.getSupportFragmentManager().beginTransaction()
                     .hide((Fragment) this.fragmentList.get(view_position)).commitAllowingStateLoss();
+            Fragment currentFragment = this.fragmentList.get(postion);
+            if (null != currentFragment && currentFragment instanceof FragmentLifecycle) {
+                ((FragmentLifecycle) currentFragment).onVisible();
+            }
+            Fragment preFragment = this.fragmentList.get(view_position);
+            if (null != preFragment && preFragment instanceof FragmentLifecycle) {
+                ((FragmentLifecycle) preFragment).onUnVisible();
+            }
+
             view_position = postion;
 
         }
