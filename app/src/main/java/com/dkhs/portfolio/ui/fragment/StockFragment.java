@@ -470,9 +470,16 @@ public class StockFragment extends BaseFragment implements View.OnClickListener 
         for (LoadMoreDataEngine mLoadDataEngine : engineList) {
             mLoadDataEngine.loadData();
         }
-        startAnimaRefresh();
+
         plateEngine.loadData();
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                startAnimaRefresh();
+            }
+        });
     }
+
 
     public interface ILoadingFinishListener {
         void loadingFinish();

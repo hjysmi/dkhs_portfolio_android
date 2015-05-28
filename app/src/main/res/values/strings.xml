@@ -497,4 +497,5 @@
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
+    <string name="edit">编辑</string>
 </resources>

@@ -1,5 +1,7 @@
 package com.dkhs.portfolio.ui.widget;
 
+import android.support.annotation.ArrayRes;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,13 +21,30 @@ public class TabWidget implements View.OnClickListener {
     public Button mBtntitletableft;
     public Button mBtntitletabcenter;
     public Button mBtntitletabright;
-    public   TabWidget(View view){
-         mBtntitletableft = (Button) view.findViewById(R.id.btn_titletab_left);
-         mBtntitletabcenter = (Button) view.findViewById(R.id.btn_titletab_center);
-         mBtntitletabright = (Button) view.findViewById(R.id.btn_titletab_right);
+
+    private View view;
+
+    public TabWidget(View view) {
+        this.view=view;
+        mBtntitletableft = (Button) view.findViewById(R.id.btn_titletab_left);
+        mBtntitletabcenter = (Button) view.findViewById(R.id.btn_titletab_center);
+        mBtntitletabright = (Button) view.findViewById(R.id.btn_titletab_right);
         mBtntitletableft.setOnClickListener(this);
         mBtntitletabcenter.setOnClickListener(this);
         mBtntitletabright.setOnClickListener(this);
+    }
+
+    public void  setTitles(String[] titles ){
+        if(titles.length==3){
+
+            mBtntitletableft.setText(titles[0]);
+            mBtntitletabcenter.setText(titles[1]);
+            mBtntitletabright.setText(titles[2]);
+        }
+    }
+
+    public void  setTitles(@ArrayRes int titlesRes ) {
+        setTitles(  view.getContext().getResources().getStringArray(titlesRes));
     }
 
 
@@ -37,7 +56,7 @@ public class TabWidget implements View.OnClickListener {
                 mBtntitletabright.setEnabled(true);
                 mBtntitletableft.setEnabled(false);
                 mBtntitletabcenter.setEnabled(true);
-                if(onSelectListener!=null){
+                if (onSelectListener != null) {
                     onSelectListener.onSelect(0);
                 }
             }
@@ -46,7 +65,7 @@ public class TabWidget implements View.OnClickListener {
                 mBtntitletabright.setEnabled(true);
                 mBtntitletableft.setEnabled(true);
                 mBtntitletabcenter.setEnabled(false);
-                if(onSelectListener!=null){
+                if (onSelectListener != null) {
                     onSelectListener.onSelect(1);
                 }
 
@@ -56,11 +75,9 @@ public class TabWidget implements View.OnClickListener {
                 mBtntitletabright.setEnabled(false);
                 mBtntitletableft.setEnabled(true);
                 mBtntitletabcenter.setEnabled(true);
-                if(onSelectListener!=null){
+                if (onSelectListener != null) {
                     onSelectListener.onSelect(2);
                 }
-
-                // PromptManager.showCustomToast(R.drawable.ic_toast_gantan, R.string.message_timeout);
             }
             break;
             default:
@@ -75,13 +92,13 @@ public class TabWidget implements View.OnClickListener {
         this.onSelectListener = onSelectListener;
     }
 
-    public  interface  OnSelectListener {
-        public  void onSelect(int position);
+    public interface OnSelectListener {
+        public void onSelect(int position);
     }
 
-    public void setSelection(int position){
+    public void setSelection(int position) {
 
-        switch (position){
+        switch (position) {
             case 0:
                 mBtntitletableft.performClick();
                 break;
