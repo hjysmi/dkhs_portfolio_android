@@ -81,7 +81,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * @ClassName FragmentCompare
  * @date 2014-9-3 上午9:32:29
  */
-public class FragmentCompare extends BaseFragment implements OnClickListener, FragmentLifecycle {
+public class FragmentCompare extends BaseFragment implements OnClickListener {
 
     private final int REQUESTCODE_SELECT_FUND = 420;
 
@@ -1066,26 +1066,6 @@ public class FragmentCompare extends BaseFragment implements OnClickListener, Fr
                     break;
             }
         }
-    }
-
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void onPauseFragment() {
-
-    }
-
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void onResumeFragment() {
-
     }
 
     /**

@@ -85,7 +85,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-1 下午1:52:54
  */
-public class FragmentNetValueTrend extends Fragment implements OnClickListener, FragmentLifecycle {
+public class FragmentNetValueTrend extends Fragment implements OnClickListener {
     private TextView tvIncreaseValue;
     private TextView tvIncreaseRatio;
     private CombinationBean mCombinationBean;
@@ -207,6 +207,8 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
         }
     }
+
+
 
     class OnComCheckListener implements OnCheckedChangeListener {
 
@@ -691,10 +693,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
         }
     };
 
-    @Override
-    public void onPauseFragment() {
-
-    }
 
     @Override
     public void onResume() {
@@ -786,16 +784,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener, 
 
     ;
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void onResumeFragment() {
-        // TODO Auto-generated method stub
-
-    }
 
     private ITouchListener mTouchListener;
 

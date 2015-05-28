@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/person_setting_backgroud"
-    android:orientation="vertical"
-    >
-
+    android:orientation="vertical">
 
 
     <com.melnykov.fab.ObservableScrollView
@@ -14,25 +12,25 @@
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:overScrollMode="never"
-        android:scrollbars="none" >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="60dp" >
+            android:paddingBottom="60dp">
 
             <RelativeLayout
                 android:id="@+id/rl_trend_view"
                 android:layout_width="match_parent"
-                android:layout_height="600dp" >
-            </RelativeLayout>
+                android:layout_height="600dp"></RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/combination_position"
+                style="@style/white_grayborder_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/combin_horSpacing" >
+                android:layout_marginTop="@dimen/combin_horSpacing">
 
                 <TextView
                     android:id="@+id/tv_position_tip"
@@ -41,7 +39,7 @@
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="@string/text_no_open"
-                    android:background="@color/white"
+
                     android:textColor="@color/combition_gray" />
             </RelativeLayout>
 
@@ -58,7 +56,7 @@
                 android:paddingBottom="10dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp" >
+                android:paddingTop="10dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -85,6 +83,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
 
-    <View style="@style/divider_line" android:background="@color/white_10" android:layout_gravity="top"/>
+    <View
+        style="@style/divider_line"
+        android:layout_gravity="top"
+        android:background="@color/white_10" />
 
 </FrameLayout>
