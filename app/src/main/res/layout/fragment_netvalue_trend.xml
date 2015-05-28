@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:layout_marginTop="-1dp"
+    android:layout_marginLeft="-1dp"
+    android:layout_marginRight="-1dp"
+    android:background="@drawable/btn_white_grayborder_selector"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -263,11 +266,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <View style="@style/divider_line" />
 
     <FrameLayout
         android:id="@+id/rl_trend_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="1dp" />
+
 
 </LinearLayout>
