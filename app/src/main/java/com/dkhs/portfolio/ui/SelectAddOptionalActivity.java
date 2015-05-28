@@ -112,11 +112,11 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         //
         // }
         FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(StockViewType.STOCK_INCREASE_CLICKABLE);
+                .getStockFragment(StockViewType.STOCK_INCREASE_CLICKABLE);
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(StockViewType.STOCK_DRAWDOWN_CLICKABLE);
+                .getStockFragment(StockViewType.STOCK_DRAWDOWN_CLICKABLE);
         FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(StockViewType.STOCK_HANDOVER_CLICKABLE);
+                .getStockFragment(StockViewType.STOCK_HANDOVER_CLICKABLE);
         mIncreaseFragment.setDefLoad(true);
         mDownFragment.setDefLoad(true);
         mHandoverFragment.setDefLoad(true);

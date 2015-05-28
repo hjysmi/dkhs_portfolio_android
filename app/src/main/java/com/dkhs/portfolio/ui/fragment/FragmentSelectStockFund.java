@@ -228,21 +228,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         return fragment;
     }
 
-    public static FragmentSelectStockFund getFundFragment(StockViewType type) {
-        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
-        Bundle args = new Bundle();
-        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static FragmentSelectStockFund getItemClickBackFragment(StockViewType type) {
-        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
-        Bundle args = new Bundle();
-        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -255,31 +240,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mUserId = bundle.getString(ARGUMENT_USER_ID);
 
         }
-//        if (mViewType == StockViewType.STOCK_HANDOVER_CLICKABLE) {
-//            mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList, true);
-//        } else if (mViewType == STOCK_DRAWDOWN_CLICKABLE || mViewType == STOCK_INCREASE_CLICKABLE) {
-//            mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
-//        } else if (mViewType == FUND_INDEX || mViewType == FUND_MAININDEX || mViewType == FUND_STOCK) {
-//            mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
-//        } else if (mViewType == STOCK_OPTIONAL_PRICE) {
-//            mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
-//
-//        } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
-//                || mViewType == StockViewType.MARKET_INLAND_INDEX
-//                || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
-//                || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
-//                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
-//            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
-//        } else if (mViewType == StockViewType.MARKET_STOCK_AMPLIT || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
-//                || mViewType == StockViewType.MARKET_STOCK_TURNOVER
-//                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
-//            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList, true);
-//        } else if (mViewType == StockViewType.STOCK_HANDOVER) {
-//            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList, true);
-//
-//        } else {
-//            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
-//        }
 
         mAdapterConbinStock = new AdapterHelper(getActivity()).create(mViewType);
         mAdapterConbinStock.setData(mDataList);
@@ -289,11 +249,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
 
     private static class AdapterHelper {
-        //        private StockViewType viewType;
         private WeakReference<Context> mcontext;
 
         public AdapterHelper(Context ctx) {
-//            this.viewType = type;
             mcontext = new WeakReference<Context>(ctx);
         }
 
