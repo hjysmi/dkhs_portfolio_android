@@ -31,13 +31,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentNews
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午9:33:40
- * @version 1.0
  */
-public class FragmentCombinationNews extends BaseFragment implements FragmentLifecycle {
+public class FragmentCombinationNews extends BaseFragment {
     public static final String DATA = "mCombinationBean";
     private CombinationBean mCombinationBean;
     private LinearLayout comLayout;
@@ -68,11 +68,11 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -134,17 +134,6 @@ public class FragmentCombinationNews extends BaseFragment implements FragmentLif
 
     }
 
-    @Override
-    public void onPauseFragment() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onResumeFragment() {
-        // TODO Auto-generated method stub
-
-    }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_text);
 

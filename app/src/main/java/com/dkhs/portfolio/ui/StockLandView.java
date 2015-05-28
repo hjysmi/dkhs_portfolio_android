@@ -16,6 +16,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
@@ -146,29 +147,29 @@ public class StockLandView extends RelativeLayout {
     @Override
     protected void onVisibilityChanged(View changedView, int visibility) {
 
-        if (null != this.fragmentList && hasWindowFocus()) {
+        try {
 
-            // get fragment from list and setUserVisibleHint maybe crash;
-            if (visibility == View.VISIBLE) {
+
+            if (null != this.fragmentList && hasWindowFocus()) {
                 Fragment fragment = this.fragmentList.get(view_position);
-                if (null != fragment) {
+                if (null != fragment && fragment instanceof FragmentLifecycle) {
+                    if (visibility == View.VISIBLE) {
+                        ((FragmentLifecycle) fragment).onVisible();
+                        if (null != mQuotesEngine && mStockBean != null) {
+                            if (mLandStockCallBack.getTabPosition() != view_position) {
+                                hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
 
-                    fragment.setUserVisibleHint(true);
-                }
-                if (null != mQuotesEngine && mStockBean != null) {
-                    // mQuotesEngine.quotes(mStockBean.code, listener);
-                    if (mLandStockCallBack.getTabPosition() != view_position) {
-                        // showView(mLandStockCallBack.getTabPosition());
-                        hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
-
+                            }
+                        }
                     } else {
-                        this.fragmentList.get(view_position).setUserVisibleHint(true);
-
+                        ((FragmentLifecycle) fragment).onUnVisible();
                     }
                 }
-            } else {
-                this.fragmentList.get(view_position).setUserVisibleHint(false);
+
+
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
