@@ -71,13 +71,13 @@ import java.util.List;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FragmentPositionDetail
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-3 上午9:33:13
- * @version 1.0
  */
-public class FragmentPositionDetail extends Fragment implements OnClickListener, FragmentLifecycle {
+public class FragmentPositionDetail extends Fragment implements OnClickListener {
 
     private PieGraph pgView;
     private View btnDate;
@@ -150,10 +150,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param extras
      * @return void
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     private void handleExtras(Bundle extras) {
         // TODO Auto-generated method stub
@@ -197,10 +197,10 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param activity
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onAttach(Activity activity) {
@@ -212,9 +212,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     class QueryCombinationDetailListener extends ParseHttpListener<PositionDetail> {
 
         /**
+         * @return
          * @Title
          * @Description TODO: (用一句话描述这个方法的功能)
-         * @return
          */
         @Override
         public void beforeRequest() {
@@ -281,7 +281,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
             }
 
         }
-    };
+    }
+
+    ;
 
     private void updateView() {
 
@@ -424,9 +426,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public void onStart() {
@@ -448,19 +450,19 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
 
             }
 
-                break;
+            break;
             case R.id.btn_back: {
 
             }
 
-                break;
+            break;
             case R.id.tv_current_day:
             case R.id.btn_detail_date: {// 选择查询日期
                 showPickerDate();
 
             }
 
-                break;
+            break;
 
             default:
                 break;
@@ -487,7 +489,9 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
     Handler shareHandler = new Handler() {
         public void handleMessage(Message msg) {
             showShare();
-        };
+        }
+
+        ;
     };
 
     private void showShare() {
@@ -698,27 +702,6 @@ public class FragmentPositionDetail extends Fragment implements OnClickListener,
                 .get(Calendar.DAY_OF_MONTH));
     }
 
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
-    @Override
-    public void onPauseFragment() {
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
-     */
-    @Override
-    public void onResumeFragment() {
-        // TODO Auto-generated method stub
-
-    }
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_combination_adjust);
 

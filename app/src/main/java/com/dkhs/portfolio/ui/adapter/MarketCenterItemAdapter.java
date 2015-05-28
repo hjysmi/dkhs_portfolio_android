@@ -24,6 +24,14 @@ import java.util.List;
 public class MarketCenterItemAdapter extends BaseAdatperSelectStockFund {
     private boolean isDefColor = false;
 
+    public MarketCenterItemAdapter(Context context) {
+        super(context);
+    }
+    public MarketCenterItemAdapter(Context context,boolean isDefColor) {
+        super(context);
+        this.isDefColor = isDefColor;
+    }
+
     public MarketCenterItemAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas);
         // TODO Auto-generated constructor stub

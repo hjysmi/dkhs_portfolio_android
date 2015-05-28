@@ -8,6 +8,7 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,8 +56,17 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_INDEX;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_MAININDEX;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_STOCK;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_DRAWDOWN_CLICKABLE;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_HANDOVER_CLICKABLE;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_INCREASE_CLICKABLE;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_OPTIONAL_PRICE;
 
 /**
  * @author zjz
@@ -69,8 +79,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         OnLoadMoreListener {
     private static final String TAG = FragmentSelectStockFund.class.getSimpleName();
 
-    protected static final String ARGUMENT_LOAD_FUND = "isloadfund";
-    protected static final String ARGUMENT_ITEM_CLICK_BACK = "argument_item_click_back";
     protected static final String ARGUMENT_LOAD_TYPE = "load_type";
     protected static final String ARGUMENT_SECTOR_ID = "sector_id";
     protected static final String ARGUMENT_USER_ID = "user_id";
@@ -80,13 +88,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     protected boolean isLoadingMore;
     protected boolean isRefresh;
     protected List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
-    protected boolean isFund;
-    protected boolean isItemClickBack;
     protected StockViewType mViewType;
-    protected boolean fromPosition = false;
     LoadMoreDataEngine mLoadDataEngine;
     protected TextView tvEmptyText;
-    public int timeMill;
     protected boolean flush = false;
     protected String mSecotrId;
     protected boolean isLoading;
@@ -178,7 +182,20 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         /**
          * 行情中心 ,个股振幅，低到高
          */
-        MARKET_PLATE_LIST_ACE(19);
+        MARKET_PLATE_LIST_ACE(19),
+        /**
+         * 可以点击查看详情的涨幅列表
+         */
+        STOCK_INCREASE_CLICKABLE(20),
+        /**
+         * 可以点击查看详情的跌幅列表
+         */
+        STOCK_DRAWDOWN_CLICKABLE(21),
+        /**
+         * 可以点击查看详情的换手列表
+         */
+        STOCK_HANDOVER_CLICKABLE(22);
+
 
         private int typeId;
 
@@ -197,7 +214,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     public static FragmentSelectStockFund getStockFragment(StockViewType type) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putSerializable(ARGUMENT_LOAD_TYPE, type);
         fragment.setArguments(args);
         return fragment;
@@ -206,41 +222,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     public static FragmentSelectStockFund getStockFragmentByUserId(StockViewType type, String userId) {
         FragmentSelectStockFund fragment = new FragmentSelectStockFund();
         Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_LOAD_FUND, false);
         args.putSerializable(ARGUMENT_LOAD_TYPE, type);
         args.putString(ARGUMENT_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static FragmentSelectStockFund getStockFragmentByPlate(StockViewType type, String plateId) {
-        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
-        Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_LOAD_FUND, false);
-        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
-        args.putString(ARGUMENT_SECTOR_ID, plateId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static FragmentSelectStockFund getFundFragment(StockViewType type) {
-        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
-        Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_LOAD_FUND, true);
-        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static FragmentSelectStockFund getItemClickBackFragment(StockViewType type) {
-        FragmentSelectStockFund fragment = new FragmentSelectStockFund();
-        Bundle args = new Bundle();
-        args.putBoolean(ARGUMENT_LOAD_FUND, false);
-        args.putBoolean(ARGUMENT_ITEM_CLICK_BACK, true);
-        args.putSerializable(ARGUMENT_LOAD_TYPE, type);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -248,49 +235,84 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         Bundle bundle = getArguments();
 
         if (null != bundle) {
-            isFund = bundle.getBoolean(ARGUMENT_LOAD_FUND);
-            isItemClickBack = bundle.getBoolean(ARGUMENT_ITEM_CLICK_BACK);
             mViewType = (StockViewType) bundle.getSerializable(ARGUMENT_LOAD_TYPE);
-            fromPosition = bundle.getBoolean("fromPosition");
             mSecotrId = bundle.getString(ARGUMENT_SECTOR_ID);
             mUserId = bundle.getString(ARGUMENT_USER_ID);
 
         }
-        if (isItemClickBack) {
-            if (mViewType == StockViewType.STOCK_HANDOVER) {
 
-                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList, true);
-            } else {
-                mAdapterConbinStock = new AddStockItemAdapter(getActivity(), mDataList);
-            }
-        } else if (isFund) {
-            mAdapterConbinStock = new SelectCompareFundAdatper(getActivity(), mDataList);
-        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
-            mAdapterConbinStock = new OptionalPriceAdapter(getActivity(), mDataList);
-
-        } else if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
-                || mViewType == StockViewType.MARKET_INLAND_INDEX
-                || mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
-                || mViewType == StockViewType.MARKET_INLAND_INDEX_ACE || mViewType == StockViewType.MARKET_PLATE_LIST
-                || mViewType == StockViewType.MARKET_PLATE_LIST_ACE) {
-            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList);
-        } else if (mViewType == StockViewType.MARKET_STOCK_AMPLIT || mViewType == StockViewType.MARKET_STOCK_AMPLIT_ACE
-                || mViewType == StockViewType.MARKET_STOCK_TURNOVER
-                || mViewType == StockViewType.MARKET_STOCK_TURNOVER_ACE) {
-            mAdapterConbinStock = new MarketCenterItemAdapter(getActivity(), mDataList, true);
-        } else if (mViewType == StockViewType.STOCK_HANDOVER) {
-            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList, true);
-            mAdapterConbinStock.setFromShow(!fromPosition);
-
-        } else {
-            mAdapterConbinStock = new SelectStockAdatper(getActivity(), mDataList);
-            mAdapterConbinStock.setFromShow(!fromPosition);
-        }
-
+        mAdapterConbinStock = new AdapterHelper(getActivity()).create(mViewType);
+        mAdapterConbinStock.setData(mDataList);
         mAdapterConbinStock.setCheckChangeListener(this);
-        // initData();
 
     }
+
+
+    private static class AdapterHelper {
+        private WeakReference<Context> mcontext;
+
+        public AdapterHelper(Context ctx) {
+            mcontext = new WeakReference<Context>(ctx);
+        }
+
+        public BaseAdatperSelectStockFund create(StockViewType viewType) {
+            BaseAdatperSelectStockFund adapter = null;
+            if (mcontext.get() != null) {
+
+                switch (viewType) {
+                    case STOCK_OPTIONAL_PRICE: {
+                        adapter = new OptionalPriceAdapter(mcontext.get());
+                    }
+                    break;
+                    case STOCK_HANDOVER_CLICKABLE: {
+                        adapter = new AddStockItemAdapter(mcontext.get(), true);
+                    }
+                    break;
+                    case STOCK_INCREASE_CLICKABLE:
+                    case STOCK_DRAWDOWN_CLICKABLE: {
+                        adapter = new AddStockItemAdapter(mcontext.get());
+                    }
+                    break;
+                    case FUND_INDEX:
+                    case FUND_STOCK:
+                    case FUND_MAININDEX: {
+                        adapter = new SelectCompareFundAdatper(mcontext.get());
+                    }
+                    break;
+                    case MARKET_STOCK_DOWNRATIO:
+                    case MARKET_INLAND_INDEX:
+                    case MARKET_INLAND_INDEX_CURRENT:
+                    case MARKET_INLAND_INDEX_ACE:
+                    case MARKET_PLATE_LIST:
+                    case MARKET_PLATE_LIST_ACE:
+                    case MARKET_STOCK_UPRATIO: {
+                        adapter = new MarketCenterItemAdapter(mcontext.get());
+                    }
+                    break;
+                    case MARKET_STOCK_AMPLIT:
+                    case MARKET_STOCK_AMPLIT_ACE:
+                    case MARKET_STOCK_TURNOVER:
+                    case MARKET_STOCK_TURNOVER_ACE: {
+                        adapter = new MarketCenterItemAdapter(mcontext.get(), true);
+                    }
+                    break;
+                    case STOCK_HANDOVER: {
+                        adapter = new SelectStockAdatper(mcontext.get(), true);
+                    }
+                    break;
+
+
+                    default:
+                        adapter = new SelectStockAdatper(mcontext.get());
+                        break;
+                }
+
+            }
+            return adapter;
+        }
+
+    }
+
 
     private boolean isLoadStockType() {
         if (mViewType == StockViewType.MARKET_STOCK_DOWNRATIO || mViewType == StockViewType.MARKET_STOCK_UPRATIO
@@ -304,13 +326,14 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
     private void initData() {
-        if (isFund) {
+        if (mViewType == FUND_INDEX || mViewType == FUND_MAININDEX || mViewType == FUND_STOCK) {
             loadDataByFund();
         } else {
             loadDataByStock();
         }
 
     }
+
 
     private void loadDataByFund() {
         if (mViewType == StockViewType.FUND_MAININDEX) {
@@ -338,10 +361,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
         if (mViewType == StockViewType.STOCK_OPTIONAL) {
             mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, false);
-        } else if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
-            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true,mUserId);
+        } else if (mViewType == STOCK_OPTIONAL_PRICE) {
+            mLoadDataEngine = new OptionalStockEngineImpl(mSelectStockBackListener, true, mUserId);
         } else if (isLoadStockType() || mViewType == StockViewType.STOCK_HANDOVER
-                || mViewType == StockViewType.STOCK_DRAWDOWN || mViewType == StockViewType.STOCK_INCREASE) {
+                || mViewType == StockViewType.STOCK_DRAWDOWN || mViewType == StockViewType.STOCK_INCREASE || mViewType == StockViewType.STOCK_HANDOVER_CLICKABLE
+                || mViewType == StockViewType.STOCK_DRAWDOWN_CLICKABLE || mViewType == StockViewType.STOCK_INCREASE_CLICKABLE) {
             mLoadDataEngine = new OpitionCenterStockEngineImple(mSelectStockBackListener, mViewType, mSecotrId);
         } else if (mViewType == StockViewType.MARKET_INLAND_INDEX) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
@@ -364,23 +388,12 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             loadHandler = mLoadDataEngine.loadData();
 
         }
-        // 第一次
-        // isRefresh = true;
+
 
     }
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {
 
-        // @Override
-        // public void loadFinish(List<SelectStockBean> dataList) {
-        //
-        // }
-        //
-        // @Override
-        // public void loadFail(ErrorBundle error) {
-        // // LogUtils.e("loading fail,error code:" + error.getErrorCode());
-        //
-        // }
 
         @Override
         public void loadFinish(MoreDataBean object) {
@@ -407,7 +420,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 // loadFinishUpdateView();
                 return;
             }
-            if (isRefresh || mViewType == StockViewType.STOCK_OPTIONAL_PRICE || !isLoadingMore) {
+            if (isRefresh || mViewType == STOCK_OPTIONAL_PRICE || !isLoadingMore) {
                 mDataList.clear();
                 isRefresh = false;
 
@@ -493,7 +506,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
     }
 
 
-
     public void refresh() {
         isRefresh = true;
         if (mLoadDataEngine != null && UIUtils.roundAble(mLoadDataEngine.getStatu()) && !isLoadingMore) {
@@ -521,42 +533,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         }
     }
 
-    public void refreshForMarker() {
-
-        if (mLoadDataEngine != null && !isLoadingMore) {
-            // mDataList.clear();
-            if (UIUtils.roundAble(mLoadDataEngine.getStatu())) {
-                timeMill = 0;
-                isRefresh = true;
-                // if ((mViewType == StockViewType.MARKET_INLAND_INDEX_CURRENT
-                // || mViewType == StockViewType.MARKET_INLAND_INDEX || mViewType ==
-                // StockViewType.MARKET_INLAND_INDEX_ACE)
-                // && null != mDataList) {
-                // ((MarketCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-                // }
-                // if ((mViewType == StockViewType.MARKET_STOCK_UPRATIO || mViewType ==
-                // StockViewType.MARKET_STOCK_DOWNRATIO)
-                // && null != mDataList) {
-                // ((OpitionCenterStockEngineImple) mLoadDataEngine).loadDataFromCurrent(mDataList.size());
-                // }
-                if (null != loadingFinishListener) {
-                    loadingFinishListener.startLoadingData();
-                }
-                loadHandler = mLoadDataEngine.refreshDatabySize(mDataList.size());
-            }
-        } else {
-            timeMill++;
-            if (timeMill > 5) {
-                timeMill = 0;
-                isLoadingMore = false;
-            }
-        }
-    }
-
-    public void setCheckListener(ISelectChangeListener listener) {
-        if (null != mAdapterConbinStock)
-            mAdapterConbinStock.setCheckChangeListener(listener);
-    }
 
     public SwipeRefreshLayout mSwipeLayout;
 
@@ -673,7 +649,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
-        if (mViewType == StockViewType.STOCK_OPTIONAL_PRICE) {
+        if (mViewType == STOCK_OPTIONAL_PRICE) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
             emptyview = view.findViewById(R.id.add_data);
@@ -687,7 +663,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
                 }
             });
             // mListView.setEmptyView(emptyview);
-        } else if (isItemClickBack) {
+        } else if (mViewType == STOCK_INCREASE_CLICKABLE || mViewType == STOCK_DRAWDOWN_CLICKABLE || mViewType == STOCK_HANDOVER_CLICKABLE) {
             mListView.setOnItemClickListener(itemBackClick);
         }
 

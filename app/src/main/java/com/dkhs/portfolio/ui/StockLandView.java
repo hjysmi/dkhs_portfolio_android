@@ -16,6 +16,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
+import com.dkhs.portfolio.ui.fragment.FragmentLifecycle;
 import com.dkhs.portfolio.ui.fragment.KChartsFragment;
 import com.dkhs.portfolio.ui.fragment.KChartsLandFragment;
 import com.dkhs.portfolio.ui.fragment.StockQuotesChartLandFragment;
@@ -147,30 +148,25 @@ public class StockLandView extends RelativeLayout {
     protected void onVisibilityChanged(View changedView, int visibility) {
 
         try {
+
+
             if (null != this.fragmentList && hasWindowFocus()) {
+                Fragment fragment = this.fragmentList.get(view_position);
+                if (null != fragment && fragment instanceof FragmentLifecycle) {
+                    if (visibility == View.VISIBLE) {
+                        ((FragmentLifecycle) fragment).onVisible();
+                        if (null != mQuotesEngine && mStockBean != null) {
+                            if (mLandStockCallBack.getTabPosition() != view_position) {
+                                hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
 
-
-                // get fragment from list and setUserVisibleHint maybe crash;
-                if (visibility == View.VISIBLE) {
-                    Fragment fragment = this.fragmentList.get(view_position);
-                    if (null != fragment) {
-
-                        fragment.setUserVisibleHint(true);
-                    }
-                    if (null != mQuotesEngine && mStockBean != null) {
-                        // mQuotesEngine.quotes(mStockBean.code, listener);
-                        if (mLandStockCallBack.getTabPosition() != view_position) {
-                            // showView(mLandStockCallBack.getTabPosition());
-                            hsTitle.setSelectIndex(mLandStockCallBack.getTabPosition());
-
-                        } else {
-                            this.fragmentList.get(view_position).setUserVisibleHint(true);
-
+                            }
                         }
+                    } else {
+                        ((FragmentLifecycle) fragment).onUnVisible();
                     }
-                } else {
-                    this.fragmentList.get(view_position).setUserVisibleHint(false);
                 }
+
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -271,10 +267,17 @@ public class StockLandView extends RelativeLayout {
             FragmentActivity activity = (FragmentActivity) mContext;
             activity.getSupportFragmentManager().beginTransaction().show((Fragment) this.fragmentList.get(postion))
                     .commitAllowingStateLoss();
-            this.fragmentList.get(postion).setUserVisibleHint(true);
-            this.fragmentList.get(view_position).setUserVisibleHint(false);
             activity.getSupportFragmentManager().beginTransaction()
                     .hide((Fragment) this.fragmentList.get(view_position)).commitAllowingStateLoss();
+            Fragment currentFragment = this.fragmentList.get(postion);
+            if (null != currentFragment && currentFragment instanceof FragmentLifecycle) {
+                ((FragmentLifecycle) currentFragment).onVisible();
+            }
+            Fragment preFragment = this.fragmentList.get(view_position);
+            if (null != preFragment && preFragment instanceof FragmentLifecycle) {
+                ((FragmentLifecycle) preFragment).onUnVisible();
+            }
+
             view_position = postion;
 
         }

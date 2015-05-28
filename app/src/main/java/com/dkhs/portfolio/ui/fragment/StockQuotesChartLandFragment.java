@@ -61,7 +61,7 @@ import java.util.List;
  * @date 2014-9-3 上午10:32:39
  * @version 1.0
  */
-public class StockQuotesChartLandFragment extends BaseFragment {
+public class StockQuotesChartLandFragment extends BaseFragment implements  FragmentLifecycle {
     public static final String ARGUMENT_TREND_TYPE = "trend_type";
     public static final String ARGUMENT_STOCK_CODE = "stock_code";
 
@@ -777,5 +777,15 @@ public class StockQuotesChartLandFragment extends BaseFragment {
 
     public void setLandCallBack(LandStockViewCallBack landCallBack) {
         this.mLandCallBack = landCallBack;
+    }
+
+    @Override
+    public void onVisible() {
+
+    }
+
+    @Override
+    public void onUnVisible() {
+
     }
 }
