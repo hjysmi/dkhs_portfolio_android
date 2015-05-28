@@ -146,6 +146,7 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
                 break;
             case 2:
                 mBtnrefresh.setVisibility(View.GONE);
+                mBtnrefresh.setOnClickListener(null);
                 mBtnsearch.setVisibility(View.GONE);
 
                 break;
