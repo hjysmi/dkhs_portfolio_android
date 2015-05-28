@@ -151,7 +151,6 @@ public class FriendsOrFollowersFragment extends LoadMoreNoRefreshListFragment {
 
                 boolean isMyInfo;
 
-
                 if (UserEngineImpl.getUserEntity() != null && dataList.get(position).getId() == UserEngineImpl.getUserEntity().getId()) {
                     isMyInfo = true;
                 } else {
