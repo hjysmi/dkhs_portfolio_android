@@ -25,6 +25,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
+import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.umeng.analytics.MobclickAgent;
@@ -235,7 +236,11 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                CombinationBean selectBean = mDataList.get(position);
+                if(null!=FundsOrderActivity.mVisitorData&&!PortfolioApplication.getInstance().hasUserLogin()){
+                    selectBean.setFollowed(FundsOrderActivity.mVisitorData.contains(selectBean));
+                }
+                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
 
 
                 // getActivity().startActivity(
