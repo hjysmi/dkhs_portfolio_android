@@ -52,7 +52,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-9-3 上午9:33:13
  */
-public class FragmentPositionBottom extends Fragment implements OnClickListener, FragmentLifecycle {
+public class FragmentPositionBottom extends Fragment implements OnClickListener {
 
     private PieGraph pgView;
     // private View btnDate;
@@ -388,26 +388,5 @@ public class FragmentPositionBottom extends Fragment implements OnClickListener,
 
     }
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void onPauseFragment() {
-        // TODO Auto-generated method stub
-
-    }
-
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
-    @Override
-    public void onResumeFragment() {
-        // TODO Auto-generated method stub
-
-    }
 
 }

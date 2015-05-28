@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class KChartsLandFragment extends AbstractKChartView implements OnClickListener, KChartsLandCallBack {
+public class KChartsLandFragment extends AbstractKChartView implements OnClickListener, KChartsLandCallBack, FragmentLifecycle {
 
     private static final String UNCHEK = "0";
     private static final String BEFORECHEK = "1";
@@ -80,11 +80,11 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param view
      * @param savedInstanceState
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -220,14 +220,14 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     /**
      * 刷新k线图控件
-     * 
+     *
      * @param ohlc
      */
     private void refreshChartsView(List<OHLCEntity> ohlc) {
         try {
             mMyChartsView.setOHLCData(ohlc, page);
             mMyChartsView.setShowLowerChartTabs(false);
-            mMyChartsView.setLowerChartTabTitles(new String[] { "MACD", "KDJ" });
+            mMyChartsView.setLowerChartTabTitles(new String[]{"MACD", "KDJ"});
             mMyChartsView.postInvalidate();
 
             // 刷新成交量
@@ -254,7 +254,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     /**
      * 获取k线数据
-     * 
+     *
      * @return
      */
     private List<OHLCEntity> getOHLCDatas() {
@@ -298,7 +298,9 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
         public void onFailure(int errCode, String errMsg) {
 
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
 
         @Override
         protected void afterParseData(List<OHLCEntity> object) {
@@ -331,7 +333,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     /**
      * 从json中解析k线数据
-     * 
+     *
      * @param jsonObject
      * @return
      */
@@ -356,7 +358,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
     /**
      * 测试数据
-     * 
+     *
      * @return
      */
     private List<OHLCEntity> getTestDatas() {
@@ -402,7 +404,7 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         // TODO Auto-generated method stub
-       setViewVisible(isVisibleToUser);
+        setViewVisible(isVisibleToUser);
         super.setUserVisibleHint(isVisibleToUser);
     }
 
@@ -410,38 +412,9 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
     @Override
     public void setViewVisible(boolean isVisibleToUser) {
         if (isVisibleToUser) {
-            if (null != getKChartDataListener()) {
-                List<OHLCEntity> lineDatas = getViewTypeData();
-                if (null == lineDatas || lineDatas.isEmpty()) {
-                    getOHLCDatas();
-
-                } else {
-                    if (null != ohlcs) {
-                        ohlcs = lineDatas;
-                        updateChartView();
-                    }
-                    // updateChartData(lineDatas);
-                }
-            } else {
-                getOHLCDatas();
-            }
-
-            if (mMarketTimer == null) {
-                mMarketTimer = new Timer(true);
-                mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
-            }
-            if (null != tvUnCheck && null != mLandCallBack) {
-
-                updateCheckView(mLandCallBack.getCheckValue());
-                updateVolumView(mLandCallBack.getStickType());
-
-            }
+            onVisible();
         } else {
-            // 不可见时不执行操作
-            if (mMarketTimer != null) {
-                mMarketTimer.cancel();
-                mMarketTimer = null;
-            }
+            onUnVisible();
         }
     }
 
@@ -462,6 +435,45 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
             mMarketTimer = null;
         }
 
+    }
+
+    @Override
+    public void onVisible() {
+        if (null != getKChartDataListener()) {
+            List<OHLCEntity> lineDatas = getViewTypeData();
+            if (null == lineDatas || lineDatas.isEmpty()) {
+                getOHLCDatas();
+
+            } else {
+                if (null != ohlcs) {
+                    ohlcs = lineDatas;
+                    updateChartView();
+                }
+                // updateChartData(lineDatas);
+            }
+        } else {
+            getOHLCDatas();
+        }
+
+        if (mMarketTimer == null) {
+            mMarketTimer = new Timer(true);
+            mMarketTimer.schedule(new RequestMarketTask(), mPollRequestTime, mPollRequestTime);
+        }
+        if (null != tvUnCheck && null != mLandCallBack) {
+
+            updateCheckView(mLandCallBack.getCheckValue());
+            updateVolumView(mLandCallBack.getStickType());
+
+        }
+    }
+
+    @Override
+    public void onUnVisible() {
+        // 不可见时不执行操作
+        if (mMarketTimer != null) {
+            mMarketTimer.cancel();
+            mMarketTimer = null;
+        }
     }
 
     public class RequestMarketTask extends TimerTask {
@@ -510,7 +522,9 @@ public class KChartsLandFragment extends AbstractKChartView implements OnClickLi
 
         public void onFailure(int errCode, String errMsg) {
             pb.setVisibility(View.GONE);
-        };
+        }
+
+        ;
     };
 
     private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_stock_Kline);
