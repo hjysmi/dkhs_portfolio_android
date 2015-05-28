@@ -8,17 +8,12 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
-import android.animation.Animator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -27,19 +22,23 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.fragment.TabStockFragment;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.nineoldandroids.animation.ObjectAnimator;
+
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectFundAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-28 下午3:36:46
- * @version 1.0
  */
 public class OptionalPriceAdapter extends BaseAdatperSelectStockFund {
+
+    public OptionalPriceAdapter(Context context) {
+        super(context);
+    }
 
     public OptionalPriceAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas);

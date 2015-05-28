@@ -8,29 +8,26 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
-import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.dkhs.portfolio.utils.StockUitls;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -115,11 +112,11 @@ public class SelectAddOptionalActivity extends BaseSelectActivity implements OnC
         //
         // }
         FragmentSelectStockFund mIncreaseFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(StockViewType.STOCK_INCREASE);
+                .getItemClickBackFragment(StockViewType.STOCK_INCREASE_CLICKABLE);
         FragmentSelectStockFund mDownFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(StockViewType.STOCK_DRAWDOWN);
+                .getItemClickBackFragment(StockViewType.STOCK_DRAWDOWN_CLICKABLE);
         FragmentSelectStockFund mHandoverFragment = FragmentSelectStockFund
-                .getItemClickBackFragment(StockViewType.STOCK_HANDOVER);
+                .getItemClickBackFragment(StockViewType.STOCK_HANDOVER_CLICKABLE);
         mIncreaseFragment.setDefLoad(true);
         mDownFragment.setDefLoad(true);
         mHandoverFragment.setDefLoad(true);

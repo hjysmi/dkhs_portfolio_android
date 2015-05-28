@@ -8,10 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
-import javax.crypto.spec.PSource;
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,19 +19,24 @@ import android.widget.Toast;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.StockQuotesActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AdatperSelectConbinStock
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-8-29 上午10:25:51
- * @version 1.0
  */
 public class BaseAdatperSelectStockFund extends BaseAdapter implements OnCheckedChangeListener {
     public Context mContext;
-    public List<SelectStockBean> mDataList;
-    public boolean fromShow = true;
+    public List<SelectStockBean> mDataList = new ArrayList<SelectStockBean>();
+
+    public BaseAdatperSelectStockFund(Context context) {
+        this.mContext = context;
+    }
 
     public BaseAdatperSelectStockFund(Context context, List<SelectStockBean> datas) {
         this.mContext = context;
@@ -71,11 +72,11 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param buttonView
      * @param isChecked
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -120,12 +121,6 @@ public class BaseAdatperSelectStockFund extends BaseAdapter implements OnChecked
         this.mSelectLisenter = listener;
     }
 
-    public boolean isFromShow() {
-        return fromShow;
-    }
 
-    public void setFromShow(boolean fromShow) {
-        this.fromShow = fromShow;
-    }
 
 }

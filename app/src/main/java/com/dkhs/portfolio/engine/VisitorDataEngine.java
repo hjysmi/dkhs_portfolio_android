@@ -8,28 +8,24 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.Collections;
-import java.util.List;
-
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.net.ParseHttpListener;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.db.sqlite.Selector;
 import com.lidroid.xutils.db.table.DbModel;
 import com.lidroid.xutils.exception.DbException;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName VisitorDataEngine
  * @Description 游客模式的本地数据引擎
- * @author zjz
  * @date 2015-3-4 上午10:46:37
- * @version 1.0
  */
 public class VisitorDataEngine {
     // public VisitorDataEngine()
@@ -47,7 +43,9 @@ public class VisitorDataEngine {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            };
+            }
+
+            ;
         }.start();
     }
 
@@ -65,7 +63,9 @@ public class VisitorDataEngine {
                     e.printStackTrace();
                 }
 
-            };
+            }
+
+            ;
         }.start();
 
     }
@@ -118,7 +118,25 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).orderBy("sortId", false));
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1",}).orderBy("sortId", false));
+
+        } catch (DbException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }// 通过类型查找
+
+        return list;
+    }
+
+    /**
+     * 查询排序的股票列表数据
+     */
+    public List<SelectStockBean> getOptionalFundsSort() {
+        DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
+        List<SelectStockBean> list = Collections.EMPTY_LIST;
+        try {
+            // list = db.findAll(SelectStockBean.class);
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"5",}).orderBy("sortId", false));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block
