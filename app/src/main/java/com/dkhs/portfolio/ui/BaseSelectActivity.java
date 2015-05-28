@@ -120,6 +120,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             setTitle(R.string.select_fund);
             mSelctStockView.setNumColumns(2);
             btnOrder.setVisibility(View.VISIBLE);
+            etSearchKey.setHint(R.string.search_fund_hint);
         } else if (getLoadByType() == ListViewType.STOCK) {
             btnOrder.setVisibility(View.GONE);
             if (isFrist) {
@@ -135,6 +136,7 @@ public abstract class BaseSelectActivity extends ModelAcitivity implements OnCli
             btnOrder.setVisibility(View.GONE);
             setTitle(R.string.add_optional_stock);
             mSelctStockView.setNumColumns(3);
+            etSearchKey.setHint(R.string.search_stockandfunds);
 
         }
 

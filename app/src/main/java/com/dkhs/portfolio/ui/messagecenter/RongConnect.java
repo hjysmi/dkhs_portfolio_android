@@ -59,6 +59,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
     // 建立与服务器的连接 rong connect
     public RongConnect() {
         init();
+
     }
 
 
