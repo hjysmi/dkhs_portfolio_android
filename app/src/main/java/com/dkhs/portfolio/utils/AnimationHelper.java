@@ -159,40 +159,20 @@ public class AnimationHelper {
     }
 
 
-    public static void translationDismiss(final View view) {
+    public static void translationToTopDismiss(final View view,  Animator.AnimatorListener animatorListener ) {
 
         if(view.getVisibility() == View.GONE){
             return;
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,view.getHeight());
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,-view.getHeight());
         objectAnimator.setDuration(ANIM_DURATION);
-        objectAnimator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                view.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
+        objectAnimator.addListener(animatorListener);
         objectAnimator.start();
 
     }
 
-    public static void translationShow(final View view) {
+    public static void translationFromTopShow(final View view,  Animator.AnimatorListener animatorListener ) {
         if(view.getVisibility() == View.VISIBLE){
             return;
         }
@@ -202,10 +182,28 @@ public class AnimationHelper {
             view.measure(0, 0);
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",view.getHeight(),0);
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",-view.getHeight(),0);
         objectAnimator.setDuration(ANIM_DURATION);
+        objectAnimator.addListener( animatorListener);
 
         objectAnimator.start();
+
+    }
+
+    public static  void alphaShow(View view){
+
+        AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
+
+        alphaAnimation.setDuration(ANIM_DURATION);
+        view.startAnimation(alphaAnimation);
+
+
+    }
+    public static  void alphaDismiss(View view){
+        AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
+
+        alphaAnimation.setDuration(ANIM_DURATION);
+        view.startAnimation(alphaAnimation);
 
     }
 
