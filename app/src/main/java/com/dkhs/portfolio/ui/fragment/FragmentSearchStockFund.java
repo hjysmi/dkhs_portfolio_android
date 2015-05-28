@@ -117,7 +117,7 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
 
                 mSearchEngine.searchStock(key);
             } else {
-                mSearchEngine.searchStockAndIndex(key);
+                mSearchEngine.searchStockIndexFunds(key);
             }
             mAdapterConbinStock.notifyDataSetChanged();
         }

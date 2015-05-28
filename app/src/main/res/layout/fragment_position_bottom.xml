@@ -3,11 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <View style="@style/divider_line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_history"
@@ -23,9 +25,9 @@
     <!-- 净值占比饼图 -->
 
     <include
+        layout="@layout/layout_pieview"
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        layout="@layout/layout_pieview" />
+        android:layout_height="180dp" />
 
     <!-- 涨幅比列表 -->
 

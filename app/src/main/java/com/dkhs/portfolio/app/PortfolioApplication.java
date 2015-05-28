@@ -13,38 +13,24 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.service.ReLoadDataService;
-import com.dkhs.portfolio.ui.messagecenter.MessageManager;
-import com.dkhs.portfolio.utils.ChannelUtil;
-import com.dkhs.portfolio.utils.DataBaseUtil;
-import com.dkhs.portfolio.utils.ImageLoaderUtils;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.umeng.analytics.AnalyticsConfig;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName PortfolioApplication
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-2 上午10:26:13
- * @version 1.0
  */
 public class PortfolioApplication extends Application {
     private static PortfolioApplication mInstance;
 
-    private boolean isDebug = true;
+
     private boolean isLogin;
 
     // private String checkValue = "0";
@@ -52,49 +38,19 @@ public class PortfolioApplication extends Application {
     // private int kLinePosition = -1;
 
 
-    private Handler mhanle=new Handler();
     public static PortfolioApplication getInstance() {
         return mInstance;
     }
 
     @Override
     public void onCreate() {
-        //测试开机自启动
-//        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
-        AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
-        if(!isDebug){
-            setRongYunMetaData();
-        }
-        super.onCreate();
         mInstance = this;
-        if (!PortfolioPreferenceManager.hasLoadSearchStock()) {
-            copyDataBaseToPhone();
-        }
+        AppConfig.config(this);
+        super.onCreate();
 
-        // 注册crashHandler
-        CrashHandler crashHandler = CrashHandler.getInstance(getApplicationContext());
-        ImageLoaderUtils.initImageLoader(getApplicationContext());
-        Intent demand = new Intent(this, ReLoadDataService.class);
-        startService(demand);
-
-        MessageManager.getInstance();
-        //防止刚开机不能连接网络
-
-        MessageManager.getInstance().connect();
 
     }
 
-
-
-    private void setRongYunMetaData() {
-        ApplicationInfo appi;
-        try {
-            appi = this.getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            appi.metaData.putString("RONG_CLOUD_APP_KEY", "tdrvipksrgsu5");
-        } catch (NameNotFoundException e1) {
-            e1.printStackTrace();
-        }
-    }
 
     private List<Activity> lists = new ArrayList<Activity>();
 
@@ -125,30 +81,6 @@ public class PortfolioApplication extends Application {
         }
     }
 
-    private void copyDataBaseToPhone() {
-
-        final DataBaseUtil util = new DataBaseUtil(this);
-        // 判断数据库是否存在
-        boolean dbExist = util.checkDataBase();
-
-        if (dbExist) {
-            Log.i("tag", "The database is exist.");
-        } else {// 不存在就把raw里的数据库写入手机
-
-            new Thread() {
-                public void run() {
-
-                    try {
-                        util.copyDataBase();
-                        PortfolioPreferenceManager.setLoadSearchStock();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                };
-            }.start();
-
-        }
-    }
 
     public static boolean hasUserLogin() {
         return !TextUtils.isEmpty(GlobalParams.ACCESS_TOCKEN);
@@ -156,11 +88,11 @@ public class PortfolioApplication extends Application {
 
     /**
      * app是否在前台
+     *
      * @return
      */
-    public boolean isRunningForeground ()
-    {
-        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+    public boolean isRunningForeground() {
+        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
         ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
         String currentPackageName = cn.getPackageName();
         return !TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(getPackageName());
@@ -168,9 +100,6 @@ public class PortfolioApplication extends Application {
     }
 
 
-    public boolean isDebug() {
-        return isDebug;
-    }
 
     public boolean isLogin() {
         return isLogin;

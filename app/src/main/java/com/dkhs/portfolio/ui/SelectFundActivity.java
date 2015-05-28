@@ -8,37 +8,29 @@
  */
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.PopupWindow.OnDismissListener;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.engine.FundDataEngine;
 import com.dkhs.portfolio.engine.FundDataEngine.OrderType;
 import com.dkhs.portfolio.ui.fragment.FragmentSearchStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund;
 import com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType;
-import com.lidroid.xutils.cache.MD5FileNameGenerator;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.List;
 
 /**
  * @ClassName AddConbinationStockActivity
@@ -62,9 +54,9 @@ public class SelectFundActivity extends BaseSelectActivity implements OnClickLis
         // for (int i = 0; i < titleLenght; i++) {
         // titleList.add(tArray[i]);
         // }
-        FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_MAININDEX);
-        FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_INDEX);
-        FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getFundFragment(StockViewType.FUND_STOCK);
+        FragmentSelectStockFund mPagerFragment = FragmentSelectStockFund.getStockFragment(StockViewType.FUND_MAININDEX);
+        FragmentSelectStockFund mPagerFragment2 = FragmentSelectStockFund.getStockFragment(StockViewType.FUND_INDEX);
+        FragmentSelectStockFund mPagerFragment3 = FragmentSelectStockFund.getStockFragment(StockViewType.FUND_STOCK);
         mPagerFragment.setDefLoad(true);
         mPagerFragment2.setDefLoad(true);
         mPagerFragment3.setDefLoad(true);

@@ -1,6 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,16 +10,14 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.app.AppConfig;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -73,7 +70,7 @@ public class SplashActivity extends FragmentActivity {
         context = this;
         // hideHead();
         init();
-        if (!PortfolioApplication.getInstance().isDebug()) {
+        if (!AppConfig.isDebug) {
             PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_APP_URL, 2);
         }
     }
@@ -85,8 +82,7 @@ public class SplashActivity extends FragmentActivity {
         user = UserEngineImpl.getUserEntity();
         if (user != null) {
             if (!TextUtils.isEmpty(user.getAccess_token())
-                    && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || PortfolioApplication
-                            .getInstance().isDebug())) {
+                    && (PortfolioPreferenceManager.getIntValue(PortfolioPreferenceManager.KEY_APP_URL) == 2 || AppConfig.isDebug)) {
                 user = UserEntityDesUtil.decode(user, "ENCODE", ConstantValue.DES_PASSWORD);
                 GlobalParams.ACCESS_TOCKEN = user.getAccess_token();
                 GlobalParams.USERNAME = user.getUsername();

@@ -8,14 +8,10 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.SearchFundsBean;
 import com.dkhs.portfolio.bean.SearchStockBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockProfileDataBean;
@@ -31,6 +27,9 @@ import com.lidroid.xutils.db.sqlite.WhereBuilder;
 import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @ClassName SearchStockEngineImpl
@@ -60,7 +59,7 @@ public class SearchStockEngineImpl {
         StringBuilder sbLastDate = new StringBuilder("&last_datetime=");
         if (TextUtils.isEmpty(lastLoadTime)) {
 
-            sbLastDate.append("2015-04-13T05:41:39Z");
+            sbLastDate.append("2015-05-26T01:41:39Z");
         } else {
 
             sbLastDate.append(lastLoadTime);
@@ -217,21 +216,60 @@ public class SearchStockEngineImpl {
 
     }
 
-    public void searchStockAndIndex(final String key) {
+//    public void searchStockAndIndex(final String key) {
+//        new Thread() {
+//            public void run() {
+//                DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
+//                // dbUtils.findById(SearchStockBean.class, key);
+//                List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
+//                try {
+//                    // List<SearchFundsBean> searchStockList = dbUtils.findAll(Selector.from(SearchFundsBean.class)
+//                    // .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
+//                    // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "1,5"));
+//
+//                    List<SearchStockBean> searchStockList = dbUtils
+//                            .findAll(Selector
+//                                    .from(SearchStockBean.class)
+//                                    .where("symbol_type", "in", new String[] { "1", "5" })
+//                                    .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
+//                                            .or("stock_code", "LIKE", "%" + key + "%")
+//                                            .or("chi_spell", "LIKE", "%" + key + "%")));
+//
+//                    if (null != searchStockList) {
+//                        for (SearchStockBean searchBean : searchStockList) {
+//                            selectStockList.add(SelectStockBean.copy(searchBean));
+//                        }
+//                        LogUtils.d(" searchfundDataList size:" + selectStockList.size());
+//                    } else {
+//
+//                        LogUtils.d(" searchFundDataList is null");
+//                    }
+//                } catch (DbException e) {
+//                    // TODO Auto-generated catch block
+//                    e.printStackTrace();
+//                }
+//                MoreDataBean moreDataBean = new MoreDataBean<SearchStockBean>();
+//                moreDataBean.setCurrentPage(1);
+//                moreDataBean.setResults(selectStockList);
+//                moreDataBean.setTotalCount(selectStockList.size());
+//                moreDataBean.setTotalPage(1);
+//                iLoadListener.loadFinish(moreDataBean);
+//            };
+//        }.start();
+//    }
+
+    public void searchStockIndexFunds(final String key) {
         new Thread() {
             public void run() {
                 DbUtils dbUtils = DbUtils.create(PortfolioApplication.getInstance());
                 // dbUtils.findById(SearchStockBean.class, key);
                 List<SelectStockBean> selectStockList = new ArrayList<SelectStockBean>();
                 try {
-                    // List<SearchFundsBean> searchStockList = dbUtils.findAll(Selector.from(SearchFundsBean.class)
-                    // .where("stock_name", "LIKE", "%" + key + "%").or("stock_code", "LIKE", "%" + key + "%")
-                    // .or("chi_spell", "LIKE", "%" + key + "%").and("symbol_type", "=", "1,5"));
 
                     List<SearchStockBean> searchStockList = dbUtils
                             .findAll(Selector
                                     .from(SearchStockBean.class)
-                                    .where("symbol_type", "in", new String[] { "1", "5" })
+                                    .where("symbol_type", "in", new String[] { "1", "5","3" })
                                     .and(WhereBuilder.b("stock_name", "LIKE", "%" + key + "%")
                                             .or("stock_code", "LIKE", "%" + key + "%")
                                             .or("chi_spell", "LIKE", "%" + key + "%")));
