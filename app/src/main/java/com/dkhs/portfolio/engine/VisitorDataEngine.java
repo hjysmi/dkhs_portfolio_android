@@ -129,7 +129,7 @@ public class VisitorDataEngine {
     }
 
     /**
-     * 查询排序的股票列表数据
+     * 查询排序的基金列表数据
      */
     public List<SelectStockBean> getOptionalFundsSort() {
         DbUtils db = DbUtils.create(PortfolioApplication.getInstance());
