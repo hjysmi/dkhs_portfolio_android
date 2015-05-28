@@ -260,6 +260,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
     @Override
     public void disConnect(Context context) {
         try {
+            isConnect=false;
             cancelAllNotification(context);
             if (RongIM.getInstance() != null) {
                 // 断开融云连接
