@@ -9,10 +9,13 @@
 package com.dkhs.portfolio.ui;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -20,18 +23,19 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ListPopupWindow;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.melnykov.fab.FloatingActionView;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FloatingActionMenu
  * @Description 下拉隐藏，上拉出现的浮动菜单控件
- * @author zjz
  * @date 2015-4-24 上午10:16:00
- * @version 1.0
  */
 public class FloatingActionMenu extends FloatingActionView {
 
@@ -154,41 +158,41 @@ public class FloatingActionMenu extends FloatingActionView {
     }
 
     public MoreMenuItemBuilder addMoreItem(int viewIndex, String textString, int iconResId, boolean isAddMenu) {
-        View localView = addItemView(viewIndex, textString, iconResId, isAddMenu);
-        final ListPopupWindow morePopupWindow = new ListPopupWindow(getContext());
-        // morePopupWindow.setBackgroundDrawable(new ColorDrawable(getContext().getResources().getColor(
-        // android.R.color.transparent)));
-        ArrayAdapter localArrayAdapter = new ArrayAdapter(getContext(), R.layout.item_btn_more);
-        final MoreMenuItemBuilder moreMenuItemBuilder = new MoreMenuItemBuilder(localArrayAdapter);
 
-        morePopupWindow.setOnItemClickListener(new OnItemClickListener() {
-
+        final View moreView = addItemView(viewIndex, textString, iconResId, isAddMenu);
+        View view = View.inflate(getContext(), R.layout.layout_btn_more, null);
+        final PopupWindow pw = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        ArrayAdapter itemAdapter = new ArrayAdapter<String>(getContext(), R.layout.item_btn_more);
+        final MoreMenuItemBuilder moreMenuItemBuilder = new MoreMenuItemBuilder(itemAdapter);
+        ListView listView = (ListView) view.findViewById(R.id.lv_more);
+        listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // Animation fadeInAnimation = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.fade_in);
-                // fadeInAnimation.setDuration(10);
-                // view.startAnimation(fadeInAnimation);
-
-                morePopupWindow.dismiss();
+                pw.dismiss();
                 if (moreMenuItemBuilder.positionItemIdMap.get(position) != null && null != menuItemSelectedListener) {
                     menuItemSelectedListener.onMenuItemSelected(moreMenuItemBuilder.positionItemIdMap.get(position));
                 }
+
             }
         });
-        morePopupWindow.setAdapter(localArrayAdapter);
-        morePopupWindow.setAnchorView(localView);
-        morePopupWindow.setModal(true);
-        localView.setOnClickListener(new OnClickListener() {
+
+        listView.setAdapter(itemAdapter);
+        pw.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        pw.setOutsideTouchable(true);
+        pw.setFocusable(true);
+
+        moreView.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                morePopupWindow.show();
 
+//                pw.showAtLocation(localView, Gravity.RIGHT | Gravity.BOTTOM, 10, getResources().getDimensionPixelOffset(R.dimen.floating_action_menu_item_height));
+                pw.showAtLocation(moreView, Gravity.RIGHT | Gravity.BOTTOM, 10, moreView.getHeight());
             }
         });
         return moreMenuItemBuilder;
     }
+
 
     public static class MoreMenuItemBuilder {
         private ArrayAdapter adapter;
