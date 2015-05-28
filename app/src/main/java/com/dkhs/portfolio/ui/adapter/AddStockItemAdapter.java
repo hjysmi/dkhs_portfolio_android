@@ -8,12 +8,9 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.widget.CompoundButton;
 
-import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.StockPriceBean;
@@ -23,23 +20,37 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName AddStockItemAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-9-29 下午1:33:35
- * @version 1.0
  */
 public class AddStockItemAdapter extends SelectStockAdatper {
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param context
      * @param datas
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     public AddStockItemAdapter(Context context, List<SelectStockBean> datas) {
         super(context, datas);
+        setAddNewStock(true);
+
+    }
+
+    public AddStockItemAdapter(Context context, boolean isDefColor) {
+        super(context, isDefColor);
+        setAddNewStock(true);
+
+    }
+
+    public AddStockItemAdapter(Context context) {
+        super(context);
         setAddNewStock(true);
 
     }

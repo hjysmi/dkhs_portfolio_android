@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -25,40 +23,51 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
 
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectFundAdatper
  * @Description 添加自选股列表
- * @author zjz
  * @date 2014-9-5 下午2:24:13
- * @version 1.0
  */
 public class SelectStockAdatper extends BaseAdatperSelectStockFund {
-    private Context context;
     private boolean isDefColor;
     VisitorDataEngine mVisitorDataEngine;
     private List<SelectStockBean> localList;
     private boolean isAddNewStock;
 
+
+    public SelectStockAdatper(Context context) {
+        super(context);
+        init();
+    }
+
+    public SelectStockAdatper(Context context, boolean isdefcolor) {
+        super(context);
+        this.isDefColor = isdefcolor;
+        init();
+    }
+
     public SelectStockAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
-        this.context = context;
-        mVisitorDataEngine = new VisitorDataEngine();
-        if (!PortfolioApplication.hasUserLogin()) {
-            localList = mVisitorDataEngine.getOptionalStockList();
-        }
+        init();
     }
 
     public SelectStockAdatper(Context context, List<SelectStockBean> datas, boolean isdefcolor) {
         super(context, datas);
-        this.context = context;
         this.isDefColor = isdefcolor;
+        init();
+    }
+
+    private void init() {
         mVisitorDataEngine = new VisitorDataEngine();
         if (!PortfolioApplication.hasUserLogin()) {
             localList = mVisitorDataEngine.getOptionalStockList();
@@ -213,7 +222,7 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             if (mCheckbox.isChecked()) {
                 SelectStockBean itemStock = mDataList.get(position);
                 itemStock.isFollowed = true;
-                UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(context, itemStock));
+                UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
 
                 // context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
             }

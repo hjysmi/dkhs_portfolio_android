@@ -8,8 +8,6 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.View;
@@ -22,6 +20,8 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
+import java.util.List;
+
 /**
  * @ClassName SelectFundAdatper
  * @Description TODO(这里用一句话描述这个类的作用)
@@ -31,6 +31,9 @@ import com.dkhs.portfolio.utils.StringFromatUtils;
  */
 public class SelectCompareFundAdatper extends BaseAdatperSelectStockFund {
 
+    public SelectCompareFundAdatper(Context context){
+        super(context);
+    }
     public SelectCompareFundAdatper(Context context, List<SelectStockBean> datas) {
         super(context, datas);
     }
