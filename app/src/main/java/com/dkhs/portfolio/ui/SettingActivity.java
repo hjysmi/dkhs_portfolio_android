@@ -197,6 +197,13 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
 //            findViewById(R.id.line_tx). findViewById(R.id.line).setVisibility(View.GONE);
         }else{
             setTitle(R.string.setting);
+
+
+            findViewById(R.id.line4).setVisibility(View.GONE);
+            findViewById(R.id.line).setVisibility(View.GONE);
+            findViewById(R.id.line2).setVisibility(View.GONE);
+
+
             findViewById(R.id.setting_layout_sign).setVisibility(View.GONE);
             settingAccountLayout.setVisibility(View.VISIBLE);
 
