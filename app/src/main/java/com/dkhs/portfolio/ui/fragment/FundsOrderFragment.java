@@ -25,7 +25,6 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.ui.FundsOrderActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -108,7 +107,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadData() {
         if (isvisible) {
 
-             BusProvider.getInstance().post(new RotateRefreshEvent());
+            BusProvider.getInstance().post(new RotateRefreshEvent());
             setHttpHandler(getLoadEngine().loadData());
         }
     }
@@ -245,14 +244,11 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 CombinationBean selectBean = mDataList.get(position);
-                if(null!=FundsOrderActivity.mVisitorData&&!PortfolioApplication.getInstance().hasUserLogin()){
-                    selectBean.setFollowed(FundsOrderActivity.mVisitorData.contains(selectBean));
+                if (null != MarketFundsFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
+                    selectBean.setFollowed(MarketFundsFragment.mVisitorData.contains(selectBean));
                 }
                 startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
 
-
-                // getActivity().startActivity(
-                //       OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true, mOrderType));
             }
         };
     }
