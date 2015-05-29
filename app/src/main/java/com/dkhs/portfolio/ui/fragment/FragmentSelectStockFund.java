@@ -138,6 +138,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
          */
         STOCK_OPTIONAL_PRICE(8),
 
+
         /**
          * 行情中心，国内指数排行，高到低
          */
@@ -195,6 +196,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
          * 可以点击查看详情的换手列表
          */
         STOCK_HANDOVER_CLICKABLE(22);
+
+
+
+
 
 
         private int typeId;

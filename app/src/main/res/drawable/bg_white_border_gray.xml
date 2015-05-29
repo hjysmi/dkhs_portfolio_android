@@ -6,7 +6,6 @@
     <stroke
         android:width="0.5px"
         android:color="@color/drivi_line" />
-
     <solid android:color="@color/white" />
 
 </shape>

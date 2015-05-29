@@ -449,7 +449,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
     public void finish() {
 
 
-        if(null!=userEntity&&!userEntity.isMe_follow()){
+        if(null!=userEntity&&!userEntity.isMe_follow() &&  UserEngineImpl.getUserEntity() !=null && userEntity.getId() != UserEngineImpl.getUserEntity().getId()){
             UnFollowEvent unFollowEvent=new UnFollowEvent();
             unFollowEvent.setId(userEntity.getId());
             BusProvider.getInstance().post(unFollowEvent);
