@@ -45,7 +45,7 @@ import java.util.List;
 public class MarketFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
     @Override
     public int setContentLayoutId() {
-        return R.layout.fragment_tab_myfund;
+        return R.layout.fragment_market_funds;
     }
 
     private FragmentSelectStockFund loadDataListFragment;
