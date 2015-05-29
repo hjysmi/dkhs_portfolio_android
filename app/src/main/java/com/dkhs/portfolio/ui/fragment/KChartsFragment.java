@@ -1,55 +1,33 @@
 package com.dkhs.portfolio.ui.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.StockQuotesBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.AbstractKChartView;
-import com.dkhs.portfolio.ui.ITouchListener;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
-import com.dkhs.portfolio.ui.fragment.FragmentMarkerCenter.RequestMarketTask;
-import com.dkhs.portfolio.ui.widget.KChartDataListener;
 import com.dkhs.portfolio.ui.widget.LandStockViewCallBack;
 import com.dkhs.portfolio.ui.widget.StockViewCallBack;
 import com.dkhs.portfolio.ui.widget.chart.StickChart;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView;
 import com.dkhs.portfolio.ui.widget.kline.KChartsView.DisplayDataChangeListener;
 import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
-
-import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.ui.widget.kline.KChartsView;
-import com.dkhs.portfolio.ui.widget.kline.OHLCEntity;
-import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.MobclickAgent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KChartsFragment extends AbstractKChartView {
 
@@ -136,6 +114,9 @@ public class KChartsFragment extends AbstractKChartView {
             // mLargerButton.setClickable(false);
             mLargerButton.setSelected(true);
         }
+
+        mSmallerButton.setVisibility(View.GONE);
+        mLargerButton.setVisibility(View.GONE);
     }
 
     private DisplayDataChangeListener mDisplayDataChangeListener = new DisplayDataChangeListener() {

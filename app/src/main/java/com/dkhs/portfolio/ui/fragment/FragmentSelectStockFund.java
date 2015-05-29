@@ -33,6 +33,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
+import com.dkhs.portfolio.engine.OptionalFundsEngineImpl;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -63,6 +64,7 @@ import java.util.List;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_INDEX;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_MAININDEX;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_STOCK;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.OPTIONAL_FUNDS;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_DRAWDOWN_CLICKABLE;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_HANDOVER_CLICKABLE;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_INCREASE_CLICKABLE;
@@ -195,7 +197,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         /**
          * 可以点击查看详情的换手列表
          */
-        STOCK_HANDOVER_CLICKABLE(22);
+        STOCK_HANDOVER_CLICKABLE(22),
+        /**
+         * 自选基金列表
+         */
+        OPTIONAL_FUNDS(23);
 
 
 
@@ -265,6 +271,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (mcontext.get() != null) {
 
                 switch (viewType) {
+                    case OPTIONAL_FUNDS:
                     case STOCK_OPTIONAL_PRICE: {
                         adapter = new OptionalPriceAdapter(mcontext.get());
                     }
@@ -381,7 +388,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
-        } else {
+        }else  if(mViewType ==StockViewType.OPTIONAL_FUNDS){
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener,true);
+        }
+        else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
@@ -654,7 +664,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
-        if (mViewType == STOCK_OPTIONAL_PRICE) {
+        if (mViewType == STOCK_OPTIONAL_PRICE||mViewType==OPTIONAL_FUNDS) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
             emptyview = view.findViewById(R.id.add_data);

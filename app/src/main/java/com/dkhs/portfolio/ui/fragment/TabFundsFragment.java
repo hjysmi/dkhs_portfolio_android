@@ -8,40 +8,23 @@
  */
 package com.dkhs.portfolio.ui.fragment;
 
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.engine.FollowComListEngineImpl;
-import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
-import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.ui.EditTabFundActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.PositionAdjustActivity;
-import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
+import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.eventbus.TabFundTitleChangeEvent;
-import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
-import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
-import com.squareup.otto.Subscribe;
+import com.lidroid.xutils.view.annotation.event.OnClick;
+import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,6 +36,12 @@ import java.util.List;
  */
 public class TabFundsFragment extends BaseFragment implements IDataUpdateListener, OnClickListener {
 
+    @Override
+    public int setContentLayoutId() {
+        return R.layout.fragment_tab_myfunds;
+    }
+
+    private FragmentSelectStockFund loadDataListFragment;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
     // @ViewInject(R.id.tv_increase)
@@ -63,12 +52,35 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     @ViewInject(R.id.view_stock_title)
     private View titleView;
 
-    private TabFundsAdapter mFundsAdapter;
-    private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private FollowComListEngineImpl dataEngine;
+//    // 当前价格
+//    public static final String TYPE_DEFALUT = "";
+//    public static final String TYPE_CURRENT_UP = "current";
+//    public static final String TYPE_CURRENT_DOWN = "-current";
+//
+//    // 涨跌幅
+//    // public static final String TYPE_PERCENTAGE_DEF = "percentage";
+//    public static final String TYPE_PERCENTAGE_UP = "percentage";
+//    public static final String TYPE_PERCENTAGE_DOWN = "-percentage";
+//    // 涨跌额
+//    // public static final String TYPE_CHANGE_DEF = "-change";
+//    public static final String TYPE_CHANGE_DOWN = "-change";
+//    public static final String TYPE_CHANGE_UP = "change";
+//
+//    // 总市值高到低
+//    // public static final String TYPE_TCAPITAL_DEF = "total_capital";
+//    public static final String TYPE_TCAPITAL_UP = "total_capital";
+//    public static final String TYPE_TCAPITAL_DOWN = "-total_capital";
+//
+//    // 5s
+//    private static final long mPollRequestTime = 1000 * 10;
+
+//    private Context context;
+
+    //    private boolean isLoading;
     private String mUserId;
 
-    public static TabFundsFragment getTabFundsFragment(String userId) {
+
+    public static TabFundsFragment getFragment(String userId) {
         TabFundsFragment fragment = new TabFundsFragment();
         Bundle args = new Bundle();
         args.putString(FragmentSelectStockFund.ARGUMENT_USER_ID, userId);
@@ -77,10 +89,9 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
-        // if (null == dataEngine) {
+        super.onCreate(arg0);
         Bundle bundle = getArguments();
 
         if (null != bundle) {
@@ -88,439 +99,349 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
 
         }
 
-        dataEngine = new FollowComListEngineImpl(new ILoadDataBackListener<CombinationBean>() {
-
-            @Override
-            public void loadFinish(MoreDataBean<CombinationBean> object) {
-                mSwipeLayout.setRefreshing(false);
-                if (null != object.getResults()) {
-                    if (!UIUtils.roundAble(object.getStatu())) {
-                    }
-                    mDataList.clear();
-
-                    mDataList.addAll(object.getResults());
-                    mFundsAdapter.notifyDataSetChanged();
-                }
-                refreshEditView();
-            }
-
-            @Override
-            public void loadFail() {
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, mUserId);
-
     }
+
+    Handler updateHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            // reloadData();
+
+        }
+
+        ;
+    };
+
 
     @Override
-    public int setContentLayoutId() {
-        return R.layout.fragment_tab_myfunds;
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        replaceDataList();
     }
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
+
         super.onResume();
+
+        reloadData();
+//        updateHandler.postDelayed(updateRunnable, 5*1000);
+
+        MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
+        // refreshEditView();
 
-        refreshEditView();
-        refresh();
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        BusProvider.getInstance().unregister(this);
     }
 
     public void refreshEditView() {
-        if (!mDataList.isEmpty()) {
-            dataUpdate(false);
-        } else {
-            dataUpdate(true);
+        if (null != dataUpdateListener && null != loadDataListFragment) {
+            loadDataListFragment.refreshEditView();
         }
-
     }
 
     public void setDataUpdateListener(IDataUpdateListener listen) {
         this.dataUpdateListener = listen;
+        if (null != loadDataListFragment) {
+            loadDataListFragment.setDataUpdateListener(this);
+        }
     }
 
     private IDataUpdateListener dataUpdateListener;
 
-    // @OnClick({ R.id.tv_current, R.id.tv_percentage, R.id.tv_increase })
     @Override
+    public void onStop() {
+        super.onStop();
+
+
+    }
+
+    Runnable updateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            loadDataListFragment.refresh();
+//            updateHandler.postDelayed(updateRunnable, mPollRequestTime);
+        }
+    };
+
+    private void replaceDataList() {
+        if (null == loadDataListFragment) {
+            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(FragmentSelectStockFund.StockViewType.OPTIONAL_FUNDS, mUserId);
+            // if (null != dataUpdateListener) {
+            loadDataListFragment.setDataUpdateListener(this);
+            // }
+        }
+        getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
+    }
+
+//    private TextView viewLastClick;
+//    private String orderType = TYPE_DEFALUT;
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase})
     public void onClick(View v) {
         int id = v.getId();
-        // if (!PortfolioApplication.hasUserLogin()) {
-        // return;
-        // }
         switch (id) {
             case R.id.tv_current: {
-                setViewOrderIndicator(tvCurrent);
+//                setViewOrderIndicator(tvCurrent);
             }
             break;
             case R.id.tv_percentage: {
-                setViewOrderIndicator(tvPercentgae);
+//                setViewOrderIndicator(tvPercentgae);
 
             }
             break;
-            // case R.id.tv_increase: {
-            // setViewOrderIndicator(tvChange);
-            // }
-            // break;
 
             default:
                 break;
         }
 
-        // if (null != loadDataListFragment && !TextUtils.isEmpty(orderType)) {
-        // isLoading = true;
-        // loadDataListFragment.setOptionalOrderType(orderType);
-        // }
-        dataEngine.setOrderType(orderType);
-        refresh();
+//        reloadData();
 
     }
 
+    private void reloadData() {
+        if (null != loadDataListFragment) {
+//            loadDataListFragment.setOptionalOrderType(orderType);
+            loadDataListFragment.refreshNoCaseTime();
+        }
+    }
+
+//    private void setDrawableUp(TextView view) {
+//
+//        Drawable drawable = getResources().getDrawable(R.drawable.market_icon_up);
+//        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//        view.setCompoundDrawables(null, null, drawable, null);
+//        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+//    }
+//
+//    private void setDrawableDown(TextView view) {
+//        // orderType = typeCurrentDown;
+//        Drawable drawable = getResources().getDrawable(R.drawable.market_icon_down);
+//        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//        view.setCompoundDrawables(null, null, drawable, null);
+//        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+//    }
+//
+//    private void setTextDrawableHide(TextView view) {
+//        // Drawable drawable = getResources().getDrawable(R.drawable.market_icon_down);
+//        // drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+//        view.setCompoundDrawables(null, null, null, null);
+//        // tvCurrent.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+//
+//    }
+//
+//    private void setViewOrderIndicator(TextView currentSelectView) {
+//        if (null == viewLastClick) {
+//
+//            setDownType(currentSelectView);
+//        } else if (viewLastClick != currentSelectView) {
+//            setTextDrawableHide(viewLastClick);
+//            setDownType(currentSelectView);
+//        } else if (viewLastClick == currentSelectView) {
+//            // if (orderType == TYPE_CHANGE_DOWN || orderType == TYPE_CURRENT_DOWN || orderType == TYPE_PERCENTAGE_DOWN)
+//            // {
+//            // setUpType(currentSelectView);
+//            // } else {
+//            // setDownType(currentSelectView);
+//            // }
+//
+//            if (isDefOrder(orderType)) {
+//                setDownType(currentSelectView);
+//            } else if (isDownOrder(orderType)) {
+//                setUpType(currentSelectView);
+//            } else {
+//                setDefType(currentSelectView);
+//            }
+//        }
+//        viewLastClick = currentSelectView;
+//    }
+//
+//    private boolean isUpOrder(String orderType) {
+//        if (!TextUtils.isEmpty(orderType)
+//                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
+//                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    private boolean isDownOrder(String orderType) {
+//        if (!TextUtils.isEmpty(orderType)
+//                && (orderType.equals(TYPE_CHANGE_DOWN) || orderType.equals(TYPE_CURRENT_DOWN)
+//                || orderType.equals(TYPE_PERCENTAGE_DOWN) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    private boolean isPercentType(String type) {
+//        if (!TextUtils.isEmpty(orderType)
+//                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CHANGE_DOWN)
+//                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_PERCENTAGE_DOWN)
+//                || orderType.equals(TYPE_TCAPITAL_UP) || orderType.equals(TYPE_TCAPITAL_DOWN))) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    private boolean isDefOrder(String orderType) {
+//        if (orderType.equals(TYPE_DEFALUT)) {
+//            return true;
+//        }
+//        return false;
+//    }
+//
+//    private int lastPercentTextIds = 0;
+//
+//    private void setDownType(TextView currentSelectView) {
+//        if (currentSelectView == tvCurrent) {
+//            orderType = TYPE_CURRENT_DOWN;
+//        } else if (currentSelectView == tvPercentgae) {
+//            if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
+//                // 涨跌幅
+//                orderType = TYPE_PERCENTAGE_DOWN;
+//                lastPercentTextIds = R.string.market_updown_ratio;
+//            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
+//                // 涨跌额
+//                orderType = TYPE_CHANGE_DOWN;
+//                lastPercentTextIds = R.string.market_updown_change;
+//
+//            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
+//                // 总市值
+//                orderType = TYPE_TCAPITAL_DOWN;
+//                lastPercentTextIds = R.string.market_updown_total_capit;
+//
+//            }
+//        }
+//        setDrawableDown(currentSelectView);
+//    }
+//
+//    private void setUpType(TextView currentSelectView) {
+//        if (currentSelectView == tvCurrent) {
+//            orderType = TYPE_CURRENT_UP;
+//        } else if (currentSelectView == tvPercentgae) {
+//
+//            if (tvPercentgae.getText().equals(getString(R.string.market_updown_ratio))) {
+//                // 涨跌幅
+//                orderType = TYPE_PERCENTAGE_UP;
+//                lastPercentTextIds = R.string.market_updown_ratio;
+//            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_change))) {
+//                // 涨跌额
+//                orderType = TYPE_CHANGE_UP;
+//                lastPercentTextIds = R.string.market_updown_change;
+//
+//            } else if (tvPercentgae.getText().equals(getString(R.string.market_updown_total_capit))) {
+//                // 总市值
+//                orderType = TYPE_TCAPITAL_UP;
+//                lastPercentTextIds = R.string.market_updown_total_capit;
+//            }
+//
+//        }
+//        setDrawableUp(currentSelectView);
+//    }
+//
+//    private void setDefType(TextView currentSelectView) {
+//        // if (currentSelectView == tvCurrent) {
+//        // orderType = "";
+//        // } else if (currentSelectView == tvChange) {
+//        // orderType = TYPE_CHANGE_DEF;
+//        // } else if (currentSelectView == tvPercentgae) {
+//        // orderType = TYPE_PERCENTAGE_DEF;
+//        // }
+//        orderType = TYPE_DEFALUT;
+//        setTextDrawableHide(currentSelectView);
+//    }
+
+    private final String mPageName = PortfolioApplication.getInstance().getString(R.string.count_option_list);
+
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onPause() {
         // TODO Auto-generated method stub
-        super.onViewCreated(view, savedInstanceState);
-        replaceDataList();
-        initView(view);
-        if (PortfolioApplication.hasUserLogin()) {
-            refresh();
-        }
+        super.onPause();
+        updateHandler.removeCallbacks(updateRunnable);
+        // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
+        MobclickAgent.onPageEnd(mPageName);
+        // MobclickAgent.onPause(this);
+        BusProvider.getInstance().unregister(this);
     }
 
-    protected PullToRefreshListView mListView;
-    private RelativeLayout pb;
-    public SwipeRefreshLayout mSwipeLayout;
+//    @Subscribe
+//    public void onTabTitleChange(TabStockTitleChangeEvent event) {
+//        if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
+//            // PromptManager.showToast("Change tab text to:总市值");
+//            int currentTextId = 0;
+//            if (event.tabType.equalsIgnoreCase(TYPE_PERCENTAGE_UP)) {
+//                tvPercentgae.setText(R.string.market_updown_ratio);
+//                currentTextId = R.string.market_updown_ratio;
+//                // PromptManager.showToast("Change tab text to:涨跌幅");
+//            } else if (event.tabType.equalsIgnoreCase(TYPE_CHANGE_UP)) {
+//                tvPercentgae.setText(R.string.market_updown_change);
+//                currentTextId = R.string.market_updown_change;
+//                // PromptManager.showToast("Change tab text to:涨跌额");
+//
+//            } else {
+//                // PromptManager.showToast("Change tab text to:总市值");
+//                tvPercentgae.setText(R.string.market_updown_total_capit);
+//                currentTextId = R.string.market_updown_total_capit;
+//            }
+//
+//            setTextDrawableHide(tvPercentgae);
+//            if (isPercentType(orderType) && lastPercentTextIds > 0 && lastPercentTextIds == currentTextId) {
+//
+//                if (isDefOrder(orderType)) {
+//                    setDefType(tvPercentgae);
+//                } else if (isDownOrder(orderType)) {
+//                    setDownType(tvPercentgae);
+//                } else {
+//                    setUpType(tvPercentgae);
+//                }
+//
+//            }
+//        }
+//    }
 
-    private void initView(View view) {
-
-        mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
-        mFundsAdapter = new TabFundsAdapter(getActivity(), mDataList);
-        mListView.setAdapter(mFundsAdapter);
-        mListView.setDividerHeight(0);
-        mListView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO Auto-generated method stub
-                // getActivity().startActivity(
-                // OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
-                // FundsOrderFragment.ORDER_TYPE_DAY));
-
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-
-            }
-        });
-        TextView emptyview = (TextView) view.findViewById(R.id.add_data);
-        emptyview.setText(R.string.click_creat_fund);
-        emptyview.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
-                // startActivity(intent);
-                if (!UIUtils.iStartLoginActivity(getActivity())) {
-                    addItem();
-                }
-
-            }
-        });
-        mListView.setEmptyView(emptyview);
-        mSwipeLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        // mSwipeLayout.setOnRefreshListener(this);
-        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light);
-        mSwipeLayout.setOnRefreshListener(new android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener() {
-
-            @Override
-            public void onRefresh() {
-                refresh();
-
-            }
-        });
-
-        tvCurrent.setOnClickListener(this);
-        tvPercentgae.setOnClickListener(this);
-
-    }
-
-    public void addItem() {
-        if (null != dataEngine) {
-
-            if (dataEngine.getMoreDataBean() != null && dataEngine.getMoreDataBean().getPortfoliosCount() >= 20) {
-                PromptManager.showShortToast(R.string.more_combination_tip);
-            } else {
-                getActivity().startActivity(PositionAdjustActivity.newIntent(getActivity(), null));
-            }
-        }
-
-    }
-
-    public void editFund() {
-        if (!mDataList.isEmpty()) {
-            // startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
-            startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1722 && null != viewLastClick) {
-            setDefType(viewLastClick);
-            dataEngine.setOrderType(orderType);
-        }
-        refresh();
-
-    }
-
-    public void refresh() {
-        // isRefresh = true;
-
-        dataEngine.loadAllData();
-        // UserCombinationEngineImpl.loadAllData(this);
-
-    }
-
-    private void replaceDataList() {
-        // view_datalist
-        // if (null == loadDataListFragment) {
-        // loadDataListFragment = FragmentSelectStockFund.getStockFragment(StockViewType.STOCK_OPTIONAL_PRICE);
-        // }
-        // getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, new MyCombinationListFragment())
-        // .commit();
-    }
-
-    private TextView viewLastClick;
-    private String orderType = FollowComListEngineImpl.ORDER_DEFALUT;
-
-    // private final String typeCurrentUp = "current";
-    // private final String typePercentageUp = "percentage";
-    // // 涨跌
-    // private final String typeChangeUP = "change";
-    // private final String typeCurrentDown = "-current";
-    // private final String typePercentageDown = "-percentage";
-    // // 涨跌
-    // private final String typeChangeDown = "-change";
-
-    private void setDrawableUp(TextView view) {
-
-        Drawable drawable = getResources().getDrawable(R.drawable.market_icon_up);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        view.setCompoundDrawables(null, null, drawable, null);
-        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
-    }
-
-    private void setDrawableDown(TextView view) {
-        // orderType = typeCurrentDown;
-        Drawable drawable = getResources().getDrawable(R.drawable.market_icon_down);
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        view.setCompoundDrawables(null, null, drawable, null);
-        view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
-    }
-
-    private void setTextDrawableHide(TextView view) {
-        // Drawable drawable = getResources().getDrawable(R.drawable.market_icon_down);
-        // drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        view.setCompoundDrawables(null, null, null, null);
-        // tvCurrent.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
-
-    }
-
-    private void setViewOrderIndicator(TextView currentSelectView) {
-        if (null == viewLastClick) {
-
-            setDownType(currentSelectView);
-        } else if (viewLastClick != currentSelectView) {
-            setTextDrawableHide(viewLastClick);
-            setDownType(currentSelectView);
-        } else if (viewLastClick == currentSelectView) {
-
-            if (isDefOrder(orderType)) {
-                setDownType(currentSelectView);
-            } else if (isDownOrder(orderType)) {
-                setUpType(currentSelectView);
-            } else {
-                setDefType(currentSelectView);
-            }
-        }
-        viewLastClick = currentSelectView;
-    }
-
-    private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
-                || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_UP)
-                || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
-                .equals(FollowComListEngineImpl.ORDER_MONTH_UP))) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isDownOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
-                || orderType.equals(UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN)
-                || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_DOWN) || orderType
-                .equals(FollowComListEngineImpl.ORDER_MONTH_DOWN))) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isDefOrder(String orderType) {
-        if (TextUtils.isEmpty(orderType)) {
-            return true;
-        }
-        // if (orderType.equals(UserCombinationEngineImpl.ORDER_DEFALUT)) {
-        // return true;
-        // }
-        return false;
-    }
-
-    private boolean isPercentType(String type) {
-        if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(FollowComListEngineImpl.ORDER_DAY_UP)
-                || orderType.equals(FollowComListEngineImpl.ORDER_DAY_DOWN)
-                || orderType.equals(FollowComListEngineImpl.ORDER_WEEK_UP) || orderType
-                .equals(FollowComListEngineImpl.ORDER_WEEK_DOWN))
-                || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_UP)
-                || orderType.equals(FollowComListEngineImpl.ORDER_MONTH_DOWN)) {
-            return true;
-        }
-        return false;
-    }
-
-    private int lastPercentTextIds = 0;
-
-    private void setDownType(TextView currentSelectView) {
-        if (currentSelectView == tvCurrent) {
-            orderType = UserCombinationEngineImpl.ORDER_NET_VALUE_DOWN;
-        } else if (currentSelectView == tvPercentgae) {
-            // orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_DOWN;
-            if (tvPercentgae.getText().equals(getString(R.string.day_income))) {
-                // 涨跌幅
-                orderType = FollowComListEngineImpl.ORDER_DAY_DOWN;
-                lastPercentTextIds = R.string.day_income;
-            } else if (tvPercentgae.getText().equals(getString(R.string.week_income))) {
-                // 涨跌额
-                orderType = FollowComListEngineImpl.ORDER_WEEK_DOWN;
-                lastPercentTextIds = R.string.week_income;
-
-            } else if (tvPercentgae.getText().equals(getString(R.string.month_income))) {
-                // 总市值
-                orderType = FollowComListEngineImpl.ORDER_MONTH_DOWN;
-                lastPercentTextIds = R.string.month_income;
-
-            }
-
-        }
-        setDrawableDown(currentSelectView);
-    }
-
-    private void setUpType(TextView currentSelectView) {
-        if (currentSelectView == tvCurrent) {
-            orderType = UserCombinationEngineImpl.ORDER_NET_VALUE_UP;
-        } else if (currentSelectView == tvPercentgae) {
-            // orderType = UserCombinationEngineImpl.ORDER_CUMULATIVE_UP;
-            if (tvPercentgae.getText().equals(getString(R.string.day_income))) {
-                // 涨跌幅
-                orderType = FollowComListEngineImpl.ORDER_DAY_UP;
-                lastPercentTextIds = R.string.day_income;
-            } else if (tvPercentgae.getText().equals(getString(R.string.week_income))) {
-                // 涨跌额
-                orderType = FollowComListEngineImpl.ORDER_WEEK_UP;
-                lastPercentTextIds = R.string.week_income;
-
-            } else if (tvPercentgae.getText().equals(getString(R.string.month_income))) {
-                // 总市值
-                orderType = FollowComListEngineImpl.ORDER_MONTH_UP;
-                lastPercentTextIds = R.string.month_income;
-
-            }
-        }
-        setDrawableUp(currentSelectView);
-    }
-
-    private void setDefType(TextView currentSelectView) {
-        // if (currentSelectView == tvCurrent) {
-        // orderType = "";
-        // } else if (currentSelectView == tvChange) {
-        // orderType = TYPE_CHANGE_DEF;
-        // } else if (currentSelectView == tvPercentgae) {
-        // orderType = TYPE_PERCENTAGE_DEF;
-        // }
-        orderType = FollowComListEngineImpl.ORDER_DEFALUT;
-        setTextDrawableHide(currentSelectView);
-    }
-
+    /**
+     * @param isEmptyData
+     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
+     */
     @Override
     public void dataUpdate(boolean isEmptyData) {
-        if (null != titleView) {
+        if (isEmptyData) {
+            titleView.setVisibility(View.GONE);
 
-            if (isEmptyData) {
-                titleView.setVisibility(View.GONE);
-            } else {
-                titleView.setVisibility(View.VISIBLE);
-            }
+        } else {
+            titleView.setVisibility(View.VISIBLE);
+
         }
+
         if (null != dataUpdateListener) {
             dataUpdateListener.dataUpdate(isEmptyData);
-
         }
+
     }
 
-    public List<CombinationBean> getmDataList() {
-        return mDataList;
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (requestCode == 777 && null != viewLastClick) {
+//            // System.out.println("set defalut order");
+//            setDefType(viewLastClick);
+//            viewLastClick = null;
+//            reloadData();
+//        }
+//    }
 
-    public void setmDataList(List<CombinationBean> mDataList) {
-        this.mDataList = mDataList;
-    }
-
-    @Subscribe
-    public void onTabTitleChange(TabFundTitleChangeEvent event) {
-        if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
-            // PromptManager.showToast("Change tab text to:总市值");
-            int currentTextId = 0;
-            if (event.tabType.equalsIgnoreCase(FollowComListEngineImpl.ORDER_WEEK_UP)) {
-                tvPercentgae.setText(R.string.week_income);
-                currentTextId = R.string.week_income;
-                // PromptManager.showToast("Change tab text to:涨跌幅");
-            } else if (event.tabType.equalsIgnoreCase(FollowComListEngineImpl.ORDER_MONTH_UP)) {
-                tvPercentgae.setText(R.string.month_income);
-                currentTextId = R.string.month_income;
-                // PromptManager.showToast("Change tab text to:涨跌额");
-
-            } else {
-                // PromptManager.showToast("Change tab text to:总市值");
-                tvPercentgae.setText(R.string.day_income);
-                currentTextId = R.string.day_income;
-            }
-
-            setTextDrawableHide(tvPercentgae);
-            if (isPercentType(orderType) && lastPercentTextIds > 0 && lastPercentTextIds == currentTextId) {
-
-                if (isDefOrder(orderType)) {
-                    setDefType(tvPercentgae);
-                } else if (isDownOrder(orderType)) {
-                    setDownType(tvPercentgae);
-                } else {
-                    setUpType(tvPercentgae);
-                }
-
-            }
+    public List<SelectStockBean> getDataList() {
+        if (null != loadDataListFragment) {
+            return loadDataListFragment.getDataList();
         }
+        return Collections.EMPTY_LIST;
     }
+
 }

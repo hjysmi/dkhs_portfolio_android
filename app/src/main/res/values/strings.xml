@@ -85,7 +85,8 @@
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
 
-    <string name="funds_name">组合名称</string>
+    <string name="funds_name">基金名称</string>
+    <string name="conbination_name">组合名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>
     <string name="confirm">确定</string>
@@ -493,6 +494,7 @@
     <string name="income">昨收</string>
     <string name="low">最低</string>
     <string name="total_capital">总市值</string>
+    <string name="shiyinglv">市盈率</string>
     <string name="pb">市净率</string>
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>

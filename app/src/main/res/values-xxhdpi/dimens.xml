@@ -2,6 +2,7 @@
 
     <integer name="select_touch_text">32</integer>
 
-    <dimen name="float_text_margin">8dp</dimen>
+    <dimen name="float_text_margin">6dp</dimen>
+    <dimen name="title_text_font">10sp</dimen>
 
 </resources>
