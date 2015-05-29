@@ -28,7 +28,6 @@ import com.dkhs.portfolio.utils.ChannelUtil;
 import com.dkhs.portfolio.utils.DataBaseUtil;
 import com.dkhs.portfolio.utils.ImageLoaderUtils;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
-import com.dkhs.portfolio.utils.UIUtils;
 import com.umeng.analytics.AnalyticsConfig;
 
 import java.io.IOException;
@@ -83,7 +82,6 @@ public class PortfolioApplication extends Application {
 
         MessageManager.getInstance().connect();
 
-        Log.e("PortfolioApplication","densityDpi:"+UIUtils.getDisplayMetrics().densityDpi);
 
     }
 
