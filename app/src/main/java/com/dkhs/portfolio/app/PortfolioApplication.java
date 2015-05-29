@@ -82,6 +82,7 @@ public class PortfolioApplication extends Application {
 
         MessageManager.getInstance().connect();
 
+
     }
 
 
