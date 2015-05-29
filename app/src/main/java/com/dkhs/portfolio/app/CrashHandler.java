@@ -113,7 +113,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
             } catch (InterruptedException e) {
                 // Logger.e(TAG, "Error : "+getStackTraceString(e));
             }
-//            mDefaultHandler.uncaughtException(thread, ex);
+            mDefaultHandler.uncaughtException(thread, ex);
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(10);
 
