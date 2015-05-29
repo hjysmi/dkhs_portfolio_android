@@ -213,7 +213,7 @@ public class CombinationUserActivity extends ModelAcitivity implements View.OnCl
         userCombinationListFragment = UserCombinationListFragment.getFragment(mUserName, mUserId);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.rl_combination_list, userCombinationListFragment)
-                .commit();
+                .commitAllowingStateLoss();
 
     }
 

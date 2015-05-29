@@ -116,7 +116,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
     private TextView tvLiuzhi;
     private TextView tvZongzhi;
     private TextView tvShiying;
-    private TextView tvShiJing;
+    private TextView tvAmount;
     private TextView tvYesterDay;
     private InterceptScrollView mScrollview; // 滚动条，用于滚动到头部
     private QuotesEngineImpl mQuotesEngine;
@@ -238,7 +238,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvLiuzhi = (TextView) viewHeader.findViewById(R.id.tv_liuzhi_value);
             tvZongzhi = (TextView) viewHeader.findViewById(R.id.tv_zongzhi_value);
             tvShiying = (TextView) viewHeader.findViewById(R.id.tv_shiying_value);
-            tvShiJing = (TextView) viewHeader.findViewById(R.id.tv_shijing_value);
+            tvAmount = (TextView) viewHeader.findViewById(R.id.tv_amount_value);
             tvPercentage = (TextView) viewHeader.findViewById(R.id.tv_percentage);
 
             mActionMenu = (FloatingActionMenu) findViewById(R.id.floating_action_view);
@@ -835,7 +835,8 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
             tvZongzhi.setText(StringFromatUtils.convertToWan((long) mStockQuotesBean.getTotal_capital()));
         }
         tvShiying.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPe_ttm()));
-        tvShiJing.setText(StringFromatUtils.get2Point(mStockQuotesBean.getPb()));
+
+        tvAmount.setText(StringFromatUtils.convertToWan(mStockQuotesBean.getAmount()));
         setTitleTipString(mStockQuotesBean.getTradetile() + " "
                 + TimeUtils.getMDTimeString(mStockQuotesBean.getMoment()));
         if (StockUitls.isDelistStock(mStockBean.list_status)) {// 退市股票

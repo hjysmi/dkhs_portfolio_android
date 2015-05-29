@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.FundTypeBean;
+import com.dkhs.portfolio.bean.MenuTypeBean;
 import com.dkhs.portfolio.utils.AnimationHelper;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
     public RecyclerView recyclerView;
 
-    private List<FundTypeBean>  data=new ArrayList<>();
+    private List<MenuTypeBean> data = new ArrayList<>();
 
     private Adapter adapter;
     private ImageView imageView;
@@ -57,22 +57,14 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        View view=   LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_float,null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_float, null);
 
-        recyclerView= (RecyclerView) view.findViewById(R.id.recycler_view);
-        imageView= (ImageView) view.findViewById(R.id.im_bg);
-        GridLayoutManager gridLayoutManager=new MyLinearLayoutManager(getContext(),4, GridLayoutManager.VERTICAL);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        imageView = (ImageView) view.findViewById(R.id.im_bg);
+        GridLayoutManager gridLayoutManager = new MyLinearLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setRecyclerListener(new RecyclerView.RecyclerListener() {
-            @Override
-            public void onViewRecycled(RecyclerView.ViewHolder holder) {
-              int position=holder.getAdapterPosition();
-                adapter.setSelectIndex(position);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        adapter=new Adapter();
-        recyclerView.setAdapter(adapter );
+        adapter = new Adapter();
+        recyclerView.setAdapter(adapter);
         this.addView(view);
         this.setVisibility(GONE);
         imageView.setOnClickListener(new OnClickListener() {
@@ -84,20 +76,32 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
 
-    public void setData(List<FundTypeBean>  data){
+    public void setData(List<MenuTypeBean> data) {
 
         this.data.clear();
         this.data.addAll(data);
         adapter.notifyDataSetChanged();
     }
 
+
+    public void toggle() {
+
+        if (this.getVisibility() == VISIBLE) {
+            dismiss();
+        } else {
+            show();
+        }
+
+
+    }
+
     /**
      * 出现
      */
-    public void  show(){
+    public void show() {
 
         this.setVisibility(VISIBLE);
-        AnimationHelper.translationFromTopShow(recyclerView,new Animator.AnimatorListener() {
+        AnimationHelper.translationFromTopShow(recyclerView, new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -124,8 +128,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     /**
      * 消失
      */
-    public  void dismiss(){
-        AnimationHelper.translationToTopDismiss(recyclerView,new Animator.AnimatorListener() {
+    public void dismiss() {
+        AnimationHelper.translationToTopDismiss(recyclerView, new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -133,13 +137,16 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
             @Override
             public void onAnimationEnd(Animator animation) {
-               MenuChooserRelativeLayout.this.setVisibility(GONE);
+                MenuChooserRelativeLayout.this.setVisibility(GONE);
+                recyclerView.setVisibility(GONE);
+
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
 
             }
+
             @Override
             public void onAnimationRepeat(Animator animation) {
 
@@ -150,31 +157,33 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
     //fixme 待优化,使用通用的适配器
-    class Adapter  extends RecyclerView.Adapter<Holder>{
+    class Adapter extends RecyclerView.Adapter<Holder> {
 
         private int selectIndex;
-        public Adapter(){
+
+        public Adapter() {
         }
+
         @Override
         public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-            View view= LayoutInflater.from(getContext()).inflate(R.layout.item_menu,null);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_menu, null);
             return new Holder(view);
         }
 
         @Override
         public void onBindViewHolder(Holder holder, int position) {
 
-            FundTypeBean  item=data.get(position);
-            holder.textView.setText(item.getName());
-            if(item.isEnable()){
+            MenuTypeBean item = data.get(position);
+            holder.textView.setText(item.getKey());
+            if (item.isEnable()) {
                 holder.view.setEnabled(true);
-                if(position == selectIndex){
+                if (position == selectIndex) {
                     holder.view.setSelected(true);
-                }else{
+                } else {
                     holder.view.setSelected(false);
                 }
-            }else{
+            } else {
                 holder.view.setEnabled(false);
             }
         }
@@ -188,22 +197,21 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
             this.selectIndex = selectIndex;
         }
     }
-    class  Holder extends RecyclerView.ViewHolder{
+
+    class Holder extends RecyclerView.ViewHolder {
 
         TextView textView;
         View view;
 
         public Holder(View itemView) {
             super(itemView);
-            view=itemView;
-            textView= (TextView) itemView.findViewById(R.id.textView);
+            view = itemView;
+            textView = (TextView) itemView.findViewById(R.id.textView);
         }
     }
 
 
     public class MyLinearLayoutManager extends GridLayoutManager {
-
-
 
         private int[] mMeasuredDimension = new int[2];
 
@@ -231,14 +239,14 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                         mMeasuredDimension);
 
                 if (getOrientation() == HORIZONTAL) {
-                    if(i%getColumns()==0) {
+                    if (i % getColumns() == 0) {
                         width = width + mMeasuredDimension[0];
                     }
                     if (i == 0) {
                         height = mMeasuredDimension[1];
                     }
                 } else {
-                    if(i%getColumns()==0) {
+                    if (i % getColumns() == 0) {
                         height = height + mMeasuredDimension[1];
                     }
                     if (i == 0) {

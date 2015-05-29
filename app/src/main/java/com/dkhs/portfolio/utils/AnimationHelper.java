@@ -165,8 +165,8 @@ public class AnimationHelper {
             return;
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,-300);
-        objectAnimator.setDuration(ANIM_DURATION *4);
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,- view.getMeasuredHeight());
+        objectAnimator.setDuration(ANIM_DURATION );
         objectAnimator.addListener(animatorListener);
         objectAnimator.start();
 
@@ -178,12 +178,12 @@ public class AnimationHelper {
         }
         view.setVisibility(View.VISIBLE);
 
-        if(view.getHeight() == 0) {
+        if(view.getMeasuredHeight() == 0) {
             view.measure(0, 0);
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",-300,0);
-        objectAnimator.setDuration(ANIM_DURATION *4);
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",- view.getMeasuredHeight(),0);
+        objectAnimator.setDuration(ANIM_DURATION );
         objectAnimator.addListener( animatorListener);
 
         objectAnimator.start();
@@ -191,18 +191,42 @@ public class AnimationHelper {
     }
 
     public static  void alphaShow(View view){
+//        if(view.getVisibility() == View.VISIBLE){
+//            return;
+//        }
 
+        view.setVisibility(View.VISIBLE);
         AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
 
-        alphaAnimation.setDuration(ANIM_DURATION *4);
+        alphaAnimation.setDuration(ANIM_DURATION );
         view.startAnimation(alphaAnimation);
 
 
     }
-    public static  void alphaDismiss(View view){
+    public static  void alphaDismiss(final View view){
+        if(view.getVisibility() == View.GONE){
+            return;
+        }
         AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
 
-        alphaAnimation.setDuration(ANIM_DURATION *4);
+        alphaAnimation.setDuration(ANIM_DURATION );
+
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         view.startAnimation(alphaAnimation);
 
     }
