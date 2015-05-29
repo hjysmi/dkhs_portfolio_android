@@ -493,6 +493,7 @@
     <string name="income">昨收</string>
     <string name="low">最低</string>
     <string name="total_capital">总市值</string>
+    <string name="shiyinglv">市盈率</string>
     <string name="pb">市净率</string>
     <string name="delist">停牌</string>
     <string name="amount">成交额</string>
