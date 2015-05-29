@@ -247,7 +247,7 @@
         style="@style/text_stock_value"
         android:visibility="gone" />
     <TextView
-        android:id="@+id/tv_shijing_value"
+        android:id="@+id/tv_amount_value"
         style="@style/text_stock_value"
         android:visibility="gone" />
 
