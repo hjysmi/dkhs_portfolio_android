@@ -64,6 +64,7 @@ import java.util.List;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_INDEX;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_MAININDEX;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_STOCK;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.OPTIONAL_FUNDS;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_DRAWDOWN_CLICKABLE;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_HANDOVER_CLICKABLE;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_INCREASE_CLICKABLE;
@@ -663,7 +664,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
-        if (mViewType == STOCK_OPTIONAL_PRICE) {
+        if (mViewType == STOCK_OPTIONAL_PRICE||mViewType==OPTIONAL_FUNDS) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
             emptyview = view.findViewById(R.id.add_data);
