@@ -33,6 +33,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
+import com.dkhs.portfolio.engine.OptionalFundsEngineImpl;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -195,7 +196,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         /**
          * 可以点击查看详情的换手列表
          */
-        STOCK_HANDOVER_CLICKABLE(22);
+        STOCK_HANDOVER_CLICKABLE(22),
+        /**
+         * 自选基金列表
+         */
+        OPTIONAL_FUNDS(23);
 
 
 
@@ -265,6 +270,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (mcontext.get() != null) {
 
                 switch (viewType) {
+                    case OPTIONAL_FUNDS:
                     case STOCK_OPTIONAL_PRICE: {
                         adapter = new OptionalPriceAdapter(mcontext.get());
                     }
@@ -381,7 +387,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
-        } else {
+        }else  if(mViewType ==StockViewType.OPTIONAL_FUNDS){
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener,true);
+        }
+        else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
