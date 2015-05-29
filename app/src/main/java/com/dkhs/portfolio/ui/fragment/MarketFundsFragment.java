@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.FundTypeBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
@@ -113,12 +114,31 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
         super.onViewCreated(view, savedInstanceState);
 //        replaceDataList();
 
-        List<CharSequence> data=new ArrayList<>();
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
+        List<FundTypeBean> data=new ArrayList<>();
+
+        FundTypeBean item1=new FundTypeBean();
+        item1.setName("ddd");
+        item1.setEnable(true);
+        FundTypeBean item2=new FundTypeBean();
+        item2.setName("ddd");
+        item2.setEnable(true);
+        FundTypeBean item3=new FundTypeBean();
+        item3.setName("ddd");
+        item3.setEnable(true);
+        FundTypeBean item4=new FundTypeBean();
+        item4.setName("ddd");
+        item4.setEnable(true);
+        FundTypeBean item5=new FundTypeBean();
+        item5.setName("ddd");
+        item5.setEnable(true);
+
+        data.add(item1);
+        data.add(item2);
+        data.add(item3);
+        data.add(item4);
+        data.add(item5);
+        data.add(item5);
+
         menuChooserRelativeLayout.setData(data);
 
     }
@@ -186,7 +206,9 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
         int id = v.getId();
         switch (id) {
             case R.id.tv_current: {
-//                menuChooserRelativeLayout.show();
+
+
+                menuChooserRelativeLayout.show();
 //                setViewOrderIndicator(tvCurrent);
             }
             break;

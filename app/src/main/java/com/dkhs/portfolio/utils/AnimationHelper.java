@@ -165,8 +165,8 @@ public class AnimationHelper {
             return;
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,-view.getHeight());
-        objectAnimator.setDuration(ANIM_DURATION);
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,-300);
+        objectAnimator.setDuration(ANIM_DURATION *4);
         objectAnimator.addListener(animatorListener);
         objectAnimator.start();
 
@@ -178,12 +178,12 @@ public class AnimationHelper {
         }
         view.setVisibility(View.VISIBLE);
 
-        if(view.getHeight()==0) {
+        if(view.getHeight() == 0) {
             view.measure(0, 0);
         }
 
-        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",-view.getHeight(),0);
-        objectAnimator.setDuration(ANIM_DURATION);
+        ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",-300,0);
+        objectAnimator.setDuration(ANIM_DURATION *4);
         objectAnimator.addListener( animatorListener);
 
         objectAnimator.start();
@@ -194,7 +194,7 @@ public class AnimationHelper {
 
         AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
 
-        alphaAnimation.setDuration(ANIM_DURATION);
+        alphaAnimation.setDuration(ANIM_DURATION *4);
         view.startAnimation(alphaAnimation);
 
 
@@ -202,7 +202,7 @@ public class AnimationHelper {
     public static  void alphaDismiss(View view){
         AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
 
-        alphaAnimation.setDuration(ANIM_DURATION);
+        alphaAnimation.setDuration(ANIM_DURATION *4);
         view.startAnimation(alphaAnimation);
 
     }
