@@ -8,16 +8,26 @@
         android:id="@+id/im_bg"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@color/gray"
-        android:visibility="gone" />
+        android:background="@color/alpha_gray"
+        />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <LinearLayout
+        android:id="@+id/ll_menu"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red"
-        android:visibility="gone" />
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            style="@style/divider_line"
+            android:layout_marginTop="12dp" />
+    </LinearLayout>
 
 
 </RelativeLayout>

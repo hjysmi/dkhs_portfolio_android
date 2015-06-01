@@ -17,6 +17,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -27,6 +28,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
+import com.dkhs.portfolio.utils.AnimationHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -51,8 +53,10 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
     private FragmentSelectStockFund loadDataListFragment;
 
-    @ViewInject(R.id.menuFloat)
-    private MenuChooserRelativeLayout menuChooserRelativeLayout;
+    @ViewInject(R.id.rl_menu)
+    ViewGroup menuRL;
+    private MenuChooserRelativeLayout fundTypeMenuChooserL;
+    private MenuChooserRelativeLayout sortTypeMenuChooserL;
     @ViewInject(R.id.tv_current)
     private TextView tvCurrent;
     // @ViewInject(R.id.tv_increase)
@@ -115,9 +119,13 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 //        replaceDataList();
 
 
+        fundTypeMenuChooserL=new MenuChooserRelativeLayout(getActivity());
+        sortTypeMenuChooserL=new MenuChooserRelativeLayout(getActivity());
 
-
-        menuChooserRelativeLayout.setData(MenuTypeBean.fundSortFromXml(getActivity()));
+        sortTypeMenuChooserL.setParentView(menuRL);
+        fundTypeMenuChooserL.setParentView(menuRL);
+        fundTypeMenuChooserL.setData(MenuTypeBean.fundTypeFromXml(getActivity()));
+        sortTypeMenuChooserL.setData(MenuTypeBean.fundSortFromXml(getActivity()));
 
     }
 
@@ -179,23 +187,27 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
     }
 
-    @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase})
+    @OnClick({R.id.tv_current, R.id.tv_percentage, R.id.tv_increase,R.id.tv_fund_type})
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
             case R.id.tv_current: {
-
-
-                menuChooserRelativeLayout.toggle();
-//                setViewOrderIndicator(tvCurrent);
+                setViewOrderIndicator(tvCurrent);
             }
             break;
             case R.id.tv_percentage: {
+                fundTypeMenuChooserL.dismiss();
+                sortTypeMenuChooserL.toggle();
                 setViewOrderIndicator(tvPercentgae);
 
             }
             break;
+            case R.id.tv_fund_type: {
+                sortTypeMenuChooserL.dismiss(false);
+                fundTypeMenuChooserL.toggle();
 
+            }
+            break;
             default:
                 break;
         }

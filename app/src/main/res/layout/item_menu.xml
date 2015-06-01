@@ -7,11 +7,14 @@
     <TextView
         android:id="@+id/textView"
         android:layout_margin="4dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:textColor="@color/menu_text_color"
         android:background="@drawable/fund_type_selector"
-        android:padding="6dp" />
+    />
 
 </RelativeLayout>

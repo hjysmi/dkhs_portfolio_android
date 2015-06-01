@@ -23,6 +23,8 @@ import android.view.animation.ScaleAnimation;
 
 import com.nineoldandroids.view.ViewHelper;
 
+import static android.view.View.VISIBLE;
+
 
 /**
  * @ClassName AnimationHelper
@@ -106,10 +108,10 @@ public class AnimationHelper {
     }
 
     public static void  showScale(View view){
-        if(view.getVisibility() == View.VISIBLE){
+        if(view.getVisibility() == VISIBLE){
             return;
         }
-        view.setVisibility(View.VISIBLE);
+        view.setVisibility(VISIBLE);
         ScaleAnimation scaleAnimation=new ScaleAnimation(0.5f,1,0.5f,1, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
 
@@ -127,7 +129,7 @@ public class AnimationHelper {
         if(view.getVisibility() == View.GONE){
             return;
         }
-        view.setVisibility(View.VISIBLE);
+        view.setVisibility(VISIBLE);
         ScaleAnimation scaleAnimation=new ScaleAnimation(1,0.5f,1,0.5f, Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0.5f);
 
@@ -168,37 +170,48 @@ public class AnimationHelper {
         ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,- view.getMeasuredHeight());
         objectAnimator.setDuration(ANIM_DURATION );
         objectAnimator.addListener(animatorListener);
+        objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
 
     }
 
     public static void translationFromTopShow(final View view,  Animator.AnimatorListener animatorListener ) {
-        if(view.getVisibility() == View.VISIBLE){
-            return;
-        }
-        view.setVisibility(View.VISIBLE);
+
+        view.setVisibility(VISIBLE);
 
         if(view.getMeasuredHeight() == 0) {
             view.measure(0, 0);
         }
 
         ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",- view.getMeasuredHeight(),0);
-        objectAnimator.setDuration(ANIM_DURATION );
-        objectAnimator.addListener( animatorListener);
-
+        objectAnimator.setDuration(ANIM_DURATION+200 );
+        objectAnimator.addListener(animatorListener);
+        objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
 
     }
 
-    public static  void alphaShow(View view){
-//        if(view.getVisibility() == View.VISIBLE){
-//            return;
-//        }
+    public static  void alphaShow(final View view){
 
-        view.setVisibility(View.VISIBLE);
-        AlphaAnimation alphaAnimation=new AlphaAnimation(0.5f,1f);
 
-        alphaAnimation.setDuration(ANIM_DURATION );
+        AlphaAnimation alphaAnimation=new AlphaAnimation(0.01f,1f);
+        alphaAnimation.setDuration(ANIM_DURATION+200 );
+        alphaAnimation.setInterpolator(new DecelerateInterpolator());
+        alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setVisibility(VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         view.startAnimation(alphaAnimation);
 
 
@@ -210,7 +223,7 @@ public class AnimationHelper {
         AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
 
         alphaAnimation.setDuration(ANIM_DURATION );
-
+        alphaAnimation.setInterpolator(new DecelerateInterpolator());
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {

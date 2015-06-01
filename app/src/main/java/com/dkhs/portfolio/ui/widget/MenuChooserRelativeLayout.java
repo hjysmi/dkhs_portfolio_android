@@ -6,16 +6,23 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.MenuTypeBean;
+import com.dkhs.portfolio.ui.adapter.BaseRVAdapter;
+import com.dkhs.portfolio.ui.adapter.RVHolder;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.AnimationHelper;
+import com.lidroid.xutils.util.LogUtils;
+import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,21 +37,24 @@ import java.util.List;
 public class MenuChooserRelativeLayout extends RelativeLayout {
     public MenuChooserRelativeLayout(Context context) {
         super(context);
+        init();
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public MenuChooserRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init();
     }
-
 
     public RecyclerView recyclerView;
 
@@ -52,19 +62,26 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
     private Adapter adapter;
     private ImageView imageView;
+    private View menuLL;
+
 
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
+//        init();
 
+    }
+
+    private void init() {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_float, null);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         imageView = (ImageView) view.findViewById(R.id.im_bg);
-        GridLayoutManager gridLayoutManager = new MyLinearLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL);
+        menuLL =  view.findViewById(R.id.ll_menu);
+        GridLayoutManager gridLayoutManager = new WrapGridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL);
+
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new Adapter();
-        recyclerView.setAdapter(adapter);
+        adapter = new Adapter(getContext(),data);
+
         this.addView(view);
         this.setVisibility(GONE);
         imageView.setOnClickListener(new OnClickListener() {
@@ -73,6 +90,28 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                 dismiss();
             }
         });
+
+        adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int prePosition = adapter.getSelectIndex();
+                adapter.setSelectIndex(position);
+                adapter.notifyItemChanged(position);
+
+                adapter.notifyItemChanged(prePosition);
+
+                BusProvider.getInstance().post(data.get(position));
+
+                recyclerView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        toggle();
+                    }
+                }, 500);
+
+            }
+        });
+        recyclerView.setAdapter(adapter);
     }
 
 
@@ -83,6 +122,9 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         adapter.notifyDataSetChanged();
     }
 
+    private  ViewGroup parentView;
+
+
 
     public void toggle() {
 
@@ -91,8 +133,6 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         } else {
             show();
         }
-
-
     }
 
     /**
@@ -101,7 +141,15 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     public void show() {
 
         this.setVisibility(VISIBLE);
-        AnimationHelper.translationFromTopShow(recyclerView, new Animator.AnimatorListener() {
+
+
+        if(this.getParentView() !=null){
+            ViewGroup viewGroup=this.getParentView();
+            viewGroup.removeView(this);
+        }
+
+        this.parentView.addView(this);
+        AnimationHelper.translationFromTopShow(menuLL, new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
 
@@ -128,69 +176,90 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     /**
      * 消失
      */
-    public void dismiss() {
-        AnimationHelper.translationToTopDismiss(recyclerView, new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
+    public void dismiss(boolean anim) {
 
+        if(anim){
+            if (null == imageView.getAnimation() || imageView.getAnimation().hasEnded()) {
+
+                AnimationHelper.translationToTopDismiss(menuLL, new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        MenuChooserRelativeLayout.this.setVisibility(GONE);
+                        menuLL.setVisibility(GONE);
+                        MenuChooserRelativeLayout.this.parentView.removeView(MenuChooserRelativeLayout.this);
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                AnimationHelper.alphaDismiss(imageView);
             }
+        }else {
 
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                MenuChooserRelativeLayout.this.setVisibility(GONE);
-                recyclerView.setVisibility(GONE);
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
-        AnimationHelper.alphaDismiss(imageView);
+            MenuChooserRelativeLayout.this.setVisibility(GONE);
+            menuLL.setVisibility(GONE);
+            MenuChooserRelativeLayout.this.parentView.removeView(MenuChooserRelativeLayout.this);
+        }
 
     }
+    public void dismiss( ) {
+        dismiss(true);
+    }
 
-    //fixme 待优化,使用通用的适配器
-    class Adapter extends RecyclerView.Adapter<Holder> {
+
+    class Adapter extends BaseRVAdapter {
 
         private int selectIndex;
 
-        public Adapter() {
+        public Adapter(Context context, List<?> list) {
+            super(context, list);
+        }
+
+
+        @Override
+        public int onCreateViewLayoutID(int viewType) {
+
+//            LogUtils.e(viewType+"");
+            return R.layout.item_menu;
         }
 
         @Override
-        public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public void onBindViewHolder(RVHolder holder, int position) {
 
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_menu, null);
-            return new Holder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(Holder holder, int position) {
-
+            super.onBindViewHolder(holder,position);
             MenuTypeBean item = data.get(position);
-            holder.textView.setText(item.getKey());
+            holder.getViewHolder().setTextView(R.id.textView, item.getKey());
+
+            View view = holder.getViewHolder().getRootView();
+
             if (item.isEnable()) {
-                holder.view.setEnabled(true);
+                view.setEnabled(true);
                 if (position == selectIndex) {
-                    holder.view.setSelected(true);
+                    view.setSelected(true);
                 } else {
-                    holder.view.setSelected(false);
+                    view.setSelected(false);
                 }
             } else {
-                holder.view.setEnabled(false);
+                view.setEnabled(false);
             }
         }
 
-        @Override
-        public int getItemCount() {
-            return data.size();
+        public int getSelectIndex() {
+            return selectIndex;
         }
 
         public void setSelectIndex(int selectIndex) {
@@ -198,28 +267,16 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         }
     }
 
-    class Holder extends RecyclerView.ViewHolder {
 
-        TextView textView;
-        View view;
-
-        public Holder(View itemView) {
-            super(itemView);
-            view = itemView;
-            textView = (TextView) itemView.findViewById(R.id.textView);
-        }
-    }
-
-
-    public class MyLinearLayoutManager extends GridLayoutManager {
+    public class WrapGridLayoutManager extends GridLayoutManager {
 
         private int[] mMeasuredDimension = new int[2];
 
-        public MyLinearLayoutManager(Context context) {
+        public WrapGridLayoutManager(Context context) {
             super(context);
         }
 
-        public MyLinearLayoutManager(Context context, int columns, int orientation) {
+        public WrapGridLayoutManager(Context context, int columns, int orientation) {
             super(context, columns, orientation);
         }
 
@@ -232,43 +289,70 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
             final int heightSize = View.MeasureSpec.getSize(heightSpec);
             int width = 0;
             int height = 0;
-            for (int i = 0; i < getItemCount(); i++) {
-                measureScrapChild(recycler, i,
-                        View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
-                        View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+
+
+//            for (int i = 0; i < getItemCount(); i++) {
+//                measureScrapChild(recycler, i,
+//                        View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+//                        View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+//                        mMeasuredDimension);
+//
+//                if (getOrientation() == HORIZONTAL) {
+//                    if (i % getColumns() == 0) {
+//                        width = width + mMeasuredDimension[0];
+//                    }
+//                    if (i == 0) {
+//                        height = mMeasuredDimension[1];
+//                    }
+//                } else {
+//                    if (i % getColumns() == 0) {
+//                        height = height + mMeasuredDimension[1];
+//                    }
+//                    if (i == 0) {
+//                        width = mMeasuredDimension[0];
+//                    }
+//                }
+//            }
+            if (getItemCount() > 0) {
+
+                int row = getItemCount() / getColumns();
+
+                if (getItemCount() % getColumns() != 0) {
+                    row++;
+                }
+
+                measureScrapChild(recycler, 0,
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                         mMeasuredDimension);
 
                 if (getOrientation() == HORIZONTAL) {
-                    if (i % getColumns() == 0) {
-                        width = width + mMeasuredDimension[0];
-                    }
-                    if (i == 0) {
-                        height = mMeasuredDimension[1];
-                    }
+
+                    width = mMeasuredDimension[0] * row;
+
+
                 } else {
-                    if (i % getColumns() == 0) {
-                        height = height + mMeasuredDimension[1];
-                    }
-                    if (i == 0) {
-                        width = mMeasuredDimension[0];
-                    }
+                    height = height + mMeasuredDimension[1] * row;
+
                 }
             }
-            switch (widthMode) {
-                case View.MeasureSpec.EXACTLY:
-                    width = widthSize;
-                case View.MeasureSpec.AT_MOST:
-                case View.MeasureSpec.UNSPECIFIED:
-            }
 
-            switch (heightMode) {
-                case View.MeasureSpec.EXACTLY:
-                    height = heightSize;
-                case View.MeasureSpec.AT_MOST:
-                case View.MeasureSpec.UNSPECIFIED:
-            }
+                switch (widthMode) {
+                    case View.MeasureSpec.EXACTLY:
+                        width = widthSize;
+                    case View.MeasureSpec.AT_MOST:
+                    case View.MeasureSpec.UNSPECIFIED:
+                }
 
-            setMeasuredDimension(width, height);
+                switch (heightMode) {
+                    case View.MeasureSpec.EXACTLY:
+                        height = heightSize;
+                    case View.MeasureSpec.AT_MOST:
+                    case View.MeasureSpec.UNSPECIFIED:
+                }
+//
+                setMeasuredDimension(width, height);
+//            super.onMeasure(recycler,state,widthSpec,heightSpec);
         }
 
         private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec,
@@ -288,4 +372,12 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         }
     }
 
+
+    public ViewGroup getParentView() {
+        return parentView;
+    }
+
+    public void setParentView(ViewGroup parentView) {
+        this.parentView = parentView;
+    }
 }

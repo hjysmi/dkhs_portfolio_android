@@ -82,7 +82,6 @@ public class NewMainActivity extends ModelAcitivity {
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
 
-        LogUtils.e("MessageManager " + (Looper.myLooper() == Looper.getMainLooper()));
 
     }
 
