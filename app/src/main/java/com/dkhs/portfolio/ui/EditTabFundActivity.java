@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -18,7 +19,6 @@ import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.OptionalFundsEngineImpl;
-import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.draglist.DragListView;
@@ -90,6 +90,8 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());
+        TextView textView =(TextView) findViewById(R.id.tv_type_title);
+        textView.setText(R.string.funds_name);
 
     }
 
@@ -159,7 +161,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
                     Log.e("listindex", json.toString());
                     if (PortfolioApplication.hasUserLogin()) {
 
-                        OptionalFundsEngineImpl.setIndex(userInfoListener.setLoadingDialog(this, "保存中...", false),
+                        OptionalFundsEngineImpl.setIndex(updateSortIndexListener.setLoadingDialog(this, "保存中...", false),
                                 json.toString());
                     } else {
 
@@ -182,7 +184,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
-    ParseHttpListener userInfoListener = new ParseHttpListener<List<SelectStockBean>>() {
+    ParseHttpListener updateSortIndexListener = new ParseHttpListener<List<SelectStockBean>>() {
 
         @Override
         protected List<SelectStockBean> parseDateTask(String josn) {
@@ -195,7 +197,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         protected void afterParseData(List<SelectStockBean> dataList) {
 
             PromptManager.showEditSuccessToast();
-            finish();
+//            finish();
             setResult(RESULT_OK);
         }
     };

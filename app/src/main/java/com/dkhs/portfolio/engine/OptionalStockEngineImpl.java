@@ -88,7 +88,9 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
 
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
-            params.addQueryStringParameter("sort", orderType);
+            if (!orderType.equals(DEF_ORDER_TYPE)) {
+                params.addQueryStringParameter("sort", orderType);
+            }
             params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
             if (!TextUtils.isEmpty(mUserId)) {
                 params.addQueryStringParameter("user_id", mUserId);

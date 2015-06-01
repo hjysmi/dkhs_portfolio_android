@@ -90,6 +90,7 @@ public class EditTabStockActivity extends ModelAcitivity implements OnClickListe
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());
 
+
     }
 
     ILoadDataBackListener mSelectStockBackListener = new ILoadDataBackListener() {

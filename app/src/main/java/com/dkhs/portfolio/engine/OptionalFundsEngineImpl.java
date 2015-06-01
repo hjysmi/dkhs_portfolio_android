@@ -87,7 +87,9 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
 
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
-            params.addQueryStringParameter("sort", orderType);
+            if (!orderType.equals(DEF_ORDER_TYPE)) {
+                params.addQueryStringParameter("sort", orderType);
+            }
             params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
             params.addQueryStringParameter("symbol_type", 3 + "");
             if (!TextUtils.isEmpty(mUserId)) {
@@ -207,7 +209,7 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
     public static HttpHandler setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("symbols_position", json);
-        params.addBodyParameter("symbol_type", 3 + "");
+        params.addBodyParameter("symbol_type", String.valueOf(3));
         return DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
     }
 

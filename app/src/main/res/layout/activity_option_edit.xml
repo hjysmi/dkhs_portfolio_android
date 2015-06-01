@@ -11,6 +11,7 @@
         android:weightSum="5">
 
         <TextView
+            android:id="@+id/tv_type_title"
             style="@style/gray_title_text"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
