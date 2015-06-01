@@ -516,7 +516,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             // mLoadDataEngine.setLoadingDialog(getActivity());
             // mLoadDataEngine.loadData();
             // 第二次
-        }else     if (mLoadDataEngine instanceof OptionalFundsEngineImpl) {
+        } else if (mLoadDataEngine instanceof OptionalFundsEngineImpl) {
             ((OptionalFundsEngineImpl) mLoadDataEngine).setLoadType(type);
         }
     }
@@ -611,16 +611,20 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         tvEmptyText.postInvalidate();
         tvEmptyText.setVisibility(View.VISIBLE);
         switch (mViewType) {
+            case OPTIONAL_FUNDS: {
+                tvEmptyText.setVisibility(View.GONE);
+                if (null != emptyview) {
+                    emptyview.setVisibility(View.VISIBLE);
+                    emptyview.setText(R.string.click_add_fund);
+                }
+            }
+            break;
             case STOCK_OPTIONAL:
-
             case STOCK_OPTIONAL_PRICE: {
                 tvEmptyText.setVisibility(View.GONE);
-                // refreshSelect();
-                // mListView.setEmptyView(emptyview);
                 if (null != emptyview) {
                     emptyview.setVisibility(View.VISIBLE);
                 }
-                tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }
             break;
@@ -658,7 +662,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
-    private View emptyview;
+    private TextView emptyview;
 
     public void initView(View view) {
 
@@ -668,7 +672,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         if (mViewType == STOCK_OPTIONAL_PRICE || mViewType == OPTIONAL_FUNDS) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
-            emptyview = view.findViewById(R.id.add_data);
+            emptyview = (TextView) view.findViewById(R.id.add_data);
             emptyview.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -678,7 +682,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
                 }
             });
-            // mListView.setEmptyView(emptyview);
         } else if (mViewType == STOCK_INCREASE_CLICKABLE || mViewType == STOCK_DRAWDOWN_CLICKABLE || mViewType == STOCK_HANDOVER_CLICKABLE) {
             mListView.setOnItemClickListener(itemBackClick);
         }

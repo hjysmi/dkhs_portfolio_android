@@ -224,7 +224,7 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
             }
         });
         TextView emptyview = (TextView) view.findViewById(R.id.add_data);
-        emptyview.setText(R.string.click_creat_fund);
+        emptyview.setText(R.string.click_creat_combina);
         emptyview.setOnClickListener(new OnClickListener() {
 
             @Override

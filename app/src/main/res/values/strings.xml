@@ -387,7 +387,7 @@
     <string name="market_updown_total_capit">总市值</string>
     <string name="market_fund_per_day">日收益</string>
     <string name="market_fund_per_month">月收益</string>
-    <string name="market_fund_per_tyear">年收益</string>
+    <string name="market_fund_per_tyear">今年收益</string>
     <string name="market_title_up">涨幅榜</string>
     <string name="market_title_hot">热门行业</string>
     <string name="market_title_turnover">换手率榜</string>
@@ -419,9 +419,10 @@
     <string name="month_income">月收益</string>
     <string name="year_income">年收益</string>
     <string name="click_add_stock">点击添加自选股</string>
-    <string name="click_creat_fund">点击创建组合</string>
-    <string name="creat_fund">自建组合</string>
-    <string name="creat_fund_name">组合名称</string>
+    <string name="click_creat_combina">点击创建组合</string>
+    <string name="click_add_fund">点击添加自选基金</string>
+    <string name="creat_combination">自建组合</string>
+    <string name="creat_combination_name">组合名称</string>
     <string name="message_center">消息中心</string>
     <!-- toast message text -->
     <string name="msg_follow_success">关注成功</string>
