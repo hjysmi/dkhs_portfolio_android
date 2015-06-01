@@ -33,10 +33,6 @@ public class PortfolioApplication extends Application {
 
     private boolean isLogin;
 
-    // private String checkValue = "0";
-    // private boolean change = false;
-    // private int kLinePosition = -1;
-
 
     public static PortfolioApplication getInstance() {
         return mInstance;
@@ -47,7 +43,6 @@ public class PortfolioApplication extends Application {
         mInstance = this;
         AppConfig.config(this);
         super.onCreate();
-
 
     }
 
@@ -98,7 +93,6 @@ public class PortfolioApplication extends Application {
         return !TextUtils.isEmpty(currentPackageName) && currentPackageName.equals(getPackageName());
 
     }
-
 
 
     public boolean isLogin() {

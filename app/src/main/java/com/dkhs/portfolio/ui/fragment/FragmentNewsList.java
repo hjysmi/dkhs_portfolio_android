@@ -203,6 +203,7 @@ public class FragmentNewsList extends Fragment implements Serializable , IScroll
             }
         });
 
+        mSwipeLayout.setEnabled(false);
 
         mListView.setOnTouchListener(new View.OnTouchListener() {
             @Override

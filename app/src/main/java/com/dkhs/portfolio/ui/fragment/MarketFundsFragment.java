@@ -23,7 +23,9 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.MenuTypeBean;
+import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
+import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
@@ -94,7 +96,7 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     private boolean isLoading;
     private String mUserId;
 
-
+    public static List<CombinationBean> mVisitorData = new ArrayList<CombinationBean>();
 
     @Override
     public void onCreate(Bundle arg0) {
@@ -118,6 +120,13 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
         super.onViewCreated(view, savedInstanceState);
 //        replaceDataList();
 
+        List<CharSequence> data = new ArrayList<>();
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        data.add("dfdkfjd");
+        menuChooserRelativeLayout.setData(data);
 
         fundTypeMenuChooserL=new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL=new MenuChooserRelativeLayout(getActivity());
@@ -138,6 +147,13 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
         MobclickAgent.onPageStart(mPageName);
         BusProvider.getInstance().register(this);
 
+        if (!PortfolioApplication.hasUserLogin()) {
+            loadVisitorCombinationList();
+        }
+    }
+
+    private void loadVisitorCombinationList() {
+        mVisitorData = new VisitorDataEngine().getCombinationBySort();
     }
 
     public void refreshEditView() {
@@ -157,7 +173,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     private IDataUpdateListener dataUpdateListener;
 
 
-
     Runnable updateRunnable = new Runnable() {
         @Override
         public void run() {
@@ -171,7 +186,7 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     private void replaceDataList() {
         // view_datalist
         if (null == loadDataListFragment) {
-            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(FragmentSelectStockFund.StockViewType.FUND_STOCK,mUserId);
+            loadDataListFragment = FragmentSelectStockFund.getStockFragmentByUserId(FragmentSelectStockFund.StockViewType.FUND_STOCK, mUserId);
             loadDataListFragment.setDataUpdateListener(this);
         }
         getChildFragmentManager().beginTransaction().replace(R.id.view_datalist, loadDataListFragment).commit();
@@ -251,12 +266,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            // if (orderType == TYPE_CHANGE_DOWN || orderType == TYPE_CURRENT_DOWN || orderType == TYPE_PERCENTAGE_DOWN)
-            // {
-            // setUpType(currentSelectView);
-            // } else {
-            // setDownType(currentSelectView);
-            // }
 
             if (isDefOrder(orderType)) {
                 setDownType(currentSelectView);
@@ -267,15 +276,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
             }
         }
         viewLastClick = currentSelectView;
-    }
-
-    private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
-                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
-            return true;
-        }
-        return false;
     }
 
     private boolean isDownOrder(String orderType) {

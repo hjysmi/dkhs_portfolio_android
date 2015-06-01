@@ -40,11 +40,11 @@ import java.util.ArrayList;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-5 下午3:02:49
  */
-public class MainOptionalFragment extends BaseFragment  implements IDataUpdateListener {
+public class MainOptionalFragment extends BaseFragment implements IDataUpdateListener {
 
     @ViewInject(R.id.vp)
     ViewPager mVp;
-    @ViewInject(R.id.btn_header_right )
+    @ViewInject(R.id.btn_header_right)
     private Button btnRight;
     @ViewInject(R.id.btn_header_back)
     private Button btnLeft;
@@ -72,9 +72,11 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
             mUserId = bundle.getString(FragmentSelectStockFund.ARGUMENT_USER_ID);
         }
         tabStockFragment = TabStockFragment.getTabStockFragment(mUserId);
-        tabFundsFragment = TabFundsFragment.getTabFundsFragment(mUserId);
-        tabFundsFragment.setDataUpdateListener(this);
+        tabConbinationFragment = TabConbinationFragment.getFragment(mUserId);
+        tabFundsFragment = TabFundsFragment.getFragment(mUserId);
+        tabConbinationFragment.setDataUpdateListener(this);
         tabStockFragment.setDataUpdateListener(this);
+        tabFundsFragment.setDataUpdateListener(this);
     }
 
     @Override
@@ -97,13 +99,13 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
             setBackTitleBar();
         }
         displayFragmentA();
-        ArrayList<Fragment> fragments=new ArrayList<>();
+        ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(tabStockFragment);
-        fragments.add(new MarketFundsFragment());
         fragments.add(tabFundsFragment);
+        fragments.add(tabConbinationFragment);
         mVp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragments));
         mVp.setOnPageChangeListener(new OnPagerListener());
-         tabWidget=new TabWidget(view);
+        tabWidget = new TabWidget(view);
         tabWidget.setOnSelectListener(new TabWidget.OnSelectListener() {
             @Override
             public void onSelect(int position) {
@@ -168,7 +170,7 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
             @Override
             public void onClick(View v) {
                 if (!UIUtils.iStartLoginActivity(getActivity())) {
-                    tabFundsFragment.addItem();
+                    tabConbinationFragment.addItem();
                 }
             }
         });
@@ -184,38 +186,38 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
     }
 
 
-
-
     private TabStockFragment tabStockFragment;
     private TabFundsFragment tabFundsFragment;
+    private TabConbinationFragment tabConbinationFragment;
 
     protected void displayFragmentA() {
         if (TextUtils.isEmpty(mUserId)) {
             setOptionTitleBar();
         }
-            tabStockFragment.setDataUpdateListener(this);
-            tabStockFragment.refreshEditView();
+        tabStockFragment.setDataUpdateListener(this);
+        tabStockFragment.refreshEditView();
 
     }
+
     private void displayFragmentC() {
         if (TextUtils.isEmpty(mUserId)) {
             setCombinationBar();
         }
-        if (null == tabFundsFragment) {
+        if (null == tabConbinationFragment) {
             return;
         }
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (tabFundsFragment.isAdded()) { // if the fragment is already in container
-            ft.show(tabFundsFragment);
+        if (tabConbinationFragment.isAdded()) { // if the fragment is already in container
+            ft.show(tabConbinationFragment);
         } else { // fragment needs to be added to frame container
-            ft.add(R.id.view_datalist, tabFundsFragment, "B");
+            ft.add(R.id.view_datalist, tabConbinationFragment, "B");
         }
         if (tabStockFragment.isAdded()) {
             ft.hide(tabStockFragment);
             tabStockFragment.setDataUpdateListener(null);
         }
-        tabFundsFragment.setDataUpdateListener(this);
-        tabFundsFragment.refreshEditView();
+        tabConbinationFragment.setDataUpdateListener(this);
+        tabConbinationFragment.refreshEditView();
         ft.commit();
     }
 
@@ -243,12 +245,12 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
         if (requestCode == 777) {
             tabStockFragment.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == 1722) {
-            tabFundsFragment.onActivityResult(requestCode, resultCode, data);
+            tabConbinationFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
 
-    class OnPagerListener implements ViewPager.OnPageChangeListener{
+    class OnPagerListener implements ViewPager.OnPageChangeListener {
 
         @Override
         public void onPageScrolled(int i, float v, int i2) {
@@ -258,7 +260,7 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
         @Override
         public void onPageSelected(int i) {
             tabWidget.setSelection(i);
-            switch (i){
+            switch (i) {
                 case 0:
                     displayFragmentA();
 
@@ -278,8 +280,6 @@ public class MainOptionalFragment extends BaseFragment  implements IDataUpdateLi
 
         }
     }
-
-
 
 
 }

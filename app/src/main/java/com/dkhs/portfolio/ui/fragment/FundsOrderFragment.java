@@ -107,7 +107,7 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     public void loadData() {
         if (isvisible) {
 
-             BusProvider.getInstance().post(new RotateRefreshEvent());
+            BusProvider.getInstance().post(new RotateRefreshEvent());
             setHttpHandler(getLoadEngine().loadData());
         }
     }
@@ -243,11 +243,12 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                CombinationBean selectBean = mDataList.get(position);
+                if (null != MarketFundsFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
+                    selectBean.setFollowed(MarketFundsFragment.mVisitorData.contains(selectBean));
+                }
+                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
 
-
-                // getActivity().startActivity(
-                //       OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true, mOrderType));
             }
         };
     }

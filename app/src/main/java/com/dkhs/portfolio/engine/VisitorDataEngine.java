@@ -118,7 +118,7 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1",}).orderBy("sortId", false));
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"1","5"}).orderBy("sortId", false));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block
@@ -136,7 +136,7 @@ public class VisitorDataEngine {
         List<SelectStockBean> list = Collections.EMPTY_LIST;
         try {
             // list = db.findAll(SelectStockBean.class);
-            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"5",}).orderBy("sortId", false));
+            list = db.findAll(Selector.from(SelectStockBean.class).where("symbol_type", "in", new String[]{"3",}).orderBy("sortId", false));
 
         } catch (DbException e) {
             // TODO Auto-generated catch block

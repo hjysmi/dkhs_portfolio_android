@@ -262,12 +262,6 @@ public class TabStockFragment extends BaseFragment implements OnClickListener, I
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            // if (orderType == TYPE_CHANGE_DOWN || orderType == TYPE_CURRENT_DOWN || orderType == TYPE_PERCENTAGE_DOWN)
-            // {
-            // setUpType(currentSelectView);
-            // } else {
-            // setDownType(currentSelectView);
-            // }
 
             if (isDefOrder(orderType)) {
                 setDownType(currentSelectView);

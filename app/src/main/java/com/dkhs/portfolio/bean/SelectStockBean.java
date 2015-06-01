@@ -13,14 +13,14 @@ import com.lidroid.xutils.db.annotation.NoAutoIncrement;
 import org.parceler.Parcel;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName SelectStockBean
  * @Description 添加自选股，用于UI显示的Bean
- * @author zjz
  * @date 2014-9-18 下午2:42:46
- * @version 1.0
  */
 @Parcel
-public class SelectStockBean extends DragListItem  {
+public class SelectStockBean extends DragListItem {
 
     public String name;
     public float currentValue;
@@ -41,9 +41,17 @@ public class SelectStockBean extends DragListItem  {
 
     // (0, '其他'),(1, '股票'),(2, '债券'),(3, '基金'),(4, '权证'),(5, '指数'),(6, '集合理财'),(9, '期货'),(10, '期权')
     public String symbol_type;
+    public int symbol_stype;
     // public String symbol;
     // 2,='暂停交易' 3='终止上市'
     public String list_status;
+
+
+    //万份收益率
+    public float tenthou_unit_incm;
+    //七日年化收益率
+    public float year_yld;
+    public String tradeDay;
 //
 //    public DataEntry<SelectStockBean> entry = null;
 //
@@ -114,6 +122,29 @@ public class SelectStockBean extends DragListItem  {
         selectBean.total_capital = stockBean.getTotal_capital();
         selectBean.alertSetBean = stockBean.getAlertBean();
         // selectBean.symbol = stockBean.getSymbol();
+        return selectBean;
+    }
+
+    public static SelectStockBean copy(FundPriceBean stockBean) {
+
+        SelectStockBean selectBean = new SelectStockBean();
+        selectBean.id = stockBean.getId();
+        selectBean.name = stockBean.getAbbrname();
+        selectBean.currentValue = stockBean.getNet_value();
+        selectBean.code = stockBean.getSymbol();
+        selectBean.percentage = stockBean.getPercent_day();
+        selectBean.isFollowed = stockBean.isFollowed();
+        selectBean.symbol_type = stockBean.getSymbol_type();
+        selectBean.symbol_stype = stockBean.getSymbol_stype();
+        selectBean.isStop = stockBean.isStop();
+        selectBean.sortId = stockBean.getIndex();
+        selectBean.change = stockBean.getPercent_month();
+        selectBean.list_status = stockBean.getList_status();
+        selectBean.total_capital = stockBean.getPercent_tyear();
+        selectBean.alertSetBean = stockBean.getAlertBean();
+        selectBean.tenthou_unit_incm = stockBean.getTenthou_unit_incm();
+        selectBean.year_yld = stockBean.getYear_yld();
+        selectBean.tradeDay = stockBean.getTradedate();
         return selectBean;
     }
 

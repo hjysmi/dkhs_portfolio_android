@@ -33,6 +33,7 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.MainIndexEngineImple;
 import com.dkhs.portfolio.engine.MarketCenterStockEngineImple;
 import com.dkhs.portfolio.engine.OpitionCenterStockEngineImple;
+import com.dkhs.portfolio.engine.OptionalFundsEngineImpl;
 import com.dkhs.portfolio.engine.OptionalStockEngineImpl;
 import com.dkhs.portfolio.engine.QuetosStockEngineImple;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
@@ -43,6 +44,7 @@ import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
+import com.dkhs.portfolio.ui.adapter.OptionalFundsAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
@@ -63,6 +65,7 @@ import java.util.List;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_INDEX;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_MAININDEX;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.FUND_STOCK;
+import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.OPTIONAL_FUNDS;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_DRAWDOWN_CLICKABLE;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_HANDOVER_CLICKABLE;
 import static com.dkhs.portfolio.ui.fragment.FragmentSelectStockFund.StockViewType.STOCK_INCREASE_CLICKABLE;
@@ -195,11 +198,11 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         /**
          * 可以点击查看详情的换手列表
          */
-        STOCK_HANDOVER_CLICKABLE(22);
-
-
-
-
+        STOCK_HANDOVER_CLICKABLE(22),
+        /**
+         * 自选基金列表
+         */
+        OPTIONAL_FUNDS(23);
 
 
         private int typeId;
@@ -265,6 +268,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (mcontext.get() != null) {
 
                 switch (viewType) {
+                    case OPTIONAL_FUNDS: {
+                        adapter = new OptionalFundsAdapter(mcontext.get());
+                    }
+                    break;
                     case STOCK_OPTIONAL_PRICE: {
                         adapter = new OptionalPriceAdapter(mcontext.get());
                     }
@@ -381,6 +388,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
+        } else if (mViewType == StockViewType.OPTIONAL_FUNDS) {
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener, true);
         } else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
@@ -507,6 +516,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             // mLoadDataEngine.setLoadingDialog(getActivity());
             // mLoadDataEngine.loadData();
             // 第二次
+        } else if (mLoadDataEngine instanceof OptionalFundsEngineImpl) {
+            ((OptionalFundsEngineImpl) mLoadDataEngine).setLoadType(type);
         }
     }
 
@@ -600,16 +611,20 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         tvEmptyText.postInvalidate();
         tvEmptyText.setVisibility(View.VISIBLE);
         switch (mViewType) {
+            case OPTIONAL_FUNDS: {
+                tvEmptyText.setVisibility(View.GONE);
+                if (null != emptyview) {
+                    emptyview.setVisibility(View.VISIBLE);
+                    emptyview.setText(R.string.click_add_fund);
+                }
+            }
+            break;
             case STOCK_OPTIONAL:
-
             case STOCK_OPTIONAL_PRICE: {
                 tvEmptyText.setVisibility(View.GONE);
-                // refreshSelect();
-                // mListView.setEmptyView(emptyview);
                 if (null != emptyview) {
                     emptyview.setVisibility(View.VISIBLE);
                 }
-                tvEmptyText.setText(R.string.nodate_tip_optional);
 
             }
             break;
@@ -647,17 +662,17 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         LogUtils.d("===========FragmentSelectCombinStock onStart(=============");
     }
 
-    private View emptyview;
+    private TextView emptyview;
 
     public void initView(View view) {
 
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
-        if (mViewType == STOCK_OPTIONAL_PRICE) {
+        if (mViewType == STOCK_OPTIONAL_PRICE || mViewType == OPTIONAL_FUNDS) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
-            emptyview = view.findViewById(R.id.add_data);
+            emptyview = (TextView) view.findViewById(R.id.add_data);
             emptyview.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -667,7 +682,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
 
                 }
             });
-            // mListView.setEmptyView(emptyview);
         } else if (mViewType == STOCK_INCREASE_CLICKABLE || mViewType == STOCK_DRAWDOWN_CLICKABLE || mViewType == STOCK_HANDOVER_CLICKABLE) {
             mListView.setOnItemClickListener(itemBackClick);
         }

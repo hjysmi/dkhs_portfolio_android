@@ -18,7 +18,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="3"
             android:gravity="left|center_vertical"
-            android:text="@string/funds_name" />
+            android:text="@string/conbination_name" />
 
         <RelativeLayout
             android:layout_width="1dp"
@@ -45,15 +45,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/market_fund_per_day" />
+                android:text="@string/day_income" />
         </RelativeLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/view_datalist"
+    <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btn_add_optional_stock"
-        android:layout_below="@+id/view_stock_title" />
+        android:layout_below="@+id/view_stock_title"
+        layout="@layout/empty_listview" />
 
 </RelativeLayout>
