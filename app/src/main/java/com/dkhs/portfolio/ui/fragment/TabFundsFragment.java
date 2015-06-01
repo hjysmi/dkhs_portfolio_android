@@ -52,24 +52,23 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     @ViewInject(R.id.view_stock_title)
     private View titleView;
 
-//    // 当前价格
-//    public static final String TYPE_DEFALUT = "";
-//    public static final String TYPE_CURRENT_UP = "current";
-//    public static final String TYPE_CURRENT_DOWN = "-current";
-//
-//    // 涨跌幅
-//    // public static final String TYPE_PERCENTAGE_DEF = "percentage";
-//    public static final String TYPE_PERCENTAGE_UP = "percentage";
-//    public static final String TYPE_PERCENTAGE_DOWN = "-percentage";
-//    // 涨跌额
-//    // public static final String TYPE_CHANGE_DEF = "-change";
-//    public static final String TYPE_CHANGE_DOWN = "-change";
-//    public static final String TYPE_CHANGE_UP = "change";
-//
-//    // 总市值高到低
-//    // public static final String TYPE_TCAPITAL_DEF = "total_capital";
-//    public static final String TYPE_TCAPITAL_UP = "total_capital";
-//    public static final String TYPE_TCAPITAL_DOWN = "-total_capital";
+    // 净值  net_value
+    public static final String TYPE_DEFALUT = "";
+    public static final String TYPE_CURRENT_UP = "net_value";
+    public static final String TYPE_CURRENT_DOWN = "-net_value";
+    //
+    // 日收益
+    // public static final String TYPE_PERCENTAGE_DEF = "percentage";
+    public static final String TYPE_PERCENTAGE_UP = "percent_day";
+    public static final String TYPE_PERCENTAGE_DOWN = "-percent_day";
+    // 月收益
+    // public static final String TYPE_CHANGE_DEF = "-change";
+    public static final String TYPE_CHANGE_DOWN = "-percent_month";
+    public static final String TYPE_CHANGE_UP = "percent_month";
+
+    // 今年以来收益
+    public static final String TYPE_TCAPITAL_UP = "percent_tyear";
+    public static final String TYPE_TCAPITAL_DOWN = "-percent_tyear";
 //
 //    // 5s
 //    private static final long mPollRequestTime = 1000 * 10;

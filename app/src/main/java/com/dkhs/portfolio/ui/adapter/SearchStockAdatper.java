@@ -8,11 +8,10 @@
  */
 package com.dkhs.portfolio.ui.adapter;
 
-import java.util.List;
-
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -24,7 +23,8 @@ import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
 import com.dkhs.portfolio.utils.StockUitls;
-import com.dkhs.portfolio.utils.UIUtils;
+
+import java.util.List;
 
 /**
  * @ClassName SelectFundAdatper
@@ -120,6 +120,13 @@ public class SearchStockAdatper extends BaseAdatperSelectStockFund {
         }
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(mContext.getString(R.string.quotes_format, item.code));
+        if(!TextUtils.isEmpty(item.name)&&item.name.length()>10){
+            viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        }else {
+            viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+            viewHolder.tvStockNum.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        }
 
         return convertView;
     }

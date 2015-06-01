@@ -87,6 +87,7 @@
     <dimen name="header_avatar_margin_top">26dp</dimen>
     <dimen name="min_stock_item_text">12sp</dimen>
     <dimen name="stock_item_def_text">16sp</dimen>
+    <dimen name="small_stock_item_text">14sp</dimen>
 
 
 
