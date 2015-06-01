@@ -44,7 +44,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     public static Intent newIntent(Context context, List<SelectStockBean> dataList) {
         Intent intent = new Intent(context, EditTabFundActivity.class);
         // extras
-        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap( dataList));
+        intent.putExtra(BaseSelectActivity.ARGUMENT_SELECT_LIST, Parcels.wrap(dataList));
 
         return intent;
     }
@@ -90,7 +90,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());
-        TextView textView =(TextView) findViewById(R.id.tv_type_title);
+        TextView textView = (TextView) findViewById(R.id.tv_type_title);
         textView.setText(R.string.funds_name);
 
     }
@@ -197,7 +197,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         protected void afterParseData(List<SelectStockBean> dataList) {
 
             PromptManager.showEditSuccessToast();
-//            finish();
+            finish();
             setResult(RESULT_OK);
         }
     };
