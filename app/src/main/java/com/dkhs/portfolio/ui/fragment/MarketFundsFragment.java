@@ -120,13 +120,8 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
         super.onViewCreated(view, savedInstanceState);
 //        replaceDataList();
 
-        List<CharSequence> data = new ArrayList<>();
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        data.add("dfdkfjd");
-        menuChooserRelativeLayout.setData(data);
+
+
 
         fundTypeMenuChooserL=new MenuChooserRelativeLayout(getActivity());
         sortTypeMenuChooserL=new MenuChooserRelativeLayout(getActivity());
@@ -218,7 +213,7 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
             }
             break;
             case R.id.tv_fund_type: {
-                sortTypeMenuChooserL.dismiss(false);
+                sortTypeMenuChooserL.dismiss();
                 fundTypeMenuChooserL.toggle();
 
             }
