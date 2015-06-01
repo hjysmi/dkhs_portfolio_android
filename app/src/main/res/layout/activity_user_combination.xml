@@ -147,7 +147,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
 
-                android:text="@string/creat_fund_name" />
+                android:text="@string/creat_combination_name" />
 
             <TextView
                 style="@style/gray_title_text"

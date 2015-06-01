@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="@string/day_income" />
+                android:text="@string/market_fund_per_day" />
         </RelativeLayout>
     </LinearLayout>
 

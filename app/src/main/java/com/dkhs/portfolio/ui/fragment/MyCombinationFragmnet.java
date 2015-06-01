@@ -14,16 +14,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.content.DialogInterface;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.util.TypedValue;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -31,9 +27,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -57,7 +51,6 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.dkhs.portfolio.utils.UIUtils;
-import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName MyCombinationFragmnet
@@ -114,7 +107,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
 
         // mAppList = getPackageManager().getInstalledApplications(0);
         tvEmptyText = (TextView) view.findViewById(R.id.add_data);
-        tvEmptyText.setText(R.string.click_creat_fund);
+        tvEmptyText.setText(R.string.click_creat_combina);
         tvEmptyText.setOnClickListener(new OnClickListener() {
 
             @Override

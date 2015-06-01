@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Typeface;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -23,14 +20,10 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.dkhs.portfolio.ui.eventbus.TabFundTitleChangeEvent;
-import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
-import com.dkhs.portfolio.ui.fragment.TabStockFragment;
+import com.dkhs.portfolio.ui.eventbus.TabComTitleChangeEvent;
 import com.dkhs.portfolio.utils.ColorTemplate;
-import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
 /**
@@ -150,16 +143,16 @@ public class TabFundsAdapter extends BaseAdapter {
             tabIndex++;
             tabIndex = tabIndex % 3;
             if (tabIndex == 0) {
-                BusProvider.getInstance().post(new TabFundTitleChangeEvent(FollowComListEngineImpl.ORDER_DAY_UP));
+                BusProvider.getInstance().post(new TabComTitleChangeEvent(FollowComListEngineImpl.ORDER_DAY_UP));
                 // PromptManager.showToast("Change tab text to:日收益");
 
             } else if (tabIndex == 1) {
                 // PromptManager.showToast("Change tab text to:周收益");
-                BusProvider.getInstance().post(new TabFundTitleChangeEvent(FollowComListEngineImpl.ORDER_WEEK_UP));
+                BusProvider.getInstance().post(new TabComTitleChangeEvent(FollowComListEngineImpl.ORDER_WEEK_UP));
 
             } else {
                 // PromptManager.showToast("Change tab text to:月收益");
-                BusProvider.getInstance().post(new TabFundTitleChangeEvent(FollowComListEngineImpl.ORDER_MONTH_UP));
+                BusProvider.getInstance().post(new TabComTitleChangeEvent(FollowComListEngineImpl.ORDER_MONTH_UP));
 
             }
 

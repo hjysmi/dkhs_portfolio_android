@@ -194,7 +194,7 @@
                     android:drawableLeft="@drawable/menu_icon_myteam"
                     android:drawablePadding="6dp"
                     android:gravity="center_vertical"
-                    android:text="@string/creat_fund"
+                    android:text="@string/creat_combination"
                     android:textColor="@color/black"
                     android:textSize="@dimen/setting_text_name" />
             </RelativeLayout>

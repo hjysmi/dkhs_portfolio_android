@@ -12,14 +12,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
+import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.bean.StockPriceBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.IHttpListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.utils.StockUitls;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -140,37 +139,25 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
 
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        // /需要优化的地方
 
         isLoading = false;
 
-        MoreDataBean<StockPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
+        MoreDataBean<FundPriceBean> dataMoreBean = new MoreDataBean.EmptyMoreBean();
         MoreDataBean<SelectStockBean> parseMoreBean = new MoreDataBean.EmptyMoreBean();
 
         try {
 
             Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
-            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<StockPriceBean>>() {
+            dataMoreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundPriceBean>>() {
             }.getType());
             //
             parseMoreBean.copyMoreDataBean(dataMoreBean);
             parseMoreBean.setResults(new ArrayList<SelectStockBean>());
 
-            for (StockPriceBean priceBean : dataMoreBean.getResults()) {
-                // selectList.add(SelectStockBean.copy(priceBean));
-//                parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
+            for (FundPriceBean priceBean : dataMoreBean.getResults()) {
+                parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
 
-                if (!isShowIndex) {
-
-                    if (StockUitls.SYMBOLTYPE_STOCK.equalsIgnoreCase(priceBean.getSymbol_type()) && !priceBean.isStop()) {
-                        // results.add(stockBean);
-                        // selectList.add(selectBean);
-                        parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
-                    }
-                } else {
-                    parseMoreBean.getResults().add(SelectStockBean.copy(priceBean));
-                }
 
             }
 
@@ -259,7 +246,7 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
 
         params.add(typeValue);
         if (!TextUtils.isEmpty(mUserId)) {
-            NameValuePair valuePair_uId = new BasicNameValuePair("user_id",mUserId);
+            NameValuePair valuePair_uId = new BasicNameValuePair("user_id", mUserId);
             params.add(valuePair_uId);
         }
 

@@ -34,7 +34,7 @@ import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.eventbus.TabFundTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.TabComTitleChangeEvent;
 import com.dkhs.portfolio.ui.widget.PullToRefreshListView;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
@@ -224,7 +224,7 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
             }
         });
         TextView emptyview = (TextView) view.findViewById(R.id.add_data);
-        emptyview.setText(R.string.click_creat_fund);
+        emptyview.setText(R.string.click_creat_combina);
         emptyview.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -490,7 +490,7 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
     }
 
     @Subscribe
-    public void onTabTitleChange(TabFundTitleChangeEvent event) {
+    public void onTabTitleChange(TabComTitleChangeEvent event) {
         if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
             // PromptManager.showToast("Change tab text to:总市值");
             int currentTextId = 0;
