@@ -9,11 +9,13 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
@@ -49,13 +51,14 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
         ViewHodler viewHolder = null;
         if (convertView == null) {
             viewHolder = new ViewHodler();
-            convertView = View.inflate(mContext, R.layout.item_optional_stock_price, null);
+            convertView = View.inflate(mContext, R.layout.item_optional_fund_price, null);
 
             viewHolder.tvStockName = (TextView) convertView.findViewById(R.id.tv_stock_name);
             viewHolder.tvStockNum = (TextView) convertView.findViewById(R.id.tv_stock_num);
             viewHolder.tvCurrentValue = (TextView) convertView.findViewById(R.id.tv_current_value);
             viewHolder.tvPercentValue = (TextView) convertView.findViewById(R.id.tv_percent_value);
-            viewHolder.tvIncearseValue = (TextView) convertView.findViewById(R.id.tv_increase_value);
+            viewHolder.tvTradeDay = (TextView) convertView.findViewById(R.id.tv_trade_day);
+            viewHolder.ivWanShou = (ImageView) convertView.findViewById(R.id.iv_wanshou);
 
             convertView.setTag(viewHolder);
         } else {
@@ -65,72 +68,52 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
         final SelectStockBean item = mDataList.get(position);
         viewHolder.tvStockName.setText(item.name);
         viewHolder.tvStockNum.setText(item.code);
-        //  viewHolder.tvPercentValue.setText("—");
+        viewHolder.tvTradeDay.setText(item.tradeDay);
 
-        ColorStateList textCsl = null;
-        if (item.isStop || StockUitls.isDelistStock(item.list_status)) {
-            textCsl = ColorTemplate.getTextColor(R.color.theme_color);
-            viewHolder.tvPercentValue.setBackgroundColor(mContext.getResources().getColor(R.color.stock_gray_bg));
+        if (!TextUtils.isEmpty(item.name) && item.name.length() > 8) {
+            viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         } else {
-            textCsl = ColorTemplate.getUpOrDrownCSL(item.percentage);
-            viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(item.percentage));
+            viewHolder.tvStockName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         }
-        if (StockUitls.isDelistStock(item.list_status)) {
-            viewHolder.tvPercentValue.setText("退市");
-            viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
-            // viewHolder.tvIncearseValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
-        } else if (item.isStop) {
-            viewHolder.tvPercentValue.setText("停牌");
-            // viewHolder.tvPercentValue.setTextColor(ColorTemplate.getTextColor(R.color.theme_gray_press));
-            viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT);
-        } else {
-            // viewHolder.tvIncearseValue.setTextColor(textCsl);
-            viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT_BOLD);
-            // viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
-            viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
 
+        float perValue = 0;
+
+        if (StockUitls.isSepFund(item.symbol_stype)) { //显示万份收益，七日年化
+            viewHolder.ivWanShou.setVisibility(View.VISIBLE);
+            viewHolder.tvCurrentValue.setText(item.tenthou_unit_incm + "");
             if (tabIndex == 0) {
-                viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(item.percentage));
-            } else if (tabIndex == 1) {
-
-                if (StockUitls.isShangZhengB(item.code)) {
-
-                    viewHolder.tvPercentValue.setText(StringFromatUtils.get3Point(item.change));
-                } else {
-
-                    viewHolder.tvPercentValue.setText(StringFromatUtils.get2Point(item.change));
-                }
-
-            }
-            if (StockUitls.isShangZhengB(item.code)) {
-
-                viewHolder.tvIncearseValue.setText(StringFromatUtils.get3Point(item.change));
+                perValue = item.year_yld;
+                viewHolder.tvPercentValue.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_qiri, 0, 0
+                        , 0);
+//                viewHolder.tvPercentValue.setCompoundDrawablePadding(mContext.getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
+                viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(perValue));
             } else {
-
-                viewHolder.tvIncearseValue.setText(StringFromatUtils.get2Point(item.change));
-            }
-        }
-
-        if (tabIndex == 2) {
-            if (item.total_capital == 0 || StockUitls.isIndexStock(item.symbol_type)) {
-
+                viewHolder.tvPercentValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0
+                        , 0);
                 viewHolder.tvPercentValue.setText("—");
-            } else {
-                viewHolder.tvPercentValue.setText(StringFromatUtils.convertToWan(item.total_capital));
             }
-        }
-
-        if (StockUitls.isShangZhengB(item.code)) {
-            viewHolder.tvCurrentValue.setText(StringFromatUtils.get3Point(item.currentValue));
 
         } else {
-            viewHolder.tvCurrentValue.setText(StringFromatUtils.get2Point(item.currentValue));
+            viewHolder.ivWanShou.setVisibility(View.GONE);
+            viewHolder.tvPercentValue.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0
+                    , 0);
+            if (tabIndex == 0) {
+                perValue = item.percentage;
+            } else if (tabIndex == 1) {
+                perValue = item.change;
+            } else if (tabIndex == 2) {
+                perValue = item.total_capital;
+            }
+            viewHolder.tvCurrentValue.setText(item.currentValue + "");
+            viewHolder.tvPercentValue.setText(StringFromatUtils.get2PointPercent(perValue));
+
         }
 
-        viewHolder.tvCurrentValue.setTextColor(textCsl);
-        viewHolder.tvCurrentValue.setTextColor(ColorTemplate.getTextColor(R.color.black));
-        viewHolder.tvPercentValue.setOnClickListener(percentClick);
 
+        viewHolder.tvPercentValue.setTypeface(Typeface.DEFAULT_BOLD);
+        viewHolder.tvPercentValue.setVisibility(View.VISIBLE);
+        viewHolder.tvPercentValue.setBackgroundColor(ColorTemplate.getUpOrDrowBgColor(perValue));
+        viewHolder.tvPercentValue.setOnClickListener(percentClick);
 
 
         return convertView;
@@ -171,6 +154,7 @@ public class OptionalFundsAdapter extends BaseAdatperSelectStockFund {
         TextView tvStockNum;
         TextView tvCurrentValue;
         TextView tvPercentValue;
-        TextView tvIncearseValue;
+        TextView tvTradeDay;
+        ImageView ivWanShou;
     }
 }

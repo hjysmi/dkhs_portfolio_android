@@ -344,6 +344,8 @@ public class UIUtils {
         return rect.width();
     }
 
+
+
     public static boolean iStartLoginActivity(Context context) {
         // try {
         // UserEntity user = DbUtils.create(PortfolioApplication.getInstance()).findFirst(UserEntity.class);
