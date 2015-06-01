@@ -198,13 +198,14 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
             }
         });
 
+        btnLeft.setVisibility(View.VISIBLE);
         btnLeft.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (null != tabFundsFragment && !tabFundsFragment.getDataList().isEmpty()) {
                     Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
-                    startActivityForResult(intent, 777);
+                    startActivityForResult(intent, 888);
                     UIUtils.setOverridePendingAmin(getActivity());
                 }
 
@@ -273,6 +274,9 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
             tabStockFragment.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == 1722) {
             tabConbinationFragment.onActivityResult(requestCode, resultCode, data);
+
+        } else if (requestCode == 888) {
+            tabFundsFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
