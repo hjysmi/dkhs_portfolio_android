@@ -142,6 +142,7 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
     private void loadVisitorCombinationList() {
         mVisitorData = new VisitorDataEngine().getCombinationBySort();
     }
+
     public void refreshEditView() {
 
         if (null != dataUpdateListener && null != loadDataListFragment) {
@@ -246,12 +247,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
             setTextDrawableHide(viewLastClick);
             setDownType(currentSelectView);
         } else if (viewLastClick == currentSelectView) {
-            // if (orderType == TYPE_CHANGE_DOWN || orderType == TYPE_CURRENT_DOWN || orderType == TYPE_PERCENTAGE_DOWN)
-            // {
-            // setUpType(currentSelectView);
-            // } else {
-            // setDownType(currentSelectView);
-            // }
 
             if (isDefOrder(orderType)) {
                 setDownType(currentSelectView);
@@ -262,15 +257,6 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
             }
         }
         viewLastClick = currentSelectView;
-    }
-
-    private boolean isUpOrder(String orderType) {
-        if (!TextUtils.isEmpty(orderType)
-                && (orderType.equals(TYPE_CHANGE_UP) || orderType.equals(TYPE_CURRENT_UP)
-                || orderType.equals(TYPE_PERCENTAGE_UP) || orderType.equals(TYPE_TCAPITAL_UP))) {
-            return true;
-        }
-        return false;
     }
 
     private boolean isDownOrder(String orderType) {

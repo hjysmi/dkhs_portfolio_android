@@ -44,6 +44,7 @@ import com.dkhs.portfolio.ui.adapter.AddStockItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.MarketCenterItemAdapter;
+import com.dkhs.portfolio.ui.adapter.OptionalFundsAdapter;
 import com.dkhs.portfolio.ui.adapter.OptionalPriceAdapter;
 import com.dkhs.portfolio.ui.adapter.SelectCompareFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SelectStockAdatper;
@@ -204,10 +205,6 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         OPTIONAL_FUNDS(23);
 
 
-
-
-
-
         private int typeId;
 
         StockViewType(int type) {
@@ -271,7 +268,10 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             if (mcontext.get() != null) {
 
                 switch (viewType) {
-                    case OPTIONAL_FUNDS:
+                    case OPTIONAL_FUNDS: {
+                        adapter = new OptionalFundsAdapter(mcontext.get());
+                    }
+                    break;
                     case STOCK_OPTIONAL_PRICE: {
                         adapter = new OptionalPriceAdapter(mcontext.get());
                     }
@@ -388,10 +388,9 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         } else if (mViewType == StockViewType.MARKET_INLAND_INDEX_ACE) {
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
-        }else  if(mViewType ==StockViewType.OPTIONAL_FUNDS){
-            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener,true);
-        }
-        else {
+        } else if (mViewType == StockViewType.OPTIONAL_FUNDS) {
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener, true);
+        } else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);
         }
@@ -517,6 +516,8 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             // mLoadDataEngine.setLoadingDialog(getActivity());
             // mLoadDataEngine.loadData();
             // 第二次
+        }else     if (mLoadDataEngine instanceof OptionalFundsEngineImpl) {
+            ((OptionalFundsEngineImpl) mLoadDataEngine).setLoadType(type);
         }
     }
 
@@ -664,7 +665,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
         mListView = (PullToRefreshListView) view.findViewById(android.R.id.list);
         mListView.setAdapter(mAdapterConbinStock);
 
-        if (mViewType == STOCK_OPTIONAL_PRICE||mViewType==OPTIONAL_FUNDS) {
+        if (mViewType == STOCK_OPTIONAL_PRICE || mViewType == OPTIONAL_FUNDS) {
             mListView.setOnItemClickListener(priceStockItemClick);
             mListView.setDividerHeight(0);
             emptyview = view.findViewById(R.id.add_data);

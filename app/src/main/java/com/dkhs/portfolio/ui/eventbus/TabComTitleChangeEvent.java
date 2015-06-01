@@ -15,10 +15,10 @@ package com.dkhs.portfolio.ui.eventbus;
  * @date 2015-2-25 下午3:06:31
  * @version 1.0
  */
-public class TabFundTitleChangeEvent {
+public class TabComTitleChangeEvent {
     public String tabType;
 
-    public TabFundTitleChangeEvent(String type) {
+    public TabComTitleChangeEvent(String type) {
         this.tabType = type;
     }
 }
