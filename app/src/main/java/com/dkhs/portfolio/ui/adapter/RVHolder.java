@@ -6,7 +6,7 @@ import android.view.View;
  * @author zwm
  * @version 2.0
  * @ClassName RVHolder
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO()
  * @date 2015/6/1.
  */
 public class RVHolder  extends RecyclerView.ViewHolder {
