@@ -23,7 +23,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
-import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
+import com.dkhs.portfolio.ui.eventbus.TabFundsTitleChangeEvent;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -363,7 +363,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     }
 
     @Subscribe
-    public void onTabTitleChange(TabStockTitleChangeEvent event) {
+    public void onTabTitleChange(TabFundsTitleChangeEvent event) {
         if (null != event && !TextUtils.isEmpty(event.tabType) && null != tvPercentgae) {
             // PromptManager.showToast("Change tab text to:总市值");
             int currentTextId = 0;
