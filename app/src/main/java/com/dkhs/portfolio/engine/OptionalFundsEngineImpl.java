@@ -207,7 +207,7 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
     public static HttpHandler setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
         RequestParams params = new RequestParams();
         params.addBodyParameter("symbols_position", json);
-//        params.addBodyParameter("symbol_type", 3 + "");
+        params.addBodyParameter("symbol_type", 3 + "");
         return DKHSClient.request(HttpMethod.POST, DKHSUrl.StockSymbol.index, params, listener);
     }
 

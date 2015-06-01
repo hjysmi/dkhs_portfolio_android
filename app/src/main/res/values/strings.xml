@@ -408,8 +408,9 @@
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
-    <string name="title_edit_optional_fund">编辑自选组合</string>
+    <string name="title_edit_optional_combina">编辑自选组合</string>
     <string name="title_edit_optional_stock">编辑自选股</string>
+    <string name="title_edit_optional_fund">编辑自选基金</string>
 
     <!-- optional tab -->
     <string name="net_value">净值</string>

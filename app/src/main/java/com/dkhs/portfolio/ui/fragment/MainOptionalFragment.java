@@ -21,6 +21,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -179,8 +180,34 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
             @Override
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
-                startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
+                startActivityForResult(EditTabCombinationActivity.getIntent(getActivity()), 1722);
                 UIUtils.setOverridePendingAmin(getActivity());
+            }
+        });
+    }
+
+    private void setFundBar() {
+        btnRight.setVisibility(View.VISIBLE);
+        btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
+        btnRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                UIUtils.startAminationActivity(getActivity(), intent);
+            }
+        });
+
+        btnLeft.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (null != tabFundsFragment && !tabFundsFragment.getDataList().isEmpty()) {
+                    Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
+                    startActivityForResult(intent, 777);
+                    UIUtils.setOverridePendingAmin(getActivity());
+                }
+
             }
         });
     }
@@ -222,9 +249,9 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
     }
 
     protected void displayFragmentB() {
-
-        //todo 处理基金的逻辑
+        setFundBar();
     }
+
 
     @Override
     public void dataUpdate(boolean isEmptyData) {
