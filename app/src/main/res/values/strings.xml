@@ -84,10 +84,8 @@
     <string name="tab_funds">组合</string>
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
-
     <string name="all">全部</string>
-
-    <string name="funds_name">组合名称</string>
+    <string name="funds_name">基金名称</string>
     <string name="conbination_name">组合名称</string>
     <string name="current_value">当前价</string>
     <string name="price_change_ratio">涨跌幅</string>

@@ -14,7 +14,7 @@
         android:layout_centerInParent="true"
         android:gravity="center"
         android:textColor="@color/menu_text_color"
-        android:background="@drawable/fund_type_selector"
+        android:background="@drawable/menu_selector"
     />
 
 </RelativeLayout>

@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.MenuTypeBean;
+import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -30,7 +30,6 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.IDataUpdateListener;
 import com.dkhs.portfolio.ui.eventbus.TabStockTitleChangeEvent;
 import com.dkhs.portfolio.ui.widget.MenuChooserRelativeLayout;
-import com.dkhs.portfolio.utils.AnimationHelper;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
@@ -128,8 +127,8 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
         sortTypeMenuChooserL.setParentView(menuRL);
         fundTypeMenuChooserL.setParentView(menuRL);
-        fundTypeMenuChooserL.setData(MenuTypeBean.fundTypeFromXml(getActivity()));
-        sortTypeMenuChooserL.setData(MenuTypeBean.fundSortFromXml(getActivity()));
+        fundTypeMenuChooserL.setData(MenuBean.fundTypeFromXml(getActivity()));
+        sortTypeMenuChooserL.setData(MenuBean.fundSortFromXml(getActivity()));
 
     }
 

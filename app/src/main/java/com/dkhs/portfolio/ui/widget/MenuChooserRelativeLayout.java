@@ -6,23 +6,19 @@ import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.bean.MenuTypeBean;
+import com.dkhs.portfolio.bean.MenuBean;
 import com.dkhs.portfolio.ui.adapter.BaseRVAdapter;
 import com.dkhs.portfolio.ui.adapter.RVHolder;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.utils.AnimationHelper;
-import com.lidroid.xutils.util.LogUtils;
-import com.squareup.otto.Bus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +54,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
 
     public RecyclerView recyclerView;
 
-    private List<MenuTypeBean> data = new ArrayList<>();
+    private List<MenuBean> data = new ArrayList<>();
 
     private Adapter adapter;
     private ImageView imageView;
@@ -73,7 +69,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
     private void init() {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_float, null);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_relativelayout, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         imageView = (ImageView) view.findViewById(R.id.im_bg);
         menuLL =  view.findViewById(R.id.ll_menu);
@@ -115,7 +111,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
 
-    public void setData(List<MenuTypeBean> data) {
+    public void setData(List<MenuBean> data) {
 
         this.data.clear();
         this.data.addAll(data);
@@ -241,7 +237,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         public void onBindViewHolder(RVHolder holder, int position) {
 
             super.onBindViewHolder(holder,position);
-            MenuTypeBean item = data.get(position);
+            MenuBean item = data.get(position);
             holder.getViewHolder().setTextView(R.id.textView, item.getKey());
 
             View view = holder.getViewHolder().getRootView();
