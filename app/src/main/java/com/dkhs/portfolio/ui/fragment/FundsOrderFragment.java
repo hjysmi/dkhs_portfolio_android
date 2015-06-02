@@ -244,10 +244,10 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 CombinationBean selectBean = mDataList.get(position);
-                if (null != MarketFundsFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
-                    selectBean.setFollowed(MarketFundsFragment.mVisitorData.contains(selectBean));
-                }
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
+//                if (null != MarketFundsFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
+//                    selectBean.setFollowed(MarketFundsFragment.mVisitorData.contains(selectBean));
+//                }
+//                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
 
             }
         };

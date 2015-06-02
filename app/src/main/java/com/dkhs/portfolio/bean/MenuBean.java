@@ -20,7 +20,8 @@ public class MenuBean {
     private String key ;
 
     private String value;
-    private String extra;
+
+
 
     public String getValue() {
         return value;
@@ -28,10 +29,6 @@ public class MenuBean {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public void setExtra(String extra) {
-        this.extra = extra;
     }
 
     public boolean isEnable() {
@@ -51,9 +48,6 @@ public class MenuBean {
         this.key = key;
     }
 
-    public String getExtra() {
-        return extra;
-    }
 
     public static List<MenuBean>  fundTypeFromXml(Context ctx){
         
@@ -65,11 +59,11 @@ public class MenuBean {
 
 
         for (int i = 0; i < chi.length; i++) {
-          MenuBean item=new MenuBean();
+            FundTypeMenuBean item=new FundTypeMenuBean();
             item.setEnable(true);
             item.setKey(key[i]);
-            item.setValue(value[i]);
-            item.setExtra(chi[i]);
+            item.setCode(value[i]);
+            item.setValue(chi[i]);
             list.add(item);
         }
         return list;
@@ -83,12 +77,17 @@ public class MenuBean {
 
 
         for (int i = 0; i < key.length; i++) {
-          MenuBean item=new MenuBean();
-            item.setEnable(true);
+            SortTypeMenuBean item=new SortTypeMenuBean();
+           if(key[i].equals("七日年化")){
+               item.setEnable(false);
+           }else{
+               item.setEnable(true);
+           }
             item.setKey(key[i]);
             item.setValue(value[i]);
             list.add(item);
         }
         return list;
     }
+
 }

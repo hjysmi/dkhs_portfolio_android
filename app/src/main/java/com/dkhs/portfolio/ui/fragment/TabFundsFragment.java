@@ -123,7 +123,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        replaceDataList();
+//        replaceDataList();
     }
 
     @Override
