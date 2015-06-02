@@ -1,26 +1,8 @@
 package com.dkhs.portfolio.ui.draglist;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import com.dkhs.portfolio.R;
-import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.DataEntry;
-import com.dkhs.portfolio.bean.DragListItem;
-import com.dkhs.portfolio.bean.SelectStockBean;
-import com.dkhs.portfolio.engine.QuotesEngineImpl;
-import com.dkhs.portfolio.engine.VisitorDataEngine;
-import com.dkhs.portfolio.net.BasicHttpListener;
-import com.dkhs.portfolio.net.IHttpListener;
-import com.dkhs.portfolio.ui.widget.LinePointEntity;
-import com.dkhs.portfolio.utils.PromptManager;
-
-import android.R.integer;
 import android.content.Context;
-import android.os.Handler;
-import android.renderscript.Sampler.Value;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,11 +17,21 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.bean.DataEntry;
+import com.dkhs.portfolio.bean.DragListItem;
+import com.dkhs.portfolio.net.BasicHttpListener;
+import com.dkhs.portfolio.net.IHttpListener;
+import com.dkhs.portfolio.utils.PromptManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /***
  * 自定义适配器
@@ -55,8 +47,9 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
     public boolean isHidden;
 
     private int station = 0;
-    private int his = 0;
     private DragListView mDragListView;
+
+    private boolean isLoadByFund;
 
     public DragListAdapter(Context context, DragListView mDragListView) {
         this.context = context;
@@ -68,7 +61,12 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         this.dataList = dataList;
         this.mDragListView = mDragListView;
 
-        // this.arrayDrawables = arrayDrawables;
+    }
+    public DragListAdapter(Context context,DragListView mDragListView,boolean isLoadByFund) {
+        this.context = context;
+        this.mDragListView = mDragListView;
+        this.isLoadByFund = isLoadByFund;
+
     }
 
     public void showDropItem(boolean showItem) {
@@ -100,7 +98,12 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
          * 在这里尽可能每次都进行实例化新的，这样在拖拽ListView的时候不会出现错乱.
          * 具体原因不明，不过这样经过测试，目前没有发现错乱。虽说效率不高，但是做拖拽LisView足够了。
          */
-        convertView = LayoutInflater.from(context).inflate(R.layout.drag_list_item, null);
+        if(isLoadByFund){
+            convertView = LayoutInflater.from(context).inflate(R.layout.drag_fund_list_item, null);
+        }else{
+
+            convertView = LayoutInflater.from(context).inflate(R.layout.drag_list_item, null);
+        }
         RelativeLayout layout = (RelativeLayout) convertView.findViewById(R.id.layout);
         TextView tvName = (TextView) convertView.findViewById(R.id.drag_list_item_text);
         TextView tvDesc = (TextView) convertView.findViewById(R.id.drag_list_item_text_id);
@@ -125,6 +128,11 @@ public abstract class DragListAdapter extends BaseAdapter implements OnCheckedCh
         // System.out.println("setViewDate position:" + position + " name:" + item.getName());
 
         tvName.setText(item.getItemName());
+        if(item.getItemName().length()>8){
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        } else {
+            tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        }
         tvDesc.setText(item.getItemDesc());
         cbAlert.setOnCheckedChangeListener(null);
         cbAlert.setTag(position);

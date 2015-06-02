@@ -422,7 +422,7 @@ public class TabFundsFragment extends BaseFragment implements IDataUpdateListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == 777 && null != viewLastClick) {
+        if (requestCode == 888 && null != viewLastClick) {
             // System.out.println("set defalut order");
             setDefType(viewLastClick);
             viewLastClick = null;

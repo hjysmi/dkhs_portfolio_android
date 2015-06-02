@@ -408,8 +408,9 @@
     <string name="tab_4">我的</string>
     <string name="title_user">我的</string>
     <string name="title_info">信息资讯</string>
-    <string name="title_edit_optional_fund">编辑自选组合</string>
+    <string name="title_edit_optional_combina">编辑自选组合</string>
     <string name="title_edit_optional_stock">编辑自选股</string>
+    <string name="title_edit_optional_fund">编辑自选基金</string>
 
     <!-- optional tab -->
     <string name="net_value">净值</string>
@@ -437,6 +438,8 @@
     <string name="format_stock_price">最新价   %1$s</string>
     <string name="format_com_percent">日涨跌幅   %1$s</string>
     <string name="format_combination_price">净值   %1$s</string>
+    <string name="format_fund_price">最新净值   %1$s</string>
+    <string name="format_7day_price">7日年化收益率   %1$s</string>
     <string name="format_priceup_tip">较当前价涨%1$s</string>
     <string name="format_priceup_more_tip">较当前价涨超过%1$s</string>
     <string name="format_priceup_low_tip">较当前价跌%1$s，应大于当前价</string>
@@ -461,6 +464,8 @@
     <string name="remind_adjust_text">调仓提醒</string>
     <string name="remind_notice_text">公告提醒</string>
     <string name="remind_yanbao_text">研报提醒</string>
+    <string name="remind_fund_text">净值更新提醒</string>
+    <string name="remind_7day_text">7日年化更新提醒</string>
     <string name="tip_day_percent">日涨跌幅输入错误</string>
     <string name="msg_priceup_toolow">上涨目标低于最新价</string>
     <string name="msg_pricedown_toohigh">下跌目标价高于最新价</string>
