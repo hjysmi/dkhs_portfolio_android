@@ -44,19 +44,15 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
 
     private String mUserId;
 
-    public OptionalFundsEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex) {
+    public OptionalFundsEngineImpl(ILoadDataBackListener loadListener) {
         super(loadListener);
-        this.isShowIndex = isShowIndex;
-        // this.loadListener = loadListener;
     }
 
-    public OptionalFundsEngineImpl(ILoadDataBackListener loadListener, boolean isShowIndex, String userId) {
+    public OptionalFundsEngineImpl(ILoadDataBackListener loadListener, String userId) {
         super(loadListener);
-        this.isShowIndex = isShowIndex;
         this.mUserId = userId;
     }
 
-    private boolean isShowIndex;
 
     // private List<StockPriceBean> results = new ArrayList<StockPriceBean>();
 
@@ -82,8 +78,18 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
             return null;
         }
         isLoading = true;
+        if (!TextUtils.isEmpty(mUserId)) {
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            if (!orderType.equals(DEF_ORDER_TYPE)) {
+                params.addQueryStringParameter("sort", orderType);
+            }
+            params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            params.addQueryStringParameter("symbol_type", 3 + "");
+            params.addQueryStringParameter("user_id", mUserId);
 
-        if (PortfolioApplication.hasUserLogin()) {
+            return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        } else if (PortfolioApplication.hasUserLogin()) {
 
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
@@ -96,47 +102,42 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
                 params.addQueryStringParameter("user_id", mUserId);
             }
             return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-        } else {
+        } else if (null != getLoadListener()) {
+            List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalFundsSort();
+            StringBuilder sbIds = new StringBuilder();
+            if (null != dataList) {
+                for (SelectStockBean stock : dataList) {
+                    sbIds.append(stock.code);
+                    sbIds.append(",");
+                }
 
-            if (null != getLoadListener()) {
-                List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalFundsSort();
-                StringBuilder sbIds = new StringBuilder();
-                if (null != dataList) {
-                    for (SelectStockBean stock : dataList) {
-                        sbIds.append(stock.code);
-                        sbIds.append(",");
+                if (null != sbIds && sbIds.length() > 1) {
+
+                    Log.i("OptionalFundsEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
+
+                    RequestParams params = new RequestParams();
+                    if (!orderType.equals(DEF_ORDER_TYPE)) {
+                        params.addQueryStringParameter("sort", orderType);
                     }
-                    // sbIds = sbIds.substring(0, sbIds.length()-1);
-                    // System.out.println("datalist size:" + dataList.size());
-                    // getiLoadListener().loadFinish(dataList);
-                    if (null != sbIds && sbIds.length() > 1) {
-
-                        Log.i("OptionalStockEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
-
-                        RequestParams params = new RequestParams();
-                        if (!orderType.equals(DEF_ORDER_TYPE)) {
-                            params.addQueryStringParameter("sort", orderType);
-                        }
-                        params.addQueryStringParameter("symbol_type", 3 + "");
-                        params.addQueryStringParameter("page_size", dataList.size() + "");
-                        params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
-                        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-                    } else {
-                        // MoreDataBean empty = new MoreDataBean<T>()
-                        getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
-                        isLoading = false;
-                    }
+                    params.addQueryStringParameter("symbol_type", 3 + "");
+                    params.addQueryStringParameter("page_size", dataList.size() + "");
+                    params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                    return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
                 } else {
                     getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
-
                     isLoading = false;
-                    // getiLoadListener().loadFail(null);
-
                 }
-            }
+            } else {
+                getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
 
-            return null;
+                isLoading = false;
+
+            }
         }
+
+        return null;
+
+
     }
 
     @Override
@@ -184,27 +185,6 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
         isLoading = false;
     }
 
-    // public List<SelectStockBean> forIndex(List<SelectStockBean> datalist) {
-    // List<SelectStockBean> tmp = new ArrayList<SelectStockBean>();
-    // SelectStockBean sb;
-    // int position;
-    // while (datalist.size() > 0) {
-    // for (int i = 0; i < datalist.size(); i++) {
-    // sb = datalist.get(i);
-    // position = i;
-    // for (int j = i; j < datalist.size(); j++) {
-    // if (sb.index < datalist.get(j).index) {
-    // sb = datalist.get(j);
-    // position = j;
-    // }
-    // }
-    // datalist.remove(position);
-    // tmp.add(sb);
-    // break;
-    // }
-    // }
-    // return tmp;
-    // }
 
     public static HttpHandler setIndex(ParseHttpListener<List<SelectStockBean>> listener, String json) {
         RequestParams params = new RequestParams();
@@ -225,13 +205,18 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
 
     }
 
-    // public void loadAllData() {
-    // RequestParams params = new RequestParams();
-    // params.addQueryStringParameter("page", "1");
-    // params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
-    // DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-    //
-    // }
+    public static HttpHandler loadAllDataByUserId(IHttpListener listener, String userId) {
+        RequestParams params = new RequestParams();
+        params.addQueryStringParameter("page", "1");
+        params.addQueryStringParameter("symbol_type", 3 + "");
+        params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+        if (!TextUtils.isEmpty(userId)) {
+            params.addQueryStringParameter("user_id", userId);
+        }
+        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, listener);
+
+    }
+
 
     /**
      * @return
@@ -285,12 +270,5 @@ public class OptionalFundsEngineImpl extends LoadMoreDataEngine {
 
     }
 
-    // public List<StockPriceBean> getResults() {
-    // return results;
-    // }
-    //
-    // public void setResults(List<StockPriceBean> results) {
-    // this.results = results;
-    // }
 
 }

@@ -63,7 +63,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
 
         context = this;
         initView();
-        mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener, true);
+        mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener);
 
     }
 
@@ -223,7 +223,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         MobclickAgent.onResume(this);
         if (isFirstLoad) {
             isFirstLoad = false;
-            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener, true);
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener);
         } else {
             if (mLoadDataEngine != null) {
                 mLoadDataEngine.setLoadingDialog(this);
