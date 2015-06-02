@@ -65,11 +65,13 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     public static final String ARGUMENT_STOCK = "agrument_stock";
     public static final String ARGUMENT_COMBINATION = "agrument_combination";
     public static final String ARGUMENT_IS_COMBINATION = "agrument_is_combination";
+    public static final String ARGUMENT_IS_FUND = "agrument_is_fund";
     private Button btnRight;
     private SelectStockBean mStockBean;
     private CombinationBean mComBean;
 
     private boolean isCombinationSetting = false;
+    private boolean isFundSetting;
 
     @ViewInject(R.id.tv_stock_name)
     private TextView tvStockName;
@@ -116,6 +118,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
     @ViewInject(R.id.rl_adjust_remind)
     private View viewAdjustRemind;
+    @ViewInject(R.id.rl_fund_remind)
+    private View viewFundRemind;
     @ViewInject(R.id.rl_notice_remind)
     private View viewNoticeRemind;
     @ViewInject(R.id.rl_yanbao_remind)
@@ -127,6 +131,8 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     private SwitchCompat swNoticeRemind;
     @ViewInject(R.id.sw_yanbao_remind)
     private SwitchCompat swYanbaoRemind;
+    @ViewInject(R.id.sw_fund_remind)
+    private SwitchCompat swFundRemind;
 
     private boolean isPriceUpOK;
 
@@ -143,6 +149,14 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         intent.putExtra(ARGUMENT_IS_COMBINATION, true);
         return intent;
     }
+
+    public static Intent newStockIntent(Context context, SelectStockBean stock, boolean isFundSetting) {
+        Intent intent = new Intent(context, StockRemindActivity.class);
+        intent.putExtra(ARGUMENT_STOCK, Parcels.wrap(stock));
+        intent.putExtra(ARGUMENT_IS_FUND, isFundSetting);
+        return intent;
+    }
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -161,6 +175,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         mStockBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_STOCK));
         mComBean = Parcels.unwrap(extras.getParcelable(ARGUMENT_COMBINATION));
         isCombinationSetting = extras.getBoolean(ARGUMENT_IS_COMBINATION);
+        isFundSetting = extras.getBoolean(ARGUMENT_IS_FUND);
     }
 
     private void initView() {
@@ -174,32 +189,43 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
         if (isCombinationSetting) {
             setCombinationStyle();
+        } else if (isFundSetting) {
+            setFundStyle();
         } else {
             setStockStyle();
         }
 
     }
 
-    private void setCombinationStyle() {
+    private void setFundStyle() {
         tvStockCode.setVisibility(View.INVISIBLE);
-        tvUpText.setText(R.string.combination_price_up_text);
-        tvDownText.setText(R.string.combination_price_down_text);
-        viewAdjustRemind.setVisibility(View.VISIBLE);
+
+        findViewById(R.id.set_price_remind).setVisibility(View.GONE);
+
+        viewFundRemind.setVisibility(View.VISIBLE);
+        viewAdjustRemind.setVisibility(View.GONE);
         viewNoticeRemind.setVisibility(View.GONE);
         viewYanbaoRemind.setVisibility(View.GONE);
-        tvDownUnit.setVisibility(View.GONE);
-        tvUpUnit.setVisibility(View.GONE);
 
-        if (null != mComBean) {
-            tvStockName.setText(mComBean.getName());
-            String perText = getString(R.string.format_com_percent,
-                    StringFromatUtils.get2PointPercent(mComBean.getChng_pct_day()));
-            tvPercent.setText(perText);
-            perText = getString(R.string.format_combination_price, mComBean.getNetvalue());
+
+        if (null != mStockBean) {
+            tvStockName.setText(mStockBean.getName());
+            String perText;
+            TextView tvRemind = (TextView) findViewById(R.id.tv_fundremind_text);
+            if (StockUitls.isSepFund(mStockBean.symbol_stype)) {
+                perText = getString(R.string.format_7day_price,
+                        StringFromatUtils.get2PointPercent(mStockBean.year_yld));
+                tvRemind.setText(R.string.remind_7day_text);
+            } else {
+                tvRemind.setText(R.string.remind_fund_text);
+                perText = getString(R.string.format_fund_price, mStockBean.currentValue);
+            }
+            tvPercent.setVisibility(View.GONE);
             tvPrice.setText(perText);
 
-            if (null != mComBean.getAlertBean()) {
-                setAlertView(mComBean.getAlertBean());
+
+            if (null != mStockBean.alertSetBean) {
+                setFundAlertView(mStockBean.alertSetBean);
             }
         }
 
@@ -233,8 +259,31 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
     }
 
+    private void setCombinationStyle() {
+        tvStockCode.setVisibility(View.INVISIBLE);
+        tvUpText.setText(R.string.combination_price_up_text);
+        tvDownText.setText(R.string.combination_price_down_text);
+        viewAdjustRemind.setVisibility(View.VISIBLE);
+        viewNoticeRemind.setVisibility(View.GONE);
+        viewYanbaoRemind.setVisibility(View.GONE);
+        tvDownUnit.setVisibility(View.GONE);
+        tvUpUnit.setVisibility(View.GONE);
+
+        if (null != mComBean) {
+            tvStockName.setText(mComBean.getName());
+            String perText = getString(R.string.format_com_percent,
+                    StringFromatUtils.get2PointPercent(mComBean.getChng_pct_day()));
+            tvPercent.setText(perText);
+            perText = getString(R.string.format_combination_price, mComBean.getNetvalue());
+            tvPrice.setText(perText);
+
+            if (null != mComBean.getAlertBean()) {
+                setAlertView(mComBean.getAlertBean());
+            }
+        }
+    }
+
     private void setAlertView(AlertSetBean alerBean) {
-        // AlertSetBean alerBean = mStockBean.alertSetBean;
         if (alerBean.getStock_price_up() > 0) {
             etPriceUp.setText(stripZeros(alerBean.getStock_price_up() + ""));
             swPriceUp.setChecked(true);
@@ -251,6 +300,16 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
         swNoticeRemind.setChecked(alerBean.isNoticeRemind());
         swYanbaoRemind.setChecked(alerBean.isYanbaoRemind());
+
+    }
+
+    private void setFundAlertView(AlertSetBean alerBean) {
+        if (StockUitls.isSepFund(mStockBean.symbol_stype)) {
+            swFundRemind.setChecked(alerBean.isFund7dayRemind());
+        } else {
+            swFundRemind.setChecked(alerBean.isFundNetvalueRemind());
+        }
+
     }
 
     private void setAlertView(PortfolioAlertBean alerBean) {
@@ -288,6 +347,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right: {
+
+                if (isFundSetting) {
+                    postFundRemindToServer();
+                    return;
+                }
                 if (swPriceUp.isChecked() && swPriceDown.isChecked() && !isPriceDownOk && !isPriceUpOK) {// 下跌目标价高于最新价&&下跌目标价高于最新价
                     showAlertDialog(R.string.msg_price_error);
                 } else if (swPriceUp.isChecked() && !isPriceUpOK) {// 上涨目标低于最新价
@@ -658,6 +722,19 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                     swNoticeRemind.isChecked(), swYanbaoRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
         }
     }
+
+    private void postFundRemindToServer() {
+
+
+        if (StockUitls.isSepFund(mStockBean.symbol_stype)) {
+            new QuotesEngineImpl().fundRemind7Day(mStockBean.getId() + "", swFundRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
+        } else {
+
+            new QuotesEngineImpl().fundRemindNetvalue(mStockBean.getId() + "", swFundRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
+
+        }
+    }
+
 
     ParseHttpListener remindHttpListener = new ParseHttpListener<Object>() {
 

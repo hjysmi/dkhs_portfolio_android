@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dkhs.portfolio"
     android:versionCode="13"
-    android:versionName="1.7.0601">
+    android:versionName="1.7.0602">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -94,7 +94,7 @@
         <activity android:name="com.dkhs.portfolio.ui.SettingNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.VerificationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.NewsActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.FundsOrderActivity" />
+        <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ForgetPswActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
         <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
@@ -116,7 +116,7 @@
         <activity android:name="com.dkhs.portfolio.ui.BoundEmailActivity" />
         <activity android:name="com.dkhs.portfolio.ui.MarketListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.HistoryPositionDetailActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
+        <activity android:name=".ui.EditTabCombinationActivity" />
         <activity android:name="com.dkhs.portfolio.ui.AgreementTextActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionalTabActivity" />
         <activity android:name="com.dkhs.portfolio.ui.WebActivity" />

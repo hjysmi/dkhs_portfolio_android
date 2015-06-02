@@ -84,56 +84,65 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
         }
         isLoading = true;
 
-        if (PortfolioApplication.hasUserLogin()) {
-
+        if (!TextUtils.isEmpty(mUserId)) {
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
-            params.addQueryStringParameter("sort", orderType);
+            if (!orderType.equals(DEF_ORDER_TYPE)) {
+                params.addQueryStringParameter("sort", orderType);
+            }
             params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
             if (!TextUtils.isEmpty(mUserId)) {
                 params.addQueryStringParameter("user_id", mUserId);
             }
             return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-        } else {
+        } else if (PortfolioApplication.hasUserLogin()) {
 
-            if (null != getLoadListener()) {
-                List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
-                StringBuilder sbIds = new StringBuilder();
-                if (null != dataList) {
-                    for (SelectStockBean stock : dataList) {
-                        sbIds.append(stock.code);
-                        sbIds.append(",");
-                    }
-                    // sbIds = sbIds.substring(0, sbIds.length()-1);
-                    // System.out.println("datalist size:" + dataList.size());
-                    // getiLoadListener().loadFinish(dataList);
-                    if (null != sbIds && sbIds.length() > 1) {
-
-                        Log.i("OptionalStockEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
-
-                        RequestParams params = new RequestParams();
-                        if (!orderType.equals(DEF_ORDER_TYPE)) {
-                            params.addQueryStringParameter("sort", orderType);
-                        }
-                        params.addQueryStringParameter("page_size", dataList.size() + "");
-                        params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
-                        return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
-                    } else {
-                        // MoreDataBean empty = new MoreDataBean<T>()
-                        getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
-                        isLoading = false;
-                    }
-                } else {
-                    getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
-
-                    isLoading = false;
-                    // getiLoadListener().loadFail(null);
-
-                }
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            if (!orderType.equals(DEF_ORDER_TYPE)) {
+                params.addQueryStringParameter("sort", orderType);
             }
+            params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            if (!TextUtils.isEmpty(mUserId)) {
+                params.addQueryStringParameter("user_id", mUserId);
+            }
+            return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+        } else if (null != getLoadListener()) {
+            List<SelectStockBean> dataList = new VisitorDataEngine().getOptionalStockListBySort();
+            StringBuilder sbIds = new StringBuilder();
+            if (null != dataList) {
+                for (SelectStockBean stock : dataList) {
+                    sbIds.append(stock.code);
+                    sbIds.append(",");
+                }
 
-            return null;
+                if (null != sbIds && sbIds.length() > 1) {
+
+                    Log.i("OptionalStockEngineImpl", "ids:" + sbIds.substring(0, sbIds.length() - 1));
+
+                    RequestParams params = new RequestParams();
+                    if (!orderType.equals(DEF_ORDER_TYPE)) {
+                        params.addQueryStringParameter("sort", orderType);
+                    }
+                    params.addQueryStringParameter("page_size", dataList.size() + "");
+                    params.addQueryStringParameter("symbols", sbIds.substring(0, sbIds.length() - 1));
+                    return DKHSClient.request(HttpMethod.GET, DKHSUrl.StockSymbol.optional, params, this);
+                } else {
+                    // MoreDataBean empty = new MoreDataBean<T>()
+                    getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
+                    isLoading = false;
+                }
+            } else {
+                getLoadListener().loadFinish(new MoreDataBean.EmptyMoreBean());
+
+                isLoading = false;
+
+            }
         }
+
+        return null;
+
+
     }
 
     @Override
@@ -251,7 +260,7 @@ public class OptionalStockEngineImpl extends LoadMoreDataEngine {
         NameValuePair valuePair = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
         params.add(valuePair);
         if (!TextUtils.isEmpty(mUserId)) {
-            NameValuePair valuePair_uId = new BasicNameValuePair("user_id",mUserId);
+            NameValuePair valuePair_uId = new BasicNameValuePair("user_id", mUserId);
             params.add(valuePair_uId);
         }
 

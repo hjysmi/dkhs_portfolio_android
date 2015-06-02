@@ -28,7 +28,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
-import com.dkhs.portfolio.ui.EditTabFundActivity;
+import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
@@ -270,7 +270,7 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
     public void editFund() {
         if (!mDataList.isEmpty()) {
             // startActivity(EditTabFundActivity.getIntent(getActivity(), mDataList));
-            startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
+            startActivityForResult(EditTabCombinationActivity.getIntent(getActivity()), 1722);
         }
     }
 

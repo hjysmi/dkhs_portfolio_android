@@ -389,7 +389,7 @@ public class FragmentSelectStockFund extends BaseFragment implements ISelectChan
             mLoadDataEngine = new MarketCenterStockEngineImple(mSelectStockBackListener,
                     MarketCenterStockEngineImple.ACE);
         } else if (mViewType == StockViewType.OPTIONAL_FUNDS) {
-            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener, true);
+            mLoadDataEngine = new OptionalFundsEngineImpl(mSelectStockBackListener,mUserId);
         } else {
             mLoadDataEngine = new QuetosStockEngineImple(mSelectStockBackListener,
                     QuetosStockEngineImple.ORDER_INCREASE);

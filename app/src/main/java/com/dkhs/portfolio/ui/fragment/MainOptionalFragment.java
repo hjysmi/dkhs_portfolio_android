@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dkhs.portfolio.R;
+import com.dkhs.portfolio.ui.EditTabCombinationActivity;
 import com.dkhs.portfolio.ui.EditTabFundActivity;
 import com.dkhs.portfolio.ui.EditTabStockActivity;
 import com.dkhs.portfolio.ui.SelectAddOptionalActivity;
@@ -117,10 +117,11 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
 
 
     private void setBackTitleBar() {
-        btnRight.setVisibility(View.VISIBLE);
         btnRight.setVisibility(View.GONE);
-        btnLeft.setVisibility(View.GONE);
-        btnRight.setOnClickListener(new OnClickListener() {
+        btnLeft.setVisibility(View.VISIBLE);
+        btnLeft.setText("");
+        btnLeft.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.btn_back_selector,0,0,0);
+        btnLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();
@@ -179,8 +180,35 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
             @Override
             public void onClick(View v) {
                 // tabFundsFragment.editFund();
-                startActivityForResult(EditTabFundActivity.getIntent(getActivity()), 1722);
+                startActivityForResult(EditTabCombinationActivity.getIntent(getActivity()), 1722);
                 UIUtils.setOverridePendingAmin(getActivity());
+            }
+        });
+    }
+
+    private void setFundBar() {
+        btnRight.setVisibility(View.VISIBLE);
+        btnRight.setCompoundDrawablesWithIntrinsicBounds(R.drawable.btn_search_select, 0, 0, 0);
+        btnRight.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectAddOptionalActivity.class);
+                UIUtils.startAminationActivity(getActivity(), intent);
+            }
+        });
+
+        btnLeft.setVisibility(View.VISIBLE);
+        btnLeft.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (null != tabFundsFragment && !tabFundsFragment.getDataList().isEmpty()) {
+                    Intent intent = EditTabFundActivity.newIntent(getActivity(), tabFundsFragment.getDataList());
+                    startActivityForResult(intent, 888);
+                    UIUtils.setOverridePendingAmin(getActivity());
+                }
+
             }
         });
     }
@@ -194,6 +222,8 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         if (TextUtils.isEmpty(mUserId)) {
             setOptionTitleBar();
         }
+        tabFundsFragment.setDataUpdateListener(null);
+        tabConbinationFragment.setDataUpdateListener(null);
         tabStockFragment.setDataUpdateListener(this);
         tabStockFragment.refreshEditView();
 
@@ -206,25 +236,23 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         if (null == tabConbinationFragment) {
             return;
         }
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (tabConbinationFragment.isAdded()) { // if the fragment is already in container
-            ft.show(tabConbinationFragment);
-        } else { // fragment needs to be added to frame container
-            ft.add(R.id.view_datalist, tabConbinationFragment, "B");
-        }
-        if (tabStockFragment.isAdded()) {
-            ft.hide(tabStockFragment);
-            tabStockFragment.setDataUpdateListener(null);
-        }
+
+        tabStockFragment.setDataUpdateListener(null);
+        tabFundsFragment.setDataUpdateListener(null);
         tabConbinationFragment.setDataUpdateListener(this);
         tabConbinationFragment.refreshEditView();
-        ft.commit();
     }
 
     protected void displayFragmentB() {
-
-        //todo 处理基金的逻辑
+        if (TextUtils.isEmpty(mUserId)) {
+            setFundBar();
+        }
+        tabStockFragment.setDataUpdateListener(null);
+        tabFundsFragment.setDataUpdateListener(this);
+        tabConbinationFragment.setDataUpdateListener(null);
+        tabFundsFragment.refreshEditView();
     }
+
 
     @Override
     public void dataUpdate(boolean isEmptyData) {
@@ -246,6 +274,9 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
             tabStockFragment.onActivityResult(requestCode, resultCode, data);
         } else if (requestCode == 1722) {
             tabConbinationFragment.onActivityResult(requestCode, resultCode, data);
+
+        } else if (requestCode == 888) {
+            tabFundsFragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 
