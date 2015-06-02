@@ -84,7 +84,7 @@
     <string name="tab_funds">组合</string>
     <string name="add_optional_stock">股票查询</string>
     <string name="stock_name">股票名称</string>
-
+    <string name="all">全部</string>
     <string name="funds_name">基金名称</string>
     <string name="conbination_name">组合名称</string>
     <string name="current_value">当前价</string>
@@ -375,7 +375,7 @@
     <string name="market_index_name">指数名称</string>
     <string name="market_stock_name">股票名称</string>
     <string name="market_current_value">最新价</string>
-    <string name="market_net_value">最新净值</string>
+    <string name="market_net_value">净值</string>
     <string name="market_up_ratio">涨幅</string>
     <string name="market_down_ratio">跌幅</string>
     <string name="market_turnover">换手率</string>
@@ -494,7 +494,8 @@
     <string name="open">今开</string>
     <string name="high">最高</string>
     <string name="market_capital">流通市值</string>
-    <string name="pe_ttm">市盈TTM</string>
+    <string name="pe_ttm">市盈率</string>
+    <string name="pe_amount">成交额</string>
     <string name="income">昨收</string>
     <string name="low">最低</string>
     <string name="total_capital">总市值</string>
