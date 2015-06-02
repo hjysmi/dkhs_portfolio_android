@@ -33,6 +33,16 @@ public class FundPriceBean extends StockPriceBean {
     private int symbol_stype;
     private float percent_year;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    private String code;
+
     public int getSymbol_stype() {
         return symbol_stype;
     }
