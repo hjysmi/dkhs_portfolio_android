@@ -35,7 +35,7 @@ import java.util.List;
 public class DragStockAdapter extends DragListAdapter {
 
     private QuotesEngineImpl mQuotesEngine;
-
+    private boolean isLoadByFund;
     public DragStockAdapter(Context context, DragListView mDragListView) {
         super(context, mDragListView);
         mQuotesEngine = new QuotesEngineImpl();
@@ -45,6 +45,7 @@ public class DragStockAdapter extends DragListAdapter {
     public DragStockAdapter(Context context, DragListView mDragListView, boolean isLoadByFund) {
         super(context, mDragListView, isLoadByFund);
         mQuotesEngine = new QuotesEngineImpl();
+        this.isLoadByFund = isLoadByFund;
     }
 
     public void setAdapterData(List<SelectStockBean> stockList) {
@@ -106,7 +107,7 @@ public class DragStockAdapter extends DragListAdapter {
     }
 
     private void startRemindActivity(SelectStockBean stockBean) {
-        UIUtils.startAminationActivity((Activity) context, StockRemindActivity.newStockIntent(context, stockBean));
+        UIUtils.startAminationActivity((Activity) context, StockRemindActivity.newStockIntent(context, stockBean,isLoadByFund));
     }
 
     public List<SelectStockBean> getStockList() {
