@@ -117,10 +117,11 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
 
 
     private void setBackTitleBar() {
-        btnRight.setVisibility(View.VISIBLE);
         btnRight.setVisibility(View.GONE);
-        btnLeft.setVisibility(View.GONE);
-        btnRight.setOnClickListener(new OnClickListener() {
+        btnLeft.setVisibility(View.VISIBLE);
+        btnLeft.setText("");
+        btnLeft.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.btn_back_selector,0,0,0);
+        btnLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().finish();

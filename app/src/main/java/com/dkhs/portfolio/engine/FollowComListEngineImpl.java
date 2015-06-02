@@ -8,9 +8,6 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.Collections;
-import java.util.List;
-
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
@@ -25,12 +22,15 @@ import com.lidroid.xutils.http.HttpHandler;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName FundsOrderEngineImpl
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2014-10-29 下午5:07:15
- * @version 1.0
  */
 public class FollowComListEngineImpl extends LoadMoreDataEngine {
 
@@ -73,24 +73,28 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
             params.addQueryStringParameter("sort", orderType);
         }
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
-        // List<NameValuePair> params = new ArrayList<NameValuePair>();
-        // NameValuePair valuePair2 = new BasicNameValuePair("page", (getCurrentpage() + 1) + "");
-        // params.add(valuePair2);
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
     }
 
     public HttpHandler loadAllData() {
+        if (!TextUtils.isEmpty(userId)) {
+            RequestParams params = new RequestParams();
+            params.addQueryStringParameter("page", "1");
+            if (!TextUtils.isEmpty(orderType)) {
+                params.addQueryStringParameter("sort", orderType);
+            }
 
-        if (PortfolioApplication.hasUserLogin()) {
+            params.addQueryStringParameter("user_id", userId);
+            params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
+            return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
+        } else if (PortfolioApplication.hasUserLogin()) {
 
             RequestParams params = new RequestParams();
             params.addQueryStringParameter("page", "1");
             if (!TextUtils.isEmpty(orderType)) {
                 params.addQueryStringParameter("sort", orderType);
             }
-            if(!TextUtils.isEmpty(userId)){
-                params.addQueryStringParameter("user_id", userId);
-            }
+
             params.addQueryStringParameter("page_size", Integer.MAX_VALUE + "");
             return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
 
@@ -121,16 +125,15 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
                 MoreDataBean<CombinationBean> moreDatebean = new MoreDataBean<CombinationBean>();
                 moreDatebean.setResults(Collections.EMPTY_LIST);
                 getLoadListener().loadFinish(moreDatebean);
-                // getiLoadListener().loadFail(null);
             }
         }
         return null;
     }
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     public HttpHandler loadData() {
@@ -142,15 +145,13 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
             params.addQueryStringParameter("sort", orderType);
         }
         return DKHSClient.request(HttpMethod.GET, DKHSUrl.Portfolio.following, params, this);
-        // DKHSClient.requestByGet(DKHSUrl.Portfolio.portfolio, null, null, this);
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param jsonData
      * @return
-     * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
@@ -171,10 +172,10 @@ public class FollowComListEngineImpl extends LoadMoreDataEngine {
     }
 
     /**
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
      * @param dataSize
      * @return
+     * @Title
+     * @Description TODO: (用一句话描述这个方法的功能)
      */
     @Override
     public HttpHandler refreshDatabySize(int dataSize) {
