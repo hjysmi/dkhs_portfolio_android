@@ -142,10 +142,7 @@ public class DKHSUrl {
         String mainIndexList = "/api/v1/symbols/";
         String compare = "/api/v1/symbols/{0}/quote_history/?from_date={1}&to_date={2}";
 
-        /**
-         * 获取基金排行的url
-         */
-        String fundOrder="/api/v1/symbols/funds/";
+
     }
 
     public interface News {

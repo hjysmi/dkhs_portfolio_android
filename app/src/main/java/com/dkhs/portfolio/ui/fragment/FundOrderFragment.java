@@ -9,15 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import com.dkhs.portfolio.bean.FundBean;
-import com.dkhs.portfolio.bean.FundTypeMenuBean;
-import com.dkhs.portfolio.bean.MenuBean;
+import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.adapter.FundOrderAdapter;
-import com.dkhs.portfolio.ui.eventbus.BusProvider;
-import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +27,7 @@ import java.util.List;
  */
 public class FundOrderFragment extends LoadMoreListFragment {
 
-    private List<FundBean> dataList = new ArrayList<>();
+    private List<FundPriceBean> dataList = new ArrayList<>();
     private FundOrderEngineImpl fundOrderEngine = null;
 
     private FundOrderAdapter adapter;
@@ -41,16 +37,16 @@ public class FundOrderFragment extends LoadMoreListFragment {
         super.onCreate(arg0);
     }
 
- public  static FundOrderFragment newInstant(String type,String sort){
+    public static FundOrderFragment newInstant(String type, String sort) {
 
-     FundOrderFragment fundsOrderFragment=new  FundOrderFragment();
+        FundOrderFragment fundsOrderFragment = new FundOrderFragment();
 
-     Bundle bundle=new Bundle();
-     bundle.putString("type",type);
-     bundle.putString("sort", sort);
-     fundsOrderFragment.setArguments(bundle);
-     return fundsOrderFragment;
- }
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        bundle.putString("sort", sort);
+        fundsOrderFragment.setArguments(bundle);
+        return fundsOrderFragment;
+    }
 
 
     @Override
@@ -70,9 +66,9 @@ public class FundOrderFragment extends LoadMoreListFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Bundle bundle=getArguments();
-        type= bundle.getString("type");
-        sort= bundle.getString("sort");
+        Bundle bundle = getArguments();
+        type = bundle.getString("type");
+        sort = bundle.getString("sort");
         loadData();
 
     }
@@ -81,17 +77,16 @@ public class FundOrderFragment extends LoadMoreListFragment {
     public void loadData() {
 
 //        mSwipeLayout.setRefreshing(true);
-        adapter.setSortAndType(type,sort);
+        adapter.setSortAndType(type, sort);
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
-    public void refresh(String type,String sort){
-        this.sort=sort;
-        this.type=type;
+
+    public void refresh(String type, String sort) {
+        this.sort = sort;
+        this.type = type;
         loadData();
 
     }
-
-
 
 
     @Override
@@ -108,8 +103,8 @@ public class FundOrderFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
 
-mSwipeLayout.setRefreshing(false);
-        if(fundOrderEngine.getCurrentpage()==1){
+        mSwipeLayout.setRefreshing(false);
+        if (fundOrderEngine.getCurrentpage() == 1) {
             dataList.clear();
         }
         dataList.addAll(object.getResults());
@@ -127,7 +122,7 @@ mSwipeLayout.setRefreshing(false);
         return fundOrderEngine;
     }
 
-//    @Override
+    //    @Override
     SwipeRefreshLayout.OnRefreshListener setOnRefreshListener() {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -136,7 +131,6 @@ mSwipeLayout.setRefreshing(false);
             }
         };
     }
-
 
 
     @Override
@@ -149,6 +143,7 @@ mSwipeLayout.setRefreshing(false);
             }
         };
     }
+
     private void startLoadData() {
         if (getActivity() instanceof FriendsOrFollowersActivity) {
             ((FriendsOrFollowersActivity) getActivity()).rotateRefreshButton();

@@ -2,13 +2,10 @@ package com.dkhs.portfolio.engine;
 
 import android.text.TextUtils;
 
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.FundBean;
+import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.PeopleBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
-import com.dkhs.portfolio.net.IHttpListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -58,7 +55,7 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("sort", sort);
         params.addQueryStringParameter("page", (getCurrentpage() + 1) + "");
         params.addQueryStringParameter("page_size", pageSize + "");
-        return     DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.fundOrder, params, this);
+        return     DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
      }
 
     @Override
@@ -70,7 +67,7 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
         params.addQueryStringParameter("sort", sort);
         params.addQueryStringParameter("page", page+"");
         params.addQueryStringParameter("pageSize", pageSize+"");
-        return     DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.fundOrder, params, this);
+        return     DKHSClient.request(HttpRequest.HttpMethod.GET, DKHSUrl.Fund.fundsList, params, this);
 
     }
 
@@ -84,12 +81,12 @@ public class FundOrderEngineImpl extends LoadMoreDataEngine {
 
     @Override
     protected MoreDataBean parseDateTask(String jsonData) {
-        MoreDataBean<FundBean> moreBean = null;
+        MoreDataBean<FundPriceBean> moreBean = null;
         if (!TextUtils.isEmpty(jsonData)) {
 
             try {
                 Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundBean>>() {
+                moreBean = (MoreDataBean) gson.fromJson(jsonData, new TypeToken<MoreDataBean<FundPriceBean>>() {
                 }.getType());
             } catch (Exception e) {
                 e.printStackTrace();
