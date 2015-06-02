@@ -53,7 +53,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
     protected void onCreate(Bundle arg0) {
         // TODO Auto-generated method stub
         super.onCreate(arg0);
-        setContentView(R.layout.activity_option_edit);
+        setContentView(R.layout.activity_option_fund_edit);
         setTitle(R.string.title_edit_optional_fund);
 
         Bundle extras = getIntent().getExtras();
@@ -86,7 +86,7 @@ public class EditTabFundActivity extends ModelAcitivity implements OnClickListen
         btnRight.setText(R.string.finish);
         layout.setOnClickListener(this);
 
-        adapter = new DragStockAdapter(context, optionEditList);
+        adapter = new DragStockAdapter(context, optionEditList,true);
         adapter.setAdapterData(mStockList);
         optionEditList.setAdapter(adapter);
         optionEditList.setOnItemClickListener(new OnListener());

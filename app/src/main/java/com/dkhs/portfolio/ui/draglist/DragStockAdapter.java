@@ -8,12 +8,13 @@
  */
 package com.dkhs.portfolio.ui.draglist;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Handler;
+import android.widget.CompoundButton;
 
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.DataEntry;
-import com.dkhs.portfolio.bean.DragListItem;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
@@ -21,20 +22,15 @@ import com.dkhs.portfolio.ui.StockRemindActivity;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.UIUtils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Handler;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
+ * @author zjz
+ * @version 1.0
  * @ClassName StockDragAdapter
  * @Description TODO(这里用一句话描述这个类的作用)
- * @author zjz
  * @date 2015-4-9 下午3:23:45
- * @version 1.0
  */
 public class DragStockAdapter extends DragListAdapter {
 
@@ -44,6 +40,11 @@ public class DragStockAdapter extends DragListAdapter {
         super(context, mDragListView);
         mQuotesEngine = new QuotesEngineImpl();
 
+    }
+
+    public DragStockAdapter(Context context, DragListView mDragListView, boolean isLoadByFund) {
+        super(context, mDragListView, isLoadByFund);
+        mQuotesEngine = new QuotesEngineImpl();
     }
 
     public void setAdapterData(List<SelectStockBean> stockList) {
