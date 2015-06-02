@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -222,6 +221,8 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         if (TextUtils.isEmpty(mUserId)) {
             setOptionTitleBar();
         }
+        tabFundsFragment.setDataUpdateListener(null);
+        tabConbinationFragment.setDataUpdateListener(null);
         tabStockFragment.setDataUpdateListener(this);
         tabStockFragment.refreshEditView();
 
@@ -234,23 +235,21 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         if (null == tabConbinationFragment) {
             return;
         }
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        if (tabConbinationFragment.isAdded()) { // if the fragment is already in container
-            ft.show(tabConbinationFragment);
-        } else { // fragment needs to be added to frame container
-            ft.add(R.id.view_datalist, tabConbinationFragment, "B");
-        }
-        if (tabStockFragment.isAdded()) {
-            ft.hide(tabStockFragment);
-            tabStockFragment.setDataUpdateListener(null);
-        }
+
+        tabStockFragment.setDataUpdateListener(null);
+        tabFundsFragment.setDataUpdateListener(null);
         tabConbinationFragment.setDataUpdateListener(this);
         tabConbinationFragment.refreshEditView();
-        ft.commit();
     }
 
     protected void displayFragmentB() {
-        setFundBar();
+        if (TextUtils.isEmpty(mUserId)) {
+            setFundBar();
+        }
+        tabStockFragment.setDataUpdateListener(null);
+        tabFundsFragment.setDataUpdateListener(this);
+        tabConbinationFragment.setDataUpdateListener(null);
+        tabFundsFragment.refreshEditView();
     }
 
 
