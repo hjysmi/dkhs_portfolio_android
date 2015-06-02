@@ -150,7 +150,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         return intent;
     }
 
-    public static Intent newStockIntent(Context context, SelectStockBean stock,boolean isFundSetting) {
+    public static Intent newStockIntent(Context context, SelectStockBean stock, boolean isFundSetting) {
         Intent intent = new Intent(context, StockRemindActivity.class);
         intent.putExtra(ARGUMENT_STOCK, Parcels.wrap(stock));
         intent.putExtra(ARGUMENT_IS_FUND, isFundSetting);
@@ -211,7 +211,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         if (null != mStockBean) {
             tvStockName.setText(mStockBean.getName());
             String perText;
-            TextView tvRemind =  (TextView)findViewById(R.id.tv_fundremind_text);
+            TextView tvRemind = (TextView) findViewById(R.id.tv_fundremind_text);
             if (StockUitls.isSepFund(mStockBean.symbol_stype)) {
                 perText = getString(R.string.format_7day_price,
                         StringFromatUtils.get2PointPercent(mStockBean.year_yld));
@@ -225,7 +225,7 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
 
 
             if (null != mStockBean.alertSetBean) {
-                setAlertView(mStockBean.alertSetBean);
+                setFundAlertView(mStockBean.alertSetBean);
             }
         }
 
@@ -284,7 +284,6 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     }
 
     private void setAlertView(AlertSetBean alerBean) {
-        // AlertSetBean alerBean = mStockBean.alertSetBean;
         if (alerBean.getStock_price_up() > 0) {
             etPriceUp.setText(stripZeros(alerBean.getStock_price_up() + ""));
             swPriceUp.setChecked(true);
@@ -301,6 +300,16 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
         }
         swNoticeRemind.setChecked(alerBean.isNoticeRemind());
         swYanbaoRemind.setChecked(alerBean.isYanbaoRemind());
+
+    }
+
+    private void setFundAlertView(AlertSetBean alerBean) {
+        if (StockUitls.isSepFund(mStockBean.symbol_stype)) {
+            swFundRemind.setChecked(alerBean.isFund7dayRemind());
+        } else {
+            swFundRemind.setChecked(alerBean.isFundNetvalueRemind());
+        }
+
     }
 
     private void setAlertView(PortfolioAlertBean alerBean) {
@@ -338,6 +347,11 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_right: {
+
+                if (isFundSetting) {
+                    postFundRemindToServer();
+                    return;
+                }
                 if (swPriceUp.isChecked() && swPriceDown.isChecked() && !isPriceDownOk && !isPriceUpOK) {// 下跌目标价高于最新价&&下跌目标价高于最新价
                     showAlertDialog(R.string.msg_price_error);
                 } else if (swPriceUp.isChecked() && !isPriceUpOK) {// 上涨目标低于最新价
@@ -708,6 +722,19 @@ public class StockRemindActivity extends ModelAcitivity implements OnClickListen
                     swNoticeRemind.isChecked(), swYanbaoRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
         }
     }
+
+    private void postFundRemindToServer() {
+
+
+        if (StockUitls.isSepFund(mStockBean.symbol_stype)) {
+            new QuotesEngineImpl().fundRemind7Day(mStockBean.getId() + "", swFundRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
+        } else {
+
+            new QuotesEngineImpl().fundRemindNetvalue(mStockBean.getId() + "", swFundRemind.isChecked(), remindHttpListener.setLoadingDialog(this));
+
+        }
+    }
+
 
     ParseHttpListener remindHttpListener = new ParseHttpListener<Object>() {
 
