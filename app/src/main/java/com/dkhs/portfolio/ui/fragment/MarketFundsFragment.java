@@ -171,12 +171,13 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
             if(type.getCode().equals("307")|| type.getCode ().equals("306")) {
                 reversalMenuBeanList(sorts, false);
                 sortTypeMenuChooserL.setSelectIndex(4);
-                tvCurrent.setText("万分收益");
-                tvPercentgae.setText("七日年化");
+                tvCurrent.setText(R.string.tenthou_unit_incm);
+                tvPercentgae.setText(R.string.year_yld);
 
             }else{
                 reversalMenuBeanList(sorts, true);
-                   tvCurrent.setText("净值");
+                   tvCurrent.setText(R.string.net_value);
+
                 if(sortTypeMenuChooserL.getSelectIndex()==4){
                     sortTypeMenuChooserL.setSelectIndex(0);
                 }
@@ -189,7 +190,11 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
 
         loadDataListFragment.refresh(fundTypeMenuChooserL.getSelectItem().getValue(),sortTypeMenuChooserL.getSelectItem().getValue());
     }
+
+
+
     public void reversalMenuBeanList(List<MenuBean> list,boolean b){
+
         for (MenuBean item : list){
             if(item.getKey().equals("七日年化")){
                 item.setEnable(!b);
@@ -216,6 +221,7 @@ public class MarketFundsFragment extends BaseFragment implements IDataUpdateList
         view.setCompoundDrawables(null, null, drawable, null);
         view.setCompoundDrawablePadding(getResources().getDimensionPixelOffset(R.dimen.text_drawable_margin));
     }
+
     private TextView viewLastClick;
 
     private void setViewOrderIndicator(TextView currentSelectView, boolean select) {

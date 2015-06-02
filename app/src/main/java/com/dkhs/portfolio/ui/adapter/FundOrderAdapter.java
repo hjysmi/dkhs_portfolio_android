@@ -14,7 +14,7 @@ import java.util.List;
  * @author zwm
  * @version 2.0
  * @ClassName FundOrderAdapter
- * @Description TODO
+ * @Description TODO 基金排行榜适配器
  * @date 2015/6/2.
  */
 public class FundOrderAdapter extends AutoAdapter {
@@ -43,13 +43,12 @@ public class FundOrderAdapter extends AutoAdapter {
         double value=fundBean.getValue(sort);
 
 
-
-
         /**
          * (306, '货币型','hb'),
          (307, '理财型','lc'),
          */
         if(fundType.equals("hb")|| fundType.equals("lc")){
+            //货币型 理财型
             vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
             vh.get(R.id.im_qiri).setVisibility(View.GONE);
             vh.setTextView(R.id.market_list_item_index, fundBean.getTenthou_unit_incm() + "");

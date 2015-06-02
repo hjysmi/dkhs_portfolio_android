@@ -11,7 +11,7 @@ import java.util.List;
  * @author zwm
  * @version 2.0
  * @ClassName FundTypeBean
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @Description TODO(基金过滤条件基础类)
  * @date 2015/5/29.
  */
 public class MenuBean {

@@ -21,7 +21,7 @@ import com.lidroid.xutils.http.client.HttpRequest;
  * @version 1.0
  * @ClassName FriendsEngineImpl
  * @date 2015/4/23.13:39
- * @Description 获取基金排行榜
+ * @Description 基金排行榜列表
  */
 public class FundOrderEngineImpl extends LoadMoreDataEngine {
 
