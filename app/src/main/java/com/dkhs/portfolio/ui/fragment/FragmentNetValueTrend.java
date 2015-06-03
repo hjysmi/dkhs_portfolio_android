@@ -39,17 +39,18 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
+import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
+import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.CombinationUserActivity;
 import com.dkhs.portfolio.ui.ITouchListener;
-import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.TitleChangeEvent;
 import com.dkhs.portfolio.ui.eventbus.UpdateComDescEvent;
@@ -145,8 +146,18 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
     }
 
+    private boolean isMyCombination;
+
     private void handleExtras(Bundle extras) {
         mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
+        if (null != mCombinationBean && null != mCombinationBean.getUser() && mCombinationBean.getUser().getId() > 0) {
+
+            if (null != UserEngineImpl.getUserEntity() && !TextUtils.isEmpty(UserEngineImpl.getUserEntity().getId() + "")) {
+                if (mCombinationBean.getUser().getId() == UserEngineImpl.getUserEntity().getId()) {
+                    isMyCombination = true;
+                }
+            }
+        }
 
     }
 
@@ -207,7 +218,6 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
 
         }
     }
-
 
 
     class OnComCheckListener implements OnCheckedChangeListener {
@@ -357,8 +367,17 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
             oks.setUrl(shareUrl);
             oks.setTitle(mCombinationBean.getName() + " 今日收益率");
 
-            String customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
-                    + shareUrl;
+
+            String customText;
+
+            if (isMyCombination) {
+                customText = "这是我的组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势曲线。你也来创建属于你的组合吧。"
+                        + shareUrl;
+            } else {
+
+                customText = "我发现这个谁牛组合「" + mPositionDetail.getPortfolio().getName() + "」的收益率走势不错哦，你也来看看吧!" + shareUrl;
+            }
+
 
             oks.setText(customText);
 
