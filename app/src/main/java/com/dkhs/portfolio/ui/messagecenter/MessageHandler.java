@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.OptionNewsBean;
 import com.dkhs.portfolio.bean.SelectStockBean;
@@ -16,19 +15,16 @@ import com.dkhs.portfolio.engine.BaseInfoEngine;
 import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
-import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.WebActivity;
 import com.dkhs.portfolio.ui.YanbaoDetailActivity;
 import com.dkhs.portfolio.utils.PromptManager;
-import com.dkhs.portfolio.utils.UIUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Collections;
 import java.util.List;
 
 import io.rong.imlib.model.Message;
@@ -173,7 +169,7 @@ public class MessageHandler {
                     JSONObject jsonObject = new JSONObject(result);
                     String championBeanStr = jsonObject.getString("portfolio");
                     CombinationBean mChampionBean = DataParse.parseObjectJson(CombinationBean.class, championBeanStr);
-                    context.startActivity(NewCombinationDetailActivity.newIntent(context, mChampionBean));
+                    context.startActivity(CombinationDetailActivity.newIntent(context, mChampionBean));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -1,24 +1,15 @@
 package com.dkhs.portfolio.ui;
 
 import java.util.Timer;
-import java.util.TimerTask;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
@@ -41,10 +32,6 @@ import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.receiver.SMSBroadcastReceiver;
-import com.dkhs.portfolio.ui.widget.TextViewClickableSpan;
-import com.dkhs.portfolio.utils.NetUtil;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.SIMCardInfo;
 import com.dkhs.portfolio.utils.UserEntityDesUtil;
@@ -339,7 +326,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
             PromptManager.closeProgressDialog();
             if (current_type == REGIST_TYPE) {
                 if (isLoginByCaptcha) {
-                    Intent intent = new Intent(BoundEmailActivity.this, NewMainActivity.class);
+                    Intent intent = new Intent(BoundEmailActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(BoundEmailActivity.this, RegisterSuccessActivity.class);

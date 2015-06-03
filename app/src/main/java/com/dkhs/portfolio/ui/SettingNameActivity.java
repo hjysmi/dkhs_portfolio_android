@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,32 +17,20 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
-import com.dkhs.portfolio.common.GlobalParams;
-import com.dkhs.portfolio.engine.FollowComEngineImpl;
-import com.dkhs.portfolio.engine.QuotesEngineImpl;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
-import com.dkhs.portfolio.net.BasicHttpListener;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
-import com.dkhs.portfolio.utils.UserEntityDesUtil;
-import com.lidroid.xutils.DbUtils;
-import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
 
 public class SettingNameActivity extends ModelAcitivity implements OnClickListener {
@@ -524,7 +509,7 @@ public class SettingNameActivity extends ModelAcitivity implements OnClickListen
             finish();
         } else {
             PortfolioApplication.getInstance().exitApp();
-            Intent intent = new Intent(SettingNameActivity.this, NewMainActivity.class);
+            Intent intent = new Intent(SettingNameActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }

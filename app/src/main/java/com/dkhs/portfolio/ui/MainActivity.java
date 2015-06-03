@@ -43,7 +43,7 @@ import io.rong.imlib.model.Message;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-2-5 上午10:26:35
  */
-public class NewMainActivity extends ModelAcitivity {
+public class MainActivity extends ModelAcitivity {
 
     private MenuItemFragment mMenuFragment;
     private Fragment mContentFragment;

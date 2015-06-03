@@ -10,29 +10,23 @@ package com.dkhs.portfolio.ui.fragment;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
-import com.dkhs.portfolio.ui.NewMainActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.NewMessageEvent;
 
 import com.dkhs.portfolio.ui.messagecenter.MessageManager;
 import com.dkhs.portfolio.utils.AnimationHelper;
-import com.dkhs.portfolio.utils.PortfolioPreferenceManager;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.lidroid.xutils.view.annotation.event.OnClick;
 import com.squareup.otto.Subscribe;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
-import io.rong.imkit.RongIM;
 
 /**
  * @ClassName: MenuItemFragment
@@ -131,7 +125,7 @@ public class MenuItemFragment extends BaseFragment implements OnClickListener {
         setupView();
 
         // BusProvider.getInstance().post(new TabSelectEvent(index));
-        ((NewMainActivity) getActivity()).showContentIndex(index);
+        ((MainActivity) getActivity()).showContentIndex(index);
         // App.getInstance().mTabIndex = index;
 
     }

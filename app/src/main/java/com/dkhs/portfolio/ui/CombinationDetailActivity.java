@@ -42,7 +42,7 @@ import org.parceler.Parcels;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2015-4-24 上午10:49:28
  */
-public class NewCombinationDetailActivity extends ModelAcitivity {
+public class CombinationDetailActivity extends ModelAcitivity {
     public static final String EXTRA_COMBINATION = "extra_combination";
     private CombinationBean mCombinationBean;
     private boolean isMyCombination = false;
@@ -61,7 +61,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
     private ChangeFollowView mChangeFollowView;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
-        Intent intent = new Intent(context, NewCombinationDetailActivity.class);
+        Intent intent = new Intent(context, CombinationDetailActivity.class);
 
         intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
@@ -154,7 +154,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                 @Override
                 public void onClick(View v) {
                     startActivity(CombinationNewsActivity
-                            .newIntent(NewCombinationDetailActivity.this, mCombinationBean));
+                            .newIntent(CombinationDetailActivity.this, mCombinationBean));
                 }
             });
         } else {
@@ -184,20 +184,20 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                 }
                 break;
                 case MENU_REMIND: {
-                    if(!UIUtils.iStartLoginActivity(NewCombinationDetailActivity.this)){
+                    if(!UIUtils.iStartLoginActivity(CombinationDetailActivity.this)){
 
-                        startActivity(StockRemindActivity.newCombinatIntent(NewCombinationDetailActivity.this,
+                        startActivity(StockRemindActivity.newCombinatIntent(CombinationDetailActivity.this,
                                 mCombinationBean));
                     }
                 }
                 break;
                 case MENU_EDIT: { // 组合编辑
-                    startActivityForResult(ChangeCombinationNameActivity.newIntent(NewCombinationDetailActivity.this,
+                    startActivityForResult(ModifyComNameActivity.newIntent(CombinationDetailActivity.this,
                             mCombinationBean), REQUESTCODE_MODIFY_COMBINATION);
                 }
                 break;
                 case MENU_ADJUST: { // 调整仓位
-                    Intent intent = new Intent(NewCombinationDetailActivity.this, PositionAdjustActivity.class);
+                    Intent intent = new Intent(CombinationDetailActivity.this, PositionAdjustActivity.class);
                     intent.putExtra(PositionAdjustActivity.EXTRA_COMBINATION_ID, mCombinationBean.getId());
                     intent.putExtra(PositionAdjustActivity.EXTRA_ISADJUSTCOMBINATION, true);
                     startActivity(intent);
@@ -205,19 +205,19 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
                 break;
                 case MENU_PRIVACY: {
                     // 隐私设置
-                    startActivity(PrivacySettingActivity.newIntent(NewCombinationDetailActivity.this, mCombinationBean));
+                    startActivity(ModifyPrivacyActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
 
                 }
                 break;
                 case MENU_HISTORY_VALUE: {
                     // 每日收益记录
-                    startActivity(EveryDayValueActivity.newIntent(NewCombinationDetailActivity.this, mCombinationBean));
+                    startActivity(EveryDayValueActivity.newIntent(CombinationDetailActivity.this, mCombinationBean));
 
                 }
                 break;
                 case MENU_ABOUT: {
                     // 谁牛FAQ
-                    startActivity(new Intent(NewCombinationDetailActivity.this, FAQTextActivity.class));
+                    startActivity(new Intent(CombinationDetailActivity.this, FAQTextActivity.class));
 
                 }
                 break;
@@ -331,7 +331,7 @@ public class NewCombinationDetailActivity extends ModelAcitivity {
             switch (requestCode) {
                 case REQUESTCODE_MODIFY_COMBINATION:
                     CombinationBean cBean =   Parcels.unwrap(data
-                            .getParcelableExtra(ChangeCombinationNameActivity.ARGUMENT_COMBINATION_BEAN));
+                            .getParcelableExtra(ModifyComNameActivity.ARGUMENT_COMBINATION_BEAN));
                     if (null != cBean) {
                         mCombinationBean = cBean;
                         updataTitle();

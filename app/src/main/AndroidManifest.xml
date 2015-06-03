@@ -63,7 +63,7 @@
         </activity>
         <!-- <activity android:name="com.dkhs.portfolio.ui.MainActivity" /> -->
         <activity
-            android:name="com.dkhs.portfolio.ui.NewMainActivity"
+            android:name=".ui.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -97,19 +97,19 @@
         <activity android:name="com.dkhs.portfolio.ui.EditTabFundActivity" />
         <activity android:name="com.dkhs.portfolio.ui.ForgetPswActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanBaoActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.SettingPasswordOnSettingActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.UserNameChangeActivity" />
+        <activity android:name=".ui.ModifyPswActivity" />
+        <activity android:name=".ui.ModifyUNameActivity" />
         <activity android:name="com.dkhs.portfolio.ui.YanbaoDetailActivity" />
 
         <activity
             android:name="com.dkhs.portfolio.ui.FeedBackActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name="com.dkhs.portfolio.ui.CombinationUserActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.PersonSignSettingActivity" />
+        <activity android:name=".ui.ModifyUserSignActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EditTabStockActivity" />
         <activity android:name="com.dkhs.portfolio.ui.BoundAccountActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.ChangeCombinationNameActivity" />
-        <activity android:name="com.dkhs.portfolio.ui.PrivacySettingActivity" />
+        <activity android:name=".ui.ModifyComNameActivity" />
+        <activity android:name=".ui.ModifyPrivacyActivity" />
         <activity android:name="com.dkhs.portfolio.ui.OptionListAcitivity" />
         <activity android:name="com.dkhs.portfolio.ui.ReportForOneListActivity" />
         <activity android:name="com.dkhs.portfolio.ui.EveryDayValueActivity" />
@@ -132,7 +132,7 @@
             android:name="com.dkhs.portfolio.ui.FeedBackDialog"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
-            android:name="com.dkhs.portfolio.ui.SelectPhoneFromSystem"
+            android:name=".ui.PickupPhotoActivity"
             android:theme="@style/MyDialogStyleBottom" />
         <activity
             android:name="com.dkhs.portfolio.ui.ChangeCheckType"
@@ -146,7 +146,7 @@
             android:screenOrientation="portrait"></activity>
 
         <activity
-            android:name="com.dkhs.portfolio.ui.NewCombinationDetailActivity"
+            android:name=".ui.CombinationDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.dkhs.portfolio.ui.CompareFundsActivity"

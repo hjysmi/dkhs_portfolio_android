@@ -22,7 +22,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.parceler.Parcels;
 
-public class ChangeCombinationNameActivity extends ModelAcitivity implements OnClickListener {
+public class ModifyComNameActivity extends ModelAcitivity implements OnClickListener {
 
     private CombinationBean mCombinationBean;
 
@@ -74,7 +74,7 @@ public class ChangeCombinationNameActivity extends ModelAcitivity implements OnC
     private EditText combination_name;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
-        Intent intent = new Intent(context, ChangeCombinationNameActivity.class);
+        Intent intent = new Intent(context, ModifyComNameActivity.class);
 
         intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 

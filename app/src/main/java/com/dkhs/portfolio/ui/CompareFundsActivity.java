@@ -30,7 +30,7 @@ public class CompareFundsActivity extends ModelAcitivity {
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
         Intent intent = new Intent(context, CompareFundsActivity.class);
 
-        intent.putExtra(NewCombinationDetailActivity.EXTRA_COMBINATION, Parcels.wrap(combinationBean));
+        intent.putExtra(CombinationDetailActivity.EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 
         return intent;
     }

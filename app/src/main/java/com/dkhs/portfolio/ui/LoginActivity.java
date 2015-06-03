@@ -688,7 +688,7 @@ public class LoginActivity extends ModelAcitivity implements OnClickListener {
 
         // 设置小红点可以出现
         PortfolioApplication.getInstance().exitApp();
-        Intent intent = new Intent(LoginActivity.this, NewMainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }

@@ -65,7 +65,7 @@ public class LoginRegisterAcitvity extends ModelAcitivity {
 
     private void goMainPage() {
         // 跳转
-        Intent intent = new Intent(this, NewMainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         this.startActivity(intent);
         this.finish();
     }

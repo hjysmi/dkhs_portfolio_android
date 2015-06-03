@@ -25,7 +25,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.CombinationRankAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
@@ -247,7 +247,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
                 if (null != MarketCombinationFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
                     selectBean.setFollowed(MarketCombinationFragment.mVisitorData.contains(selectBean));
                 }
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), selectBean));
 
             }
         };
