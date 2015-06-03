@@ -1,6 +1,8 @@
 package com.dkhs.portfolio.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 
 import com.dkhs.portfolio.R;
@@ -8,7 +10,6 @@ import com.dkhs.portfolio.bean.FundPriceBean;
 import com.dkhs.portfolio.utils.StockUitls;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 
-import org.parceler.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class FundOrderAdapter extends AutoAdapter {
 
 
     public FundOrderAdapter(Context context, List<?> list) {
-        super(context, list, R.layout.item_fund);
+        super(context, list, R.layout.item_optional_fund_price);
     }
 
     private String sort;
@@ -37,48 +38,54 @@ public class FundOrderAdapter extends AutoAdapter {
     @Override
     public void getView33(int position, View v, ViewHolderUtils.ViewHolder vh) {
         FundPriceBean fundBean = (FundPriceBean) list.get(position);
-        vh.setTextView(R.id.market_text_name, fundBean.getAbbrname());
-        vh.setTextView(R.id.market_text_name_num, "(" + fundBean.getSymbol() + ")");
-
-        vh.setTextView(R.id.market_list_date, fundBean.getTradedate() + "");
-
+        vh.setTextView(R.id.tv_stock_name, fundBean.getAbbrname());
+        vh.setTextView(R.id.tv_stock_num, "(" + fundBean.getSymbol() + ")");
+        vh.setTextView(R.id.tv_trade_day, fundBean.getTradedate() );
         double value = fundBean.getValue(sort);
-
-
         /**
          * (306, '货币型','hb'),
          (307, '理财型','lc'),
          */
+        vh.get(R.id.tv_percent_value).setBackgroundColor(0);
+
+        if (!TextUtils.isEmpty(fundBean.getAbbrname()) && fundBean.getAbbrname().length() > 8) {
+            vh.getTextView(R.id.tv_stock_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        } else {
+            vh.getTextView(R.id.tv_stock_name).setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        }
         if (fundType.equals("hb") || fundType.equals("lc")) {
             //货币型 理财型
             vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
-            vh.get(R.id.im_qiri).setVisibility(View.GONE);
-            vh.setTextView(R.id.market_list_item_index, fundBean.getTenthou_unit_incm() + "");
-            vh.setTextView(R.id.market_list_item_percent, StringFromatUtils.get2Point(fundBean.getYear_yld() ));
-//            vh.setTextView(R.id.market_list_item_percent, ""+fundBean.getYear_yld() );
+
+            vh.getTextView(R.id.tv_current_value).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0
+                    , 0);
+            vh.setTextView(R.id.tv_current_value, fundBean.getTenthou_unit_incm() + "");
+            vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2Point(fundBean.getYear_yld() ));
 
 
         } else {
             if (StockUitls.isSepFund(fundBean.getSymbol_stype())) {
                 vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
-                vh.get(R.id.im_qiri).setVisibility(View.VISIBLE);
-                vh.setTextView(R.id.market_list_item_index,  fundBean.getTenthou_unit_incm() + "");
-                vh.setTextView(R.id.market_list_item_percent, StringFromatUtils.get2Point( fundBean.getYear_yld()) );
-//                vh.setTextView(R.id.market_list_item_percent, ""+ fundBean.getYear_yld());
+
+                vh.getTextView(R.id.tv_current_value).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_qiri_gray, 0, 0
+                        , 0);
+                vh.setTextView(R.id.tv_current_value,  fundBean.getTenthou_unit_incm() + "");
+                vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2Point( fundBean.getYear_yld()) );
             } else {
+
+                vh.getTextView(R.id.tv_current_value).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0
+                        , 0);
                 vh.get(R.id.iv_wanshou).setVisibility(View.GONE);
-                vh.get(R.id.im_qiri).setVisibility(View.GONE);
-                vh.setTextView(R.id.market_list_item_index, fundBean.getNet_value() + "");
-                vh.setTextView(R.id.market_list_item_percent, StringFromatUtils.get2Point(fundBean.getValue(sort)));
-//                vh.setTextView(R.id.market_list_item_percent, ""+fundBean.getValue(sort));
+                vh.setTextView(R.id.tv_current_value, fundBean.getNet_value() + "");
+                vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2Point(fundBean.getValue(sort)));
             }
         }
 
         if (value != 0) {
 
-            vh.getTextView(R.id.market_list_item_percent).setTextColor(context.getResources().getColorStateList(R.color.red));
+            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.red));
         } else {
-            vh.getTextView(R.id.market_list_item_percent).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
+            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
 
         }
     }

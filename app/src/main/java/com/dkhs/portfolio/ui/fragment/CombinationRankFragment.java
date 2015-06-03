@@ -107,7 +107,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void loadData() {
         if (isvisible) {
 
-            BusProvider.getInstance().post(new RotateRefreshEvent());
+//            BusProvider.getInstance().post(new RotateRefreshEvent());
             setHttpHandler(getLoadEngine().loadData());
         }
     }
@@ -130,9 +130,9 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        if (isvisible) {
-            BusProvider.getInstance().post(new StopRefreshEvent());
-        }
+//        if (isvisible) {
+//            BusProvider.getInstance().post(new StopRefreshEvent());
+//        }
         mSwipeLayout.setRefreshing(false);
         if (null != object && null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15

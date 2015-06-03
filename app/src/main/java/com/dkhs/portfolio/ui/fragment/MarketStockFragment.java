@@ -34,6 +34,7 @@ import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.utils.AnimationHelper;
 import com.dkhs.portfolio.utils.UIUtils;
+import com.lidroid.xutils.util.LogUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ import java.util.TimerTask;
  * @date 2015/5/25.
  */
 public class MarketStockFragment extends BaseFragment implements View.OnClickListener {
+
 
 
     @Override
@@ -489,13 +491,13 @@ public class MarketStockFragment extends BaseFragment implements View.OnClickLis
 
 
     public void startAnimaRefresh() {
-        if (isAdded() && !isHidden()) {
+        if (isAdded() && getUserVisibleHint()) {
             BusProvider.getInstance().post(new RotateRefreshEvent());
         }
     }
 
     public void endAnimaRefresh() {
-        if (isAdded() && !isHidden()) {
+        if (isAdded() && !getUserVisibleHint()) {
             BusProvider.getInstance().post(new StopRefreshEvent());
         }
     }
