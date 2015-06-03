@@ -60,6 +60,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     private ImageView imageView;
     private View menuLL;
 
+    private MenuBean selectItem;
 
     @Override
     protected void onFinishInflate() {
@@ -72,11 +73,11 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_menu_relativelayout, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         imageView = (ImageView) view.findViewById(R.id.im_bg);
-        menuLL =  view.findViewById(R.id.ll_menu);
+        menuLL = view.findViewById(R.id.ll_menu);
         GridLayoutManager gridLayoutManager = new WrapGridLayoutManager(getContext(), 4, GridLayoutManager.VERTICAL);
 
         recyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new Adapter(getContext(),data);
+        adapter = new Adapter(getContext(), data);
 
         this.addView(view);
         this.setVisibility(GONE);
@@ -91,12 +92,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int prePosition = adapter.getSelectIndex();
-                adapter.setSelectIndex(position);
-                adapter.notifyItemChanged(position);
-
-                adapter.notifyItemChanged(prePosition);
-
-                BusProvider.getInstance().post(data.get(position));
+                setSelectIndex(position);
+                BusProvider.getInstance().post(selectItem);
 
                 recyclerView.postDelayed(new Runnable() {
                     @Override
@@ -111,16 +108,36 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
     }
 
 
+    public MenuBean getSelectItem() {
+        return selectItem;
+    }
+
+    public void setSelectIndex(int selectIndex) {
+
+        this.selectIndex = selectIndex;
+        int prePosition = adapter.getSelectIndex();
+        adapter.setSelectIndex(selectIndex);
+        adapter.notifyDataSetChanged();
+        selectItem = data.get(selectIndex);
+
+    }
+
+    private int selectIndex;
+
+    public int getSelectIndex() {
+        return selectIndex;
+    }
+
+
     public void setData(List<MenuBean> data) {
 
         this.data.clear();
         this.data.addAll(data);
+        selectItem = data.get(0);
         adapter.notifyDataSetChanged();
     }
 
-    private  ViewGroup parentView;
-
-
+    private ViewGroup parentView;
 
     public void toggle() {
 
@@ -139,8 +156,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         this.setVisibility(VISIBLE);
 
 
-        if(this.getParentView() !=null){
-            ViewGroup viewGroup=this.getParentView();
+        if (this.getParentView() != null) {
+            ViewGroup viewGroup = this.getParentView();
             viewGroup.removeView(this);
         }
 
@@ -174,7 +191,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
      */
     public void dismiss(boolean anim) {
 
-        if(anim){
+        if (anim) {
             if (null == imageView.getAnimation() || imageView.getAnimation().hasEnded()) {
 
                 AnimationHelper.translationToTopDismiss(menuLL, new Animator.AnimatorListener() {
@@ -204,7 +221,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                 });
                 AnimationHelper.alphaDismiss(imageView);
             }
-        }else {
+        } else {
 
             MenuChooserRelativeLayout.this.setVisibility(GONE);
             menuLL.setVisibility(GONE);
@@ -212,7 +229,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         }
 
     }
-    public void dismiss( ) {
+
+    public void dismiss() {
         dismiss(true);
     }
 
@@ -236,14 +254,15 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         @Override
         public void onBindViewHolder(RVHolder holder, int position) {
 
-            super.onBindViewHolder(holder,position);
+            super.onBindViewHolder(holder, position);
             MenuBean item = data.get(position);
             holder.getViewHolder().setTextView(R.id.textView, item.getKey());
 
-            View view = holder.getViewHolder().getRootView();
-
+            View view =  holder.getViewHolder().get(R.id.textView);
+            holder.getViewHolder().getRootView().setClickable(item.isEnable());
             if (item.isEnable()) {
                 view.setEnabled(true);
+
                 if (position == selectIndex) {
                     view.setSelected(true);
                 } else {
@@ -333,21 +352,21 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                 }
             }
 
-                switch (widthMode) {
-                    case View.MeasureSpec.EXACTLY:
-                        width = widthSize;
-                    case View.MeasureSpec.AT_MOST:
-                    case View.MeasureSpec.UNSPECIFIED:
-                }
+            switch (widthMode) {
+                case View.MeasureSpec.EXACTLY:
+                    width = widthSize;
+                case View.MeasureSpec.AT_MOST:
+                case View.MeasureSpec.UNSPECIFIED:
+            }
 
-                switch (heightMode) {
-                    case View.MeasureSpec.EXACTLY:
-                        height = heightSize;
-                    case View.MeasureSpec.AT_MOST:
-                    case View.MeasureSpec.UNSPECIFIED:
-                }
+            switch (heightMode) {
+                case View.MeasureSpec.EXACTLY:
+                    height = heightSize;
+                case View.MeasureSpec.AT_MOST:
+                case View.MeasureSpec.UNSPECIFIED:
+            }
 //
-                setMeasuredDimension(width, height);
+            setMeasuredDimension(width, height);
 //            super.onMeasure(recycler,state,widthSpec,heightSpec);
         }
 

@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/arrow_up" />
+                android:src="@drawable/menu_arrow_up" />
 
             <!-- 进度条 -->
 

@@ -42,7 +42,7 @@ import java.util.List;
  * @Description TODO(这里用一句话描述这个类的作用)
  * @date 2014-10-29 下午4:03:33
  */
-public class FundsOrderFragment extends LoadMoreListFragment {
+public class CombinationRankFragment extends LoadMoreListFragment {
 
     private static final String ARGUMENT_ORDER_TYPE = "order_type";
     public static final String ORDER_TYPE_DAY = "chng_pct_day";
@@ -56,8 +56,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
     private FundsOrderEngineImpl orderEngine;
     private boolean isvisible = false;
 
-    public static FundsOrderFragment getFragment(String orderType) {
-        FundsOrderFragment fragment = new FundsOrderFragment();
+    public static CombinationRankFragment getFragment(String orderType) {
+        CombinationRankFragment fragment = new CombinationRankFragment();
         Bundle args = new Bundle();
         args.putString(ARGUMENT_ORDER_TYPE, orderType);
 
@@ -244,8 +244,8 @@ public class FundsOrderFragment extends LoadMoreListFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 CombinationBean selectBean = mDataList.get(position);
-                if (null != MarketFundsFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
-                    selectBean.setFollowed(MarketFundsFragment.mVisitorData.contains(selectBean));
+                if (null != MarketCombinationFragment.mVisitorData && !PortfolioApplication.getInstance().hasUserLogin()) {
+                    selectBean.setFollowed(MarketCombinationFragment.mVisitorData.contains(selectBean));
                 }
                 startActivity(NewCombinationDetailActivity.newIntent(getActivity(), selectBean));
 

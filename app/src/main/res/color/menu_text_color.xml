@@ -22,6 +22,8 @@
 
     <!-- <item android:state_enabled="false" android:color="@color/text_press"/> -->
     <!-- <item android:state_window_focused="false" android:color="@color/text_press"/> -->
+
+    <item android:state_enabled="false" android:color="@color/tag_gray"/>
     <item android:state_selected="true" android:color="@color/white"/>
     <!-- <item android:state_enabled="false" android:color="@color/text_press"/> -->
     <item android:color="@color/theme_color"/>
