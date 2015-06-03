@@ -67,7 +67,7 @@ public class FundOrderAdapter extends AutoAdapter {
             if (StockUitls.isSepFund(fundBean.getSymbol_stype())) {
                 vh.get(R.id.iv_wanshou).setVisibility(View.VISIBLE);
 
-                vh.getTextView(R.id.tv_current_value).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_qiri_gray, 0, 0
+                vh.getTextView(R.id.tv_percent_value).setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_qiri_gray, 0, 0
                         , 0);
                 vh.setTextView(R.id.tv_current_value,  fundBean.getTenthou_unit_incm() + "");
                 vh.setTextView(R.id.tv_percent_value, StringFromatUtils.get2Point( fundBean.getYear_yld()) );
