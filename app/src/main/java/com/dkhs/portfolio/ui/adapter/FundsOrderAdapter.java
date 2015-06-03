@@ -26,6 +26,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.ParseHttpListener;
+import com.dkhs.portfolio.ui.fragment.CombinationRankFragment;
 import com.dkhs.portfolio.ui.fragment.MarketCombinationFragment;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.PromptManager;
@@ -111,16 +112,16 @@ public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeLis
         CombinationBean item = mDataList.get(position);
         float increasePercent = 0;
         String textResId = "";
-        if (mOrderType.contains(com.dkhs.portfolio.ui.fragment.FundsOrderFragment.ORDER_TYPE_DAY)) {
+        if (mOrderType.contains(CombinationRankFragment.ORDER_TYPE_DAY)) {
             increasePercent = item.getChng_pct_day();
             textResId = mContext.getString(R.string.day_income_rate);
-        } else if (mOrderType.contains(com.dkhs.portfolio.ui.fragment.FundsOrderFragment.ORDER_TYPE_WEEK)) {
+        } else if (mOrderType.contains(CombinationRankFragment.ORDER_TYPE_WEEK)) {
             increasePercent = item.getChng_pct_week();
             textResId = mContext.getString(R.string.week_income_rate);
-        } else if (mOrderType.contains(com.dkhs.portfolio.ui.fragment.FundsOrderFragment.ORDER_TYPE_MONTH)) {
+        } else if (mOrderType.contains(CombinationRankFragment.ORDER_TYPE_MONTH)) {
             textResId = mContext.getString(R.string.month_income_rate);
             increasePercent = item.getChng_pct_month();
-        } else if (mOrderType.contains(com.dkhs.portfolio.ui.fragment.FundsOrderFragment.ORDER_TYPE_ALL)) {
+        } else if (mOrderType.contains(CombinationRankFragment.ORDER_TYPE_ALL)) {
             textResId = mContext.getString(R.string.all_income_rate);
             increasePercent = item.getCumulative();
         }
