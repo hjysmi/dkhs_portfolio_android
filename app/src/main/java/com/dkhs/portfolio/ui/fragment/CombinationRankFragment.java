@@ -23,10 +23,10 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
-import com.dkhs.portfolio.ui.adapter.FundsOrderAdapter;
+import com.dkhs.portfolio.ui.adapter.CombinationRankAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
@@ -51,9 +51,9 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     // public static final String ORDER_TYPE_SEASON = "chng_pct_three_month";
     public static final String ORDER_TYPE_ALL = "net_value";
     private String mOrderType;
-    private FundsOrderAdapter mAdapter;
+    private CombinationRankAdapter mAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
-    private FundsOrderEngineImpl orderEngine;
+    private CombinationRankEngineImpl orderEngine;
     private boolean isvisible = false;
 
     public static CombinationRankFragment getFragment(String orderType) {
@@ -93,7 +93,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     @Override
     ListAdapter getListAdapter() {
         if (mAdapter == null) {
-            mAdapter = new FundsOrderAdapter(getActivity(), mDataList, mOrderType);
+            mAdapter = new CombinationRankAdapter(getActivity(), mDataList, mOrderType);
         }
         return mAdapter;
     }
@@ -230,7 +230,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     @Override
     LoadMoreDataEngine getLoadEngine() {
         if (null == orderEngine) {
-            orderEngine = new FundsOrderEngineImpl(this, mOrderType);
+            orderEngine = new CombinationRankEngineImpl(this, mOrderType);
         }
         return orderEngine;
     }

@@ -40,7 +40,7 @@ import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.PositionDetail;
 import com.dkhs.portfolio.bean.UserEntity;
 import com.dkhs.portfolio.engine.FollowComEngineImpl;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.MyCombinationEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.net.DKHSClient;
@@ -480,14 +480,14 @@ public class FragmentNetValueTrend extends Fragment implements OnClickListener {
         hsTitle.setSelectPositionListener(titleSelectPostion);
 
         if (null != type) {
-            if (type.equals(FundsOrderEngineImpl.ORDER_DAY)) {
+            if (type.equals(CombinationRankEngineImpl.ORDER_DAY)) {
                 // hsTitle.setSelectIndex(0);
 
-            } else if (type.equals(FundsOrderEngineImpl.ORDER_WEEK)) {
+            } else if (type.equals(CombinationRankEngineImpl.ORDER_WEEK)) {
                 hsTitle.setSelectIndex(1);
-            } else if (type.equals(FundsOrderEngineImpl.ORDER_MONTH)) {
+            } else if (type.equals(CombinationRankEngineImpl.ORDER_MONTH)) {
                 hsTitle.setSelectIndex(2);
-            } else if (type.equals(FundsOrderEngineImpl.ORDER_ALL)) {
+            } else if (type.equals(CombinationRankEngineImpl.ORDER_ALL)) {
                 hsTitle.setSelectIndex(3);
             }
 

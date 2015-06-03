@@ -43,7 +43,6 @@ public class FundPriceBean extends StockPriceBean {
         this.code = code;
     }
 
-    private String code;
 
     public int getSymbol_stype() {
         return symbol_stype;
