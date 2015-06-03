@@ -1,13 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -34,6 +26,12 @@ import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.NetUtil;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class VerificationActivity extends ModelAcitivity implements OnClickListener {
 
@@ -298,14 +296,16 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                 default:
                     break;
             }
-        };
+        }
+
+        ;
     };
     private String verifyCode;
 
     /**
+     * @return
      * @Title
      * @Description TODO: (用一句话描述这个方法的功能)
-     * @return
      */
     @Override
     protected void onDestroy() {
@@ -346,7 +346,7 @@ public class VerificationActivity extends ModelAcitivity implements OnClickListe
                     finish();
                 }
 
-                    break;
+                break;
             }
         }
     }
