@@ -23,7 +23,7 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.NetValueReportEngine;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.adapter.ReportFromAdapter;
 
 import org.parceler.Parcels;
@@ -90,7 +90,7 @@ public class FragmentReportForm extends Fragment {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueReportEngine(mCombinationBean.getId(), mLoadBackListener);
 
     }

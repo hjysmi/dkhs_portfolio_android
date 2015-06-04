@@ -29,7 +29,7 @@ import com.dkhs.portfolio.engine.FollowComListEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.ui.EditTabCombinationActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.adapter.TabFundsAdapter;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
@@ -219,7 +219,7 @@ public class TabConbinationFragment extends BaseFragment implements IDataUpdateL
                 // OrderFundDetailActivity.getIntent(getActivity(), mDataList.get(position), true,
                 // FundsOrderFragment.ORDER_TYPE_DAY));
 
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });

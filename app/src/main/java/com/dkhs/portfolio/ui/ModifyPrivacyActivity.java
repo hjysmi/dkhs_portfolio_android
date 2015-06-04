@@ -24,7 +24,7 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
-public class PrivacySettingActivity extends ModelAcitivity implements OnClickListener {
+public class ModifyPrivacyActivity extends ModelAcitivity implements OnClickListener {
 
     private boolean is_passive = true;
     private CombinationBean mCombinationBean;
@@ -82,7 +82,7 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
                         if (isChecked) {
                             ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
 
-                            listener.setLoadingDialog(PrivacySettingActivity.this);
+                            listener.setLoadingDialog(ModifyPrivacyActivity.this);
 
                             mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "0", listener);
 
@@ -90,7 +90,7 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
                         } else {
                             ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
 
-                            listener.setLoadingDialog(PrivacySettingActivity.this);
+                            listener.setLoadingDialog(ModifyPrivacyActivity.this);
                             mMyCombinationEngineImpl.setCombinationRank(mCombinationBean.getId(), "1", listener);
                             open_position.setChecked(false);
                             open_position.setEnabled(false);
@@ -105,13 +105,13 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
                         if (isChecked) {
                             ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
 
-                            listener.setLoadingDialog(PrivacySettingActivity.this);
+                            listener.setLoadingDialog(ModifyPrivacyActivity.this);
 
                             mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "0", listener);
                         } else {
                             ModifCombinationDetailListener listener = new ModifCombinationDetailListener();
 
-                            listener.setLoadingDialog(PrivacySettingActivity.this);
+                            listener.setLoadingDialog(ModifyPrivacyActivity.this);
                             mMyCombinationEngineImpl.changeCombinationIsPublic(mCombinationBean.getId(), "1", listener);
                         }
                     }
@@ -188,7 +188,7 @@ public class PrivacySettingActivity extends ModelAcitivity implements OnClickLis
     private Switch open_position;
 
     public static Intent newIntent(Context context, CombinationBean combinationBean) {
-        Intent intent = new Intent(context, PrivacySettingActivity.class);
+        Intent intent = new Intent(context, ModifyPrivacyActivity.class);
 
         intent.putExtra(EXTRA_COMBINATION, Parcels.wrap(combinationBean));
 

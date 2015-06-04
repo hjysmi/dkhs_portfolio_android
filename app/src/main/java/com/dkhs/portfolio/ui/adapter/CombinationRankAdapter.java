@@ -41,13 +41,13 @@ import java.util.List;
  * @date 2014-10-29 下午4:57:34
  * @version 1.0
  */
-public class FundsOrderAdapter extends BaseAdapter implements OnCheckedChangeListener {
+public class CombinationRankAdapter extends BaseAdapter implements OnCheckedChangeListener {
 
     private Context mContext;
     private List<CombinationBean> mDataList;
     private String mOrderType;
 
-    public FundsOrderAdapter(Context context, List<CombinationBean> dataList, String orderType) {
+    public CombinationRankAdapter(Context context, List<CombinationBean> dataList, String orderType) {
         this.mContext = context;
         this.mDataList = dataList;
         this.mOrderType = orderType;

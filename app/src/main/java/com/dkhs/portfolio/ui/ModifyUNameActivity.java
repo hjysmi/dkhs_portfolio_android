@@ -22,7 +22,7 @@ import com.dkhs.portfolio.utils.PromptManager;
 import com.dkhs.portfolio.utils.StringFromatUtils;
 import com.umeng.analytics.MobclickAgent;
 
-public class UserNameChangeActivity extends ModelAcitivity implements OnClickListener {
+public class ModifyUNameActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
     private Button btnSave;
     private EditText changeEditName;

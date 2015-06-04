@@ -50,7 +50,7 @@ import com.dkhs.portfolio.net.DKHSUrl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.SelectFundActivity;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter;
 import com.dkhs.portfolio.ui.adapter.CompareIndexAdapter.CompareFundItem;
@@ -243,7 +243,7 @@ public class FragmentCompare extends BaseFragment implements OnClickListener {
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
 
     }
