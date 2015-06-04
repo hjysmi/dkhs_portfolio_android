@@ -11,6 +11,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
+import com.melnykov.fab.ObservableScrollView;
 
 import org.parceler.Parcels;
 
@@ -32,6 +33,8 @@ public class FundDetailActivity extends ModelAcitivity {
     @ViewInject(R.id.layout_noramlfund_header)
     private ViewStub vsNormalFundHeader;
 
+    @ViewInject(R.id.floating_action_view)
+    private FloatingActionMenu mFloatMenu;
 
     public static Intent newIntent(Context context, SelectStockBean bean) {
         Intent intent = new Intent(context, FundDetailActivity.class);
@@ -92,9 +95,7 @@ public class FundDetailActivity extends ModelAcitivity {
             setTitleTipString(
                     mFundBean.tradeDay);
         }
-//        if (null != mCombinationBean) {
-//            updateTitleBackgroudByValue(mCombinationBean.getNetvalue() - 1);
-//        }
+
     }
 
 
@@ -103,29 +104,58 @@ public class FundDetailActivity extends ModelAcitivity {
         String[] stockListTiles = getResources().getStringArray(R.array.fund_tab_titles);
         hsTitleTab.setTitleList(stockListTiles, getResources().getDimensionPixelSize(R.dimen.title_2text_length));
 
-
+        mFloatMenu.attachToScrollView((ObservableScrollView) findViewById(R.id.sv_combinations));
+        mFloatMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
+        initFloatingActionMenu();
         vsNormalFundHeader.inflate();
-//        localFloatingActionMenu.attachToScrollView(mScrollView);
-//        localFloatingActionMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
-//        if (isMyCombination) {
-//            yanbaoView.setVisibility(View.VISIBLE);
-//            yanbaoView.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View v) {
-//                    startActivity(CombinationNewsActivity
-//                            .newIntent(CombinationDetailActivity.this, mCombinationBean));
-//                }
-//            });
-//        } else {
-//            yanbaoView.setVisibility(View.GONE);
-//        }
-//
+
 //        replaceTrendView();
 //        replacePostionView();
 //        replaceCompareView();
 //
 //        mChangeFollowView = new ChangeFollowView(this);
+
+    }
+
+
+    private final int MENU_ADJUST = 5;
+    private final int MENU_SHARE = 6;
+
+    FloatingActionMenu.OnMenuItemSelectedListener mFloatMenuSelectListner = new FloatingActionMenu.OnMenuItemSelectedListener() {
+
+        @Override
+        public boolean onMenuItemSelected(int selectIndex) {
+
+            switch (selectIndex) {
+
+                case MENU_ADJUST: { // 调整仓位
+
+                }
+                break;
+
+                case MENU_SHARE: {
+
+                }
+                break;
+                default:
+                    break;
+            }
+            return false;
+        }
+    };
+
+//    @Subscribe
+//    public void updateCombination(UpdateCombinationEvent updateCombinationEvent) {
+//        if (null != updateCombinationEvent && null != updateCombinationEvent.mCombinationBean) {
+//            initFloatingActionMenu();
+//        }
+//    }
+
+    private void initFloatingActionMenu() {
+        mFloatMenu.removeAllItems();
+
+        mFloatMenu.addItem(MENU_SHARE, R.string.float_menu_share, R.drawable.ic_fm_share);
+
 
     }
 
