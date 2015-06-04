@@ -92,7 +92,7 @@ public class FundOrderAdapter extends AutoAdapter {
 
         if (value > 0) {
 
-            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.theme_color));
+            vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_red));
         } else if(value ==0) {
             vh.getTextView(R.id.tv_percent_value).setTextColor(context.getResources().getColorStateList(R.color.tag_gray));
 
