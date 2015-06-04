@@ -105,7 +105,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
      */
     @Override
     public void loadData() {
-        if (isvisible) {
+        if (getUserVisibleHint()) {
 
             BusProvider.getInstance().post(new RotateRefreshEvent());
             setHttpHandler(getLoadEngine().loadData());
@@ -130,7 +130,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-        if (isvisible) {
+        if (getUserVisibleHint()) {
             BusProvider.getInstance().post(new StopRefreshEvent());
         }
         mSwipeLayout.setRefreshing(false);

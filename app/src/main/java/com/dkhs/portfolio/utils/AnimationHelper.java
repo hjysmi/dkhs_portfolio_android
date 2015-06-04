@@ -168,7 +168,7 @@ public class AnimationHelper {
         }
 
         ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",0,- view.getMeasuredHeight());
-        objectAnimator.setDuration(ANIM_DURATION );
+        objectAnimator.setDuration(ANIM_DURATION-100 );
         objectAnimator.addListener(animatorListener);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
@@ -184,7 +184,7 @@ public class AnimationHelper {
         }
 
         ObjectAnimator objectAnimator=ObjectAnimator.ofFloat(view,"translationY",- view.getMeasuredHeight(),0);
-        objectAnimator.setDuration(ANIM_DURATION+200 );
+        objectAnimator.setDuration(ANIM_DURATION-100 );
         objectAnimator.addListener(animatorListener);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.start();
@@ -195,7 +195,7 @@ public class AnimationHelper {
 
 
         AlphaAnimation alphaAnimation=new AlphaAnimation(0.01f,1f);
-        alphaAnimation.setDuration(ANIM_DURATION+200 );
+        alphaAnimation.setDuration(ANIM_DURATION-100 );
         alphaAnimation.setInterpolator(new DecelerateInterpolator());
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -222,7 +222,7 @@ public class AnimationHelper {
         }
         AlphaAnimation alphaAnimation=new AlphaAnimation(1f,0f);
 
-        alphaAnimation.setDuration(ANIM_DURATION );
+        alphaAnimation.setDuration(ANIM_DURATION -100);
         alphaAnimation.setInterpolator(new DecelerateInterpolator());
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override

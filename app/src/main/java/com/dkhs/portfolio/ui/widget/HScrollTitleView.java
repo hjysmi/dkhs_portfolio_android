@@ -157,7 +157,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(getContext().getResources().getColor(R.color.red));
+                tv.setTextColor(getContext().getResources().getColor(R.color.tag_red));
             }
         }
         addView(view);
@@ -196,7 +196,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
             ll.addView(tv);
             tvList[i] = tv;
             if (i == 0) {
-                tv.setTextColor(getContext().getResources().getColor(R.color.red));
+                tv.setTextColor(getContext().getResources().getColor(R.color.tag_red));
             }
         }
         addView(view);
@@ -311,7 +311,7 @@ public class HScrollTitleView extends FrameLayout implements AnimationListener {
         System.out.println("currentPosition:" + currentPosition);
         System.out.println("hisPosition:" + hisPosition);
 
-        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.red));
+        tvList[currentPosition].setTextColor(getContext().getResources().getColor(R.color.tag_red));
         if (hisPosition != -1) {
             tvList[hisPosition].setTextColor(getContext().getResources().getColor(R.color.black));
         }

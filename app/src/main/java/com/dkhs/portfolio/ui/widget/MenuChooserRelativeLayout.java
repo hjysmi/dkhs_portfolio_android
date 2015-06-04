@@ -91,8 +91,8 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         adapter.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int prePosition = adapter.getSelectIndex();
-                setSelectIndex(position);
+                adapter.setSelectIndex(position);
+                notifyDataSetChanged();
                 BusProvider.getInstance().post(selectItem);
 
                 recyclerView.postDelayed(new Runnable() {
@@ -112,13 +112,13 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
         return selectItem;
     }
 
-    public void setSelectIndex(int selectIndex) {
+    public void notifyDataSetChanged() {
 
-        this.selectIndex = selectIndex;
+
         int prePosition = adapter.getSelectIndex();
-        adapter.setSelectIndex(selectIndex);
+
         adapter.notifyDataSetChanged();
-        selectItem = data.get(selectIndex);
+        selectItem = data.get(prePosition);
 
     }
 
@@ -197,7 +197,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                 AnimationHelper.translationToTopDismiss(menuLL, new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-
+                        BusProvider.getInstance().post(MenuChooserRelativeLayout.this);
                     }
 
                     @Override
@@ -205,6 +205,7 @@ public class MenuChooserRelativeLayout extends RelativeLayout {
                         MenuChooserRelativeLayout.this.setVisibility(GONE);
                         menuLL.setVisibility(GONE);
                         MenuChooserRelativeLayout.this.parentView.removeView(MenuChooserRelativeLayout.this);
+
 
                     }
 

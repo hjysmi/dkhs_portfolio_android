@@ -14,6 +14,9 @@ import com.dkhs.portfolio.bean.MoreDataBean;
 import com.dkhs.portfolio.engine.FundOrderEngineImpl;
 import com.dkhs.portfolio.ui.FriendsOrFollowersActivity;
 import com.dkhs.portfolio.ui.adapter.FundOrderAdapter;
+import com.dkhs.portfolio.ui.eventbus.BusProvider;
+import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
+import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,7 +79,8 @@ public class FundOrderFragment extends LoadMoreListFragment {
     @Override
     public void loadData() {
 
-//        mSwipeLayout.setRefreshing(true);
+        mSwipeLayout.setRefreshing(true);
+        startLoadData();
         adapter.setSortAndType(type, sort);
         setHttpHandler(getLoadEngine().loadDate(type, sort));
     }
@@ -88,6 +92,11 @@ public class FundOrderFragment extends LoadMoreListFragment {
 
     }
 
+    @Override
+    public void onLoadMore() {
+        startLoadData();
+        super.onLoadMore();
+    }
 
     @Override
     BaseAdapter getListAdapter() {
@@ -102,7 +111,7 @@ public class FundOrderFragment extends LoadMoreListFragment {
     @Override
     public void loadFinish(MoreDataBean object) {
         super.loadFinish(object);
-
+        endLoadData();
         mSwipeLayout.setRefreshing(false);
         if (fundOrderEngine.getCurrentpage() == 1) {
             dataList.clear();
@@ -127,7 +136,7 @@ public class FundOrderFragment extends LoadMoreListFragment {
         return new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fundOrderEngine.loadData();
+             loadData();
             }
         };
     }
@@ -144,22 +153,24 @@ public class FundOrderFragment extends LoadMoreListFragment {
         };
     }
 
-    private void startLoadData() {
-        if (getActivity() instanceof FriendsOrFollowersActivity) {
-            ((FriendsOrFollowersActivity) getActivity()).rotateRefreshButton();
-        }
-    }
 
-    private void endLoadData() {
-        if (getActivity() instanceof FriendsOrFollowersActivity) {
-            ((FriendsOrFollowersActivity) getActivity()).stopRefreshAnimation();
-        }
-    }
+
 
     @Override
     public void loadFail() {
         endLoadData();
         mSwipeLayout.setRefreshing(false);
+    }
+    public void startLoadData() {
+        if (isAdded() && getUserVisibleHint()) {
+            BusProvider.getInstance().post(new RotateRefreshEvent());
+        }
+    }
+
+    public void endLoadData() {
+        if (isAdded() && getUserVisibleHint()) {
+            BusProvider.getInstance().post(new StopRefreshEvent());
+        }
     }
 
 }
