@@ -35,57 +35,77 @@
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
-        android:layout_weight="2"
-        android:gravity="right">
 
-
-        <TextView
-            android:id="@+id/tv_current_value"
-            style="@style/hw_wrap"
-            android:layout_alignParentRight="true"
-            android:singleLine="true"
-            android:text="8.8888"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_trade_day"
-            style="@style/hw_wrap"
-            android:layout_alignRight="@+id/tv_current_value"
-            android:layout_below="@+id/tv_current_value"
-            android:singleLine="true"
-            android:textColor="@android:color/darker_gray"
-            android:textSize="10sp" />
-
+        android:layout_weight="2">
         <ImageView
             android:id="@+id/iv_wanshou"
             style="@style/hw_wrap"
             android:layout_centerVertical="true"
             android:layout_marginRight="6dp"
-            android:layout_toLeftOf="@+id/tv_current_value"
+            android:layout_toLeftOf="@+id/rl_center"
             android:src="@drawable/ic_wanshou"
-            android:visibility="gone" />
+            android:visibility="gone"
+            />
+        <LinearLayout
+            android:id="@+id/rl_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            >
+
+            <TextView
+                android:id="@+id/tv_current_value"
+                style="@style/hw_wrap"
+                android:singleLine="true"
+                android:layout_gravity="right"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_trade_day"
+                style="@style/hw_wrap"
+                android:singleLine="true"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+
+
     </RelativeLayout>
 
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/ll_percent_value"
         android:layout_width="2dp"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/red"
         android:layout_weight="2">
+        <ImageView
+            android:id="@+id/iv_qiri"
+            style="@style/hw_wrap"
+            android:layout_weight="1"
+            android:scaleType="fitEnd"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_qiri"
+            android:visibility="gone"
+            />
 
-        <TextView
+        <me.grantland.widget.AutofitTextView
             android:id="@+id/tv_percent_value"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:paddingLeft="@dimen/text_drawable_margin"
-            android:layout_centerInParent="true"
-            android:background="@drawable/red"
+            android:layout_weight="1"
             android:gravity="center"
+            android:layout_gravity="center"
+            android:singleLine="true"
+            android:paddingLeft="@dimen/text_drawable_margin"
             android:text="+0.43%"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold" />
-    </RelativeLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

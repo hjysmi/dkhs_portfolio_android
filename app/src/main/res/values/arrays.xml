@@ -110,7 +110,6 @@
         <item>混合型</item>
         <item>债卷型</item>
         <item>指数型</item>
-        <item>保本型</item>
         <item>QDII</item>
         <item>货币型</item>
         <item>理财型</item>
@@ -122,7 +121,6 @@
         <item>301</item>
         <item>302</item>
         <item>303</item>
-        <item>304</item>
         <item>305</item>
         <item>306</item>
         <item>307</item>
@@ -135,7 +133,6 @@
         <item>hh</item>
         <item>zq</item>
         <item>zs</item>
-        <item>bb</item>
         <item>qdii</item>
         <item>hb</item>
         <item>lc</item>
@@ -144,28 +141,37 @@
     </string-array>
 
 
-    <!--percent_day 日涨跌,
-percent_month 近一月涨跌,
-'percent_year' 近一年涨跌幅,
-'percent_tyear' 本年涨跌幅
-'year_yld' 七日年化收益
-‘net_cumulative’累计净值-->
+    <!--
+    "percent_day": -3.9775,//日涨幅
+    "percent_month": 26.3367,//月涨幅
+    "percent_season": 70.9777,//季涨幅
+    "percent_week": -1.9859,//周涨幅
+    "percent_six_month": 106.221,//半年涨幅
+    "percent_year": 146.2306,//年涨幅
+    "percent_tyear": 74.3328//今年以来
+    -->
+
+
     <string-array name="fund_sort_values">
         <item>percent_day</item>
         <item>percent_month</item>
+        <item>percent_season</item>
+        <item>percent_six_month</item>
         <item>percent_year</item>
         <item>percent_tyear</item>
-        <item>year_yld</item>
-        <item>net_cumulative</item>
+        <item></item>
     </string-array>
 
+
+
     <string-array name="fund_sort_keys">
-        <item>日涨跌</item>
-        <item>月涨跌</item>
-        <item>年涨跌</item>
-        <item>本年涨跌</item>
-        <item>七日年化</item>
-        <item>累计净值</item>
+        <item>@string/percent_day</item>
+        <item>@string/percent_month</item>
+        <item>@string/percent_season</item>
+        <item>@string/percent_six_month</item>
+        <item>@string/percent_year</item>
+        <item>@string/percent_tyear</item>
+        <item>@string/office_tenure</item>
     </string-array>
 
 </resources>

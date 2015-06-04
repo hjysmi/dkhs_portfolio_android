@@ -2,9 +2,9 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
     <stroke
-        android:color="@color/drivi_line"
+        android:color="@color/menu_stroke_line"
         android:width="3px"
         />
     <solid android:color="@color/tag_red" />
-    <corners android:radius="4dp" />
+    <corners android:radius="6dp" />
 </shape>

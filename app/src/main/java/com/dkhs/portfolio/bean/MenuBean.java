@@ -78,7 +78,8 @@ public class MenuBean {
 
         for (int i = 0; i < key.length; i++) {
             SortTypeMenuBean item=new SortTypeMenuBean();
-           if(key[i].equals("七日年化")){
+            //fixme 任职起，目前API上还没有实现，所以暂时这块先禁用。  Strings  要替换成服务器的定义的字段
+           if(key[i].equals("任职起")){
                item.setEnable(false);
            }else{
                item.setEnable(true);

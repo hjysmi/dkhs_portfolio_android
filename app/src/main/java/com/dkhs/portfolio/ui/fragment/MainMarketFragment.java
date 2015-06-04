@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.eventbus.RotateRefreshEvent;
 import com.dkhs.portfolio.ui.eventbus.StopRefreshEvent;
 import com.dkhs.portfolio.ui.widget.TabWidget;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.squareup.otto.Subscribe;
 
@@ -49,7 +51,6 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     Button mBtnrefresh;
     @ViewInject(R.id.btn_search)
     Button mBtnsearch;
-    private Fragment previousF;
 
     private TabWidget tabWidget;
     private ArrayList<Fragment> fragmentList;
@@ -75,9 +76,12 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fragmentList = new ArrayList<Fragment>();
+
+        LogUtils.e("start");
         fragmentList.add(new MarketStockFragment());
         fragmentList.add(new MarketFundsFragment());
         fragmentList.add(new MarketCombinationFragment());
+        LogUtils.e("end");
         vp.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));
         vp.setOnPageChangeListener(this);
         tabWidget = new TabWidget(view);
@@ -91,6 +95,10 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
                 vp.setCurrentItem(position);
             }
         });
+        vp.setCurrentItem(0);
+        mBtnsearch.setOnClickListener((View.OnClickListener) fragmentList.get(0));
+        mBtnrefresh.setOnClickListener((View.OnClickListener) fragmentList.get(0));
+        vp.setOffscreenPageLimit(3);
     }
 
 
@@ -132,22 +140,26 @@ public class MainMarketFragment extends BaseFragment implements ViewPager.OnPage
     public void onPageSelected(int i) {
         Fragment f = fragmentList.get(i);
         tabWidget.setSelection(i);
+        LogUtils.e("onPageSelected");
         switch (i) {
             case 0:
                 mBtnsearch.setVisibility(View.VISIBLE);
+                mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
-                previousF = f;
 
                 break;
             case 1:
+                mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.VISIBLE);
+                mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 mBtnrefresh.setOnClickListener((View.OnClickListener) f);
                 break;
             case 2:
-                mBtnrefresh.setVisibility(View.GONE);
-                mBtnrefresh.setOnClickListener(null);
+                mBtnrefresh.setVisibility(View.VISIBLE);
                 mBtnsearch.setVisibility(View.GONE);
+                mBtnrefresh.setOnClickListener(null);
+
 
                 break;
         }
