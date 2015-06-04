@@ -34,6 +34,8 @@ public class StockUitls {
     //债券型
     public static final int STYPE_MBS = 307;
 
+    public static final int STYPE_FUND = 3;
+
     public static boolean isShangZhengB(String symbol) {
         if (TextUtils.isEmpty(symbol)) {
             return false;
@@ -74,6 +76,13 @@ public class StockUitls {
             return true;
         }
         return false;
+    }
+
+    public static boolean isFundType(String symbolType) {
+        if (TextUtils.isEmpty(symbolType)) {
+            return false;
+        }
+        return symbolType.equalsIgnoreCase(SYMBOLTYPE_FUND);
     }
 
 }

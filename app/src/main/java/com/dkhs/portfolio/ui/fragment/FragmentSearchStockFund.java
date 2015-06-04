@@ -31,12 +31,14 @@ import com.dkhs.portfolio.engine.LoadMoreDataEngine;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.engine.SearchStockEngineImpl;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.ui.adapter.AddSearchItemAdapter;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund;
 import com.dkhs.portfolio.ui.adapter.BaseAdatperSelectStockFund.ISelectChangeListener;
 import com.dkhs.portfolio.ui.adapter.SearchFundAdatper;
 import com.dkhs.portfolio.ui.adapter.SearchStockAdatper;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.util.LogUtils;
 
 import org.parceler.Parcels;
@@ -192,11 +194,16 @@ public class FragmentSearchStockFund extends Fragment implements ISelectChangeLi
             // System.out.println("OnItemClickListener itemBackClick ");
             SelectStockBean itemStock = mDataList.get(position);
             // itemStock.isFollowed = true;
+            if (StockUitls.isFundType(itemStock.symbol_type)) {
+                startActivity(FundDetailActivity.newIntent(getActivity(), itemStock));
+            } else {
 
-            getActivity().startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+                startActivity(StockQuotesActivity.newIntent(getActivity(), itemStock));
+            }
             getActivity().finish();
         }
     };
+
     public static final String ARGUMENT = "ARGUMENT";
 
     private void setSelectBack(SelectStockBean type) {

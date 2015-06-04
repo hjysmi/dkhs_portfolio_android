@@ -167,5 +167,12 @@ percent_month 近一月涨跌,
         <item>七日年化</item>
         <item>累计净值</item>
     </string-array>
+    <string-array name="fund_tab_titles">
+        <item>@string/fund_tenure</item>
+        <item>@string/fund_month</item>
+        <item>@string/fund_season</item>
+        <item>@string/fund_year</item>
+        <item>@string/fund_toyear</item>
+    </string-array>
 
 </resources>

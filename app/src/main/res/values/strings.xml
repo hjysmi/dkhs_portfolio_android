@@ -512,10 +512,18 @@
     <string name="amount">成交额</string>
     <string name="edit_success">设置成功</string>
 
-
     <string name="search_stockandfunds">股票、基金简称/代码/拼音</string>
     <string name="search_stock">股票简称/代码/拼音</string>
 
-
     <string name="edit">编辑</string>
+
+
+    <!--基金详情页-->
+    <string name="fund_tenure">任职起</string>
+    <string name="fund_month">1个月</string>
+    <string name="fund_season">3个月</string>
+    <string name="fund_year">1年</string>
+    <string name="fund_toyear">今年</string>
+
+
 </resources>

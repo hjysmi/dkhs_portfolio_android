@@ -14,11 +14,28 @@ android {
         release {
             minifyEnabled true
             proguardFiles 'proguard.cfg'
+            debuggable false
         }
     }
+
+//    productFlavors {
+//        release {
+//            applicationId = "com.dkhs.portfolio.release"
+//        }
+//        beta {
+//            applicationId = "com.dkhs.portfolio.beta"
+//        }
+//    }
+//
+//    buildTypes {
+//        debug {
+//            applicationIdSuffix ".debug"
+//        }
+//    }
 }
 
 dependencies {
+    compile 'com.android.support:design:22.2.0'
     compile 'com.android.support:support-v4:22.1.0'
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:recyclerview-v7:22.1.0'

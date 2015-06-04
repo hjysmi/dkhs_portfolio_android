@@ -23,6 +23,7 @@ import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.BaseSelectActivity;
+import com.dkhs.portfolio.ui.FundDetailActivity;
 import com.dkhs.portfolio.ui.StockQuotesActivity;
 import com.dkhs.portfolio.utils.ColorTemplate;
 import com.dkhs.portfolio.utils.StockUitls;
@@ -222,9 +223,13 @@ public class SelectStockAdatper extends BaseAdatperSelectStockFund {
             if (mCheckbox.isChecked()) {
                 SelectStockBean itemStock = mDataList.get(position);
                 itemStock.isFollowed = true;
-                UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+                if(StockUitls.isFundType(itemStock.symbol_type)){
+                    UIUtils.startAminationActivity((Activity) mContext, FundDetailActivity.newIntent(mContext, itemStock));
+                }else {
 
-                // context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
+                    UIUtils.startAminationActivity((Activity) mContext, StockQuotesActivity.newIntent(mContext, itemStock));
+                }
+
             }
         }
     }

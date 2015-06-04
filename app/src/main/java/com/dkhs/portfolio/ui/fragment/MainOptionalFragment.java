@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -120,7 +121,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
         btnRight.setVisibility(View.GONE);
         btnLeft.setVisibility(View.VISIBLE);
         btnLeft.setText("");
-        btnLeft.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.btn_back_selector,0,0,0);
+        btnLeft.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.btn_back_selector, 0, 0, 0);
         btnLeft.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -298,6 +299,7 @@ public class MainOptionalFragment extends BaseFragment implements IDataUpdateLis
                     break;
                 case 1:
                     displayFragmentB();
+
                     break;
                 case 2:
                     displayFragmentC();
