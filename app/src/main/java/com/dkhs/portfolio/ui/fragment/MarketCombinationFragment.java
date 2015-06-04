@@ -97,7 +97,6 @@ public class MarketCombinationFragment extends BaseFragment {
 
         @Override
         public void onPageSelected(int arg0) {
-            System.out.println("onPageSelected:" + arg0 + "isFromTitle:" + isFromTitle);
             // if (!isFromTitle) {
             hsTitle.setSelectIndex(arg0);
             // }

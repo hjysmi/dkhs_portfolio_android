@@ -44,11 +44,13 @@
             android:layout_marginRight="6dp"
             android:layout_toLeftOf="@+id/rl_center"
             android:src="@drawable/ic_wanshou"
-            android:visibility="gone" />
-        <RelativeLayout
+            android:visibility="gone"
+            />
+        <LinearLayout
             android:id="@+id/rl_center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:layout_alignParentRight="true"
             >
 
@@ -56,19 +58,17 @@
                 android:id="@+id/tv_current_value"
                 style="@style/hw_wrap"
                 android:singleLine="true"
-                android:text="8.8888"
+                android:layout_gravity="right"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/tv_trade_day"
                 style="@style/hw_wrap"
-                android:layout_alignRight="@+id/tv_current_value"
-                android:layout_below="@+id/tv_current_value"
                 android:singleLine="true"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="10sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
 
 

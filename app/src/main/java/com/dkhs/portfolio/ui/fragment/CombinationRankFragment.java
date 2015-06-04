@@ -54,7 +54,6 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     private FundsOrderAdapter mAdapter;
     private List<CombinationBean> mDataList = new ArrayList<CombinationBean>();
     private FundsOrderEngineImpl orderEngine;
-    private boolean isvisible = false;
 
     public static CombinationRankFragment getFragment(String orderType) {
         CombinationRankFragment fragment = new CombinationRankFragment();
@@ -105,9 +104,9 @@ public class CombinationRankFragment extends LoadMoreListFragment {
      */
     @Override
     public void loadData() {
-        if (isvisible) {
+        if (getUserVisibleHint()) {
 
-//            BusProvider.getInstance().post(new RotateRefreshEvent());
+            BusProvider.getInstance().post(new RotateRefreshEvent());
             setHttpHandler(getLoadEngine().loadData());
         }
     }
@@ -130,9 +129,9 @@ public class CombinationRankFragment extends LoadMoreListFragment {
     public void loadFinish(MoreDataBean object) {
 
         super.loadFinish(object);
-//        if (isvisible) {
-//            BusProvider.getInstance().post(new StopRefreshEvent());
-//        }
+        if (getUserVisibleHint()) {
+            BusProvider.getInstance().post(new StopRefreshEvent());
+        }
         mSwipeLayout.setRefreshing(false);
         if (null != object && null != object.getResults() && object.getResults().size() > 0) {
             // add by zcm -----2014.12.15
@@ -216,12 +215,10 @@ public class CombinationRankFragment extends LoadMoreListFragment {
             if (null != bundle) {
                 mOrderType = bundle.getString(ARGUMENT_ORDER_TYPE);
             }
-            isvisible = true;
             // loadData();
             dataHandler.postDelayed(runnable, 60);
 
         } else {
-            isvisible = false;
             dataHandler.removeCallbacks(runnable);
         }
         super.setUserVisibleHint(isVisibleToUser);
@@ -267,6 +264,7 @@ public class CombinationRankFragment extends LoadMoreListFragment {
 
             @Override
             public void onRefresh() {
+                BusProvider.getInstance().post(new RotateRefreshEvent());
                 setHttpHandler(getLoadEngine().refreshDatabySize(mDataList.size()));
                 isRefresh = true;
             }
