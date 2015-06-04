@@ -1,8 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,13 +20,16 @@ import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.utils.PromptManager;
 import com.umeng.analytics.MobclickAgent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * 个人签名
  * 
  * @author weiting
  * 
  */
-public class PersonSignSettingActivity extends ModelAcitivity implements OnClickListener {
+public class ModifyUserSignActivity extends ModelAcitivity implements OnClickListener {
     // private Button btnCancle;
     private Button btnSave;
     private EditText signText;

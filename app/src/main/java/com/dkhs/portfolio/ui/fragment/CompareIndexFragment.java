@@ -27,7 +27,7 @@ import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.CompareFundsActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.LinePointEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
@@ -98,7 +98,7 @@ public class CompareIndexFragment extends BaseFragment implements OnClickListene
     }
 
     private void handleExtras(Bundle extras) {
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mCreateCalender = TimeUtils.toCalendar(mCombinationBean.getCreateTime());
     }
 

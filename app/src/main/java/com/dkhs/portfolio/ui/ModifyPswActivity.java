@@ -26,7 +26,7 @@ import com.umeng.analytics.MobclickAgent;
  * @author weiting
  * 
  */
-public class SettingPasswordOnSettingActivity extends ModelAcitivity implements OnClickListener {
+public class ModifyPswActivity extends ModelAcitivity implements OnClickListener {
     private EditText passwordSettingOld;
     private EditText passwordSettingNew;
     private CheckBox passwordSettingCheck;

@@ -8,17 +8,10 @@
  */
 package com.dkhs.portfolio.engine;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.text.TextUtils;
 
 import com.dkhs.portfolio.bean.CombinationBean;
 import com.dkhs.portfolio.bean.MoreDataBean;
-import com.dkhs.portfolio.bean.NetValueReportBean;
 import com.dkhs.portfolio.net.DKHSClient;
 import com.dkhs.portfolio.net.DKHSUrl;
 import com.google.gson.Gson;
@@ -35,9 +28,9 @@ import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
  * @date 2014-10-29 下午5:07:15
  * @version 1.0
  */
-public class FundsOrderEngineImpl extends LoadMoreDataEngine {
+public class CombinationRankEngineImpl extends LoadMoreDataEngine {
 
-    public FundsOrderEngineImpl(ILoadDataBackListener loadListener, String orderType) {
+    public CombinationRankEngineImpl(ILoadDataBackListener loadListener, String orderType) {
         super(loadListener);
         this.mOrderType = orderType;
     }

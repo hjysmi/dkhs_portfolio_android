@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -311,14 +310,14 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(this, SettingPasswordOnSettingActivity.class);
+                intent = new Intent(this, ModifyPswActivity.class);
                 UIUtils.startAminationActivity(this, intent);
                 break;
             case R.id.setting_layout_username:
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(this, UserNameChangeActivity.class);
+                intent = new Intent(this, ModifyUNameActivity.class);
                 startActivityForResult(intent, 6);
                 UIUtils.setOverridePendingAmin(this);
                 break;
@@ -326,7 +325,7 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(context, SelectPhoneFromSystem.class);
+                intent = new Intent(context, PickupPhotoActivity.class);
                 startActivityForResult(intent, 5);
                 UIUtils.setOverridePendingSlideFormBottomAmim(this);
                 break;
@@ -348,10 +347,10 @@ public class SettingActivity extends ModelAcitivity implements OnClickListener {
                 if (UIUtils.iStartLoginActivity(this)) {
                     return;
                 }
-                intent = new Intent(this, PersonSignSettingActivity.class);
+                intent = new Intent(this, ModifyUserSignActivity.class);
                 Bundle b = new Bundle();
                 if (null != ue)
-                    b.putString(PersonSignSettingActivity.DESCRIPTION, ue.getDescription());
+                    b.putString(ModifyUserSignActivity.DESCRIPTION, ue.getDescription());
                 intent.putExtras(b);
                 UIUtils.startAminationActivity(this, intent);
                 break;

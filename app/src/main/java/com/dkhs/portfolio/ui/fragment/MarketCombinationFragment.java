@@ -17,7 +17,7 @@ import android.view.View;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.CombinationBean;
-import com.dkhs.portfolio.engine.FundsOrderEngineImpl;
+import com.dkhs.portfolio.engine.CombinationRankEngineImpl;
 import com.dkhs.portfolio.engine.VisitorDataEngine;
 import com.dkhs.portfolio.ui.adapter.BasePagerFragmentAdapter;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
@@ -66,10 +66,10 @@ public class MarketCombinationFragment extends BaseFragment {
 
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();// ViewPager中显示的数据
 
-        fragmentList.add(CombinationRankFragment.getFragment(FundsOrderEngineImpl.ORDER_DAY));
-        fragmentList.add(CombinationRankFragment.getFragment(FundsOrderEngineImpl.ORDER_WEEK));
-        fragmentList.add(CombinationRankFragment.getFragment(FundsOrderEngineImpl.ORDER_MONTH));
-        fragmentList.add(CombinationRankFragment.getFragment(FundsOrderEngineImpl.ORDER_ALL));
+        fragmentList.add(CombinationRankFragment.getFragment(CombinationRankEngineImpl.ORDER_DAY));
+        fragmentList.add(CombinationRankFragment.getFragment(CombinationRankEngineImpl.ORDER_WEEK));
+        fragmentList.add(CombinationRankFragment.getFragment(CombinationRankEngineImpl.ORDER_MONTH));
+        fragmentList.add(CombinationRankFragment.getFragment(CombinationRankEngineImpl.ORDER_ALL));
 
         pager = (ScrollViewPager) view.findViewById(R.id.pager);
         pager.setAdapter(new BasePagerFragmentAdapter(getChildFragmentManager(), fragmentList));

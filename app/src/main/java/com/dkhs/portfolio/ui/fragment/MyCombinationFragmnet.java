@@ -44,7 +44,7 @@ import com.dkhs.portfolio.engine.UserCombinationEngineImpl;
 import com.dkhs.portfolio.engine.LoadMoreDataEngine.ILoadDataBackListener;
 import com.dkhs.portfolio.net.ParseHttpListener;
 import com.dkhs.portfolio.ui.MyCombinationActivity;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.PositionAdjustActivity;
 import com.dkhs.portfolio.ui.widget.MAlertDialog;
 import com.dkhs.portfolio.utils.ColorTemplate;
@@ -199,7 +199,7 @@ public class MyCombinationFragmnet extends BaseFragment implements ILoadDataBack
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 // startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
-                startActivity(NewCombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
+                startActivity(CombinationDetailActivity.newIntent(getActivity(), mDataList.get(position)));
 
             }
         });

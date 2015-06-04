@@ -12,12 +12,10 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.ui.LoginActivity;
-import com.dkhs.portfolio.ui.NewMainActivity;
-import com.dkhs.portfolio.ui.NoAccountMainActivity;
+import com.dkhs.portfolio.ui.MainActivity;
 import com.dkhs.portfolio.ui.RLFActivity;
 import com.dkhs.portfolio.utils.UIUtils;
 
@@ -113,7 +111,7 @@ public class GuideViewPagerAdapter extends PagerAdapter {
 
     private void goMainPage() {
         // 跳转
-        Intent intent = new Intent(activity, NewMainActivity.class);
+        Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }

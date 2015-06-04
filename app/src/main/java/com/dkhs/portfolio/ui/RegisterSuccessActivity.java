@@ -71,7 +71,7 @@ public class RegisterSuccessActivity extends ModelAcitivity implements OnClickLi
 	}
 
 	private void goMain() {
-		Intent intent = new Intent(this, NewMainActivity.class);
+		Intent intent = new Intent(this, MainActivity.class);
 		startActivity(intent);
 		finish();
 	}

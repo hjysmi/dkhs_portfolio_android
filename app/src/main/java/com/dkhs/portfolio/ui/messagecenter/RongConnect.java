@@ -12,6 +12,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -209,6 +210,7 @@ public class RongConnect implements IConnectInterface, ConnectionStatusListener 
 
         @Override
         public boolean onReceived(Message message, int arg1) {
+
 
             PortfolioApplication.getInstance().sendBroadcast(MessageReceive.getMessageIntent(message));
 

@@ -31,7 +31,7 @@ import com.dkhs.portfolio.bean.TodayNetValue;
 import com.dkhs.portfolio.engine.NetValueEngine;
 import com.dkhs.portfolio.net.DataParse;
 import com.dkhs.portfolio.net.ParseHttpListener;
-import com.dkhs.portfolio.ui.NewCombinationDetailActivity;
+import com.dkhs.portfolio.ui.CombinationDetailActivity;
 import com.dkhs.portfolio.ui.widget.LineEntity;
 import com.dkhs.portfolio.ui.widget.TrendChart;
 import com.dkhs.portfolio.ui.widget.TrendLinePointEntity;
@@ -384,7 +384,7 @@ public class TrendChartFragment extends BaseFragment {
 
     private void handleExtras(Bundle extras) {
 
-        mCombinationBean = Parcels.unwrap(extras.getParcelable(NewCombinationDetailActivity.EXTRA_COMBINATION));
+        mCombinationBean = Parcels.unwrap(extras.getParcelable(CombinationDetailActivity.EXTRA_COMBINATION));
         mNetValueDataEngine = new NetValueEngine(mCombinationBean.getId());
 
     }
