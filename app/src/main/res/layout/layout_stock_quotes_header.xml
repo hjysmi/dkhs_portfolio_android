@@ -32,8 +32,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="—"
                     android:textColor="@color/theme_color"
-                    android:textSize="34sp"
-                    android:textStyle="bold" />
+                    android:textSize="34sp" />
 
                 <TextView
                     android:id="@+id/tv_stock_status"
@@ -77,8 +76,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -96,8 +95,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -152,6 +151,7 @@
                     style="@style/text_stock_value" />
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -196,7 +196,6 @@
             </LinearLayout>
 
 
-
         </LinearLayout>
 
         <LinearLayout
@@ -238,6 +237,7 @@
 
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

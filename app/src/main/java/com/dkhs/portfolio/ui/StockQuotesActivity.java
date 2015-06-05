@@ -857,12 +857,12 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
 
     private ColorStateList getTextColor(float value) {
         if (value == 0 || mStockQuotesBean.getIs_stop() == 1) {
-            return (ColorStateList) getResources().getColorStateList(R.color.theme_color);
+            return (ColorStateList) getResources().getColorStateList(R.color.tab_normal_black);
         }
         if (value < 0) {
-            return (ColorStateList) getResources().getColorStateList(R.color.green);
+            return (ColorStateList) getResources().getColorStateList(R.color.tag_green);
         }
-        return (ColorStateList) getResources().getColorStateList(R.color.red);
+        return (ColorStateList) getResources().getColorStateList(R.color.tag_red);
     }
 
 

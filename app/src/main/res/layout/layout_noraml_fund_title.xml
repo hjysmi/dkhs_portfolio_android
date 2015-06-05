@@ -1,9 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:layout_weight="2">
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_current_price"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="1.2963"
+            android:textSize="34sp" />
 
 
+        <RelativeLayout
+            android:id="@+id/layout_change_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-8dp"
+            android:layout_below="@+id/tv_current_price"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/tv_up_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="—"
+                android:textColor="@color/theme_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_percentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tv_up_price"
+                android:text="+23.87%"
+                android:textColor="@color/theme_color"
+                android:textSize="16sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/text_stock_name"
+            android:text="@string/pre_netvalue" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_pre_netvalue"
+            style="@style/text_stock_value" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/text_stock_name"
+            android:text="@string/all_netvalue" />
+
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/tv_all_netvalue"
+            style="@style/text_stock_value" />
+    </LinearLayout>
 </LinearLayout>

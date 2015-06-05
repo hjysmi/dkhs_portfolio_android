@@ -107,6 +107,7 @@ public class FundDetailActivity extends ModelAcitivity {
         mFloatMenu.attachToScrollView((ObservableScrollView) findViewById(R.id.sv_combinations));
         mFloatMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
         initFloatingActionMenu();
+//        vsSepFundHeader.inflate();
         vsNormalFundHeader.inflate();
 
 //        replaceTrendView();
@@ -117,8 +118,9 @@ public class FundDetailActivity extends ModelAcitivity {
 
     }
 
-
-    private final int MENU_ADJUST = 5;
+    private final int MENU_FOLLOW = 1;
+    private final int MENU_DELFOLLOW = 2;
+    private final int MENU_REMIND = 3;
     private final int MENU_SHARE = 6;
 
     FloatingActionMenu.OnMenuItemSelectedListener mFloatMenuSelectListner = new FloatingActionMenu.OnMenuItemSelectedListener() {
@@ -128,11 +130,19 @@ public class FundDetailActivity extends ModelAcitivity {
 
             switch (selectIndex) {
 
-                case MENU_ADJUST: { // 调整仓位
+                case MENU_FOLLOW: { // 调整仓位
 
                 }
                 break;
 
+                case MENU_DELFOLLOW: {
+
+                }
+                break;
+                case MENU_REMIND: {
+
+                }
+                break;
                 case MENU_SHARE: {
 
                 }
@@ -154,8 +164,16 @@ public class FundDetailActivity extends ModelAcitivity {
     private void initFloatingActionMenu() {
         mFloatMenu.removeAllItems();
 
+//        if (mCombinationBean.isFollowed()) {
+//            mFloatMenu.addItem(MENU_DELFOLLOW, R.string.float_menu_delfollow,
+//                    R.drawable.btn_del_item_normal);
+//            mFloatMenu.addItem(MENU_REMIND, R.string.float_menu_remind, R.drawable.ic_fm_remind);
+//            mFloatMenu.addItem(MENU_SHARE, R.string.float_menu_share, R.drawable.ic_fm_share);
+//        } else {
+        mFloatMenu.addItem(MENU_FOLLOW, R.string.float_menu_follow, R.drawable.ic_add);
         mFloatMenu.addItem(MENU_SHARE, R.string.float_menu_share, R.drawable.ic_fm_share);
 
+//        }
 
     }
 
