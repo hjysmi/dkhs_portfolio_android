@@ -9,6 +9,7 @@ import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.bean.SelectStockBean;
 import com.dkhs.portfolio.ui.eventbus.BusProvider;
 import com.dkhs.portfolio.ui.widget.HScrollTitleView;
+import com.dkhs.portfolio.utils.StockUitls;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.melnykov.fab.ObservableScrollView;
@@ -66,11 +67,7 @@ public class FundDetailActivity extends ModelAcitivity {
 
     }
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
+
     @Override
     protected void onResume() {
         // TODO Auto-generated method stub
@@ -78,11 +75,7 @@ public class FundDetailActivity extends ModelAcitivity {
         BusProvider.getInstance().register(this);
     }
 
-    /**
-     * @return
-     * @Title
-     * @Description TODO: (用一句话描述这个方法的功能)
-     */
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -107,8 +100,11 @@ public class FundDetailActivity extends ModelAcitivity {
         mFloatMenu.attachToScrollView((ObservableScrollView) findViewById(R.id.sv_combinations));
         mFloatMenu.setOnMenuItemSelectedListener(mFloatMenuSelectListner);
         initFloatingActionMenu();
-//        vsSepFundHeader.inflate();
-        vsNormalFundHeader.inflate();
+        if (StockUitls.isSepFund(mFundBean.symbol_stype)) {
+            vsSepFundHeader.inflate();
+        } else {
+            vsNormalFundHeader.inflate();
+        }
 
 //        replaceTrendView();
 //        replacePostionView();

@@ -28,15 +28,15 @@
             android:id="@+id/layout_change_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="-8dp"
             android:layout_below="@+id/tv_current_price"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="-8dp">
 
             <TextView
                 android:id="@+id/tv_up_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="—"
+                android:text="@string/def_not_value"
                 android:textColor="@color/theme_color"
                 android:textSize="16sp" />
 
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_up_price"
-                android:text="+23.87%"
+                android:text="@string/def_not_value"
                 android:textColor="@color/theme_color"
                 android:textSize="16sp" />
 

@@ -43,6 +43,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.squareup:otto:1.3.5'
+    compile 'com.github.gfx.util.encrypt:android-encrypt-utils:2.0.0'
     compile files('libs/commons-codec.jar')
     compile files('libs/mframework.jar')
     compile files('libs/ShareSDK-Core-2.5.2.jar')

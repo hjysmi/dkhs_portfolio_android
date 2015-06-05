@@ -1,10 +1,5 @@
 package com.dkhs.portfolio.ui;
 
-import java.util.Timer;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,14 +15,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -38,6 +32,11 @@ import com.dkhs.portfolio.utils.UserEntityDesUtil;
 import com.lidroid.xutils.DbUtils;
 import com.lidroid.xutils.exception.DbException;
 import com.umeng.analytics.MobclickAgent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Timer;
 
 public class BoundEmailActivity extends ModelAcitivity implements OnClickListener {
     // private Button btn_get_code;
@@ -345,7 +344,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
+                UserEntity entity = UserEntityDesUtil.encrypt(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {
@@ -360,6 +359,7 @@ public class BoundEmailActivity extends ModelAcitivity implements OnClickListene
                 }
             }
         }).start();
+
     }
 
     private int count = 0;

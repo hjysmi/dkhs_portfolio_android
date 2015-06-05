@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.dkhs.portfolio.R;
 import com.dkhs.portfolio.app.PortfolioApplication;
 import com.dkhs.portfolio.bean.UserEntity;
-import com.dkhs.portfolio.common.ConstantValue;
 import com.dkhs.portfolio.common.GlobalParams;
 import com.dkhs.portfolio.engine.UserEngineImpl;
 import com.dkhs.portfolio.net.DataParse;
@@ -410,7 +409,7 @@ public class RLFActivity extends ModelAcitivity implements OnClickListener {
             @Override
             public void run() {
                 // TODO Auto-generated method stub
-                UserEntity entity = UserEntityDesUtil.decode(user, "DECODE", ConstantValue.DES_PASSWORD);
+                UserEntity entity = UserEntityDesUtil.decode(user);
                 DbUtils dbutil = DbUtils.create(PortfolioApplication.getInstance());
                 UserEntity dbentity;
                 try {

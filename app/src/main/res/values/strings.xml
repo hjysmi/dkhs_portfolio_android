@@ -536,6 +536,7 @@
     <string name="qirinianhua">七日年化</string>
     <string name="pre_netvalue">前一净值</string>
     <string name="all_netvalue">累计净值</string>
+    <string name="def_not_value">—</string>
 
 
 </resources>
