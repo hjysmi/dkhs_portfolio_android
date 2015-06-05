@@ -63,7 +63,7 @@ public class PortfolioApplication extends Application {
 //        Toast.makeText(this,"onCreate  ",Toast.LENGTH_LONG).show();
         AnalyticsConfig.setChannel(ChannelUtil.getChannel(this));
         if(!isDebug){
-            setRongYunMetaData();
+//            setRongYunMetaData();
         }
         super.onCreate();
         mInstance = this;

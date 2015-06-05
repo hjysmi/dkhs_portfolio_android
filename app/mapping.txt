@@ -16644,11 +16644,10 @@ com.dkhs.portfolio.app.PortfolioApplication -> com.dkhs.portfolio.app.PortfolioA
     java.util.List lists -> e
     com.dkhs.portfolio.app.PortfolioApplication getInstance() -> a
     void onCreate() -> onCreate
-    void setRongYunMetaData() -> g
     void addActivity(android.app.Activity) -> a
     void exitApp() -> b
     void clearActivities() -> c
-    void copyDataBaseToPhone() -> h
+    void copyDataBaseToPhone() -> g
     boolean hasUserLogin() -> d
     boolean isRunningForeground() -> e
     boolean isDebug() -> f
