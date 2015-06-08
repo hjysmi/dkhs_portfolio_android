@@ -532,6 +532,10 @@
     <string name="percent_year">年收益</string>
     <string name="percent_tyear">今年以来</string>
     <string name="office_tenure">任职起</string>
+    <string name="title_activity_fund_manager">基金经理</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
     <string name="wanshou">万份收益</string>
     <string name="qirinianhua">七日年化</string>
     <string name="pre_netvalue">前一净值</string>

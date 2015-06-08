@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:background="@drawable/white_cardview_bg"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+    <TextView
+        android:text="南方别作弊"
+        android:id="@+id/abbr_name"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+        android:layout_marginBottom="4dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:text="股票型"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:background="@drawable/bg_un_read_count"
+            android:textColor="@color/white"
+            android:id="@+id/symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="股票型"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="11sp"
+            android:textColor="@color/tag_gray"
+            android:id="@+id/tv_date"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    <View
+        android:layout_marginTop="4dp"
+        style="@style/divider_line"
+        android:layout_marginBottom="8dp"
+        />
+
+    <LinearLayout
+        android:layout_marginTop="4dp"
+        android:layout_width="fill_parent"
+        android:layout_marginBottom="4dp"
+        android:layout_height="48dp">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="收益率"
+                android:textSize="11sp"
+                android:textColor="@color/tag_gray"
+                android:gravity="center"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Subtitle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:text="- -"
+
+                android:textSize="20sp"
+                android:id="@+id/cp_rate"
+                android:gravity="center"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <View
+            style="@style/vertical_divider_line"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:alpha="0.6"
+
+            android:background="@color/md_grey_800" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="沪深300"
+                android:gravity="center"
+                android:textSize="11sp"
+                android:textColor="@color/tag_gray"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="20sp"
+
+                android:text="- -"
+                android:gravity="center"
+                android:id="@+id/sh_rate"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_marginTop="4dp"
+        style="@style/divider_line"
+        android:layout_marginBottom="8dp"
+        />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/ll_chart"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:id="@+id/ll_chart_switch"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="显示收益曲线"
+        android:drawablePadding="2dp"
+        android:id="@+id/tv_chart_switch"
+        android:textColor="@color/theme_color"
+        android:paddingLeft="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>

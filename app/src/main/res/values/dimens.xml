@@ -88,6 +88,7 @@
     <dimen name="min_stock_item_text">12sp</dimen>
     <dimen name="stock_item_def_text">16sp</dimen>
     <dimen name="small_stock_item_text">14sp</dimen>
+    <dimen name="chartViewHeight">170dp</dimen>
 
 
 

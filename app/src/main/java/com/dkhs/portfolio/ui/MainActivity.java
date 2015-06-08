@@ -73,6 +73,7 @@ public class MainActivity extends ModelAcitivity {
         fragmentB = new MainMarketFragment();
         fragmentC = new MainInfoFragment();
         fragmentD = new UserFragment();
+        startActivity(new Intent(this,FundManagerActivity.class));
 
 
     }

@@ -21,6 +21,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 
+import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
 
 import static android.view.View.VISIBLE;
@@ -243,5 +244,109 @@ public class AnimationHelper {
         view.startAnimation(alphaAnimation);
 
     }
+
+    /**
+     * 拉下来
+     *  @param v
+     * @param height
+     * @param listener
+     */
+    public static void expandView(final View v, int height, boolean anim,  com.nineoldandroids.animation.Animator.AnimatorListener listener) {
+
+        if(anim) {
+           ValueAnimator vA= expandViewAnim(v, height);
+
+
+            vA.addListener(listener);
+            vA.start();
+        }else{
+            v.getLayoutParams().height = height;
+            v.requestLayout();
+        }
+
+    }
+
+
+    public static void expandView(final View v,boolean anim) {
+
+
+        int height = v.getMeasuredHeight();
+        if (height == 0) {
+           v.measure(0,0);
+            height = v.getMeasuredHeight();
+        }
+
+
+        expandViewAnim(v, height).start();
+    }
+
+
+
+    private static  ValueAnimator expandViewAnim(final View v, int height) {
+        final int initialHeight = height;
+
+        ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            boolean isFirst = true;
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float interpolatedTime = animation.getAnimatedFraction();
+                if (interpolatedTime == 1) {
+                    v.setVisibility(View.VISIBLE);
+                } else {
+                    v.getLayoutParams().height = (int) (initialHeight * interpolatedTime);
+                    v.requestLayout();
+                        v.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        anim.setDuration(ANIM_DURATION);
+        anim.setTarget(v);
+        return anim;
+    }
+
+    public static  void collapseView(View view,boolean isAnim){
+        if(isAnim) {
+
+            collapse(view).start();
+        }else{
+            view.getLayoutParams().height = 0;
+            view.requestLayout();
+        }
+    }
+
+    private static ValueAnimator collapse(final View v) {
+        final int initialHeight = v.getMeasuredHeight();
+
+        ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+
+        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            boolean isFirst = true;
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float interpolatedTime = animation.getAnimatedFraction();
+                if (interpolatedTime == 1) {
+                    v.setVisibility(View.GONE);
+                } else {
+                    v.getLayoutParams().height = initialHeight
+                            - (int) (initialHeight * interpolatedTime);
+                    v.requestLayout();
+                    if (isFirst)
+                        v.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        anim.setDuration(ANIM_DURATION);
+        anim.setTarget(v);
+        return anim;
+    }
+
 
 }
