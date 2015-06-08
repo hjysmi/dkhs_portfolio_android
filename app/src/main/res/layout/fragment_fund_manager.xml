@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:id="@+id/manager_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tv_manamger_name"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:text="现任基金经理"
+            android:textColor="@color/combition_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_manamger_day"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="任职日期"
+            android:textColor="@color/combition_gray"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_income_text"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="收益"
+            android:textColor="@color/combition_gray"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+
+    <com.dkhs.portfolio.ui.widget.ListViewEx
+        android:id="@+id/lv_manager"
+        style="@style/listViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/manager_title" />
+</RelativeLayout>

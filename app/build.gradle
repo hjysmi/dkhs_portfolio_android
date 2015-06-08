@@ -4,6 +4,9 @@ android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
+    compileOptions {
+        encoding "UTF-8"
+    }
     defaultConfig {
         applicationId "com.dkhs.portfolio"
         minSdkVersion 14

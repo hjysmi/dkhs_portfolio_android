@@ -212,7 +212,7 @@ public class MessageHandler {
                     StockQuotesBean stockQuotesBean = DataParse.parseObjectJson(StockQuotesBean.class, jsonOb);
 
                     itemStock.setSymbol_type(stockQuotesBean.getSymbol_type());
-                    itemStock.setName(stockQuotesBean.getName());
+                    itemStock.setName(stockQuotesBean.getAbbrName());
                     context.startActivity(StockQuotesActivity.newIntent(context, itemStock));
                 } catch (Exception e) {
                     e.printStackTrace();

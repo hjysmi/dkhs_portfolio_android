@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_wanshoutitle"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-8dp"
+            android:layout_marginTop="-4dp"
             android:text="@string/def_not_value"
             android:textColor="@color/title_color"
             android:textSize="30sp" />
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_nianshou_title"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-8dp"
+            android:layout_marginTop="-4dp"
             android:text="@string/def_not_value"
             android:textColor="@color/title_color"
             android:textSize="30sp" />

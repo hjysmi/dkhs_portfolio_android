@@ -152,7 +152,7 @@ public class SelectStockBean extends DragListItem {
 
         SelectStockBean selectBean = new SelectStockBean();
         selectBean.id = stockBean.getId();
-        selectBean.name = stockBean.getName();
+        selectBean.name = stockBean.getAbbrName();
         selectBean.currentValue = stockBean.getCurrent();
         selectBean.code = stockBean.getSymbol();
         selectBean.percentage = stockBean.getPercentage();

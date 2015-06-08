@@ -42,8 +42,8 @@
             <RelativeLayout
                 android:id="@+id/data_trendview"
                 android:layout_width="match_parent"
-                android:background="@color/white"
-                android:layout_height="380dp" />
+                android:layout_height="300dp"
+                android:background="@color/white" />
 
             <RelativeLayout
                 android:id="@+id/fund_manager_view"
@@ -51,11 +51,11 @@
                 android:layout_height="wrap_content" />
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/combin_horSpacing"
                 android:id="@+id/fund_overview"
-                android:background="@color/white"
+
                 android:layout_width="match_parent"
-                android:layout_height="220dp" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/combin_horSpacing" />
 
 
         </LinearLayout>

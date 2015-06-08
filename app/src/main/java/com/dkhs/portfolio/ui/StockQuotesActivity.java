@@ -1,5 +1,4 @@
 /**
- *
  * @Title StockQuotesActivity.java
  * @Package com.dkhs.portfolio.ui
  * @Description TODO(用一句话描述该文件做什么)
@@ -795,7 +794,7 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         tvCurrent.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvChange.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
         tvPercentage.setTextColor(getTextColor(mStockQuotesBean.getPercentage()));
-        setTitle(mStockQuotesBean.getName() + "(" + mStockQuotesBean.getSymbol() + ")");
+        setTitle(mStockQuotesBean.getAbbrName() + "(" + mStockQuotesBean.getCode() + ")");
         tvOpen.setTextColor(getTextColor(mStockQuotesBean.getOpen() - mStockQuotesBean.getLastClose()));
         // String curentText = tvCurrent.getText().toString();
         if (mPrePrice > 0) {
@@ -1070,17 +1069,6 @@ public class StockQuotesActivity extends ModelAcitivity implements OnClickListen
         super.onResume();
         // SDK已经禁用了基于Activity 的页面统计，所以需要再次重新统计页面
         MobclickAgent.onResume(this);
-        // if (isChange) {
-        // // PortfolioApplication.getInstance().setChange(false);
-        // isChange = false;
-        // // checkValue = PortfolioApplication.getInstance().getCheckValue();
-        // PortfolioPreferenceManager.saveValue(PortfolioPreferenceManager.KEY_KLIN_COMPLEX, checkValue);
-        // setFuquanView();
-        // }
-        // if (PortfolioApplication.getInstance().getkLinePosition() != -1) {
-        // hsTitle.setSelectIndex(PortfolioApplication.getInstance().getkLinePosition());
-        // PortfolioApplication.getInstance().setkLinePosition(-1);
-        // }
         viewHandler.postDelayed(new Runnable() {
 
             @Override
